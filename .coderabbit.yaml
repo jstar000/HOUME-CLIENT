@@ -1,0 +1,85 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: "ko-KR"                # 리뷰 언어 설정
+early_access: true               # 얼리 액세스 기능 활성화
+
+# 리뷰 톤 및 스타일 지정
+tone_instructions: |
+  당신은 TypeScript, React 전문가입니다. 
+  한국어로 명확하고 건설적인 코드 리뷰를 제공하되, 
+  중요한 문제가 아닌 한 간결하게 작성해주세요.
+  보안, 성능, 유지보수성에 중점을 두고 리뷰해주세요.
+
+reviews:
+  profile: "assertive"           # 리뷰 스타일: assertive(엄격), chill(관대)
+  request_changes_workflow: false
+  high_level_summary: true       # PR 요약 생성
+  poem: false                    # 시(POEM) 생성 비활성화
+  review_status: true            # 리뷰 상태 표시
+  assess_linked_issues: true     # 연결된 이슈 분석
+  related_prs: true             # 관련 PR 표시
+  suggested_labels: true        # 라벨 자동 제안
+  sequence_diagrams: true       # 시퀀스 다이어그램 생성
+  changed_files_summary: true   # 변경된 파일 요약
+  
+  # 파일 경로 필터링 (프로젝트 구조에 맞춘 설정)
+  path_filters:
+    - "!node_modules/**"
+    - "!dist/**"
+    - "!build/**"
+    - "!coverage/**"
+    - "!*.lock"
+    - "!package-lock.json"
+    - "!yarn.lock"
+    - "src/**"                   # src 폴더 전체 포함
+  
+  # 경로별 특별 지침 (초기 설정 - 필요시 추가 가능)
+  path_instructions:
+    - path: "src/shared/components/**"
+      instructions: |
+        공통 컴포넌트 리뷰 시 다음 사항을 중점적으로 검토해주세요:
+        - TypeScript 타입 정의의 정확성과 제네릭 활용
+        - 높은 재사용성을 위한 props 설계
+        - 성능 최적화 (memo, useMemo, useCallback)
+        - 일관된 API 디자인과 명명 규칙
+        - 접근성(a11y) 준수
+  
+  auto_review:
+    enabled: true               # 자동 리뷰 활성화
+    drafts: false              # 드래프트 리뷰 사용 여부
+    ignore_title_keywords:     # 특정 키워드가 포함된 PR 제목 무시
+      - "[docs]"
+      - "[skip-review]"
+  
+  # TypeScript/React 환경에 최적화된 도구들 (실제 사용하는 것만)
+  tools:
+    eslint:
+      enabled: true            # TypeScript/React 린팅
+    languagetool:
+      enabled: true            # 한국어 문법 검사
+      level: "default"
+    markdownlint:
+      enabled: true            # 문서 품질 검사
+    gitleaks:
+      enabled: true            # 보안 비밀 정보 스캔
+    yamllint:
+      enabled: true            # YAML 파일 검증
+    actionlint:
+      enabled: true            # GitHub Actions 검증
+
+# 채팅 설정
+chat:
+  auto_reply: true             # AI 자동 답변 활성화
+
+# 지식 베이스 설정
+knowledge_base:
+  web_search:
+    enabled: true              # 웹 검색 기능 활성화
+
+# 코드 생성 설정
+code_generation:
+  enabled: true                # 코드 생성 기능 활성화
+  docstrings:
+    enabled: true
+    language: "ko-KR"          # 독스트링을 한국어로 생성
+  unit_tests:
+    enabled: true              # 유닛 테스트 생성 활성화
