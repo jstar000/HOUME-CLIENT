@@ -14,7 +14,7 @@ body:
     attributes:
       label: ✅ Tasks
       description: 환경 설정을 위한 세부 작업 목록을 체크리스트로 작성해주세요.
-      placeholder: |- 
+      placeholder: |-
         - [ ] 개발 도구 설치 및 설정
         - [ ] 환경 변수 설정
         - [ ] 의존성 패키지 설치
@@ -24,4 +24,4 @@ body:
     attributes:
       label: 📎 ETC
       description: 환경 정보나 참고 링크가 있다면 작성해주세요.
-      placeholder: OS 정보, 버전 정보, 설정 가이드 링크, 에러 메시지 등 
+      placeholder: OS 정보, 버전 정보, 설정 가이드 링크, 에러 메시지 등

@@ -14,7 +14,7 @@ body:
     attributes:
       label: ✅ Tasks
       description: 기능 개발을 위한 세부 작업 목록을 체크리스트로 작성해주세요.
-      placeholder: |- 
+      placeholder: |-
         - [ ] 기능 설계 및 분석
         - [ ] 코드 구현
         - [ ] 테스트 및 검증
@@ -24,4 +24,4 @@ body:
     attributes:
       label: 📎 ETC
       description: 참고 자료나 요구사항이 있다면 작성해주세요.
-      placeholder: 기획서, 와이어프레임, API 문서, 참고 링크 등 
+      placeholder: 기획서, 와이어프레임, API 문서, 참고 링크 등
