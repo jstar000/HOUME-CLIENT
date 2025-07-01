@@ -7,18 +7,13 @@ const config: StorybookConfig = {
   ],
   "addons": [
     "@chromatic-com/storybook",
-    "@storybook/addon-essentials",
+    "@storybook/addon-docs",
     "@storybook/addon-a11y",
-    "@storybook/addon-interactions",
     "@storybook/addon-vitest"
   ],
   "framework": {
     "name": "@storybook/react-vite",
     "options": {}
-  },
-  docs: {
-    autodocs: "tag",
-    defaultName: "Documentation"
   },
   typescript: {
     reactDocgen: "react-docgen-typescript",
