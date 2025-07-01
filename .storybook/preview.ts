@@ -10,7 +10,8 @@ const preview: Preview = {
       },
     },
     actions: { 
-      argTypesRegex: "^on[A-Z].*" 
+      // argTypesRegex 제거 - Chromatic 시각적 테스트와 호환성을 위해
+      // 각 스토리에서 fn() 함수로 명시적 액션 설정 필요
     },
     backgrounds: {
       default: 'light',
