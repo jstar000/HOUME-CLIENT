@@ -6,6 +6,10 @@ globalStyle('*', {
   boxSizing: 'border-box',
 });
 
+globalStyle('html', {
+  fontSize: '62.5%',
+});
+
 // 텍스트 요소 초기화
 globalStyle('h1, h2, h3, h4, h5, h6, p', {
   margin: 0,

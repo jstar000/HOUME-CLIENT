@@ -4,7 +4,7 @@ export const vars = createGlobalTheme(':root', {
   color: {
     // Grayscale
     gray999_50: 'rgba(0, 0, 0, 0.5)',
-    gray999_04: 'rgba(0, 0, 0, 0.04);',
+    gray999_04: 'rgba(0, 0, 0, 0.04)',
     gray999: '#000000',
     gray900: '#1B1E22',
     gray800: '#31373F',
@@ -31,7 +31,7 @@ export const vars = createGlobalTheme(':root', {
     },
 
     // Headings
-    heaading_sb_24: {
+    heading_sb_24: {
       size: '24px',
       weight: '600',
       lineHeight: '36px',
