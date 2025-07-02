@@ -1,5 +1,10 @@
 echo "🐕 Husky pre-commit 실행"
 
+# Volta 사용자 경로 추가
+if [ -d "$HOME/.volta/bin" ]; then
+  export PATH="$HOME/.volta/bin:$PATH"
+fi
+
 pnpm lint-staged
 
 echo "🎉 lint-staged 완료!"
