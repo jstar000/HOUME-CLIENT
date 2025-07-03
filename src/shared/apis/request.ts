@@ -42,9 +42,9 @@ export const request = async <T>(config: RequestConfig): Promise<T> => {
         message ||
         '알 수 없는 오류가 발생했습니다.';
 
-      console.log(`[실패] ${url} : ${displayMessage}`);
+      console.error(`[실패] ${url} : ${displayMessage}`);
     } else {
-      console.log(`[실패] ${url} : 서버에 연결할 수 없습니다.`);
+      console.error(`[실패] ${url} : 서버에 연결할 수 없습니다.`);
     }
     throw error;
   }
