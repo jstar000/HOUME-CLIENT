@@ -1,13 +1,13 @@
-import { vars } from './tokens.css';
+import { fontVars } from '@styles/tokens/font.css';
 
-type FontKeys = Exclude<keyof typeof vars.font, 'family'>;
+type FontKeys = Exclude<keyof typeof fontVars, 'family'>;
 
 export const fontStyle = (key: FontKeys) => {
-  const style = vars.font[key];
+  const style = fontVars[key];
   if (!style) throw new Error(`Invalid font key: ${key}`);
 
   return {
-    fontFamily: vars.font.family.pretendard,
+    fontFamily: fontVars.family.pretendard,
     fontSize: style.size,
     fontWeight: style.weight,
     lineHeight: style.lineHeight,
