@@ -1,3 +1,4 @@
+import { RESPONSE_MESSAGE } from '../constants/response';
 import axiosInstance from './axiosInstance';
 import type { BaseResponse } from '@shared/types/apis';
 
@@ -32,11 +33,19 @@ export const request = async <T>(config: RequestConfig): Promise<T> => {
 
     return response.data.data;
   } catch (error: any) {
-    const message =
-      error.response?.data?.message || '알 수 없는 에러가 발생했습니다';
+    if (error.response) {
+      const { status, data } = error.response;
+      const message = data?.message;
 
-    console.log(`[실패] ${url} : ${message}`);
+      const displayMessage =
+        RESPONSE_MESSAGE[status] ||
+        message ||
+        '알 수 없는 오류가 발생했습니다.';
 
+      console.log(`[실패] ${url} : ${displayMessage}`);
+    } else {
+      console.log(`[실패] ${url} : 서버에 연결할 수 없습니다.`);
+    }
     throw error;
   }
 };
