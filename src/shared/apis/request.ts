@@ -1,15 +1,17 @@
 import axiosInstance from './axiosInstance';
 import type { BaseResponse } from '@shared/types/apis';
 
-export enum HTTPMethod {
-  GET = 'GET',
-  POST = 'POST',
-  PUT = 'PUT',
-  DELETE = 'DELETE',
-  PATCH = 'PATCH',
-}
+export const HTTPMethod = {
+  GET: 'GET',
+  POST: 'POST',
+  PUT: 'PUT',
+  DELETE: 'DELETE',
+  PATCH: 'PATCH',
+} as const;
+
+export type HTTPMethodType = (typeof HTTPMethod)[keyof typeof HTTPMethod];
 export interface RequestConfig {
-  method: HTTPMethod;
+  method: HTTPMethodType;
   url: string;
   query?: Record<string, any>;
   body?: Record<string, any>;
