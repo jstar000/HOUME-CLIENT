@@ -151,7 +151,7 @@ HOUME는 사용자가 자신만의 개성 있는 공간을 디자인하고 꾸�
 ##### Notion 데이터베이스 활용
 태스크 관리를 위해 작업명, 상태, 담당자, 마감일을 기록하고 매일 최신화합니다.
 
-| 회의록 DB | 작업 보드 DB |
+| 회의록 DB | 작업 보드 DB |
 |-----------|---------------------|
 | ![20250704170642](https://github.com/user-attachments/assets/71d30839-39cf-4c94-adff-5aafd175716f) | ![20250704170627](https://github.com/user-attachments/assets/1cb5f6cf-31f1-4e46-a1e7-811acbe262fb) |
 
@@ -278,234 +278,119 @@ fix/button-style/#25
 
 <br />
 
-## 코딩 컨벤션
+## 💻 Coding Convention
 
-<aside>
-📌
+### 네이밍 규칙
 
-### **Basic**
+| 유형                  | 규칙               | 예시                              |
+| -------------------- | ------------------ | --------------------------------- |
+| 컴포넌트 / Class     | `PascalCase`       | `RankTable`, `UserProfile`        |
+| 폴더명               | `camelCase`        | `userProfile`, `sharedComponents` |
+| 파일명 (컴포넌트 제외) | `camelCase`        | `userService.ts`, `apiConfig.js`  |
+| 변수 / 함수          | `camelCase`        | `userName`, `getUserData`         |
+| 상수                 | `BIG_SNAKE_CASE`   | `MAX_LENGTH`, `API_KEY`           |
 
-- **`PascalCase`** : 대문자-대문자    ex) RankTable
-- **`camelCase`** : 소문자-대문자   ex) shuffleCard
-- **`BIG_SNAKE_CASE`** : 대문자
-</aside>
+### 변수 규칙
 
-## 1️⃣ 기본 (Default) 네이밍
+**기본 원칙**
+- `var` 사용 금지, `const`를 우선 사용하고 필요시 `let` 사용
+- 전역 변수 최대한 지양
+- 구조 분해 할당 적극 활용
+- 템플릿 리터럴 사용 (문자열 조합 시)
+- 명확한 네이밍 (줄임말 금지)
 
-1. 컴포넌트 / class  `PascalCase`
-2. 폴더명  `camelCase`
-3. 파일 명 *(컴포넌트 제외)*   `camelCase`  
-4. 변수, 함수  `camelCase`
-5. 파라미터  `camelCase`
-6. 상수  `BIG_SNAKE_CASE` 
+```jsx
+// 구조 분해 할당 예시
+const { name, age } = user;
 
-## 2️⃣ 변수
-
-1. 변수 선언 시 **`var`**는 사용하지 않는다.
-    1. 되도록 **`const`**를 사용. 필요한 경우에 **`let`**을 사용한다.
-2. 전역 변수는 최대한 지양한다.
-3. 구조 분해 할당은 적극적으로 활용한다.
-    - 예시
-        
-        ```jsx
-        const { name, age } = user; // name = "진혁", age = 25
-        ```
-        
-4. 변수를 조합해서 문자열 만들때는 무조건  **`템플릿 리터럴(`: 벡틱)`**을 이용한다.
-5. 변수와 함수는 의미를 잘 이해할 수 있도록 네이밍한다. **(줄임말 사용 금지)**
-    1. 만약 추가적인 이해가 필요하다면 주석을 통해 이해를 돕는다.
-6. .map() 메서드 사용시 key값을 신경쓴다.
-
-## 3️⃣ 함수
-
-1. 함수는 기본적으로 화살표 함수를 사용한다.
-2. 변수와 함수는 의미를 잘 이해할 수 있도록 네이밍한다. **(줄임말 사용 금지)**
-    1. `get` : 어떤 값을 얻는 함수
-    2. `create`: 갖고 있는 변수를 활용, 새로운 값과 변수를 만듦
-    3. `check` : 함수 안의 로직을 확인
-    4. 그외, 기능을 분명하게 드러내도록 네이밍 해요.
-3. 이벤트 핸들러 네이밍 : **`handle + 기능 + 이벤트`**
-    - 예시
-        
-        ```jsx
-        const handleBtnClick = () => {};
-        const handleTabChange = () => {};
-        ```
-        
-4. 유틸함수는 반환값을 기준으로 네이밍한다.
-값이 boolean일 경우는 **`is + 상태` (default)**
-    - 예시
-        
-        ```tsx
-        const [isLogined, setIsLogined] = useState(false);
-        ```
-        
-    
-    → 추가적으로 **`can / should / has`** 정도를 상황에 맞게 추가한다.
-    
-5. 중복함수는 utils 폴더에 모아서 재사용한다.
-    1. 같은 도메인 / 전체 분리해서 위치시키기
-6. api 함수 **`HTTP 메서드 + 명사`**
-    - 예시
-        
-        ```tsx
-        const getList = () => {}
-        const getMovie = () => {}
-        ```
-        
-
-## 4️⃣ 파일
-
-- 한 파일 내에서 단일 요소만 내보낸다면 **`default export`** 사용해요.
-
-```tsx
-export default function Component1() {}
+// 템플릿 리터럴 예시
+const message = `안녕하세요, ${name}님!`;
 ```
 
+### 함수 규칙
+
+**기본 원칙**
+- 화살표 함수 사용
+- 명확한 네이밍 (기능을 나타내는 동사 + 명사)
+
+**네이밍 컨벤션**
+
+| 접두사    | 용도                          | 예시                    |
+| --------- | ----------------------------- | ----------------------- |
+| `get`     | 값을 가져오는 함수            | `getUserData()`         |
+| `create`  | 새로운 값을 생성하는 함수     | `createNewUser()`       |
+| `check`   | 검증/확인하는 함수            | `checkValidation()`     |
+| `handle`  | 이벤트 핸들러                 | `handleButtonClick()`   |
+| `is/has/can` | boolean 반환 함수          | `isLoggedIn()`, `hasPermission()` |
+
+**API 함수 네이밍**: `HTTP 메서드 + 명사`
+
 ```tsx
-const Component2 = () => {};
-export default Component;
+const getUserList = () => {}
+const postComment = () => {}
+const deleteArticle = () => {}
 ```
 
+### 파일 Export
+
 ```tsx
-import Component1 from '@components/Component1';
-import MyComponent from '@components/Component2';
+// 단일 export는 default export 사용
+export default function Component() {}
+
+// import 시
+import Component from '@components/Component';
 ```
 
-## 5️⃣ 타입 (TS)
+### TypeScript 타입 규칙
 
-1. 기본적으로 모든 타입에는 뒤에 **`-Types`**를 붙인다.
-2. 컴포넌트 인자에 대한 타입은 컴포넌트 바로 상단에 선언한다.
-    1. 예외적으로 Props 타입은 `컴포넌트명+Props` 
-    - 예시
-        
-        ```jsx
-        interface Props {
-          name: string;
-          age: number;
-        }
-        
-        const Introduction = ({ title, description }: Props ) => {
-        
-        }
-        ```
-        
-3. object는 **`interface`**, 단일 변수는 **`type`**으로 선언한다.
-    1. 모르겠으면 **`interface`** , 이후 토의를 통해 **`type`** 으로 리팩토링하는 전략
-        
-        https://www.totaltypescript.com/type-vs-interface-which-should-you-use
-        
-4. API response 타입명은 `OOO+Response`로 네이밍.
-5. 그 외의 타입들은 types 폴더에 작성.
-
----
-
-## 먼저 정리부터
-
-**`interface`도 타입입니다!**
-
-- `interface` = 타입을 정의하는 방법 중 하나
-- `type` = 타입을 정의하는 또 다른 방법
-
-둘 다 타입을 만드는 서로 다른 문법일 뿐입니다.
-
-## React Props에 둘 다 사용 가능
+**기본 원칙**
+- 모든 타입명에 `-Types` 접미사 (Props 제외)
+- Props 타입은 `컴포넌트명 + Props`
+- 객체는 `interface`, 단일 타입은 `type` 사용
+- API response는 `XXXResponse` 네이밍
 
 ```tsx
-// 방법 1: interface 사용
+// Props 타입 예시
 interface ButtonProps {
   text: string;
   onClick: () => void;
 }
 
-const Button = ({ text, onClick }: ButtonProps) => {
-  return <button onClick={onClick}>{text}</button>;
+// API Response 타입 예시
+interface UserListResponse {
+  users: UserTypes[];
+  total: number;
 }
 
-// 방법 2: type 사용 (똑같이 동작함)
-type ButtonProps = {
-  text: string;
-  onClick: () => void;
-}
-
-const Button = ({ text, onClick }: ButtonProps) => {
-  return <button onClick={onClick}>{text}</button>;
-}
-
+// 일반 타입 예시
+type StatusTypes = 'pending' | 'completed' | 'failed';
 ```
 
-## 그럼 왜 Props에 주로 interface를 쓸까?
+### Interface vs Type 가이드
 
-### 1. **확장하기 편함**
+**Interface 사용 케이스**
+- React 컴포넌트 Props
+- 확장 가능한 객체 타입
+- API Response 타입
+
+**Type 사용 케이스**
+- Union 타입
+- 단순 타입 별칭
+- 복잡한 타입 조합
 
 ```tsx
-// Base Props
+// Interface - 확장 가능
 interface BaseButtonProps {
   text: string;
-  onClick: () => void;
 }
 
-// 확장된 Props
 interface PrimaryButtonProps extends BaseButtonProps {
   variant: 'primary';
-  size: 'large' | 'medium' | 'small';
 }
 
-// type으로도 가능하지만 문법이 좀 더 복잡
-type PrimaryButtonProps = BaseButtonProps & {
-  variant: 'primary';
-  size: 'large' | 'medium' | 'small';
-}
-
+// Type - Union 타입
+type ButtonVariant = 'primary' | 'secondary' | 'danger';
 ```
-
-### 2. **라이브러리에서 확장 가능**
-
-```tsx
-// 라이브러리가 제공하는 Props
-interface ButtonProps {
-  text: string;
-}
-
-// 내 프로젝트에서 확장 (같은 이름으로 추가 가능)
-interface ButtonProps {
-  customClass?: string;
-}
-
-// 최종 결과: { text: string; customClass?: string; }
-
-```
-
-### 3. **관례적인 이유**
-
-- React 커뮤니티에서 Props는 주로 `interface` 사용
-- 공식 문서, 튜토리얼에서도 주로 `interface` 사용
-
-## 실제로는 선택의 문제
-
-```tsx
-// 이렇게 써도 완전히 똑같이 동작함
-type MyComponentProps = {
-  title: string;
-  count: number;
-}
-
-const MyComponent = ({ title, count }: MyComponentProps) => {
-  return <div>{title}: {count}</div>;
-}
-
-```
-
-## 정리
-
-1. **`interface`도 타입입니다** - 타입을 정의하는 방법 중 하나
-2. **Props에 `type` 써도 됩니다** - 기능상 차이 없음
-3. **`interface`를 더 많이 쓰는 이유:**
-    - 확장이 쉬움
-    - React 커뮤니티 관례
-    - 라이브러리 개발 시 유연함
-
-**결론**: 둘 다 써도 되지만, Props는 주로 `interface`를 쓰는 게 일반적이에요. 팀 컨벤션을 따르면 됩니다!
 
 <br />
 
