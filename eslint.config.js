@@ -90,6 +90,6 @@ export default [
       ],
     },
   },
-], storybook.configs["flat/recommended"]);
   eslintConfigPrettier,
+  ...storybook.configs["flat/recommended"],
 ];
