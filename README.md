@@ -151,11 +151,12 @@ HOUME는 사용자가 자신만의 개성 있는 공간을 디자인하고 꾸�
 ##### Notion 데이터베이스 활용
 태스크 관리를 위해 작업명, 상태, 담당자, 마감일을 기록하고 매일 최신화합니다.
 
+| 회의록 DB | 작업 보드 DB |
+|-----------|---------------------|
+| ![20250704170642](https://github.com/user-attachments/assets/71d30839-39cf-4c94-adff-5aafd175716f) | ![20250704170627](https://github.com/user-attachments/assets/1cb5f6cf-31f1-4e46-a1e7-811acbe262fb) |
+
 ##### 캘린더 운영
 파트별 일정을 캘린더를 통해 공유하여 전체적인 프로젝트 진행 상황을 파악합니다.
-
-##### 정규 회의
-모든 정규 회의 일정은 사전에 공지하여 팀원들이 일정을 조율할 수 있도록 합니다.
 
 | 칸반 보드 | 간트 차트 |
 |-----------|---------------------|
@@ -165,15 +166,57 @@ HOUME는 사용자가 자신만의 개성 있는 공간을 디자인하고 꾸�
 |-----------|---------------------|
 | ![20250704170217](https://github.com/user-attachments/assets/16377c5a-5381-4f1d-8d7f-90cb27db768d)  | ![20250704170108](https://github.com/user-attachments/assets/ea72457b-979a-4010-8c25-278db0bef809)  |
 
-| 회의록 DB | 작업 보드 DB |
-|-----------|---------------------|
-| ![20250704170642](https://github.com/user-attachments/assets/71d30839-39cf-4c94-adff-5aafd175716f) | ![20250704170627](https://github.com/user-attachments/assets/1cb5f6cf-31f1-4e46-a1e7-811acbe262fb) |
+##### 정규 회의
+모든 정규 회의 일정은 사전에 공지하여 팀원들이 일정을 조율할 수 있도록 합니다.
+
+#### 브랜치 보호 룰셋
+2명 이상 Approve 이후 Merge를 실시합니다.
+리뷰를 확인하면 이모지를 남기며 리뷰 반영 시 리뷰 댓글에 커밋 ID를 남겨서 결과를 공유합니다.
+리뷰 반영 후에는 re-request review를 실시합니다.
+
+<br />
+
+## Folder Structure
+pages/ 아래에 페이지 단위로 폴더를 구성하고, 각 폴더 내부에 필요한 요소들을 모아두는 기능 기반 구조를 사용했습니다.
+각 도메인은 독립적으로 구성하되, 도메인 단위로 코드를 응집하고 공통 요소는 따로 모아 재활용하는 원칙을 준수합니다.
+
+```
+src/
+├── layout/              # 앱 전체에 적용되는 공통 레이아웃 컴포넌트 (ex. Header, Footer, LayoutWrapper 등)
+├── pages/               # 페이지 단위로 기능을 나눈 디렉토리 (Route에 해당)
+│   ├── home/            # 홈 페이지 관련 기능
+│   │   ├── components/  
+│   │   ├── constants/  
+│   │   ├── apis/       
+│   │   ├── types/     
+│   │   ├── utils/      
+│   │   └── hooks/      
+│   └── login/           # 로그인/회원가입 관련 기능
+│       ├── components/ 
+│       ├── constants/   
+│       ├── apis/        
+│       ├── types/      
+│       ├── utils/       
+│       └── hooks/       
+├── routes/              # 라우팅 관련 설정
+├── shared/              # 전역에서 공유되는 공통 코드
+│   ├── apis/            # 공통 API 함수 
+│   ├── assets/          # 이미지, 아이콘, 폰트 등 정적 리소스
+│   ├── components/      # 재사용 가능한 공통 UI 컴포넌트 
+│   ├── constants/       # 앱 전체에서 사용하는 공통 
+│   ├── styles/          # 전역 스타일, 테마, 공통 CSS
+│   ├── types/           # 공통 타입 정의
+│   ├── utils/           # 공통 유틸 함수들 
+│   └── hooks/           # 전역 커스텀 훅
+└── stories/             # Storybook을 위한 스토리 파일
+```
 
 <br />
 
 ## 📭 Git Convention
 
 ### Git Flow
+![image](https://github.com/user-attachments/assets/36fc37c5-02e2-4931-b3c9-24d7d55cdb06)
 
 **메인 브랜치**
 
@@ -232,6 +275,237 @@ fix/button-style/#25
 | `comment`  | 주석 추가/수정                                                                |
 | `rename`   | 파일 및 폴더명 수정                                                           |
 | `remove`   | 파일 삭제                                                                     |
+
+<br />
+
+## 코딩 컨벤션
+
+<aside>
+📌
+
+### **Basic**
+
+- **`PascalCase`** : 대문자-대문자    ex) RankTable
+- **`camelCase`** : 소문자-대문자   ex) shuffleCard
+- **`BIG_SNAKE_CASE`** : 대문자
+</aside>
+
+## 1️⃣ 기본 (Default) 네이밍
+
+1. 컴포넌트 / class  `PascalCase`
+2. 폴더명  `camelCase`
+3. 파일 명 *(컴포넌트 제외)*   `camelCase`  
+4. 변수, 함수  `camelCase`
+5. 파라미터  `camelCase`
+6. 상수  `BIG_SNAKE_CASE` 
+
+## 2️⃣ 변수
+
+1. 변수 선언 시 **`var`**는 사용하지 않는다.
+    1. 되도록 **`const`**를 사용. 필요한 경우에 **`let`**을 사용한다.
+2. 전역 변수는 최대한 지양한다.
+3. 구조 분해 할당은 적극적으로 활용한다.
+    - 예시
+        
+        ```jsx
+        const { name, age } = user; // name = "진혁", age = 25
+        ```
+        
+4. 변수를 조합해서 문자열 만들때는 무조건  **`템플릿 리터럴(`: 벡틱)`**을 이용한다.
+5. 변수와 함수는 의미를 잘 이해할 수 있도록 네이밍한다. **(줄임말 사용 금지)**
+    1. 만약 추가적인 이해가 필요하다면 주석을 통해 이해를 돕는다.
+6. .map() 메서드 사용시 key값을 신경쓴다.
+
+## 3️⃣ 함수
+
+1. 함수는 기본적으로 화살표 함수를 사용한다.
+2. 변수와 함수는 의미를 잘 이해할 수 있도록 네이밍한다. **(줄임말 사용 금지)**
+    1. `get` : 어떤 값을 얻는 함수
+    2. `create`: 갖고 있는 변수를 활용, 새로운 값과 변수를 만듦
+    3. `check` : 함수 안의 로직을 확인
+    4. 그외, 기능을 분명하게 드러내도록 네이밍 해요.
+3. 이벤트 핸들러 네이밍 : **`handle + 기능 + 이벤트`**
+    - 예시
+        
+        ```jsx
+        const handleBtnClick = () => {};
+        const handleTabChange = () => {};
+        ```
+        
+4. 유틸함수는 반환값을 기준으로 네이밍한다.
+값이 boolean일 경우는 **`is + 상태` (default)**
+    - 예시
+        
+        ```tsx
+        const [isLogined, setIsLogined] = useState(false);
+        ```
+        
+    
+    → 추가적으로 **`can / should / has`** 정도를 상황에 맞게 추가한다.
+    
+5. 중복함수는 utils 폴더에 모아서 재사용한다.
+    1. 같은 도메인 / 전체 분리해서 위치시키기
+6. api 함수 **`HTTP 메서드 + 명사`**
+    - 예시
+        
+        ```tsx
+        const getList = () => {}
+        const getMovie = () => {}
+        ```
+        
+
+## 4️⃣ 파일
+
+- 한 파일 내에서 단일 요소만 내보낸다면 **`default export`** 사용해요.
+
+```tsx
+export default function Component1() {}
+```
+
+```tsx
+const Component2 = () => {};
+export default Component;
+```
+
+```tsx
+import Component1 from '@components/Component1';
+import MyComponent from '@components/Component2';
+```
+
+## 5️⃣ 타입 (TS)
+
+1. 기본적으로 모든 타입에는 뒤에 **`-Types`**를 붙인다.
+2. 컴포넌트 인자에 대한 타입은 컴포넌트 바로 상단에 선언한다.
+    1. 예외적으로 Props 타입은 `컴포넌트명+Props` 
+    - 예시
+        
+        ```jsx
+        interface Props {
+          name: string;
+          age: number;
+        }
+        
+        const Introduction = ({ title, description }: Props ) => {
+        
+        }
+        ```
+        
+3. object는 **`interface`**, 단일 변수는 **`type`**으로 선언한다.
+    1. 모르겠으면 **`interface`** , 이후 토의를 통해 **`type`** 으로 리팩토링하는 전략
+        
+        https://www.totaltypescript.com/type-vs-interface-which-should-you-use
+        
+4. API response 타입명은 `OOO+Response`로 네이밍.
+5. 그 외의 타입들은 types 폴더에 작성.
+
+---
+
+## 먼저 정리부터
+
+**`interface`도 타입입니다!**
+
+- `interface` = 타입을 정의하는 방법 중 하나
+- `type` = 타입을 정의하는 또 다른 방법
+
+둘 다 타입을 만드는 서로 다른 문법일 뿐입니다.
+
+## React Props에 둘 다 사용 가능
+
+```tsx
+// 방법 1: interface 사용
+interface ButtonProps {
+  text: string;
+  onClick: () => void;
+}
+
+const Button = ({ text, onClick }: ButtonProps) => {
+  return <button onClick={onClick}>{text}</button>;
+}
+
+// 방법 2: type 사용 (똑같이 동작함)
+type ButtonProps = {
+  text: string;
+  onClick: () => void;
+}
+
+const Button = ({ text, onClick }: ButtonProps) => {
+  return <button onClick={onClick}>{text}</button>;
+}
+
+```
+
+## 그럼 왜 Props에 주로 interface를 쓸까?
+
+### 1. **확장하기 편함**
+
+```tsx
+// Base Props
+interface BaseButtonProps {
+  text: string;
+  onClick: () => void;
+}
+
+// 확장된 Props
+interface PrimaryButtonProps extends BaseButtonProps {
+  variant: 'primary';
+  size: 'large' | 'medium' | 'small';
+}
+
+// type으로도 가능하지만 문법이 좀 더 복잡
+type PrimaryButtonProps = BaseButtonProps & {
+  variant: 'primary';
+  size: 'large' | 'medium' | 'small';
+}
+
+```
+
+### 2. **라이브러리에서 확장 가능**
+
+```tsx
+// 라이브러리가 제공하는 Props
+interface ButtonProps {
+  text: string;
+}
+
+// 내 프로젝트에서 확장 (같은 이름으로 추가 가능)
+interface ButtonProps {
+  customClass?: string;
+}
+
+// 최종 결과: { text: string; customClass?: string; }
+
+```
+
+### 3. **관례적인 이유**
+
+- React 커뮤니티에서 Props는 주로 `interface` 사용
+- 공식 문서, 튜토리얼에서도 주로 `interface` 사용
+
+## 실제로는 선택의 문제
+
+```tsx
+// 이렇게 써도 완전히 똑같이 동작함
+type MyComponentProps = {
+  title: string;
+  count: number;
+}
+
+const MyComponent = ({ title, count }: MyComponentProps) => {
+  return <div>{title}: {count}</div>;
+}
+
+```
+
+## 정리
+
+1. **`interface`도 타입입니다** - 타입을 정의하는 방법 중 하나
+2. **Props에 `type` 써도 됩니다** - 기능상 차이 없음
+3. **`interface`를 더 많이 쓰는 이유:**
+    - 확장이 쉬움
+    - React 커뮤니티 관례
+    - 라이브러리 개발 시 유연함
+
+**결론**: 둘 다 써도 되지만, Props는 주로 `interface`를 쓰는 게 일반적이에요. 팀 컨벤션을 따르면 됩니다!
 
 <br />
 
