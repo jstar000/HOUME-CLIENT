@@ -408,6 +408,28 @@ type ButtonVariant = 'primary' | 'secondary' | 'danger';
 
 <br />
 
+<br>
+
+---
+
+<div align="center">
+
+### 🌟
+
+**"Alone we can do so little; together we can do so much."**  
+*- Helen Keller*
+
+</div>
+
+<br>
+
+#### **마지막으로..**  
+하우미가 하나의 팀으로서 함께한다면 비범한 일도 이뤄낼 수 있습니다.  
+그리고 실패를 두려워하지 마세요. 모든 오류는 배움의 기회이고, 모든 이슈는 성장의 계단입니다.   
+HOUME 언제나 파이팅 !
+
+<br>
+
 ---
 
 <div align="center">
