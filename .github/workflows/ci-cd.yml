@@ -41,7 +41,7 @@ jobs:
 
           if [ "${{ steps.build.outcome }}" == "success" ]; then
             result="success"
-            message="빌드 성공 🎉"
+            message="빌드 성공 🎊"
           fi
 
           echo "result=$result" >> $GITHUB_OUTPUT
