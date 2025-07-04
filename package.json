@@ -11,7 +11,7 @@
     "format:check": "prettier --check .",
     "preview": "vite preview",
     "lint:staged": "lint-staged",
-    "prepare": "husky"
+    "prepare": "husky",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
