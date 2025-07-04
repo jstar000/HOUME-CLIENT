@@ -1,13 +1,13 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { ROUTES } from './paths';
-import RootLayout from '../layout/RootLayout';
-import ProtectedRoute from './ProtectedRoute';
-import HomePage from '../pages/home/HomePage';
-import LoginPage from '../pages/login/LoginPage';
-import SignupPage from '../pages/signup/SignupPage';
-import OnboardingPage from '../pages/onboarding/OnboardingPage';
-import GeneratePage from '../pages/generate/GeneratePage';
-import MyPage from '../pages/mypage/MyPage';
+import { ROUTES } from '@/routes/paths';
+import RootLayout from '@/layout/RootLayout';
+import ProtectedRoute from '@/routes/ProtectedRoute';
+import HomePage from '@/pages/home/HomePage';
+import LoginPage from '@/pages/login/LoginPage';
+import SignupPage from '@/pages/signup/SignupPage';
+import OnboardingPage from '@/pages/onboarding/OnboardingPage';
+import GeneratePage from '@/pages/generate/GeneratePage';
+import MyPage from '@/pages/mypage/MyPage';
 
 // TODO: Replace with actual auth state management
 const isAuthenticated = false;
