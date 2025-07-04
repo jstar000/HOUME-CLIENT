@@ -161,9 +161,13 @@ HOUME는 사용자가 자신만의 개성 있는 공간을 디자인하고 꾸�
 |-----------|---------------------|
 | ![20250704165759](https://github.com/user-attachments/assets/d4c56aba-3a98-41ba-90c8-c2e14cde1563) | ![20250704170043](https://github.com/user-attachments/assets/be632ea2-b08a-428a-8c0b-4a7f99bdcfa2)  |
 
- | 아티클 DB | 개인 일정 캘린더 |
+| 아티클 DB | 개인 일정 캘린더 |
 |-----------|---------------------|
 | ![20250704170217](https://github.com/user-attachments/assets/16377c5a-5381-4f1d-8d7f-90cb27db768d)  | ![20250704170108](https://github.com/user-attachments/assets/ea72457b-979a-4010-8c25-278db0bef809)  |
+
+| 회의록 DB | 작업 보드 DB |
+|-----------|---------------------|
+| ![20250704170642](https://github.com/user-attachments/assets/71d30839-39cf-4c94-adff-5aafd175716f) | ![20250704170627](https://github.com/user-attachments/assets/1cb5f6cf-31f1-4e46-a1e7-811acbe262fb) |
 
 <br />
 
