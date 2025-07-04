@@ -35,35 +35,35 @@ HOUME는 사용자가 자신만의 개성 있는 공간을 디자인하고 꾸�
           <img 
             src="https://github.com/maehwasoo.png" 
             alt="엄경호" 
-            style="width: 360px; border-radius: 50%;"
+            style="width: 360px;"
           />
         </td>
         <td>
           <img 
             src="https://github.com/soyyyyy.png" 
             alt="박소이" 
-            style="width: 360px; border-radius: 50%;"
+            style="width: 360px;"
           />
         </td>
         <td>
           <img 
             src="https://github.com/jstar000.png" 
             alt="임지성" 
-            style="width: 360px; border-radius: 50%;"
+            style="width: 360px;"
           />
         </td>
         <td>
           <img 
             src="https://github.com/earl9rey.png" 
             alt="조성하" 
-            style="width: 360px; border-radius: 50%;"
+            style="width: 360px;"
           />
         </td>
         <td>
           <img 
             src="https://github.com/sndks.png" 
             alt="문혜성" 
-            style="width: 360px; border-radius: 50%;"
+            style="width: 360px;"
           />
         </td>
       </tr>
@@ -156,6 +156,14 @@ HOUME는 사용자가 자신만의 개성 있는 공간을 디자인하고 꾸�
 
 ##### 정규 회의
 모든 정규 회의 일정은 사전에 공지하여 팀원들이 일정을 조율할 수 있도록 합니다.
+
+| 칸반 보드 | 간트 차트 |
+|-----------|---------------------|
+| ![20250704165759](https://github.com/user-attachments/assets/d4c56aba-3a98-41ba-90c8-c2e14cde1563) | ![20250704170043](https://github.com/user-attachments/assets/be632ea2-b08a-428a-8c0b-4a7f99bdcfa2)  |
+
+ | 아티클 DB | 개인 일정 캘린더 |
+|-----------|---------------------|
+| ![20250704170217](https://github.com/user-attachments/assets/16377c5a-5381-4f1d-8d7f-90cb27db768d)  | ![20250704170108](https://github.com/user-attachments/assets/ea72457b-979a-4010-8c25-278db0bef809)  |
 
 <br />
 
