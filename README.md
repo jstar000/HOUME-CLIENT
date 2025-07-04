@@ -2,6 +2,8 @@
 
 ![HOUME Logo](https://img.shields.io/badge/HOUME-나다운%20집을%20만들어주는%20여정-FF6B6B?style=for-the-badge)
 
+![KakaoTalk_Photo_2025-07-04-16-46-13](https://github.com/user-attachments/assets/4fe7a3ca-f2ef-4970-a6f6-51930e887c41)
+
 <br/> <strong>"나다운 집을 만들어주는 여정, 하우미"</strong>
 
 나만의 개성과 취향이 담긴 공간을 만들어가는 특별한 경험을 제공하는 서비스입니다.
@@ -10,7 +12,7 @@
 
 ## 📌 서비스 소개
 
-HOUME는 사용자가 자신만의 개성 있는 공간을 디자인하고 꾸밀 수 있도록 도와주는 AI 인테리어 플랫폼입니다.
+HOUME는 사용자가 자신만의 개성 있는 공간을 디자인하고 꾸밀 수 있도록 도와주는 AI 기반 인테리어 플랫폼입니다.
 
 ---
 
@@ -33,35 +35,35 @@ HOUME는 사용자가 자신만의 개성 있는 공간을 디자인하고 꾸�
           <img 
             src="https://github.com/maehwasoo.png" 
             alt="엄경호" 
-            style="width: 140px; height: 140px; border-radius: 50%;"
+            style="width: 360px; border-radius: 50%;"
           />
         </td>
         <td>
           <img 
             src="https://github.com/soyyyyy.png" 
             alt="박소이" 
-            style="width: 140px; height: 140px; border-radius: 50%;"
+            style="width: 360px; border-radius: 50%;"
           />
         </td>
         <td>
           <img 
             src="https://github.com/jstar000.png" 
             alt="임지성" 
-            style="width: 140px; height: 140px; border-radius: 50%;"
+            style="width: 360px; border-radius: 50%;"
           />
         </td>
         <td>
           <img 
             src="https://github.com/earl9rey.png" 
             alt="조성하" 
-            style="width: 140px; height: 140px; border-radius: 50%;"
+            style="width: 360px; border-radius: 50%;"
           />
         </td>
         <td>
           <img 
             src="https://github.com/sndks.png" 
             alt="문혜성" 
-            style="width: 140px; height: 140px; border-radius: 50%;"
+            style="width: 360px; border-radius: 50%;"
           />
         </td>
       </tr>
@@ -90,16 +92,61 @@ HOUME는 사용자가 자신만의 개성 있는 공간을 디자인하고 꾸�
 
 ## 🛠️ Tech Stack
 
-| 역할                       | 종류                                                                                                                                                                                                              |
-| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`Library`**              | ![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white) ![VITE](https://img.shields.io/badge/VITE-646CFF?style=for-the-badge&logo=Vite&logoColor=white)                |
-| **`Programming Language`** | ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6.svg?style=for-the-badge&logo=TypeScript&logoColor=white)                                                                                             |
-| **`Styling`**              | ![Vanilla Extract](https://img.shields.io/badge/Vanilla%20Extract-%23F786AD?style=for-the-badge&logo=vanillaextract&logoColor=white)                                                                              |
-| **`Data Fetching`**        | ![TanstackQuery](https://img.shields.io/badge/TanstackQuery-FF4154?style=for-the-badge&logo=ReactQuery&logoColor=white)                                                                                           |
-| **`UI Documentation`**     | ![Storybook](https://img.shields.io/badge/Storybook-FF4785?style=for-the-badge&logo=storybook&logoColor=white)                                                                                                    |
-| **`Formatting`**           | ![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white) ![Prettier](https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=white) |
-| **`Package Manager`**      | ![PNPM](https://img.shields.io/badge/pnpm-%23F29F05?style=for-the-badge&logo=pnpm&logoColor=white)                                                                                                                |
-| **`Version Control`**      | ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)  |
+| 역할                       | 종류                                                                                                                                                                                                                                                             |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`Library`**              | ![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white) ![VITE](https://img.shields.io/badge/VITE-646CFF?style=for-the-badge&logo=Vite&logoColor=white)                                                               |
+| **`Programming Language`** | ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6.svg?style=for-the-badge&logo=TypeScript&logoColor=white)                                                                                                                                            |
+| **`Styling`**              | ![Vanilla Extract](https://img.shields.io/badge/Vanilla%20Extract-%23F786AD?style=for-the-badge&logo=vanillaextract&logoColor=white)                                                                                                                             |
+| **`Data Fetching`**        | ![TanstackQuery](https://img.shields.io/badge/TanstackQuery-FF4154?style=for-the-badge&logo=ReactQuery&logoColor=white) ![swagger-typescript-api](https://img.shields.io/badge/swagger--typescript--api-85EA2D?style=for-the-badge&logo=Swagger&logoColor=white) |
+| **`UI Documentation`**     | ![Storybook](https://img.shields.io/badge/Storybook-FF4785?style=for-the-badge&logo=storybook&logoColor=white)                                                                                                                                                   |
+| **`Formatting`**           | ![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white) ![Prettier](https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=white)                                                |
+| **`Package Manager`**      | ![PNPM](https://img.shields.io/badge/pnpm-%23F29F05?style=for-the-badge&logo=pnpm&logoColor=white)                                                                                                                                                               |
+| **`Version Control`**      | ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)                                                 |
+
+<br />
+
+## 🤝 Team Ground Rules
+
+### 팀 협업 규칙
+
+1. 🗣️ **상호 존중의 커뮤니케이션** - 부드러운 어조를 사용하여 서로를 배려하는 소통하기
+2. 🤝 **공감과 이해** - 상대방의 입장에서 생각하고 다양한 관점을 존중하기
+3. 🏡 **공용 공간 관리** - 함께 사용하는 숙소 공간을 깨끗하고 정돈된 상태로 유지하기
+4. ⚖️ **워라밸 준수** - 업무에 집중할 때와 휴식 시간을 명확히 구분하여 효율적으로 일하기
+5. 💝 **상호 지원** - 팀원들의 성장과 성공을 위해 따뜻한 마음으로 서로 돕기
+6. 📲 **신속한 커뮤니케이션** - 메시지와 요청사항에 최대한 빠르게 응답하여 업무 흐름 유지하기
+7. 💬 **명확한 의사 전달** - 상대방을 배려하면서도 본인의 의견을 명확하고 구체적으로 표현하기
+8. 🙋 **적극적인 질문 문화** - 모르는 것이 있을 때 주저하지 않고 편하게 질문하는 환경 조성하기
+9. 💪 **책임감 있는 업무 수행** - 맡은 업무는 끝까지 책임지고 완수하는 프로페셔널한 자세 유지하기
+10. 🎉 **즐거운 프로젝트 경험** - 프로젝트를 통해 최대한의 배움과 성장을 추구하며 즐겁게 참여하기
+
+### 협업 도구 및 프로세스
+
+#### 커뮤니케이션
+
+- **Discord**: 주요 커뮤니케이션 채널 (웹훅 활용)
+  - 온라인 회의 시 카메라 ON으로 집중력 유지
+  - 실시간 회의록 작성 (Notion 연동)
+- **Notion**: 문서화 및 정보 공유
+  - 회의록, 팀 규칙, 일정 관리
+  - 작업 리스트업 및 캘린더 운영
+
+#### 개발 프로세스
+
+- **페어 프로그래밍**: 짝을 이루어 업무 수행
+- **코드 리뷰**: 짝과 리드의 코드 리뷰 세션 진행
+- **스크럼**: 격일로 진행
+  - 전날 수행 업무 공유
+  - 당일 수행 계획 공유
+  - 이슈 논의
+
+#### 일정 관리
+
+- Notion 데이터베이스를 통한 태스크 관리
+  - 작업명, 상태, 담당자, 마감일 기록
+  - 매일 최신화 진행
+- 캘린더를 통한 파트별 일정 공유
+- 정규 회의 일정 사전 공지
 
 <br />
 
@@ -170,5 +217,5 @@ fix/button-style/#25
 ---
 
 <div align="center">
-  <strong>🏠 나다운 집을 만들어가는 여정, HOUME과 함께하세요! 🏠</strong>
+  <strong>🏠 나다운 집을 만들어가는 여정, HOUME와 함께하세요! 🏠</strong>
 </div>
