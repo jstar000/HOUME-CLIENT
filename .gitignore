@@ -32,6 +32,9 @@ dist-ssr
 
 .eslintcache
 
+*storybook.log
+storybook-static
+
 # Others
 .claude
 CLAUDE.md

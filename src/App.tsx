@@ -1,8 +1,11 @@
-import ViteLogo from '../public/vite.svg?react';
-import './App.css';
+import Home from './pages/home/Home';
 
 function App() {
-  return <ViteLogo className="logo" title="Vite logo" />;
+  return (
+    <>
+      <Home />
+    </>
+  );
 }
 
 export default App;
