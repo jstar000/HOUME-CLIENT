@@ -28,10 +28,13 @@ export const router = createBrowserRouter([
     path: '/',
     element: <RootLayout />,
     children: [
+      // ✅ index 라우트: 부모('/')와 정확히 일치할 때 기본으로 표시할 페이지입니다.
+      //    path 속성을 쓰지 않고 index:true 로 표현하면 의도가 명확해집니다.
       {
         index: true,
-        element: <HomePage />,
+        element: <HomePage />, // 홈 화면
       },
+      // --- 공개 라우트(로그인/회원가입) ----------------------------
       {
         path: ROUTES.LOGIN,
         element: <LoginPage />,
@@ -40,8 +43,11 @@ export const router = createBrowserRouter([
         path: ROUTES.SIGNUP,
         element: <SignupPage />,
       },
+      // --- 보호 라우트 그룹 ---------------------------------------
+      // ProtectedRoute 를 중간 노드로 둬서 하위 children 모두를 한 번에 가드합니다.
+      //    isAuthenticated 값이 false 이면 ROUTES.LOGIN 으로 리다이렉트됩니다.
       {
-        element: <ProtectedRoute isAuthenticated={isAuthenticated} />,
+        element: <ProtectedRoute isAuthenticated={isAuthenticated} />, // 라우트 가드
         children: [
           {
             path: ROUTES.ONBOARDING,
