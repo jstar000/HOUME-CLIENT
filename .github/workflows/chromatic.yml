@@ -110,7 +110,7 @@ jobs:
         run: pnpm build-storybook
 
       # 7. Chromatic 배포
-      # Chromatic 공식 GitHub Action 사용 (자동 재시도 포함)
+      # Chromatic 공식 GitHub Action 사용
       - name: Publish to Chromatic
         id: chromatic
         uses: chromaui/action@latest
@@ -125,9 +125,6 @@ jobs:
           autoAcceptChanges: ${{ github.ref == 'refs/heads/develop' }}
           # 시각적 변경이 있어도 CI 실패 방지
           exitZeroOnChanges: true
-          # 재시도 설정
-          retry: true
-          maxRetries: 3
 
       # Chromatic CLI 옵션 설명:
       # --project-token: Chromatic 프로젝트 인증 토큰 (필수)
