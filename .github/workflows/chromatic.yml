@@ -19,18 +19,26 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
-# GitHub 토큰 권한 설정
-# write-all: PR 코멘트 작성 및 워크플로우 상태 업데이트를 위해 필요
-permissions: write-all
+# GitHub 토큰 권한 설정 (최소 권한 원칙)
+# - contents: read            → 저장소 읽기 전용
+# - pull-requests: write      → PR 코멘트/상태 업데이트용
+
+# 중복 실행 방지(concurrency)
+# 동일 브랜치(또는 PR)에서 이전 잡이 실행 중이면 취소하고 최신 잡만 유지하여 CI 자원 절약
+concurrency:
+  group: chromatic-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   chromatic:
     # Ubuntu 최신 버전 환경에서 실행
     runs-on: ubuntu-latest
+    # 잡 전체 타임아웃 (분)
+    timeout-minutes: 20
 
     # 조건부 실행: Draft PR인 경우 워크플로우 스킵
-    # Draft PR은 아직 리뷰 준비가 안 된 상태이므로 리소스 절약
-    if: github.event.pull_request.draft == false
+    # push 이벤트에는 pull_request 객체가 없으므로 조건 분기
+    if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.draft }}
 
     steps:
       # 1. 저장소 체크아웃
@@ -71,6 +79,18 @@ jobs:
           # 정확한 키가 없을 때 사용할 대체 키 (부분 매칭)
           restore-keys: |
             ${{ runner.os }}-node-
+
+      # pnpm store 캐시
+      # pnpm은 node_modules 외에 전역 저장소(~/.pnpm-store)에 패키지를 보관하므로
+      # 해당 디렉토리를 캐싱하면 의존성 설치 시간을 대폭 단축할 수 있음
+      - name: Cache pnpm store
+        id: cache-pnpm-store
+        uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
 
       # 5. 의존성 설치
       # 캐시가 없거나 오래된 경우에만 설치 실행
