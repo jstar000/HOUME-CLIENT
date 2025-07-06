@@ -23,45 +23,49 @@ import MyPage from '@/pages/mypage/MyPage';
 // TODO: Replace with actual auth state management
 const isAuthenticated = false;
 
+// 공개 라우트 그룹 (인증 불필요)
+const publicRoutes = [
+  {
+    index: true,
+    element: <HomePage />,
+  },
+  {
+    path: ROUTES.LOGIN,
+    element: <LoginPage />,
+  },
+  {
+    path: ROUTES.SIGNUP,
+    element: <SignupPage />,
+  },
+];
+
+// 보호된 라우트 그룹 (인증 필요)
+const protectedRoutes = [
+  {
+    path: ROUTES.ONBOARDING,
+    element: <OnboardingPage />,
+  },
+  {
+    path: ROUTES.GENERATE,
+    element: <GeneratePage />,
+  },
+  {
+    path: ROUTES.MYPAGE,
+    element: <MyPage />,
+  },
+];
+
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <RootLayout />,
     children: [
-      // ✅ index 라우트: 부모('/')와 정확히 일치할 때 기본으로 표시할 페이지입니다.
-      //    path 속성을 쓰지 않고 index:true 로 표현하면 의도가 명확해집니다.
+      // 공개 라우트들
+      ...publicRoutes,
+      // 보호된 라우트들 (ProtectedRoute로 감싸서 인증 체크)
       {
-        index: true,
-        element: <HomePage />, // 홈 화면
-      },
-      // --- 공개 라우트(로그인/회원가입) ----------------------------
-      {
-        path: ROUTES.LOGIN,
-        element: <LoginPage />,
-      },
-      {
-        path: ROUTES.SIGNUP,
-        element: <SignupPage />,
-      },
-      // --- 보호 라우트 그룹 ---------------------------------------
-      // ProtectedRoute 를 중간 노드로 둬서 하위 children 모두를 한 번에 가드합니다.
-      //    isAuthenticated 값이 false 이면 ROUTES.LOGIN 으로 리다이렉트됩니다.
-      {
-        element: <ProtectedRoute isAuthenticated={isAuthenticated} />, // 라우트 가드
-        children: [
-          {
-            path: ROUTES.ONBOARDING,
-            element: <OnboardingPage />,
-          },
-          {
-            path: ROUTES.GENERATE,
-            element: <GeneratePage />,
-          },
-          {
-            path: ROUTES.MYPAGE,
-            element: <MyPage />,
-          },
-        ],
+        element: <ProtectedRoute isAuthenticated={isAuthenticated} />,
+        children: protectedRoutes,
       },
     ],
   },
