@@ -30,6 +30,7 @@
   "devDependencies": {
     "@chromatic-com/storybook": "^4.0.1",
     "@eslint/js": "^9.29.0",
+    "@svgr/plugin-svgo": "^8.1.0",
     "@tanstack/eslint-plugin-query": "^5.81.2",
     "@types/node": "^24.0.7",
     "@storybook/addon-a11y": "^9.0.15",
@@ -62,7 +63,8 @@
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.34.1",
     "vite": "^7.0.0",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "vite-plugin-svgr": "^4.3.0"
   },
   "engines": {
     "node": "22.x"
