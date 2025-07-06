@@ -2,7 +2,7 @@
 # 이 워크플로우는 스토리북을 빌드하고 Chromatic에 배포하여 시각적 회귀 테스트를 수행합니다.
 # Chromatic은 스토리북의 모든 컴포넌트를 스크린샷으로 캡처하고 변경사항을 추적합니다.
 
-name: 'Chromatic'
+name: '🟣 Chromatic'
 
 # 워크플로우 트리거 조건
 on:
@@ -22,6 +22,9 @@ on:
 # GitHub 토큰 권한 설정 (최소 권한 원칙)
 # - contents: read            → 저장소 읽기 전용
 # - pull-requests: write      → PR 코멘트/상태 업데이트용
+permissions:
+  contents: read
+  pull-requests: write
 
 # 중복 실행 방지(concurrency)
 # 동일 브랜치(또는 PR)에서 이전 잡이 실행 중이면 취소하고 최신 잡만 유지하여 CI 자원 절약
