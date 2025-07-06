@@ -1,0 +1,129 @@
+name: 'Chromatic'
+
+on:
+  push:
+    branches: [develop, main]
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions: write-all
+
+jobs:
+  chromatic:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+
+    steps:
+      # 1. 저장소 체크아웃
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # 2. PNPM 설정
+      - uses: pnpm/action-setup@v4
+
+      # 3. Node.js 설정
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          cache: 'pnpm'
+
+      # 4. 의존성 캐싱
+      - name: Cache node modules
+        id: cache-node
+        uses: actions/cache@v3
+        with:
+          path: |
+            **/node_modules
+            ~/.cache/Cypress
+          key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      # 5. 의존성 설치
+      - name: Install Dependencies
+        if: steps.cache-node.outputs.cache-hit != 'true'
+        run: pnpm install --frozen-lockfile
+
+      # 6. 스토리북 빌드
+      - name: Build Storybook
+        run: pnpm build-storybook
+
+      # 7. Chromatic 배포 (재시도 포함)
+      - name: Publish to Chromatic
+        id: chromatic
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: |
+            npx chromatic \
+              --project-token=${{ secrets.CHROMATIC_PROJECT_TOKEN }} \
+              --storybook-build-dir=storybook-static \
+              --only-changed=${{ github.event_name == 'pull_request' && 'true' || 'false' }} \
+              --auto-accept-changes=${{ github.ref == 'refs/heads/develop' && 'true' || 'false' }} \
+              --exit-zero-on-changes
+
+      # 8. 커버리지 리포트
+      - name: Create Coverage Report
+        id: coverage
+        if: always()
+        run: |
+          echo "## 📊 Storybook Coverage Report" >> $GITHUB_STEP_SUMMARY
+          echo "- **Total Components**: $(find src -name "*.stories.tsx" | wc -l)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Build Status**: ${{ steps.chromatic.outcome }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Storybook URL**: ${{ steps.chromatic.outputs.storybookUrl || 'N/A' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Build Time**: $(date)" >> $GITHUB_STEP_SUMMARY
+
+      # 9. PR 코멘트
+      - name: Comment PR
+        if: github.event_name == 'pull_request'
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          comment_tag: chromatic-build
+          message: |
+            ## 🎨 Storybook 빌드 완료!
+
+            📚 **Storybook**: ${{ steps.chromatic.outputs.storybookUrl }}
+            🔍 **Chromatic**: ${{ steps.chromatic.outputs.buildUrl }}
+
+            ### 📊 빌드 정보
+            - **컴포넌트 수**: $(find src -name "*.stories.tsx" | wc -l)개
+            - **빌드 시간**: ${{ steps.chromatic.outputs.buildTime }}ms
+            - **변경사항**: ${{ steps.chromatic.outputs.changeCount }}개
+
+            <details>
+            <summary>상세 정보</summary>
+
+            - Component Count: ${{ steps.chromatic.outputs.componentCount }}
+            - Story Count: ${{ steps.chromatic.outputs.storyCount }}
+            - Spec Count: ${{ steps.chromatic.outputs.specCount }}
+            </details>
+
+      # 10. 아티팩트 저장
+      - name: Upload Storybook Artifact
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: storybook-build-${{ github.sha }}
+          path: storybook-static/
+          retention-days: 7
+
+      # 11. Discord 알림
+      - name: Discord Notification
+        if: always()
+        uses: sarisia/actions-status-discord@v1
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          title: "Chromatic 빌드 ${{ job.status == 'success' && '성공 ✅' || '실패 ❌' }}"
+          description: |
+            **프로젝트**: ${{ github.repository }}
+            **브랜치**: ${{ github.ref_name }}
+            **커밋**: ${{ github.sha }}
+            **실행자**: ${{ github.actor }}
+          color: ${{ job.status == 'success' && 0x00ff00 || 0xff0000 }}
+          url: '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+          username: HOUME Bot
+          avatar_url: 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'
