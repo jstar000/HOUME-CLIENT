@@ -26,6 +26,8 @@ const isAuthenticated = false;
 // 공개 라우트 그룹 (인증 불필요)
 const publicRoutes = [
   {
+    // index: true 는 이 라우트 객체가 부모 경로("/")의 인덱스(기본) 경로임을 나타냅니다.
+    // 별도의 path 없이 부모 경로 자신에 매칭되며, HomePage 가 루트("/") 요청에 렌더링됩니다.
     index: true,
     element: <HomePage />,
   },
@@ -91,5 +93,5 @@ export const router = createBrowserRouter([
 //                                  구조 파악이 쉽고 중복되는 <Route> 태그를 제거합니다.
 // • 도입 시점
 //   - 2022-09 React Router v6.4 정식 릴리스부터 Preview → Stable 단계로 제공되었습니다.
-//     (참고: 공식 블로그 "Remixing React Router")
+//     (참고: 공식 블로그 "Remixing React Router" (https://remix.run/blog/remixing-react-router))
 // -----------------------------------------------------------------------------
