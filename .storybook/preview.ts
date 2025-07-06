@@ -1,4 +1,4 @@
-import type { Preview } from '@storybook/react-vite'
+import type { Preview } from '@storybook/react-vite';
 // import '@shared/styles/global.css'
 // TODO: 절대 경로 설정 완료 후 주석 해제 필요 (@shared 경로 별칭 설정)
 
@@ -6,11 +6,11 @@ const preview: Preview = {
   parameters: {
     controls: {
       matchers: {
-       color: /(background|color)$/i,
-       date: /Date$/i,
+        color: /(background|color)$/i,
+        date: /Date$/i,
       },
     },
-    actions: { 
+    actions: {
       // argTypesRegex 제거 - Chromatic 시각적 테스트와 호환성을 위해
       // 각 스토리에서 fn() 함수로 명시적 액션 설정 필요
     },
@@ -60,7 +60,7 @@ const preview: Preview = {
       context: '#storybook-root',
       config: {},
       options: {},
-      manual: false
+      manual: false,
     },
     docs: {
       toc: {
