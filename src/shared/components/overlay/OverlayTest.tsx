@@ -1,20 +1,20 @@
 import { overlay } from 'overlay-kit';
-import Modal from './Modal';
+import { Modal } from './Modal';
 
-const OverlayTest = () => {
-  const handleOpenModal = () => {
-    overlay.open(({ isOpen, close, unmount }) => (
-      <Modal isOpen={isOpen} onClose={close} onExit={unmount} />
+export const OverlayTest = () => {
+  const handleOpen = () => {
+    overlay.open(({ isOpen, unmount }) => (
+      <Modal isOpen={isOpen} onClose={unmount}>
+        스타일링 이미지대로 가구를 추천 받으려면 크레딧이 필요해요
+      </Modal>
     ));
   };
 
   return (
     <div>
-      <button type="button" onClick={handleOpenModal}>
+      <button type="button" onClick={handleOpen}>
         모달창 열기
       </button>
     </div>
   );
 };
-
-export default OverlayTest;

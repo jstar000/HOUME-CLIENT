@@ -3,6 +3,9 @@ import { fontStyle } from '@/shared/styles/fontStyle';
 import { colorVars } from '@/shared/styles/tokens/color.css';
 
 export const container = style({
+  position: 'fixed',
+  inset: 0,
+  zIndex: 9999,
   display: 'flex',
   width: '300px',
   padding: '32px 0px 16px 0px',
