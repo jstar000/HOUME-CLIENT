@@ -16,6 +16,8 @@ const CtaButton = ({
   return (
     <button
       type="button"
+      disabled={!isActive}
+      aria-disabled={!isActive}
       className={styles.CtaButton({
         state: isActive ? 'active' : 'disabled',
         type: typeVariant,

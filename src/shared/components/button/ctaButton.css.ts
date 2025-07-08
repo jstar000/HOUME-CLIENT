@@ -30,12 +30,13 @@ export const CtaButton = recipe({
       disabled: {
         backgroundColor: colorVars.color.gray300,
         cursor: 'not-allowed',
+        pointerEvents: 'none',
       },
     },
     type: {
       default: {},
       kakao: {
-        fontFamily: `"Apple SD Gothic Neo"`, // 예비용) fontFamily: `"Apple SD Gothic Neo", sans-serif`,
+        fontFamily: `"Apple SD Gothic Neo", sans-serif`,
         backgroundColor: '#FEE500',
         color: '#000000D9',
         padding: '1.8rem 0',
