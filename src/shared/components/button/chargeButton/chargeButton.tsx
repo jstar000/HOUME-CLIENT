@@ -1,4 +1,4 @@
-import * as styles from './chargeBtn.css';
+import * as styles from './chargeButton.css';
 
 interface ChargeButtonProps extends React.ComponentProps<'button'> {
   children: React.ReactNode;

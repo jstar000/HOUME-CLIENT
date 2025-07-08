@@ -34,6 +34,7 @@ globalStyle('a', {
 globalStyle('button', {
   all: 'unset',
   cursor: 'pointer',
+  boxSizing: 'border-box',
 });
 
 globalStyle('input, textarea', {
