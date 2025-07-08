@@ -4,7 +4,7 @@ const HomePage = () => {
   return (
     <div>
       <h1>Home Page</h1>
-      <CtaButton>버튼 이름</CtaButton>
+      <CtaButton>카카오 로그인</CtaButton>
     </div>
   );
 };

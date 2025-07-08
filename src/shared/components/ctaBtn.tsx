@@ -1,19 +1,28 @@
+import KakaoIcon from '@assets/icons/kakaoIcon.svg?react';
 import * as styles from './ctaBtn.css';
 
 interface CtaButtonProps extends React.ComponentProps<'button'> {
   children: React.ReactNode;
   isActive?: boolean;
+  typeVariant?: 'default' | 'kakao';
 }
 
-const CtaButton = ({ children, isActive = true, ...props }: CtaButtonProps) => {
+const CtaButton = ({
+  children,
+  isActive = true,
+  typeVariant = 'kakao',
+  ...props
+}: CtaButtonProps) => {
   return (
     <button
       type="button"
       className={styles.CtaButton({
         state: isActive ? 'active' : 'disabled',
+        type: typeVariant,
       })}
       {...props}
     >
+      {typeVariant === 'kakao' && <KakaoIcon />}
       {children}
     </button>
   );

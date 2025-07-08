@@ -4,17 +4,20 @@ import { fontStyle } from '@/shared/styles/fontStyle';
 
 export const CtaButton = recipe({
   base: {
+    display: 'flex',
+    justifyContent: 'center',
     width: '28rem',
     height: '5.9rem',
-    padding: '1.7rem 11rem',
+    padding: '1.7rem 0',
     textAlign: 'center',
     alignItems: 'center',
-    gap: '2rem',
+    gap: '0.8rem',
     borderRadius: '99.9rem',
     ...fontStyle('title_m_16'),
     color: colorVars.color.gray000,
     transition: 'all 0.2s ease-in-out',
     border: 'none',
+    whiteSpace: 'nowrap',
   },
   variants: {
     state: {
@@ -29,8 +32,22 @@ export const CtaButton = recipe({
         cursor: 'not-allowed',
       },
     },
+    type: {
+      default: {},
+      kakao: {
+        fontFamily: `"Apple SD Gothic Neo"`, // 예비용) fontFamily: `"Apple SD Gothic Neo", sans-serif`,
+        backgroundColor: '#FEE500',
+        color: '#000000D9',
+        padding: '1.8rem 0',
+
+        ':active': {
+          backgroundColor: '#FEE500',
+        },
+      },
+    },
   },
   defaultVariants: {
     state: 'active',
+    type: 'default',
   },
 });
