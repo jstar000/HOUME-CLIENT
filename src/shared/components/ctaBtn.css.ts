@@ -4,27 +4,28 @@ import { fontStyle } from '@/shared/styles/fontStyle';
 
 export const CtaButton = recipe({
   base: {
-    height: '2.8rem',
-    padding: '0rem 1.2rem',
+    width: '28rem',
+    height: '5.9rem',
+    padding: '1.7rem 11rem',
+    textAlign: 'center',
     alignItems: 'center',
-    gap: '0.8rem',
+    gap: '2rem',
     borderRadius: '99.9rem',
-    ...fontStyle('caption_m_12'),
-    color: colorVars.color.primary,
+    ...fontStyle('title_m_16'),
+    color: colorVars.color.gray000,
     transition: 'all 0.2s ease-in-out',
     border: 'none',
   },
   variants: {
     state: {
       active: {
-        backgroundColor: colorVars.color.primary_light2,
+        backgroundColor: colorVars.color.primary,
         ':active': {
-          backgroundColor: colorVars.color.primary_light1,
+          backgroundColor: colorVars.color.primary_dark,
         },
       },
       disabled: {
         backgroundColor: colorVars.color.gray300,
-        color: colorVars.color.gray000,
         cursor: 'not-allowed',
       },
     },

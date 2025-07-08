@@ -1,10 +1,10 @@
-import { CtaButton } from '@/shared/components/ctaBtn.css';
+import CtaButton from '@components/ctaBtn';
 
 const HomePage = () => {
   return (
     <div>
       <h1>Home Page</h1>
-      <CtaButton>버튼이름</CtaButton>
+      <CtaButton>버튼 이름</CtaButton>
     </div>
   );
 };
