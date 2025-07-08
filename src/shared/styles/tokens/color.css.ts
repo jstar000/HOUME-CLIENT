@@ -16,18 +16,18 @@ export const colorVars = createGlobalTheme(':root', {
     gray200: '#E7EAEF',
     gray100: '#F3F4F7',
     gray050: '#F9FAFB',
-    gray000: 'FFFFF',
+    gray000: '#FFFFF',
 
     // Brand Colors
     primary: '#6F00FF',
     primary_light1: '#A696FF',
     primary_light2: '#E8E3FC',
-    primary_light3: 'EFEDFD',
+    primary_light3: '#EFEDFD',
     primary_dark: '#5000B8',
     bg_grad: 'linear-gradient(180deg, #DDD6FF 0%, #FFF 50%, #FFF 100%)',
 
     // Feedback
     error: '#FF0000',
-    error_light: 'FFF0F0',
+    error_light: '#FFF0F0',
   },
 });
