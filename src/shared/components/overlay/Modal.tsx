@@ -10,7 +10,7 @@ const Modal = ({ isOpen, onClose, title }: ModalProps) => {
   if (!isOpen) return null;
 
   return (
-    <div
+    <dialog
       className={styles.container}
       role="dialog"
       aria-modal="true"
@@ -40,7 +40,7 @@ const Modal = ({ isOpen, onClose, title }: ModalProps) => {
           <span className={styles.exitButtonText}>나가기</span>
         </button>
       </div>
-    </div>
+    </dialog>
   );
 };
 
