@@ -14,6 +14,8 @@ const LikeButton = ({
   return (
     <button
       type="button"
+      disabled={!isSelected}
+      aria-disabled={!isSelected}
       className={styles.likeButton({
         selected: isSelected ? 'active' : 'disabled',
       })}
