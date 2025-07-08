@@ -1,6 +1,6 @@
 import * as styles from './Modal.css.ts';
 
-interface ModalProps {
+export interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
