@@ -16,7 +16,7 @@ export const colorVars = createGlobalTheme(':root', {
     gray200: '#E7EAEF',
     gray100: '#F3F4F7',
     gray050: '#F9FAFB',
-    gray000: '#FFFFF',
+    gray000: '#FFFFFF',
 
     // Brand Colors
     primary: '#6F00FF',
