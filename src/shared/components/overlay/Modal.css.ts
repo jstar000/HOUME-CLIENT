@@ -13,7 +13,7 @@ export const container = style({
   borderRadius: '20px',
 });
 
-export const creditInfoBox = style({
+export const info = style({
   display: 'flex',
   width: '300px',
   padding: '32px 0px 16px 0px',
@@ -23,7 +23,7 @@ export const creditInfoBox = style({
   gap: '32px',
 });
 
-export const modalTitle = style({
+export const title = style({
   textAlign: 'center',
   ...fontStyle('heading_sb_18'),
   color: colorVars.color.gray900,
@@ -39,17 +39,17 @@ export const creditBox = style({
   background: colorVars.color.gray100,
 });
 
-export const creditText = style({
+export const label = style({
   ...fontStyle('body_m_14'),
   color: colorVars.color.gray600,
 });
 
-export const creditCount = style({
+export const count = style({
   ...fontStyle('title_sb_16'),
   color: colorVars.color.primary,
 });
 
-export const creditImage = style({
+export const creditImg = style({
   width: '100%',
   height: '120px',
   background: colorVars.color.gray100,
@@ -62,7 +62,7 @@ export const buttonBox = style({
   gap: '4px',
 });
 
-export const creditButton = style({
+export const primaryButton = style({
   display: 'flex',
   width: '180px',
   height: '52px',
@@ -73,7 +73,7 @@ export const creditButton = style({
   background: colorVars.color.primary,
 });
 
-export const creditButtonText = style({
+export const primaryText = style({
   ...fontStyle('title_m_16'),
   color: 'white',
 });
