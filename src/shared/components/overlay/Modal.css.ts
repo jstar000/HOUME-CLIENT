@@ -5,11 +5,13 @@ import { colorVars } from '@/shared/styles/tokens/color.css';
 export const container = style({
   position: 'fixed',
   inset: 0,
-  zIndex: 9999,
+  margin: 'auto',
+  zIndex: 999,
   display: 'flex',
-  width: '300px',
-  padding: '32px 0px 16px 0px',
   flexDirection: 'column',
+  width: '300px',
+  height: '426px',
+  padding: '32px 0 16px 0',
   justifyContent: 'center',
   alignItems: 'center',
   gap: '32px',
@@ -18,25 +20,27 @@ export const container = style({
 
 export const info = style({
   display: 'flex',
-  width: '300px',
-  padding: '32px 0px 16px 0px',
+  width: '228px',
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
-  gap: '32px',
+  gap: '16px',
 });
 
 export const title = style({
   textAlign: 'center',
   ...fontStyle('heading_sb_18'),
   color: colorVars.color.gray900,
+  // wordBreak: 'keep-all',
+  overflowWrap: 'break-word',
 });
 
 export const creditBox = style({
   display: 'flex',
   height: '36px',
-  padding: '0px 8px 0px 16px',
+  padding: '0px 16px',
   alignItems: 'center',
+  justifyContent: 'center',
   gap: '18px',
   borderRadius: '6px',
   background: colorVars.color.gray100,
@@ -53,7 +57,7 @@ export const count = style({
 });
 
 export const creditImg = style({
-  width: '100%',
+  width: '228px',
   height: '120px',
   background: colorVars.color.gray100,
 });
@@ -69,7 +73,6 @@ export const primaryButton = style({
   display: 'flex',
   width: '180px',
   height: '52px',
-  padding: '17px 110px',
   justifyContent: 'center',
   alignItems: 'center',
   borderRadius: '999px',
@@ -83,12 +86,11 @@ export const primaryText = style({
 
 export const exitButton = style({
   display: 'flex',
-  width: '48px',
-  height: '48px',
   padding: '12px 0px',
   justifyContent: 'center',
   alignItems: 'center',
   textDecoration: 'underline',
+  textDecorationColor: colorVars.color.gray500,
 });
 
 export const exitButtonText = style({

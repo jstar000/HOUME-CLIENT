@@ -1,16 +1,12 @@
-import React from 'react';
 import * as styles from './Modal.css.ts';
 
-export interface ModalProps {
+interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
+  title: string;
 }
 
-export const Modal: React.FC<React.PropsWithChildren<ModalProps>> = ({
-  isOpen,
-  onClose,
-  children,
-}) => {
+const Modal = ({ isOpen, onClose, title }: ModalProps) => {
   if (!isOpen) return null;
 
   return (
@@ -20,21 +16,19 @@ export const Modal: React.FC<React.PropsWithChildren<ModalProps>> = ({
       aria-modal="true"
       // 모달 확인용 배경색 설정
       style={{
-        background: 'rgba(0, 0, 0, 0.2)',
-        padding: '16px',
-        borderRadius: '8px',
+        border: '1px solid black',
       }}
     >
-      <header className={styles.info}>
-        <p className={styles.title}>{children}</p>
+      <div className={styles.info}>
+        <p className={styles.title}>{title}</p>
         <div className={styles.creditBox}>
           <span className={styles.label}>보유 크레딧</span>
           <span className={styles.count}>0</span>
         </div>
         <div className={styles.creditImg} />
-      </header>
+      </div>
 
-      <footer className={styles.buttonBox}>
+      <div className={styles.buttonBox}>
         <button
           type="button"
           className={styles.primaryButton}
@@ -45,7 +39,9 @@ export const Modal: React.FC<React.PropsWithChildren<ModalProps>> = ({
         <button type="button" className={styles.exitButton} onClick={onClose}>
           <span className={styles.exitButtonText}>나가기</span>
         </button>
-      </footer>
+      </div>
     </div>
   );
 };
+
+export default Modal;
