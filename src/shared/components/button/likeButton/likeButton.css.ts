@@ -2,34 +2,38 @@ import { recipe } from '@vanilla-extract/recipes';
 import { colorVars } from '@styles/tokens/color.css';
 import { fontStyle } from '@/shared/styles/fontStyle';
 
-export const chargeButton = recipe({
+export const likeButton = recipe({
   base: {
-    height: '2.8rem',
-    padding: '0rem 1.2rem',
+    width: '12.8rem',
+    height: '3.6rem',
+    padding: '1rem',
+    display: 'flex',
+    justifyContent: 'center',
     alignItems: 'center',
     gap: '0.8rem',
-    borderRadius: '99.9rem',
-    ...fontStyle('caption_m_12'),
-    color: colorVars.color.primary,
+    borderRadius: '0.6rem',
+    ...fontStyle('body_m_14'),
+    color: colorVars.color.gray800,
+    backgroundColor: colorVars.color.gray100,
     transition: 'all 0.2s ease-in-out',
     border: 'none',
   },
   variants: {
-    state: {
+    selected: {
       active: {
-        backgroundColor: colorVars.color.primary_light2,
         ':active': {
-          backgroundColor: colorVars.color.primary_light1,
+          backgroundColor: colorVars.color.primary_light2,
+          color: colorVars.color.primary,
         },
       },
       disabled: {
         backgroundColor: colorVars.color.gray300,
-        color: colorVars.color.gray000,
         cursor: 'not-allowed',
+        pointerEvents: 'none',
       },
     },
   },
   defaultVariants: {
-    state: 'active',
+    selected: 'active',
   },
 });
