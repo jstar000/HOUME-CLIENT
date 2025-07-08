@@ -9,22 +9,22 @@ export const container = style({
   zIndex: 999,
   display: 'flex',
   flexDirection: 'column',
-  width: '300px',
-  height: '426px',
-  padding: '32px 0 16px 0',
+  width: '30rem',
+  height: '42.6rem',
+  padding: '3.22rem 0 1.6rem 0',
   justifyContent: 'center',
   alignItems: 'center',
-  gap: '32px',
-  borderRadius: '20px',
+  gap: '3.2rem',
+  borderRadius: '2rem',
 });
 
 export const info = style({
   display: 'flex',
-  width: '240px',
+  width: '22.8rem',
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
-  gap: '16px',
+  gap: '1.6rem',
 });
 
 export const title = style({
@@ -36,11 +36,11 @@ export const title = style({
 
 export const creditBox = style({
   display: 'flex',
-  height: '36px',
-  padding: '0px 16px',
+  height: '3.6rem',
+  padding: '0 1.6rem',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: '18px',
+  gap: '1.8rem',
   borderRadius: '6px',
   background: colorVars.color.gray100,
 });
@@ -56,8 +56,8 @@ export const count = style({
 });
 
 export const creditImg = style({
-  width: '228px',
-  height: '120px',
+  width: '22.8rem',
+  height: '12rem',
   background: colorVars.color.gray100,
 });
 
@@ -65,13 +65,13 @@ export const buttonBox = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  gap: '4px',
+  gap: '0.4rem',
 });
 
 export const primaryButton = style({
   display: 'flex',
-  width: '180px',
-  height: '52px',
+  width: '18rem',
+  height: '5.2rem',
   justifyContent: 'center',
   alignItems: 'center',
   borderRadius: '999px',
@@ -85,7 +85,7 @@ export const primaryText = style({
 
 export const exitButton = style({
   display: 'flex',
-  padding: '12px 0px',
+  padding: '1.2rem 0',
   justifyContent: 'center',
   alignItems: 'center',
   textDecoration: 'underline',
