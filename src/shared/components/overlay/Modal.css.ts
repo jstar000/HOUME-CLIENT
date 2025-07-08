@@ -20,7 +20,7 @@ export const container = style({
 
 export const info = style({
   display: 'flex',
-  width: '22.8rem',
+  width: '24rem',
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
