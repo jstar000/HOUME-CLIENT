@@ -8,7 +8,7 @@ interface LikeButtonProps extends React.ComponentProps<'button'> {
 
 const LikeButton = ({
   children,
-  isSelected = false,
+  isSelected = true,
   ...props
 }: LikeButtonProps) => {
   return (
