@@ -1,5 +1,5 @@
 import KakaoIcon from '@assets/icons/kakaoIcon.svg?react';
-import * as styles from './ctaBtn.css';
+import * as styles from './ctaButton.css';
 
 interface CtaButtonProps extends React.ComponentProps<'button'> {
   children: React.ReactNode;
@@ -10,7 +10,7 @@ interface CtaButtonProps extends React.ComponentProps<'button'> {
 const CtaButton = ({
   children,
   isActive = true,
-  typeVariant = 'kakao',
+  typeVariant = 'default',
   ...props
 }: CtaButtonProps) => {
   return (

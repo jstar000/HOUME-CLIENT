@@ -1,10 +1,9 @@
-import CtaButton from '@components/ctaBtn';
+import CtaButton from '@/shared/components/button/ctaButton';
 
 const HomePage = () => {
   return (
     <div>
-      <h1>Home Page</h1>
-      <CtaButton>카카오 로그인</CtaButton>
+      <CtaButton isActive={false}>주요 활동 선택하기</CtaButton>
     </div>
   );
 };
