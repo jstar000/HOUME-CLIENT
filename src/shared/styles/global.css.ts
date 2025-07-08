@@ -1,6 +1,7 @@
 import { globalStyle } from '@vanilla-extract/css';
 import { colorVars } from '@styles/tokens/color.css';
 import { fontVars } from '@styles/tokens/font.css';
+import '@styles/reset.css.ts';
 import '@/shared/styles/fontFace.css';
 
 globalStyle('html, body', {
