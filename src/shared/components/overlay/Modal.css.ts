@@ -20,7 +20,7 @@ export const container = style({
 
 export const info = style({
   display: 'flex',
-  width: '228px',
+  width: '240px',
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
@@ -31,8 +31,7 @@ export const title = style({
   textAlign: 'center',
   ...fontStyle('heading_sb_18'),
   color: colorVars.color.gray900,
-  // wordBreak: 'keep-all',
-  overflowWrap: 'break-word',
+  wordBreak: 'keep-all', // 공백 또는 하이픈에서만 줄바꿈이 일어나도록 설정
 });
 
 export const creditBox = style({

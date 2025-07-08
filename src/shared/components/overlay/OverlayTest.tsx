@@ -1,7 +1,7 @@
 import { overlay } from 'overlay-kit';
 import Modal from './Modal';
 
-export const OverlayTest = () => {
+const OverlayTest = () => {
   const handleOpen = () => {
     overlay.open(({ isOpen, unmount }) => (
       <Modal
@@ -20,3 +20,5 @@ export const OverlayTest = () => {
     </div>
   );
 };
+
+export default OverlayTest;
