@@ -1,6 +1,6 @@
 import WarningIconGray from '@assets/icons/warningGray.svg?react';
-import ArrowRightIcon from '@assets/icons/icn_arrow_right.svg?react';
-import * as styles from './noMatchButton.css';
+import ArrowRightIcon from '@assets/icons/ArrowRight.svg?react';
+import * as styles from './NoMatchButton.css';
 
 interface NoMatchButtonProps extends React.ComponentProps<'button'> {
   message: string;
