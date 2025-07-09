@@ -1,4 +1,4 @@
-import WarningIcon from '@assets/icons/icn_warning_red.svg?react';
+import WarningIcon from '@assets/icons/warningRed.svg?react';
 import * as styles from './ShowErrorButton.css';
 
 interface ShowErrorMessageProps {
