@@ -41,6 +41,7 @@ reviews:
     - '.storybook/**/*.ts'
     - 'vite.config.ts'
     - 'tsconfig*.json'
+    - '.coderabbit.yaml'
 
   # 경로별 특별 지침
   path_instructions:
