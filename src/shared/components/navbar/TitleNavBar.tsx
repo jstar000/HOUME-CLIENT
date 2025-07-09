@@ -30,7 +30,9 @@ const TitleNavBar = ({
       <h1>{title}</h1>
       <div className={styles.rightdiv}>
         {isLoginBtn && (
-          <button onClick={() => navigate(ROUTES.LOGIN)}>로그인</button>
+          <button type="button" onClick={() => navigate(ROUTES.LOGIN)}>
+            로그인
+          </button>
         )}
       </div>
     </nav>
