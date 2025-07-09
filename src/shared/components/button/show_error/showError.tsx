@@ -1,0 +1,13 @@
+import WarningIcon from '@assets/icons/icn_warning.svg?react';
+import * as styles from './show_error.css';
+
+const ShowErrorMessage = ({ message }: { message: string }) => {
+  return (
+    <div className={styles.messageWrapper}>
+      <WarningIcon />
+      <span className={styles.messageText}>{message}</span>
+    </div>
+  );
+};
+
+export default ShowErrorMessage;
