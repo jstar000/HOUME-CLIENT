@@ -10,15 +10,7 @@ const Modal = ({ isOpen, onClose, title }: ModalProps) => {
   if (!isOpen) return null;
 
   return (
-    <dialog
-      className={styles.container}
-      role="dialog"
-      aria-modal="true"
-      // 모달 확인용 배경색 설정
-      style={{
-        border: '1px solid black',
-      }}
-    >
+    <dialog className={styles.container} role="dialog" aria-modal="true">
       <div className={styles.info}>
         <p className={styles.title}>{title}</p>
         <div className={styles.creditBox}>

@@ -1,0 +1,58 @@
+import { style } from '@vanilla-extract/css';
+import { fontStyle } from '@/shared/styles/fontStyle';
+import { colorVars } from '@/shared/styles/tokens/color.css';
+
+export const container = style({
+  position: 'fixed',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  zIndex: 999,
+  display: 'flex',
+  flexDirection: 'column',
+  width: '27.2rem',
+  borderRadius: '20px',
+  background: colorVars.color.gray000,
+});
+
+export const info = style({
+  display: 'flex',
+  flexDirection: 'column',
+  padding: '3.2rem 0',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: '1.2rem',
+  whiteSpace: 'pre-line',
+  textAlign: 'center',
+});
+
+export const title = style({
+  ...fontStyle('heading_sb_18'),
+  color: colorVars.color.gray900,
+});
+
+export const detail = style({
+  ...fontStyle('body_r_14'),
+  color: colorVars.color.gray700,
+});
+
+export const buttonBox = style({
+  display: 'flex',
+  borderTop: `1px solid ${colorVars.color.gray200}`,
+  textAlign: 'center',
+});
+
+export const exit = style({
+  flexGrow: 1,
+  padding: '10px 0',
+  ...fontStyle('body_r_14'),
+  color: colorVars.color.gray700,
+  borderRight: `1px solid ${colorVars.color.gray200}`,
+});
+
+export const cancel = style({
+  flexGrow: 1,
+  padding: '10px 0',
+  ...fontStyle('title_sb_16'),
+  color: colorVars.color.primary,
+});

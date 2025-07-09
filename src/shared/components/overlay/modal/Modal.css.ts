@@ -16,6 +16,7 @@ export const container = style({
   alignItems: 'center',
   gap: '3.2rem',
   borderRadius: '2rem',
+  border: 0,
 });
 
 export const info = style({
