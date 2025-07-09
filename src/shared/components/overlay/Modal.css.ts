@@ -11,7 +11,7 @@ export const container = style({
   flexDirection: 'column',
   width: '30rem',
   height: '42.6rem',
-  padding: '3.22rem 0 1.6rem 0',
+  padding: '3.2rem 0 1.6rem 0',
   justifyContent: 'center',
   alignItems: 'center',
   gap: '3.2rem',
@@ -20,27 +20,28 @@ export const container = style({
 
 export const info = style({
   display: 'flex',
-  width: '24rem',
+  width: '25rem',
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
   gap: '1.6rem',
+  whiteSpace: 'pre-line', // 문자열에 개행(\n)이 있을 때만 줄바꿈함
 });
 
 export const title = style({
   textAlign: 'center',
   ...fontStyle('heading_sb_18'),
   color: colorVars.color.gray900,
-  wordBreak: 'keep-all', // 공백 또는 하이픈에서만 줄바꿈이 일어나도록 설정
+  // wordBreak: 'keep-all', // 공백 또는 하이픈에서만 줄바꿈이 일어나도록 설정
 });
 
 export const creditBox = style({
   display: 'flex',
+  width: '11.5rem',
   height: '3.6rem',
   padding: '0 1.6rem',
   alignItems: 'center',
-  justifyContent: 'center',
-  gap: '1.8rem',
+  justifyContent: 'space-between',
   borderRadius: '6px',
   background: colorVars.color.gray100,
 });
@@ -85,11 +86,13 @@ export const primaryText = style({
 
 export const exitButton = style({
   display: 'flex',
-  padding: '1.2rem 0',
+  width: '4.8rem',
+  height: '4.8rem',
   justifyContent: 'center',
   alignItems: 'center',
   textDecoration: 'underline',
   textDecorationColor: colorVars.color.gray500,
+  textUnderlineOffset: '0.2rem', // 텍스트와 underline 사이의 간격
 });
 
 export const exitButtonText = style({
