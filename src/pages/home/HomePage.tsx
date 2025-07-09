@@ -1,9 +1,10 @@
-import FilpButton from '@/shared/components/button/filpButton/filpButton';
+import ChargeButton from '@components/button/chargeButton/chargeButton';
 
 const HomePage = () => {
   return (
-    <div style={{ padding: '1rem' }}>
-      <FilpButton />
+    <div>
+      <h1>Home Page</h1>
+      <ChargeButton>충전하기</ChargeButton>
     </div>
   );
 };
