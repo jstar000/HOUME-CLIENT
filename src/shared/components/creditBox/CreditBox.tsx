@@ -1,4 +1,4 @@
-import ChargeButton from '../button/chargeButton/chargeBtn';
+import ChargeButton from '@components/button/chargeButton/chargeBtn';
 import * as styles from './CreditBox.css';
 
 interface CreditBoxProps {
