@@ -10,7 +10,7 @@ export const container = style({
   zIndex: 999,
   display: 'flex',
   flexDirection: 'column',
-  width: '27.2rem',
+  width: '30rem',
   borderRadius: '20px',
   background: colorVars.color.gray000,
 });
@@ -18,7 +18,7 @@ export const container = style({
 export const info = style({
   display: 'flex',
   flexDirection: 'column',
-  padding: '3.2rem 0',
+  padding: '3.2rem 1.4rem',
   justifyContent: 'center',
   alignItems: 'center',
   gap: '1.2rem',
@@ -43,7 +43,7 @@ export const buttonBox = style({
 });
 
 export const exit = style({
-  flexGrow: 1,
+  flex: 1,
   padding: '10px 0',
   ...fontStyle('body_r_14'),
   color: colorVars.color.gray700,
@@ -51,7 +51,7 @@ export const exit = style({
 });
 
 export const cancel = style({
-  flexGrow: 1,
+  flex: 1,
   padding: '10px 0',
   ...fontStyle('title_sb_16'),
   color: colorVars.color.primary,

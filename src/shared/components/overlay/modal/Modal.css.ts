@@ -4,8 +4,9 @@ import { colorVars } from '@/shared/styles/tokens/color.css';
 
 export const container = style({
   position: 'fixed',
-  inset: 0,
-  margin: 'auto',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
   zIndex: 999,
   display: 'flex',
   flexDirection: 'column',
