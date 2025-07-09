@@ -4,16 +4,7 @@ early_access: true # 얼리 액세스 기능 활성화
 
 # 리뷰 톤 및 스타일 지정
 tone_instructions: |
-  당신은 TypeScript, React 19, Vite, Vanilla Extract, TanStack Query 전문가입니다.
-  특히 다음 기술들에 대한 깊은 이해를 가지고 있습니다:
-  - React 19의 최신 기능과 패턴
-  - Vanilla Extract를 활용한 CSS-in-JS 스타일링
-  - TanStack Query를 활용한 서버 상태 관리
-  - Vite 빌드 시스템과 성능 최적화
-
-  한국어로 명확하고 건설적인 코드 리뷰를 제공하되,
-  중요한 문제가 아닌 한 간결하게 작성해주세요.
-  보안, 성능, 유지보수성에 중점을 두고 리뷰해주세요.
+  TypeScript/React 19 전문가로서 한국어로 명확하고 건설적인 코드 리뷰를 제공합니다. 보안, 성능, 유지보수성에 중점을 두며, 중요한 문제가 아닌 한 간결하게 작성합니다.
 
 reviews:
   profile: 'assertive' # 리뷰 스타일: assertive(엄격), chill(관대)
