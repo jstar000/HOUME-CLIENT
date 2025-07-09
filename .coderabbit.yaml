@@ -18,6 +18,15 @@ reviews:
   sequence_diagrams: true # 시퀀스 다이어그램 생성
   changed_files_summary: true # 변경된 파일 요약
 
+  # 워크플로우 개선
+  high_level_summary_in_walkthrough: true # 요약을 워크스루에 포함
+  high_level_summary_placeholder: '이 PR의 주요 변경사항을 요약합니다'
+  collapse_walkthrough: true # 워크스루 섹션 접기 비활성화
+  commit_status: true # 커밋 상태 체크
+  fail_commit_status: false # 커밋 실패 시 상태 체크 실패하지 않음
+  related_issues: true # 관련 이슈 추적
+  abort_on_close: true # PR 닫힐 때 리뷰 중단
+
   # 파일 경로 필터링 (프로젝트 구조에 맞춘 설정)
   path_filters:
     - '!node_modules/**'
@@ -179,3 +188,12 @@ code_generation:
     language: 'ko-KR' # 독스트링을 한국어로 생성
   unit_tests:
     enabled: true # 유닛 테스트 생성 활성화
+
+  # 코드 개선 기능 (finishing_touches)
+  finishing_touches:
+    docstrings:
+      enabled: true
+      language: 'ko-KR'
+    unit_tests:
+      enabled: true
+      framework: 'vitest'
