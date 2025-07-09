@@ -25,7 +25,7 @@ export const Default: Story = {
   },
 };
 
-export const OnlyTitle: Story = {
+export const withSentence: Story = {
   args: {
     title: '집 구조에 대해 알려주세요',
     content:
