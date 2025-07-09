@@ -32,21 +32,21 @@ type Story = StoryObj<typeof meta>;
 export const Success: Story = {
   args: {
     text: '작업이 성공적으로 완료되었습니다!',
-    type: TOAST_TYPE.Success,
+    type: TOAST_TYPE.SUCCESS,
   },
 };
 
 export const Warning: Story = {
   args: {
     text: '결제는 아직 준비 중인 기능이에요',
-    type: TOAST_TYPE.Warning,
+    type: TOAST_TYPE.WARNING,
   },
 };
 
 export const CustomMargin: Story = {
   args: {
     text: '하단 여백이 변경된 토스트 예시',
-    type: TOAST_TYPE.Warning,
+    type: TOAST_TYPE.WARNING,
   },
   parameters: {
     controls: { exclude: ['style'] },

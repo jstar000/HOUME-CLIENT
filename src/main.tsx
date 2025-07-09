@@ -1,9 +1,9 @@
 import { StrictMode } from 'react';
-import { ToastContainer } from 'react-toastify';
 import { createRoot } from 'react-dom/client';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { OverlayProvider } from 'overlay-kit';
+import { ToastContainer } from 'react-toastify';
 import { queryClient } from './shared/apis/queryClient.ts';
 import '@/shared/styles/global.css.ts';
 import App from './App.tsx';

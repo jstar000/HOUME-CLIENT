@@ -9,8 +9,8 @@ interface ToastProps {
 }
 
 const ICON_MAP: Record<ToastType, JSX.Element> = {
-  [TOAST_TYPE.Success]: <></>,
-  [TOAST_TYPE.Warning]: <WarningIcon />,
+  [TOAST_TYPE.SUCCESS]: <></>,
+  [TOAST_TYPE.WARNING]: <WarningIcon />,
 };
 
 const Toast = ({ text, type }: ToastProps) => {

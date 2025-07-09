@@ -1,6 +1,8 @@
+import type { ToastContainerProps } from 'react-toastify';
+
 export const TOAST_TYPE = {
-  Success: 'success',
-  Warning: 'warning',
+  SUCCESS: 'success',
+  WARNING: 'warning',
 } as const;
 
 export type ToastType = (typeof TOAST_TYPE)[keyof typeof TOAST_TYPE];
@@ -12,7 +14,7 @@ export const toastStyle = {
   justifyContent: 'center',
 };
 
-export const toastConfig = {
+export const toastConfig: ToastContainerProps = {
   position: 'bottom-center' as const,
   closeButton: false,
   autoClose: 2000,
