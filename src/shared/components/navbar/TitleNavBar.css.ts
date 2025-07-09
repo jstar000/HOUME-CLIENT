@@ -24,6 +24,10 @@ export const leftdiv = style({
   padding: '1.2rem',
 });
 
+export const backicon = style({
+  cursor: 'pointer',
+});
+
 export const rightdiv = style({
   display: 'flex',
   justifyContent: 'center',
