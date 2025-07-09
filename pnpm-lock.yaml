@@ -21,7 +21,7 @@ importers:
         version: 2.1.1
       framer-motion:
         specifier: ^12.23.0
-        version: 12.23.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        version: 12.23.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       lint-staged:
         specifier: ^16.1.2
         version: 16.1.2
@@ -2997,6 +2997,23 @@ packages:
       }
     engines: { node: '>= 6' }
 
+  framer-motion@12.23.1:
+    resolution:
+      {
+        integrity: sha512-7P1t2DnKEUXvPxVZJu9Hd4gfdoUF6z9U3w3/MUXCVFNHiFV+iSoboqeK4/ZCCpa49/ZiVEWfaaYCPscqPPsOVQ==,
+      }
+    peerDependencies:
+      '@emotion/is-prop-valid': '*'
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
+    peerDependenciesMeta:
+      '@emotion/is-prop-valid':
+        optional: true
+      react:
+        optional: true
+      react-dom:
+        optional: true
+
   fsevents@2.3.2:
     resolution:
       {
@@ -3860,6 +3877,18 @@ packages:
     resolution:
       {
         integrity: sha512-sEKPVl2rM+MNVkGQt3ChdmD8YsigmXdn5NifZn6jiwn9LRJpWm8F3guhaqrJT/JOat6pwpbXEk6kv+b9DMIjsQ==,
+      }
+
+  motion-dom@12.23.1:
+    resolution:
+      {
+        integrity: sha512-kcMDS8yhUZgO7iu3FB0UYZpHUymZlj4aoEqH0Vf0k3JtZA0xfYIrmbDlKn6X7+INXV3hDAIBUf4aT5jEUHvvWQ==,
+      }
+
+  motion-utils@12.23.1:
+    resolution:
+      {
+        integrity: sha512-coqLmHUTBA1KyBNEO64sTCWlduDV5Q6Yv0szjxnHVzZmcFYpVowyP6S38iOUlhocannaCCHlZ06lyLWQe/jheQ==,
       }
 
   mrmime@2.0.1:
@@ -7142,6 +7171,15 @@ snapshots:
       hasown: 2.0.2
       mime-types: 2.1.35
 
+  framer-motion@12.23.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+    dependencies:
+      motion-dom: 12.23.1
+      motion-utils: 12.23.1
+      tslib: 2.8.1
+    optionalDependencies:
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+
   fsevents@2.3.2:
     optional: true
 
@@ -7623,6 +7661,12 @@ snapshots:
       ufo: 1.6.1
 
   modern-ahocorasick@1.1.0: {}
+
+  motion-dom@12.23.1:
+    dependencies:
+      motion-utils: 12.23.1
+
+  motion-utils@12.23.1: {}
 
   mrmime@2.0.1: {}
 
