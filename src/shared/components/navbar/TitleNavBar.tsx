@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import BackIcon from '@shared/assets/icons/backIcon.svg?react';
 import * as styles from './TitleNavBar.css';
 
@@ -11,14 +12,25 @@ const TitleNavBar = ({
   title,
   isBackIcon = true,
   isLoginBtn = true,
-  ...props
 }: TitleNavBarProps) => {
+  const navigate = useNavigate();
+
   return (
-    <nav className={styles.container} {...props}>
-      <div className={styles.leftdiv}>{isBackIcon && <BackIcon />}</div>
+    <nav className={styles.container}>
+      <div className={styles.leftdiv}>
+        {isBackIcon && (
+          <BackIcon
+            onClick={() => navigate(-1)}
+            className={styles.backicon}
+            aria-label="뒤로가기"
+          />
+        )}
+      </div>
       <h1>{title}</h1>
       <div className={styles.rightdiv}>
-        {isLoginBtn && <button>로그인</button>}
+        {isLoginBtn && (
+          <button onClick={() => navigate('/login')}>로그인</button>
+        )}
       </div>
     </nav>
   );
