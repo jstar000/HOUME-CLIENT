@@ -26,29 +26,35 @@ axiosInstance.interceptors.response.use(
   async (error: AxiosError<BaseResponse<null>>) => {
     const originalRequest: any = error.config;
 
+    console.error('[axiosInstance] 응답 에러 발생:', error.response?.data);
+
+    // 에러 코드 40002가 액세스토큰 만료 코드라고 가정
     if (error?.response?.data?.code === 40002 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       try {
-        const refreshToken = localStorage.getItem('refreshToken');
-        if (!refreshToken) throw new Error('리프레시 토큰 없음');
-
-        const res = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}/auth/refresh`,
+        // 만료된 액세스토큰 빼고 리프레시 토큰 쿠키로 재발급 요청
+        const res = await axios.post(
+          `${import.meta.env.VITE_API_BASE_URL}/reissue`,
+          null,
           {
-            params: { refreshToken },
             withCredentials: true,
+            // Authorization 헤더 아예 제거해서 만료 토큰 보내지 X
+            headers: {},
           }
         );
 
-        const newAccessToken = res.data.accessToken;
+        const newAccessToken = res.headers['access-token'];
+        if (!newAccessToken) throw new Error('새 액세스 토큰이 없습니다.');
+
         console.log('[axiosInstance] 액세스 토큰 재발급 성공:', newAccessToken);
         localStorage.setItem('accessToken', newAccessToken);
 
+        // 새로운 액세스 토큰 넣어서 원래 요청 재시도
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return axiosInstance(originalRequest);
       } catch (refreshError) {
-        console.error('토큰 재발급 실패:', refreshError);
+        console.error('[axiosInstance] 토큰 재발급 실패:', refreshError);
         alert('세션이 만료되었습니다. 다시 로그인해주세요.');
         window.location.href = '/login';
         return Promise.reject(refreshError);
