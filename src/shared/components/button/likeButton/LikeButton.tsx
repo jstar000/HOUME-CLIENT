@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import LikeIcon from '@assets/icons/likeIcon.svg?react';
-import * as styles from './likeButton.css';
+import * as styles from './LikeButton.css';
 interface LikeButtonProps extends React.ComponentProps<'button'> {
   children: React.ReactNode;
 }
