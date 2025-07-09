@@ -1,10 +1,9 @@
-import ChargeButton from '@/shared/components/button/chargeButton/chargeBtn';
+import LikeButton from '@components/button/likeButton/LikeButton';
 
 const HomePage = () => {
   return (
-    <div>
-      <h1>Home Page</h1>
-      <ChargeButton>충전하기</ChargeButton>
+    <div style={{ padding: '2rem', background: '#BDBDBD' }}>
+      <LikeButton>이름</LikeButton>
     </div>
   );
 };
