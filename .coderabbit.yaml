@@ -38,6 +38,14 @@ reviews:
     - 함수 네이밍: get/create/check/handle/is/has/can 접두사 활용
     - API 함수는 HTTP메서드 + 명사 형식 (getUserList, postComment)
 
+    # 보안 및 성능
+    - 환경 변수는 반드시 import.meta.env 사용
+    - API 키나 시크릿을 하드코딩하지 않음
+    - React.memo, useMemo, useCallback의 적절한 사용
+    - 큰 번들 사이즈 경고 (dynamic import 제안)
+    - 템플릿 리터럴 사용 권장 (문자열 조합 시)
+    - 구조 분해 할당 적극 활용
+
   # 커밋 메시지 및 브랜치 패턴
   commit_patterns: |
     커밋 타입 확인:
@@ -55,7 +63,7 @@ reviews:
     - '!coverage/**'
     - '!*.lock'
     - '!pnpm-lock.yaml'
-    - '!.storybook/vitest.setup.ts'
+    - '.storybook/vitest.setup.ts'
     - 'src/**'
     - '.storybook/**/*.ts'
     - 'vite.config.ts'
@@ -139,29 +147,6 @@ reviews:
       - '[docs]'
       - '[skip-review]'
 
-  # 보안 및 성능 규칙
-  security_rules: |
-    - 환경 변수는 반드시 import.meta.env 사용
-    - API 키나 시크릿을 하드코딩하지 않음
-    - axios 인터셉터를 통한 토큰 관리 확인
-
-  performance_rules: |
-    - React.memo, useMemo, useCallback의 적절한 사용
-    - 큰 번들 사이즈 경고 (dynamic import 제안)
-    - Vanilla Extract의 정적 스타일 생성 활용
-
-  # 네이밍 규칙
-  naming_rules: |
-    - 이벤트 핸들러는 handle로 시작 (handleClick, handleSubmit)
-    - boolean 반환 함수는 is/has/can으로 시작 (isLoggedIn, hasPermission)
-    - 값을 가져오는 함수는 get으로 시작 (getUserData, getConfig)
-    - 새로운 값을 생성하는 함수는 create로 시작 (createUser, createToken)
-    - 검증/확인 함수는 check로 시작 (checkValidation, checkAuth)
-    - 전역 변수 사용 지양
-    - 줄임말 사용 금지, 명확한 네이밍 사용
-    - 템플릿 리터럴 사용 권장 (문자열 조합 시)
-    - 구조 분해 할당 적극 활용
-
   # TypeScript/React 환경에 최적화된 도구들 (실제 사용하는 것만)
   tools:
     eslint:
@@ -177,8 +162,6 @@ reviews:
       enabled: true # YAML 파일 검증
     actionlint:
       enabled: true # GitHub Actions 검증
-    prettier:
-      enabled: true # 코드 포맷팅 검증
 
 # 채팅 설정
 chat:
@@ -188,16 +171,6 @@ chat:
 knowledge_base:
   web_search:
     enabled: true # 웹 검색 기능 활성화
-
-  # 프로젝트 특화 정보
-  project_specific: |
-    - React 19 사용 중 (React import 불필요)
-    - PNPM 패키지 매니저 사용
-    - Node 22.x 환경
-    - Vitest + Playwright 테스트 환경
-    - Chromatic을 통한 시각적 회귀 테스트
-    - 도메인 중심 설계 (각 페이지가 독립적인 도메인)
-    - 절대 경로 사용 (@pages, @shared 등)
 
 # 코드 생성 설정
 code_generation:
