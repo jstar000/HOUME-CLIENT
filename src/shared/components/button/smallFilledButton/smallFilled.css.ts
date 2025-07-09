@@ -21,6 +21,7 @@ export const smallButtonVariants = styleVariants({
     ...fontStyle('caption_m_12'),
   },
   off: {
+    color: colorVars.color.gray800,
     backgroundColor: colorVars.color.gray000,
     border: `1px solid ${colorVars.color.primary_light2}`,
     ...fontStyle('caption_r_12'),
