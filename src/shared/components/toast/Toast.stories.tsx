@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { TOAST_TYPE } from '@/shared/types/toast';
 
 const meta = {
-  title: 'shared/components/Toast',
+  title: 'shared/components/toast/Toast',
   component: Toast,
   tags: ['autodocs'],
   argTypes: {
