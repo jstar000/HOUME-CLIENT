@@ -2,6 +2,13 @@ import { style } from '@vanilla-extract/css';
 import { fontStyle } from '@/shared/styles/fontStyle';
 import { colorVars } from '@/shared/styles/tokens/color.css';
 
+export const backdrop = style({
+  position: 'fixed',
+  inset: 0,
+  background: 'rgba(0, 0, 0, 0.08)',
+  zIndex: 998,
+});
+
 export const container = style({
   position: 'fixed',
   top: '50%',
@@ -13,6 +20,7 @@ export const container = style({
   width: '30rem',
   borderRadius: '20px',
   background: colorVars.color.gray000,
+  border: 0,
 });
 
 export const info = style({
