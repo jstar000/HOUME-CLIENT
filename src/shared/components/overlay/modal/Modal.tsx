@@ -1,4 +1,3 @@
-import { div } from 'framer-motion/client';
 import * as styles from './Modal.css.ts';
 
 export interface ModalProps {
