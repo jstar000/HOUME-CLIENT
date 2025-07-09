@@ -1,6 +1,5 @@
 import type { Preview } from '@storybook/react-vite';
-// import '@shared/styles/global.css'
-// TODO: 절대 경로 설정 완료 후 주석 해제 필요 (@shared 경로 별칭 설정)
+import '@shared/styles/global.css';
 
 const preview: Preview = {
   parameters: {
