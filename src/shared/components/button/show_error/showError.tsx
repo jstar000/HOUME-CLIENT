@@ -1,7 +1,11 @@
 import WarningIcon from '@assets/icons/icn_warning_red.svg?react';
 import * as styles from './ShowError.css';
 
-const ShowErrorMessage = ({ message }: { message: string }) => {
+interface ShowErrorMessageProps {
+  message: string;
+}
+
+const ShowErrorMessage = ({ message }: ShowErrorMessageProps) => {
   return (
     <div className={styles.messageWrapper}>
       <WarningIcon />
