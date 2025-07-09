@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import FlipButton from '@/shared/components/button/filpButton/filpButton';
+import FlipButton from '@/shared/components/button/filpButton/FlipButton';
 
 const meta: Meta<typeof FlipButton> = {
   title: 'Button/FlipButton',
