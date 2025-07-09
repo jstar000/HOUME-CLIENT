@@ -132,6 +132,8 @@ reviews:
       enabled: true # YAML 파일 검증
     actionlint:
       enabled: true # GitHub Actions 검증
+    prettier:
+      enabled: true # 코드 포맷팅 검증
 
 # 채팅 설정
 chat:
