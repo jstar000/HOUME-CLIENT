@@ -20,7 +20,6 @@ globalStyle('#root', {
 
 // HTML 요소 스타일
 globalStyle('html', {
-  fontSize: '62.5%', // 이미 reset.css.ts에 있지만 중요하므로 명시
   scrollbarWidth: 'none', // Firefox
   height: '100%',
 });
