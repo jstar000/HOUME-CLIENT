@@ -1,12 +1,15 @@
-import { toast } from 'react-toastify';
+import Warning from '@assets/icn_warning_toast.svg?react';
+import * as styles from './Toast.css';
 
-const Toast = () => {
-  const notify = () => toast('하우미 토스트 테스트');
+interface ToastProps {
+  text: string;
+}
+
+const Toast = ({ text }: ToastProps) => {
   return (
-    <div>
-      <button type="button" onClick={notify}>
-        Toast!
-      </button>
+    <div className={styles.container}>
+      <Warning />
+      <span className={styles.text}>{text}</span>
     </div>
   );
 };
