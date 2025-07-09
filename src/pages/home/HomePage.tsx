@@ -1,4 +1,4 @@
-import TextField from '@/shared/components/button/textField/TextField';
+import TextField from '@/shared/components/textField/TextField';
 
 const HomePage = () => {
   return (
