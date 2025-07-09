@@ -1,4 +1,4 @@
-import * as styles from './Modal.css.ts';
+import * as styles from './Modal.css';
 
 export interface ModalProps {
   isOpen: boolean;
