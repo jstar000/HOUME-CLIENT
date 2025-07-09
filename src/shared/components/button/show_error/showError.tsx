@@ -1,4 +1,4 @@
-import WarningIcon from '@assets/icons/icn_warning.svg?react';
+import WarningIcon from '@assets/icons/icn_warning_red.svg?react';
 import * as styles from './show_error.css';
 
 const ShowErrorMessage = ({ message }: { message: string }) => {

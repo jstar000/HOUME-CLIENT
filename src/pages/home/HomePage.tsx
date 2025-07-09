@@ -1,4 +1,4 @@
-import ShowErrorMessage from '@/shared/components/button/show_error/showError';
+import NoMatchButton from '@/shared/components/button/noMatchButton/noMatchButton';
 import { ERROR_MESSAGES } from '@/shared/constants/clientErrorMessage';
 
 const HomePage = () => {
@@ -7,9 +7,10 @@ const HomePage = () => {
       style={{
         padding: '3rem',
         display: 'flex',
+        backgroundColor: '#BDBDBD',
       }}
     >
-      <ShowErrorMessage message={ERROR_MESSAGES.APARTMENT_IMPOSSIBLE} />
+      <NoMatchButton message={ERROR_MESSAGES.NO_FLOORPLAN} />
     </div>
   );
 };
