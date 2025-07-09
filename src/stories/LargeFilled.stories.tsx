@@ -1,5 +1,5 @@
+import LargeFilled from '@components/button/largeFilledButton/LargeFilledButton';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import LargeFilled from '@/shared/components/button/largeFilledButton/largeFilled';
 
 const meta: Meta<typeof LargeFilled> = {
   title: 'Button/LargeFilled',

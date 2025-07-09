@@ -1,5 +1,5 @@
+import SmallFilled from '@components/button/smallFilledButton/SmallFilledButton';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import SmallFilled from '@/shared/components/button/smallFilledButton/smallFilled';
 
 const meta: Meta<typeof SmallFilled> = {
   title: 'Button/SmallFilled',
@@ -18,5 +18,7 @@ export default meta;
 type Story = StoryObj<typeof SmallFilled>;
 
 export const Default: Story = {
-  render: (args) => <SmallFilled {...args}>이름</SmallFilled>,
+  args: {
+    children: '이름',
+  },
 };
