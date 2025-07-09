@@ -149,6 +149,15 @@ reviews:
         - export const 사용 확인
         - 의미있는 이름 사용 여부 확인
 
+    - path: '.coderabbit.yaml'
+      instructions: |
+        CodeRabbit 설정 파일 리뷰 시:
+        - YAML 문법의 정확성 확인
+        - 스키마 호환성 검증 (지원되지 않는 필드 사용 여부)
+        - path_filters의 포함/제외 패턴 검토
+        - path_instructions의 중복 또는 누락 확인
+        - 프로젝트 구조와 설정의 일치성 검토
+
   auto_review:
     enabled: true # 자동 리뷰 활성화
     drafts: false # 드래프트 리뷰 사용 여부
