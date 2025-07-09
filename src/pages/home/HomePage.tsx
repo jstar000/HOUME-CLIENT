@@ -1,10 +1,9 @@
-import ChargeButton from '@/shared/components/button/chargeButton/chargeBtn';
+import SmallFilled from '@/shared/components/button/smallFilledButton/smallFilled';
 
 const HomePage = () => {
   return (
-    <div>
-      <h1>Home Page</h1>
-      <ChargeButton>충전하기</ChargeButton>
+    <div style={{ padding: '1rem' }}>
+      <SmallFilled>이름</SmallFilled>
     </div>
   );
 };
