@@ -1,4 +1,4 @@
-import LikeButton from '@components/button/likeButton/likeButton';
+import LikeButton from '@components/button/likeButton/LikeButton';
 
 const HomePage = () => {
   return (
