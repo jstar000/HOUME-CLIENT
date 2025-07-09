@@ -8,7 +8,7 @@ const meta: Meta<typeof FlipButton> = {
   parameters: {
     docs: {
       description: {
-        component: '충전 버튼 컴포넌트. 활성/비활성 상태를 보여줍니다.',
+        component: '좌우반전 버튼 컴포넌트. 클릭 전 후 상태를 보여줍니다.',
       },
     },
   },
