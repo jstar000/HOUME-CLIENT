@@ -3,9 +3,9 @@ import Horizontal from '@assets/icons/horizontal.svg?react';
 import clsx from 'clsx';
 import * as styles from './FlipButton.css';
 
-interface filpButtonProps extends React.ComponentProps<'button'> {}
+interface FilpButtonProps extends React.ComponentProps<'button'> {}
 
-const FilpButton = ({ ...props }: filpButtonProps) => {
+const FilpButton = ({ ...props }: FilpButtonProps) => {
   const [isClicked, setIsClicked] = useState(false);
 
   const handleClick = () => {
