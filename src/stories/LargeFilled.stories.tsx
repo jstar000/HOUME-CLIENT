@@ -27,7 +27,14 @@ export const Active: Story = {
 
 export const Disabled: Story = {
   args: {
-    children: '이름',
+    children: '버튼 이름',
     isActive: false,
+  },
+};
+
+export const Error: Story = {
+  args: {
+    children: '버튼 이름',
+    isError: true,
   },
 };
