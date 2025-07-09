@@ -1,10 +1,11 @@
 import { RouterProvider } from 'react-router-dom';
 import Toast from './shared/components/toast/Toast';
+import ToastTest from './shared/components/toast/ToastTest';
 import { router } from '@/routes/router';
 
 function App() {
   // return <RouterProvider router={router} />;
-  return <Toast />;
+  return <ToastTest />;
 }
 
 export default App;

@@ -13,7 +13,22 @@ createRoot(document.getElementById('root')!).render(
     <QueryClientProvider client={queryClient}>
       <OverlayProvider>
         <App />
-        <ToastContainer />
+        <ToastContainer
+          toastStyle={{
+            backgroundColor: 'transparent',
+            boxShadow: 'none',
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+          position="bottom-center"
+          closeButton={false}
+          autoClose={3000}
+          hideProgressBar={true}
+          newestOnTop={true}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />}
       </OverlayProvider>
     </QueryClientProvider>
