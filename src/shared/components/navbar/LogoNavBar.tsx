@@ -13,12 +13,14 @@ interface LogoNavBarProps extends React.ComponentProps<'nav'> {
 const LogoNavBar = ({ buttonType = null, ...props }: LogoNavBarProps) => {
   const navigate = useNavigate();
 
-  console.log('현재 버튼 타입:', buttonType);
-
   const handleRenderBtn = () => {
     switch (buttonType) {
       case 'login':
-        return <button onClick={() => navigate(ROUTES.LOGIN)}>로그인</button>;
+        return (
+          <button type="button" onClick={() => navigate(ROUTES.LOGIN)}>
+            로그인
+          </button>
+        );
       case 'profile':
         return (
           <button
@@ -26,7 +28,7 @@ const LogoNavBar = ({ buttonType = null, ...props }: LogoNavBarProps) => {
             onClick={() => navigate(ROUTES.MYPAGE)}
             className={styles.profileicon}
           >
-            <ProfileIcon className={styles.profileicon} />
+            <ProfileIcon />
           </button>
         );
       default:
