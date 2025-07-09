@@ -26,10 +26,18 @@ export const stepsWrapper = style({
   position: 'relative',
   zIndex: 1,
   height: '100%',
+  selectors: {
+    '&:focus-within': {
+      outline: `2px solid ${colorVars.color.primary}`,
+      outlineOffset: '2px',
+      borderRadius: '4px',
+    },
+  },
 });
 
 export const step = style({
-  width: '19.4rem',
+  width: '100%',
+  maxWidth: '19.4rem',
   height: '2rem',
   flexShrink: 0,
   display: 'flex',
@@ -42,5 +50,18 @@ export const icon = recipe({
     width: '100%',
     height: '100%',
     display: 'block',
+  },
+  variants: {
+    variant: {
+      active: {
+        opacity: 1,
+      },
+      inactive: {
+        opacity: 0.3,
+      },
+    },
+  },
+  defaultVariants: {
+    variant: 'inactive',
   },
 });
