@@ -21,7 +21,7 @@ reviews:
   # 워크플로우 개선
   high_level_summary_in_walkthrough: true # 요약을 워크스루에 포함
   high_level_summary_placeholder: '이 PR의 주요 변경사항을 요약합니다'
-  collapse_walkthrough: true # 워크스루 섹션 접기 비활성화
+  collapse_walkthrough: false # 워크스루 섹션 접기 비활성화
   commit_status: true # 커밋 상태 체크
   fail_commit_status: false # 커밋 실패 시 상태 체크 실패하지 않음
   related_issues: true # 관련 이슈 추적
@@ -165,6 +165,13 @@ reviews:
       - '[docs]'
       - '[skip-review]'
 
+  # 코드 개선 기능 (finishing_touches)
+  finishing_touches:
+    docstrings:
+      enabled: true
+    unit_tests:
+      enabled: true
+
   # TypeScript/React 환경에 최적화된 도구들 (실제 사용하는 것만)
   tools:
     eslint:
@@ -192,18 +199,6 @@ knowledge_base:
 
 # 코드 생성 설정
 code_generation:
-  enabled: true # 코드 생성 기능 활성화
   docstrings:
-    enabled: true
     language: 'ko-KR' # 독스트링을 한국어로 생성
-  unit_tests:
-    enabled: true # 유닛 테스트 생성 활성화
-
-  # 코드 개선 기능 (finishing_touches)
-  finishing_touches:
-    docstrings:
-      enabled: true
-      language: 'ko-KR'
-    unit_tests:
-      enabled: true
-      framework: 'vitest'
+  unit_tests: {} # 유닛 테스트 생성 (기본값 사용)
