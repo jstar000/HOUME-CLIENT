@@ -33,6 +33,7 @@ const ProgressBarKey = React.memo(({ currentStep }: ProgressBarKeyProps) => {
     <div
       className={styles.container}
       role="progressbar"
+      tabIndex={0}
       aria-valuemin={1}
       aria-valuemax={4}
       aria-valuenow={normalizedStep}
