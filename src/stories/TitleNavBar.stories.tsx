@@ -1,3 +1,4 @@
+import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import TitleNavBar from '@/shared/components/navbar/TitleNavBar';
 
@@ -5,14 +6,13 @@ const meta: Meta<typeof TitleNavBar> = {
   title: 'navbar/TitleNavBar',
   component: TitleNavBar,
   tags: ['autodocs'],
-  parameters: {
-    docs: {
-      description: {
-        component:
-          '상단 타이틀 바 컴포넌트입니다. 뒤로가기 버튼, 타이틀, 로그인 버튼의 표시 여부를 제어할 수 있습니다.',
-      },
-    },
-  },
+  decorators: [
+    (Story) => (
+      <MemoryRouter>
+        <Story />
+      </MemoryRouter>
+    ),
+  ],
 };
 
 export default meta;
