@@ -12,11 +12,14 @@ const KakaoCallback = () => {
 
     if (code) {
       axios
-        .get(`${baseUrl}/oauth/kakao/callback?code=${code}`)
+        .get(`${baseUrl}/oauth/kakao/callback?code=${code}`, {
+          withCredentials: true,
+        })
         .then((res) => {
           console.log('[KakaoCallback] 서버 응답:', res.data);
-          localStorage.setItem('accessToken', res.data.accessToken);
-          localStorage.setItem('refreshToken', res.data.refreshToken);
+          console.log('헤더', res.headers);
+          const accessToken = res.headers['access-token'];
+          localStorage.setItem('accessToken', accessToken);
           navigate('/');
         })
         .catch((error) => {
