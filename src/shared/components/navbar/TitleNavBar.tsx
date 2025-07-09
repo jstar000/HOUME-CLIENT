@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import BackIcon from '@shared/assets/icons/backIcon.svg?react';
 import * as styles from './TitleNavBar.css';
+import { ROUTES } from '@/routes/paths';
 
 interface TitleNavBarProps extends React.ComponentProps<'nav'> {
   title: string;
@@ -29,7 +30,7 @@ const TitleNavBar = ({
       <h1>{title}</h1>
       <div className={styles.rightdiv}>
         {isLoginBtn && (
-          <button onClick={() => navigate('/login')}>로그인</button>
+          <button onClick={() => navigate(ROUTES.LOGIN)}>로그인</button>
         )}
       </div>
     </nav>
