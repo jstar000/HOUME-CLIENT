@@ -9,7 +9,7 @@ export const largeFilled = recipe({
     padding: '1rem 2rem',
     alignItems: 'center',
     textAlign: 'center',
-    borderRadius: '0.8rem',
+    borderRadius: '8px',
     transition: 'all 0.2s ease-in-out',
     border: 'none',
     ...fontStyle('body_r_14'),

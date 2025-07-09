@@ -8,7 +8,7 @@ export const smallButtonBase = style({
   padding: '1rem 1.6rem',
   textAlign: 'center',
   alignItems: 'center',
-  borderRadius: '0.6rem',
+  borderRadius: '6px',
   transition: 'all 0.2s ease-in-out',
   flexShrink: 0,
 });
