@@ -7,28 +7,14 @@ import { OverlayProvider } from 'overlay-kit';
 import { queryClient } from './shared/apis/queryClient.ts';
 import '@/shared/styles/global.css.ts';
 import App from './App.tsx';
+import { toastConfig } from './shared/types/toast.ts';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <OverlayProvider>
         <App />
-        <ToastContainer
-          toastStyle={{
-            backgroundColor: 'transparent',
-            boxShadow: 'none',
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-          position="bottom-center"
-          closeButton={false}
-          autoClose={3000}
-          hideProgressBar={true}
-          newestOnTop={true}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
+        <ToastContainer {...toastConfig} />
         {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />}
       </OverlayProvider>
     </QueryClientProvider>

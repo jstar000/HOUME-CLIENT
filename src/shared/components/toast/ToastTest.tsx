@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 import Toast from './Toast';
-import { TOAST_TYPE } from '@/shared/types/toast';
+import { TOAST_TYPE, toastStyle } from '@/shared/types/toast';
 
 const ToastTest = () => {
   const notify = () => {
@@ -12,10 +12,8 @@ const ToastTest = () => {
       {
         ariaLabel: '경고 토스트',
         style: {
-          backgroundColor: 'transparent',
-          boxShadow: 'none',
-          display: 'flex',
-          justifyContent: 'center',
+          ...toastStyle,
+          marginBottom: '5rem',
         },
       }
     );
