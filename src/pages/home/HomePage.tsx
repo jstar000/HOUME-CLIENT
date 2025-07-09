@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import FlipSheet from '@/shared/components/bottomSheet/flipSheet/FlipSheet';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
+import NoMatchSheet from '@/shared/components/bottomSheet/noMatchSheet/NoMatchSheet';
 
 const HomePage = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -20,11 +20,12 @@ const HomePage = () => {
   return (
     <div>
       <CtaButton onClick={handleOpen}>시트 열기</CtaButton>
-      <FlipSheet
+      <NoMatchSheet
         onFlipClick={handleFlip}
         onChooseClick={handleChoose}
         isOpen={isSheetOpen}
         onClose={handleClose}
+        user="박소이"
       />
     </div>
   );
