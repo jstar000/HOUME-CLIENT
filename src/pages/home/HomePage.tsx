@@ -1,10 +1,16 @@
-import ChargeButton from '@/shared/components/button/chargeButton/chargeBtn';
+import CreditBox from '@/shared/components/creditBox/CreditBox';
 
 const HomePage = () => {
   return (
-    <div>
-      <h1>Home Page</h1>
-      <ChargeButton>충전하기</ChargeButton>
+    <div
+      style={{
+        padding: '3rem',
+        display: 'flex',
+        gap: '1rem',
+        backgroundColor: '#BDBDBD',
+      }}
+    >
+      <CreditBox credit={0} />
     </div>
   );
 };
