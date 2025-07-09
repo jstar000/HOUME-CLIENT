@@ -3,8 +3,8 @@ import Step1Icon from '@shared/assets/icons/Step1Icon.svg?react';
 import Step2Icon from '@shared/assets/icons/Step2Icon.svg?react';
 import Step3Icon from '@shared/assets/icons/Step3Icon.svg?react';
 import Step4Icon from '@shared/assets/icons/Step4Icon.svg?react';
-import * as styles from './progressBarKey.css';
-import type { ProgressBarKeyProps } from './progressBarKey.types';
+import * as styles from './ProgressBarKey.css';
+import type { ProgressBarKeyProps } from './ProgressBarKey.types';
 
 const ProgressBarKey = React.memo(({ currentStep }: ProgressBarKeyProps) => {
   const normalizedStep = Math.max(1, Math.min(4, currentStep));
