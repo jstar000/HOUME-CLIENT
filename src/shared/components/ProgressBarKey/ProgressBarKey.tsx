@@ -30,18 +30,8 @@ const ProgressBarKey = React.memo(({ currentStep }: ProgressBarKeyProps) => {
   };
 
   return (
-    <div
-      className={styles.container}
-      role="progressbar"
-      tabIndex={0}
-      aria-valuemin={1}
-      aria-valuemax={4}
-      aria-valuenow={normalizedStep}
-      aria-label={`진행 상황: ${normalizedStep}단계 (총 4단계)`}
-    >
-      <div className={styles.stepsWrapper}>
-        <div className={styles.step}>{renderIcon()}</div>
-      </div>
+    <div className={styles.stepsWrapper}>
+      <div className={styles.step}>{renderIcon()}</div>
     </div>
   );
 });

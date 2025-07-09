@@ -16,7 +16,6 @@ const meta: Meta<typeof ProgressBarKey> = {
 };
 
 export default meta;
-
 type Story = StoryObj<typeof meta>;
 
 export const Step1: Story = {
