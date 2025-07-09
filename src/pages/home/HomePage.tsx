@@ -1,4 +1,4 @@
-import ChargeButton from '@/shared/components/button/chargeButton/chargeBtn';
+import ChargeButton from '@/shared/components/button/chargeButton/ChargeButton';
 
 const HomePage = () => {
   return (
