@@ -1,4 +1,4 @@
-import { KAKAO_AUTH_URL } from '../apis/KakaoLogin';
+import { KAKAO_AUTH_URL } from '../constants/kakaoLogin';
 
 const KakaoButton = () => {
   const handleLogin = () => {
