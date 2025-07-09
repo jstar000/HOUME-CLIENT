@@ -8,18 +8,19 @@ const KakaoCallback = () => {
 
   useEffect(() => {
     const code = new URL(window.location.href).searchParams.get('code');
-
-    console.log('code:', code);
+    console.log('[KakaoCallback] 인가 코드:', code);
 
     if (code) {
       axios
         .get(`${baseUrl}/oauth/kakao/callback?code=${code}`)
         .then((res) => {
-          localStorage.setItem('token', res.data.token);
+          console.log('[KakaoCallback] 서버 응답:', res.data);
+          localStorage.setItem('accessToken', res.data.accessToken);
+          localStorage.setItem('refreshToken', res.data.refreshToken);
           navigate('/');
         })
         .catch((error) => {
-          console.log('error', error);
+          console.error('[KakaoCallback] 로그인 실패:', error);
           alert('로그인 실패');
         });
     }
