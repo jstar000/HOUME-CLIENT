@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import BackIcon from '@shared/assets/icons/backIcon.svg?react';
 import * as styles from './TitleNavBar.css';
 
-interface TitleNavBarProps extends React.ComponentProps<'button'> {
+interface TitleNavBarProps extends React.ComponentProps<'nav'> {
   title: string;
   isBackIcon?: boolean;
   isLoginBtn?: boolean;
