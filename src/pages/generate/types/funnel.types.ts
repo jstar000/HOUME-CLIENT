@@ -6,11 +6,11 @@ export const HOUSE_INFO_OPTIONS = {
     OFFICETEL: opt('OFFICETEL', '오피스텔'),
     VILLA: opt('VILLA', '빌라/오피스텔'),
     APARTMENT: opt('APARTMENT', '아파트'),
-    OTHER: opt('OTHER', '그 외'),
+    ETC: opt('ETC', '그 외'),
   },
   ROOM_TYPES: {
     OPEN_ONE_ROOM: opt('OPEN_ONE_ROOM', '오픈형 원룸'),
-    SEPARATE_ONE_ROOM: opt('SEPARATE_ONE_ROOM', '분리형 원룸'),
+    SEPARATED_ONE_ROOM: opt('SEPARATED_ONE_ROOM', '분리형 원룸'),
     DUPLEX: opt('DUPLEX', '복층형'),
     TWO_ROOM: opt('TWO_ROOM', '투룸'),
     THREE_ROOM_OVER: opt('THREE_ROOM_OVER', '쓰리룸+'),

@@ -1,6 +1,7 @@
 // Step 1
 import { useHouseInfoStep } from '../../hooks/useHouseInfoStep.hooks';
 import { HOUSE_INFO_OPTIONS } from '../../types/funnel.types';
+import * as styles from './HouseInfoStep.css';
 import type { ImgGenerateSteps } from '../../types/funnel.types';
 import LargeFilled from '@/shared/components/button/largeFilledButton/LargeFilledButton';
 
@@ -18,24 +19,69 @@ const HouseInfoStep = ({ context, onNext }: HouseInfoStepProps) => {
   const roomSizeOptions = Object.values(HOUSE_INFO_OPTIONS.AREA_TYPES);
 
   return (
-    <div>
-      <h2>집 정보 선택</h2>
+    <div className={styles.container}>
+      <div className={styles.wrapper}>
+        <span className={styles.title}>주거 형태</span>
+        <div className={styles.buttonBox}>
+          {houseTypeOptions.map((option) => (
+            <LargeFilled
+              key={option.value}
+              isActive={true}
+              isSelected={formData.houseType === option.value}
+              onClick={() =>
+                setFormData((prev) => ({
+                  ...prev,
+                  houseType: option.value,
+                }))
+              }
+            >
+              {option.label}
+            </LargeFilled>
+          ))}
+        </div>
+      </div>
 
-      <button
-        type="button"
-        onClick={() => handleSubmit(onNext)}
-        disabled={!isValid}
-        style={{
-          backgroundColor: isValid ? '#007bff' : '#ccc',
-          color: 'white',
-          padding: '10px 20px',
-          border: 'none',
-          borderRadius: '5px',
-          cursor: isValid ? 'pointer' : 'not-allowed',
-        }}
-      >
-        다음 단계
-      </button>
+      <div className={styles.wrapper}>
+        <span className={styles.title}>구조</span>
+        <div className={styles.buttonBox}>
+          {roomTypeOptions.map((option) => (
+            <LargeFilled
+              key={option.value}
+              isActive={true}
+              isSelected={formData.roomType === option.value}
+              onClick={() =>
+                setFormData((prev) => ({
+                  ...prev,
+                  roomType: option.value,
+                }))
+              }
+            >
+              {option.label}
+            </LargeFilled>
+          ))}
+        </div>
+      </div>
+
+      <div className={styles.wrapper}>
+        <span className={styles.title}>평형</span>
+        <div className={styles.buttonBox}>
+          {roomSizeOptions.map((option) => (
+            <LargeFilled
+              key={option.value}
+              isActive={true}
+              isSelected={formData.roomSize === option.value}
+              onClick={() =>
+                setFormData((prev) => ({
+                  ...prev,
+                  roomSize: option.value,
+                }))
+              }
+            >
+              {option.label}
+            </LargeFilled>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
