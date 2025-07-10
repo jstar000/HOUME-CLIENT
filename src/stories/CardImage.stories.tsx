@@ -5,7 +5,7 @@ const meta: Meta<typeof CardImage> = {
   title: 'Components/CardImage',
   component: CardImage,
   argTypes: {
-    number: {
+    selectOrder: {
       control: 'number',
       defaultValue: 1,
     },
@@ -25,7 +25,7 @@ type Story = StoryObj<typeof CardImage>;
 
 export const Default: Story = {
   args: {
-    number: 1,
+    selectOrder: 1,
     disabled: false,
     src: '/images/example.png',
   },
@@ -33,7 +33,7 @@ export const Default: Story = {
 
 export const Disabled: Story = {
   args: {
-    number: 1,
+    selectOrder: 1,
     disabled: true,
     src: '/images/example.png',
   },
