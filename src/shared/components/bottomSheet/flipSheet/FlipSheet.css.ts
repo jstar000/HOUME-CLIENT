@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { colorVars } from '@styles/tokens/color.css';
 import { fontStyle } from '@/shared/styles/fontStyle';
+import { zIndex } from '@/shared/styles/tokens/zIndex';
 
 export const backdrop = style({
   position: 'fixed',
@@ -9,7 +10,7 @@ export const backdrop = style({
   right: 0,
   bottom: 0,
   backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  zIndex: 0,
+  zIndex: zIndex.backdrop,
   opacity: 0,
   visibility: 'hidden',
 });
@@ -31,7 +32,7 @@ export const sheetWrapper = style({
   borderRadius: '30px 30px 0 0',
   willChange: 'transform',
   transition: 'transform 0.6s ease-in-out ',
-  zIndex: 1,
+  zIndex: zIndex.sheet,
   overflow: 'hidden',
 });
 
