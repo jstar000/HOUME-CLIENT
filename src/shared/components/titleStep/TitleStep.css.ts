@@ -12,9 +12,8 @@ export const wrapper = style({
 
 export const stepLabelBox = style({
   display: 'flex',
-  width: '5.6rem',
   height: '2.8rem',
-  padding: '1rem 1.6rem',
+  padding: '0 1.6rem',
   justifyContent: 'center',
   alignItems: 'center',
   borderRadius: '0.4rem',
@@ -25,6 +24,8 @@ export const stepLabel = style({
   ...fontStyle('caption_m_12'),
   color: colorVars.color.primary,
   whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
 });
 
 export const title = style({

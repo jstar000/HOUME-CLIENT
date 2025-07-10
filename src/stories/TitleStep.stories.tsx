@@ -12,9 +12,9 @@ const meta = {
     },
   },
   argTypes: {
-    stepLabel: {
-      description: '단계 텍스트 (예: "STEP 1")',
-      control: { type: 'text' },
+    stepNumber: {
+      description: '단계 숫자 (예: 1, 2, 3...)',
+      control: { type: 'number' },
     },
     title: {
       description: '제목 텍스트 (예: "내용 입력")',
@@ -29,7 +29,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    stepLabel: 'STEP 1',
+    stepNumber: 1,
     title: '제목',
   },
 };
