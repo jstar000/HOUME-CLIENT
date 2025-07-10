@@ -5,5 +5,5 @@ export const zIndex = {
   modal: 300,
   popup: 350,
   toast: 400,
-  sheet: 300,
+  sheet: 450,
 } as const;
