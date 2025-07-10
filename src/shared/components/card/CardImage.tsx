@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import example from '@assets/images/example.png';
 import * as styles from './CardImage.css.ts';
 
 interface CardImageProps extends React.ComponentProps<'div'> {
+  src: string;
   number?: number;
   disabled?: boolean;
 }
 
-const CardImage = ({ number, disabled = false }: CardImageProps) => {
+const CardImage = ({ src, number = 0, disabled = false }: CardImageProps) => {
   const [state, setState] = useState<'default' | 'pressed' | 'selected'>(
     'default'
   );
@@ -39,7 +39,7 @@ const CardImage = ({ number, disabled = false }: CardImageProps) => {
       onMouseUp={handleMouseUp}
     >
       <img
-        src={example}
+        src={src}
         className={disabled ? styles.disabledcardimg : styles.cardimg}
       />
       {visualState !== 'disabled' && (
