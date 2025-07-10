@@ -1,12 +1,13 @@
 import { style } from '@vanilla-extract/css';
 import { fontStyle } from '@/shared/styles/fontStyle';
 import { colorVars } from '@/shared/styles/tokens/color.css';
+import { zIndex } from '@/shared/styles/tokens/zIndex';
 
 export const backdrop = style({
   position: 'fixed',
   inset: 0,
   background: 'rgba(0, 0, 0, 0.08)',
-  zIndex: 998,
+  zIndex: zIndex.backdrop,
 });
 
 export const container = style({
@@ -14,7 +15,7 @@ export const container = style({
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  zIndex: 999,
+  zIndex: zIndex.popup,
   display: 'flex',
   flexDirection: 'column',
   width: '30rem',
