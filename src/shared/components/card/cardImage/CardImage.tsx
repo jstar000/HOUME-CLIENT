@@ -5,6 +5,7 @@ interface CardImageProps extends React.ComponentProps<'div'> {
   src: string;
   number?: number;
   disabled?: boolean;
+  stroke: boolean;
 }
 
 const CardImage = ({ src, number = 0, disabled = false }: CardImageProps) => {
@@ -41,9 +42,13 @@ const CardImage = ({ src, number = 0, disabled = false }: CardImageProps) => {
       <img
         src={src}
         className={disabled ? styles.disabledcardimg : styles.cardimg}
+        alt="카드 이미지"
       />
       {visualState !== 'disabled' && (
-        <button className={styles.checkbox({ state: visualState })}>
+        <button
+          type="button"
+          className={styles.checkbox({ state: visualState })}
+        >
           {visualState === 'selected' ? number : ''}
         </button>
       )}

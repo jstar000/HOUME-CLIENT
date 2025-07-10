@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import CardImage from '@/shared/components/card/CardImage';
+import CardImage from '@/shared/components/card/cardImage/CardImage';
 
 const meta: Meta<typeof CardImage> = {
   title: 'Components/CardImage',
