@@ -34,7 +34,7 @@ globalStyle('html', {
   fontSize: '62.5%',
   // 텍스트 크기 조정 방지 (모바일)
   WebkitTextSizeAdjust: '100%',
-});
+} as any);
 
 /* ===== Body 기본값 ===== */
 /**
@@ -111,7 +111,7 @@ globalStyle('img', {
   WebkitTapHighlightColor: 'transparent', // 탭 하이라이트 제거
   // 접근성을 위한 설정
   pointerEvents: 'auto', // 클릭/탭 이벤트는 허용
-});
+} as any);
 
 /* ===== 폼 요소 초기화 ===== */
 /**
@@ -126,7 +126,7 @@ globalStyle('button', {
   userSelect: 'none',
   // 모바일 탭 하이라이트 제거
   WebkitTapHighlightColor: 'transparent',
-});
+} as any);
 
 /**
  * 입력 요소들의 기본 스타일 제거
