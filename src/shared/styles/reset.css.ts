@@ -4,8 +4,14 @@ import { globalStyle } from '@vanilla-extract/css';
  * CSS Reset - vanilla-extract 버전
  * 브라우저 기본 스타일을 초기화하여 일관된 스타일링 기반을 제공합니다.
  *
- * 참고: Modern CSS Reset 기반으로 구성
- * https://piccalil.li/blog/a-modern-css-reset/
+ * Modern CSS Reset을 프로젝트 요구사항에 맞게 확장했습니다.
+ * 참고: https://piccalil.li/blog/a-modern-css-reset/
+ *
+ * 주요 변경점:
+ * - 추가적인 리셋 (모든 요소의 padding 제거)
+ * - rem 계산 편의를 위한 62.5% 폰트 크기
+ * - 모바일 최적화 속성 추가 (tap highlight, touch-action 등)
+ * - 폼 요소에 대한 더 완전한 리셋 (all: unset 사용)
  */
 
 /* ===== Box Model Reset ===== */
