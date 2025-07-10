@@ -1,15 +1,12 @@
 import * as styles from './Popup.css';
 
 interface PopupProps {
-  isOpen: boolean;
   onClose: () => void;
   title: string;
   detail: string;
 }
 
-const Popup = ({ isOpen, onClose, title, detail }: PopupProps) => {
-  if (!isOpen) return null;
-
+const Popup = ({ onClose, title, detail }: PopupProps) => {
   return (
     <div className={styles.backdrop} onClick={onClose}>
       <dialog

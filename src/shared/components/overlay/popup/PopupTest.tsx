@@ -3,9 +3,8 @@ import Popup from './Popup';
 
 const PopupTest = () => {
   const handleOpen = () => {
-    overlay.open(({ isOpen, unmount }) => (
+    overlay.open(({ unmount }) => (
       <Popup
-        isOpen={isOpen}
         onClose={unmount}
         title={`지금 나가면\n 무료 토큰 1개가 사라져요!`}
         detail={`조금만 더 입력하면 이미지를 받을 수 있어요.\n나가면 입력한 내용과 함께 토큰도 소진돼요.`}

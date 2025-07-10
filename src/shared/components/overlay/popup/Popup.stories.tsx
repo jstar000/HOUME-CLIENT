@@ -6,7 +6,6 @@ const meta = {
   component: Popup,
   tags: ['autodocs'],
   argTypes: {
-    isOpen: { control: 'boolean', description: '팝업 열림 상태' },
     title: { control: 'text', description: '팝업 제목 텍스트' },
     detail: { control: 'text', description: '팝업 상세 텍스트' },
     onClose: { action: 'closed', description: '팝업 닫기 콜백' },
@@ -27,7 +26,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    isOpen: true,
     onClose: () => {},
     title: '지금 나가면\n무료 토큰 1개가 사라져요!',
     detail:
@@ -37,7 +35,6 @@ export const Default: Story = {
 
 export const Closed: Story = {
   args: {
-    isOpen: false,
     onClose: () => {},
     title: '팝업이 닫힌 상태',
     detail: '',

@@ -1,14 +1,11 @@
 import * as styles from './Modal.css';
 
 export interface ModalProps {
-  isOpen: boolean;
   onClose: () => void;
   title: string;
 }
 
-const Modal = ({ isOpen, onClose, title }: ModalProps) => {
-  if (!isOpen) return null;
-
+const Modal = ({ onClose, title }: ModalProps) => {
   return (
     <div className={styles.backdrop} onClick={onClose}>
       <dialog
