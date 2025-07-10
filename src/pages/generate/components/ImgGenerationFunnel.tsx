@@ -35,13 +35,13 @@ export const ImageGenerationFunnel = () => {
             roomSize?: RoomSize;
             }
           */
-          const handleNext = (
-            data: Required<ImgGenerateSteps['HouseInfo']>
-          ) => {
-            dispatch('selectHouseInfo', data);
-          };
 
-          return <HouseInfoStep context={context} onNext={handleNext} />;
+          return (
+            <HouseInfoStep
+              context={context}
+              onNext={(data) => dispatch('selectHouseInfo', data)}
+            />
+          );
         },
       })}
       HouseStructure={funnel.Render.with({
@@ -54,13 +54,12 @@ export const ImageGenerationFunnel = () => {
           },
         },
         render({ dispatch, context }) {
-          const handleNext = (
-            data: Required<ImgGenerateSteps['HouseStructure']>
-          ) => {
-            dispatch('selectHouseStructure', data);
-          };
-
-          return <HouseStructureStep context={context} onNext={handleNext} />;
+          return (
+            <HouseStructureStep
+              context={context}
+              onNext={(data) => dispatch('selectHouseStructure', data)}
+            />
+          );
         },
       })}
       InteriorTaste={funnel.Render.with({
@@ -73,13 +72,12 @@ export const ImageGenerationFunnel = () => {
           },
         },
         render({ dispatch, context }) {
-          const handleNext = (
-            data: Required<ImgGenerateSteps['InteriorTaste']>
-          ) => {
-            dispatch('selectInteriorTaste', data);
-          };
-
-          return <InteriorTasteStep context={context} onNext={handleNext} />;
+          return (
+            <InteriorTasteStep
+              context={context}
+              onNext={(data) => dispatch('selectInteriorTaste', data)}
+            />
+          );
         },
       })}
       MainActivity={funnel.Render.with({
