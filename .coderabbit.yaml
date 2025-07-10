@@ -73,7 +73,8 @@ reviews:
     - path: 'src/**/*.css.ts'
       instructions: |
         Vanilla Extract 스타일 파일 리뷰 시:
-        - 디자인 토큰(colorVars, fontVars) 활용 확인
+        - 디자인 토큰 활용 확인: colorVars 직접 사용, fontStyle() 함수를 통한 폰트 토큰 변환
+        - fontStyle() 함수 사용법: ...fontStyle('토큰명') 형태로 스프레드 연산자와 함께 사용
         - recipe 패턴의 적절한 사용
         - 반응형 스타일 구현 방식
         - 불필요한 중복 스타일 제거
