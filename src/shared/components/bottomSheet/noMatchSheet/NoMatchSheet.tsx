@@ -11,6 +11,8 @@ interface NoMatchSheetProps {
 }
 
 const NoMatchSheet = ({ isOpen, onClose, user }: NoMatchSheetProps) => {
+  const displayName = user?.trim() || '사용자';
+
   return (
     <>
       <div
@@ -35,7 +37,7 @@ const NoMatchSheet = ({ isOpen, onClose, user }: NoMatchSheetProps) => {
             </span>
             <span className={styles.descriptionText}>
               아래 버튼을 통해 주소를 공유해주시면, <br />
-              {user}님의 스타일링을 위해 빠르게 반영해드릴게요!
+              {displayName}님의 스타일링을 위해 빠르게 반영해드릴게요!
             </span>
           </div>
           <div className={styles.fieldWrapper}>
