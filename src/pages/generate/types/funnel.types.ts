@@ -1,4 +1,4 @@
-// Step1
+// Step 1
 export const HOUSE_INFO_OPTIONS = {
   HOUSE_TYPE: {
     OFFICE: 'office',
@@ -21,7 +21,7 @@ export const HOUSE_INFO_OPTIONS = {
   },
 } as const;
 
-// Step2
+// Step 4
 export const MAIN_ACTIVITY_OPTIONS = {
   PRIMARY_USAGE: {
     RESTING: 'resting',
@@ -64,6 +64,15 @@ export type ClosetType =
   (typeof MAIN_ACTIVITY_OPTIONS.CLOSET_TYPE)[keyof typeof MAIN_ACTIVITY_OPTIONS.CLOSET_TYPE];
 export type OtherFurnitures =
   (typeof MAIN_ACTIVITY_OPTIONS.OTHER_FURNITURES)[keyof typeof MAIN_ACTIVITY_OPTIONS.OTHER_FURNITURES];
+
+// 각 단계별 완성된 데이터 타입
+// Required<>: 모든 속성을 필수로 만드는 TS utility type
+export type CompleteHouseInfo = Required<ImgGenerateSteps['HouseInfo']>;
+export type CompleteHouseStructure = Required<
+  ImgGenerateSteps['HouseStructure']
+>;
+export type CompleteInteriorTaste = Required<ImgGenerateSteps['InteriorTaste']>;
+export type CompleteMainActivity = Required<ImgGenerateSteps['MainActivity']>;
 
 // Funnel Step 정의
 export type ImgGenerateSteps = {
