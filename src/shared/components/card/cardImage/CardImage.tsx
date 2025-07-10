@@ -3,12 +3,16 @@ import * as styles from './CardImage.css.ts';
 
 interface CardImageProps extends React.ComponentProps<'div'> {
   src: string;
-  number?: number;
+  selectOrder?: number;
   disabled?: boolean;
   stroke: boolean;
 }
 
-const CardImage = ({ src, number = 0, disabled = false }: CardImageProps) => {
+const CardImage = ({
+  src,
+  selectOrder = 0,
+  disabled = false,
+}: CardImageProps) => {
   const [state, setState] = useState<'default' | 'pressed' | 'selected'>(
     'default'
   );
@@ -49,7 +53,7 @@ const CardImage = ({ src, number = 0, disabled = false }: CardImageProps) => {
           type="button"
           className={styles.checkbox({ state: visualState })}
         >
-          {visualState === 'selected' ? number : ''}
+          {visualState === 'selected' ? selectOrder : ''}
         </button>
       )}
     </div>
