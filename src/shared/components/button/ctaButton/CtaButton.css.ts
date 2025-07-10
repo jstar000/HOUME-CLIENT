@@ -7,6 +7,8 @@ export const CtaButton = recipe({
     display: 'flex',
     justifyContent: 'center',
     width: '100%',
+    minWidth: '23.5rem',
+    maxWidth: '33.5rem',
     height: '5.9rem',
     padding: '1.7rem 0',
     textAlign: 'center',
