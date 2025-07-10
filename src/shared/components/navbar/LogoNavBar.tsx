@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import LogoIcon from '@shared/assets/icons/logoIcon.svg?react';
 import ProfileIcon from '@shared/assets/icons/profileIcon.svg?react';
 import * as styles from './LogoNavBar.css';
+import * as btnStyles from './LoginNavBtn.css';
 import { ROUTES } from '@/routes/paths';
 
 type ButtonType = 'login' | 'profile' | null;
@@ -17,7 +18,11 @@ const LogoNavBar = ({ buttonType = null, ...props }: LogoNavBarProps) => {
     switch (buttonType) {
       case 'login':
         return (
-          <button type="button" onClick={() => navigate(ROUTES.LOGIN)}>
+          <button
+            type="button"
+            onClick={() => navigate(ROUTES.LOGIN)}
+            className={btnStyles.loginNav}
+          >
             로그인
           </button>
         );

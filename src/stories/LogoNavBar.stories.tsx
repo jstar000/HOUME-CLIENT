@@ -1,6 +1,6 @@
 import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import LogoNavBar from '@/shared/components/navbar/LogoNavBar';
+import LogoNavBar from '@/shared/components/navBar/LogoNavBar';
 
 const meta: Meta<typeof LogoNavBar> = {
   title: 'navbar/LogoNavBar',

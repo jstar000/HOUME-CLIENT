@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import BackIcon from '@shared/assets/icons/backIcon.svg?react';
 import * as styles from './TitleNavBar.css';
+import * as btnStyles from './LoginNavBtn.css';
 import { ROUTES } from '@/routes/paths';
 
 interface TitleNavBarProps extends React.ComponentProps<'nav'> {
@@ -13,11 +14,12 @@ const TitleNavBar = ({
   title,
   isBackIcon = true,
   isLoginBtn = true,
+  ...props
 }: TitleNavBarProps) => {
   const navigate = useNavigate();
 
   return (
-    <nav className={styles.container}>
+    <nav className={styles.container} {...props}>
       <div className={styles.leftdiv}>
         {isBackIcon && (
           <BackIcon
@@ -30,7 +32,11 @@ const TitleNavBar = ({
       <h1>{title}</h1>
       <div className={styles.rightdiv}>
         {isLoginBtn && (
-          <button type="button" onClick={() => navigate(ROUTES.LOGIN)}>
+          <button
+            type="button"
+            onClick={() => navigate(ROUTES.LOGIN)}
+            className={btnStyles.loginNav}
+          >
             로그인
           </button>
         )}

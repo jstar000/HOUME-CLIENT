@@ -21,12 +21,6 @@ export const leftdiv = style({
   height: '4.8rem',
 });
 
-export const logoicon = style({
-  width: '37.5rem',
-  height: '1.6rem',
-  cursor: 'pointer',
-});
-
 export const profileicon = style({
   width: '2.8rem',
   height: '2.8rem',
@@ -40,8 +34,4 @@ export const rightdiv = style({
   width: '4.8rem',
   height: '4.8rem',
   padding: '1.2rem 0',
-  textAlign: 'center',
-  color: colorVars.color.gray900,
-  textDecoration: 'underline',
-  textUnderlineOffset: '3px',
 });

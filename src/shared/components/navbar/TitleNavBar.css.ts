@@ -35,8 +35,4 @@ export const rightdiv = style({
   width: '4.8rem',
   height: '4.8rem',
   padding: '1.2rem 0',
-  textAlign: 'center',
-  color: colorVars.color.gray900,
-  textDecoration: 'underline',
-  textUnderlineOffset: '3px',
 });
