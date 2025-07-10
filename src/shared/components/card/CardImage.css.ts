@@ -40,7 +40,7 @@ export const cardcontainer = recipe({
         outline: 'none',
         selectors: {
           '&::after': {
-            backgroundColor: 'rgba(0, 0, 0, 0.30);',
+            backgroundColor: 'rgba(0, 0, 0, 0.30)',
           },
         },
       },
