@@ -1,3 +1,4 @@
+import LogoutButton from '../login/components/LogoutButton';
 import TokenRefreshTest from '../login/components/TokenRefreshTest';
 
 const HomePage = () => {
@@ -5,6 +6,7 @@ const HomePage = () => {
     <div>
       <h1>Home Page</h1>
       <TokenRefreshTest />
+      <LogoutButton />
     </div>
   );
 };
