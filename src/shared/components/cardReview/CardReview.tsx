@@ -1,4 +1,4 @@
-import * as styles from '@shared/components/cardReview/CardReview.css.ts';
+import * as styles from './CardReview.css';
 
 interface CardReviewProps {
   title: string;
