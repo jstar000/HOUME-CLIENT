@@ -25,7 +25,7 @@ const HomePage = () => {
         onChooseClick={handleChoose}
         isOpen={isSheetOpen}
         onClose={handleClose}
-        user="박소이"
+        user="김하우미"
       />
     </div>
   );
