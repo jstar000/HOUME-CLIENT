@@ -91,11 +91,26 @@ globalStyle('a', {
 /**
  * 이미지와 비디오가 컨테이너를 넘지 않도록 제한
  * 이미지 하단 여백 제거 (inline-block 특성)
+ * 모바일에서 이미지 드래그 및 선택 방지
  */
 globalStyle('img, picture, video, canvas, svg', {
   display: 'block',
   maxWidth: '100%',
   height: 'auto',
+});
+
+/**
+ * 이미지 드래그 및 선택 방지
+ * 모바일 앱과 같은 UX 제공을 위해 드래그 동작 비활성화
+ */
+globalStyle('img', {
+  WebkitUserDrag: 'none', // Webkit 브라우저 드래그 방지
+  userSelect: 'none', // 텍스트 선택 방지
+  // 추가적인 터치 동작 제어
+  WebkitTouchCallout: 'none', // iOS Safari 롱프레스 메뉴 방지
+  WebkitTapHighlightColor: 'transparent', // 탭 하이라이트 제거
+  // 접근성을 위한 설정
+  pointerEvents: 'auto', // 클릭/탭 이벤트는 허용
 });
 
 /* ===== 폼 요소 초기화 ===== */
