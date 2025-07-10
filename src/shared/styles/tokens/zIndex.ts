@@ -1,5 +1,5 @@
 export const zIndex = {
-  default: 1,
+  base: 1,
   navigation: 200,
   backdrop: 250,
   modal: 300,
