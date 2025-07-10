@@ -25,7 +25,7 @@ export const body = style({
   ...fontStyle('body_r_14'),
   color: colorVars.color.gray700,
   whiteSpace: 'pre-wrap',
-  wordBreak: 'break-word',
+  wordBreak: 'normal',
   alignSelf: 'stretch',
 });
 
