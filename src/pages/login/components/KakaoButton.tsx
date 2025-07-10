@@ -1,4 +1,5 @@
 import { KAKAO_AUTH_URL } from '../constants/kakaoLogin';
+import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 
 const KakaoButton = () => {
   const handleLogin = () => {
@@ -7,7 +8,9 @@ const KakaoButton = () => {
 
   return (
     <div>
-      <button onClick={handleLogin}>카카오 로그인</button>
+      <CtaButton typeVariant="kakao" onClick={handleLogin}>
+        카카오 로그인
+      </CtaButton>
     </div>
   );
 };
