@@ -15,7 +15,7 @@ import RootLayout from '@/layout/RootLayout';
 import ProtectedRoute from '@/routes/ProtectedRoute';
 import HomePage from '@/pages/home/HomePage';
 import LoginPage from '@/pages/login/LoginPage';
-import SignupPage from '@/pages/signup/SignupPage';
+import SignupPage from '@/pages/signup/Signup';
 import OnboardingPage from '@/pages/onboarding/OnboardingPage';
 import GeneratePage from '@/pages/generate/GeneratePage';
 import MyPage from '@/pages/mypage/MyPage';
