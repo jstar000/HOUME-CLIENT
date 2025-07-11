@@ -34,6 +34,7 @@ export const textField = recipe({
       error: {
         backgroundColor: colorVars.color.error_light,
         color: colorVars.color.error,
+        border: `1px solid ${colorVars.color.error}`,
       },
     },
     fieldSize: {
