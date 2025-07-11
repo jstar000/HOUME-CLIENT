@@ -1,7 +1,7 @@
 import LoadImageArea from '@assets/loadImgArea.svg?react';
 import TitleNavBar from '@/shared/components/navBar/TitleNavBar';
 
-const GeneratePage = () => {
+const LoadingPage = () => {
   return (
     <main>
       <TitleNavBar
@@ -33,4 +33,4 @@ const GeneratePage = () => {
   );
 };
 
-export default GeneratePage;
+export default LoadingPage;
