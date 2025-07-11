@@ -21,7 +21,7 @@ export const toastStyle = {
 export const toastConfig: ToastContainerProps = {
   position: 'bottom-center' as const,
   closeButton: false,
-  autoClose: 2000,
+  autoClose: 3000,
   hideProgressBar: true,
   newestOnTop: true,
   pauseOnFocusLoss: true,
