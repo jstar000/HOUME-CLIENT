@@ -32,6 +32,7 @@ export const largeFilled = recipe({
         backgroundColor: colorVars.color.error_light,
         color: colorVars.color.error,
         ...fontStyle('body_m_14'),
+        border: `1px solid ${colorVars.color.error}`,
       },
     },
     buttonSize: {
