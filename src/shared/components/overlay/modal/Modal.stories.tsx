@@ -5,7 +5,6 @@ const meta = {
   title: 'shared/components/overlay/Modal',
   component: Modal,
   argTypes: {
-    isOpen: { control: 'boolean' },
     title: { control: 'text' },
     onClose: { action: 'onClose' },
   },
@@ -26,23 +25,13 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    isOpen: true,
     title: '스타일링 이미지대로 가구를 추천 받으려면 크레딧이 필요해요',
-    onClose: () => {},
-  },
-};
-
-export const Closed: Story = {
-  args: {
-    isOpen: false,
-    title: '모달이 닫혀 있는 경우',
     onClose: () => {},
   },
 };
 
 export const Interactive: Story = {
   args: {
-    isOpen: true,
     title: 'Interactive Modal',
     onClose: () => {},
   },
