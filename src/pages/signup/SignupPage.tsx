@@ -16,8 +16,16 @@ const SignupPage = () => {
     null
   );
 
-  const nameRegex = /^[\p{Script=Hangul}a-zA-Z]+$/u;
-  const isNameValid = nameRegex.test(name);
+  const nameRegex = /^[\p{Script=Hangul}]+$/u;
+  const isNameValid = nameRegex.test(name) && name.length >= 2;
+  const isNameFormatInvalid = name !== '' && !nameRegex.test(name);
+  const isNameLengthInvalid =
+    name !== '' && nameRegex.test(name) && name.length < 2;
+
+  const handleNameChange = (input: string) => {
+    const onlyKorean = input.replace(/[^\p{Script=Hangul}]/gu, '');
+    setName(onlyKorean);
+  };
 
   // 숫자 여부 확인
   const isYearNumeric = /^\d{4}$/.test(birthYear);
@@ -103,12 +111,16 @@ const SignupPage = () => {
           <TextField
             fieldSize="large"
             placeholder="이름을 입력해주세요."
+            maxLength={25}
             value={name}
-            onChange={setName}
-            isError={name !== '' && !isNameValid}
+            onChange={handleNameChange}
+            isError={isNameFormatInvalid || isNameLengthInvalid}
           />
-          {!isNameValid && name !== '' && (
+          {isNameFormatInvalid && (
             <ShowErrorMessage message={ERROR_MESSAGES.NAME_INVALID} />
+          )}
+          {!isNameFormatInvalid && isNameLengthInvalid && (
+            <ShowErrorMessage message={ERROR_MESSAGES.LENGTH_INVALID} />
           )}
         </div>
 
