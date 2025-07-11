@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Caption } from '@/shared/components/text/Caption';
+import Caption from '@/shared/components/text/Caption';
 
 const meta = {
   title: 'Common/Text/Caption',
