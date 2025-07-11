@@ -13,7 +13,7 @@ export const container = style({
 });
 
 export const title = style({
-  width: '100%',
+  width: '33.5rem',
   ...fontStyle('heading_sb_20'),
   color: colorVars.color.gray900,
 });
@@ -21,8 +21,10 @@ export const title = style({
 export const fieldbox = style({
   display: 'flex',
   flexDirection: 'column',
-  width: '100%',
+  width: '33.5rem',
   gap: '1.2rem',
+  justifyContent: 'center',
+  alignItems: 'center',
 });
 
 export const fieldtitle = style({
@@ -33,8 +35,10 @@ export const fieldtitle = style({
 
 export const flexbox = style({
   display: 'flex',
-  flexDirection: 'row',
+  width: '100%',
   gap: '0.7rem',
+  justifyContent: 'center',
+  alignItems: 'center',
 });
 
 export const btnarea = style({
