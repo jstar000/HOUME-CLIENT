@@ -1,17 +1,19 @@
 import { useState } from 'react';
-import LikeIconGray from '@assets/icons/likeGray.svg?react';
-import LikeIconColor from '@assets/icons/likeColor.svg?react';
+import React from 'react';
+import DislikeIconGray from '@assets/icons/dislikeGray.svg?react';
+import DislikeIconColor from '@assets/icons/dislikeColor.svg?react';
 import * as styles from './LikeButton.css';
-interface LikeButtonProps extends React.ComponentProps<'button'> {
+
+interface DislikeButtonProps extends React.ComponentProps<'button'> {
   children: React.ReactNode;
   size?: 'small' | 'large';
 }
 
-const LikeButton = ({
+const DislikeButton = ({
   children,
   size = 'small',
   ...props
-}: LikeButtonProps) => {
+}: DislikeButtonProps) => {
   const [isSelected, setIsSelected] = useState(false);
 
   const handleClick = () => {
@@ -28,10 +30,10 @@ const LikeButton = ({
       })}
       {...props}
     >
-      {isSelected ? <LikeIconColor /> : <LikeIconGray />}
+      {isSelected ? <DislikeIconColor /> : <DislikeIconGray />}
       {children}
     </button>
   );
 };
 
-export default LikeButton;
+export default DislikeButton;
