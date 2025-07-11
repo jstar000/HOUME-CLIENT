@@ -28,9 +28,14 @@ const SignupPage = () => {
   const monthNum = parseInt(birthMonth, 10);
   const dayNum = parseInt(birthDay, 10);
 
-  // 연령 유효성 검사 (만 14세 이상)
-  const isAgeValid = (() => {
-    if (!isYearNumeric || birthYear.length !== 4) return false;
+  // 연도 형식 에러
+  const yearFormatError =
+    birthYear !== '' && (birthYear.length !== 4 || !isYearNumeric);
+
+  // 만 14세 이상 체크 (형식 문제 없을 때만)
+  const yearAgeError = (() => {
+    if (birthYear === '' || yearFormatError) return false;
+
     const today = new Date();
     const age =
       today.getFullYear() -
@@ -39,24 +44,19 @@ const SignupPage = () => {
       (today.getMonth() + 1 === monthNum && today.getDate() < dayNum)
         ? 1
         : 0);
-    return age > 14;
+    return age < 15;
   })();
 
-  // 연도 에러
-  const yearFieldError =
-    birthYear !== '' &&
-    (birthYear.length !== 4 || !isYearNumeric || !isAgeValid);
-
-  // 월 에러는 '1~12 범위를 벗어난 경우'만 체크
+  // 월 에러: 형식이 아니거나 범위 벗어남 (단, '00'은 허용)
   const monthFieldError = (() => {
     if (birthMonth === '') return false;
     if (!/^\d{2}$/.test(birthMonth)) return true;
-
     const month = parseInt(birthMonth, 10);
+    if (month === 0) return false; // 예외 처리
     return month < 1 || month > 12;
   })();
 
-  // 일 에러는 날짜 조합이 실제 존재하지 않을 때만 체크
+  // 일 에러: 날짜 조합이 실제 존재하지 않을 때
   const dayFieldError = (() => {
     if (birthDay === '') return false;
     if (!/^\d{2}$/.test(birthDay)) return true;
@@ -76,7 +76,8 @@ const SignupPage = () => {
 
   const isFormValid =
     isNameValid &&
-    !yearFieldError &&
+    !yearFormatError &&
+    !yearAgeError &&
     !monthFieldError &&
     !dayFieldError &&
     gender !== null;
@@ -113,7 +114,7 @@ const SignupPage = () => {
               maxLength={4}
               value={birthYear}
               onChange={setBirthYear}
-              isError={birthYear !== '' && yearFieldError}
+              isError={birthYear !== '' && (yearFormatError || yearAgeError)}
             />
             <TextField
               fieldSize="small"
@@ -133,16 +134,22 @@ const SignupPage = () => {
             />
           </div>
 
-          {/* 단 하나의 에러만 보여줌: 연도 → 월 → 일 우선순위 */}
-          {yearFieldError && (
+          {/* 단 하나의 에러 메시지만 출력 */}
+          {yearAgeError && (
             <ShowErrorMessage message={ERROR_MESSAGES.AGE_INVALID} />
           )}
-          {!yearFieldError && monthFieldError && (
+          {!yearAgeError && yearFormatError && (
             <ShowErrorMessage message={ERROR_MESSAGES.BIRTH_INVALID} />
           )}
-          {!yearFieldError && !monthFieldError && dayFieldError && (
+          {!yearAgeError && !yearFormatError && monthFieldError && (
             <ShowErrorMessage message={ERROR_MESSAGES.BIRTH_INVALID} />
           )}
+          {!yearAgeError &&
+            !yearFormatError &&
+            !monthFieldError &&
+            dayFieldError && (
+              <ShowErrorMessage message={ERROR_MESSAGES.BIRTH_INVALID} />
+            )}
         </div>
 
         {/* 성별 */}
