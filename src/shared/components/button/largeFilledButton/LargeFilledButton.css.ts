@@ -32,7 +32,15 @@ export const largeFilled = recipe({
         backgroundColor: colorVars.color.error_light,
         color: colorVars.color.error,
         ...fontStyle('body_m_14'),
+        border: `1px solid ${colorVars.color.error}`,
       },
+    },
+    buttonSize: {
+      medium: {
+        width: '10.7rem',
+        textAlign: 'center',
+      },
+      large: {},
     },
     selected: {
       true: {
@@ -45,6 +53,7 @@ export const largeFilled = recipe({
   },
   defaultVariants: {
     state: 'active',
+    buttonSize: 'large',
     selected: false,
   },
 });

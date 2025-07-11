@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import * as styles from './TextField.css';
 
 interface TextFieldProps
@@ -25,21 +25,18 @@ const TextField = ({
   const isControlled = controlledValue !== undefined;
   const inputValue = isControlled ? controlledValue : value;
 
-  const handleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = e.target.value;
-      if (!isControlled) {
-        setValue(newValue);
-      }
-      onControlledChange?.(newValue);
-    },
-    [isControlled, onControlledChange]
-  );
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    if (!isControlled) {
+      setValue(newValue);
+    }
+    onControlledChange?.(newValue);
+  };
 
-  const handleFocus = useCallback(() => setIsFocused(true), []);
-  const handleBlur = useCallback(() => setIsFocused(false), []);
+  const handleFocus = () => setIsFocused(true);
+  const handleBlur = () => setIsFocused(false);
 
-  const isFilled = inputValue !== '' && !isFocused;
+  const isFilled = inputValue !== '' && !isFocused; // 값 입력, focus가 아닌 경우 true
 
   return (
     <input
@@ -49,7 +46,13 @@ const TextField = ({
       onFocus={handleFocus}
       onBlur={handleBlur}
       className={styles.textField({
-        state: isError ? 'error' : isFilled ? 'filled' : 'default',
+        state: isError
+          ? isFocused
+            ? 'errorFocused'
+            : 'error'
+          : isFilled
+            ? 'filled'
+            : 'default',
         fieldSize,
       })}
       maxLength={maxLength}
