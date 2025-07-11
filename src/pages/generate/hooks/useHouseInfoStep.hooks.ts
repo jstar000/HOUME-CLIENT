@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import type {
   CompleteHouseInfo,
-  ImgGenerateSteps,
+  ImageGenerateSteps,
 } from '../types/funnel.types';
 
 interface FormErrors {
@@ -10,7 +10,7 @@ interface FormErrors {
   roomSize?: string;
 }
 
-export const useHouseInfoStep = (context: ImgGenerateSteps['HouseInfo']) => {
+export const useHouseInfoStep = (context: ImageGenerateSteps['HouseInfo']) => {
   // 입력 필드 3개 값 저장
   const [formData, setFormData] = useState({
     houseType: context.houseType,

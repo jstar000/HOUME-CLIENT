@@ -1,14 +1,8 @@
-import { BrowserRouter, RouterProvider } from 'react-router-dom';
-import { ImageGenerationFunnel } from './pages/generate/components/ImageGenerationFunnel';
+import { RouterProvider } from 'react-router-dom';
 import { router } from '@/routes/router';
 
 function App() {
-  // return <RouterProvider router={router} />;
-  return (
-    <BrowserRouter>
-      <ImageGenerationFunnel />
-    </BrowserRouter>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

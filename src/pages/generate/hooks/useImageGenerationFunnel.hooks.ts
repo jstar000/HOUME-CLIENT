@@ -1,8 +1,8 @@
 import { useFunnel } from '@use-funnel/react-router';
-import type { ImgGenerateSteps } from '../types/funnel.types';
+import type { ImageGenerateSteps } from '../types/funnel.types';
 
 export const useImgGenerationFunnel = () => {
-  return useFunnel<ImgGenerateSteps>({
+  return useFunnel<ImageGenerateSteps>({
     id: 'image-generation-funnel',
     initial: {
       step: 'HouseInfo', // Step의 첫 단계

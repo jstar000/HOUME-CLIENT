@@ -1,9 +1,9 @@
 // Step 3
-import type { ImgGenerateSteps } from '../../types/funnel.types';
+import type { ImageGenerateSteps } from '../../types/funnel.types';
 
 interface InteriorTasteStepProps {
-  context: ImgGenerateSteps['InteriorTaste'];
-  onNext: (data: Required<ImgGenerateSteps['InteriorTaste']>) => void;
+  context: ImageGenerateSteps['InteriorTaste'];
+  onNext: (data: Required<ImageGenerateSteps['InteriorTaste']>) => void;
 }
 
 const InteriorTasteStep = ({ context, onNext }: InteriorTasteStepProps) => {

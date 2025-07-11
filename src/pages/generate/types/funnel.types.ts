@@ -69,16 +69,18 @@ export type OtherFurnitures =
 
 // 각 단계별 완성된 데이터 타입
 // Required<>: 모든 속성을 필수로 만드는 TS utility type
-export type CompleteHouseInfo = Required<ImgGenerateSteps['HouseInfo']>;
+export type CompleteHouseInfo = Required<ImageGenerateSteps['HouseInfo']>;
 export type CompleteHouseStructure = Required<
-  ImgGenerateSteps['HouseStructure']
+  ImageGenerateSteps['HouseStructure']
 >;
-export type CompleteInteriorTaste = Required<ImgGenerateSteps['InteriorTaste']>;
+export type CompleteInteriorTaste = Required<
+  ImageGenerateSteps['InteriorTaste']
+>;
 // MainActivity(STEP4)의 '기타가구'는 필수 입력란이 아니므로 추후 수정 예정
-export type CompleteMainActivity = Required<ImgGenerateSteps['MainActivity']>;
+export type CompleteMainActivity = Required<ImageGenerateSteps['MainActivity']>;
 
 // Funnel Step 정의
-export type ImgGenerateSteps = {
+export type ImageGenerateSteps = {
   HouseInfo: {
     houseType?: HouseType;
     roomType?: RoomType;

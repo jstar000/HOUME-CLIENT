@@ -1,8 +1,8 @@
 // Step 4
-import type { ImgGenerateSteps } from '../../types/funnel.types';
+import type { ImageGenerateSteps } from '../../types/funnel.types';
 
 interface MainActivityStepProps {
-  context: ImgGenerateSteps['MainActivity'];
+  context: ImageGenerateSteps['MainActivity'];
 }
 
 const MainActivityStep = ({ context }: MainActivityStepProps) => {

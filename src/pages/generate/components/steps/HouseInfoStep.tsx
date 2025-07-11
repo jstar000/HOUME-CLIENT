@@ -5,15 +5,15 @@ import * as styles from './HouseInfoStep.css';
 import OptionGroup from './optionGroup/OptionGroup';
 import type {
   HouseType,
-  ImgGenerateSteps,
+  ImageGenerateSteps,
   RoomSize,
   RoomType,
 } from '../../types/funnel.types';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 
 interface HouseInfoStepProps {
-  context: ImgGenerateSteps['HouseInfo'];
-  onNext: (data: Required<ImgGenerateSteps['HouseInfo']>) => void;
+  context: ImageGenerateSteps['HouseInfo'];
+  onNext: (data: Required<ImageGenerateSteps['HouseInfo']>) => void;
 }
 
 const HouseInfoStep = ({ context, onNext }: HouseInfoStepProps) => {
