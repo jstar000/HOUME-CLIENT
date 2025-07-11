@@ -1,4 +1,4 @@
-import LoadImageArea from '@assets/loadImgArea.svg?react';
+import LoadingPage from './loading/LoadingPage';
 import TitleNavBar from '@/shared/components/navBar/TitleNavBar';
 
 const GeneratePage = () => {
@@ -9,7 +9,7 @@ const GeneratePage = () => {
         isBackIcon={true}
         isLoginBtn={false}
       />
-      <LoadImageArea />
+      <LoadingPage />
     </main>
   );
 };
