@@ -74,13 +74,21 @@ const SignupPage = () => {
     );
   })();
 
-  const isFormValid =
+  const allFieldsFilled =
+    name !== '' &&
+    birthYear !== '' &&
+    birthMonth !== '' &&
+    birthDay !== '' &&
+    gender !== null;
+
+  const noErrors =
     isNameValid &&
     !yearFormatError &&
     !yearAgeError &&
     !monthFieldError &&
-    !dayFieldError &&
-    gender !== null;
+    !dayFieldError;
+
+  const isFormValid = allFieldsFilled && noErrors;
 
   return (
     <div>
