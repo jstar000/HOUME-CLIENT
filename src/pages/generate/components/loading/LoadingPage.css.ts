@@ -8,8 +8,6 @@ export const wrapper = style({
   justifyContent: 'center',
   alignItems: 'center',
   padding: '1.6rem 2rem 2rem 2rem',
-  marginTop: '1.6rem',
-  backgroundColor: 'white',
 });
 
 export const infoSection = style({
@@ -29,6 +27,21 @@ export const progressBarBox = style({
   padding: '1.6rem 2rem 1.2rem 2rem',
   borderRadius: '12px',
   backgroundColor: colorVars.color.gray050,
+});
+
+// progress bar
+export const progressBack = style({
+  width: '26.5rem',
+  height: '0.4rem',
+  backgroundColor: colorVars.color.gray200,
+  borderRadius: '999px',
+  overflow: 'hidden',
+});
+
+export const progressBar = style({
+  height: '100%',
+  backgroundColor: colorVars.color.primary,
+  transition: 'width 0.2s linear',
 });
 
 export const loadText = style({

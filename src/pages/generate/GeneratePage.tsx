@@ -1,4 +1,4 @@
-import LoadingPage from './loading/LoadingPage';
+import LoadingPage from './components/loading/LoadingPage';
 import TitleNavBar from '@/shared/components/navBar/TitleNavBar';
 
 const GeneratePage = () => {
