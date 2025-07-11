@@ -55,6 +55,12 @@ const SignupPage = () => {
     return age < 15;
   })();
 
+  const handleNumericChange =
+    (setter: (val: string) => void) => (val: string) => {
+      const numeric = val.replace(/\D/g, '');
+      setter(numeric);
+    };
+
   // 월 에러: 형식이 아니거나 범위 벗어남 (단, '00'은 허용)
   const monthFieldError = (() => {
     if (birthMonth === '') return false;
@@ -133,24 +139,27 @@ const SignupPage = () => {
               placeholder="YYYY"
               maxLength={4}
               value={birthYear}
-              onChange={setBirthYear}
+              onChange={handleNumericChange(setBirthYear)}
               isError={birthYear !== '' && (yearFormatError || yearAgeError)}
+              inputMode="numeric"
             />
             <TextField
               fieldSize="small"
               placeholder="MM"
               maxLength={2}
               value={birthMonth}
-              onChange={setBirthMonth}
+              onChange={handleNumericChange(setBirthMonth)}
               isError={birthMonth !== '' && monthFieldError}
+              inputMode="numeric"
             />
             <TextField
               fieldSize="small"
               placeholder="DD"
               maxLength={2}
               value={birthDay}
-              onChange={setBirthDay}
+              onChange={handleNumericChange(setBirthDay)}
               isError={birthDay !== '' && dayFieldError}
+              inputMode="numeric"
             />
           </div>
 
