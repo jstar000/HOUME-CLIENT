@@ -5,7 +5,11 @@ export const TOAST_TYPE = {
   WARNING: 'warning',
 } as const;
 
-export type ToastType = (typeof TOAST_TYPE)[keyof typeof TOAST_TYPE];
+// 1) 키 타입: 'SUCCESS' | 'WARNING'
+export type ToastTypeKey = keyof typeof TOAST_TYPE;
+
+// 2) 값 타입: 'success' | 'warning'
+export type ToastType = (typeof TOAST_TYPE)[ToastTypeKey];
 
 export const toastStyle = {
   backgroundColor: 'transparent',
@@ -23,6 +27,7 @@ export const toastConfig: ToastContainerProps = {
   pauseOnFocusLoss: true,
   draggable: true,
   pauseOnHover: true,
+  limit: 1,
   toastStyle: {
     ...toastStyle,
   },
