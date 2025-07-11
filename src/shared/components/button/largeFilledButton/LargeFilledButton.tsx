@@ -11,7 +11,7 @@ interface LargeFilledProps extends React.ComponentProps<'button'> {
 const LargeFilled = ({
   children,
   isActive = true,
-  isError = true,
+  isError = false,
   buttonSize = 'large',
   isSelected = false,
   onClick,
