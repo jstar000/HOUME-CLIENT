@@ -1,5 +1,5 @@
 // Step 2
-import type { ImageGenerateSteps } from '../../types/funnel.types';
+import type { ImageGenerateSteps } from '../../types/funnel';
 
 interface HouseStructureStepProps {
   context: ImageGenerateSteps['HouseStructure'];

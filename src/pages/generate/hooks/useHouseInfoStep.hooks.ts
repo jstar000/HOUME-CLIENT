@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react';
-import type {
-  CompleteHouseInfo,
-  ImageGenerateSteps,
-} from '../types/funnel.types';
+import type { CompleteHouseInfo, ImageGenerateSteps } from '../types/funnel';
 
 interface FormErrors {
   houseType?: string;
