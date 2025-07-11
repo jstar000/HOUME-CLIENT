@@ -47,7 +47,7 @@ export const textField = recipe({
         textAlign: 'center',
       },
       large: {
-        width: '25.9rem',
+        width: '33.5rem',
       },
     },
   },
