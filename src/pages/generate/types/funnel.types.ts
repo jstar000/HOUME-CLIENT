@@ -74,6 +74,7 @@ export type CompleteHouseStructure = Required<
   ImgGenerateSteps['HouseStructure']
 >;
 export type CompleteInteriorTaste = Required<ImgGenerateSteps['InteriorTaste']>;
+// MainActivity(STEP4)의 '기타가구'는 필수 입력란이 아니므로 추후 수정 예정
 export type CompleteMainActivity = Required<ImgGenerateSteps['MainActivity']>;
 
 // Funnel Step 정의

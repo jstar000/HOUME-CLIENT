@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type {
   CompleteHouseInfo,
   ImgGenerateSteps,
@@ -11,14 +11,25 @@ interface FormErrors {
 }
 
 export const useHouseInfoStep = (context: ImgGenerateSteps['HouseInfo']) => {
+  // 입력 필드 3개 값 저장
   const [formData, setFormData] = useState({
     houseType: context.houseType,
     roomType: context.roomType,
     roomSize: context.roomSize,
   });
+  const [isValid, setIsValid] = useState(false); // 입력값 3개 모두 있는지 확인
 
+  // 입력 필드 3개 모두 선택하지 않을 시 다음단계 버튼 비활성화
+  useEffect(() => {
+    const valid =
+      !!formData.houseType && !!formData.roomType && !!formData.roomSize;
+    setIsValid(valid);
+  }, [formData]);
+
+  // 입력되지 않은 필드 저장
   const [errors, setErrors] = useState<FormErrors>({});
 
+  // 입력 필드 3개 validation 진행
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
@@ -37,6 +48,7 @@ export const useHouseInfoStep = (context: ImgGenerateSteps['HouseInfo']) => {
       onNext(formData as CompleteHouseInfo);
     } else {
       console.log('input not valid');
+      console.log(formData);
     }
   };
 
@@ -45,6 +57,7 @@ export const useHouseInfoStep = (context: ImgGenerateSteps['HouseInfo']) => {
     setFormData,
     errors,
     handleSubmit,
-    isValid: Object.keys(errors).length === 0,
+    isValid,
+    setIsValid,
   };
 };

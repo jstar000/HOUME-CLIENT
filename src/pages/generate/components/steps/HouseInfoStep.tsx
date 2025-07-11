@@ -2,8 +2,14 @@
 import { useHouseInfoStep } from '../../hooks/useHouseInfoStep.hooks';
 import { HOUSE_INFO_OPTIONS } from '../../types/funnel.types';
 import * as styles from './HouseInfoStep.css';
-import type { ImgGenerateSteps } from '../../types/funnel.types';
-import LargeFilled from '@/shared/components/button/largeFilledButton/LargeFilledButton';
+import OptionGroup from './optionGroup/OptionGroup';
+import type {
+  HouseType,
+  ImgGenerateSteps,
+  RoomSize,
+  RoomType,
+} from '../../types/funnel.types';
+import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 
 interface HouseInfoStepProps {
   context: ImgGenerateSteps['HouseInfo'];
@@ -20,67 +26,40 @@ const HouseInfoStep = ({ context, onNext }: HouseInfoStepProps) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.wrapper}>
-        <span className={styles.title}>주거 형태</span>
-        <div className={styles.buttonBox}>
-          {houseTypeOptions.map((option) => (
-            <LargeFilled
-              key={option.value}
-              isActive={true}
-              isSelected={formData.houseType === option.value}
-              onClick={() =>
-                setFormData((prev) => ({
-                  ...prev,
-                  houseType: option.value,
-                }))
-              }
-            >
-              {option.label}
-            </LargeFilled>
-          ))}
-        </div>
-      </div>
+      <OptionGroup
+        title="주거 형태"
+        options={houseTypeOptions}
+        selected={formData.houseType}
+        onButtonClick={(value) =>
+          setFormData((prev) => ({ ...prev, houseType: value as HouseType }))
+        }
+        error={errors.houseType}
+      />
 
-      <div className={styles.wrapper}>
-        <span className={styles.title}>구조</span>
-        <div className={styles.buttonBox}>
-          {roomTypeOptions.map((option) => (
-            <LargeFilled
-              key={option.value}
-              isActive={true}
-              isSelected={formData.roomType === option.value}
-              onClick={() =>
-                setFormData((prev) => ({
-                  ...prev,
-                  roomType: option.value,
-                }))
-              }
-            >
-              {option.label}
-            </LargeFilled>
-          ))}
-        </div>
-      </div>
+      <OptionGroup
+        title="구조"
+        options={roomTypeOptions}
+        selected={formData.roomType}
+        onButtonClick={(value) =>
+          setFormData((prev) => ({ ...prev, roomType: value as RoomType }))
+        }
+        error={errors.roomType}
+      />
 
-      <div className={styles.wrapper}>
-        <span className={styles.title}>평형</span>
-        <div className={styles.buttonBox}>
-          {roomSizeOptions.map((option) => (
-            <LargeFilled
-              key={option.value}
-              isActive={true}
-              isSelected={formData.roomSize === option.value}
-              onClick={() =>
-                setFormData((prev) => ({
-                  ...prev,
-                  roomSize: option.value,
-                }))
-              }
-            >
-              {option.label}
-            </LargeFilled>
-          ))}
-        </div>
+      <OptionGroup
+        title="평형"
+        options={roomSizeOptions}
+        selected={formData.roomSize}
+        onButtonClick={(value) =>
+          setFormData((prev) => ({ ...prev, roomSize: value as RoomSize }))
+        }
+        error={errors.roomSize}
+      />
+
+      <div>
+        <CtaButton isActive={isValid} onClick={() => handleSubmit(onNext)}>
+          집구조 선택하기
+        </CtaButton>
       </div>
     </div>
   );
