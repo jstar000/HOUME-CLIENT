@@ -97,7 +97,7 @@ globalStyle('body', {
   flexDirection: 'column',
 
   // 시각적 효과
-  backgroundColor: colorVars.color.gray050,
+  backgroundColor: colorVars.color.gray000,
   boxShadow: '0px 0px 30px 0px rgba(0, 0, 0, 0.25)', // 앱 영역 그림자
   scrollBehavior: 'smooth', // 부드러운 스크롤
   scrollbarWidth: 'none', // Firefox 스크롤바 숨김
