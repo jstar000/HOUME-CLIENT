@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import * as styles from './LargeFilledButton.css';
 
 interface LargeFilledProps extends React.ComponentProps<'button'> {
@@ -6,28 +5,25 @@ interface LargeFilledProps extends React.ComponentProps<'button'> {
   isActive?: boolean;
   isError?: boolean;
   buttonSize?: 'medium' | 'large';
+  isSelected?: boolean;
 }
 
 const LargeFilled = ({
   children,
   isActive = true,
-  isError,
+  isError = true,
   buttonSize = 'large',
+  isSelected = false,
+  onClick,
   ...props
 }: LargeFilledProps) => {
-  const [isSelected, setIsSelected] = useState(false);
-
-  const handleClick = () => {
-    setIsSelected((prev) => !prev);
-  };
-
   return (
     <button
       type="button"
-      onClick={handleClick}
+      onClick={onClick}
       className={styles.largeFilled({
         state: isError ? 'error' : isActive ? 'active' : 'disabled',
-        selected: isSelected ? true : false,
+        selected: isSelected,
         buttonSize,
       })}
       {...props}
