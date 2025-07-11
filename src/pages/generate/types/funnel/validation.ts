@@ -3,7 +3,7 @@ import type { HouseType, RoomType } from './options';
 export const HOUSE_INFO_VALIDATION = {
   restrictedValues: {
     houseType: ['APARTMENT', 'ETC'] as HouseType[],
-    roomType: ['DUPLEX', 'TWO_ROOM', 'THREE_ROOM_OVER'] as RoomType[],
+    roomType: ['TWO_ROOM', 'THREE_ROOM_OVER'] as RoomType[],
   },
   messages: {
     houseType:

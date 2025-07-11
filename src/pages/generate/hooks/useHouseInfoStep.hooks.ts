@@ -1,5 +1,9 @@
-import { useEffect, useState } from 'react';
-import type { CompleteHouseInfo, ImageGenerateSteps } from '../types/funnel';
+import { useMemo, useState } from 'react';
+import {
+  HOUSE_INFO_VALIDATION,
+  type CompleteHouseInfo,
+  type ImageGenerateSteps,
+} from '../types/funnel';
 
 interface FormErrors {
   houseType?: string;
@@ -8,44 +12,58 @@ interface FormErrors {
 }
 
 export const useHouseInfoStep = (context: ImageGenerateSteps['HouseInfo']) => {
-  // 입력 필드 3개 값 저장
   const [formData, setFormData] = useState({
     houseType: context.houseType,
     roomType: context.roomType,
     roomSize: context.roomSize,
   });
-  const [isValid, setIsValid] = useState(false); // 입력값 3개 모두 있는지 확인
-
-  // 입력 필드 3개 모두 선택하지 않을 시 다음단계 버튼 비활성화
-  useEffect(() => {
-    const valid =
-      !!formData.houseType && !!formData.roomType && !!formData.roomSize;
-    setIsValid(valid);
-  }, [formData]);
-
-  // 입력되지 않은 필드 저장
   const [errors, setErrors] = useState<FormErrors>({});
 
-  // 입력 필드 3개 validation 진행
-  const validateForm = (): boolean => {
+  // 입력값 3개 입력 여부 확인
+  const { areAllFieldsFilled } = useMemo(() => {
+    const areAllFieldsFilled = !!(
+      formData.houseType &&
+      formData.roomType &&
+      formData.roomSize
+    );
+
+    return {
+      areAllFieldsFilled,
+    };
+  }, [formData]);
+
+  // 제한된 값(아파트, 투룸 등)을 선택했는지 검증
+  const checkRestrictedValues = (): boolean => {
     const newErrors: FormErrors = {};
 
-    if (!formData.houseType) newErrors.houseType = '주거 형태를 선택해주세요';
-    if (!formData.roomType) newErrors.roomType = '방 구조를 선택해주세요';
-    if (!formData.roomSize) newErrors.roomSize = '평형을 선택해주세요';
+    if (areAllFieldsFilled) {
+      if (
+        formData.houseType &&
+        HOUSE_INFO_VALIDATION.restrictedValues.houseType.includes(
+          formData.houseType
+        )
+      ) {
+        newErrors.houseType = HOUSE_INFO_VALIDATION.messages.houseType;
+      }
+      if (
+        formData.roomType &&
+        HOUSE_INFO_VALIDATION.restrictedValues.roomType.includes(
+          formData.roomType
+        )
+      ) {
+        newErrors.roomType = HOUSE_INFO_VALIDATION.messages.roomType;
+      }
+    }
 
     setErrors(newErrors);
-
-    return Object.keys(newErrors).length === 0;
+    return Object.values(newErrors).length === 0;
   };
 
+  // areAllFieldsFilled == true일 때 버튼 enable -> handleSubmit 실행 가능
   const handleSubmit = (onNext: (data: CompleteHouseInfo) => void) => {
-    if (validateForm()) {
+    if (checkRestrictedValues()) {
       console.log('집 정보 입력 완료: ', formData);
       onNext(formData as CompleteHouseInfo);
-    } else {
-      console.log('input not valid');
-      console.log(formData);
     }
   };
 
@@ -54,7 +72,6 @@ export const useHouseInfoStep = (context: ImageGenerateSteps['HouseInfo']) => {
     setFormData,
     errors,
     handleSubmit,
-    isValid,
-    setIsValid,
+    areAllFieldsFilled,
   };
 };

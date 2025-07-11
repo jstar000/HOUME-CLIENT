@@ -17,7 +17,7 @@ interface HouseInfoStepProps {
 }
 
 const HouseInfoStep = ({ context, onNext }: HouseInfoStepProps) => {
-  const { formData, setFormData, errors, handleSubmit, isValid } =
+  const { formData, setFormData, errors, handleSubmit, areAllFieldsFilled } =
     useHouseInfoStep(context);
 
   const houseTypeOptions = Object.values(HOUSE_INFO_OPTIONS.HOUSING_TYPES);
@@ -57,7 +57,10 @@ const HouseInfoStep = ({ context, onNext }: HouseInfoStepProps) => {
       />
 
       <div>
-        <CtaButton isActive={isValid} onClick={() => handleSubmit(onNext)}>
+        <CtaButton
+          isActive={areAllFieldsFilled}
+          onClick={() => handleSubmit(onNext)}
+        >
           집구조 선택하기
         </CtaButton>
       </div>
