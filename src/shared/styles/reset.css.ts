@@ -32,8 +32,8 @@ globalStyle('*, *::before, *::after', {
  */
 globalStyle('html', {
   fontSize: '62.5%',
-  // 텍스트 크기 조정 방지 (모바일)
-  WebkitTextSizeAdjust: '100%',
+  // 텍스트 크기 조정 방지 (모바일) - 표준 CSS 사용
+  textSizeAdjust: '100%',
 });
 
 /* ===== Body 기본값 ===== */
@@ -100,17 +100,15 @@ globalStyle('img, picture, video, canvas, svg', {
 });
 
 /**
- * 이미지 드래그 및 선택 방지
- * 모바일 앱과 같은 UX 제공을 위해 드래그 동작 비활성화
+ * 이미지 사용자 상호작용 제어
+ * 모던 방식으로 이미지 선택 및 드래그 비활성화
  */
 globalStyle('img', {
-  WebkitUserDrag: 'none', // Webkit 브라우저 드래그 방지
   userSelect: 'none', // 텍스트 선택 방지
-  // 추가적인 터치 동작 제어
-  WebkitTouchCallout: 'none', // iOS Safari 롱프레스 메뉴 방지
-  WebkitTapHighlightColor: 'transparent', // 탭 하이라이트 제거
   // 접근성을 위한 설정
   pointerEvents: 'auto', // 클릭/탭 이벤트는 허용
+  // 드래그 비활성화는 CSS 대신 JavaScript로 처리 권장
+  // draggable="false" 속성을 HTML에서 사용하세요
 });
 
 /* ===== 폼 요소 초기화 ===== */
@@ -124,8 +122,8 @@ globalStyle('button', {
   boxSizing: 'border-box',
   // 텍스트 선택 방지
   userSelect: 'none',
-  // 모바일 탭 하이라이트 제거
-  WebkitTapHighlightColor: 'transparent',
+  // 모바일 터치 하이라이트는 outline: none으로 대체 가능
+  outline: 'none',
 });
 
 /**
