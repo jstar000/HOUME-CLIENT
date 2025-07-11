@@ -1,4 +1,5 @@
-import ProfileSection from './components/profileSection/ProfileSection';
+import ProfileSection from './components/profile/ProfileSection';
+import HistorySection from './components/history/HistorySection';
 import * as styles from './MyPage.css';
 import TitleNavBar from '@/shared/components/navBar/TitleNavBar';
 
@@ -18,7 +19,7 @@ const MyPage = () => {
         credit={credit}
         onChargeClick={handleChargeClick}
       />
-      {/* TODO: 이미지 히스토리, 추천, 계정설정 컴포넌트 추가 예정 */}
+      <HistorySection />
     </div>
   );
 };
