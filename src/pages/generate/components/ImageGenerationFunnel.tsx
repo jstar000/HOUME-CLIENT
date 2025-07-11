@@ -3,7 +3,7 @@ import HouseInfoStep from './steps/HouseInfoStep';
 import HouseStructureStep from './steps/HouseStructureStep';
 import InteriorTasteStep from './steps/InteriorTasteStep';
 import MainActivityStep from './steps/MainActivityStep';
-import type { ImageGenerateSteps } from '../types/funnel.types';
+import { type ImageGenerateSteps } from '../types/funnel';
 
 export const ImageGenerationFunnel = () => {
   const funnel = useImgGenerationFunnel();

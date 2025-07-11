@@ -1,14 +1,14 @@
 // Step 1
 import { useHouseInfoStep } from '../../hooks/useHouseInfoStep.hooks';
-import { HOUSE_INFO_OPTIONS } from '../../types/funnel.types';
 import * as styles from './HouseInfoStep.css';
 import OptionGroup from './optionGroup/OptionGroup';
-import type {
-  HouseType,
-  ImageGenerateSteps,
-  RoomSize,
-  RoomType,
-} from '../../types/funnel.types';
+import {
+  type HouseType,
+  type ImageGenerateSteps,
+  type RoomSize,
+  type RoomType,
+  HOUSE_INFO_OPTIONS,
+} from '../../types/funnel';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 
 interface HouseInfoStepProps {
