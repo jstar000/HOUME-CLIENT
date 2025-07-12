@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import {
   HOUSE_INFO_VALIDATION,
   type CompleteHouseInfo,
