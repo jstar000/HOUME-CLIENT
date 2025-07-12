@@ -20,17 +20,11 @@ export const useHouseInfoStep = (context: ImageGenerateSteps['HouseInfo']) => {
   const [errors, setErrors] = useState<FormErrors>({});
 
   // 입력값 3개 입력 여부 확인
-  const { areAllFieldsFilled } = useMemo(() => {
-    const areAllFieldsFilled = !!(
-      formData.houseType &&
-      formData.roomType &&
-      formData.roomSize
-    );
-
-    return {
-      areAllFieldsFilled,
-    };
-  }, [formData]);
+  const areAllFieldsFilled = !!(
+    formData.houseType &&
+    formData.roomType &&
+    formData.roomSize
+  );
 
   // 제한된 값(아파트, 투룸 등)을 선택했는지 검증
   const checkRestrictedValues = (): boolean => {
