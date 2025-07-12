@@ -50,6 +50,11 @@ export const MAIN_ACTIVITY_OPTIONS = {
 } as const;
 
 // HOUSE_INFO_OPTIONS 개별 타입 추출
+/*
+ex)
+HouseType = "OFFICETEL" | "VILLA" | "APARTMENT" | "ETC" (4개 리터럴 타입)
+houseType?: HouseType -> houseType은 HouseType | undefined
+*/
 export type HouseType =
   (typeof HOUSE_INFO_OPTIONS.HOUSING_TYPES)[keyof typeof HOUSE_INFO_OPTIONS.HOUSING_TYPES]['value'];
 export type RoomType =
