@@ -3,6 +3,7 @@ import { useHouseInfoStep } from '../../hooks/useHouseInfoStep.hooks';
 import * as styles from './HouseInfoStep.css';
 import OptionGroup from './optionGroup/OptionGroup';
 import {
+  type CompletedHouseInfo,
   type HouseType,
   type ImageGenerateSteps,
   type RoomSize,
@@ -13,7 +14,7 @@ import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 
 interface HouseInfoStepProps {
   context: ImageGenerateSteps['HouseInfo'];
-  onNext: (data: Required<ImageGenerateSteps['HouseInfo']>) => void;
+  onNext: (data: CompletedHouseInfo) => void;
 }
 
 const HouseInfoStep = ({ context, onNext }: HouseInfoStepProps) => {

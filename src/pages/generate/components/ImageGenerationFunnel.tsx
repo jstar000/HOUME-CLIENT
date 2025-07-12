@@ -3,7 +3,12 @@ import HouseInfoStep from './steps/HouseInfoStep';
 import HouseStructureStep from './steps/HouseStructureStep';
 import InteriorTasteStep from './steps/InteriorTasteStep';
 import MainActivityStep from './steps/MainActivityStep';
-import { type ImageGenerateSteps } from '../types/funnel';
+import {
+  type CompletedHouseInfo,
+  type CompletedHouseStructure,
+  type CompletedInteriorTaste,
+  type ImageGenerateSteps,
+} from '../types/funnel';
 
 export const ImageGenerationFunnel = () => {
   const funnel = useImgGenerationFunnel();
@@ -12,10 +17,7 @@ export const ImageGenerationFunnel = () => {
     <funnel.Render
       HouseInfo={funnel.Render.with({
         events: {
-          selectHouseInfo: (
-            data: Required<ImageGenerateSteps['HouseInfo']>,
-            { history }
-          ) => {
+          selectHouseInfo: (data: CompletedHouseInfo, { history }) => {
             history.push('HouseStructure', data);
           },
         },
@@ -31,7 +33,7 @@ export const ImageGenerationFunnel = () => {
       HouseStructure={funnel.Render.with({
         events: {
           selectHouseStructure: (
-            data: Required<ImageGenerateSteps['HouseStructure']>,
+            data: CompletedHouseStructure,
             { history }
           ) => {
             history.push('InteriorTaste', data);
@@ -48,10 +50,7 @@ export const ImageGenerationFunnel = () => {
       })}
       InteriorTaste={funnel.Render.with({
         events: {
-          selectInteriorTaste: (
-            data: Required<ImageGenerateSteps['InteriorTaste']>,
-            { history }
-          ) => {
+          selectInteriorTaste: (data: CompletedInteriorTaste, { history }) => {
             history.push('MainActivity', data);
           },
         },

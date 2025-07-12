@@ -1,9 +1,12 @@
 // Step 2
-import type { ImageGenerateSteps } from '../../types/funnel';
+import type {
+  CompletedHouseStructure,
+  ImageGenerateSteps,
+} from '../../types/funnel';
 
 interface HouseStructureStepProps {
   context: ImageGenerateSteps['HouseStructure'];
-  onNext: (data: Required<ImageGenerateSteps['HouseStructure']>) => void;
+  onNext: (data: CompletedHouseStructure) => void;
 }
 
 const HouseStructureStep = ({ context, onNext }: HouseStructureStepProps) => {

@@ -44,12 +44,14 @@ export type ImageGenerateSteps = {
 // ImageGenerateSteps와 직접적으로 연관된 타입들이며, 퍼널 단계와 관련된 모든 타입이 한 곳에 모이므로 응집성 높아짐,
 // 아래 타입들은 ImageGenerateSteps를 기반으로 생성되는 파생 타입이므로 의존성도 있음 -> steps 파일 하나에 모두 선언
 // Required<>: 모든 속성을 필수로 만드는 TS utility type
-export type CompleteHouseInfo = Required<ImageGenerateSteps['HouseInfo']>;
-export type CompleteHouseStructure = Required<
+export type CompletedHouseInfo = Required<ImageGenerateSteps['HouseInfo']>;
+export type CompletedHouseStructure = Required<
   ImageGenerateSteps['HouseStructure']
 >;
-export type CompleteInteriorTaste = Required<
+export type CompletedInteriorTaste = Required<
   ImageGenerateSteps['InteriorTaste']
 >;
 // MainActivity(STEP4)의 '기타가구'는 필수 입력란이 아니므로 추후 수정 예정
-export type CompleteMainActivity = Required<ImageGenerateSteps['MainActivity']>;
+export type CompletedMainActivity = Required<
+  ImageGenerateSteps['MainActivity']
+>;

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {
   HOUSE_INFO_VALIDATION,
-  type CompleteHouseInfo,
+  type CompletedHouseInfo,
   type ImageGenerateSteps,
 } from '../types/funnel';
 
@@ -54,10 +54,10 @@ export const useHouseInfoStep = (context: ImageGenerateSteps['HouseInfo']) => {
   };
 
   // areAllFieldsFilled == true일 때 버튼 enable -> handleSubmit 실행 가능
-  const handleSubmit = (onNext: (data: CompleteHouseInfo) => void) => {
+  const handleSubmit = (onNext: (data: CompletedHouseInfo) => void) => {
     if (checkRestrictedValues()) {
       console.log('집 정보 입력 완료: ', formData);
-      onNext(formData as CompleteHouseInfo);
+      onNext(formData as CompletedHouseInfo);
     }
   };
 
