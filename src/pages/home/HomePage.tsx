@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import FlipSheet from '@/shared/components/bottomSheet/flipSheet/FlipSheet';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
-import LargeFilled from '@/shared/components/button/largeFilledButton/LargeFilledButton';
 
 const HomePage = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -27,7 +26,6 @@ const HomePage = () => {
         isOpen={isSheetOpen}
         onClose={handleClose}
       />
-      <LargeFilled buttonSize={'medium'}>여성</LargeFilled>
     </div>
   );
 };
