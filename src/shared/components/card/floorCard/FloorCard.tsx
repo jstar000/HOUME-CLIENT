@@ -1,0 +1,15 @@
+import * as styles from './FloorCard.css.ts';
+
+interface FloorCardProps extends React.ComponentProps<'div'> {
+  src: string;
+}
+
+const FloorCard = ({ src }: FloorCardProps) => {
+  return (
+    <div className={styles.container}>
+      <img src={src} className={styles.floorimg} alt="카드 이미지" />
+    </div>
+  );
+};
+
+export default FloorCard;
