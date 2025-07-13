@@ -77,21 +77,7 @@ export const buttonBox = style({
   flexDirection: 'column',
   alignItems: 'center',
   gap: '0.4rem',
-});
-
-export const primaryButton = style({
-  display: 'flex',
   width: '18rem',
-  height: '5.2rem',
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderRadius: '999px',
-  background: colorVars.color.primary,
-});
-
-export const primaryText = style({
-  ...fontStyle('title_m_16'),
-  color: 'white',
 });
 
 export const exitButton = style({
