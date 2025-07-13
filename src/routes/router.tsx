@@ -42,6 +42,10 @@ const publicRoutes = [
     path: ROUTES.SIGNUP,
     element: <SignupPage />,
   },
+];
+
+// 보호된 라우트 그룹 (인증 필요)
+const protectedRoutes = [
   {
     path: '/generate',
     element: <GeneratePage />,
@@ -56,10 +60,6 @@ const publicRoutes = [
       },
     ],
   },
-];
-
-// 보호된 라우트 그룹 (인증 필요)
-const protectedRoutes = [
   {
     path: ROUTES.ONBOARDING,
     element: <ImageGenerationFunnel />,
