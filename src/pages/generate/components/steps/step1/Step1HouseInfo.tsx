@@ -1,7 +1,7 @@
 // Step 1
-import { useHouseInfoStep } from '../../hooks/useHouseInfoStep.hooks';
+import { useStep1HouseInfo } from '../../../hooks/useStep1HouseInfo.hooks';
 import * as styles from './Step1HouseInfo.css';
-import OptionGroup from './optionGroup/OptionGroup';
+import OptionGroup from '../optionGroup/OptionGroup';
 import {
   type CompletedHouseInfo,
   type HouseType,
@@ -9,8 +9,8 @@ import {
   type RoomSize,
   type RoomType,
   HOUSE_INFO_OPTIONS,
-} from '../../types/funnel';
-import FunnelHeader from '../header/FunnelHeader';
+} from '../../../types/funnel';
+import FunnelHeader from '../../header/FunnelHeader';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 
 interface Step1HouseInfoProps {
@@ -20,7 +20,7 @@ interface Step1HouseInfoProps {
 
 const Step1HouseInfo = ({ context, onNext }: Step1HouseInfoProps) => {
   const { formData, setFormData, errors, handleSubmit, areAllFieldsFilled } =
-    useHouseInfoStep(context);
+    useStep1HouseInfo(context);
 
   const houseTypeOptions = Object.values(HOUSE_INFO_OPTIONS.HOUSING_TYPES);
   const roomTypeOptions = Object.values(HOUSE_INFO_OPTIONS.ROOM_TYPES);

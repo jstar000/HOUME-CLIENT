@@ -1,4 +1,4 @@
-import * as styles from '../HouseInfoStep.css';
+import * as styles from '../step1/Step1HouseInfo.css';
 import ShowErrorMessage from '@/shared/components/button/showErrorButton/ShowErrorButton';
 import LargeFilled from '@/shared/components/button/largeFilledButton/LargeFilledButton';
 

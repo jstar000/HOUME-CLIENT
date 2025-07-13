@@ -1,5 +1,5 @@
 // Step 4
-import type { ImageGenerateSteps } from '../../types/funnel';
+import type { ImageGenerateSteps } from '../../../types/funnel';
 
 interface Step4MainActivityProps {
   context: ImageGenerateSteps['MainActivity'];

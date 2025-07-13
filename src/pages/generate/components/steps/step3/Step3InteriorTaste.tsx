@@ -1,15 +1,15 @@
-// Step 2
+// Step 3
 import type {
-  CompletedHouseStructure,
+  CompletedInteriorTaste,
   ImageGenerateSteps,
-} from '../../types/funnel';
+} from '../../../types/funnel';
 
-interface Step2HouseStructureProps {
-  context: ImageGenerateSteps['HouseStructure'];
-  onNext: (data: CompletedHouseStructure) => void;
+interface Step4InteriorTasteProps {
+  context: ImageGenerateSteps['InteriorTaste'];
+  onNext: (data: CompletedInteriorTaste) => void;
 }
 
-const Step2HouseStructure = ({ context, onNext }: Step2HouseStructureProps) => {
+const Step4InteriorTaste = ({ context, onNext }: Step4InteriorTasteProps) => {
   return (
     <div>
       {/* 테스트 코드 */}
@@ -22,6 +22,7 @@ const Step2HouseStructure = ({ context, onNext }: Step2HouseStructureProps) => {
             roomType: 'openOne',
             roomSize: 'sixToTen',
             selectedHouseStructure: [1, 2, 3],
+            selectedInteriorTaste: [1, 2, 3, 4],
           })
         }
       >
@@ -31,4 +32,4 @@ const Step2HouseStructure = ({ context, onNext }: Step2HouseStructureProps) => {
   );
 };
 
-export default Step2HouseStructure;
+export default Step4InteriorTaste;
