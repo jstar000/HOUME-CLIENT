@@ -25,7 +25,8 @@ export const getKakaoLogin = async (
 
   // AxiosInstance를 사용해서 서버에 요청
   const response = await axiosInstance.get<BaseResponse<KakaoLoginResponse>>(
-    `/oauth/kakao/callback?code=${code}`
+    '/oauth/kakao/callback',
+    { params: { code } }
   );
 
   console.log('[kakaoLogin] 응답 헤더:', response.headers);
