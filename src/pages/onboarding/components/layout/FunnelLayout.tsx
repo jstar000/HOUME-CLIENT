@@ -1,6 +1,10 @@
 import TitleNavBar from '@/shared/components/navBar/TitleNavBar';
 
-const FunnelLayout = ({ children }: { children: React.ReactNode }) => {
+interface FunnelLayoutProps {
+  children: React.ReactNode;
+}
+
+const FunnelLayout = ({ children }: FunnelLayoutProps) => {
   return (
     <div>
       <TitleNavBar
