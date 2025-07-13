@@ -5,12 +5,18 @@ import { colorVars } from '@/shared/styles/tokens/color.css';
 export const container = style({
   display: 'flex',
   flexDirection: 'column',
-  padding: '16px 20px',
   alignItems: 'center',
-  gap: '4rem',
+  width: '100%',
 });
 
 export const wrapper = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '4rem',
+  padding: '2rem',
+});
+
+export const selectBox = style({
   display: 'flex',
   flexDirection: 'column',
 });
