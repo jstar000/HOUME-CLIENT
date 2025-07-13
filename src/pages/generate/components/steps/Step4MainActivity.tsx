@@ -1,11 +1,11 @@
 // Step 4
 import type { ImageGenerateSteps } from '../../types/funnel';
 
-interface MainActivityStepProps {
+interface Step4MainActivityProps {
   context: ImageGenerateSteps['MainActivity'];
 }
 
-const MainActivityStep = ({ context }: MainActivityStepProps) => {
+const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
   const handleSubmit = () => {
     const final = { ...context };
     console.log('최종: ', final);
@@ -21,4 +21,4 @@ const MainActivityStep = ({ context }: MainActivityStepProps) => {
   );
 };
 
-export default MainActivityStep;
+export default Step4MainActivity;

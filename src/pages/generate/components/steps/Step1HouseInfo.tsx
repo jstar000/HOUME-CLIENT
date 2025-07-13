@@ -1,6 +1,6 @@
 // Step 1
 import { useHouseInfoStep } from '../../hooks/useHouseInfoStep.hooks';
-import * as styles from './HouseInfoStep.css';
+import * as styles from './Step1HouseInfo.css';
 import OptionGroup from './optionGroup/OptionGroup';
 import {
   type CompletedHouseInfo,
@@ -13,12 +13,12 @@ import {
 import FunnelHeader from '../header/FunnelHeader';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 
-interface HouseInfoStepProps {
+interface Step1HouseInfoProps {
   context: ImageGenerateSteps['HouseInfo'];
   onNext: (data: CompletedHouseInfo) => void;
 }
 
-const HouseInfoStep = ({ context, onNext }: HouseInfoStepProps) => {
+const Step1HouseInfo = ({ context, onNext }: Step1HouseInfoProps) => {
   const { formData, setFormData, errors, handleSubmit, areAllFieldsFilled } =
     useHouseInfoStep(context);
 
@@ -77,4 +77,4 @@ const HouseInfoStep = ({ context, onNext }: HouseInfoStepProps) => {
   );
 };
 
-export default HouseInfoStep;
+export default Step1HouseInfo;
