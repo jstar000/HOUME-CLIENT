@@ -26,16 +26,16 @@ export const HOUSE_INFO_OPTIONS = {
 // Step 4
 export const MAIN_ACTIVITY_OPTIONS = {
   PRIMARY_USAGE: {
-    RESTING: opt('RESTING', '휴식'),
-    WORK_OFFICE: opt('WORK_OFFICE', '업무/사무'),
-    HOME_CAFE: opt('HOME_CAFE', '홈카페'),
-    MOVIE: opt('MOVIE', '영화감상'),
+    RESTING: opt('RELAXING', '휴식형'),
+    WORK_OFFICE: opt('REMOTE_WORK', '재택근무형'),
+    HOME_CAFE: opt('HOME_THEATER', '영화 감상형'),
+    MOVIE: opt('HOME_CAFE', '홈카페형'),
   },
   BED_TYPE: {
     SINGLE: opt('SINGLE', '싱글'),
     SUPER_SINGLE: opt('SUPER_SINGLE', '슈퍼싱글'),
     DOUBLE: opt('DOUBLE', '더블'),
-    QUEEN_ABOVE: opt('QUEEN_ABOVE', '퀸 이상'),
+    QUEEN_ABOVE: opt('QUEEN_OVER', '퀸 이상'),
   },
   CLOSET_TYPE: {
     HANGER: opt('HANGER', '행거'),
@@ -43,9 +43,11 @@ export const MAIN_ACTIVITY_OPTIONS = {
   },
   OTHER_FURNITURES: {
     DESK: opt('DESK', '책상'),
+    CLOSET: opt('CLOSET', '옷장'),
+    TABLE_CHAIRS: opt('TABLE_CHAIRS', '식탁, 의자'),
+    SOFA: opt('SOFA', '소파'),
+    DRAWER: opt('DRAWER', '수납장'),
     MOVABLE_TV: opt('MOVABLE_TV', '이동식 TV'),
-    DRAWER: opt('DRAWER', '서랍'),
-    TABLE_CHAIR: opt('TABLE_CHAIR', '테이블/의자'),
   },
 } as const;
 
