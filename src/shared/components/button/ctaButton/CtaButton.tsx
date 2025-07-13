@@ -5,12 +5,14 @@ interface CtaButtonProps extends React.ComponentProps<'button'> {
   children: React.ReactNode;
   isActive?: boolean;
   typeVariant?: 'default' | 'kakao';
+  buttonSize?: 'small' | 'large';
 }
 
 const CtaButton = ({
   children,
   isActive = true,
   typeVariant = 'default',
+  buttonSize = 'large',
   ...props
 }: CtaButtonProps) => {
   return (
@@ -21,6 +23,7 @@ const CtaButton = ({
       className={styles.CtaButton({
         state: isActive ? 'active' : 'disabled',
         type: typeVariant,
+        buttonSize: buttonSize,
       })}
       {...props}
     >
