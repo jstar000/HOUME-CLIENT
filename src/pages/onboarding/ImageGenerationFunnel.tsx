@@ -1,13 +1,13 @@
-import { useImgGenerationFunnel } from '../hooks/useImageGenerationFunnel.hooks';
-import HouseInfoStep from './steps/HouseInfoStep';
-import HouseStructureStep from './steps/HouseStructureStep';
-import InteriorTasteStep from './steps/InteriorTasteStep';
-import MainActivityStep from './steps/MainActivityStep';
+import { useImgGenerationFunnel } from './hooks/useImageGenerationFunnel.hooks';
+import Step1HouseInfo from './components/steps/step1/Step1HouseInfo';
+import Step2HouseStructure from './components/steps/step2/Step2HouseStructure';
+import Step4InteriorTaste from './components/steps/step3/Step3InteriorTaste';
+import Step4MainActivity from './components/steps/step4/Step4MainActivity';
 import {
   type CompletedHouseInfo,
   type CompletedHouseStructure,
   type CompletedInteriorTaste,
-} from '../types/funnel';
+} from './types/funnel';
 
 export const ImageGenerationFunnel = () => {
   const funnel = useImgGenerationFunnel();
@@ -22,7 +22,7 @@ export const ImageGenerationFunnel = () => {
         },
         render({ dispatch, context }) {
           return (
-            <HouseInfoStep
+            <Step1HouseInfo
               context={context}
               onNext={(data) => dispatch('selectHouseInfo', data)}
             />
@@ -40,7 +40,7 @@ export const ImageGenerationFunnel = () => {
         },
         render({ dispatch, context }) {
           return (
-            <HouseStructureStep
+            <Step2HouseStructure
               context={context}
               onNext={(data) => dispatch('selectHouseStructure', data)}
             />
@@ -55,7 +55,7 @@ export const ImageGenerationFunnel = () => {
         },
         render({ dispatch, context }) {
           return (
-            <InteriorTasteStep
+            <Step4InteriorTaste
               context={context}
               onNext={(data) => dispatch('selectInteriorTaste', data)}
             />
@@ -65,7 +65,7 @@ export const ImageGenerationFunnel = () => {
       MainActivity={funnel.Render.with({
         events: {},
         render({ context }) {
-          return <MainActivityStep context={context} />;
+          return <Step4MainActivity context={context} />;
         },
       })}
     />
