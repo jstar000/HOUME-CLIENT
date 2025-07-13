@@ -1,6 +1,4 @@
 import { style } from '@vanilla-extract/css';
-import { colorVars } from '@/shared/styles/tokens/color.css';
-import { fontStyle } from '@/shared/styles/fontStyle';
 
 export const container = style({
   width: '100%',
