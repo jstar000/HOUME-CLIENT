@@ -10,6 +10,7 @@ import {
   type RoomType,
   HOUSE_INFO_OPTIONS,
 } from '../../types/funnel';
+import GenerateHeader from '../header/GenerateHeader';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 
 interface HouseInfoStepProps {
@@ -27,43 +28,50 @@ const HouseInfoStep = ({ context, onNext }: HouseInfoStepProps) => {
 
   return (
     <div className={styles.container}>
-      <OptionGroup<HouseType>
-        title="주거 형태"
-        options={houseTypeOptions}
-        selected={formData.houseType}
-        onButtonClick={(value) =>
-          setFormData((prev) => ({ ...prev, houseType: value }))
-        }
-        error={errors.houseType}
+      <GenerateHeader
+        title={`집 구조에 대해 알려주세요`}
+        detail={`하우미가 더 정밀하게 스타일링을 제안할 수 있도록\n주거 형태와 평형, 도면 구조를 알려주세요.`}
       />
 
-      <OptionGroup<RoomType>
-        title="구조"
-        options={roomTypeOptions}
-        selected={formData.roomType}
-        onButtonClick={(value) =>
-          setFormData((prev) => ({ ...prev, roomType: value }))
-        }
-        error={errors.roomType}
-      />
+      <div className={styles.wrapper}>
+        <OptionGroup<HouseType>
+          title="주거 형태"
+          options={houseTypeOptions}
+          selected={formData.houseType}
+          onButtonClick={(value) =>
+            setFormData((prev) => ({ ...prev, houseType: value }))
+          }
+          error={errors.houseType}
+        />
 
-      <OptionGroup<RoomSize>
-        title="평형"
-        options={roomSizeOptions}
-        selected={formData.roomSize}
-        onButtonClick={(value) =>
-          setFormData((prev) => ({ ...prev, roomSize: value }))
-        }
-        error={errors.roomSize}
-      />
+        <OptionGroup<RoomType>
+          title="구조"
+          options={roomTypeOptions}
+          selected={formData.roomType}
+          onButtonClick={(value) =>
+            setFormData((prev) => ({ ...prev, roomType: value }))
+          }
+          error={errors.roomType}
+        />
 
-      <div>
-        <CtaButton
-          isActive={areAllFieldsFilled}
-          onClick={() => handleSubmit(onNext)}
-        >
-          집구조 선택하기
-        </CtaButton>
+        <OptionGroup<RoomSize>
+          title="평형"
+          options={roomSizeOptions}
+          selected={formData.roomSize}
+          onButtonClick={(value) =>
+            setFormData((prev) => ({ ...prev, roomSize: value }))
+          }
+          error={errors.roomSize}
+        />
+
+        <div>
+          <CtaButton
+            isActive={areAllFieldsFilled}
+            onClick={() => handleSubmit(onNext)}
+          >
+            집구조 선택하기
+          </CtaButton>
+        </div>
       </div>
     </div>
   );
