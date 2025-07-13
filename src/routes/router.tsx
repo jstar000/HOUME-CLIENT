@@ -19,6 +19,7 @@ import SignupPage from '@/pages/signup/Signup';
 import GeneratePage from '@/pages/generate/Generate';
 import MyPage from '@/pages/mypage/MyPage';
 import { ImageGenerationFunnel } from '@/pages/onboarding/ImageGenerationFunnel';
+import KakaoCallback from '@/pages/login/KakaoCallback';
 
 // TODO: Replace with actual auth state management
 const isAuthenticated = false;
@@ -38,6 +39,10 @@ const publicRoutes = [
   {
     path: ROUTES.SIGNUP,
     element: <SignupPage />,
+  },
+  {
+    path: ROUTES.OAUTH,
+    element: <KakaoCallback />,
   },
 ];
 
