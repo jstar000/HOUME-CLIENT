@@ -1,7 +1,7 @@
 import { useFunnel } from '@use-funnel/react-router';
 import type { ImageGenerateSteps } from '../types/funnel';
 
-export const useImgGenerationFunnel = () => {
+export const useImageGenerationFunnel = () => {
   return useFunnel<ImageGenerateSteps>({
     id: 'image-generation-funnel',
     initial: {
