@@ -7,7 +7,6 @@ import {
   type CompletedHouseInfo,
   type CompletedHouseStructure,
   type CompletedInteriorTaste,
-  type ImageGenerateSteps,
 } from '../types/funnel';
 
 export const ImageGenerationFunnel = () => {
