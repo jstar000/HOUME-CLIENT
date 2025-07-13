@@ -10,7 +10,7 @@ import {
   type RoomType,
   HOUSE_INFO_OPTIONS,
 } from '../../types/funnel';
-import GenerateHeader from '../header/GenerateHeader';
+import GenerateHeader from '../header/FunnelHeader';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 
 interface HouseInfoStepProps {

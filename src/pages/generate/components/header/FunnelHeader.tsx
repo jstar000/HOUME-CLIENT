@@ -1,4 +1,4 @@
-import * as styles from './GenerateHeader.css';
+import * as styles from './FunnelHeader.css';
 import ProgressBarKey from '@/shared/components/progressBarKey/ProgressBarKey';
 
 interface GenerateHeaderProps {
