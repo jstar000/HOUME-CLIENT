@@ -5,14 +5,12 @@ import CreditBox from '@/shared/components/creditBox/CreditBox';
 interface ProfileSectionProps {
   userName: string;
   credit: number;
-  onChargeClick: () => void;
   isChargeDisabled: boolean;
 }
 
 const ProfileSection = ({
   userName = '사용자 이름',
   credit,
-  onChargeClick,
   isChargeDisabled,
 }: ProfileSectionProps) => {
   return (
@@ -22,20 +20,12 @@ const ProfileSection = ({
           <ProfileIcon />
         </div>
 
-        <div
-          className={styles.creditWrapper}
-          onClick={onChargeClick}
-          role="button"
-        >
+        <div className={styles.creditWrapper}>
           <div className={styles.textArea}>
             <p>또 오셨네요!</p>
             <p>{userName} 님</p>
           </div>
-          <CreditBox
-            credit={credit}
-            disabled={isChargeDisabled}
-            onClick={onChargeClick}
-          />
+          <CreditBox credit={credit} disabled={isChargeDisabled} />
         </div>
       </div>
     </section>
