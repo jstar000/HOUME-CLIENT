@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import * as styles from './LoadingPage.css';
-// import ProgressBar from './ProgressBar';
+import ProgressBar from './ProgressBar';
 import { mockimages } from '../../constants/slideMockData';
 import LikeButton from '@/shared/components/button/likeButton/LikeButton';
 import DislikeButton from '@/shared/components/button/likeButton/DislikeButton';
@@ -35,7 +35,7 @@ const LoadingPage = () => {
   return (
     <div className={styles.wrapper}>
       <section className={styles.infoSection}>
-        {/* <ProgressBar onComplete={handleComplete} /> */}
+        <ProgressBar />
         <p className={styles.infoText}>
           마음에 드는 가구를 선택하면, <br />
           하우미가 사용자님의 취향을 더 잘 이해할 수 있어요!

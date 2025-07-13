@@ -41,7 +41,7 @@ export const progressBack = style({
 export const progressBar = style({
   height: '100%',
   backgroundColor: colorVars.color.primary,
-  transition: 'width 0.2s linear',
+  transition: 'width 0.2s ease-out',
 });
 
 export const loadText = style({
