@@ -17,8 +17,8 @@ import HomePage from '@/pages/home/HomePage';
 import LoginPage from '@/pages/login/LoginPage';
 import SignupPage from '@/pages/signup/Signup';
 import OnboardingPage from '@/pages/onboarding/OnboardingPage';
-import GeneratePage from '@/pages/generate/GeneratePage';
 import MyPage from '@/pages/mypage/MyPage';
+import { ImageGenerationFunnel } from '@/pages/generate/components/ImageGenerationFunnel';
 
 // TODO: Replace with actual auth state management
 const isAuthenticated = false;
@@ -49,7 +49,7 @@ const protectedRoutes = [
   },
   {
     path: ROUTES.GENERATE,
-    element: <GeneratePage />,
+    element: <ImageGenerationFunnel />,
   },
   {
     path: ROUTES.MYPAGE,
