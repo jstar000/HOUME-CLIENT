@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import MoodBoard from '../onboarding/components/steps/step3/MoodBoard';
 import FlipSheet from '@/shared/components/bottomSheet/flipSheet/FlipSheet';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 
