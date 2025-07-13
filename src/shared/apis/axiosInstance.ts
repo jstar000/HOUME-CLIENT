@@ -1,5 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { ERROR_CODES } from '../constants/apiErrorCode';
 import type { BaseResponse } from '../types/apis';
 import { ROUTES } from '@/routes/paths';
 
@@ -30,8 +31,10 @@ axiosInstance.interceptors.response.use(
 
     console.error('[axiosInstance] 응답 에러 발생:', error.response?.data);
 
-    // 에러 코드 40002가 액세스토큰 만료 코드라고 가정
-    if (error?.response?.data?.code === 40002 && !originalRequest._retry) {
+    if (
+      error?.response?.data?.code === ERROR_CODES.ACCESS_TOKEN_EXPIRED &&
+      !originalRequest._retry
+    ) {
       originalRequest._retry = true;
 
       try {
