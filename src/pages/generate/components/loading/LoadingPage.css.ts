@@ -62,15 +62,50 @@ export const carouselSection = style({
   gap: '5.2rem',
 });
 
-export const imageArea = style({
-  width: '33.5rem',
-  height: '33.5rem',
-  borderRadius: '16px',
-  backgroundColor: colorVars.color.gray400,
-});
-
 export const buttonGroup = style({
   display: 'flex',
   gap: '0.7rem',
   justifyContent: 'center',
+});
+
+// 스택 UI
+export const stackContainer = style({
+  position: 'relative',
+  width: '33.5rem',
+  height: '33.5rem',
+  borderRadius: '16px',
+  overflow: 'hidden',
+});
+
+export const stackImage = style({
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
+  borderRadius: '16px',
+  transition: 'transform 0.4s linear, opacity 0.3s ease',
+});
+
+// 현재 이미지 상태
+export const currentActive = style({
+  transform: 'translateY(0)',
+  opacity: 1,
+});
+
+export const currentOut = style({
+  transform: 'translateY(-40px)',
+  opacity: 0,
+});
+
+// 다음 이미지 상태
+export const nextDefault = style({
+  transform: 'translateY(50px) scale(0.91)',
+  opacity: 0,
+});
+
+export const nextActive = style({
+  transform: 'translateY(0) scale(1)',
+  opacity: 1,
 });

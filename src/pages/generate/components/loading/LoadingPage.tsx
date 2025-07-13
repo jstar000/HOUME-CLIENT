@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import * as styles from './LoadingPage.css';
-import ImageCarousel from './Carousel';
+// import ProgressBar from './ProgressBar';
 import { mockimages } from '../../constants/slideMockData';
 import LikeButton from '@/shared/components/button/likeButton/LikeButton';
 import DislikeButton from '@/shared/components/button/likeButton/DislikeButton';
 
 const LoadingPage = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [images] = useState(mockimages);
+  const [animating, setAnimating] = useState(false);
+  const currentImage = mockimages[currentIndex];
+  const nextImage = mockimages[currentIndex + 1];
 
   const handleVote = (isLike: boolean) => {
     const currentImage = mockimages[currentIndex];
@@ -15,12 +17,16 @@ const LoadingPage = () => {
       `이미지 ID: ${currentImage.id}, 선택: ${isLike ? '좋아요' : '별로예요'}`
     );
 
-    // 다음 이미지로 이동
-    if (currentIndex < images.length - 1) {
-      setCurrentIndex((prev) => prev + 1);
-    } else {
-      console.log('캐러셀 이미지 끝');
-    }
+    setAnimating(true);
+
+    setTimeout(() => {
+      if (currentIndex < mockimages.length - 1) {
+        setCurrentIndex((prev) => prev + 1);
+      } else {
+        console.log('모든 이미지 평가 완료!');
+      }
+      setAnimating(false);
+    }, 600);
   };
 
   const handleComplete = () => {
@@ -29,14 +35,30 @@ const LoadingPage = () => {
   return (
     <div className={styles.wrapper}>
       <section className={styles.infoSection}>
+        {/* <ProgressBar onComplete={handleComplete} /> */}
         <p className={styles.infoText}>
           마음에 드는 가구를 선택하면, <br />
           하우미가 사용자님의 취향을 더 잘 이해할 수 있어요!
         </p>
       </section>
       <section className={styles.carouselSection}>
-        <div className={styles.imageArea}>
-          <ImageCarousel currentIndex={currentIndex} />
+        <div className={styles.stackContainer}>
+          {nextImage && (
+            <img
+              key={nextImage.id}
+              src={nextImage.img}
+              alt={`next ${nextImage.id}`}
+              className={`${styles.stackImage} ${animating ? styles.nextActive : styles.nextDefault}`}
+            />
+          )}
+          {currentImage && (
+            <img
+              key={currentImage.id}
+              src={currentImage.img}
+              alt={`current ${currentImage.id}`}
+              className={`${styles.stackImage} ${animating ? styles.currentOut : styles.currentActive}`}
+            />
+          )}
         </div>
         <div className={styles.buttonGroup}>
           <LikeButton size={'large'} onClick={() => handleVote(true)}>
