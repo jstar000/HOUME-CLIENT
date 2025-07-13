@@ -16,12 +16,12 @@ import ProtectedRoute from '@/routes/ProtectedRoute';
 import HomePage from '@/pages/home/HomePage';
 import LoginPage from '@/pages/login/LoginPage';
 import SignupPage from '@/pages/signup/Signup';
-import OnboardingPage from '@/pages/onboarding/OnboardingPage';
-import GeneratePage from '@/pages/generate/GeneratePage';
+import GeneratePage from '@/pages/generate/Generate';
 import MyPage from '@/pages/mypage/MyPage';
 import ResultPage from '@/pages/generate/components/result/ResultPage';
 import LoadingPage from '@/pages/generate/components/loading/LoadingPage';
 import { mockGenerateData } from '@/pages/generate/constants/resultMockData';
+import { ImageGenerationFunnel } from '@/pages/onboarding/ImageGenerationFunnel';
 
 // TODO: Replace with actual auth state management
 const isAuthenticated = false;
@@ -62,9 +62,8 @@ const publicRoutes = [
 const protectedRoutes = [
   {
     path: ROUTES.ONBOARDING,
-    element: <OnboardingPage />,
+    element: <ImageGenerationFunnel />,
   },
-
   {
     path: ROUTES.MYPAGE,
     element: <MyPage />,

@@ -48,6 +48,12 @@ export const CtaButton = recipe({
         },
       },
     },
+    buttonSize: {
+      small: {
+        height: '4rem',
+      },
+      large: {},
+    },
   },
   defaultVariants: {
     state: 'active',

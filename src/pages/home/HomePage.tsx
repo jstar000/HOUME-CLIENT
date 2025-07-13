@@ -1,9 +1,6 @@
 import { useState } from 'react';
 import FlipSheet from '@/shared/components/bottomSheet/flipSheet/FlipSheet';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
-import LargeFilled from '@/shared/components/button/largeFilledButton/LargeFilledButton';
-import LikeButton from '@/shared/components/button/likeButton/LikeButton';
-import DislikeButton from '@/shared/components/button/likeButton/DislikeButton';
 
 const HomePage = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
