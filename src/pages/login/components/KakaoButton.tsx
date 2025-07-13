@@ -1,9 +1,12 @@
+import { useNavigate } from 'react-router-dom';
 import { KAKAO_AUTH_URL } from '../constants/kakaoLoginPath';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 
 const KakaoButton = () => {
+  const navigate = useNavigate();
+
   const handleLogin = () => {
-    window.location.href = KAKAO_AUTH_URL;
+    navigate(KAKAO_AUTH_URL);
   };
 
   return (
