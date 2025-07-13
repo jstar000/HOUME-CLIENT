@@ -21,6 +21,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { getKakaoLogin } from '../apis/kakaoLogin';
 import type { LoginApiResponse } from '../types/auth';
+import { ROUTES } from '@/routes/paths';
 
 export const useKakaoLogin = () => {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ export const useKakaoLogin = () => {
       localStorage.setItem('accessToken', response.accessToken);
 
       // 홈페이지로 이동
-      navigate('/');
+      navigate(ROUTES.HOME);
     },
     // 로그인 실패 시 실행되는 함수
     onError: (error) => {
