@@ -10,6 +10,7 @@ const LoadingPage = () => {
   const [animating, setAnimating] = useState(false);
   const currentImage = mockimages[currentIndex];
   const nextImage = mockimages[currentIndex + 1];
+  const [selected, setSelected] = useState<'like' | 'dislike' | null>(null);
 
   const handleVote = (isLike: boolean) => {
     const currentImage = mockimages[currentIndex];
@@ -17,10 +18,13 @@ const LoadingPage = () => {
       `이미지 ID: ${currentImage.id}, 선택: ${isLike ? '좋아요' : '별로예요'}`
     );
 
+    setSelected(isLike ? 'like' : 'dislike');
+
     setAnimating(true);
 
     setTimeout(() => {
       if (currentIndex < mockimages.length - 1) {
+        setSelected(null);
         setCurrentIndex((prev) => prev + 1);
       } else {
         console.log('이미지 끝');
@@ -29,9 +33,6 @@ const LoadingPage = () => {
     }, 600);
   };
 
-  const handleComplete = () => {
-    console.log('이미지 생성 완료');
-  };
   return (
     <div className={styles.wrapper}>
       <section className={styles.infoSection}>
@@ -42,29 +43,49 @@ const LoadingPage = () => {
         </p>
       </section>
       <section className={styles.carouselSection}>
-        <div className={styles.stackContainer}>
+        <div className={styles.imageContainer}>
+          {/* 다음 이미지 영역 */}
           {nextImage && (
-            <img
+            <div
               key={nextImage.id}
-              src={nextImage.img}
-              alt={`next ${nextImage.id}`}
-              className={`${styles.stackImage} ${animating ? styles.nextActive : styles.nextDefault}`}
-            />
+              className={`${styles.nextImageArea} ${animating ? styles.nextImageAreaActive : ''}`}
+            >
+              <img
+                src={nextImage.img}
+                alt={`next ${nextImage.id}`}
+                className={styles.imageStyle}
+              />
+            </div>
           )}
+
+          {/* 현재 이미지 영역 */}
           {currentImage && (
-            <img
+            <div
               key={currentImage.id}
-              src={currentImage.img}
-              alt={`current ${currentImage.id}`}
-              className={`${styles.stackImage} ${animating ? styles.currentOut : styles.currentActive}`}
-            />
+              className={`${styles.currentImageArea} ${animating ? styles.currentImageAreaOut : ''}`}
+            >
+              <img
+                src={currentImage.img}
+                alt={`current ${currentImage.id}`}
+                className={styles.imageStyle}
+              />
+            </div>
           )}
         </div>
+
         <div className={styles.buttonGroup}>
-          <LikeButton size={'large'} onClick={() => handleVote(true)}>
+          <LikeButton
+            size={'large'}
+            onClick={() => handleVote(true)}
+            isSelected={selected === 'like'}
+          >
             좋아요
           </LikeButton>
-          <DislikeButton size={'large'} onClick={() => handleVote(false)}>
+          <DislikeButton
+            size={'large'}
+            onClick={() => handleVote(false)}
+            isSelected={selected === 'dislike'}
+          >
             별로예요
           </DislikeButton>
         </div>

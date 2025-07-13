@@ -68,44 +68,56 @@ export const buttonGroup = style({
   justifyContent: 'center',
 });
 
-// 스택 UI
-export const stackContainer = style({
+// 이미지 영역 컨테이너
+export const imageContainer = style({
   position: 'relative',
   width: '33.5rem',
   height: '33.5rem',
-  borderRadius: '16px',
-  overflow: 'hidden',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
 });
 
-export const stackImage = style({
+// 현재 이미지 영역
+export const currentImageArea = style({
   position: 'absolute',
-  top: 0,
-  left: 0,
-  width: '100%',
-  height: '100%',
-  objectFit: 'cover',
-  borderRadius: '16px',
-  transition: 'transform 0.4s linear, opacity 0.3s ease',
-});
-
-// 현재 이미지 상태
-export const currentActive = style({
+  width: '33.5rem',
+  height: '33.5rem',
+  overflow: 'hidden',
+  transition: 'transform 0.6s ease, opacity 0.6s ease',
   transform: 'translateY(0)',
   opacity: 1,
 });
 
-export const currentOut = style({
-  transform: 'translateY(-40px)',
+export const currentImageAreaOut = style({
+  transform: 'translateY(-20px)',
   opacity: 0,
 });
 
-// 다음 이미지 상태
-export const nextDefault = style({
-  transform: 'translateY(50px) scale(0.91)',
+// 다음 이미지 영역
+export const nextImageArea = style({
+  position: 'absolute',
+  width: '30.5rem',
+  height: '30.5rem',
+  borderRadius: '16px',
+  overflow: 'hidden',
+  transition:
+    'transform 0.6s ease, opacity 0.6s ease, width 0.6s ease, height 0.6s ease',
+  transform: 'translateY(30px)',
   opacity: 0,
 });
 
-export const nextActive = style({
-  transform: 'translateY(0) scale(1)',
+export const nextImageAreaActive = style({
+  width: '33.5rem',
+  height: '33.5rem',
+  transform: 'translateY(0)',
   opacity: 1,
+});
+
+// 이미지 스타일
+export const imageStyle = style({
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
+  borderRadius: '16px',
 });
