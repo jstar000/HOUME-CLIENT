@@ -1,33 +1,20 @@
-import { useState } from 'react';
-import FlipSheet from '@/shared/components/bottomSheet/flipSheet/FlipSheet';
-import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
-import LargeFilled from '@/shared/components/button/largeFilledButton/LargeFilledButton';
+import { useNavigate } from 'react-router-dom';
+import { LogoutButton } from '../login/components/LogoutButton';
+import TokenRefreshTest from '../login/components/TokenRefreshTest';
 
 const HomePage = () => {
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
-
-  const handleOpen = () => setIsSheetOpen(true);
-  const handleClose = () => setIsSheetOpen(false);
-
-  const handleFlip = () => {
-    console.log('Flip clicked!');
-  };
-
-  const handleChoose = () => {
-    console.log('Choose clicked!');
-    setIsSheetOpen(false);
-  };
+  const navigate = useNavigate();
 
   return (
     <div>
-      <CtaButton onClick={handleOpen}>시트 열기</CtaButton>
-      <FlipSheet
-        onFlipClick={handleFlip}
-        onChooseClick={handleChoose}
-        isOpen={isSheetOpen}
-        onClose={handleClose}
-      />
-      <LargeFilled buttonSize={'medium'}>여성</LargeFilled>
+      <h1>Home Page</h1>
+      <TokenRefreshTest />
+      <LogoutButton />
+      <br />
+      <button onClick={() => navigate('/signup')}>Signup</button>
+      <br />
+      <br />
+      <button onClick={() => navigate(0)}>새로고침</button>
     </div>
   );
 };

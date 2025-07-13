@@ -1,4 +1,4 @@
-import * as styles from '../HouseInfoStep.css';
+import * as styles from '../step1/Step1HouseInfo.css';
 import ShowErrorMessage from '@/shared/components/button/showErrorButton/ShowErrorButton';
 import LargeFilled from '@/shared/components/button/largeFilledButton/LargeFilledButton';
 
@@ -25,7 +25,7 @@ const OptionGroup = <T = string,>({
   error,
 }: OptionGroupProps<T>) => {
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.selectBox}>
       <span className={styles.title}>{title}</span>
       <div className={styles.buttonBox}>
         {options.map((option) => (

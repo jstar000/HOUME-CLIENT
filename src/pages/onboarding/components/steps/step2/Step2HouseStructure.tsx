@@ -2,14 +2,14 @@
 import type {
   CompletedHouseStructure,
   ImageGenerateSteps,
-} from '../../types/funnel';
+} from '../../../types/funnel';
 
-interface HouseStructureStepProps {
+interface Step2HouseStructureProps {
   context: ImageGenerateSteps['HouseStructure'];
   onNext: (data: CompletedHouseStructure) => void;
 }
 
-const HouseStructureStep = ({ context, onNext }: HouseStructureStepProps) => {
+const Step2HouseStructure = ({ context, onNext }: Step2HouseStructureProps) => {
   return (
     <div>
       {/* 테스트 코드 */}
@@ -31,4 +31,4 @@ const HouseStructureStep = ({ context, onNext }: HouseStructureStepProps) => {
   );
 };
 
-export default HouseStructureStep;
+export default Step2HouseStructure;
