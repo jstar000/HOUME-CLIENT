@@ -1,30 +1,31 @@
 import { useState } from 'react';
 import * as styles from './LoadingPage.css';
 import ProgressBar from './ProgressBar';
-import { mockimages } from '../../constants/slideMockData';
+import { MOCK_IMAGES } from '../../constants/slideMockData';
 import LikeButton from '@/shared/components/button/likeButton/LikeButton';
 import DislikeButton from '@/shared/components/button/likeButton/DislikeButton';
 
 const LoadingPage = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
-  const currentImage = mockimages[currentIndex];
-  const nextImage = mockimages[currentIndex + 1];
+  const currentImage = MOCK_IMAGES[currentIndex];
+  const nextImage = MOCK_IMAGES[currentIndex + 1];
   const [selected, setSelected] = useState<'like' | 'dislike' | null>(null);
+  const ANIMATION_DURATION = 600;
 
   const handleVote = (isLike: boolean) => {
     setSelected(isLike ? 'like' : 'dislike');
     setAnimating(true);
 
     setTimeout(() => {
-      if (currentIndex < mockimages.length - 1) {
+      if (currentIndex < MOCK_IMAGES.length - 1) {
         setSelected(null);
         setCurrentIndex((prev) => prev + 1);
       } else {
         console.log('이미지 끝');
       }
       setAnimating(false);
-    }, 600);
+    }, ANIMATION_DURATION);
   };
 
   return (
@@ -46,7 +47,7 @@ const LoadingPage = () => {
             >
               <img
                 src={nextImage.img}
-                alt={`next ${nextImage.id}`}
+                alt={`다음 가구 이미지 ${nextImage.id}`}
                 className={styles.imageStyle}
               />
             </div>
@@ -60,7 +61,7 @@ const LoadingPage = () => {
             >
               <img
                 src={currentImage.img}
-                alt={`current ${currentImage.id}`}
+                alt={`현재 가구 이미지 ${currentImage.id}`}
                 className={styles.imageStyle}
               />
             </div>

@@ -16,6 +16,7 @@ const LikeButton = ({
   return (
     <button
       type="button"
+      aria-pressed={isSelected}
       className={styles.likeButton({
         selected: isSelected,
         size,

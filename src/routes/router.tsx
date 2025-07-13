@@ -20,7 +20,7 @@ import GeneratePage from '@/pages/generate/Generate';
 import MyPage from '@/pages/mypage/MyPage';
 import ResultPage from '@/pages/generate/components/result/ResultPage';
 import LoadingPage from '@/pages/generate/components/loading/LoadingPage';
-import { mockGenerateData } from '@/pages/generate/constants/resultMockData';
+import { MOCK_GENERATE_DATA } from '@/pages/generate/constants/resultMockData';
 import { ImageGenerationFunnel } from '@/pages/onboarding/ImageGenerationFunnel';
 
 // TODO: Replace with actual auth state management
@@ -42,12 +42,8 @@ const publicRoutes = [
     path: ROUTES.SIGNUP,
     element: <SignupPage />,
   },
-];
-
-// 보호된 라우트 그룹 (인증 필요)
-const protectedRoutes = [
   {
-    path: '/generate',
+    path: ROUTES.GENERATE,
     element: <GeneratePage />,
     children: [
       {
@@ -56,10 +52,14 @@ const protectedRoutes = [
       },
       {
         path: 'result',
-        element: <ResultPage data={mockGenerateData} />,
+        element: <ResultPage data={MOCK_GENERATE_DATA} />,
       },
     ],
   },
+];
+
+// 보호된 라우트 그룹 (인증 필요)
+const protectedRoutes = [
   {
     path: ROUTES.ONBOARDING,
     element: <ImageGenerationFunnel />,

@@ -8,11 +8,11 @@ import DislikeButton from '@/shared/components/button/likeButton/DislikeButton';
 import HeadingText from '@/shared/components/text/HeadingText';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 import Modal from '@/shared/components/overlay/modal/Modal';
-interface GenerateProps {
+interface ResultPageProps {
   data: GenerateTypes;
 }
 
-const ResultPage = ({ data }: GenerateProps) => {
+const ResultPage = ({ data }: ResultPageProps) => {
   const [selected, setSelected] = useState<'like' | 'dislike' | null>(null);
 
   const handleVote = (isLike: boolean) => {

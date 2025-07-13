@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as styles from './LoadingPage.css';
+import { PROGRESS_CONFIG } from '../../constants/progressConfig';
+import { ROUTES } from '@/routes/paths';
 
 const ProgressLoadingBar = () => {
   const [progress, setProgress] = useState(0);
@@ -12,19 +14,19 @@ const ProgressLoadingBar = () => {
     if (!isDone) {
       const interval = setInterval(() => {
         setProgress((prev) => {
-          if (prev >= 90) {
+          if (prev >= PROGRESS_CONFIG.SLOW_PHASE_END) {
             clearInterval(interval);
-            return 90;
+            return PROGRESS_CONFIG.SLOW_PHASE_END;
           }
 
-          return prev + 0.1;
+          return prev + PROGRESS_CONFIG.SLOW_INCREMENT;
         });
-      }, 55); // 0.1씩 0.055초마다 = 1% 오르는데 0.55초
+      }, PROGRESS_CONFIG.SLOW_INTERVAL); // 0.1씩 0.055초마다 = 1% 오르는데 0.55초
 
       // 완료되는 시간 (완료 신호)
       const totalTime = setTimeout(() => {
         setIsDone(true);
-      }, 60000);
+      }, PROGRESS_CONFIG.TOTAL_TIME);
 
       return () => {
         clearInterval(interval);
@@ -36,11 +38,11 @@ const ProgressLoadingBar = () => {
     if (isDone) {
       const doneInterval = setInterval(() => {
         setProgress((prev) => {
-          if (prev >= 100) {
+          if (prev >= PROGRESS_CONFIG.FAST_INTERVAL) {
             clearInterval(doneInterval);
-            return 100;
+            return PROGRESS_CONFIG.FAST_INTERVAL;
           }
-          return prev + 1;
+          return prev + PROGRESS_CONFIG.FAST_INCREMENT;
         });
       }, 100); // 0.1초마다 1% 씩
 
@@ -51,7 +53,7 @@ const ProgressLoadingBar = () => {
   useEffect(() => {
     if (progress === 100) {
       alert('이미지 생성 완료!');
-      navigate('/generate/result'); // 원하는 경로
+      navigate(ROUTES.GENERATE);
     }
   }, [progress, navigate]);
 

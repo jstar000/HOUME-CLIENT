@@ -1,4 +1,4 @@
-export const mockimages = [
+export const MOCK_IMAGES = [
   { id: 1, img: '/images/ex1.jpg' },
   { id: 2, img: '/images/ex2.jpg' },
   { id: 3, img: '/images/ex3.jpg' },
