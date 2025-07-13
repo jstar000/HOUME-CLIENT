@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import React from 'react';
 import DislikeIconGray from '@assets/icons/dislikeGray.svg?react';
 import DislikeIconColor from '@assets/icons/dislikeColor.svg?react';
