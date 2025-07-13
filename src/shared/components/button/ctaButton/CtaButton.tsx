@@ -5,7 +5,7 @@ interface CtaButtonProps extends React.ComponentProps<'button'> {
   children: React.ReactNode;
   isActive?: boolean;
   typeVariant?: 'default' | 'kakao';
-  buttonSize?: 'small' | 'large';
+  buttonSize?: 'small' | 'medium' | 'large';
 }
 
 const CtaButton = ({
