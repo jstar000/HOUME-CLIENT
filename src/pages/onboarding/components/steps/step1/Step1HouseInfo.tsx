@@ -1,6 +1,5 @@
 // Step 1
-import { useStep1HouseInfo } from '../../../hooks/useStep1HouseInfo.hooks';
-import * as styles from './Step1HouseInfo.css';
+import * as styles from '../StepCommon.css';
 import OptionGroup from '../optionGroup/OptionGroup';
 import {
   type CompletedHouseInfo,
@@ -11,6 +10,7 @@ import {
   HOUSE_INFO_OPTIONS,
 } from '../../../types/funnel';
 import FunnelHeader from '../../header/FunnelHeader';
+import { useStep1HouseInfo } from '@/pages/onboarding/hooks/useStep1HouseInfo.hooks';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 
 interface Step1HouseInfoProps {
