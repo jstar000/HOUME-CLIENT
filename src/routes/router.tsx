@@ -19,6 +19,9 @@ import SignupPage from '@/pages/signup/Signup';
 import OnboardingPage from '@/pages/onboarding/OnboardingPage';
 import GeneratePage from '@/pages/generate/GeneratePage';
 import MyPage from '@/pages/mypage/MyPage';
+import ResultPage from '@/pages/generate/components/result/ResultPage';
+import LoadingPage from '@/pages/generate/components/loading/LoadingPage';
+import { mockGenerateData } from '@/pages/generate/constants/resultMockData';
 
 // TODO: Replace with actual auth state management
 const isAuthenticated = false;
@@ -40,8 +43,18 @@ const publicRoutes = [
     element: <SignupPage />,
   },
   {
-    path: ROUTES.GENERATE,
+    path: '/generate',
     element: <GeneratePage />,
+    children: [
+      {
+        index: true,
+        element: <LoadingPage />,
+      },
+      {
+        path: 'result',
+        element: <ResultPage data={mockGenerateData} />,
+      },
+    ],
   },
 ];
 

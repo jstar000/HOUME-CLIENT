@@ -1,4 +1,4 @@
-import LoadingPage from './components/loading/LoadingPage';
+import { Outlet } from 'react-router-dom';
 import TitleNavBar from '@/shared/components/navBar/TitleNavBar';
 
 const GeneratePage = () => {
@@ -9,7 +9,7 @@ const GeneratePage = () => {
         isBackIcon={true}
         isLoginBtn={false}
       />
-      <LoadingPage />
+      <Outlet />
     </main>
   );
 };

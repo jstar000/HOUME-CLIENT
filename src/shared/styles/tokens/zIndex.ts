@@ -1,5 +1,6 @@
 export const zIndex = {
   base: 1,
+  blurButton: 50,
   navigation: 200,
   backdrop: 250,
   modal: 300,

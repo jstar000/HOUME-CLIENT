@@ -7,6 +7,7 @@ export const ROUTES = {
   SIGNUP: '/signup',
   ONBOARDING: '/onboarding',
   GENERATE: '/generate',
+  RESULT: '/generate/result',
   MYPAGE: '/mypage',
 } as const;
 

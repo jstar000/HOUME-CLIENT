@@ -7,23 +7,18 @@ import * as styles from './LikeButton.css';
 interface DislikeButtonProps extends React.ComponentProps<'button'> {
   children: React.ReactNode;
   size?: 'small' | 'large';
+  isSelected?: boolean;
 }
 
 const DislikeButton = ({
   children,
   size = 'small',
+  isSelected = false,
   ...props
 }: DislikeButtonProps) => {
-  const [isSelected, setIsSelected] = useState(false);
-
-  const handleClick = () => {
-    setIsSelected((prev) => !prev);
-  };
-
   return (
     <button
       type="button"
-      onClick={handleClick}
       className={styles.likeButton({
         selected: isSelected,
         size,
