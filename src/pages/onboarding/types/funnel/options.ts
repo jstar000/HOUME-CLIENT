@@ -27,19 +27,15 @@ export const HOUSE_INFO_OPTIONS = {
 export const MAIN_ACTIVITY_OPTIONS = {
   PRIMARY_USAGE: {
     RESTING: opt('RELAXING', '휴식형'),
-    WORK_OFFICE: opt('REMOTE_WORK', '재택근무형'),
-    HOME_CAFE: opt('HOME_THEATER', '영화 감상형'),
-    MOVIE: opt('HOME_CAFE', '홈카페형'),
+    REMOTE_WORK: opt('REMOTE_WORK', '재택근무형'),
+    HOME_THEATER: opt('HOME_THEATER', '영화감상형'),
+    HOME_CAFE: opt('HOME_CAFE', '홈카페형'),
   },
   BED_TYPE: {
     SINGLE: opt('SINGLE', '싱글'),
     SUPER_SINGLE: opt('SUPER_SINGLE', '슈퍼싱글'),
     DOUBLE: opt('DOUBLE', '더블'),
     QUEEN_ABOVE: opt('QUEEN_OVER', '퀸 이상'),
-  },
-  CLOSET_TYPE: {
-    HANGER: opt('HANGER', '행거'),
-    FURNITURE: opt('FURNITURE', '가구'),
   },
   OTHER_FURNITURES: {
     DESK: opt('DESK', '책상'),
@@ -69,7 +65,5 @@ export type PrimaryUsage =
   (typeof MAIN_ACTIVITY_OPTIONS.PRIMARY_USAGE)[keyof typeof MAIN_ACTIVITY_OPTIONS.PRIMARY_USAGE]['code'];
 export type BedType =
   (typeof MAIN_ACTIVITY_OPTIONS.BED_TYPE)[keyof typeof MAIN_ACTIVITY_OPTIONS.BED_TYPE]['code'];
-export type ClosetType =
-  (typeof MAIN_ACTIVITY_OPTIONS.CLOSET_TYPE)[keyof typeof MAIN_ACTIVITY_OPTIONS.CLOSET_TYPE]['code'];
 export type OtherFurnitures =
   (typeof MAIN_ACTIVITY_OPTIONS.OTHER_FURNITURES)[keyof typeof MAIN_ACTIVITY_OPTIONS.OTHER_FURNITURES]['code'];
