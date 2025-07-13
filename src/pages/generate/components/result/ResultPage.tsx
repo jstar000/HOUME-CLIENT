@@ -16,7 +16,6 @@ const ResultPage = ({ data }: GenerateProps) => {
   const [selected, setSelected] = useState<'like' | 'dislike' | null>(null);
 
   const handleVote = (isLike: boolean) => {
-    console.log(`선택: ${isLike ? '만족스러워요' : '아쉬워요'}`);
     setSelected(isLike ? 'like' : 'dislike');
   };
 

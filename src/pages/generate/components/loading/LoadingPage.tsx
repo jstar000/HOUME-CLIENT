@@ -13,13 +13,7 @@ const LoadingPage = () => {
   const [selected, setSelected] = useState<'like' | 'dislike' | null>(null);
 
   const handleVote = (isLike: boolean) => {
-    const currentImage = mockimages[currentIndex];
-    console.log(
-      `이미지 ID: ${currentImage.id}, 선택: ${isLike ? '좋아요' : '별로예요'}`
-    );
-
     setSelected(isLike ? 'like' : 'dislike');
-
     setAnimating(true);
 
     setTimeout(() => {
