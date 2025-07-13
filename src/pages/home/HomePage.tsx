@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import MoodBoard from '../generate/components/steps/MoodBoard';
 import FlipSheet from '@/shared/components/bottomSheet/flipSheet/FlipSheet';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 import LargeFilled from '@/shared/components/button/largeFilledButton/LargeFilledButton';
@@ -20,14 +21,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <CtaButton onClick={handleOpen}>시트 열기</CtaButton>
-      <FlipSheet
-        onFlipClick={handleFlip}
-        onChooseClick={handleChoose}
-        isOpen={isSheetOpen}
-        onClose={handleClose}
-      />
-      <LargeFilled buttonSize={'medium'}>여성</LargeFilled>
+      <MoodBoard />
     </div>
   );
 };
