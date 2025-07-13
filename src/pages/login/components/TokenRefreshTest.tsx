@@ -3,7 +3,7 @@
 import axiosInstance from '@shared/apis/axiosInstance';
 
 const TokenRefreshTest = () => {
-  const handleTest = async () => {
+  const getTokenTest = async () => {
     try {
       const res = await axiosInstance.get('/access-test');
 
@@ -16,12 +16,7 @@ const TokenRefreshTest = () => {
 
   return (
     <div>
-      <button
-        onClick={handleTest}
-        style={{ padding: '8px 16px', marginBottom: '12px' }}
-      >
-        토큰 만료 테스트
-      </button>
+      <button onClick={getTokenTest}>토큰 만료 테스트</button>
     </div>
   );
 };

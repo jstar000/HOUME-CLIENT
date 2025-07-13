@@ -1,3 +1,11 @@
+/**
+ * 로그아웃 버튼 컴포넌트
+ *
+ * 사용자 로그아웃을 처리하는 재사용 가능한 버튼 컴포넌트입니다.
+ * 클릭 시 사용자 확인 후 로그아웃을 실행합니다.
+ *
+
+ */
 import { useLogout } from '../hooks/useLogout';
 
 interface LogoutButtonProps {
@@ -10,10 +18,11 @@ export const LogoutButton = ({
   className,
 }: LogoutButtonProps) => {
   const { mutate: logout, isPending } = useLogout();
+  // Tanstack Query - useLogout 훅 호출
 
   const handleLogout = () => {
     if (window.confirm('정말 로그아웃하시겠습니까?')) {
-      logout();
+      logout(); // 로그아웃 함수 호출
     }
   };
 
