@@ -1,4 +1,4 @@
-import { KAKAO_AUTH_URL } from '../constants/kakaoLogin';
+import { KAKAO_AUTH_URL } from '../constants/kakaoLoginPath';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 
 const KakaoButton = () => {

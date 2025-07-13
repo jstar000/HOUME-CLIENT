@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import LogoutButton from '../login/components/LogoutButton';
+import { LogoutButton } from '../login/components/LogoutButton';
 import TokenRefreshTest from '../login/components/TokenRefreshTest';
 
 const HomePage = () => {

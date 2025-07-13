@@ -1,11 +1,25 @@
-import { logout } from '../apis/logout';
+import { useLogout } from '../hooks/useLogout';
 
-const LogoutButton = () => {
+interface LogoutButtonProps {
+  children?: React.ReactNode;
+  className?: string;
+}
+
+export const LogoutButton = ({
+  children = '로그아웃',
+  className,
+}: LogoutButtonProps) => {
+  const { mutate: logout, isPending } = useLogout();
+
+  const handleLogout = () => {
+    if (window.confirm('정말 로그아웃하시겠습니까?')) {
+      logout();
+    }
+  };
+
   return (
-    <div>
-      <button onClick={logout}>로그아웃</button>
-    </div>
+    <button onClick={handleLogout} disabled={isPending} className={className}>
+      {isPending ? '로그아웃 중...' : children}
+    </button>
   );
 };
-
-export default LogoutButton;

@@ -3,11 +3,9 @@
 import axiosInstance from '@shared/apis/axiosInstance';
 
 const TokenRefreshTest = () => {
-  const baseUrl = import.meta.env.VITE_API_BASE_URL;
-
   const handleTest = async () => {
     try {
-      const res = await axiosInstance.get(`${baseUrl}/access-test`);
+      const res = await axiosInstance.get('/access-test');
 
       console.log('API 응답:', res);
     } catch (err: any) {
