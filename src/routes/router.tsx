@@ -39,10 +39,6 @@ const publicRoutes = [
     path: ROUTES.SIGNUP,
     element: <SignupPage />,
   },
-  {
-    path: ROUTES.MYPAGE,
-    element: <MyPage />,
-  },
 ];
 
 // 보호된 라우트 그룹 (인증 필요)
