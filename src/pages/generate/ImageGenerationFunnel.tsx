@@ -1,13 +1,13 @@
-import { useImgGenerationFunnel } from '../hooks/useImageGenerationFunnel.hooks';
-import Step1HouseInfo from './steps/step1/Step1HouseInfo';
-import Step2HouseStructure from './steps/step2/Step2HouseStructure';
-import Step4InteriorTaste from './steps/step3/Step3InteriorTaste';
-import Step4MainActivity from './steps/step4/Step4MainActivity';
+import { useImgGenerationFunnel } from './hooks/useImageGenerationFunnel.hooks';
+import Step1HouseInfo from './components/steps/step1/Step1HouseInfo';
+import Step2HouseStructure from './components/steps/step2/Step2HouseStructure';
+import Step4InteriorTaste from './components/steps/step3/Step3InteriorTaste';
+import Step4MainActivity from './components/steps/step4/Step4MainActivity';
 import {
   type CompletedHouseInfo,
   type CompletedHouseStructure,
   type CompletedInteriorTaste,
-} from '../types/funnel';
+} from './types/funnel';
 
 export const ImageGenerationFunnel = () => {
   const funnel = useImgGenerationFunnel();
