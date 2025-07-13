@@ -32,11 +32,11 @@ export const cardcontainer = recipe({
     state: {
       default: {
         ':active': {
-          outline: `1px solid ${colorVars.color.primary}`,
+          outline: `1.5px solid ${colorVars.color.primary}`,
+          outlineOffset: '-1.5px',
         },
       },
       pressed: {
-        backgroundColor: colorVars.color.primary,
         outline: 'none',
         selectors: {
           '&::after': {
@@ -45,8 +45,8 @@ export const cardcontainer = recipe({
         },
       },
       selected: {
-        backgroundColor: colorVars.color.primary,
-        outline: `1px solid ${colorVars.color.primary}`,
+        outline: `1.5px solid ${colorVars.color.primary}`,
+        outlineOffset: '-1.5px',
       },
       disabled: {
         cursor: 'not-allowed',
@@ -76,7 +76,7 @@ export const cardimg = style({
 export const disabledcardimg = style([
   cardimg,
   {
-    opacity: 0.5,
+    opacity: 0.15,
   },
 ]);
 
