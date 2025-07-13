@@ -7,9 +7,6 @@ settings:
 importers:
   .:
     dependencies:
-      '@ramonak/react-progress-bar':
-        specifier: ^5.4.0
-        version: 5.4.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@tanstack/react-query':
         specifier: ^5.81.5
         version: 5.81.5(react@19.1.0)
@@ -52,9 +49,6 @@ importers:
       react-toastify:
         specifier: ^11.0.5
         version: 11.0.5(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      swiper:
-        specifier: ^11.2.10
-        version: 11.2.10
     devDependencies:
       '@chromatic-com/storybook':
         specifier: ^4.0.1
@@ -824,15 +818,6 @@ packages:
       {
         integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==,
       }
-
-  '@ramonak/react-progress-bar@5.4.0':
-    resolution:
-      {
-        integrity: sha512-3MJ0TKPw7xhearDuO6egIRQrvuERoLn6CVc2hKnw89iEegUL6DzMY7Rptmz2KaHjK0zbev+PGyyvDW+IK4FJBg==,
-      }
-    peerDependencies:
-      react: ^16.0.0 || ^17 || ^18 || ^19
-      react-dom: ^16.0.0 || ^17 || ^18 || ^19
 
   '@rolldown/pluginutils@1.0.0-beta.19':
     resolution:
@@ -4851,13 +4836,6 @@ packages:
     engines: { node: '>=14.0.0' }
     hasBin: true
 
-  swiper@11.2.10:
-    resolution:
-      {
-        integrity: sha512-RMeVUUjTQH+6N3ckimK93oxz6Sn5la4aDlgPzB+rBrG/smPdCTicXyhxa+woIpopz+jewEloiEE3lKo1h9w2YQ==,
-      }
-    engines: { node: '>= 4.7.0' }
-
   synckit@0.11.8:
     resolution:
       {
@@ -5695,11 +5673,6 @@ snapshots:
   '@pkgr/core@0.2.7': {}
 
   '@polka/url@1.0.0-next.29': {}
-
-  '@ramonak/react-progress-bar@5.4.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
-    dependencies:
-      react: 19.1.0
-      react-dom: 19.1.0(react@19.1.0)
 
   '@rolldown/pluginutils@1.0.0-beta.19': {}
 
@@ -8356,8 +8329,6 @@ snapshots:
       css-what: 6.2.2
       csso: 5.0.5
       picocolors: 1.1.1
-
-  swiper@11.2.10: {}
 
   synckit@0.11.8:
     dependencies:
