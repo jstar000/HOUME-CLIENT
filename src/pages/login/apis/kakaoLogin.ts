@@ -21,7 +21,7 @@ import type { KakaoLoginResponse, LoginApiResponse } from '../types/auth';
 export const getKakaoLogin = async (
   code: string
 ): Promise<LoginApiResponse> => {
-  console.log('[kakaoLogin] 인가 코드:', code);
+  // console.log('[kakaoLogin] 인가 코드:', code);
 
   // AxiosInstance를 사용해서 서버에 요청
   const response = await axiosInstance.get<BaseResponse<KakaoLoginResponse>>(
@@ -29,8 +29,8 @@ export const getKakaoLogin = async (
     { params: { code } }
   );
 
-  console.log('[kakaoLogin] 응답 헤더:', response.headers);
-  console.log('[kakaoLogin] 응답 데이터:', response.data);
+  // console.log('[kakaoLogin] 응답 헤더:', response.headers);
+  // console.log('[kakaoLogin] 응답 데이터:', response.data);
 
   // 서버 응답 헤더에서 액세스 토큰 추출
   const accessToken = response.headers['access-token'];

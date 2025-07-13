@@ -23,7 +23,7 @@ const KakaoCallback = () => {
   useEffect(() => {
     // URL에서 카카오 인가 코드 추출
     const code = new URL(window.location.href).searchParams.get('code');
-    console.log('[KakaoCallback] 인가 코드:', code);
+    // console.log('[KakaoCallback] 인가 코드:', code);
 
     if (code) {
       // 인가 코드로 로그인 요청

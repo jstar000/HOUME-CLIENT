@@ -15,7 +15,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use((config) => {
   const accessToken = localStorage.getItem('accessToken');
   if (accessToken) {
-    console.log('[axiosInstance] 요청에 accessToken 추가됨');
+    // console.log('[axiosInstance] 요청에 accessToken 추가됨');
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
   return config;
@@ -53,7 +53,7 @@ axiosInstance.interceptors.response.use(
         const newAccessToken = res.headers['access-token'];
         if (!newAccessToken) throw new Error('새 액세스 토큰이 없습니다.');
 
-        console.log('[axiosInstance] 액세스 토큰 재발급 성공:', newAccessToken);
+        // console.log('[axiosInstance] 액세스 토큰 재발급 성공:', newAccessToken);
         localStorage.setItem('accessToken', newAccessToken);
 
         // 새로운 액세스 토큰 넣어서 원래 요청 재시도
