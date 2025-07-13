@@ -4,7 +4,7 @@ import { fontStyle } from '@/shared/styles/fontStyle';
 
 export const largeFilled = recipe({
   base: {
-    width: '16rem',
+    width: '16.4rem',
     height: '4.8rem',
     padding: '1rem 2rem',
     alignItems: 'center',
@@ -32,7 +32,15 @@ export const largeFilled = recipe({
         backgroundColor: colorVars.color.error_light,
         color: colorVars.color.error,
         ...fontStyle('body_m_14'),
+        border: `1px solid ${colorVars.color.error}`,
       },
+    },
+    buttonSize: {
+      medium: {
+        width: '10.7rem',
+        textAlign: 'center',
+      },
+      large: {},
     },
     selected: {
       true: {
@@ -45,6 +53,7 @@ export const largeFilled = recipe({
   },
   defaultVariants: {
     state: 'active',
+    buttonSize: 'large',
     selected: false,
   },
 });
