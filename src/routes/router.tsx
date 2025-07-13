@@ -18,7 +18,7 @@ import LoginPage from '@/pages/login/LoginPage';
 import SignupPage from '@/pages/signup/Signup';
 import OnboardingPage from '@/pages/onboarding/OnboardingPage';
 import MyPage from '@/pages/mypage/MyPage';
-import { ImageGenerationFunnel } from '@/pages/generate/components/ImageGenerationFunnel';
+import { ImageGenerationFunnel } from '@/pages/generate/ImageGenerationFunnel';
 
 // TODO: Replace with actual auth state management
 const isAuthenticated = false;
