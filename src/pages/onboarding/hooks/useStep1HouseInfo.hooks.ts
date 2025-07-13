@@ -11,7 +11,7 @@ interface FormErrors {
   roomSize?: string;
 }
 
-export const useHouseInfoStep = (context: ImageGenerateSteps['HouseInfo']) => {
+export const useStep1HouseInfo = (context: ImageGenerateSteps['HouseInfo']) => {
   const [formData, setFormData] = useState({
     houseType: context.houseType,
     roomType: context.roomType,

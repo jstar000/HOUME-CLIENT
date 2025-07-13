@@ -7,9 +7,9 @@ export const CtaButton = recipe({
     display: 'flex',
     justifyContent: 'center',
     width: '100%',
-    minWidth: '23.5rem',
+    minWidth: '12.1rem',
     maxWidth: '33.5rem',
-    height: '5.9rem',
+    height: '5.6rem',
     padding: '1.7rem 0',
     textAlign: 'center',
     alignItems: 'center',
@@ -47,6 +47,15 @@ export const CtaButton = recipe({
           backgroundColor: '#FEE500',
         },
       },
+    },
+    buttonSize: {
+      small: {
+        height: '4rem',
+      },
+      medium: {
+        height: '4.4rem',
+      },
+      large: {},
     },
   },
   defaultVariants: {
