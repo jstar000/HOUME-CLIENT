@@ -100,9 +100,6 @@ export const exitButton = style({
   height: '4.8rem',
   justifyContent: 'center',
   alignItems: 'center',
-  textDecoration: 'underline',
-  textDecorationColor: colorVars.color.gray500,
-  textUnderlineOffset: '0.2rem', // 텍스트와 underline 사이의 간격
 });
 
 export const exitButtonText = style({

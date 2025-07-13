@@ -8,7 +8,6 @@ export const wrapper = style({
   flexDirection: 'column',
   alignItems: 'center',
   minHeight: '66.7rem',
-  overflowY: 'auto',
 });
 
 export const headerSection = style({

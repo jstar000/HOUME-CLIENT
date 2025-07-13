@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import BlurImage from '@assets/img_recommend_blur.svg?react';
+import { overlay } from 'overlay-kit';
 import * as styles from './ResultPage.css';
 import type { GenerateTypes } from '../../types/GenerateType';
 import LikeButton from '@/shared/components/button/likeButton/LikeButton';
 import DislikeButton from '@/shared/components/button/likeButton/DislikeButton';
 import HeadingText from '@/shared/components/text/HeadingText';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
-
+import Modal from '@/shared/components/overlay/modal/Modal';
 interface GenerateProps {
   data: GenerateTypes;
 }
@@ -17,6 +18,15 @@ const ResultPage = ({ data }: GenerateProps) => {
   const handleVote = (isLike: boolean) => {
     console.log(`선택: ${isLike ? '만족스러워요' : '아쉬워요'}`);
     setSelected(isLike ? 'like' : 'dislike');
+  };
+
+  const handleOpenModal = () => {
+    overlay.open(({ unmount }) => (
+      <Modal
+        onClose={unmount}
+        title={`스타일링 이미지대로 가구를\n추천 받으려면 크레딧이 필요해요`}
+      />
+    ));
   };
 
   return (
@@ -60,7 +70,9 @@ const ResultPage = ({ data }: GenerateProps) => {
         <div className={styles.blurSection}>
           <BlurImage />
           <div className={styles.ctaButtonOverlay}>
-            <CtaButton>가구 추천받기</CtaButton>
+            <CtaButton buttonSize={'small'} onClick={handleOpenModal}>
+              가구 추천받기
+            </CtaButton>
           </div>
         </div>
       </section>
