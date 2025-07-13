@@ -40,7 +40,7 @@ const ResultPage = ({ data }: ResultPageProps) => {
         </div>
       </section>
       <section className={styles.resultSection}>
-        <div className={styles.imgArea}></div>
+        <div className={styles.imgArea} />
         <div className={styles.buttonGroup}>
           <LikeButton
             size={'large'}
