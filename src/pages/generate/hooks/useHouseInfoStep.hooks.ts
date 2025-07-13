@@ -57,6 +57,7 @@ export const useHouseInfoStep = (context: ImageGenerateSteps['HouseInfo']) => {
   const handleSubmit = (onNext: (data: CompletedHouseInfo) => void) => {
     if (!checkRestrictedValues()) return;
 
+    // 타입 안전성 강화를 위해 타입 단언(as)을 제거 -> 아래 조건문으로 별도의 타입 검사 필요
     if (!formData.houseType || !formData.roomType || !formData.roomSize) {
       console.error('필수 필드가 누락되었습니다');
       return;
