@@ -9,7 +9,8 @@ export const captionBox = style({
   padding: '0.8rem 1.2rem',
   borderRadius: '6px',
   backgroundColor: colorVars.color.gray000,
-  border: `1px solid ${colorVars.color.gray300}`,
+  outline: `1px solid ${colorVars.color.gray300}`,
+  outlineOffset: '-1px',
   boxSizing: 'border-box',
   width: '33.5rem',
 });
