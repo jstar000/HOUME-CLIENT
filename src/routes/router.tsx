@@ -16,9 +16,9 @@ import ProtectedRoute from '@/routes/ProtectedRoute';
 import HomePage from '@/pages/home/HomePage';
 import LoginPage from '@/pages/login/LoginPage';
 import SignupPage from '@/pages/signup/Signup';
-import OnboardingPage from '@/pages/onboarding/OnboardingPage';
+import GeneratePage from '@/pages/generate/Generate';
 import MyPage from '@/pages/mypage/MyPage';
-import { ImageGenerationFunnel } from '@/pages/generate/ImageGenerationFunnel';
+import { ImageGenerationFunnel } from '@/pages/onboarding/ImageGenerationFunnel';
 
 // TODO: Replace with actual auth state management
 const isAuthenticated = false;
@@ -44,11 +44,11 @@ const publicRoutes = [
 // 보호된 라우트 그룹 (인증 필요)
 const protectedRoutes = [
   {
-    path: ROUTES.ONBOARDING,
-    element: <OnboardingPage />,
+    path: ROUTES.GENERATE,
+    element: <GeneratePage />,
   },
   {
-    path: ROUTES.GENERATE,
+    path: ROUTES.ONBOARDING,
     element: <ImageGenerationFunnel />,
   },
   {
