@@ -55,10 +55,21 @@ export const useHouseInfoStep = (context: ImageGenerateSteps['HouseInfo']) => {
 
   // areAllFieldsFilled == true일 때 버튼 enable -> handleSubmit 실행 가능
   const handleSubmit = (onNext: (data: CompletedHouseInfo) => void) => {
-    if (checkRestrictedValues()) {
-      console.log('집 정보 입력 완료: ', formData);
-      onNext(formData as CompletedHouseInfo);
+    if (!checkRestrictedValues()) return;
+
+    if (!formData.houseType || !formData.roomType || !formData.roomSize) {
+      console.error('필수 필드가 누락되었습니다');
+      return;
     }
+
+    const completedData: CompletedHouseInfo = {
+      houseType: formData.houseType,
+      roomType: formData.roomType,
+      roomSize: formData.roomSize,
+    };
+
+    console.log('집 정보 입력 완료: ', completedData);
+    onNext(completedData);
   };
 
   return {

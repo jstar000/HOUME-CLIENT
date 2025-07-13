@@ -27,32 +27,32 @@ const HouseInfoStep = ({ context, onNext }: HouseInfoStepProps) => {
 
   return (
     <div className={styles.container}>
-      <OptionGroup
+      <OptionGroup<HouseType>
         title="주거 형태"
         options={houseTypeOptions}
         selected={formData.houseType}
         onButtonClick={(value) =>
-          setFormData((prev) => ({ ...prev, houseType: value as HouseType }))
+          setFormData((prev) => ({ ...prev, houseType: value }))
         }
         error={errors.houseType}
       />
 
-      <OptionGroup
+      <OptionGroup<RoomType>
         title="구조"
         options={roomTypeOptions}
         selected={formData.roomType}
         onButtonClick={(value) =>
-          setFormData((prev) => ({ ...prev, roomType: value as RoomType }))
+          setFormData((prev) => ({ ...prev, roomType: value }))
         }
         error={errors.roomType}
       />
 
-      <OptionGroup
+      <OptionGroup<RoomSize>
         title="평형"
         options={roomSizeOptions}
         selected={formData.roomSize}
         onButtonClick={(value) =>
-          setFormData((prev) => ({ ...prev, roomSize: value as RoomSize }))
+          setFormData((prev) => ({ ...prev, roomSize: value }))
         }
         error={errors.roomSize}
       />
