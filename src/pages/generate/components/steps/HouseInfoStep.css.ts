@@ -6,7 +6,7 @@ export const container = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  width: '37.5rem',
+  width: '100%',
 });
 
 export const wrapper = style({

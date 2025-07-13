@@ -10,7 +10,7 @@ import {
   type RoomType,
   HOUSE_INFO_OPTIONS,
 } from '../../types/funnel';
-import GenerateHeader from '../header/FunnelHeader';
+import FunnelHeader from '../header/FunnelHeader';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 
 interface HouseInfoStepProps {
@@ -28,7 +28,7 @@ const HouseInfoStep = ({ context, onNext }: HouseInfoStepProps) => {
 
   return (
     <div className={styles.container}>
-      <GenerateHeader
+      <FunnelHeader
         title={`집 구조에 대해 알려주세요`}
         detail={`하우미가 더 정밀하게 스타일링을 제안할 수 있도록\n주거 형태와 평형, 도면 구조를 알려주세요.`}
       />
