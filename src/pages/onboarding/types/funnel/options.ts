@@ -1,4 +1,4 @@
-const opt = (key: string, label: string) => ({ value: key, label: label });
+const opt = (key: string, label: string) => ({ code: key, label: label });
 
 // Step 1
 export const HOUSE_INFO_OPTIONS = {
@@ -56,18 +56,18 @@ HouseType = "OFFICETEL" | "VILLA" | "APARTMENT" | "ETC" (4개 리터럴 타입)
 houseType?: HouseType -> houseType은 HouseType | undefined
 */
 export type HouseType =
-  (typeof HOUSE_INFO_OPTIONS.HOUSING_TYPES)[keyof typeof HOUSE_INFO_OPTIONS.HOUSING_TYPES]['value'];
+  (typeof HOUSE_INFO_OPTIONS.HOUSING_TYPES)[keyof typeof HOUSE_INFO_OPTIONS.HOUSING_TYPES]['code'];
 export type RoomType =
-  (typeof HOUSE_INFO_OPTIONS.ROOM_TYPES)[keyof typeof HOUSE_INFO_OPTIONS.ROOM_TYPES]['value'];
+  (typeof HOUSE_INFO_OPTIONS.ROOM_TYPES)[keyof typeof HOUSE_INFO_OPTIONS.ROOM_TYPES]['code'];
 export type RoomSize =
-  (typeof HOUSE_INFO_OPTIONS.AREA_TYPES)[keyof typeof HOUSE_INFO_OPTIONS.AREA_TYPES]['value'];
+  (typeof HOUSE_INFO_OPTIONS.AREA_TYPES)[keyof typeof HOUSE_INFO_OPTIONS.AREA_TYPES]['code'];
 
 // MAIN_ACTIVITY_OPTIONS 개별 타입 추출
 export type PrimaryUsage =
-  (typeof MAIN_ACTIVITY_OPTIONS.PRIMARY_USAGE)[keyof typeof MAIN_ACTIVITY_OPTIONS.PRIMARY_USAGE]['value'];
+  (typeof MAIN_ACTIVITY_OPTIONS.PRIMARY_USAGE)[keyof typeof MAIN_ACTIVITY_OPTIONS.PRIMARY_USAGE]['code'];
 export type BedType =
-  (typeof MAIN_ACTIVITY_OPTIONS.BED_TYPE)[keyof typeof MAIN_ACTIVITY_OPTIONS.BED_TYPE]['value'];
+  (typeof MAIN_ACTIVITY_OPTIONS.BED_TYPE)[keyof typeof MAIN_ACTIVITY_OPTIONS.BED_TYPE]['code'];
 export type ClosetType =
-  (typeof MAIN_ACTIVITY_OPTIONS.CLOSET_TYPE)[keyof typeof MAIN_ACTIVITY_OPTIONS.CLOSET_TYPE]['value'];
+  (typeof MAIN_ACTIVITY_OPTIONS.CLOSET_TYPE)[keyof typeof MAIN_ACTIVITY_OPTIONS.CLOSET_TYPE]['code'];
 export type OtherFurnitures =
-  (typeof MAIN_ACTIVITY_OPTIONS.OTHER_FURNITURES)[keyof typeof MAIN_ACTIVITY_OPTIONS.OTHER_FURNITURES]['value'];
+  (typeof MAIN_ACTIVITY_OPTIONS.OTHER_FURNITURES)[keyof typeof MAIN_ACTIVITY_OPTIONS.OTHER_FURNITURES]['code'];

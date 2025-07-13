@@ -3,7 +3,7 @@ import ShowErrorMessage from '@/shared/components/button/showErrorButton/ShowErr
 import LargeFilled from '@/shared/components/button/largeFilledButton/LargeFilledButton';
 
 interface Option<T = string> {
-  value: T;
+  code: T;
   label: string;
 }
 
@@ -30,10 +30,10 @@ const OptionGroup = <T = string,>({
       <div className={styles.buttonBox}>
         {options.map((option) => (
           <LargeFilled
-            key={String(option.value)}
+            key={String(option.code)}
             isActive={true}
-            isSelected={selected === option.value}
-            onClick={() => onButtonClick(option.value)}
+            isSelected={selected === option.code}
+            onClick={() => onButtonClick(option.code)}
           >
             {option.label}
           </LargeFilled>
