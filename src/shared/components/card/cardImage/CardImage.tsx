@@ -5,7 +5,6 @@ interface CardImageProps extends React.ComponentProps<'div'> {
   src: string;
   selectOrder?: number;
   disabled?: boolean;
-  stroke: boolean;
 }
 
 const CardImage = ({
