@@ -4,12 +4,12 @@ import type {
   ImageGenerateSteps,
 } from '../../../types/funnel';
 
-interface Step4InteriorTasteProps {
+interface Step3InteriorTasteProps {
   context: ImageGenerateSteps['InteriorTaste'];
   onNext: (data: CompletedInteriorTaste) => void;
 }
 
-const Step4InteriorTaste = ({ context, onNext }: Step4InteriorTasteProps) => {
+const Step4InteriorTaste = ({ context, onNext }: Step3InteriorTasteProps) => {
   return (
     <div>
       {/* 테스트 코드 */}
