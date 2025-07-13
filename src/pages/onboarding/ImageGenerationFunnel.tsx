@@ -8,7 +8,7 @@ import {
   type CompletedHouseStructure,
   type CompletedInteriorTaste,
 } from './types/funnel';
-import FunnelLayout from './components/steps/layout/FunnelLayout';
+import FunnelLayout from './components/layout/FunnelLayout';
 
 export const ImageGenerationFunnel = () => {
   const funnel = useImageGenerationFunnel();
