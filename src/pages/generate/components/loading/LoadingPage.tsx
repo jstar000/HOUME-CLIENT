@@ -23,7 +23,7 @@ const LoadingPage = () => {
       if (currentIndex < mockimages.length - 1) {
         setCurrentIndex((prev) => prev + 1);
       } else {
-        console.log('모든 이미지 평가 완료!');
+        console.log('이미지 끝');
       }
       setAnimating(false);
     }, 600);
