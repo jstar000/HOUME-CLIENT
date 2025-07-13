@@ -3,8 +3,10 @@ import * as styles from './CreditBox.css';
 
 interface CreditBoxProps {
   credit: number;
+  disabled?: boolean;
+  onClick?: () => void;
 }
-const CreditBox = ({ credit }: CreditBoxProps) => {
+const CreditBox = ({ credit, disabled = false, onClick }: CreditBoxProps) => {
   return (
     <div className={styles.boxWrapper}>
       <div className={styles.textContainer}>
@@ -15,7 +17,9 @@ const CreditBox = ({ credit }: CreditBoxProps) => {
           {credit}
         </span>
       </div>
-      <ChargeButton>충전하기</ChargeButton>
+      <ChargeButton disabled={disabled} onClick={onClick}>
+        충전하기
+      </ChargeButton>
     </div>
   );
 };

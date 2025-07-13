@@ -1,14 +1,26 @@
+import { useState } from 'react';
 import ProfileSection from './components/profile/ProfileSection';
 import HistorySection from './components/history/HistorySection';
+import SettingSection from './components/setting/SettingSection';
 import * as styles from './MyPage.css';
+import { useToast } from '@/shared/components/toast/useToast';
 import TitleNavBar from '@/shared/components/navBar/TitleNavBar';
 
 const MyPage = () => {
   const userName = '';
   const credit = 0;
+  const { notify } = useToast();
+  const [isChargeDisabled, setIsChargeDisabled] = useState(false);
 
   const handleChargeClick = () => {
-    console.log('충전하기');
+    setIsChargeDisabled(true);
+    notify({
+      text: '결제는 아직 준비 중인 기능이에요',
+      type: 'warning',
+      options: {
+        style: { marginBottom: '2rem' },
+      },
+    });
   };
 
   return (
@@ -18,8 +30,10 @@ const MyPage = () => {
         userName={userName}
         credit={credit}
         onChargeClick={handleChargeClick}
+        isChargeDisabled={isChargeDisabled}
       />
       <HistorySection />
+      <SettingSection />
     </div>
   );
 };

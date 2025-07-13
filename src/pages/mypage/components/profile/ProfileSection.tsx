@@ -6,12 +6,14 @@ interface ProfileSectionProps {
   userName: string;
   credit: number;
   onChargeClick: () => void;
+  isChargeDisabled: boolean;
 }
 
 const ProfileSection = ({
   userName = '사용자 이름',
   credit,
   onChargeClick,
+  isChargeDisabled,
 }: ProfileSectionProps) => {
   return (
     <section className={styles.container}>
@@ -29,7 +31,11 @@ const ProfileSection = ({
             <p>또 오셨네요!</p>
             <p>{userName} 님</p>
           </div>
-          <CreditBox credit={credit} />
+          <CreditBox
+            credit={credit}
+            disabled={isChargeDisabled}
+            onClick={onChargeClick}
+          />
         </div>
       </div>
     </section>
