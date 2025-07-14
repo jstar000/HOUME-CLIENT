@@ -20,6 +20,7 @@ import GeneratePage from '@/pages/generate/Generate';
 import MyPage from '@/pages/mypage/MyPage';
 import { ImageGenerationFunnel } from '@/pages/onboarding/ImageGenerationFunnel';
 import KakaoCallback from '@/pages/login/KakaoCallback';
+import SignupCompletePage from '@/pages/signup/SignupCompletePage';
 
 // TODO: Replace with actual auth state management
 const isAuthenticated = false;
@@ -59,6 +60,10 @@ const protectedRoutes = [
   {
     path: ROUTES.MYPAGE,
     element: <MyPage />,
+  },
+  {
+    path: ROUTES.SIGNUPCOMPLETE,
+    element: <SignupCompletePage />,
   },
 ];
 
