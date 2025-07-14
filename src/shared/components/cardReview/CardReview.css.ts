@@ -16,8 +16,12 @@ export const cardReview = style({
 
 //제목 텍스트
 export const title = style({
+  display: 'block',
   ...fontStyle('title_sb_15'),
   color: colorVars.color.primary,
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
 });
 
 // 본문 내용 텍스트
