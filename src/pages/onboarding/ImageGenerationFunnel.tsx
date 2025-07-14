@@ -1,7 +1,7 @@
 import { useImageGenerationFunnel } from './hooks/useImageGenerationFunnel.hooks';
 import Step1HouseInfo from './components/steps/step1/Step1HouseInfo';
 import Step2HouseStructure from './components/steps/step2/Step2HouseStructure';
-import Step4InteriorTaste from './components/steps/step3/Step3InteriorTaste';
+import Step3InteriorTaste from './components/steps/step3/Step3InteriorTaste';
 import Step4MainActivity from './components/steps/step4/Step4MainActivity';
 import {
   type CompletedHouseInfo,
@@ -60,7 +60,7 @@ export const ImageGenerationFunnel = () => {
           },
           render({ dispatch, context }) {
             return (
-              <Step4InteriorTaste
+              <Step3InteriorTaste
                 context={context}
                 onNext={(data) => dispatch('selectInteriorTaste', data)}
               />

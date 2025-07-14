@@ -9,7 +9,7 @@ const Subtitle = ({ subtitle, caption }: SubtitleProps) => {
   return (
     <div className={styles.subTextBox}>
       <span className={styles.subtitle}>{subtitle}</span>
-      <span className={styles.caption}>{caption}</span>
+      {caption && <span className={styles.caption}>{caption}</span>}
     </div>
   );
 };

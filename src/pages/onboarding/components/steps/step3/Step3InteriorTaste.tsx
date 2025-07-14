@@ -9,7 +9,7 @@ interface Step3InteriorTasteProps {
   onNext: (data: CompletedInteriorTaste) => void;
 }
 
-const Step4InteriorTaste = ({ context, onNext }: Step3InteriorTasteProps) => {
+const Step3InteriorTaste = ({ context, onNext }: Step3InteriorTasteProps) => {
   return (
     <div>
       {/* 테스트 코드 */}
@@ -32,4 +32,4 @@ const Step4InteriorTaste = ({ context, onNext }: Step3InteriorTasteProps) => {
   );
 };
 
-export default Step4InteriorTaste;
+export default Step3InteriorTaste;

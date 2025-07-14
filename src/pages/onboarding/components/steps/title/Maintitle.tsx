@@ -9,7 +9,7 @@ const MainTitle = ({ title, body }: MainTitleProps) => {
   return (
     <div className={styles.mainTextBox}>
       <span className={styles.title}>{title}</span>
-      <span className={styles.body}>{body}</span>
+      {body && <span className={styles.body}>{body}</span>}
     </div>
   );
 };
