@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { fontStyle } from '@/shared/styles/fontStyle';
 import { colorVars } from '@/shared/styles/tokens/color.css';
+import { zIndex } from '@/shared/styles/tokens/zIndex';
 
 export const container = style({
   display: 'flex',
@@ -34,7 +35,7 @@ export const title = style({
   top: '50%',
   transform: 'translate(-50%, -50%)',
   margin: 0,
-  zIndex: 1,
+  zIndex: zIndex.base,
   width: 'max-content',
   pointerEvents: 'none',
 });
