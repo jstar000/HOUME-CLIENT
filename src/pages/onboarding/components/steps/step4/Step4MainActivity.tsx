@@ -20,8 +20,15 @@ interface Step4MainActivityProps {
 }
 
 const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
-  const { formData, setFormData, errors, areAllFieldsFilled } =
-    useStep4MainActivity(context);
+  const {
+    formData,
+    setFormData,
+    errors,
+    areAllFieldsFilled,
+    isRequiredFurniture,
+    getCurrentActivityLabel,
+    getRequiredFurnitureLabels,
+  } = useStep4MainActivity(context);
 
   const primaryUsageOptions = Object.values(
     MAIN_ACTIVITY_OPTIONS.PRIMARY_USAGE
@@ -31,7 +38,9 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
     MAIN_ACTIVITY_OPTIONS.OTHER_FURNITURES
   );
 
-  const handleOnClick = () => {};
+  const handleOnClick = () => {
+    // 이미지 생성 로직
+  };
 
   return (
     <div className={common.container}>
@@ -67,8 +76,8 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
           />
 
           <MultiOptionGroup<OtherFurnitures>
-            subtitle="주요 활동"
-            caption="(최대 3개 선택)"
+            subtitle="기타 가구"
+            caption="(최대 4개 선택)"
             options={otherFurnituresOptions}
             selected={formData.otherFurnitures}
             onButtonClick={(value) =>
@@ -77,6 +86,9 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
             maxSelect={4}
             isAlertPresented={true}
             error={errors.otherFurnitures}
+            isRequiredFurniture={isRequiredFurniture}
+            currentActivityLabel={getCurrentActivityLabel()} // 추가!
+            requiredFurnitureLabels={getRequiredFurnitureLabels()} // 추가!
           />
         </div>
 

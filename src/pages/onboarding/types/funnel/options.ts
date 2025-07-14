@@ -26,7 +26,7 @@ export const HOUSE_INFO_OPTIONS = {
 // Step 4
 export const MAIN_ACTIVITY_OPTIONS = {
   PRIMARY_USAGE: {
-    RESTING: opt('RELAXING', '휴식형'),
+    RELAXING: opt('RELAXING', '휴식형'),
     REMOTE_WORK: opt('REMOTE_WORK', '재택근무형'),
     HOME_THEATER: opt('HOME_THEATER', '영화감상형'),
     HOME_CAFE: opt('HOME_CAFE', '홈카페형'),

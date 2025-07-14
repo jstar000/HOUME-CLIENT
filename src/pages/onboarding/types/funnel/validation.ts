@@ -15,10 +15,10 @@ export const HOUSE_INFO_VALIDATION = {
 
 export const MAIN_ACTIVITY_VALIDATION = {
   combinationRules: {
-    RESTING: {
+    RELAXING: {
       requiredFurnitures: ['SOFA'] as OtherFurnitures[],
     },
-    WORK_OFFICE: {
+    REMOTE_WORK: {
       requiredFurnitures: ['DESK'] as OtherFurnitures[],
     },
     HOME_CAFE: {
@@ -29,3 +29,7 @@ export const MAIN_ACTIVITY_VALIDATION = {
     },
   },
 };
+
+export const allRequiredFurnitures = Object.values(
+  MAIN_ACTIVITY_VALIDATION.combinationRules
+).flatMap((rule) => rule.requiredFurnitures);
