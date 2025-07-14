@@ -18,6 +18,11 @@ const FloorPlan = () => {
     flipped: boolean;
   } | null>(null);
 
+  const selectedImage =
+    selectedId !== null
+      ? mockimages.find((item) => item.id === selectedId)
+      : null;
+
   const handleImageClick = (id: number) => {
     setSelectedId(id);
     setIsFlipped(false); // 이미지 선택 시 반전 초기화
@@ -40,11 +45,10 @@ const FloorPlan = () => {
   };
   const handleChooseClick = () => {
     if (selectedId !== null) {
-      const selected = mockimages.find((item) => item.id === selectedId);
-      if (selected) {
+      if (selectedImage) {
         setChosenImage({
-          id: selected.id,
-          src: selected.img,
+          id: selectedImage.id,
+          src: selectedImage.img,
           flipped: isFlipped,
         });
         handleCloseSheet();
@@ -66,7 +70,11 @@ const FloorPlan = () => {
       <div className={styles.container}>
         <div className={styles.gridbox}>
           {mockimages.map((item) => (
-            <button key={item.id} onClick={() => handleImageClick(item.id)}>
+            <button
+              type="button"
+              key={item.id}
+              onClick={() => handleImageClick(item.id)}
+            >
               <FloorCard
                 key={item.id}
                 src={item.img}
@@ -96,11 +104,7 @@ const FloorPlan = () => {
           onExited={handleExited}
           onFlipClick={handleFlipClick}
           onChooseClick={handleChooseClick}
-          src={
-            selectedId !== null
-              ? (mockimages.find((item) => item.id === selectedId)?.img ?? '')
-              : ''
-          }
+          src={selectedImage?.img ?? ''}
           isFlipped={isFlipped}
         />
       )}
