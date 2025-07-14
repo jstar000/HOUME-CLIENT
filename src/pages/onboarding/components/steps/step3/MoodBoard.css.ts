@@ -6,7 +6,7 @@ export const container = style({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  padding: '0 2rem',
+  padding: '2rem',
 });
 
 export const gridbox = style({
