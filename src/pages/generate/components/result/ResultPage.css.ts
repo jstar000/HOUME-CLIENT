@@ -91,8 +91,12 @@ export const blurSection = style({
 
 export const ctaButtonOverlay = style({
   position: 'absolute',
-  top: '31.7rem',
+  top: '19.2rem',
   zIndex: zIndex.blurButton,
   width: '12.1rem',
   height: '4rem',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: '1.2rem',
 });

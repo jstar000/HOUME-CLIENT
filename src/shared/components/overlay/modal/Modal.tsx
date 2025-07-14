@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import CreditIcon from '@assets/icons/modalCoin.png';
 import CtaButton from '../../button/ctaButton/CtaButton';
 import { useToast } from '../../toast/useToast';
 import * as styles from './Modal.css';
@@ -39,7 +40,7 @@ const Modal = ({ onClose, title }: ModalProps) => {
             <span className={styles.label}>보유 크레딧</span>
             <span className={styles.count}>0</span>
           </div>
-          <div className={styles.creditImg} />
+          <img src={CreditIcon} alt="크레딧 아이콘" />
         </div>
 
         <div className={styles.buttonBox}>

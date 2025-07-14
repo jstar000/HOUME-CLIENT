@@ -53,7 +53,7 @@ const ProgressLoadingBar = () => {
   useEffect(() => {
     if (progress === 100) {
       alert('이미지 생성 완료!');
-      navigate(ROUTES.GENERATE);
+      navigate('/generate/result');
     }
   }, [progress, navigate]);
 

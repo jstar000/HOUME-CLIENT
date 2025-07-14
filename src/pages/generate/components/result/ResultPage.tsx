@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import BlurImage from '@assets/img_recommend_blur.svg?react';
+import BlurImage from '@assets/icons/recommendBlur.svg?react';
+import LockImage from '@assets/icons/recommendCta.png';
 import { overlay } from 'overlay-kit';
 import * as styles from './ResultPage.css';
 import type { GenerateTypes } from '../../types/GenerateType';
@@ -69,6 +70,7 @@ const ResultPage = ({ data }: ResultPageProps) => {
         <div className={styles.blurSection}>
           <BlurImage />
           <div className={styles.ctaButtonOverlay}>
+            <img src={LockImage} alt="자물쇠 아이콘" />
             <CtaButton buttonSize={'small'} onClick={handleOpenModal}>
               가구 추천받기
             </CtaButton>
