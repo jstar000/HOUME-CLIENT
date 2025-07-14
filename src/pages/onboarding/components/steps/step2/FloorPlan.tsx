@@ -1,4 +1,4 @@
-// Step 2
+// FloorPlan.tsx
 import { useEffect, useState } from 'react';
 import * as styles from './FloorPlan.css';
 import type { OpenSheetKey } from '@/pages/onboarding/types/OpenSheet';
@@ -9,16 +9,19 @@ import NoMatchSheet from '@/shared/components/bottomSheet/noMatchSheet/NoMatchSh
 import FlipSheet from '@/shared/components/bottomSheet/flipSheet/FlipSheet';
 import { useToast } from '@/shared/components/toast/useToast';
 
-const FloorPlan = () => {
+interface FloorPlanProps {
+  onHouseSelect: (houseData: {
+    id: number;
+    src: string;
+    flipped: boolean;
+  }) => void;
+}
+
+const FloorPlan = ({ onHouseSelect }: FloorPlanProps) => {
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [openSheet, setOpenSheet] = useState<OpenSheetKey>(null);
   const [isFlipped, setIsFlipped] = useState(false);
-  const [chosenImage, setChosenImage] = useState<{
-    id: number;
-    src: string;
-    flipped: boolean;
-  } | null>(null);
 
   const selectedImage =
     selectedId !== null
@@ -44,51 +47,48 @@ const FloorPlan = () => {
   const handleImageClick = (id: number) => {
     setSelectedId(id);
     setIsFlipped(false); // 이미지 선택 시 반전 초기화
-    console.log('chosenImage', chosenImage); // 빌드 에러 해결용 콘솔
     handleOpenSheet('flip');
   };
+
   const handleOpenSheet = (type: 'noMatch' | 'flip') => {
     setOpenSheet(type);
   };
+
   useEffect(() => {
     if (openSheet) {
       setIsSheetOpen(true);
     }
   }, [openSheet]);
+
   const handleCloseSheet = () => {
     setIsSheetOpen(false); // 닫힘 애니메이션 시작
   };
+
   const handleExited = () => {
     setOpenSheet(null); // 애니메이션 끝나면 DOM에서 제거
   };
+
   const handleFlipClick = () => {
     // 좌우반전 버튼 클릭시
     setIsFlipped((prev) => !prev);
   };
+
   const handleChooseClick = () => {
-    if (selectedId !== null) {
-      if (selectedImage) {
-        setChosenImage({
-          id: selectedImage.id,
-          src: selectedImage.img,
-          flipped: isFlipped,
-        });
-        handleCloseSheet();
-      }
+    if (selectedId !== null && selectedImage) {
+      const houseData = {
+        id: selectedImage.id,
+        src: selectedImage.img,
+        flipped: isFlipped,
+      };
+
+      // 상위 컴포넌트로 선택된 집 데이터 전달
+      onHouseSelect(houseData);
+      handleCloseSheet();
     }
   };
+
   return (
     <section className={styles.wrapper}>
-      {/* <TitleNavBar
-        title={'스타일링 이미지 생성'}
-        isBackIcon={true}
-        isLoginBtn={false}
-      />
-      <FunnelHeader
-        title={'유사한 집 구조를 선택해주세요'}
-        detail={'템플릿을 선택하면 좌우반전을 할 수 있어요.'}
-        currentStep={2}
-      /> */}
       <div className={styles.container}>
         <div className={styles.gridbox}>
           {mockimages.map((item) => (
@@ -106,12 +106,14 @@ const FloorPlan = () => {
           ))}
         </div>
       </div>
+
       <div className={styles.buttonContainer}>
         <NoMatchButton
           message={'우리 집 구조와 유사한 템플릿이 없어요'}
           onClick={() => handleOpenSheet('noMatch')}
         />
       </div>
+
       {openSheet === 'noMatch' && (
         <NoMatchSheet
           isOpen={isSheetOpen}
@@ -120,6 +122,7 @@ const FloorPlan = () => {
           onSubmit={handleAddressSubmit}
         />
       )}
+
       {openSheet === 'flip' && (
         <FlipSheet
           isOpen={isSheetOpen}

@@ -7,6 +7,11 @@ import type {
   OtherFurnitures,
 } from './options';
 
+interface FloorPlan {
+  floorPlanId: number;
+  isMirror: boolean;
+}
+
 // Funnel Step 정의
 export type ImageGenerateSteps = {
   HouseInfo: {
@@ -18,20 +23,20 @@ export type ImageGenerateSteps = {
     houseType: HouseType;
     roomType: RoomType;
     roomSize: RoomSize;
-    floorPlan?: number[];
+    floorPlan?: FloorPlan;
   };
   InteriorTaste: {
     houseType: HouseType;
     roomType: RoomType;
     roomSize: RoomSize;
-    floorPlan: number[];
+    floorPlan: FloorPlan;
     selectedInteriorTaste?: number[];
   };
   MainActivity: {
     houseType: HouseType;
     roomType: RoomType;
     roomSize: RoomSize;
-    floorPlan: number[];
+    floorPlan: FloorPlan;
     selectedInteriorTaste: number[];
     primaryUsage?: PrimaryUsage;
     bedType?: BedType;

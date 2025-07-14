@@ -32,7 +32,10 @@ const Step3InteriorTaste = ({ context, onNext }: Step3InteriorTasteProps) => {
               houseType: 'office',
               roomType: 'openOne',
               roomSize: 'sixToTen',
-              floorPlan: [1, 2, 3],
+              floorPlan: {
+                floorPlanId: 1,
+                isMirror: false,
+              },
               selectedInteriorTaste: [1, 2, 3, 4],
             })
           }

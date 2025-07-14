@@ -35,8 +35,8 @@ const Step2FloorPlan = ({ context, onNext }: Step2FloorPlanProps) => {
         roomType: context.roomType,
         roomSize: context.roomSize,
         floorPlan: {
-          id: selectedHouseData.id,
-          flipped: selectedHouseData.flipped,
+          floorPlanId: selectedHouseData.id,
+          isMirror: selectedHouseData.flipped,
         },
       });
     }
@@ -54,11 +54,11 @@ const Step2FloorPlan = ({ context, onNext }: Step2FloorPlanProps) => {
 
       <FloorPlan onHouseSelect={handleHouseSelection} />
 
-      <div className={styles.buttonWrapper}>
+      {/* <div className={styles.buttonWrapper}>
         <CtaButton isActive={isDataComplete} onClick={handleNext}>
           다음
         </CtaButton>
-      </div>
+      </div> */}
     </div>
   );
 };
