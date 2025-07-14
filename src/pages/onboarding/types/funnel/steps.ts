@@ -4,7 +4,6 @@ import type {
   RoomSize,
   PrimaryUsage,
   BedType,
-  ClosetType,
   OtherFurnitures,
 } from './options';
 
@@ -36,7 +35,6 @@ export type ImageGenerateSteps = {
     selectedInteriorTaste: number[];
     primaryUsage?: PrimaryUsage;
     bedType?: BedType;
-    closetType?: ClosetType;
     otherFurnitures?: OtherFurnitures[];
   };
 };

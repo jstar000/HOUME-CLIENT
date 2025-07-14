@@ -1,4 +1,4 @@
-const opt = (key: string, label: string) => ({ value: key, label: label });
+const opt = (key: string, label: string) => ({ code: key, label: label });
 
 // Step 1
 export const HOUSE_INFO_OPTIONS = {
@@ -26,26 +26,24 @@ export const HOUSE_INFO_OPTIONS = {
 // Step 4
 export const MAIN_ACTIVITY_OPTIONS = {
   PRIMARY_USAGE: {
-    RESTING: opt('RESTING', '휴식'),
-    WORK_OFFICE: opt('WORK_OFFICE', '업무/사무'),
-    HOME_CAFE: opt('HOME_CAFE', '홈카페'),
-    MOVIE: opt('MOVIE', '영화감상'),
+    RELAXING: opt('RELAXING', '휴식형'),
+    REMOTE_WORK: opt('REMOTE_WORK', '재택근무형'),
+    HOME_THEATER: opt('HOME_THEATER', '영화감상형'),
+    HOME_CAFE: opt('HOME_CAFE', '홈카페형'),
   },
   BED_TYPE: {
     SINGLE: opt('SINGLE', '싱글'),
     SUPER_SINGLE: opt('SUPER_SINGLE', '슈퍼싱글'),
     DOUBLE: opt('DOUBLE', '더블'),
-    QUEEN_ABOVE: opt('QUEEN_ABOVE', '퀸 이상'),
-  },
-  CLOSET_TYPE: {
-    HANGER: opt('HANGER', '행거'),
-    FURNITURE: opt('FURNITURE', '가구'),
+    QUEEN_OVER: opt('QUEEN_OVER', '퀸 이상'),
   },
   OTHER_FURNITURES: {
     DESK: opt('DESK', '책상'),
+    CLOSET: opt('CLOSET', '옷장'),
+    TABLE_CHAIRS: opt('TABLE_CHAIRS', '식탁, 의자'),
+    SOFA: opt('SOFA', '소파'),
+    DRAWER: opt('DRAWER', '수납장'),
     MOVABLE_TV: opt('MOVABLE_TV', '이동식 TV'),
-    DRAWER: opt('DRAWER', '서랍'),
-    TABLE_CHAIR: opt('TABLE_CHAIR', '테이블/의자'),
   },
 } as const;
 
@@ -56,18 +54,16 @@ HouseType = "OFFICETEL" | "VILLA" | "APARTMENT" | "ETC" (4개 리터럴 타입)
 houseType?: HouseType -> houseType은 HouseType | undefined
 */
 export type HouseType =
-  (typeof HOUSE_INFO_OPTIONS.HOUSING_TYPES)[keyof typeof HOUSE_INFO_OPTIONS.HOUSING_TYPES]['value'];
+  (typeof HOUSE_INFO_OPTIONS.HOUSING_TYPES)[keyof typeof HOUSE_INFO_OPTIONS.HOUSING_TYPES]['code'];
 export type RoomType =
-  (typeof HOUSE_INFO_OPTIONS.ROOM_TYPES)[keyof typeof HOUSE_INFO_OPTIONS.ROOM_TYPES]['value'];
+  (typeof HOUSE_INFO_OPTIONS.ROOM_TYPES)[keyof typeof HOUSE_INFO_OPTIONS.ROOM_TYPES]['code'];
 export type RoomSize =
-  (typeof HOUSE_INFO_OPTIONS.AREA_TYPES)[keyof typeof HOUSE_INFO_OPTIONS.AREA_TYPES]['value'];
+  (typeof HOUSE_INFO_OPTIONS.AREA_TYPES)[keyof typeof HOUSE_INFO_OPTIONS.AREA_TYPES]['code'];
 
 // MAIN_ACTIVITY_OPTIONS 개별 타입 추출
 export type PrimaryUsage =
-  (typeof MAIN_ACTIVITY_OPTIONS.PRIMARY_USAGE)[keyof typeof MAIN_ACTIVITY_OPTIONS.PRIMARY_USAGE]['value'];
+  (typeof MAIN_ACTIVITY_OPTIONS.PRIMARY_USAGE)[keyof typeof MAIN_ACTIVITY_OPTIONS.PRIMARY_USAGE]['code'];
 export type BedType =
-  (typeof MAIN_ACTIVITY_OPTIONS.BED_TYPE)[keyof typeof MAIN_ACTIVITY_OPTIONS.BED_TYPE]['value'];
-export type ClosetType =
-  (typeof MAIN_ACTIVITY_OPTIONS.CLOSET_TYPE)[keyof typeof MAIN_ACTIVITY_OPTIONS.CLOSET_TYPE]['value'];
+  (typeof MAIN_ACTIVITY_OPTIONS.BED_TYPE)[keyof typeof MAIN_ACTIVITY_OPTIONS.BED_TYPE]['code'];
 export type OtherFurnitures =
-  (typeof MAIN_ACTIVITY_OPTIONS.OTHER_FURNITURES)[keyof typeof MAIN_ACTIVITY_OPTIONS.OTHER_FURNITURES]['value'];
+  (typeof MAIN_ACTIVITY_OPTIONS.OTHER_FURNITURES)[keyof typeof MAIN_ACTIVITY_OPTIONS.OTHER_FURNITURES]['code'];
