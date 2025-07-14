@@ -1,4 +1,5 @@
 import * as styles from '../StepCommon.css';
+import Subtitle from '../title/Subtitle';
 import ShowErrorMessage from '@/shared/components/button/showErrorButton/ShowErrorButton';
 import LargeFilled from '@/shared/components/button/largeFilledButton/LargeFilledButton';
 import Caption from '@/shared/components/text/Caption';
@@ -31,10 +32,7 @@ const SubOptionGroup = <T = string,>({
 }: SubOptionGroupProps<T>) => {
   return (
     <div className={styles.subOptionGroupWrapper}>
-      <div className={styles.subTextBox}>
-        <span className={styles.subtitle}>{subtitle}</span>
-        <span className={styles.caption}>{caption}</span>
-      </div>
+      <Subtitle subtitle={subtitle} caption={caption} />
       {isAlertPresented && <Caption code={'휴식형'} option={'소파'} />}
       <div className={styles.buttonBox}>
         {options.map((option) => (

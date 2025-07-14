@@ -1,5 +1,5 @@
 import * as styles from '../StepCommon.css';
-import MainTitle from '../maintitle/MainTitle';
+import MainTitle from '../title/Maintitle';
 import ShowErrorMessage from '@/shared/components/button/showErrorButton/ShowErrorButton';
 import LargeFilled from '@/shared/components/button/largeFilledButton/LargeFilledButton';
 

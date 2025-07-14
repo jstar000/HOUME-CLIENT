@@ -1,4 +1,4 @@
-import * as styles from './MainTitle.css';
+import * as styles from '../StepCommon.css';
 
 interface MainTitleProps {
   title: string;

@@ -9,7 +9,7 @@ import {
   type PrimaryUsage,
 } from '../../../types/funnel';
 import OptionGroup from '../optionGroup/OptionGroup';
-import MainTitle from '../maintitle/MainTitle';
+import MainTitle from '../title/Maintitle';
 import SubOptionGroup from '../optionGroup/SubOptionGroup';
 import MultiOptionGroup from '../optionGroup/MultiOptionGroup';
 import { useStep4MainActivity } from '@/pages/onboarding/hooks/useStep4MainActivity.hooks';
