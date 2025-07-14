@@ -1,4 +1,5 @@
-// Step 2
+// Step2HouseStructure.tsx
+import { useState } from 'react';
 import FloorPlan from './FloorPlan';
 import * as styles from './Step2HouseStructure.css';
 import FunnelHeader from '../../header/FunnelHeader';
@@ -6,13 +7,43 @@ import type {
   CompletedHouseStructure,
   ImageGenerateSteps,
 } from '../../../types/funnel';
+import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 
 interface Step2HouseStructureProps {
   context: ImageGenerateSteps['HouseStructure'];
   onNext: (data: CompletedHouseStructure) => void;
 }
 
+interface SelectedHouseData {
+  id: number;
+  src: string;
+  flipped: boolean;
+}
+
 const Step2HouseStructure = ({ context, onNext }: Step2HouseStructureProps) => {
+  const [selectedHouseData, setSelectedHouseData] =
+    useState<SelectedHouseData | null>(null);
+
+  const handleHouseSelection = (houseData: SelectedHouseData) => {
+    setSelectedHouseData(houseData);
+  };
+
+  const handleNext = () => {
+    if (selectedHouseData) {
+      onNext({
+        houseType: context.houseType,
+        roomType: context.roomType,
+        roomSize: context.roomSize,
+        selectedHouseStructure: {
+          id: selectedHouseData.id,
+          flipped: selectedHouseData.flipped,
+        },
+      });
+    }
+  };
+
+  const isDataComplete = selectedHouseData !== null;
+
   return (
     <div className={styles.container}>
       <FunnelHeader
@@ -20,22 +51,14 @@ const Step2HouseStructure = ({ context, onNext }: Step2HouseStructureProps) => {
         detail={`템플릿을 선택하면 좌우반전을 할 수 있어요.`}
         currentStep={2}
       />
-      {/* 테스트 코드 */}
-      {/* <span>{context.houseType}</span> */}
-      <FloorPlan />
-      {/* <button
-        type="button"
-        onClick={() =>
-          onNext({
-            houseType: 'office',
-            roomType: 'openOne',
-            roomSize: 'sixToTen',
-            selectedHouseStructure: [1, 2, 3],
-          })
-        }
-      >
-        다음 단계
-      </button> */}
+
+      <FloorPlan onHouseSelect={handleHouseSelection} />
+
+      <div className={styles.buttonWrapper}>
+        <CtaButton isActive={isDataComplete} onClick={handleNext}>
+          다음
+        </CtaButton>
+      </div>
     </div>
   );
 };
