@@ -1,5 +1,5 @@
 // Step 2
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as styles from './FloorPlan.css';
 import FloorCard from '@/shared/components/card/floorCard/FloorCard';
 import { mockimages } from '@/pages/onboarding/constants/step2MockData';
@@ -31,8 +31,12 @@ const FloorPlan = () => {
   };
   const handleOpenSheet = (type: 'noMatch' | 'flip') => {
     setOpenSheet(type);
-    setTimeout(() => setIsSheetOpen(true), 0); // 다음 이벤트 루프에 열림 (애니메이션) bottomSheet 컴포넌트 렌더링 후 열림
   };
+  useEffect(() => {
+    if (openSheet) {
+      setIsSheetOpen(true);
+    }
+  }, [openSheet]);
   const handleCloseSheet = () => {
     setIsSheetOpen(false); // 닫힘 애니메이션 시작
   };
