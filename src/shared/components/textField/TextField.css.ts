@@ -34,6 +34,21 @@ export const textField = recipe({
       error: {
         backgroundColor: colorVars.color.error_light,
         color: colorVars.color.error,
+        border: 'none',
+
+        ':focus': {
+          border: `1px solid ${colorVars.color.error}`,
+        },
+      },
+      errorFocused: {
+        backgroundColor: colorVars.color.error_light,
+        color: colorVars.color.error,
+        border: `1px solid ${colorVars.color.error}`,
+        selectors: {
+          '&:focus': {
+            border: `1px solid ${colorVars.color.error}`,
+          },
+        },
       },
     },
     fieldSize: {
@@ -47,7 +62,7 @@ export const textField = recipe({
         textAlign: 'center',
       },
       large: {
-        width: '25.9rem',
+        width: '33.5rem',
       },
     },
   },

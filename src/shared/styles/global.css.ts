@@ -88,7 +88,7 @@ globalStyle('body', {
   overflowWrap: 'break-word', // 긴 단어 자동 줄바꿈
 
   // 레이아웃
-  height: '100%',
+  minHeight: '100%',
   minWidth: layoutVars.minWidth, // 최소 너비 제한
   maxWidth: layoutVars.maxWidth, // 최대 너비 제한
   marginLeft: 'auto', // 가로 중앙 정렬
@@ -97,7 +97,7 @@ globalStyle('body', {
   flexDirection: 'column',
 
   // 시각적 효과
-  backgroundColor: colorVars.color.gray050,
+  backgroundColor: colorVars.color.gray000,
   boxShadow: '0px 0px 30px 0px rgba(0, 0, 0, 0.25)', // 앱 영역 그림자
   scrollBehavior: 'smooth', // 부드러운 스크롤
   scrollbarWidth: 'none', // Firefox 스크롤바 숨김
@@ -109,4 +109,27 @@ globalStyle('body', {
  */
 globalStyle('body::-webkit-scrollbar', {
   display: 'none',
+});
+
+/* ===== 이미지 보호 설정 ===== */
+/**
+ * 모든 이미지 요소에 대한 사용자 상호작용 제한
+ *
+ * Best Practice:
+ * - CSS만으로는 완전한 드래그 방지가 불가능
+ * - 중요한 이미지는 개별적으로 draggable="false" HTML 속성 추가 권장
+ * - 모바일 환경에서의 길게 누르기 메뉴도 방지
+ */
+globalStyle('img', {
+  // 텍스트/이미지 선택 방지
+  userSelect: 'none',
+  WebkitUserSelect: 'none',
+  MozUserSelect: 'none',
+  msUserSelect: 'none',
+
+  // 모바일 터치 콜아웃(길게 누르기 메뉴) 방지
+  WebkitTouchCallout: 'none',
+
+  // 이미지 하이라이트 방지
+  WebkitTapHighlightColor: 'transparent',
 });
