@@ -21,7 +21,8 @@ export const useStep4MainActivity = (
   const areAllFieldsFilled = !!(
     formData.primaryUsage &&
     formData.bedType &&
-    formData.otherFurnitures
+    Array.isArray(formData.otherFurnitures) && // 배열인지 확인
+    formData.otherFurnitures.length > 0 // 배열에 최소 1개 이상의 요소가 있는지 확인
   );
 
   return {
