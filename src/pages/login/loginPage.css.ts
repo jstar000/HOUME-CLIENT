@@ -4,6 +4,7 @@ import { colorVars } from '@/shared/styles/tokens/color.css';
 
 export const container = style({
   background: colorVars.color.bg_grad,
+  height: '100vh',
 });
 
 export const textbox = style({
