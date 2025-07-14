@@ -25,8 +25,8 @@ const SignupPage = () => {
 
   // 이름 입력 시 한글만 남기고 필터링
   const handleNameChange = (input: string) => {
-    const onlyKorean = input.replace(/[^\p{Script=Hangul}]/gu, '');
-    setName(onlyKorean);
+    const filtered = input.replace(/[A-Za-z0-9\u{1F000}-\u{1FFFF}]/gu, '');
+    setName(filtered);
   };
 
   // 숫자 여부 확인
