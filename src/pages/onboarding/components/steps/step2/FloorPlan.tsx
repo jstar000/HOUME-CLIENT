@@ -10,14 +10,14 @@ import FlipSheet from '@/shared/components/bottomSheet/flipSheet/FlipSheet';
 import { useToast } from '@/shared/components/toast/useToast';
 
 interface FloorPlanProps {
-  onHouseSelect: (houseData: {
+  onFloorPlanSelect: (houseData: {
     id: number;
     src: string;
     flipped: boolean;
   }) => void;
 }
 
-const FloorPlan = ({ onHouseSelect }: FloorPlanProps) => {
+const FloorPlan = ({ onFloorPlanSelect }: FloorPlanProps) => {
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [openSheet, setOpenSheet] = useState<OpenSheetKey>(null);
@@ -81,9 +81,9 @@ const FloorPlan = ({ onHouseSelect }: FloorPlanProps) => {
         flipped: isFlipped,
       };
 
-      // 상위 컴포넌트로 선택된 집 데이터 전달
-      onHouseSelect(houseData);
       handleCloseSheet();
+
+      onFloorPlanSelect(houseData);
     }
   };
 

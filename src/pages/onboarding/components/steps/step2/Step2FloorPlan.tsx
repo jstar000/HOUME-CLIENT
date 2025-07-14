@@ -7,7 +7,6 @@ import type {
   CompletedFloorPlan,
   ImageGenerateSteps,
 } from '../../../types/funnel';
-import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 
 interface Step2FloorPlanProps {
   context: ImageGenerateSteps['FloorPlan'];
@@ -24,25 +23,17 @@ const Step2FloorPlan = ({ context, onNext }: Step2FloorPlanProps) => {
   const [selectedHouseData, setSelectedHouseData] =
     useState<SelectedHouseData | null>(null);
 
-  const handleHouseSelection = (houseData: SelectedHouseData) => {
-    setSelectedHouseData(houseData);
+  const handleFloorPlanSelection = (houseData: SelectedHouseData) => {
+    onNext({
+      houseType: context.houseType,
+      roomType: context.roomType,
+      roomSize: context.roomSize,
+      floorPlan: {
+        floorPlanId: houseData.id,
+        isMirror: houseData.flipped,
+      },
+    });
   };
-
-  const handleNext = () => {
-    if (selectedHouseData) {
-      onNext({
-        houseType: context.houseType,
-        roomType: context.roomType,
-        roomSize: context.roomSize,
-        floorPlan: {
-          floorPlanId: selectedHouseData.id,
-          isMirror: selectedHouseData.flipped,
-        },
-      });
-    }
-  };
-
-  const isDataComplete = selectedHouseData !== null;
 
   return (
     <div className={styles.container}>
@@ -52,13 +43,7 @@ const Step2FloorPlan = ({ context, onNext }: Step2FloorPlanProps) => {
         currentStep={2}
       />
 
-      <FloorPlan onHouseSelect={handleHouseSelection} />
-
-      {/* <div className={styles.buttonWrapper}>
-        <CtaButton isActive={isDataComplete} onClick={handleNext}>
-          다음
-        </CtaButton>
-      </div> */}
+      <FloorPlan onFloorPlanSelect={handleFloorPlanSelection} />
     </div>
   );
 };
