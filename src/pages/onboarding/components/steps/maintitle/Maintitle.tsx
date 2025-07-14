@@ -1,0 +1,17 @@
+import * as styles from './MainTitle.css';
+
+interface MainTitleProps {
+  title: string;
+  body?: string;
+}
+
+const MainTitle = ({ title, body }: MainTitleProps) => {
+  return (
+    <div className={styles.mainTextBox}>
+      <span className={styles.title}>{title}</span>
+      <span className={styles.body}>{body}</span>
+    </div>
+  );
+};
+
+export default MainTitle;

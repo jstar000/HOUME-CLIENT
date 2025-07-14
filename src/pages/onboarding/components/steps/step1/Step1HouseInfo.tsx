@@ -31,6 +31,7 @@ const Step1HouseInfo = ({ context, onNext }: Step1HouseInfoProps) => {
       <FunnelHeader
         title={`집 구조에 대해 알려주세요`}
         detail={`하우미가 더 정밀하게 스타일링을 제안할 수 있도록\n주거 형태와 평형, 도면 구조를 알려주세요.`}
+        currentStep={1}
       />
 
       <div className={styles.wrapper}>

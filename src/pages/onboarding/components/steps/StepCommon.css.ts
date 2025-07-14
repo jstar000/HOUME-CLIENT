@@ -9,6 +9,7 @@ export const container = style({
   width: '100%',
 });
 
+// step1
 export const wrapper = style({
   display: 'flex',
   flexDirection: 'column',
@@ -16,20 +17,63 @@ export const wrapper = style({
   padding: '2rem',
 });
 
+export const optionGroupWrapper = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '1.6rem',
+});
+
+// step4의 '가구'를 감싸는 wrapper
+export const subWrapper = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '2.4rem',
+});
+
+export const subOptionGroupWrapper = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '1.2rem',
+});
+
 export const selectBox = style({
   display: 'flex',
   flexDirection: 'column',
 });
 
+export const mainTextBox = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.6rem',
+});
+
 export const title = style({
   ...fontStyle('title_sb_16'),
   color: colorVars.color.gray800,
-  marginBottom: '1.6rem',
+});
+
+export const body = style({
+  ...fontStyle('caption_r_12'),
+  color: colorVars.color.gray500,
+});
+
+export const subTextBox = style({
+  display: 'flex',
+  gap: '0.4rem',
+});
+
+export const subtitle = style({
+  ...fontStyle('body_m_14'),
+  color: colorVars.color.gray700,
+});
+
+export const caption = style({
+  ...fontStyle('caption_r_12'),
+  color: colorVars.color.gray500,
 });
 
 export const buttonBox = style({
   display: 'grid',
   gridTemplateColumns: '1fr 1fr',
   gap: '0.7rem',
-  marginBottom: '0.4rem',
 });
