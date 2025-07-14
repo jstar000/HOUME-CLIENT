@@ -9,6 +9,7 @@ import { useToast } from '../../toast/useToast';
 interface NoMatchSheetProps {
   isOpen: boolean;
   onClose: () => void;
+  onSubmit: () => void;
   user?: string;
   onExited?: () => void; // 애니메이션 끝나면 호출(unmount)
 }
@@ -16,6 +17,7 @@ interface NoMatchSheetProps {
 const NoMatchSheet = ({
   isOpen,
   onClose,
+  onSubmit,
   user,
   onExited,
 }: NoMatchSheetProps) => {
@@ -35,17 +37,7 @@ const NoMatchSheet = ({
   };
 
   const handleSubmit = () => {
-    onClose();
-    notify({
-      text: '주소가 성공적으로 제출되었어요',
-      type: 'success',
-      options: {
-        style: {
-          marginBottom: '1.6rem',
-        },
-        autoClose: 5000,
-      },
-    });
+    onSubmit();
   };
 
   return (

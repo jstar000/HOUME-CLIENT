@@ -7,6 +7,7 @@ import { mockimages } from '@/pages/onboarding/constants/step2MockData';
 import NoMatchButton from '@/shared/components/button/noMatchButton/NoMatchButton';
 import NoMatchSheet from '@/shared/components/bottomSheet/noMatchSheet/NoMatchSheet';
 import FlipSheet from '@/shared/components/bottomSheet/flipSheet/FlipSheet';
+import { useToast } from '@/shared/components/toast/useToast';
 
 const FloorPlan = () => {
   const [selectedId, setSelectedId] = useState<number | null>(null);
@@ -23,6 +24,22 @@ const FloorPlan = () => {
     selectedId !== null
       ? mockimages.find((item) => item.id === selectedId)
       : null;
+
+  const { notify } = useToast();
+
+  // toast를 NoMatchSheet의 상위 컴포넌트인 FloorPlan에서 호출해야
+  // toast의 option에 준 autoClose가 정상적으로 적용됨
+  const handleAddressSubmit = () => {
+    handleCloseSheet();
+    notify({
+      text: '주소가 성공적으로 제출되었어요',
+      type: 'success',
+      options: {
+        style: { marginBottom: '1.6rem' },
+        autoClose: 3000,
+      },
+    });
+  };
 
   const handleImageClick = (id: number) => {
     setSelectedId(id);
@@ -100,6 +117,7 @@ const FloorPlan = () => {
           isOpen={isSheetOpen}
           onClose={handleCloseSheet}
           onExited={handleExited}
+          onSubmit={handleAddressSubmit}
         />
       )}
       {openSheet === 'flip' && (
