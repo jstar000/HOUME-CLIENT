@@ -1,17 +1,17 @@
-// Step2HouseStructure.tsx
+// Step2FloorPlan.tsx
 import { useState } from 'react';
 import FloorPlan from './FloorPlan';
-import * as styles from './Step2HouseStructure.css';
+import * as styles from './Step2FloorPlan.css';
 import FunnelHeader from '../../header/FunnelHeader';
 import type {
-  CompletedHouseStructure,
+  CompletedFloorPlan,
   ImageGenerateSteps,
 } from '../../../types/funnel';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 
-interface Step2HouseStructureProps {
-  context: ImageGenerateSteps['HouseStructure'];
-  onNext: (data: CompletedHouseStructure) => void;
+interface Step2FloorPlanProps {
+  context: ImageGenerateSteps['FloorPlan'];
+  onNext: (data: CompletedFloorPlan) => void;
 }
 
 interface SelectedHouseData {
@@ -20,7 +20,7 @@ interface SelectedHouseData {
   flipped: boolean;
 }
 
-const Step2HouseStructure = ({ context, onNext }: Step2HouseStructureProps) => {
+const Step2FloorPlan = ({ context, onNext }: Step2FloorPlanProps) => {
   const [selectedHouseData, setSelectedHouseData] =
     useState<SelectedHouseData | null>(null);
 
@@ -63,4 +63,4 @@ const Step2HouseStructure = ({ context, onNext }: Step2HouseStructureProps) => {
   );
 };
 
-export default Step2HouseStructure;
+export default Step2FloorPlan;

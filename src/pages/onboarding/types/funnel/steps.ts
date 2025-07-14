@@ -14,7 +14,7 @@ export type ImageGenerateSteps = {
     roomType?: RoomType;
     roomSize?: RoomSize;
   };
-  HouseStructure: {
+  FloorPlan: {
     houseType: HouseType;
     roomType: RoomType;
     roomSize: RoomSize;
@@ -40,9 +40,7 @@ export type ImageGenerateSteps = {
 };
 
 export type CompletedHouseInfo = Required<ImageGenerateSteps['HouseInfo']>;
-export type CompletedHouseStructure = Required<
-  ImageGenerateSteps['HouseStructure']
->;
+export type CompletedFloorPlan = Required<ImageGenerateSteps['FloorPlan']>;
 export type CompletedInteriorTaste = Required<
   ImageGenerateSteps['InteriorTaste']
 >;
