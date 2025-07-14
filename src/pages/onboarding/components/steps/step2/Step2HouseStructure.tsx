@@ -34,7 +34,7 @@ const Step2HouseStructure = ({ context, onNext }: Step2HouseStructureProps) => {
         houseType: context.houseType,
         roomType: context.roomType,
         roomSize: context.roomSize,
-        selectedHouseStructure: {
+        floorPlan: {
           id: selectedHouseData.id,
           flipped: selectedHouseData.flipped,
         },

@@ -18,20 +18,20 @@ export type ImageGenerateSteps = {
     houseType: HouseType;
     roomType: RoomType;
     roomSize: RoomSize;
-    selectedHouseStructure?: number[];
+    floorPlan?: number[];
   };
   InteriorTaste: {
     houseType: HouseType;
     roomType: RoomType;
     roomSize: RoomSize;
-    selectedHouseStructure: number[];
+    floorPlan: number[];
     selectedInteriorTaste?: number[];
   };
   MainActivity: {
     houseType: HouseType;
     roomType: RoomType;
     roomSize: RoomSize;
-    selectedHouseStructure: number[];
+    floorPlan: number[];
     selectedInteriorTaste: number[];
     primaryUsage?: PrimaryUsage;
     bedType?: BedType;
