@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as styles from './LoadingPage.css';
 import { PROGRESS_CONFIG } from '../../constants/progressConfig';
-import { ROUTES } from '@/routes/paths';
 
 const ProgressLoadingBar = () => {
   const [progress, setProgress] = useState(0);
