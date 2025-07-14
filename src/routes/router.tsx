@@ -22,6 +22,7 @@ import ResultPage from '@/pages/generate/components/result/ResultPage';
 import LoadingPage from '@/pages/generate/components/loading/LoadingPage';
 import { MOCK_GENERATE_DATA } from '@/pages/generate/constants/resultMockData';
 import { ImageGenerationFunnel } from '@/pages/onboarding/ImageGenerationFunnel';
+import KakaoCallback from '@/pages/login/KakaoCallback';
 
 // TODO: Replace with actual auth state management
 const isAuthenticated = false;
@@ -54,6 +55,14 @@ const protectedRoutes = [
     path: ROUTES.MYPAGE,
     element: <MyPage />,
   },
+  {
+    path: ROUTES.OAUTH,
+    element: <KakaoCallback />,
+  },
+];
+
+// 보호된 라우트 그룹 (인증 필요)
+const protectedRoutes = [
   {
     path: ROUTES.GENERATE,
     element: <GeneratePage />,
