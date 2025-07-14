@@ -7,7 +7,7 @@ export const container = style({
   flexDirection: 'column',
   alignItems: 'center',
   width: '100%',
-  marginBottom: '96px',
+  marginBottom: '9.6rem',
 });
 
 export const buttonWrapper = style({
