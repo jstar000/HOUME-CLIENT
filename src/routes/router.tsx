@@ -43,6 +43,10 @@ const publicRoutes = [
     path: ROUTES.SIGNUP,
     element: <SignupPage />,
   },
+  {
+    path: ROUTES.OAUTH,
+    element: <KakaoCallback />,
+  },
 ];
 
 // 보호된 라우트 그룹 (인증 필요)
@@ -54,10 +58,6 @@ const protectedRoutes = [
   {
     path: ROUTES.MYPAGE,
     element: <MyPage />,
-  },
-  {
-    path: ROUTES.OAUTH,
-    element: <KakaoCallback />,
   },
   {
     path: ROUTES.GENERATE,
