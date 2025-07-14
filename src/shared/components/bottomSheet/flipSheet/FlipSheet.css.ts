@@ -1,3 +1,4 @@
+import { styleVariants } from '@vanilla-extract/css';
 import { style } from '@vanilla-extract/css';
 import { colorVars } from '@styles/tokens/color.css';
 import { fontStyle } from '@/shared/styles/fontStyle';
@@ -62,6 +63,27 @@ export const dragHandleContainer = style({
 export const infoText = style({
   ...fontStyle('heading_sb_18'),
   color: colorVars.color.gray900,
+});
+
+export const imageContainer = style({
+  width: '22rem',
+  height: '33rem',
+  borderRadius: '16px',
+});
+
+export const imageVariants = styleVariants({
+  normal: {
+    width: '100%',
+    height: '100%',
+    transition: 'transform 0.3s',
+    transform: 'none',
+  },
+  flipped: {
+    width: '100%',
+    height: '100%',
+    transition: 'transform 0.3s',
+    transform: 'scaleX(-1)',
+  },
 });
 
 export const buttonGroup = style({

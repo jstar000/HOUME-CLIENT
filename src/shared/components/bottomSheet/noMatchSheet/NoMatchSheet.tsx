@@ -1,17 +1,52 @@
+import { useState } from 'react';
 import clsx from 'clsx';
 import DragHandle from '@components/dragHandle/DragHandle';
 import TextField from '@components/textField/TextField';
 import CtaButton from '@components/button/ctaButton/CtaButton';
 import * as styles from './NoMatchSheet.css';
+import { useToast } from '../../toast/useToast';
 
 interface NoMatchSheetProps {
   isOpen: boolean;
   onClose: () => void;
   user?: string;
+  onExited?: () => void; // 애니메이션 끝나면 호출(unmount)
 }
 
-const NoMatchSheet = ({ isOpen, onClose, user }: NoMatchSheetProps) => {
+const NoMatchSheet = ({
+  isOpen,
+  onClose,
+  user,
+  onExited,
+}: NoMatchSheetProps) => {
   const displayName = user?.trim() || '사용자';
+
+  const [region, setRegion] = useState('');
+  const [address, setAddress] = useState('');
+  const isFilled = region.trim() !== '' && address.trim() !== '';
+  const { notify } = useToast();
+
+  // transitionend 핸들러
+  const handleTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
+    // sheetWrapper에서만, 닫힐 때만 호출
+    if (!isOpen && e.propertyName === 'transform') {
+      onExited?.();
+    }
+  };
+
+  const handleSubmit = () => {
+    onClose();
+    notify({
+      text: '주소가 성공적으로 제출되었어요',
+      type: 'success',
+      options: {
+        style: {
+          marginBottom: '1.6rem',
+        },
+        autoClose: 5000,
+      },
+    });
+  };
 
   return (
     <>
@@ -25,6 +60,7 @@ const NoMatchSheet = ({ isOpen, onClose, user }: NoMatchSheetProps) => {
           isOpen ? styles.sheetWrapperExpanded : styles.sheetWrapperCollapsed
         )}
         onClick={(e) => e.stopPropagation()}
+        onTransitionEnd={handleTransitionEnd}
       >
         <div className={styles.contentWapper}>
           <div className={styles.dragHandleContainer}>
@@ -46,14 +82,23 @@ const NoMatchSheet = ({ isOpen, onClose, user }: NoMatchSheetProps) => {
               <TextField
                 fieldSize="thin"
                 placeholder="ex) 솝트특별자치시 앱잼구"
+                value={region}
+                onChange={setRegion}
               />
             </div>
             <div className={styles.fieldContainer}>
               <p className={styles.title}>상세 주소</p>
-              <TextField fieldSize="thin" placeholder="ex) 하우미로 123" />
+              <TextField
+                fieldSize="thin"
+                placeholder="ex) 하우미로 123"
+                value={address}
+                onChange={setAddress}
+              />
             </div>
           </div>
-          <CtaButton isActive={false}>제출하기</CtaButton>
+          <CtaButton onClick={handleSubmit} isActive={isFilled}>
+            제출하기
+          </CtaButton>
         </div>
       </div>
     </>

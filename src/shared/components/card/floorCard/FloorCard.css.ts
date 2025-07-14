@@ -5,12 +5,12 @@ export const container = style({
   width: '16rem',
   height: '24rem',
   overflow: 'hidden',
-  borderRadius: '1.6rem',
+  borderRadius: '16px',
   outline: 'none',
   boxSizing: 'border-box',
   position: 'relative',
   cursor: 'pointer',
-  border: `1px solid ${colorVars.color.gray200}`,
+  border: `1.5px solid ${colorVars.color.gray200}`,
 
   selectors: {
     '&::after': {
@@ -22,11 +22,19 @@ export const container = style({
       height: '100%',
       backgroundColor: 'transparent',
       pointerEvents: 'none',
-      borderRadius: '1.6rem',
+      borderRadius: '16px',
       transition: 'background-color 0.3s ease',
     },
 
     '&:active::after': {
+      backgroundColor: 'rgba(0, 0, 0, 0.30)',
+    },
+  },
+});
+
+export const selected = style({
+  selectors: {
+    '&::after': {
       backgroundColor: 'rgba(0, 0, 0, 0.30)',
     },
   },
