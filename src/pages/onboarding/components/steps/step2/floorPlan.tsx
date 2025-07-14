@@ -54,7 +54,7 @@ const FloorPlan = () => {
   };
   return (
     <section className={styles.wrapper}>
-      <TitleNavBar
+      {/* <TitleNavBar
         title={'스타일링 이미지 생성'}
         isBackIcon={true}
         isLoginBtn={false}
@@ -63,7 +63,7 @@ const FloorPlan = () => {
         title={'유사한 집 구조를 선택해주세요'}
         detail={'템플릿을 선택하면 좌우반전을 할 수 있어요.'}
         currentStep={2}
-      />
+      /> */}
       <div className={styles.container}>
         <div className={styles.gridbox}>
           {mockimages.map((item) => (

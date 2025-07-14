@@ -18,10 +18,11 @@ export const container = style({
 });
 
 export const gridbox = style({
-  width: 'fit-content',
+  width: '100%',
   height: 'fit-content',
   display: 'grid',
-  gridTemplateColumns: 'repeat(2, 1fr)',
+  gridTemplateColumns: 'repeat(2, auto)',
+  justifyContent: 'center',
   rowGap: '1.2rem',
   columnGap: '1.1rem',
 });
