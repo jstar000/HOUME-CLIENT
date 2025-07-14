@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import {
-  allRequiredFurnitures,
   MAIN_ACTIVITY_OPTIONS,
   MAIN_ACTIVITY_VALIDATION,
   type ImageGenerateSteps,

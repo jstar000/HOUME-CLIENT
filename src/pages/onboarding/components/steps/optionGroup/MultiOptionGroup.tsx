@@ -64,7 +64,6 @@ const MultiOptionGroup = <T = string,>({
         <span className={styles.caption}>{caption}</span>
       </div>
 
-      {/* Caption 표시 조건 수정 */}
       {isAlertPresented &&
         currentActivityLabel &&
         requiredFurnitureLabels.length > 0 && (
