@@ -1,32 +1,21 @@
-import { useState } from 'react';
-import FlipSheet from '@/shared/components/bottomSheet/flipSheet/FlipSheet';
-import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
+import LogoNavBar from '@shared/components/navBar/LogoNavBar';
+import IntroSection from './introSection/IntroSection';
+import StepGuideSection from './stepGuideSection/StepGuideSection';
+import ReviewSection from './reviewSection/ReviewSection';
+import * as styles from './HomePage.css';
+
+const isLoggedIn = false;
 
 const HomePage = () => {
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
-
-  const handleOpen = () => setIsSheetOpen(true);
-  const handleClose = () => setIsSheetOpen(false);
-
-  const handleFlip = () => {
-    console.log('Flip clicked!');
-  };
-
-  const handleChoose = () => {
-    console.log('Choose clicked!');
-    setIsSheetOpen(false);
-  };
-
   return (
-    <div>
-      <CtaButton onClick={handleOpen}>시트 열기</CtaButton>
-      <FlipSheet
-        onFlipClick={handleFlip}
-        onChooseClick={handleChoose}
-        isOpen={isSheetOpen}
-        onClose={handleClose}
-      />
-    </div>
+    <main className={styles.page}>
+      <LogoNavBar buttonType={isLoggedIn ? 'profile' : 'login'} />
+      <div className={styles.contents}>
+        <IntroSection />
+        <StepGuideSection />
+        <ReviewSection />
+      </div>
+    </main>
   );
 };
 
