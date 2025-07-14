@@ -2,7 +2,6 @@ import * as styles from '../StepCommon.css';
 import Subtitle from '../title/Subtitle';
 import ShowErrorMessage from '@/shared/components/button/showErrorButton/ShowErrorButton';
 import LargeFilled from '@/shared/components/button/largeFilledButton/LargeFilledButton';
-import Caption from '@/shared/components/text/Caption';
 
 interface SubOption<T = string> {
   code: T;
