@@ -1,5 +1,4 @@
 // Step2FloorPlan.tsx
-import { useState } from 'react';
 import FloorPlan from './FloorPlan';
 import * as styles from './Step2FloorPlan.css';
 import FunnelHeader from '../../header/FunnelHeader';
@@ -20,9 +19,6 @@ interface SelectedHouseData {
 }
 
 const Step2FloorPlan = ({ context, onNext }: Step2FloorPlanProps) => {
-  const [selectedHouseData, setSelectedHouseData] =
-    useState<SelectedHouseData | null>(null);
-
   const handleFloorPlanSelection = (houseData: SelectedHouseData) => {
     onNext({
       houseType: context.houseType,
