@@ -15,7 +15,6 @@ interface SubOptionGroupProps<T = string> {
   options: SubOption<T>[]; // '오피스텔', '빌라/다세대', '아파트', '그 외' 등
   selected?: T; // 사용자가 선택한 옵션
   onButtonClick: (value: T) => void;
-  isAlertPresented?: boolean;
   error?: string;
 }
 
@@ -27,13 +26,11 @@ const SubOptionGroup = <T = string,>({
   options,
   selected,
   onButtonClick,
-  isAlertPresented = false,
   error,
 }: SubOptionGroupProps<T>) => {
   return (
     <div className={styles.subOptionGroupWrapper}>
       <Subtitle subtitle={subtitle} caption={caption} />
-      {isAlertPresented && <Caption code={'휴식형'} option={'소파'} />}
       <div className={styles.buttonBox}>
         {options.map((option) => (
           <LargeFilled

@@ -4,7 +4,7 @@ import { colorVars } from '@/shared/styles/tokens/color.css';
 
 export const subTextBox = style({
   display: 'flex',
-  gap: '0,4rem',
+  gap: '0.4rem',
 });
 
 export const subtitle = style({
