@@ -60,6 +60,7 @@ export const body = style({
 export const subTextBox = style({
   display: 'flex',
   gap: '0.4rem',
+  alignItems: 'center',
 });
 
 export const subtitle = style({

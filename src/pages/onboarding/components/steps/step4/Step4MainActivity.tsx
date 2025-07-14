@@ -11,6 +11,7 @@ import {
 import OptionGroup from '../optionGroup/OptionGroup';
 import MainTitle from '../maintitle/MainTitle';
 import SubOptionGroup from '../optionGroup/SubOptionGroup';
+import MultiOptionGroup from '../optionGroup/MultiOptionGroup';
 import { useStep4MainActivity } from '@/pages/onboarding/hooks/useStep4MainActivity.hooks';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 
@@ -65,18 +66,7 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
             error={errors.bedType}
           />
 
-          <SubOptionGroup<BedType>
-            subtitle="침대"
-            options={bedTypeOptions}
-            selected={formData.bedType}
-            onButtonClick={(value) =>
-              setFormData((prev) => ({ ...prev, bedType: value }))
-            }
-            isAlertPresented={true}
-            error={errors.bedType}
-          />
-
-          {/* <SubOptionGroup<OtherFurnitures>
+          <MultiOptionGroup<OtherFurnitures>
             subtitle="주요 활동"
             caption="(최대 3개 선택)"
             options={otherFurnituresOptions}
@@ -84,8 +74,10 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
             onButtonClick={(value) =>
               setFormData((prev) => ({ ...prev, otherFurnitures: value }))
             }
+            maxSelect={4}
+            isAlertPresented={true}
             error={errors.otherFurnitures}
-          /> */}
+          />
         </div>
 
         <div>

@@ -4,7 +4,7 @@ import type { ImageGenerateSteps } from '../types/funnel';
 interface FormErrors {
   primaryUsage?: string;
   bedType?: string;
-  otherFurnitures?: string[];
+  otherFurnitures?: string;
 }
 
 export const useStep4MainActivity = (
