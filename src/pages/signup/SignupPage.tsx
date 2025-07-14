@@ -16,12 +16,14 @@ const SignupPage = () => {
     null
   );
 
+  // 이름: 한글만 허용, 2글자 이상
   const nameRegex = /^[\p{Script=Hangul}]+$/u;
   const isNameValid = nameRegex.test(name) && name.length >= 2;
   const isNameFormatInvalid = name !== '' && !nameRegex.test(name);
   const isNameLengthInvalid =
     name !== '' && nameRegex.test(name) && name.length < 2;
 
+  // 이름 입력 시 한글만 남기고 필터링
   const handleNameChange = (input: string) => {
     const onlyKorean = input.replace(/[^\p{Script=Hangul}]/gu, '');
     setName(onlyKorean);
@@ -32,11 +34,12 @@ const SignupPage = () => {
   const isMonthNumeric = /^\d{1,2}$/.test(birthMonth);
   const isDayNumeric = /^\d{1,2}$/.test(birthDay);
 
+  // 입력값을 숫자로 변환
   const yearNum = parseInt(birthYear, 10);
   const monthNum = parseInt(birthMonth, 10);
   const dayNum = parseInt(birthDay, 10);
 
-  // 연도 형식 에러
+  // 연도 형식 에러: 4자리 숫자가 아니거나 숫자가 아닐 때
   const yearFormatError =
     birthYear !== '' && (birthYear.length !== 4 || !isYearNumeric);
 
@@ -55,6 +58,7 @@ const SignupPage = () => {
     return age < 15;
   })();
 
+  // 숫자만 입력받도록 처리하는 함수
   const handleNumericChange =
     (setter: (val: string) => void) => (val: string) => {
       const numeric = val.replace(/\D/g, '');
@@ -88,6 +92,7 @@ const SignupPage = () => {
     );
   })();
 
+  // 모든 필드가 입력되었는지 확인
   const allFieldsFilled =
     name !== '' &&
     birthYear !== '' &&
@@ -95,6 +100,7 @@ const SignupPage = () => {
     birthDay !== '' &&
     gender !== null;
 
+  // 모든 에러가 없는지 확인
   const noErrors =
     isNameValid &&
     !yearFormatError &&
@@ -102,16 +108,19 @@ const SignupPage = () => {
     !monthFieldError &&
     !dayFieldError;
 
+  // 폼이 유효한지 여부
   const isFormValid = allFieldsFilled && noErrors;
 
   return (
     <div>
+      {/* 상단 네비게이션 바 */}
       <TitleNavBar title="회원가입" isBackIcon={false} isLoginBtn={false} />
 
       <div className={styles.container}>
+        {/* 페이지 타이틀 */}
         <h1 className={styles.title}>추가 회원가입 정보</h1>
 
-        {/* 이름 */}
+        {/* 이름 입력 섹션 */}
         <div className={styles.fieldbox}>
           <h2 className={styles.fieldtitle}>이름</h2>
           <TextField
@@ -122,15 +131,17 @@ const SignupPage = () => {
             onChange={handleNameChange}
             isError={isNameFormatInvalid || isNameLengthInvalid}
           />
+          {/* 이름 형식 에러 메시지 */}
           {isNameFormatInvalid && (
             <ShowErrorMessage message={ERROR_MESSAGES.NAME_INVALID} />
           )}
+          {/* 이름 길이 에러 메시지 */}
           {!isNameFormatInvalid && isNameLengthInvalid && (
             <ShowErrorMessage message={ERROR_MESSAGES.LENGTH_INVALID} />
           )}
         </div>
 
-        {/* 생년월일 */}
+        {/* 생년월일 입력 섹션 */}
         <div className={styles.fieldbox}>
           <h2 className={styles.fieldtitle}>생년월일</h2>
           <div className={styles.flexbox}>
@@ -163,7 +174,7 @@ const SignupPage = () => {
             />
           </div>
 
-          {/* 단 하나의 에러 메시지만 출력 */}
+          {/* 생년월일 관련 에러 메시지: 단 하나만 출력 */}
           {yearAgeError && (
             <ShowErrorMessage message={ERROR_MESSAGES.AGE_INVALID} />
           )}
@@ -181,7 +192,7 @@ const SignupPage = () => {
             )}
         </div>
 
-        {/* 성별 */}
+        {/* 성별 선택 섹션 */}
         <div className={styles.fieldbox}>
           <h2 className={styles.fieldtitle}>성별</h2>
           <div className={styles.flexbox}>
@@ -210,7 +221,7 @@ const SignupPage = () => {
         </div>
       </div>
 
-      {/* CTA 버튼 */}
+      {/* 회원가입 완료 CTA 버튼 */}
       <div className={styles.btnarea}>
         <CtaButton isActive={isFormValid}>회원가입 완료하기</CtaButton>
       </div>
