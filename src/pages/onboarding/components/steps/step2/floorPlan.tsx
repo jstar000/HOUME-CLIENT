@@ -1,10 +1,8 @@
 // Step 2
 import { useState } from 'react';
-import FunnelHeader from '../../header/FunnelHeader';
 import * as styles from './FloorPlan.css';
 import FloorCard from '@/shared/components/card/floorCard/FloorCard';
 import { mockimages } from '@/pages/onboarding/constants/step2MockData';
-import TitleNavBar from '@/shared/components/navBar/TitleNavBar';
 import NoMatchButton from '@/shared/components/button/noMatchButton/NoMatchButton';
 import NoMatchSheet from '@/shared/components/bottomSheet/noMatchSheet/NoMatchSheet';
 import FlipSheet from '@/shared/components/bottomSheet/flipSheet/FlipSheet';
@@ -23,6 +21,7 @@ const FloorPlan = () => {
   const handleImageClick = (id: number) => {
     setSelectedId(id);
     setIsFlipped(false); // 이미지 선택 시 반전 초기화
+    console.log('chosenImage', chosenImage); // 빌드 에러 해결용 콘솔
     handleOpenSheet('flip');
   };
   const handleOpenSheet = (type: 'noMatch' | 'flip') => {
