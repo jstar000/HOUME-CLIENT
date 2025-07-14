@@ -23,7 +23,7 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
   const {
     formData,
     setFormData,
-    errors,
+    // errors,
     areAllFieldsFilled,
     isRequiredFurniture,
     getCurrentActivityLabel,
@@ -59,7 +59,7 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
           onButtonClick={(value) =>
             setFormData((prev) => ({ ...prev, primaryUsage: value }))
           }
-          error={errors.primaryUsage}
+          // error={errors.primaryUsage}
         />
 
         <div className={common.subWrapper}>
@@ -72,7 +72,7 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
             onButtonClick={(value) =>
               setFormData((prev) => ({ ...prev, bedType: value }))
             }
-            error={errors.bedType}
+            // error={errors.bedType}
           />
 
           <MultiOptionGroup<OtherFurnitures>
@@ -85,7 +85,7 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
             }
             maxSelect={4}
             isAlertPresented={true}
-            error={errors.otherFurnitures}
+            // error={errors.otherFurnitures}
             isRequiredFurniture={isRequiredFurniture}
             currentActivityLabel={getCurrentActivityLabel()} // 추가!
             requiredFurnitureLabels={getRequiredFurnitureLabels()} // 추가!

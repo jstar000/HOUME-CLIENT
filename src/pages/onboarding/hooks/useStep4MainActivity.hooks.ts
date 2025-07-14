@@ -17,11 +17,11 @@ const isValidActivityKey = (
   // usage in _: 객체에 해당 key가 있는지 검사, boolean 반환
 };
 
-interface FormErrors {
-  primaryUsage?: string;
-  bedType?: string;
-  otherFurnitures?: string;
-}
+// interface FormErrors {
+//   primaryUsage?: string;
+//   bedType?: string;
+//   otherFurnitures?: string;
+// }
 
 export const useStep4MainActivity = (
   context: ImageGenerateSteps['MainActivity']
@@ -32,7 +32,7 @@ export const useStep4MainActivity = (
     otherFurnitures: context.otherFurnitures || [],
   });
 
-  const [errors, setErrors] = useState<FormErrors>({});
+  //   const [errors, setErrors] = useState<FormErrors>({});
 
   // 주요활동(휴식형, 재택근무형 등) 변경 시 useEffect() 실행
   // 선택한 주요활동에 매칭되는 필수 가구 자동 선택
@@ -93,7 +93,7 @@ export const useStep4MainActivity = (
   return {
     formData,
     setFormData,
-    errors,
+    // errors,
     areAllFieldsFilled,
     isRequiredFurniture,
     getCurrentActivityLabel,
