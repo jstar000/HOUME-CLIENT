@@ -12,7 +12,7 @@ interface MultiOptionGroupProps<T = string> {
   subtitle: string;
   caption?: string;
   options: SubOption<T>[]; // 선택 가능한 모든 버튼 배열
-  selected?: T[]; // 현재 선택된 항목들의 코드 배열
+  selected?: T[]; // 현재 선택된 항목들의 code값 배열
   onButtonClick: (value: T[]) => void;
   maxSelect?: number;
   isAlertPresented?: boolean;
@@ -41,7 +41,7 @@ const MultiOptionGroup = <T = string,>({
       return;
     }
 
-    const isAlreadySelected = selected.includes(optionCode);
+    const isAlreadySelected = selected?.includes(optionCode) ?? false;
     let newSelected: T[];
 
     if (isAlreadySelected) {

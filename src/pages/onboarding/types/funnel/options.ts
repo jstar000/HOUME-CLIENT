@@ -35,7 +35,7 @@ export const MAIN_ACTIVITY_OPTIONS = {
     SINGLE: opt('SINGLE', '싱글'),
     SUPER_SINGLE: opt('SUPER_SINGLE', '슈퍼싱글'),
     DOUBLE: opt('DOUBLE', '더블'),
-    QUEEN_ABOVE: opt('QUEEN_OVER', '퀸 이상'),
+    QUEEN_OVER: opt('QUEEN_OVER', '퀸 이상'),
   },
   OTHER_FURNITURES: {
     DESK: opt('DESK', '책상'),
