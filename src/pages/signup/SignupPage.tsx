@@ -35,9 +35,9 @@ const SignupPage = () => {
   const isDayNumeric = /^\d{1,2}$/.test(birthDay);
 
   // 입력값을 숫자로 변환
-  const yearNum = parseInt(birthYear, 10);
-  const monthNum = parseInt(birthMonth, 10);
-  const dayNum = parseInt(birthDay, 10);
+  const yearNum = Number.parseInt(birthYear, 10);
+  const monthNum = Number.parseInt(birthMonth, 10);
+  const dayNum = Number.parseInt(birthDay, 10);
 
   // 연도 형식 에러: 4자리 숫자가 아니거나 숫자가 아닐 때
   const yearFormatError =
@@ -69,8 +69,8 @@ const SignupPage = () => {
   const monthFieldError = (() => {
     if (birthMonth === '') return false;
     if (!/^\d{2}$/.test(birthMonth)) return true;
-    const month = parseInt(birthMonth, 10);
-    if (month === 0) return false; // 예외 처리
+    const month = Number.parseInt(birthMonth, 10);
+    if (month === 0) return false;
     return month < 1 || month > 12;
   })();
 
