@@ -9,7 +9,7 @@
  */
 import { useState } from 'react';
 import * as styles from './MoodBoard.css';
-import { mockimages } from './mockimages';
+import { useMoodBoardImage } from '@/pages/onboarding/hooks/useMoodBoardImage.hooks';
 import CardImage from '@/shared/components/card/cardImage/CardImage';
 
 const MoodBoard = () => {
@@ -50,25 +50,35 @@ const MoodBoard = () => {
     return index !== -1 ? index + 1 : 0;
   };
 
+  // 이미지 API 호출
+  const { data, isPending, isError } = useMoodBoardImage(0, 18);
+
+  // 로딩/에러 처리
+  if (isPending) return <div>이미지 불러오는 중...</div>;
+  if (isError) return <div>이미지 불러오기 실패</div>;
+
+  // 받아온 이미지 데이터
+  const images = data?.data?.moodBoardResponseList || [];
+
   return (
     <div className={styles.container}>
       <div className={styles.gridbox}>
-        {mockimages.map((image) => {
-          // 현재 이미지가 선택되었는지 확인
-          const isSelected = selectedImages.includes(image.id);
-          // 5개가 선택되었고 현재 이미지가 선택되지 않았으면 비활성화
-          const isDisabled = selectedImages.length >= 5 && !isSelected;
+        {images.map(
+          (image: { id: number; imageUrl: string; fileExtension: string }) => {
+            const isSelected = selectedImages.includes(image.id);
+            const isDisabled = selectedImages.length >= 5 && !isSelected;
 
-          return (
-            <CardImage
-              key={image.id}
-              src={image.img}
-              selectOrder={getSelectOrder(image.id)}
-              onClick={() => handleImageSelect(image.id)}
-              disabled={isDisabled}
-            />
-          );
-        })}
+            return (
+              <CardImage
+                key={image.id}
+                src={image.imageUrl}
+                selectOrder={getSelectOrder(image.id)}
+                onClick={() => handleImageSelect(image.id)}
+                disabled={isDisabled}
+              />
+            );
+          }
+        )}
       </div>
     </div>
   );
