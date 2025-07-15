@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+import { MAX_MOOD_BOARD_SELECTION } from '../constants/step3.constants';
 import type {
   CompletedInteriorTaste,
   ImageGenerateSteps,
@@ -20,7 +21,7 @@ export const useStep3InteriorTaste = (
           // 이미 선택된 경우: 선택 해제
           return prev.filter((id) => id !== imageId);
         }
-        if (prev.length >= 5) {
+        if (prev.length >= MAX_MOOD_BOARD_SELECTION) {
           // 최대 5개까지만 허용
           return prev;
         }
