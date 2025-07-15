@@ -1,8 +1,14 @@
 import * as styles from './loginPage.css';
+import { KAKAO_AUTH_URL } from './constants/kakaoLoginPath';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 import TitleNavBar from '@/shared/components/navBar/TitleNavBar';
 
 const LoginPage = () => {
+  const handleKakaoLogin = () => {
+    // 외부 URL로 리다이렉트하기 위해 window.location.href 사용
+    window.location.href = KAKAO_AUTH_URL;
+  };
+
   return (
     <div className={styles.container}>
       <TitleNavBar
@@ -19,7 +25,9 @@ const LoginPage = () => {
       </div>
       <div className={styles.imgbox}></div>
       <div className={styles.btnarea}>
-        <CtaButton typeVariant="kakao">카카오 로그인</CtaButton>
+        <CtaButton typeVariant="kakao" onClick={handleKakaoLogin}>
+          카카오 로그인
+        </CtaButton>
         <aside className={styles.aside}>
           가입 시{' '}
           <a
