@@ -98,7 +98,6 @@ const FloorPlan = ({ onFloorPlanSelect, floorPlanList }: FloorPlanProps) => {
               onClick={() => handleImageClick(item.id)}
             >
               <FloorCard
-                key={item.id}
                 src={item.floorPlanImage}
                 selected={selectedId === item.id}
               />
