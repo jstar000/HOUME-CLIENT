@@ -1,4 +1,4 @@
-// Step2FloorPlan.tsx
+// Step2FloorPlan.tsx (UI만 담당)
 import FloorPlan from './FloorPlan';
 import * as styles from './Step2FloorPlan.css';
 import FunnelHeader from '../../header/FunnelHeader';
@@ -6,43 +6,15 @@ import type {
   CompletedFloorPlan,
   ImageGenerateSteps,
 } from '../../../types/funnel';
+import { useStep2FloorPlan } from '@/pages/onboarding/hooks/useStep2FloorPlan.hooks';
 
 interface Step2FloorPlanProps {
   context: ImageGenerateSteps['FloorPlan'];
   onNext: (data: CompletedFloorPlan) => void;
 }
 
-interface SelectedHouseData {
-  id: number;
-  src: string;
-  flipped: boolean;
-}
-
 const Step2FloorPlan = ({ context, onNext }: Step2FloorPlanProps) => {
-  const handleFloorPlanSelection = (houseData: SelectedHouseData) => {
-    // 디버깅용
-    const payload = {
-      houseType: context.houseType,
-      roomType: context.roomType,
-      roomSize: context.roomSize,
-      floorPlan: {
-        floorPlanId: houseData.id,
-        isMirror: houseData.flipped,
-      },
-    };
-
-    console.log('선택된 퍼널 페이로드:', payload);
-
-    onNext({
-      houseType: context.houseType,
-      roomType: context.roomType,
-      roomSize: context.roomSize,
-      floorPlan: {
-        floorPlanId: houseData.id,
-        isMirror: houseData.flipped,
-      },
-    });
-  };
+  const { handleFloorPlanSelection } = useStep2FloorPlan(context, onNext);
 
   return (
     <div className={styles.container}>

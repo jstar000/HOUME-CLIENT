@@ -1,9 +1,9 @@
 // FloorPlan.tsx
 import { useEffect, useState } from 'react';
 import * as styles from './FloorPlan.css';
+import { mockimages } from './step2MockData';
 import type { OpenSheetKey } from '@/pages/onboarding/types/OpenSheet';
 import FloorCard from '@/shared/components/card/floorCard/FloorCard';
-import { mockimages } from '@/pages/onboarding/constants/step2MockData';
 import NoMatchButton from '@/shared/components/button/noMatchButton/NoMatchButton';
 import NoMatchSheet from '@/shared/components/bottomSheet/noMatchSheet/NoMatchSheet';
 import FlipSheet from '@/shared/components/bottomSheet/flipSheet/FlipSheet';
