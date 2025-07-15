@@ -4,3 +4,4 @@ export const mockimages = [
   { id: 3, img: '/images/floorExample.png' },
   { id: 4, img: '/images/floorExample.png' },
 ];
+//
