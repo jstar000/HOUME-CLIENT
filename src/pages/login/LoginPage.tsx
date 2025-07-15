@@ -22,11 +22,21 @@ const LoginPage = () => {
         <CtaButton typeVariant="kakao">카카오 로그인</CtaButton>
         <aside className={styles.aside}>
           가입 시{' '}
-          <a href="https://github.com/TEAM-HOUME" className={styles.link}>
+          <a
+            href="https://github.com/TEAM-HOUME"
+            className={styles.link}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             서비스 약관
           </a>{' '}
           및{' '}
-          <a href="https://github.com/TEAM-HOUME" className={styles.link}>
+          <a
+            href="https://github.com/TEAM-HOUME"
+            className={styles.link}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             개인정보처리방침
           </a>
           에 동의한 것으로 간주합니다.
