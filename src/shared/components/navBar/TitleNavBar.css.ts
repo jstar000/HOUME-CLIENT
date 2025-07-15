@@ -11,7 +11,6 @@ export const container = style({
   alignItems: 'center',
   textAlign: 'center',
   position: 'relative',
-  ...fontStyle('title_m_16'),
   background: colorVars.color.gray000,
   color: colorVars.color.gray900,
 });
@@ -38,6 +37,7 @@ export const title = style({
   zIndex: zIndex.base,
   width: 'max-content',
   pointerEvents: 'none',
+  ...fontStyle('title_m_16'),
 });
 
 export const rightdiv = style({
@@ -47,4 +47,5 @@ export const rightdiv = style({
   width: '8rem',
   height: '4.8rem',
   padding: '1.2rem 1.6rem',
+  ...fontStyle('body_r_14'),
 });
