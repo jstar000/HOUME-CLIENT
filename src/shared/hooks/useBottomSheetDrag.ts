@@ -6,10 +6,12 @@ interface UseBottomSheetDragProps {
   threshold?: number;
 }
 
+const DRAG_CLOSE_THRESHOLD_PX = 200;
+
 export function useBottomSheetDrag({
   sheetRef,
   onClose,
-  threshold = 200,
+  threshold = DRAG_CLOSE_THRESHOLD_PX,
 }: UseBottomSheetDragProps) {
   const startY = useRef(0); // 드래그 시작 Y좌표
   const currentY = useRef(0); // 현재 드래그된 Y거리
