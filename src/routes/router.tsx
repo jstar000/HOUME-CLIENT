@@ -23,6 +23,7 @@ import ResultPage from '@/pages/generate/components/result/ResultPage';
 import LoadingPage from '@/pages/generate/components/loading/LoadingPage';
 import { MOCK_GENERATE_DATA } from '@/pages/generate/constants/resultMockData';
 import KakaoCallback from '@/pages/login/KakaoCallback';
+import SignupCompletePage from '@/pages/signup/SignupCompletePage';
 
 // TODO: Replace with actual auth state management
 const isAuthenticated = false;
@@ -76,6 +77,10 @@ const protectedRoutes = [
   {
     path: ROUTES.MYPAGE,
     element: <MyPage />,
+  },
+  {
+    path: ROUTES.SIGNUPCOMPLETE,
+    element: <SignupCompletePage />,
   },
 ];
 
