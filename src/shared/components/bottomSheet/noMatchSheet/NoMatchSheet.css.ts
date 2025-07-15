@@ -14,14 +14,14 @@ export const backdrop = style({
   opacity: 0,
   visibility: 'hidden',
   touchAction: 'none',
+  pointerEvents: 'none',
   transition: 'opacity 0.3s ease-in-out, visibility 0.3s ease-in-out',
 });
 
 export const backdropVisible = style({
   opacity: 1,
   visibility: 'visible',
-  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  pointerEvents: 'none',
+  pointerEvents: 'auto',
 });
 
 export const sheetWrapper = style({

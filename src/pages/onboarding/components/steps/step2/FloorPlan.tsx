@@ -100,6 +100,7 @@ const FloorPlan = () => {
           isOpen={isSheetOpen}
           onClose={handleCloseSheet}
           onExited={handleExited}
+          isTop={openSheet === 'noMatch'}
         />
       )}
       {openSheet === 'flip' && (

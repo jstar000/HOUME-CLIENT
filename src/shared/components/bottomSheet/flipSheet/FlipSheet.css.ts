@@ -14,6 +14,7 @@ export const backdrop = style({
   zIndex: zIndex.backdrop,
   opacity: 0,
   visibility: 'hidden',
+  touchAction: 'none',
   pointerEvents: 'none',
   transition: 'opacity 0.3s ease-in-out, visibility 0.3s ease-in-out',
 });
@@ -21,6 +22,7 @@ export const backdrop = style({
 export const backdropVisible = style({
   opacity: 1,
   visibility: 'visible',
+  pointerEvents: 'auto',
   backgroundColor: 'rgba(0, 0, 0, 0.5)',
 });
 
