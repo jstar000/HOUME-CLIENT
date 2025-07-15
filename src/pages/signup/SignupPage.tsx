@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import * as styles from './signuppage.css.ts';
+import * as styles from './SignupPage.css';
 import TitleNavBar from '@/shared/components/navBar/TitleNavBar.tsx';
 import TextField from '@/shared/components/textField/TextField.tsx';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton.tsx';
