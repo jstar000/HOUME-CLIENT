@@ -1,5 +1,6 @@
 // useStep2FloorPlan.hooks.ts (로직 담당)
-import { useFloorPlanApi } from './useStep2Api.hooks';
+import { useCallback } from 'react';
+import { useFloorPlanQuery } from './useStep2Queries.hooks';
 import type { CompletedFloorPlan, ImageGenerateSteps } from '../types/funnel';
 
 interface SelectedFloorPlanTypes {
@@ -16,32 +17,23 @@ export const useStep2FloorPlan = (
   // -> useFloorPlanQuery 실행 -> 데이터 fetching
   const { data, isLoading, error, isError } = useFloorPlanApi();
 
-  const handleFloorPlanSelection = (
-    selectedFloorPlan: SelectedFloorPlanTypes
-  ) => {
-    // 디버깅용
-    const payload = {
-      houseType: context.houseType,
-      roomType: context.roomType,
-      roomSize: context.roomSize,
-      floorPlan: {
-        floorPlanId: selectedFloorPlan.id,
-        isMirror: selectedFloorPlan.flipped,
-      },
-    };
+  const handleFloorPlanSelection = useCallback(
+    (selectedFloorPlan: SelectedFloorPlanTypes) => {
+      const payload: CompletedFloorPlan = {
+        houseType: context.houseType!,
+        roomType: context.roomType!,
+        roomSize: context.roomSize!,
+        floorPlan: {
+          floorPlanId: selectedFloorPlan.id,
+          isMirror: selectedFloorPlan.flipped,
+        },
+      };
 
-    console.log('선택된 퍼널 페이로드:', payload);
-
-    onNext({
-      houseType: context.houseType,
-      roomType: context.roomType,
-      roomSize: context.roomSize,
-      floorPlan: {
-        floorPlanId: selectedFloorPlan.id,
-        isMirror: selectedFloorPlan.flipped,
-      },
-    });
-  };
+      console.log('선택된 퍼널 페이로드:', payload);
+      onNext(payload);
+    },
+    [context.houseType, context.roomType, context.roomSize, onNext]
+  );
 
   return {
     handleFloorPlanSelection,
