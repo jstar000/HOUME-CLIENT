@@ -54,6 +54,8 @@ export const Default: Story = {
           onClose={() => setIsOpen(false)}
           onFlipClick={handleFlipClick}
           onChooseClick={handleChooseClick}
+          src={'/images/floorExample.png'}
+          isFlipped={false}
         />
       </div>
     );

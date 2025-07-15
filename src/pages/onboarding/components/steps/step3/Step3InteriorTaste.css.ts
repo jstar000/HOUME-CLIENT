@@ -1,0 +1,20 @@
+import { style } from '@vanilla-extract/css';
+import { zIndex } from '@/shared/styles/tokens/zIndex';
+
+export const container = style({
+  display: 'flex',
+  position: 'relative',
+  flexDirection: 'column',
+  alignItems: 'center',
+  width: '100%',
+  marginBottom: '9.6rem',
+});
+
+export const buttonWrapper = style({
+  position: 'fixed',
+  bottom: '2rem',
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'center',
+  zIndex: zIndex.button,
+});
