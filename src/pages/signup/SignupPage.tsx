@@ -174,22 +174,17 @@ const SignupPage = () => {
             />
           </div>
 
-          {/* 생년월일 관련 에러 메시지: 단 하나만 출력 */}
-          {yearAgeError && (
-            <ShowErrorMessage message={ERROR_MESSAGES.AGE_INVALID} />
-          )}
-          {!yearAgeError && yearFormatError && (
-            <ShowErrorMessage message={ERROR_MESSAGES.BIRTH_INVALID} />
-          )}
-          {!yearAgeError && !yearFormatError && monthFieldError && (
-            <ShowErrorMessage message={ERROR_MESSAGES.BIRTH_INVALID} />
-          )}
-          {!yearAgeError &&
-            !yearFormatError &&
-            !monthFieldError &&
-            dayFieldError && (
-              <ShowErrorMessage message={ERROR_MESSAGES.BIRTH_INVALID} />
-            )}
+          {/* 생년월일 관련 에러 메시지: 우선순위에 따라 하나만 출력 */}
+          {(() => {
+            if (yearAgeError)
+              return <ShowErrorMessage message={ERROR_MESSAGES.AGE_INVALID} />;
+            if (yearFormatError || monthFieldError || dayFieldError) {
+              return (
+                <ShowErrorMessage message={ERROR_MESSAGES.BIRTH_INVALID} />
+              );
+            }
+            return null;
+          })()}
         </div>
 
         {/* 성별 선택 섹션 */}
