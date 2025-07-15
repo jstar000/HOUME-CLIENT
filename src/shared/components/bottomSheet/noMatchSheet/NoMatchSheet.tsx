@@ -12,7 +12,6 @@ interface NoMatchSheetProps {
   onClose: () => void;
   user?: string;
   onExited?: () => void; // 애니메이션 끝나면 호출(unmount)
-  isTop: boolean;
 }
 
 const NoMatchSheet = ({
@@ -20,7 +19,6 @@ const NoMatchSheet = ({
   onClose,
   user,
   onExited,
-  isTop,
 }: NoMatchSheetProps) => {
   const displayName = user?.trim() || '사용자';
 
@@ -61,8 +59,7 @@ const NoMatchSheet = ({
     <>
       <div
         className={clsx(styles.backdrop, isOpen && styles.backdropVisible)}
-        onClick={isTop ? onClose : undefined}
-        style={{ pointerEvents: isTop ? 'auto' : 'none' }}
+        onClick={onClose}
       />
       <div
         ref={sheetRef}
