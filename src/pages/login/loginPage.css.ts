@@ -25,7 +25,7 @@ export const title = style({
 
 export const content = style({
   ...fontStyle('body_r_14'),
-  color: colorVars.color.gray700,
+  color: colorVars.color.gray600,
 });
 
 export const imgbox = style({
