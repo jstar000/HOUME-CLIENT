@@ -1,28 +1,59 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as styles from './LoadingPage.css';
 import ProgressBar from './ProgressBar';
-import { MOCK_IMAGES } from '../../constants/slideMockData';
+import { useStackData } from '../../hooks/generate';
 import LikeButton from '@/shared/components/button/likeButton/LikeButton';
 import DislikeButton from '@/shared/components/button/likeButton/DislikeButton';
 
 const LoadingPage = () => {
+  const [currentPage, setCurrentPage] = useState(0);
+  const {
+    data: currentImages,
+    isLoading,
+    isError,
+  } = useStackData(currentPage, { enabled: true });
+  const { data: nextImages } = useStackData(currentPage + 1, {
+    enabled: !!currentImages, // next prefetch
+  });
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
-  const currentImage = MOCK_IMAGES[currentIndex];
-  const nextImage = MOCK_IMAGES[currentIndex + 1];
   const [selected, setSelected] = useState<'like' | 'dislike' | null>(null);
   const ANIMATION_DURATION = 600;
 
+  useEffect(() => {
+    setCurrentIndex(0);
+  }, [currentImages]);
+
+  if (isLoading) return <div>로딩중</div>;
+  if (isError || !currentImages) return <div>에러 발생!</div>;
+
+  const currentImage = currentImages[currentIndex];
+  const isLast = currentIndex === currentImages.length - 1;
+  const nextImage = !isLast
+    ? currentImages[currentIndex + 1]
+    : nextImages && nextImages.length > 0
+      ? nextImages[0]
+      : undefined;
+
   const handleVote = (isLike: boolean) => {
+    if (isLoading) return;
+
     setSelected(isLike ? 'like' : 'dislike');
     setAnimating(true);
 
     setTimeout(() => {
-      if (currentIndex < MOCK_IMAGES.length - 1) {
+      if (!isLast) {
         setSelected(null);
         setCurrentIndex((prev) => prev + 1);
       } else {
-        console.log('이미지 끝');
+        if (nextImages && nextImages.length > 0) {
+          setSelected(null);
+          setCurrentPage((prev) => prev + 1);
+          setCurrentIndex(0);
+        } else {
+          console.log('마지막 페이지');
+        }
       }
       setAnimating(false);
     }, ANIMATION_DURATION);
@@ -42,12 +73,12 @@ const LoadingPage = () => {
           {/* 다음 이미지 영역 */}
           {nextImage && (
             <div
-              key={nextImage.id}
+              key={`next-${currentPage + 1}-${nextImage.carouselId}`}
               className={`${styles.nextImageArea} ${animating ? styles.nextImageAreaActive : ''}`}
             >
               <img
-                src={nextImage.img}
-                alt={`다음 가구 이미지 ${nextImage.id}`}
+                src={nextImage.url}
+                alt={`다음 가구 이미지 ${nextImage.carouselId}`}
                 className={styles.imageStyle}
               />
             </div>
@@ -56,12 +87,12 @@ const LoadingPage = () => {
           {/* 현재 이미지 영역 */}
           {currentImage && (
             <div
-              key={currentImage.id}
+              key={`current-${currentPage}-${currentImage.carouselId}`}
               className={`${styles.currentImageArea} ${animating ? styles.currentImageAreaOut : ''}`}
             >
               <img
-                src={currentImage.img}
-                alt={`현재 가구 이미지 ${currentImage.id}`}
+                src={currentImage.url}
+                alt={`현재 가구 이미지 ${currentImage.carouselId}`}
                 className={styles.imageStyle}
               />
             </div>
