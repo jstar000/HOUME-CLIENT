@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import * as styles from './signuppage.css.ts';
 import TitleNavBar from '@/shared/components/navBar/TitleNavBar.tsx';
 import TextField from '@/shared/components/textField/TextField.tsx';
@@ -91,24 +91,41 @@ const SignupPage = () => {
     );
   })();
 
-  // 모든 필드가 입력되었는지 확인
-  const allFieldsFilled =
-    name !== '' &&
-    birthYear !== '' &&
-    birthMonth !== '' &&
-    birthDay !== '' &&
-    gender !== null;
+  // useMemo로 유효성 검증 결과 메모이제이션
+  const validationResult = useMemo(() => {
+    const allFieldsFilled =
+      name !== '' &&
+      birthYear !== '' &&
+      birthMonth !== '' &&
+      birthDay !== '' &&
+      gender !== null;
 
-  // 모든 에러가 없는지 확인
-  const noErrors =
-    isNameValid &&
-    !yearFormatError &&
-    !yearAgeError &&
-    !monthFieldError &&
-    !dayFieldError;
+    const noErrors =
+      isNameValid &&
+      !yearFormatError &&
+      !yearAgeError &&
+      !monthFieldError &&
+      !dayFieldError;
 
-  // 폼이 유효한지 여부
-  const isFormValid = allFieldsFilled && noErrors;
+    return {
+      allFieldsFilled,
+      noErrors,
+      isFormValid: allFieldsFilled && noErrors,
+    };
+  }, [
+    name,
+    birthYear,
+    birthMonth,
+    birthDay,
+    gender,
+    isNameValid,
+    yearFormatError,
+    yearAgeError,
+    monthFieldError,
+    dayFieldError,
+  ]);
+
+  const { isFormValid } = validationResult;
 
   return (
     <div>
