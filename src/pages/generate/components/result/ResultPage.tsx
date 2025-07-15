@@ -17,24 +17,26 @@ interface ResultPageProps {
   mockData: GenerateTypes;
 }
 
+const imageId = 15;
+
 const ResultPage = ({ mockData }: ResultPageProps) => {
   const [selected, setSelected] = useState<'like' | 'dislike' | null>(null);
-  const { mutate: sendPreference } = usePreferenceMutation();
+  const { mutate: sendPreference } = usePreferenceMutation(imageId);
   const { mutate: sendFurnituresLogs } = useFurnitureLogMutation();
 
   const handleVote = (isLike: boolean) => {
     setSelected(isLike ? 'like' : 'dislike');
-    // sendPreference(
-    //   { imageId, isLike },
-    //   {
-    //     onSuccess: () => {
-    //       console.log('성공');
-    //     },
-    //     onError: (e) => {
-    //       console.error(e);
-    //     },
-    //   }
-    // );
+    sendPreference(
+      { imageId, isLike },
+      {
+        onSuccess: () => {
+          console.log('성공');
+        },
+        onError: (e) => {
+          console.error(e);
+        },
+      }
+    );
   };
 
   const handleOpenModal = () => {
