@@ -53,10 +53,18 @@ export const postPreference = async (imageId: number, isLike: boolean) => {
   });
 };
 
-// 가구 추천 받기 로그 확인
+// 가구 추천 받기 버튼 클릭 로그 확인
 export const postFurnitureLog = async () => {
   return request({
     method: HTTPMethod.POST,
     url: '/api/v1/furnitures/logs',
+  });
+};
+
+// 결제 모달 버튼 클릭 로그 확인
+export const postCreditLog = async () => {
+  return request({
+    method: HTTPMethod.POST,
+    url: '/api/v1/credits/logs',
   });
 };

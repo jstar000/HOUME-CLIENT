@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import {
   getResultData,
   getStackData,
+  postCreditLog,
   postFurnitureLog,
   postPreference,
 } from '../apis/generate';
@@ -30,9 +31,16 @@ export const usePreferenceMutation = () => {
   });
 };
 
-// 가구 추천 받기 클릭 로그
+// 가구 추천 받기 버튼 클릭 로그
 export const useFurnitureLogMutation = () => {
   return useMutation({
     mutationFn: postFurnitureLog,
+  });
+};
+
+// 결제 모달 버튼 클릭 로그 확인
+export const useCreditLogMutation = () => {
+  return useMutation({
+    mutationFn: postCreditLog,
   });
 };

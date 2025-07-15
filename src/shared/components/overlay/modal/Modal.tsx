@@ -3,6 +3,7 @@ import CreditIcon from '@assets/icons/modalCoin.png';
 import CtaButton from '../../button/ctaButton/CtaButton';
 import { useToast } from '../../toast/useToast';
 import * as styles from './Modal.css';
+import { useCreditLogMutation } from '@/pages/generate/hooks/generate';
 
 export interface ModalProps {
   onClose: () => void;
@@ -12,8 +13,10 @@ export interface ModalProps {
 const Modal = ({ onClose, title }: ModalProps) => {
   const { notify } = useToast();
   const [isButtonActive, setIsButtonActive] = useState(true);
+  const { mutate: sendCreditLogs } = useCreditLogMutation();
 
   const handleOpenToast = () => {
+    sendCreditLogs();
     notify({
       text: '결제는 아직 준비 중인 기능이에요',
       type: 'warning',
