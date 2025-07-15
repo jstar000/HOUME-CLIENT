@@ -13,7 +13,7 @@
  */
 
 import axiosInstance from '@shared/apis/axiosInstance';
-import type { MoodBoardImageResponse } from '../types/api/moodBoard';
+import type { MoodBoardImageResponse } from '../types/apis/moodBoard';
 
 export const getMoodBoardImage = async (
   limit: number = 18
