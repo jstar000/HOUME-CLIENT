@@ -15,13 +15,13 @@ import RootLayout from '@/layout/RootLayout';
 import ProtectedRoute from '@/routes/ProtectedRoute';
 import HomePage from '@/pages/home/HomePage';
 import LoginPage from '@/pages/login/LoginPage';
-import SignupPage from '@/pages/signup/Signup';
+import SignupPage from '@/pages/signup/SignupPage';
 import GeneratePage from '@/pages/generate/Generate';
+import { ImageGenerationFunnel } from '@/pages/onboarding/ImageGenerationFunnel';
 import MyPage from '@/pages/mypage/MyPage';
 import ResultPage from '@/pages/generate/components/result/ResultPage';
 import LoadingPage from '@/pages/generate/components/loading/LoadingPage';
 import { MOCK_GENERATE_DATA } from '@/pages/generate/constants/resultMockData';
-import { ImageGenerationFunnel } from '@/pages/onboarding/ImageGenerationFunnel';
 import KakaoCallback from '@/pages/login/KakaoCallback';
 
 // TODO: Replace with actual auth state management
@@ -68,6 +68,10 @@ const protectedRoutes = [
   {
     path: ROUTES.ONBOARDING,
     element: <ImageGenerationFunnel />,
+  },
+  {
+    path: ROUTES.GENERATE,
+    element: <GeneratePage />,
   },
   {
     path: ROUTES.MYPAGE,
