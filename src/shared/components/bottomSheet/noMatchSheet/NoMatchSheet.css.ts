@@ -13,11 +13,15 @@ export const backdrop = style({
   zIndex: zIndex.backdrop,
   opacity: 0,
   visibility: 'hidden',
+  touchAction: 'none',
+  transition: 'opacity 0.3s ease-in-out, visibility 0.3s ease-in-out',
 });
 
 export const backdropVisible = style({
   opacity: 1,
   visibility: 'visible',
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  pointerEvents: 'none',
 });
 
 export const sheetWrapper = style({
@@ -26,7 +30,7 @@ export const sheetWrapper = style({
   left: '50%',
   transform: 'translate(-50%, 100%)',
   width: '100%',
-  maxWidth: '37.5rem',
+  maxWidth: '43rem',
   padding: '0rem 2.4rem 2rem 2.4rem',
   backgroundColor: colorVars.color.gray000,
   borderRadius: '30px 30px 0 0',
@@ -34,6 +38,14 @@ export const sheetWrapper = style({
   transition: 'transform 0.6s ease-in-out ',
   zIndex: zIndex.sheet,
   overflow: 'hidden',
+  userSelect: 'none', // 텍스트 선택 방지
+
+  // 드래그 중일 때만 transition 비활성화
+  selectors: {
+    '&:active': {
+      cursor: 'grabbing',
+    },
+  },
 });
 
 export const sheetWrapperExpanded = style({
@@ -47,6 +59,10 @@ export const sheetWrapperCollapsed = style({
 export const contentWapper = style({
   display: 'flex',
   flexDirection: 'column',
+  pointerEvents: 'none',
+  alignItems: 'center',
+  maxWidth: '37.5rem',
+  margin: '0 auto',
 });
 
 export const dragHandleContainer = style({
@@ -56,13 +72,16 @@ export const dragHandleContainer = style({
   justifyContent: 'center',
   alignItems: 'center',
   marginBottom: '2rem',
+  pointerEvents: 'auto', // 드래그 핸들은 클릭 가능하게
 });
 
 export const infoTextContainer = style({
   display: 'flex',
   flexDirection: 'column',
+  width: '33.5rem',
   gap: '1.2rem',
   marginBottom: '3.2rem',
+  pointerEvents: 'auto',
 });
 
 export const infoText = style({
@@ -80,16 +99,28 @@ export const fieldWrapper = style({
   flexDirection: 'column',
   gap: '1.2rem',
   marginBottom: '4.8rem',
+  pointerEvents: 'auto',
+  width: '100%', // 전체 너비 사용
+  alignItems: 'center', // 가운데 정렬
 });
 
 export const fieldContainer = style({
   display: 'flex',
   alignItems: 'center',
   gap: '1.2rem',
+  width: '100%', // 전체 너비 사용
+  justifyContent: 'center', // 가운데 정렬
 });
 
 export const title = style({
   ...fontStyle('title_sb_15'),
   color: colorVars.color.gray800,
   width: '5.6rem',
+});
+
+export const buttonContainer = style({
+  display: 'flex',
+  justifyContent: 'center',
+  width: '100%',
+  pointerEvents: 'auto',
 });

@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import clsx from 'clsx';
 import DragHandle from '@components/dragHandle/DragHandle';
 import TextField from '@components/textField/TextField';
 import CtaButton from '@components/button/ctaButton/CtaButton';
 import * as styles from './NoMatchSheet.css';
 import { useToast } from '../../toast/useToast';
+import { useBottomSheetDrag } from '@/shared/hooks/useBottomSheetDrag';
 
 interface NoMatchSheetProps {
   isOpen: boolean;
@@ -25,6 +26,12 @@ const NoMatchSheet = ({
   const [address, setAddress] = useState('');
   const isFilled = region.trim() !== '' && address.trim() !== '';
   const { notify } = useToast();
+
+  // 1. ref 생성
+  const sheetRef = useRef<HTMLDivElement | null>(null);
+
+  // 2. 훅 사용
+  const dragHandlers = useBottomSheetDrag({ sheetRef, onClose });
 
   // transitionend 핸들러
   const handleTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
@@ -55,6 +62,7 @@ const NoMatchSheet = ({
         onClick={onClose}
       />
       <div
+        ref={sheetRef}
         className={clsx(
           styles.sheetWrapper,
           isOpen ? styles.sheetWrapperExpanded : styles.sheetWrapperCollapsed
@@ -64,7 +72,7 @@ const NoMatchSheet = ({
       >
         <div className={styles.contentWapper}>
           <div className={styles.dragHandleContainer}>
-            <DragHandle />
+            <DragHandle {...dragHandlers} />
           </div>
           <div className={styles.infoTextContainer}>
             <span className={styles.infoText}>
@@ -96,9 +104,11 @@ const NoMatchSheet = ({
               />
             </div>
           </div>
-          <CtaButton onClick={handleSubmit} isActive={isFilled}>
-            제출하기
-          </CtaButton>
+          <div className={styles.buttonContainer}>
+            <CtaButton onClick={handleSubmit} isActive={isFilled}>
+              제출하기
+            </CtaButton>
+          </div>
         </div>
       </div>
     </>
