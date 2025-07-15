@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import type {
   CompletedInteriorTaste,
   ImageGenerateSteps,
@@ -11,20 +11,24 @@ export const useStep3InteriorTaste = (
   const [selectedImages, setSelectedImages] = useState<number[]>([]);
 
   // 이미지 선택/해제를 처리하는 함수
-  const handleImageSelect = (imageId: number) => {
-    setSelectedImages((prev) => {
-      const isSelected = prev.includes(imageId);
+  const handleImageSelect = useCallback(
+    (imageId: number) => {
+      setSelectedImages((prev) => {
+        const isSelected = prev.includes(imageId);
 
-      if (isSelected) {
-        // 이미 선택된 경우: 선택 해제
-        return prev.filter((id) => id !== imageId);
-      }
-      if (prev.length >= 5) {
-        return prev;
-      }
-      return [...prev, imageId];
-    });
-  };
+        if (isSelected) {
+          // 이미 선택된 경우: 선택 해제
+          return prev.filter((id) => id !== imageId);
+        }
+        if (prev.length >= 5) {
+          // 최대 5개까지만 허용
+          return prev;
+        }
+        return [...prev, imageId];
+      });
+    },
+    [setSelectedImages]
+  );
 
   const handleNext = () => {
     // 디버깅용
