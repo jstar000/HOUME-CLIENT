@@ -30,13 +30,17 @@ export const useKakaoLogin = () => {
     mutationFn: getKakaoLogin, // 카카오 로그인 API 호출 함수
     // 로그인 성공 시 실행되는 함수
     onSuccess: (response) => {
-      // console.log('[useKakaoLogin] 로그인 성공:', response.data);
+      console.log('[useKakaoLogin] 로그인 성공:', response.data);
 
       // 액세스 토큰을 로컬 스토리지에 저장
       localStorage.setItem('accessToken', response.accessToken);
 
-      // 홈페이지로 이동
-      navigate(ROUTES.HOME);
+      // 신규 유저(true)면 회원가입 페이지로, 기존 유저(false)면 홈페이지로 이동
+      if (response.data) {
+        navigate(ROUTES.SIGNUP);
+      } else {
+        navigate(ROUTES.HOME);
+      }
     },
     // 로그인 실패 시 실행되는 함수
     onError: (error) => {
