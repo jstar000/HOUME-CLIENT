@@ -9,12 +9,15 @@ const ProgressLoadingBar = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    let interval: ReturnType<typeof setInterval> | null = null;
+    let timeout: ReturnType<typeof setTimeout> | null = null;
+
     // 90% 까지 (1분 기준 약 49.5초)
     if (!isDone) {
-      const interval = setInterval(() => {
+      interval = setInterval(() => {
         setProgress((prev) => {
           if (prev >= PROGRESS_CONFIG.SLOW_PHASE_END) {
-            clearInterval(interval);
+            if (interval) clearInterval(interval);
             return PROGRESS_CONFIG.SLOW_PHASE_END;
           }
 
@@ -23,29 +26,25 @@ const ProgressLoadingBar = () => {
       }, PROGRESS_CONFIG.SLOW_INTERVAL); // 0.1씩 0.055초마다 = 1% 오르는데 0.55초
 
       // 완료되는 시간 (완료 신호)
-      const totalTime = setTimeout(() => {
+      timeout = setTimeout(() => {
         setIsDone(true);
       }, PROGRESS_CONFIG.TOTAL_TIME);
-
-      return () => {
-        clearInterval(interval);
-        clearTimeout(totalTime);
-      };
-    }
-
-    // 완료되었을 때
-    if (isDone) {
-      const doneInterval = setInterval(() => {
+    } else {
+      // 완료되었을 때
+      interval = setInterval(() => {
         setProgress((prev) => {
           if (prev >= PROGRESS_CONFIG.FAST_INTERVAL) {
-            clearInterval(doneInterval);
+            if (interval) clearInterval(interval);
             return PROGRESS_CONFIG.FAST_INTERVAL;
           }
           return prev + PROGRESS_CONFIG.FAST_INCREMENT;
         });
       }, 100); // 0.1초마다 1% 씩
 
-      return () => clearInterval(doneInterval);
+      return () => {
+        if (interval) clearInterval(interval);
+        if (timeout) clearTimeout(timeout);
+      };
     }
   }, [isDone]);
 
