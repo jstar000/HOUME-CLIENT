@@ -40,12 +40,12 @@ const ProgressLoadingBar = () => {
           return prev + PROGRESS_CONFIG.FAST_INCREMENT;
         });
       }, 100); // 0.1초마다 1% 씩
-
-      return () => {
-        if (interval) clearInterval(interval);
-        if (timeout) clearTimeout(timeout);
-      };
     }
+
+    return () => {
+      if (interval) clearInterval(interval);
+      if (timeout) clearTimeout(timeout);
+    };
   }, [isDone]);
 
   useEffect(() => {
