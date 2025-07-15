@@ -128,7 +128,7 @@ const SignupPage = () => {
   const { isFormValid } = validationResult;
 
   return (
-    <div>
+    <form>
       {/* 상단 네비게이션 바 */}
       <TitleNavBar title="회원가입" isBackIcon={false} isLoginBtn={false} />
 
@@ -236,7 +236,7 @@ const SignupPage = () => {
       <div className={styles.btnarea}>
         <CtaButton isActive={isFormValid}>회원가입 완료하기</CtaButton>
       </div>
-    </div>
+    </form>
   );
 };
 
