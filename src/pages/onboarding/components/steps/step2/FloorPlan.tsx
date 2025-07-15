@@ -10,7 +10,7 @@ import FlipSheet from '@/shared/components/bottomSheet/flipSheet/FlipSheet';
 import { useToast } from '@/shared/components/toast/useToast';
 
 interface FloorPlanProps {
-  onFloorPlanSelect: (houseData: {
+  onFloorPlanSelect: (selectedFloorPlan: {
     id: number;
     src: string;
     flipped: boolean;
@@ -76,14 +76,14 @@ const FloorPlan = ({ onFloorPlanSelect, floorPlanList }: FloorPlanProps) => {
 
   const handleChooseClick = () => {
     if (selectedId !== null && selectedImage) {
-      const houseData = {
+      const selectedFloorPlan = {
         id: selectedImage.id,
         src: selectedImage.floorPlanImage,
         flipped: isFlipped,
       };
 
       handleCloseSheet();
-      onFloorPlanSelect(houseData);
+      onFloorPlanSelect(selectedFloorPlan);
     }
   };
 

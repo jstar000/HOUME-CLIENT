@@ -2,7 +2,7 @@
 import { useFloorPlanQuery } from './useStep2Queries.hooks';
 import type { CompletedFloorPlan, ImageGenerateSteps } from '../types/funnel';
 
-interface SelectedFloorPlan {
+interface SelectedFloorPlanTypes {
   id: number;
   src: string;
   flipped: boolean;
@@ -16,15 +16,17 @@ export const useStep2FloorPlan = (
   // -> useFloorPlanQuery 실행 -> 데이터 fetching
   const { data, isLoading, error, isError } = useFloorPlanQuery();
 
-  const handleFloorPlanSelection = (houseData: SelectedFloorPlan) => {
+  const handleFloorPlanSelection = (
+    selectedFloorPlan: SelectedFloorPlanTypes
+  ) => {
     // 디버깅용
     const payload = {
       houseType: context.houseType,
       roomType: context.roomType,
       roomSize: context.roomSize,
       floorPlan: {
-        floorPlanId: houseData.id,
-        isMirror: houseData.flipped,
+        floorPlanId: selectedFloorPlan.id,
+        isMirror: selectedFloorPlan.flipped,
       },
     };
 
@@ -35,8 +37,8 @@ export const useStep2FloorPlan = (
       roomType: context.roomType,
       roomSize: context.roomSize,
       floorPlan: {
-        floorPlanId: houseData.id,
-        isMirror: houseData.flipped,
+        floorPlanId: selectedFloorPlan.id,
+        isMirror: selectedFloorPlan.flipped,
       },
     });
   };
