@@ -20,7 +20,7 @@ export function isMinLength(str: string, min: number): boolean {
 
 // 이름 입력값에서 한글만 남기기
 export function filterKorean(input: string): string {
-  return input.replace(/[A-Za-z\u{1F000}-\u{1FFFF}A-Za-z]/gu, '');
+  return input.replace(/[A-Za-z\u{1F000}-\u{1FFFF}]/gu, '');
 }
 
 // 연도 형식이 맞는지
