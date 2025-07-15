@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import * as styles from './LoadingPage.css';
 import ProgressBar from './ProgressBar';
 import { useStackData } from '../../hooks/generate';
-import { postLikeStack } from '../../apis/generate';
+import { postHateStack, postLikeStack } from '../../apis/generate';
 import LikeButton from '@/shared/components/button/likeButton/LikeButton';
 import DislikeButton from '@/shared/components/button/likeButton/DislikeButton';
 
@@ -48,6 +48,12 @@ const LoadingPage = () => {
         postLikeStack(currentImage.carouselId);
       } catch {
         alert('좋아요 실패');
+      }
+    } else if (!isLike && currentImage) {
+      try {
+        postHateStack(currentImage.carouselId);
+      } catch {
+        alert('싫어요 실패');
       }
     }
 

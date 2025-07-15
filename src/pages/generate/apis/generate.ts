@@ -21,3 +21,13 @@ export const postLikeStack = async (carouselId: number) => {
     },
   });
 };
+
+export const postHateStack = async (carouselId: number) => {
+  return request({
+    method: HTTPMethod.POST,
+    url: `/api/v1/carousels/hate`,
+    query: {
+      carouselId,
+    },
+  });
+};
