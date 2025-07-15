@@ -48,10 +48,12 @@ export const sheetWrapper = style({
   },
 });
 
+// 열기
 export const sheetWrapperExpanded = style({
   transform: 'translate(-50%, 0)',
 });
 
+// 닫기
 export const sheetWrapperCollapsed = style({
   transform: 'translate(-50%, 100%)',
 });

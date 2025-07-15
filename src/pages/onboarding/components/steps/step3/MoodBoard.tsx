@@ -5,40 +5,20 @@
  * 최대 5개까지 이미지를 선택할 수 있으며, 선택 순서대로 1~5번이 표시됩니다.
  * 5개가 선택되면 나머지 이미지들은 비활성화됩니다.
  *
+ * @param {number[]} selectedImages - 선택된 이미지들의 ID 배열
+ * @param {function} onImageSelect - 이미지 선택/해제 처리 함수
  * @returns JSX.Element - 무드보드 컴포넌트
  */
-import { useState } from 'react';
 import * as styles from './MoodBoard.css';
 import { mockimages } from './mockimages';
 import CardImage from '@/shared/components/card/cardImage/CardImage';
 
-const MoodBoard = () => {
-  /**
-   * 선택된 이미지들의 ID를 순서대로 저장하는 상태
-   * @type {number[]}
-   */
-  const [selectedImages, setSelectedImages] = useState<number[]>([]);
+interface MoodBoardProps {
+  selectedImages: number[];
+  onImageSelect: (imageId: number) => void;
+}
 
-  /**
-   * 이미지 선택/해제를 처리하는 함수
-   *
-   * @param {number} imageId - 선택/해제할 이미지의 ID
-   */
-  const handleImageSelect = (imageId: number) => {
-    setSelectedImages((prev) => {
-      const isSelected = prev.includes(imageId);
-
-      if (isSelected) {
-        // 이미 선택된 경우: 선택 해제
-        return prev.filter((id) => id !== imageId);
-      }
-      if (prev.length >= 5) {
-        return prev;
-      }
-      return [...prev, imageId];
-    });
-  };
-
+const MoodBoard = ({ selectedImages, onImageSelect }: MoodBoardProps) => {
   /**
    * 이미지의 선택 순서를 반환하는 함수
    *
@@ -64,7 +44,7 @@ const MoodBoard = () => {
               key={image.id}
               src={image.img}
               selectOrder={getSelectOrder(image.id)}
-              onClick={() => handleImageSelect(image.id)}
+              onClick={() => onImageSelect(image.id)}
               disabled={isDisabled}
             />
           );
