@@ -1,6 +1,6 @@
 // useStep2FloorPlan.hooks.ts (로직 담당)
 import { useCallback } from 'react';
-import { useFloorPlanQuery } from './useStep2Queries.hooks';
+import { useFloorPlanApi } from './useStep2Api.hooks';
 import type { CompletedFloorPlan, ImageGenerateSteps } from '../types/funnel';
 
 interface SelectedFloorPlanTypes {
@@ -15,7 +15,7 @@ export const useStep2FloorPlan = (
 ) => {
   // Step2FloorPlan 컴포넌트 렌더링 -> useStep2FloorPlan 훅 실행
   // -> useFloorPlanQuery 실행 -> 데이터 fetching
-  const { data, isLoading, error, isError } = useFloorPlanQuery();
+  const { data, isLoading, error, isError } = useFloorPlanApi();
 
   const handleFloorPlanSelection = useCallback(
     (selectedFloorPlan: SelectedFloorPlanTypes) => {

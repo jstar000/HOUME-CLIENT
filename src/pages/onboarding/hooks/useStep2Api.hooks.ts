@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getFloorPlan } from '../apis/step2';
 
-export const useFloorPlanQuery = () => {
+export const useFloorPlanApi = () => {
   const query = useQuery({
     queryKey: ['floorPlan'],
     queryFn: getFloorPlan,
