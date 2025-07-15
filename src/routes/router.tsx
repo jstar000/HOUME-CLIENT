@@ -19,6 +19,9 @@ import SignupPage from '@/pages/signup/SignupPage';
 import GeneratePage from '@/pages/generate/Generate';
 import OnboardingPage from '@/pages/onboarding/OnboardingPage';
 import MyPage from '@/pages/mypage/MyPage';
+import ResultPage from '@/pages/generate/components/result/ResultPage';
+import LoadingPage from '@/pages/generate/components/loading/LoadingPage';
+import { MOCK_GENERATE_DATA } from '@/pages/generate/constants/resultMockData';
 import { ImageGenerationFunnel } from '@/pages/onboarding/ImageGenerationFunnel';
 import KakaoCallback from '@/pages/login/KakaoCallback';
 
@@ -44,6 +47,20 @@ const publicRoutes = [
   {
     path: ROUTES.OAUTH,
     element: <KakaoCallback />,
+  },
+  {
+    path: ROUTES.GENERATE,
+    element: <GeneratePage />,
+    children: [
+      {
+        index: true,
+        element: <LoadingPage />,
+      },
+      {
+        path: 'result',
+        element: <ResultPage data={MOCK_GENERATE_DATA} />,
+      },
+    ],
   },
 ];
 
