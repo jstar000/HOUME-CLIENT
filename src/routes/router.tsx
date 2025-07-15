@@ -15,11 +15,12 @@ import RootLayout from '@/layout/RootLayout';
 import ProtectedRoute from '@/routes/ProtectedRoute';
 import HomePage from '@/pages/home/HomePage';
 import LoginPage from '@/pages/login/LoginPage';
-import SignupPage from '@/pages/signup/Signup';
+import SignupPage from '@/pages/signup/SignupPage';
 import GeneratePage from '@/pages/generate/Generate';
-import MyPage from '@/pages/mypage/MyPage';
 import { ImageGenerationFunnel } from '@/pages/onboarding/ImageGenerationFunnel';
+import MyPage from '@/pages/mypage/MyPage';
 import KakaoCallback from '@/pages/login/KakaoCallback';
+import SignupCompletePage from '@/pages/signup/SignupCompletePage';
 
 // TODO: Replace with actual auth state management
 const isAuthenticated = true;
@@ -57,8 +58,16 @@ const protectedRoutes = [
     element: <ImageGenerationFunnel />,
   },
   {
+    path: ROUTES.GENERATE,
+    element: <GeneratePage />,
+  },
+  {
     path: ROUTES.MYPAGE,
     element: <MyPage />,
+  },
+  {
+    path: ROUTES.SIGNUPCOMPLETE,
+    element: <SignupCompletePage />,
   },
 ];
 
