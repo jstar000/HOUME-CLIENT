@@ -16,6 +16,7 @@ export const textbox = style({
   textAlign: 'center',
   ...fontStyle('title_m_16'),
   padding: '4rem 2rem 2rem 2rem',
+  color: colorVars.color.gray900,
 });
 
 export const title = style({
@@ -25,7 +26,7 @@ export const title = style({
 
 export const content = style({
   ...fontStyle('body_r_14'),
-  color: colorVars.color.gray700,
+  color: colorVars.color.gray600,
 });
 
 export const imgbox = style({
