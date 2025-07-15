@@ -14,7 +14,6 @@ export const textbox = style({
   gap: '0.8rem',
   width: '100%',
   textAlign: 'center',
-  ...fontStyle('title_m_16'),
   padding: '4rem 2rem 2rem 2rem',
   color: colorVars.color.gray900,
 });
