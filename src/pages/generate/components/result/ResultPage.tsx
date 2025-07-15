@@ -67,11 +67,15 @@ const ResultPage = ({ data }: ResultPageProps) => {
             좋아하실 만한 가구를 골라봤어요!
           </p>
         </div>
-        <div className={styles.blurSection}>
+        <div className={styles.premiumContentSection}>
           <BlurImage />
-          <div className={styles.ctaButtonOverlay}>
-            <img src={LockImage} alt="자물쇠 아이콘" />
-            <CtaButton buttonSize={'small'} onClick={handleOpenModal}>
+          <div className={styles.unlockSection}>
+            <img src={LockImage} alt="자물쇠 아이콘" role="presentation" />
+            <CtaButton
+              aria-label="프리미엄 가구 추천 기능 잠금 해제"
+              buttonSize={'small'}
+              onClick={handleOpenModal}
+            >
               가구 추천받기
             </CtaButton>
           </div>

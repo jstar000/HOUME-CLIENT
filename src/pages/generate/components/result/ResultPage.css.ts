@@ -60,7 +60,6 @@ export const curationSection = style({
   flexDirection: 'column',
   paddingTop: '4rem',
   backgroundColor: colorVars.color.gray100,
-  marginBottom: '4rem',
   width: '100%',
 });
 
@@ -81,7 +80,7 @@ export const bodyText = style({
   color: colorVars.color.gray600,
 });
 
-export const blurSection = style({
+export const premiumContentSection = style({
   position: 'relative',
   width: '100%',
   display: 'flex',
@@ -89,9 +88,11 @@ export const blurSection = style({
   alignItems: 'center',
 });
 
-export const ctaButtonOverlay = style({
+export const unlockSection = style({
   position: 'absolute',
-  top: '19.2rem',
+  top: '42%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
   zIndex: zIndex.blurButton,
   width: '12.1rem',
   height: '4rem',
