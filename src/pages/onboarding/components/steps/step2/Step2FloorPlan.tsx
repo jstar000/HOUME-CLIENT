@@ -17,6 +17,7 @@ const Step2FloorPlan = ({ context, onNext }: Step2FloorPlanProps) => {
   const { handleFloorPlanSelection, floorPlanList, isLoading, error, isError } =
     useStep2FloorPlan(context, onNext);
 
+  /* 아래 if문들은 임시로 적용했습니다 */
   // 로딩 상태 처리
   if (isLoading) {
     return (
