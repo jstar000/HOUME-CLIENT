@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import * as styles from './SignupPage.css';
+import type { GenderOption } from './types/formOptions';
 import TitleNavBar from '@/shared/components/navBar/TitleNavBar.tsx';
 import TextField from '@/shared/components/textField/TextField.tsx';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton.tsx';
@@ -12,9 +13,7 @@ const SignupPage = () => {
   const [birthYear, setBirthYear] = useState('');
   const [birthMonth, setBirthMonth] = useState('');
   const [birthDay, setBirthDay] = useState('');
-  const [gender, setGender] = useState<'male' | 'female' | 'nonbinary' | null>(
-    null
-  );
+  const [gender, setGender] = useState<GenderOption | null>(null);
 
   // 이름: 한글만 허용, 2글자 이상
   const nameRegex = /^[\p{Script=Hangul}]+$/u;
@@ -209,22 +208,24 @@ const SignupPage = () => {
           <div className={styles.flexbox}>
             <LargeFilled
               buttonSize="medium"
-              isSelected={gender === 'male'}
-              onClick={() => setGender('male')}
+              isSelected={gender?.value === 'male'}
+              onClick={() => setGender({ value: 'male', label: '남성' })}
             >
               남성
             </LargeFilled>
             <LargeFilled
               buttonSize="medium"
-              isSelected={gender === 'female'}
-              onClick={() => setGender('female')}
+              isSelected={gender?.value === 'female'}
+              onClick={() => setGender({ value: 'female', label: '여성' })}
             >
               여성
             </LargeFilled>
             <LargeFilled
               buttonSize="medium"
-              isSelected={gender === 'nonbinary'}
-              onClick={() => setGender('nonbinary')}
+              isSelected={gender?.value === 'nonbinary'}
+              onClick={() =>
+                setGender({ value: 'nonbinary', label: '논바이너리' })
+              }
             >
               논바이너리
             </LargeFilled>
