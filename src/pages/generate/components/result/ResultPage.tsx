@@ -3,6 +3,7 @@ import BlurImage from '@assets/icons/recommendBlur.svg?react';
 import LockImage from '@assets/icons/recommendCta.png';
 import { overlay } from 'overlay-kit';
 import * as styles from './ResultPage.css';
+import { usePreferenceMutation } from '../../hooks/generate';
 import type { GenerateTypes } from '../../types/GenerateType';
 import LikeButton from '@/shared/components/button/likeButton/LikeButton';
 import DislikeButton from '@/shared/components/button/likeButton/DislikeButton';
@@ -10,14 +11,26 @@ import HeadingText from '@/shared/components/text/HeadingText';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 import Modal from '@/shared/components/overlay/modal/Modal';
 interface ResultPageProps {
-  data: GenerateTypes;
+  mockData: GenerateTypes;
 }
 
-const ResultPage = ({ data }: ResultPageProps) => {
+const ResultPage = ({ mockData }: ResultPageProps) => {
   const [selected, setSelected] = useState<'like' | 'dislike' | null>(null);
+  const { mutate: sendPreference } = usePreferenceMutation();
 
   const handleVote = (isLike: boolean) => {
     setSelected(isLike ? 'like' : 'dislike');
+    sendPreference(
+      { imageId, isLike },
+      {
+        onSuccess: () => {
+          console.log('성공');
+        },
+        onError: (e) => {
+          console.error(e);
+        },
+      }
+    );
   };
 
   const handleOpenModal = () => {
@@ -29,14 +42,18 @@ const ResultPage = ({ data }: ResultPageProps) => {
     ));
   };
 
+  // if (isLoading) return <div>로딩중</div>;
+  // if (isError || !data) return <div>에러 발생!</div>;
+
   return (
     <div className={styles.wrapper}>
       <section className={styles.headerSection}>
         <HeadingText title="이미지 생성이 완료됐어요!" content="" />
         <div className={styles.infoSection}>
           <p className={styles.infoText}>
-            {data.sqft}평 오피스텔에 살며 {data.style}한 취향을 가진 <br />
-            {data.user}님을 위한 맞춤 인테리어 스타일링이에요!
+            {mockData.sqft}평 오피스텔에 살며 {mockData.style}한 취향을 가진{' '}
+            <br />
+            {mockData.user}님을 위한 맞춤 인테리어 스타일링이에요!
           </p>
         </div>
       </section>
