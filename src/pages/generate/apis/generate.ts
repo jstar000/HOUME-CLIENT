@@ -52,3 +52,11 @@ export const postPreference = async (imageId: number, isLike: boolean) => {
     },
   });
 };
+
+// 가구 추천 받기 로그 확인
+export const postFurnitureLog = async () => {
+  return request({
+    method: HTTPMethod.POST,
+    url: '/api/v1/furnitures/logs',
+  });
+};

@@ -3,7 +3,10 @@ import BlurImage from '@assets/icons/recommendBlur.svg?react';
 import LockImage from '@assets/icons/recommendCta.png';
 import { overlay } from 'overlay-kit';
 import * as styles from './ResultPage.css';
-import { usePreferenceMutation } from '../../hooks/generate';
+import {
+  useFurnitureLogMutation,
+  usePreferenceMutation,
+} from '../../hooks/generate';
 import type { GenerateTypes } from '../../types/GenerateType';
 import LikeButton from '@/shared/components/button/likeButton/LikeButton';
 import DislikeButton from '@/shared/components/button/likeButton/DislikeButton';
@@ -17,20 +20,21 @@ interface ResultPageProps {
 const ResultPage = ({ mockData }: ResultPageProps) => {
   const [selected, setSelected] = useState<'like' | 'dislike' | null>(null);
   const { mutate: sendPreference } = usePreferenceMutation();
+  const { mutate: sendFurnituresLogs } = useFurnitureLogMutation();
 
   const handleVote = (isLike: boolean) => {
     setSelected(isLike ? 'like' : 'dislike');
-    sendPreference(
-      { imageId, isLike },
-      {
-        onSuccess: () => {
-          console.log('성공');
-        },
-        onError: (e) => {
-          console.error(e);
-        },
-      }
-    );
+    // sendPreference(
+    //   { imageId, isLike },
+    //   {
+    //     onSuccess: () => {
+    //       console.log('성공');
+    //     },
+    //     onError: (e) => {
+    //       console.error(e);
+    //     },
+    //   }
+    // );
   };
 
   const handleOpenModal = () => {
@@ -40,6 +44,7 @@ const ResultPage = ({ mockData }: ResultPageProps) => {
         title={`스타일링 이미지대로 가구를\n추천 받으려면 크레딧이 필요해요`}
       />
     ));
+    sendFurnituresLogs();
   };
 
   // if (isLoading) return <div>로딩중</div>;

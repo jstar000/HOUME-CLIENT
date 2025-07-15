@@ -57,7 +57,7 @@ const publicRoutes = [
       },
       {
         path: 'result',
-        element: <ResultPage data={MOCK_GENERATE_DATA} />,
+        element: <ResultPage mockData={MOCK_GENERATE_DATA} />,
       },
     ],
   },

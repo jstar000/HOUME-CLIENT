@@ -1,5 +1,10 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { getResultData, getStackData, postPreference } from '../apis/generate';
+import {
+  getResultData,
+  getStackData,
+  postFurnitureLog,
+  postPreference,
+} from '../apis/generate';
 import { QUERY_KEY } from '@/shared/constants/queryKey';
 
 export const useStackData = (page: number, options: { enabled: boolean }) => {
@@ -22,5 +27,12 @@ export const usePreferenceMutation = () => {
   return useMutation({
     mutationFn: ({ imageId, isLike }: { imageId: number; isLike: boolean }) =>
       postPreference(imageId, isLike),
+  });
+};
+
+// 가구 추천 받기 클릭 로그
+export const useFurnitureLogMutation = () => {
+  return useMutation({
+    mutationFn: postFurnitureLog,
   });
 };
