@@ -23,7 +23,7 @@ export const useStep1HouseInfo = (context: ImageGenerateSteps['HouseInfo']) => {
   const [errors, setErrors] = useState<FormErrors>({});
 
   // 입력값 3개 입력 여부 확인
-  const areAllFieldsFilled = !!(
+  const isFormCompleted = !!(
     formData.houseType &&
     formData.roomType &&
     formData.roomSize
@@ -33,7 +33,7 @@ export const useStep1HouseInfo = (context: ImageGenerateSteps['HouseInfo']) => {
   const checkRestrictedValues = (): boolean => {
     const newErrors: FormErrors = {};
 
-    if (areAllFieldsFilled) {
+    if (isFormCompleted) {
       if (
         formData.houseType &&
         HOUSE_INFO_VALIDATION.restrictedValues.houseType.includes(
@@ -56,7 +56,7 @@ export const useStep1HouseInfo = (context: ImageGenerateSteps['HouseInfo']) => {
     return Object.values(newErrors).length === 0;
   };
 
-  // areAllFieldsFilled == true일 때 버튼 enable -> handleSubmit 실행 가능
+  // isFormCompleted == true일 때 버튼 enable -> handleSubmit 실행 가능
   const handleSubmit = (onNext: (data: CompletedHouseInfo) => void) => {
     const isValidInput = checkRestrictedValues();
 
@@ -99,6 +99,6 @@ export const useStep1HouseInfo = (context: ImageGenerateSteps['HouseInfo']) => {
     setFormData,
     errors,
     handleSubmit,
-    areAllFieldsFilled,
+    isFormCompleted,
   };
 };
