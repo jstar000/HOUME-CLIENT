@@ -70,7 +70,6 @@ const SignupPage = () => {
     if (birthMonth === '') return false;
     if (!/^\d{2}$/.test(birthMonth)) return true;
     const month = Number.parseInt(birthMonth, 10);
-    if (month === 0) return false;
     return month < 1 || month > 12;
   })();
 
