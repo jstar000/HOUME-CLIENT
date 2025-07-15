@@ -1,4 +1,4 @@
-import type { FloorPlanResponse } from '../types/apis/step1.types';
+import { type FloorPlanResponse } from '../types/apis/step2Api.types';
 import { HTTPMethod, type RequestConfig, request } from '@/shared/apis/request';
 
 export const getFloorPlan = async (): Promise<FloorPlanResponse['data']> => {
