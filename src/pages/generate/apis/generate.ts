@@ -10,3 +10,5 @@ export const getStackData = async (page: number): Promise<CarouselItem[]> => {
   });
   return res.carouselResponseDTOS ?? [];
 };
+
+// 이미지 좋아요 / 별로예요
