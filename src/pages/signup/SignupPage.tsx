@@ -1,5 +1,16 @@
 import { useState, useMemo } from 'react';
 import * as styles from './SignupPage.css';
+import {
+  VALIDATION_RULES,
+  isKoreanOnly,
+  isMinLength,
+  filterKorean,
+  isValidYearFormat,
+  isValidMonthFormat,
+  isValidDayFormat,
+  isMinimumAge,
+  isValidDate,
+} from './utils/validation';
 import type { GenderOption } from './types/formOptions';
 import TitleNavBar from '@/shared/components/navBar/TitleNavBar.tsx';
 import TextField from '@/shared/components/textField/TextField.tsx';
@@ -15,82 +26,50 @@ const SignupPage = () => {
   const [birthDay, setBirthDay] = useState('');
   const [gender, setGender] = useState<GenderOption | null>(null);
 
-  // 이름: 한글만 허용, 2글자 이상
-  const nameRegex = /^[\p{Script=Hangul}]+$/u;
-  const isNameValid = nameRegex.test(name) && name.length >= 2;
-  const isNameFormatInvalid = name !== '' && !nameRegex.test(name);
+  const isNameValid =
+    isKoreanOnly(name) && isMinLength(name, VALIDATION_RULES.NAME_MIN_LENGTH);
+  const isNameFormatInvalid = name !== '' && !isKoreanOnly(name);
   const isNameLengthInvalid =
-    name !== '' && nameRegex.test(name) && name.length < 2;
+    name !== '' &&
+    isKoreanOnly(name) &&
+    !isMinLength(name, VALIDATION_RULES.NAME_MIN_LENGTH);
 
-  // 이름 입력 시 한글, 숫자, 특수문자 필터링
   const handleNameChange = (input: string) => {
-    const filtered = input.replace(/[A-Za-z\u{1F000}-\u{1FFFF}]/gu, '');
+    const filtered = filterKorean(input);
     setName(filtered);
   };
 
-  // 숫자 여부 확인
-  const isYearNumeric = /^\d{4}$/.test(birthYear);
-  const isMonthNumeric = /^\d{1,2}$/.test(birthMonth);
-  const isDayNumeric = /^\d{1,2}$/.test(birthDay);
-
-  // 입력값을 숫자로 변환
   const yearNum = Number.parseInt(birthYear, 10);
   const monthNum = Number.parseInt(birthMonth, 10);
   const dayNum = Number.parseInt(birthDay, 10);
 
-  // 연도 형식 에러: 4자리 숫자가 아니거나 숫자가 아닐 때
-  const yearFormatError =
-    birthYear !== '' && (birthYear.length !== 4 || !isYearNumeric);
+  const yearFormatError = birthYear !== '' && !isValidYearFormat(birthYear);
 
-  // 만 14세 이상 체크 (형식 문제 없을 때만)
-  const yearAgeError = (() => {
+  const yearAgeError = useMemo(() => {
     if (birthYear === '' || yearFormatError) return false;
+    return !isMinimumAge(yearNum, monthNum, dayNum, VALIDATION_RULES.MIN_AGE);
+  }, [birthYear, yearFormatError, yearNum, monthNum, dayNum]);
 
-    const today = new Date();
-    const age =
-      today.getFullYear() -
-      yearNum -
-      (today.getMonth() + 1 < monthNum ||
-      (today.getMonth() + 1 === monthNum && today.getDate() < dayNum)
-        ? 1
-        : 0);
-    return age < 15;
-  })();
-
-  // 숫자만 입력받도록 처리하는 함수
   const handleNumericChange =
     (setter: (val: string) => void) => (val: string) => {
       const numeric = val.replace(/\D/g, '');
       setter(numeric);
     };
 
-  // 월 에러: 형식이 아니거나 범위 벗어남 (단, '00'은 허용)
-  const monthFieldError = (() => {
+  const monthFieldError = useMemo(() => {
     if (birthMonth === '') return false;
-    if (!/^\d{2}$/.test(birthMonth)) return true;
-    const month = Number.parseInt(birthMonth, 10);
-    return month < 1 || month > 12;
-  })();
+    return !isValidMonthFormat(birthMonth) || monthNum < 1 || monthNum > 12;
+  }, [birthMonth, monthNum]);
 
-  // 일 에러: 날짜 조합이 실제 존재하지 않을 때
-  const dayFieldError = (() => {
+  const dayFieldError = useMemo(() => {
     if (birthDay === '') return false;
-    if (!/^\d{2}$/.test(birthDay)) return true;
-    if (!isDayNumeric || birthDay.length !== 2) return false;
-
-    if (!isMonthNumeric || monthNum < 1 || monthNum > 12 || !isYearNumeric) {
+    if (!isValidDayFormat(birthDay)) return true;
+    if (!isValidMonthFormat(birthMonth) || !isValidYearFormat(birthYear)) {
       return dayNum < 1 || dayNum > 31;
     }
+    return !isValidDate(yearNum, monthNum, dayNum);
+  }, [birthDay, birthMonth, birthYear, dayNum, monthNum, yearNum]);
 
-    const date = new Date(yearNum, monthNum - 1, dayNum);
-    return !(
-      date.getFullYear() === yearNum &&
-      date.getMonth() === monthNum - 1 &&
-      date.getDate() === dayNum
-    );
-  })();
-
-  // useMemo로 유효성 검증 결과 메모이제이션
   const validationResult = useMemo(() => {
     const allFieldsFilled =
       name !== '' &&
@@ -128,14 +107,11 @@ const SignupPage = () => {
 
   return (
     <form>
-      {/* 상단 네비게이션 바 */}
       <TitleNavBar title="회원가입" isBackIcon={false} isLoginBtn={false} />
 
       <div className={styles.container}>
-        {/* 페이지 타이틀 */}
         <h1 className={styles.title}>추가 회원가입 정보</h1>
 
-        {/* 이름 입력 섹션 */}
         <div className={styles.fieldbox}>
           <h2 className={styles.fieldtitle}>이름</h2>
           <TextField
@@ -146,17 +122,14 @@ const SignupPage = () => {
             onChange={handleNameChange}
             isError={isNameFormatInvalid || isNameLengthInvalid}
           />
-          {/* 이름 형식 에러 메시지 */}
           {isNameFormatInvalid && (
             <ShowErrorMessage message={ERROR_MESSAGES.NAME_INVALID} />
           )}
-          {/* 이름 길이 에러 메시지 */}
           {!isNameFormatInvalid && isNameLengthInvalid && (
             <ShowErrorMessage message={ERROR_MESSAGES.LENGTH_INVALID} />
           )}
         </div>
 
-        {/* 생년월일 입력 섹션 */}
         <div className={styles.fieldbox}>
           <h2 className={styles.fieldtitle}>생년월일</h2>
           <div className={styles.flexbox}>
@@ -188,21 +161,17 @@ const SignupPage = () => {
               inputMode="numeric"
             />
           </div>
-
-          {/* 생년월일 관련 에러 메시지: 우선순위에 따라 하나만 출력 */}
           {(() => {
             if (yearAgeError)
               return <ShowErrorMessage message={ERROR_MESSAGES.AGE_INVALID} />;
-            if (yearFormatError || monthFieldError || dayFieldError) {
+            if (yearFormatError || monthFieldError || dayFieldError)
               return (
                 <ShowErrorMessage message={ERROR_MESSAGES.BIRTH_INVALID} />
               );
-            }
             return null;
           })()}
         </div>
 
-        {/* 성별 선택 섹션 */}
         <div className={styles.fieldbox}>
           <h2 className={styles.fieldtitle}>성별</h2>
           <div className={styles.flexbox}>
@@ -233,7 +202,6 @@ const SignupPage = () => {
         </div>
       </div>
 
-      {/* 회원가입 완료 CTA 버튼 */}
       <div className={styles.btnarea}>
         <CtaButton isActive={isFormValid}>회원가입 완료하기</CtaButton>
       </div>
