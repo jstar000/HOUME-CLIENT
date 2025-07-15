@@ -31,7 +31,6 @@ const Step2FloorPlan = ({ context, onNext }: Step2FloorPlanProps) => {
       },
     };
 
-    // 여기서 콘솔에 찍어보기
     console.log('선택된 퍼널 페이로드:', payload);
 
     onNext({

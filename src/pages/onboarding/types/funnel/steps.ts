@@ -30,14 +30,14 @@ export type ImageGenerateSteps = {
     roomType: RoomType;
     roomSize: RoomSize;
     floorPlan: FloorPlan;
-    selectedInteriorTaste?: number[];
+    moodBoardIds?: number[];
   };
   MainActivity: {
     houseType: HouseType;
     roomType: RoomType;
     roomSize: RoomSize;
     floorPlan: FloorPlan;
-    selectedInteriorTaste: number[];
+    moodBoardIds: number[];
     primaryUsage?: PrimaryUsage;
     bedType?: BedType;
     otherFurnitures?: OtherFurnitures[];
