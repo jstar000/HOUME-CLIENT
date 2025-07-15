@@ -23,9 +23,9 @@ const SignupPage = () => {
   const isNameLengthInvalid =
     name !== '' && nameRegex.test(name) && name.length < 2;
 
-  // 이름 입력 시 한글만 남기고 필터링
+  // 이름 입력 시 한글, 숫자, 특수문자 필터링
   const handleNameChange = (input: string) => {
-    const filtered = input.replace(/[A-Za-z0-9\u{1F000}-\u{1FFFF}]/gu, '');
+    const filtered = input.replace(/[A-Za-z\u{1F000}-\u{1FFFF}]/gu, '');
     setName(filtered);
   };
 
