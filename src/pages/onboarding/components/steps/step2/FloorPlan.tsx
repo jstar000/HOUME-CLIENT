@@ -1,8 +1,8 @@
 // FloorPlan.tsx
 import { useEffect, useState } from 'react';
 import * as styles from './FloorPlan.css';
-import { mockimages } from './step2MockData';
 import type { OpenSheetKey } from '@/pages/onboarding/types/OpenSheet';
+import type { FloorPlanList } from '@/pages/onboarding/apis/step2';
 import FloorCard from '@/shared/components/card/floorCard/FloorCard';
 import NoMatchButton from '@/shared/components/button/noMatchButton/NoMatchButton';
 import NoMatchSheet from '@/shared/components/bottomSheet/noMatchSheet/NoMatchSheet';
@@ -15,18 +15,19 @@ interface FloorPlanProps {
     src: string;
     flipped: boolean;
   }) => void;
+  floorPlanList: FloorPlanList[];
 }
 
-const FloorPlan = ({ onFloorPlanSelect }: FloorPlanProps) => {
+const FloorPlan = ({ onFloorPlanSelect, floorPlanList }: FloorPlanProps) => {
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [openSheet, setOpenSheet] = useState<OpenSheetKey>(null);
   const [isFlipped, setIsFlipped] = useState(false);
 
   const selectedImage =
-    selectedId !== null
-      ? mockimages.find((item) => item.id === selectedId)
-      : null;
+    selectedId == null
+      ? null
+      : floorPlanList.find((item) => item.id === selectedId);
 
   const { notify } = useToast();
 
@@ -77,12 +78,11 @@ const FloorPlan = ({ onFloorPlanSelect }: FloorPlanProps) => {
     if (selectedId !== null && selectedImage) {
       const houseData = {
         id: selectedImage.id,
-        src: selectedImage.img,
+        src: selectedImage.floorPlanImage,
         flipped: isFlipped,
       };
 
       handleCloseSheet();
-
       onFloorPlanSelect(houseData);
     }
   };
@@ -91,7 +91,7 @@ const FloorPlan = ({ onFloorPlanSelect }: FloorPlanProps) => {
     <section className={styles.wrapper}>
       <div className={styles.container}>
         <div className={styles.gridbox}>
-          {mockimages.map((item) => (
+          {floorPlanList.map((item: FloorPlanList) => (
             <button
               type="button"
               key={item.id}
@@ -99,7 +99,7 @@ const FloorPlan = ({ onFloorPlanSelect }: FloorPlanProps) => {
             >
               <FloorCard
                 key={item.id}
-                src={item.img}
+                src={item.floorPlanImage}
                 selected={selectedId === item.id}
               />
             </button>
@@ -130,7 +130,7 @@ const FloorPlan = ({ onFloorPlanSelect }: FloorPlanProps) => {
           onExited={handleExited}
           onFlipClick={handleFlipClick}
           onChooseClick={handleChooseClick}
-          src={selectedImage?.img ?? ''}
+          src={selectedImage?.floorPlanImage ?? ''}
           isFlipped={isFlipped}
         />
       )}

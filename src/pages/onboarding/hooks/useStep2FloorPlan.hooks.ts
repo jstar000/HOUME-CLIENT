@@ -1,7 +1,8 @@
 // useStep2FloorPlan.hooks.ts (로직 담당)
+import { useFloorPlanQuery } from './useStep2Queries.hooks';
 import type { CompletedFloorPlan, ImageGenerateSteps } from '../types/funnel';
 
-interface SelectedHouseData {
+interface SelectedFloorPlan {
   id: number;
   src: string;
   flipped: boolean;
@@ -11,7 +12,11 @@ export const useStep2FloorPlan = (
   context: ImageGenerateSteps['FloorPlan'],
   onNext: (data: CompletedFloorPlan) => void
 ) => {
-  const handleFloorPlanSelection = (houseData: SelectedHouseData) => {
+  // Step2FloorPlan 컴포넌트 렌더링 -> useStep2FloorPlan 훅 실행
+  // -> useFloorPlanQuery 실행 -> 데이터 fetching
+  const { data, isLoading, error, isError } = useFloorPlanQuery();
+
+  const handleFloorPlanSelection = (houseData: SelectedFloorPlan) => {
     // 디버깅용
     const payload = {
       houseType: context.houseType,
@@ -38,5 +43,9 @@ export const useStep2FloorPlan = (
 
   return {
     handleFloorPlanSelection,
+    floorPlanList: data?.floorPlanList,
+    isLoading: isLoading,
+    error: error,
+    isError: isError,
   };
 };

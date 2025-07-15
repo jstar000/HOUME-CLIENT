@@ -14,7 +14,40 @@ interface Step2FloorPlanProps {
 }
 
 const Step2FloorPlan = ({ context, onNext }: Step2FloorPlanProps) => {
-  const { handleFloorPlanSelection } = useStep2FloorPlan(context, onNext);
+  const { handleFloorPlanSelection, floorPlanList, isLoading, error, isError } =
+    useStep2FloorPlan(context, onNext);
+
+  // 로딩 상태 처리
+  if (isLoading) {
+    return (
+      <div className={styles.container}>
+        <div>Floor Plan 데이터를 불러오는 중...</div>
+      </div>
+    );
+  }
+
+  // 에러 상태 처리
+  if (isError) {
+    return (
+      <div className={styles.container}>
+        <div>데이터를 불러오는데 실패했습니다: {error?.message}</div>
+      </div>
+    );
+  }
+
+  // 데이터가 없는 경우
+  if (!floorPlanList || floorPlanList.length === 0) {
+    return (
+      <div className={styles.container}>
+        <FunnelHeader
+          title={`유사한 집 구조를 선택해주세요`}
+          detail={`템플릿을 선택하면 좌우반전을 할 수 있어요.`}
+          currentStep={2}
+        />
+        <div>사용 가능한 집 구조 템플릿이 없습니다.</div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
@@ -24,7 +57,10 @@ const Step2FloorPlan = ({ context, onNext }: Step2FloorPlanProps) => {
         currentStep={2}
       />
 
-      <FloorPlan onFloorPlanSelect={handleFloorPlanSelection} />
+      <FloorPlan
+        onFloorPlanSelect={handleFloorPlanSelection}
+        floorPlanList={floorPlanList}
+      />
     </div>
   );
 };
