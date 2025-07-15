@@ -20,6 +20,20 @@ interface SelectedHouseData {
 
 const Step2FloorPlan = ({ context, onNext }: Step2FloorPlanProps) => {
   const handleFloorPlanSelection = (houseData: SelectedHouseData) => {
+    // 디버깅용
+    const payload = {
+      houseType: context.houseType,
+      roomType: context.roomType,
+      roomSize: context.roomSize,
+      floorPlan: {
+        floorPlanId: houseData.id,
+        isMirror: houseData.flipped,
+      },
+    };
+
+    // 여기서 콘솔에 찍어보기
+    console.log('선택된 퍼널 페이로드:', payload);
+
     onNext({
       houseType: context.houseType,
       roomType: context.roomType,
