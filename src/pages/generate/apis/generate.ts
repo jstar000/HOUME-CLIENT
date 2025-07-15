@@ -12,3 +12,12 @@ export const getStackData = async (page: number): Promise<CarouselItem[]> => {
 };
 
 // 이미지 좋아요 / 별로예요
+export const postLikeStack = async (carouselId: number) => {
+  return request({
+    method: HTTPMethod.POST,
+    url: `/api/v1/carousels/like`,
+    query: {
+      carouselId,
+    },
+  });
+};

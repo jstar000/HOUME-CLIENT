@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import * as styles from './LoadingPage.css';
 import ProgressBar from './ProgressBar';
 import { useStackData } from '../../hooks/generate';
+import { postLikeStack } from '../../apis/generate';
 import LikeButton from '@/shared/components/button/likeButton/LikeButton';
 import DislikeButton from '@/shared/components/button/likeButton/DislikeButton';
 
@@ -41,6 +42,14 @@ const LoadingPage = () => {
 
     setSelected(isLike ? 'like' : 'dislike');
     setAnimating(true);
+
+    if (isLike && currentImage) {
+      try {
+        postLikeStack(currentImage.carouselId);
+      } catch {
+        alert('좋아요 실패');
+      }
+    }
 
     setTimeout(() => {
       if (!isLast) {
