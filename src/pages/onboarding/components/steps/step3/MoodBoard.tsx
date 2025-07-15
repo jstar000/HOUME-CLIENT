@@ -9,7 +9,6 @@
  * @param {function} onImageSelect - 이미지 선택/해제 처리 함수
  * @returns JSX.Element - 무드보드 컴포넌트
  */
-import { useState } from 'react';
 import * as styles from './MoodBoard.css';
 import { mockimages } from './mockimages';
 import CardImage from '@/shared/components/card/cardImage/CardImage';

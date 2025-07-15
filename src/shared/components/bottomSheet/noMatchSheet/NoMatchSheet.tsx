@@ -4,7 +4,6 @@ import DragHandle from '@components/dragHandle/DragHandle';
 import TextField from '@components/textField/TextField';
 import CtaButton from '@components/button/ctaButton/CtaButton';
 import * as styles from './NoMatchSheet.css';
-import { useToast } from '../../toast/useToast';
 
 interface NoMatchSheetProps {
   isOpen: boolean;
@@ -26,7 +25,6 @@ const NoMatchSheet = ({
   const [region, setRegion] = useState('');
   const [address, setAddress] = useState('');
   const isFilled = region.trim() !== '' && address.trim() !== '';
-  const { notify } = useToast();
 
   // transitionend 핸들러
   const handleTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
