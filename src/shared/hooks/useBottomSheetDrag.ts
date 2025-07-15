@@ -9,7 +9,7 @@ interface UseBottomSheetDragProps {
 export function useBottomSheetDrag({
   sheetRef,
   onClose,
-  threshold = 150,
+  threshold = 200,
 }: UseBottomSheetDragProps) {
   const startY = useRef(0); // 드래그 시작 Y좌표
   const currentY = useRef(0); // 현재 드래그된 Y거리
@@ -26,6 +26,7 @@ export function useBottomSheetDrag({
     const deltaY = e.touches[0].clientY - startY.current; // 이동 거리
     if (deltaY > 0) {
       currentY.current = deltaY; // 현재 드래그된 Y거리
+      sheetRef.current.style.transition = '';
       sheetRef.current.style.transform = `translate(-50%, ${deltaY}px)`; // 실시간 업데이트 (x축 고정)
     }
   };
@@ -34,9 +35,11 @@ export function useBottomSheetDrag({
     isDragging.current = false; // 드래그 중 상태 종료
     if (currentY.current > threshold) {
       // transform을 원위치로 돌리고 닫기
+      sheetRef.current.style.transition = 'transform 0.3s ease';
       sheetRef.current.style.transform = 'translate(-50%, 0)';
       onClose();
     } else {
+      sheetRef.current.style.transition = 'transform 0.3s ease';
       sheetRef.current.style.transform = 'translate(-50%, 0)';
     }
     currentY.current = 0;
@@ -55,6 +58,7 @@ export function useBottomSheetDrag({
     const deltaY = e.clientY - startY.current; // 이동 거리
     if (deltaY > 0) {
       currentY.current = deltaY; // 현재 드래그된 Y거리
+      sheetRef.current.style.transition = '';
       sheetRef.current.style.transform = `translate(-50%, ${deltaY}px)`; // 실시간 업데이트 (x축 고정)
     }
   };
@@ -62,9 +66,11 @@ export function useBottomSheetDrag({
     if (!isDragging.current || !sheetRef.current) return;
     isDragging.current = false; // 드래그 중 상태 종료
     if (currentY.current > threshold) {
+      sheetRef.current.style.transition = 'transform 0.3s ease';
       sheetRef.current.style.transform = 'translate(-50%, 0)';
       onClose();
     } else {
+      sheetRef.current.style.transition = 'transform 0.3s ease';
       sheetRef.current.style.transform = 'translate(-50%, 0)';
     }
     currentY.current = 0;
