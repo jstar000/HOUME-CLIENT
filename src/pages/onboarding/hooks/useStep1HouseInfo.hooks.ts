@@ -30,7 +30,7 @@ export const useStep1HouseInfo = (context: ImageGenerateSteps['HouseInfo']) => {
   );
 
   // 제한된 값(아파트, 투룸 등)을 선택했는지 검증
-  const checkRestrictedValues = (): boolean => {
+  const validateFormFields = (): boolean => {
     const newErrors: FormErrors = {};
 
     if (isFormCompleted) {
@@ -58,7 +58,7 @@ export const useStep1HouseInfo = (context: ImageGenerateSteps['HouseInfo']) => {
 
   // isFormCompleted == true일 때 버튼 enable -> handleSubmit 실행 가능
   const handleSubmit = (onNext: (data: CompletedHouseInfo) => void) => {
-    const isValidInput = checkRestrictedValues();
+    const isValidInput = validateFormFields();
 
     // 타입 안전성 강화를 위해 타입 단언(as)을 제거 -> 아래 조건문으로 별도의 타입 검사 필요
     // 필수 필드가 누락되면 '집 구조 선택하기' 버튼이 disabled되어 handleSubmit이 실행될 수 없으므로 아래 조건문은 항상 통과함
