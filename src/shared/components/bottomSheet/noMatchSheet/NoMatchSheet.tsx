@@ -4,7 +4,6 @@ import DragHandle from '@components/dragHandle/DragHandle';
 import TextField from '@components/textField/TextField';
 import CtaButton from '@components/button/ctaButton/CtaButton';
 import * as styles from './NoMatchSheet.css';
-import { useToast } from '../../toast/useToast';
 import { useBottomSheetDrag } from '@/shared/hooks/useBottomSheetDrag';
 
 interface NoMatchSheetProps {

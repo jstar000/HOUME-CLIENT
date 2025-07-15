@@ -1,11 +1,5 @@
-import FloorPlan from '../onboarding/components/steps/step2/FloorPlan';
-
 const HomePage = () => {
-  return (
-    <div>
-      <FloorPlan />
-    </div>
-  );
+  return <div></div>;
 };
 
 export default HomePage;

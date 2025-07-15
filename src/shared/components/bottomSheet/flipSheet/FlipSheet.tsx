@@ -69,7 +69,7 @@ const FlipSheet = ({
         </div>
 
         <div className={styles.buttonGroup}>
-          <FilpButton onClick={onFlipClick} />
+          <FilpButton onClick={onFlipClick} isFlipped={false} />
           <CtaButton onClick={onChooseClick}>선택하기</CtaButton>
         </div>
       </div>
