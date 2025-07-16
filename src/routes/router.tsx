@@ -19,6 +19,9 @@ import { ImageGenerationFunnel } from '@/pages/onboarding/ImageGenerationFunnel'
 import MyPage from '@/pages/mypage/MyPage';
 import KakaoCallback from '@/pages/login/KakaoCallback';
 import SignupCompletePage from '@/pages/signup/SignupCompletePage';
+import LoadingPage from '@/pages/generate/components/loading/LoadingPage';
+import ResultPage from '@/pages/generate/components/result/ResultPage';
+import { MOCK_GENERATE_DATA } from '@/pages/generate/constants/resultMockData';
 
 // 공개 라우트 그룹 (인증 불필요)
 const publicRoutes = [
@@ -47,6 +50,16 @@ const protectedRoutes = [
   {
     path: ROUTES.GENERATE,
     element: <GeneratePage />,
+    children: [
+      {
+        index: true,
+        element: <LoadingPage />,
+      },
+      {
+        path: 'result',
+        element: <ResultPage mockData={MOCK_GENERATE_DATA} />,
+      },
+    ],
   },
   {
     path: ROUTES.ONBOARDING,
