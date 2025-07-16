@@ -50,7 +50,9 @@ const ProgressLoadingBar = () => {
 
   useEffect(() => {
     if (progress === 100) {
-      navigate('/generate/result');
+      setTimeout(() => {
+        navigate('/generate/result');
+      }, 1000);
     }
   }, [progress, navigate]);
 
