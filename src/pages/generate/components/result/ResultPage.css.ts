@@ -33,6 +33,7 @@ export const infoSection = style({
 export const infoText = style({
   ...fontStyle('body_r_14'),
   color: colorVars.color.gray900,
+  whiteSpace: 'pre-line',
 });
 
 export const resultSection = style({

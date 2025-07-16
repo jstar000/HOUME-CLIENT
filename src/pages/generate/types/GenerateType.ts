@@ -35,7 +35,7 @@ export interface GenerateImageData {
   isMirror: boolean;
   equilibrium: string;
   houseForm: string;
-  tasteTag: string;
+  tagName: string;
   name: string;
 }
 

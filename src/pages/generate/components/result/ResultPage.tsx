@@ -23,18 +23,10 @@ import Modal from '@/shared/components/overlay/modal/Modal';
 const ResultPage = () => {
   const location = useLocation();
   // TODO: result를 어디에서 받아오는지 추적이 힘듦, 수정 필요
-  const {
-    imageId,
-    imageUrl,
-    isMirror,
-    equilibrium,
-    houseForm,
-    tasteTag,
-    name,
-  } = (location.state as GenerateImageData) || {};
+  const { result } = location.state as { result: GenerateImageData };
 
   const [selected, setSelected] = useState<'like' | 'dislike' | null>(null);
-  const { mutate: sendPreference } = usePreferenceMutation(imageId);
+  const { mutate: sendPreference } = usePreferenceMutation(result.imageId);
   const { mutate: sendFurnituresLogs } = useFurnitureLogMutation();
   const { mutate: sendCreditLogs } = useCreditLogMutation();
 
@@ -73,15 +65,14 @@ const ResultPage = () => {
         <HeadingText title="이미지 생성이 완료됐어요!" content="" />
         <div className={styles.infoSection}>
           <p className={styles.infoText}>
-            {equilibrium}평 {houseForm}에 살며 {tasteTag}한 취향을 가진 {name}
-            님을 위한 맞춤 인테리어 스타일링이에요!
+            {`${result.equilibrium}평에 거주하며 ${result.tagName}한 취향을 가진\n${result.name}님을 위한 맞춤 인테리어 스타일링이에요!`}
           </p>
         </div>
       </section>
       <section className={styles.resultSection}>
         <img
-          src={imageUrl}
-          alt={`${name}님을 위한 맞춤 인테리어 스타일링`}
+          src={result.imageUrl}
+          alt={`${result.name}님을 위한 맞춤 인테리어 스타일링`}
           className={styles.imgArea}
         />
         <div className={styles.buttonGroup}>
