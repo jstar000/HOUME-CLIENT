@@ -9,7 +9,10 @@
  */
 import { useState } from 'react';
 import * as styles from './MoodBoard.css';
-import type { MoodBoardImageItem } from '@/pages/onboarding/types/apis/moodBoard';
+import {
+  MOOD_BOARD_CONSTANTS,
+  type MoodBoardImageItem,
+} from '@/pages/onboarding/types/apis/moodBoard';
 import { useMoodBoardImage } from '@/pages/onboarding/hooks/useMoodBoardImage.hooks';
 import CardImage from '@/shared/components/card/cardImage/CardImage';
 
@@ -33,7 +36,7 @@ const MoodBoard = () => {
         // 이미 선택된 경우: 선택 해제
         return prev.filter((id) => id !== imageId);
       }
-      if (prev.length >= 5) {
+      if (prev.length >= MOOD_BOARD_CONSTANTS.MAX_SELECTIONS) {
         return prev;
       }
       return [...prev, imageId];
@@ -52,7 +55,9 @@ const MoodBoard = () => {
   };
 
   // 이미지 API 호출
-  const { data, isPending, isError } = useMoodBoardImage(18);
+  const { data, isPending, isError } = useMoodBoardImage(
+    MOOD_BOARD_CONSTANTS.DEFAULT_LIMIT
+  );
 
   // 로딩/에러 처리
   if (isPending) return <div>이미지 불러오는 중...</div>;
@@ -66,7 +71,9 @@ const MoodBoard = () => {
       <div className={styles.gridbox}>
         {images.map((image: MoodBoardImageItem) => {
           const isSelected = selectedImages.includes(image.id);
-          const isDisabled = selectedImages.length >= 5 && !isSelected;
+          const isDisabled =
+            selectedImages.length >= MOOD_BOARD_CONSTANTS.MAX_SELECTIONS &&
+            !isSelected;
 
           return (
             <CardImage

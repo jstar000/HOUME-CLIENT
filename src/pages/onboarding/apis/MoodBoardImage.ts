@@ -13,10 +13,13 @@
  */
 
 import axiosInstance from '@shared/apis/axiosInstance';
-import type { MoodBoardImageResponse } from '../types/apis/moodBoard';
+import {
+  MOOD_BOARD_CONSTANTS,
+  type MoodBoardImageResponse,
+} from '../types/apis/moodBoard';
 
 export const getMoodBoardImage = async (
-  limit = 18
+  limit = MOOD_BOARD_CONSTANTS.DEFAULT_LIMIT
 ): Promise<MoodBoardImageResponse> => {
   try {
     const response = await axiosInstance.get<MoodBoardImageResponse>(
