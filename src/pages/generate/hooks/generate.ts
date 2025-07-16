@@ -14,6 +14,8 @@ export const useStackData = (page: number, options: { enabled: boolean }) => {
   return useQuery({
     queryKey: [QUERY_KEY.GENERATE_LOADING, page],
     queryFn: () => getStackData(page),
+    staleTime: 2 * 60 * 1000,
+    retry: 2,
     ...options,
   });
 };
