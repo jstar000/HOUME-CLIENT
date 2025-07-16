@@ -24,7 +24,7 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
     formData,
     setFormData,
     // errors,
-    areAllFieldsFilled,
+    isFormCompleted,
     isRequiredFurniture,
     getCurrentActivityLabel,
     getRequiredFurnitureLabels,
@@ -108,7 +108,7 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
         </div>
 
         <div>
-          <CtaButton isActive={areAllFieldsFilled} onClick={handleOnClick}>
+          <CtaButton isActive={isFormCompleted} onClick={handleOnClick}>
             이미지 생성하기
           </CtaButton>
         </div>

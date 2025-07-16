@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import * as styles from './FloorPlan.css';
 import type { OpenSheetKey } from '@/pages/onboarding/types/OpenSheet';
-import type { FloorPlanList } from '@/pages/onboarding/apis/step2';
+import { type FloorPlanList } from '@/pages/onboarding/types/apis/step2Api.types';
 import FloorCard from '@/shared/components/card/floorCard/FloorCard';
 import NoMatchButton from '@/shared/components/button/noMatchButton/NoMatchButton';
 import NoMatchSheet from '@/shared/components/bottomSheet/noMatchSheet/NoMatchSheet';

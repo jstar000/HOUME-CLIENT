@@ -1,19 +1,5 @@
+import { type FloorPlanResponse } from '../types/apis/step2Api.types';
 import { HTTPMethod, type RequestConfig, request } from '@/shared/apis/request';
-
-export interface FloorPlanList {
-  id: number;
-  form: string;
-  structure: string;
-  floorPlanImage: string;
-}
-
-export interface FloorPlanResponse {
-  code: number;
-  msg: string;
-  data: {
-    floorPlanList: FloorPlanList[];
-  };
-}
 
 export const getFloorPlan = async (): Promise<FloorPlanResponse['data']> => {
   const config: RequestConfig = {
