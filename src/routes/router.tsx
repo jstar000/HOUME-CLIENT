@@ -21,7 +21,6 @@ import { ImageGenerationFunnel } from '@/pages/onboarding/ImageGenerationFunnel'
 import MyPage from '@/pages/mypage/MyPage';
 import ResultPage from '@/pages/generate/components/result/ResultPage';
 import LoadingPage from '@/pages/generate/components/loading/LoadingPage';
-import { MOCK_GENERATE_DATA } from '@/pages/generate/constants/resultMockData';
 import KakaoCallback from '@/pages/login/KakaoCallback';
 import SignupCompletePage from '@/pages/signup/SignupCompletePage';
 
