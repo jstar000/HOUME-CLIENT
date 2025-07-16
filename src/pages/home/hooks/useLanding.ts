@@ -6,5 +6,6 @@ export const useLandingData = () => {
   return useQuery({
     queryKey: [QUERY_KEY.LANDING],
     queryFn: () => getHistoryData(),
+    select: (data) => data ?? false,
   });
 };
