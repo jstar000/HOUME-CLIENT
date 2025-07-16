@@ -22,8 +22,8 @@ const ProfileSection = ({
 
         <div className={styles.creditWrapper}>
           <div className={styles.textArea}>
+            <p>{userName}님,</p>
             <p>또 오셨네요!</p>
-            <p>{userName} 님</p>
           </div>
           <CreditBox credit={credit} disabled={isChargeDisabled} />
         </div>
