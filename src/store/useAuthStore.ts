@@ -10,10 +10,17 @@ interface AuthState {
 // zustand를 사용한 인증 상태 전역 관리
 export const useAuthStore = create<AuthState>((set) => ({
   // 앱 시작 시 localStorage에서 accessToken을 불러와 초기화
-  accessToken: localStorage.getItem('accessToken'),
+  accessToken:
+    typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null,
   // accessToken을 localStorage와 zustand 상태에 모두 저장
   setAccessToken: (token) => {
     localStorage.setItem('accessToken', token);
+    try {
+      localStorage.setItem('accessToken', token);
+    } catch (error) {
+      console.error('[AuthStore] localStorage 저장 실패:', error);
+    }
+
     set({ accessToken: token });
   },
   // 인증 정보(토큰) 삭제 및 상태 초기화
