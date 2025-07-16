@@ -27,7 +27,7 @@ const ResultPage = ({ mockData }: ResultPageProps) => {
   const handleVote = (isLike: boolean) => {
     setSelected(isLike ? 'like' : 'dislike');
     sendPreference(
-      { imageId, isLike },
+      { isLike },
       {
         onSuccess: () => {
           console.log('성공');

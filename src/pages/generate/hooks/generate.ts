@@ -24,9 +24,9 @@ export const useResultData = (imageId: number) => {
 };
 
 // 결과 이미지 선호도 전송용 (POST)
-export const usePreferenceMutation = (p0: number) => {
+export const usePreferenceMutation = (imageId: number) => {
   return useMutation({
-    mutationFn: ({ imageId, isLike }: { imageId: number; isLike: boolean }) =>
+    mutationFn: ({ isLike }: { isLike: boolean }) =>
       postPreference(imageId, isLike),
   });
 };

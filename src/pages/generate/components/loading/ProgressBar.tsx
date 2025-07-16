@@ -33,7 +33,7 @@ const ProgressLoadingBar = () => {
       // 완료되었을 때
       interval = setInterval(() => {
         setProgress((prev) => {
-          if (prev >= PROGRESS_CONFIG.FAST_INTERVAL) {
+          if (prev >= 100) {
             if (interval) clearInterval(interval);
             return PROGRESS_CONFIG.FAST_INTERVAL;
           }
@@ -50,8 +50,7 @@ const ProgressLoadingBar = () => {
 
   useEffect(() => {
     if (progress === 100) {
-      alert('이미지 생성 완료!');
-      // navigate('/generate/result');
+      navigate('/generate/result');
     }
   }, [progress, navigate]);
 
