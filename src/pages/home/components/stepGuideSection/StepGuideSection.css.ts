@@ -13,6 +13,7 @@ export const landingImage = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '0.8rem',
+  marginBottom: '4rem',
 });
 
 export const headingText = style({

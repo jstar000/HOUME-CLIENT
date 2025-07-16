@@ -4,7 +4,6 @@ import { colorVars } from '@/shared/styles/tokens/color.css';
 export const page = style({
   background: colorVars.color.bg_grad,
   width: '100%',
-  height: '61.2rem',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',

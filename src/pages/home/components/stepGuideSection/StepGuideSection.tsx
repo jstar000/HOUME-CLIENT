@@ -9,8 +9,10 @@ const StepGuideSection = () => {
       <div className={styles.landingImage}>
         <img src={InfoLandingImage} alt="안내 랜딩 이미지" />
         <div className={styles.headingText}>
-          <p>간단하게 정보를 입력하고</p>
-          <p>나에게 딱 맞는 이미지를 받아보세요</p>
+          <p>
+            간단하게 정보를 입력하고 <br />
+            나에게 딱 맞는 이미지를 받아보세요
+          </p>
         </div>
       </div>
       <TitleStep stepNumber={1} title="우리 집과 유사한 구조를 선택하기" />
@@ -25,8 +27,10 @@ const StepGuideSection = () => {
       <div className={styles.landingImage}>
         <img src={AiLandingImage} alt="ai 랜딩 이미지" />
         <div className={styles.headingText}>
-          <p>AI 이미지로 나와 집에 딱 맞는</p>
-          <p>스타일링 이미지를 받아보세요</p>
+          <p>
+            AI 이미지로 나와 집에 딱 맞는 <br />
+            스타일링 이미지를 받아보세요
+          </p>
         </div>
       </div>
 
