@@ -45,8 +45,9 @@ export const resultSection = style({
 export const imgArea = style({
   width: '33.5rem',
   height: '22rem',
-  backgroundColor: colorVars.color.gray300,
   borderRadius: '16px',
+  objectFit: 'cover', // 비율 유지하며 영역 완전히 채움(이미지 잘릴 수 있음)
+  objectPosition: 'center', // 이미지 중앙 부분 표시
 });
 
 export const buttonGroup = style({

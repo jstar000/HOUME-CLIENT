@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import BlurImage from '@assets/icons/recommendBlur.svg?react';
 import LockImage from '@assets/icons/recommendCta.png';
 import { overlay } from 'overlay-kit';
+import { useLocation } from 'react-router-dom';
 import * as styles from './ResultPage.css';
 import {
   useFurnitureLogMutation,
@@ -21,6 +22,18 @@ interface ResultPageProps {
 const imageId = 15; // 임시 번호
 
 const ResultPage = ({ mockData }: ResultPageProps) => {
+  const location = useLocation();
+  const { imgUrl } = location.state || {};
+
+  // 🔍 디버깅: 전달받은 데이터 확인
+  // console.log('=== ResultPage 디버깅 ===');
+  // console.log('location:', location);
+  // console.log('location.state:', location.state);
+  // console.log('imageUrl:', imageUrl);
+  // console.log('imageUrl type:', typeof imageUrl);
+  // console.log('imageUrl length:', imageUrl?.length);
+  // console.log('========================');
+
   const [selected, setSelected] = useState<'like' | 'dislike' | null>(null);
   const { mutate: sendPreference } = usePreferenceMutation(imageId);
   const { mutate: sendFurnituresLogs } = useFurnitureLogMutation();
@@ -68,7 +81,8 @@ const ResultPage = ({ mockData }: ResultPageProps) => {
         </div>
       </section>
       <section className={styles.resultSection}>
-        <div className={styles.imgArea} />
+        {/* <div className={styles.imgArea} /> */}
+        <img src={imgUrl} alt="생성된 이미지" className={styles.imgArea} />
         <div className={styles.buttonGroup}>
           <LikeButton
             size={'large'}
