@@ -26,7 +26,7 @@ import KakaoCallback from '@/pages/login/KakaoCallback';
 import SignupCompletePage from '@/pages/signup/SignupCompletePage';
 
 // TODO: Replace with actual auth state management
-const isAuthenticated = false;
+const isAuthenticated = true;
 
 // 공개 라우트 그룹 (인증 불필요)
 const publicRoutes = [
