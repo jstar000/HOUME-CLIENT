@@ -28,7 +28,6 @@ export const settingButton = style({
   height: '4rem',
   padding: '1.2rem 2rem',
   gap: '1rem',
-  cursor: 'pointer',
 });
 
 export const buttonText = style({
