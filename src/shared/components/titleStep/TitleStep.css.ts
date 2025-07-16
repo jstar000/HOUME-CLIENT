@@ -8,6 +8,7 @@ export const wrapper = style({
   width: '100%',
   gap: '1.2rem',
   alignItems: 'flex-start',
+  padding: '0 2rem',
 });
 
 export const stepLabelBox = style({

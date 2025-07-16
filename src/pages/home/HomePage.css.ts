@@ -31,6 +31,6 @@ export const contents = style({
   width: '100%',
   flexDirection: 'column',
   alignItems: 'center',
-  padding: '0 2rem',
+
   background: colorVars.color.gray000,
 });

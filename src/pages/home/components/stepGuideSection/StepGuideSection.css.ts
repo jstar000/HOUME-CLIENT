@@ -45,6 +45,7 @@ export const imageGap = style({
 export const resultLandImage = style([
   stepLandImage,
   {
+    height: '24rem',
     marginBottom: '4rem',
   },
 ]);
