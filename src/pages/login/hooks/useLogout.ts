@@ -11,7 +11,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { postLogout } from '../apis/logout';
 import type { LogoutResponse } from '../types/auth';
-import { useAuthStore } from '@/store/useAuthStore';
+import { useUserStore } from '@/store/useUserStore';
 
 export const useLogout = () => {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ export const useLogout = () => {
       console.log('[useLogout] 로그아웃 성공');
 
       // 액세스 토큰 제거
-      useAuthStore.getState().clearAuth();
+      useUserStore.getState().clearUser();
 
       navigate('/login');
     },
@@ -32,7 +32,7 @@ export const useLogout = () => {
       console.error('[useLogout] 로그아웃 실패:', error);
 
       // 에러가 발생해도 로컬 토큰은 제거하고 로그인 페이지로 이동
-      useAuthStore.getState().clearAuth();
+      useUserStore.getState().clearUser();
       navigate('/login');
     },
   });
