@@ -9,11 +9,11 @@ import { useBottomSheetDrag } from '@/shared/hooks/useBottomSheetDrag';
 interface NoMatchSheetProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: () => void;
+  onSubmit: (region: string, address: string) => void;
   user?: string;
   onExited?: () => void; // 애니메이션 끝나면 호출(unmount)
 }
-//
+
 const NoMatchSheet = ({
   isOpen,
   onClose,
@@ -42,7 +42,7 @@ const NoMatchSheet = ({
   };
 
   const handleSubmit = () => {
-    onSubmit();
+    onSubmit(region, address);
   };
 
   return (
