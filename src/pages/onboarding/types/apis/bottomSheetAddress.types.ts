@@ -1,4 +1,4 @@
-export type BottomSheetAddressResponse = {
+export type BottomSheetAddressRequest = {
   sigungu: string;
   roadName: string;
 };
