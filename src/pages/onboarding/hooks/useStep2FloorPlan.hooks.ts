@@ -1,5 +1,5 @@
 // useStep2FloorPlan.hooks.ts (로직 담당)
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useFloorPlanApi } from './useStep2Api.hooks';
 import { useFunnelStore } from '../stores/useFunnelStore';
 import type { CompletedFloorPlan, ImageGenerateSteps } from '../types/funnel';
@@ -22,19 +22,39 @@ export const useStep2FloorPlan = (
   const { step2, setStep2Data, setCurrentStep, clearAfterStep } =
     useFunnelStore();
 
+  // Zustand에서 이전 선택값 가져와서 초기화
+  const [selectedId, setSelectedId] = useState<number | null>(
+    step2.floorPlanId || null
+  );
+  const [isMirror, setIsMirror] = useState<boolean>(step2.isMirror || false);
+
   // 컴포넌트 마운트 시 현재 스텝 설정
   useEffect(() => {
     setCurrentStep(2);
   }, []);
 
+  // 선택 상태가 변경될 때마다 Zustand에 저장
+  useEffect(() => {
+    if (selectedId !== null) {
+      setStep2Data({
+        floorPlanId: selectedId,
+        isMirror: isMirror,
+      });
+    }
+  }, [selectedId, isMirror]);
+
+  const handleImageSelect = useCallback((id: number) => {
+    setSelectedId(id);
+    setIsMirror(false); // 이미지 선택 시 반전 초기화
+  }, []);
+
+  const handleFlipToggle = useCallback(() => {
+    setIsMirror((prev) => !prev);
+  }, []);
+
   const handleFloorPlanSelection = useCallback(
     (selectedFloorPlan: SelectedFloorPlanTypes) => {
-      const floorPlanData = {
-        floorPlanId: selectedFloorPlan.id,
-        isMirror: selectedFloorPlan.flipped,
-      };
-
-      setStep2Data(floorPlanData);
+      if (selectedId === null) return;
 
       // Step2 이후 데이터 초기화 (Step3, 4 데이터 클리어)
       clearAfterStep(2);
@@ -57,14 +77,25 @@ export const useStep2FloorPlan = (
   );
 
   return {
-    handleFloorPlanSelection,
+    // API 데이터
     floorPlanList: data?.floorPlanList,
-    isLoading: isLoading,
-    error: error,
-    isError: isError,
-    selectedFloorPlan: step2,
-    // zustand store에 저장해둔 사용자의 step2 선택 정보
-    // step2에서는 isMirror와 floorPlanId를 굳이 뷰에 전달할 필요가 없을 듯합니다(전달돼도 컴포넌트 UI에 변화 X)
-    // 일단 return에 선언은 해놓았습니다.
+    isLoading,
+    error,
+    isError,
+
+    // 선택 상태
+    selectedId,
+    isMirror,
+
+    // 액션 함수
+    handleImageSelect,
+    handleFlipToggle,
+    handleFloorPlanSelection,
+
+    // 선택된 이미지 정보
+    selectedImage:
+      selectedId && data?.floorPlanList
+        ? data.floorPlanList.find((item) => item.id === selectedId)
+        : null,
   };
 };
