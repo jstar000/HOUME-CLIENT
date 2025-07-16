@@ -1,6 +1,7 @@
 // useStep2FloorPlan.hooks.ts (로직 담당)
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useFloorPlanApi } from './useStep2Api.hooks';
+import { useFunnelStore } from '../stores/useFunnelStore';
 import type { CompletedFloorPlan, ImageGenerateSteps } from '../types/funnel';
 
 interface SelectedFloorPlanTypes {
@@ -17,8 +18,27 @@ export const useStep2FloorPlan = (
   // -> useFloorPlanQuery 실행 -> 데이터 fetching
   const { data, isLoading, error, isError } = useFloorPlanApi();
 
+  // Zustand 스토어에서 상태 가져오기
+  const { step2, setStep2Data, setCurrentStep, clearAfterStep } =
+    useFunnelStore();
+
+  // 컴포넌트 마운트 시 현재 스텝 설정
+  useEffect(() => {
+    setCurrentStep(2);
+  }, []);
+
   const handleFloorPlanSelection = useCallback(
     (selectedFloorPlan: SelectedFloorPlanTypes) => {
+      const floorPlanData = {
+        floorPlanId: selectedFloorPlan.id,
+        isMirror: selectedFloorPlan.flipped,
+      };
+
+      setStep2Data(floorPlanData);
+
+      // Step2 이후 데이터 초기화 (Step3, 4 데이터 클리어)
+      clearAfterStep(2);
+
       const payload: CompletedFloorPlan = {
         houseType: context.houseType,
         roomType: context.roomType,
