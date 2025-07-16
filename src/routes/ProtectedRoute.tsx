@@ -18,7 +18,7 @@ function ProtectedRoute({
   redirectTo = ROUTES.LOGIN,
 }: ProtectedRouteProps) {
   // zustand에서 accessToken 가져오기(로그인 상태 확인)
-  const { accessToken } = useAuthStore();
+  const accessToken = useAuthStore((state) => state.accessToken);
   // 인증 여부: prop이 있으면 우선 사용, 없으면 accessToken 존재 여부로 판단
   const authenticated = isAuthenticated ?? !!accessToken;
   // 인증되지 않은 경우 즉시 리다이렉트
