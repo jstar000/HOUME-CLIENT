@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   HOUSE_INFO_VALIDATION,
   type CompletedHouseInfo,
   type ImageGenerateSteps,
 } from '../types/funnel';
 import { useHouseInfoApi } from './useStep1Api.hooks';
+import { useFunnelStore } from '../stores/useFunnelStore';
 
 interface FormErrors {
   houseType?: string;
@@ -13,14 +14,37 @@ interface FormErrors {
 }
 
 export const useStep1HouseInfo = (context: ImageGenerateSteps['HouseInfo']) => {
+  // 집 구조 선택 API 요청
   const selectHouseInfoRequest = useHouseInfoApi();
 
+  // Zustand store에서 상태 가져오기
+  const { step1, setStep1Data, setCurrentStep, clearAfterStep } =
+    useFunnelStore();
+
+  // 초기값 설정: funnel의 context보다 zustand store 우선
   const [formData, setFormData] = useState({
-    houseType: context.houseType,
-    roomType: context.roomType,
-    areaType: context.areaType,
+    houseType: step1.houseType || context.houseType,
+    roomType: step1.roomType || context.roomType,
+    areaType: step1.areaType || context.areaType,
   });
+
   const [errors, setErrors] = useState<FormErrors>({});
+
+  // 컴포넌트 마운트 시 현재 스텝 설정
+  useEffect(() => {
+    setCurrentStep(1);
+  }, [setCurrentStep]);
+
+  // formData 변경 시 Zustand store에 저장
+  useEffect(() => {
+    // setStep1Data({ }) 안에 있는 데이터가 setStep1Data의 정의에 의해 spread돼서 zustand의 state에 저장됨
+    // houseType, roomType, areaType 중 하나만 바뀌어도 그냥 셋 다 spread돼서 저장되는 것
+    setStep1Data({
+      houseType: formData.houseType,
+      roomType: formData.roomType,
+      areaType: formData.areaType,
+    });
+  }, [formData, setStep1Data]);
 
   // 입력값 3개 입력 여부 확인
   const isFormCompleted = !!(
@@ -82,6 +106,15 @@ export const useStep1HouseInfo = (context: ImageGenerateSteps['HouseInfo']) => {
       onSuccess: (res) => {
         if (res) {
           console.log('유효한 주거정보, House ID:', res.houseId);
+          // zustand store에 houseId 저장
+          setStep1Data({
+            ...selectedHouseInfo,
+            houseId: res.houseId,
+          });
+
+          // Step1 이후 데이터 초기화 (Step2, 3, 4 데이터 클리어)
+          clearAfterStep(1);
+
           // funnel의 context에 넣을 데이터(다음 step으로 전달할 데이터)
           const completedHouseInfo = {
             ...selectedHouseInfo,
