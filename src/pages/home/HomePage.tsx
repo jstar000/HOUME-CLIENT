@@ -4,14 +4,17 @@ import StepGuideSection from './components/stepGuideSection/StepGuideSection';
 import ReviewSection from './components/reviewSection/ReviewSection';
 import * as styles from './HomePage.css';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
-
-const isLoggedIn = false;
+import { useAuthStore } from '@/store/useAuthStore';
 
 const HomePage = () => {
+  const accessToken = useAuthStore((state) => state.accessToken);
+  // 인증 여부: prop이 있으면 우선 사용, 없으면 accessToken 존재 여부로 판단
+  const isAuthenticated = !!accessToken;
+
   return (
     <main className={styles.page}>
       <div className={styles.gradFrame}>
-        <LogoNavBar buttonType={isLoggedIn ? 'profile' : 'login'} />
+        <LogoNavBar buttonType={isAuthenticated ? 'profile' : 'login'} />
         <div className={styles.introSection}>
           <IntroSection />
         </div>
