@@ -12,7 +12,7 @@ const createOptionWithId = (id: number, code: string, label: string) => ({
 export const HOUSE_INFO_OPTIONS = {
   HOUSING_TYPES: {
     OFFICETEL: createOption('OFFICETEL', '오피스텔'),
-    VILLA: createOption('VILLA', '빌라/오피스텔'),
+    VILLA: createOption('VILLA', '빌라/다세대'),
     APARTMENT: createOption('APARTMENT', '아파트'),
     ETC: createOption('ETC', '그 외'),
   },
