@@ -39,3 +39,11 @@ export const buttonGroup = style({
   marginTop: '1.6rem',
   marginBottom: '12rem',
 });
+
+export const radioButtonLabel = style({
+  display: 'inline-block',
+});
+
+export const radioButton = style({
+  display: 'none',
+});

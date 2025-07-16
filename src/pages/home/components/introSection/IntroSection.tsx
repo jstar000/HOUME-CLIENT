@@ -22,15 +22,25 @@ const IntroSection = () => {
 
       <div className={styles.placeholderBox} />
 
-      <div className={styles.buttonGroup}>
+      <div
+        className={styles.buttonGroup}
+        role="radiogroup"
+        aria-label="옵션선택"
+      >
         {options.map((label) => (
-          <SmallFilledButton
-            key={label}
-            isSelected={selected === label}
-            onClick={() => setSelected(label)}
-          >
-            {label}
-          </SmallFilledButton>
+          <label key={label} className={styles.radioButtonLabel}>
+            <input
+              type="radio"
+              name="interiorOption"
+              value={label}
+              checked={selected === label}
+              onChange={() => setSelected(label)}
+              className={styles.radioButton}
+            />
+            <SmallFilledButton isSelected={selected === label}>
+              {label}
+            </SmallFilledButton>
+          </label>
         ))}
       </div>
     </section>

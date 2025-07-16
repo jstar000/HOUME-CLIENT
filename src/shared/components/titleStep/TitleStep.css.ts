@@ -14,7 +14,7 @@ export const stepLabelBox = style({
   display: 'flex',
   width: '5.6rem',
   height: '2.8rem',
-  padding: '0 1.6rem',
+  justifyContent: 'center',
   alignItems: 'center',
   borderRadius: '4px',
   backgroundColor: colorVars.color.primary_light2,

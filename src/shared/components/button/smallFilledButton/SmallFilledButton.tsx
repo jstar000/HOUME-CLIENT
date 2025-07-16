@@ -1,37 +1,22 @@
-import { useState } from 'react';
 import clsx from 'clsx';
 import * as styles from './SmallFilledButton.css';
 
-interface SmallFilledProps extends React.ComponentProps<'button'> {
+interface SmallFilledProps extends React.ComponentProps<'div'> {
   children: React.ReactNode;
   isSelected: boolean;
-  onClick: () => void;
 }
 
-const SmallFilled = ({
-  children,
-  isSelected,
-  onClick,
-  ...props
-}: SmallFilledProps) => {
-  const [isClicked, setIsClicked] = useState(false);
-
-  const handleClick = () => {
-    setIsClicked((prev) => !prev);
-  };
-
+const SmallFilled = ({ children, isSelected, ...props }: SmallFilledProps) => {
   return (
-    <button
-      type="button"
-      onClick={handleClick}
+    <div
       className={clsx(
         styles.smallButtonBase,
-        styles.smallButtonVariants[isClicked ? 'on' : 'off']
+        styles.smallButtonVariants[isSelected ? 'on' : 'off']
       )}
       {...props}
     >
       {children}
-    </button>
+    </div>
   );
 };
 
