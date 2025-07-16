@@ -1,15 +1,41 @@
 import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import * as styles from './LoadingPage.css';
 import ProgressBar from './ProgressBar';
 import {
   useStackData,
   useLikeStackMutation,
   useHateStackMutation,
+  useGenerateImageApi,
 } from '../../hooks/useGenerate';
+import type { GenerateImageRequest } from '../../types/GenerateType';
 import LikeButton from '@/shared/components/button/likeButton/LikeButton';
 import DislikeButton from '@/shared/components/button/likeButton/DislikeButton';
+import { ROUTES } from '@/routes/paths';
 
 const LoadingPage = () => {
+  // 이미지 생성 api 코드 ...
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // TODO: location.state의 타입 검증 로직 개선 필요(런타임 오류 방지)
+  const requestData: GenerateImageRequest | null =
+    (location.state as { generateImageRequest?: GenerateImageRequest })
+      ?.generateImageRequest || null;
+  const generateImageRequest = useGenerateImageApi();
+
+  useEffect(() => {
+    if (requestData) {
+      console.log('이미지 생성 요청 시작:', requestData);
+
+      generateImageRequest.mutate(requestData);
+    } else {
+      console.log('requestData is null, redirect to /onboarding');
+      navigate(ROUTES.ONBOARDING);
+    }
+  }, [requestData]);
+  // ... 이미지 생성 api 코드 끝
+
   const [currentPage, setCurrentPage] = useState(0);
   const {
     data: currentImages,

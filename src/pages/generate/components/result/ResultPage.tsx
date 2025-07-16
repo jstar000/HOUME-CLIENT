@@ -2,27 +2,31 @@ import { useState } from 'react';
 import BlurImage from '@assets/icons/recommendBlur.svg?react';
 import LockImage from '@assets/icons/recommendCta.png';
 import { overlay } from 'overlay-kit';
+import { useLocation } from 'react-router-dom';
 import * as styles from './ResultPage.css';
 import {
   useFurnitureLogMutation,
   usePreferenceMutation,
   useCreditLogMutation,
 } from '../../hooks/useGenerate';
-import type { GenerateTypes } from '../../types/GenerateType';
+// import type { GenerateTypes } from '../../types/GenerateType';
+import type { GenerateImageData } from '../../types/GenerateType';
 import LikeButton from '@/shared/components/button/likeButton/LikeButton';
 import DislikeButton from '@/shared/components/button/likeButton/DislikeButton';
 import HeadingText from '@/shared/components/text/HeadingText';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 import Modal from '@/shared/components/overlay/modal/Modal';
-interface ResultPageProps {
-  mockData: GenerateTypes;
-}
+// interface ResultPageProps {
+//   mockData: GenerateTypes;
+// }
 
-const imageId = 15; // 임시 번호
+const ResultPage = () => {
+  const location = useLocation();
+  // TODO: result를 어디에서 받아오는지 추적이 힘듦, 수정 필요
+  const { result } = location.state as { result: GenerateImageData };
 
-const ResultPage = ({ mockData }: ResultPageProps) => {
   const [selected, setSelected] = useState<'like' | 'dislike' | null>(null);
-  const { mutate: sendPreference } = usePreferenceMutation(imageId);
+  const { mutate: sendPreference } = usePreferenceMutation(result.imageId);
   const { mutate: sendFurnituresLogs } = useFurnitureLogMutation();
   const { mutate: sendCreditLogs } = useCreditLogMutation();
 
@@ -61,14 +65,16 @@ const ResultPage = ({ mockData }: ResultPageProps) => {
         <HeadingText title="이미지 생성이 완료됐어요!" content="" />
         <div className={styles.infoSection}>
           <p className={styles.infoText}>
-            {mockData.sqft}평 오피스텔에 살며 {mockData.style}한 취향을 가진{' '}
-            <br />
-            {mockData.user}님을 위한 맞춤 인테리어 스타일링이에요!
+            {`${result.equilibrium}평에 거주하며 ${result.tagName}한 취향을 가진\n${result.name}님을 위한 맞춤 인테리어 스타일링이에요!`}
           </p>
         </div>
       </section>
       <section className={styles.resultSection}>
-        <div className={styles.imgArea} />
+        <img
+          src={result.imageUrl}
+          alt={`${result.name}님을 위한 맞춤 인테리어 스타일링`}
+          className={styles.imgArea}
+        />
         <div className={styles.buttonGroup}>
           <LikeButton
             size={'large'}

@@ -1,11 +1,4 @@
-import type {
-  HouseType,
-  RoomType,
-  RoomSize,
-  PrimaryUsage,
-  BedType,
-  OtherFurnitures,
-} from './options';
+import type { HouseType, RoomType, AreaType, PrimaryUsage } from './options';
 
 interface FloorPlan {
   floorPlanId: number;
@@ -17,30 +10,34 @@ export type ImageGenerateSteps = {
   HouseInfo: {
     houseType?: HouseType;
     roomType?: RoomType;
-    roomSize?: RoomSize;
+    areaType?: AreaType;
+    houseId?: number;
   };
   FloorPlan: {
     houseType: HouseType;
     roomType: RoomType;
-    roomSize: RoomSize;
+    areaType: AreaType;
+    houseId: number;
     floorPlan?: FloorPlan;
   };
   InteriorTaste: {
     houseType: HouseType;
     roomType: RoomType;
-    roomSize: RoomSize;
+    areaType: AreaType;
+    houseId: number;
     floorPlan: FloorPlan;
     moodBoardIds?: number[];
   };
   MainActivity: {
     houseType: HouseType;
     roomType: RoomType;
-    roomSize: RoomSize;
+    areaType: AreaType;
+    houseId: number;
     floorPlan: FloorPlan;
     moodBoardIds: number[];
     primaryUsage?: PrimaryUsage;
-    bedType?: BedType;
-    otherFurnitures?: OtherFurnitures[];
+    bedTypeId?: number;
+    otherFurnitureIds?: number[];
   };
 };
 

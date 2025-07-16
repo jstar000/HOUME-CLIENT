@@ -1,5 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import {
+  generateImage,
   getResultData,
   getStackData,
   postCreditLog,
@@ -8,6 +10,7 @@ import {
   postLikeStack,
   postPreference,
 } from '../apis/generate';
+import type { GenerateImageRequest } from '../types/GenerateType';
 import { QUERY_KEY } from '@/shared/constants/queryKey';
 
 export const useStackData = (page: number, options: { enabled: boolean }) => {
@@ -60,4 +63,26 @@ export const useCreditLogMutation = () => {
   return useMutation({
     mutationFn: postCreditLog,
   });
+};
+
+// 이미지 생성 api
+export const useGenerateImageApi = () => {
+  // const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  const generateImageRequest = useMutation({
+    mutationFn: (userInfo: GenerateImageRequest) => generateImage(userInfo),
+    onSuccess: (data) => {
+      console.log('이미지 생성 요청 결과: ', data);
+      // 성공 시 자동으로 ResultPage로 이동
+      navigate('/generate/result', {
+        state: {
+          result: data,
+        },
+        replace: true,
+      });
+    },
+  });
+
+  return generateImageRequest;
 };

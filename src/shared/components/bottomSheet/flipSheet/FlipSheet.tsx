@@ -1,6 +1,8 @@
+import { useRef } from 'react';
 import clsx from 'clsx';
 import DragHandle from '@components/dragHandle/DragHandle';
 import CtaButton from '@components/button/ctaButton/CtaButton';
+import { useBottomSheetDrag } from '@hooks/useBottomSheetDrag';
 import * as styles from './FlipSheet.css';
 import FilpButton from '@/shared/components/button/flipButton/FlipButton';
 
@@ -23,13 +25,16 @@ const FlipSheet = ({
   src,
   isFlipped,
 }: FlipSheetProps) => {
-  // transitionend 핸들러
+  const sheetRef = useRef<HTMLDivElement | null>(null); // bottom sheet DOM 참조
+  const dragHandlers = useBottomSheetDrag({ sheetRef, onClose });
+
+  // CSS transition이 끝났을 때 호출
   const handleTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
-    // sheetWrapper에서만, 닫힐 때만 호출
     if (!isOpen && e.propertyName === 'transform') {
       onExited?.();
     }
   };
+
   return (
     <>
       <div
@@ -37,16 +42,17 @@ const FlipSheet = ({
         onClick={onClose}
       />
       <div
+        ref={sheetRef}
         className={clsx(
           styles.sheetWrapper,
           isOpen ? styles.sheetWrapperExpanded : styles.sheetWrapperCollapsed
         )}
-        onClick={(e) => e.stopPropagation()}
         onTransitionEnd={handleTransitionEnd}
+        onClick={(e) => e.stopPropagation()}
       >
         <div className={styles.imageArea}>
           <div className={styles.dragHandleContainer}>
-            <DragHandle />
+            <DragHandle {...dragHandlers} />
           </div>
           <p className={styles.infoText}>이미지를 좌우반전 할 수 있어요</p>
           <div className={styles.imageContainer}>
@@ -63,7 +69,7 @@ const FlipSheet = ({
         </div>
 
         <div className={styles.buttonGroup}>
-          <FilpButton onClick={onFlipClick} />
+          <FilpButton onClick={onFlipClick} isFlipped={false} />
           <CtaButton onClick={onChooseClick}>선택하기</CtaButton>
         </div>
       </div>

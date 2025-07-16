@@ -1,5 +1,9 @@
 import type { CarouselItem, ImageStackResponse } from '../types/GenerateType';
-import { HTTPMethod, request } from '@/shared/apis/request';
+import type {
+  GenerateImageRequest,
+  GenerateImageResponse,
+} from '../types/GenerateType';
+import { HTTPMethod, request, type RequestConfig } from '@/shared/apis/request';
 
 // 스택 UI
 // 캐러셀 가구 이미지 제공
@@ -67,4 +71,16 @@ export const postCreditLog = async () => {
     method: HTTPMethod.POST,
     url: '/api/v1/credits/logs',
   });
+};
+
+export const generateImage = async (
+  requestData: GenerateImageRequest
+): Promise<GenerateImageResponse['data']> => {
+  const config: RequestConfig = {
+    method: HTTPMethod.POST,
+    url: '/api/v1/generated-images/generate',
+    body: requestData,
+  };
+
+  return await request<GenerateImageResponse['data']>(config);
 };
