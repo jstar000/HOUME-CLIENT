@@ -1,11 +1,4 @@
-import type {
-  HouseType,
-  RoomType,
-  AreaType,
-  PrimaryUsage,
-  BedType,
-  OtherFurnitures,
-} from './options';
+import type { HouseType, RoomType, AreaType, PrimaryUsage } from './options';
 
 interface FloorPlan {
   floorPlanId: number;
