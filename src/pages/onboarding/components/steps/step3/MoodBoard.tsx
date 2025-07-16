@@ -51,7 +51,7 @@ const MoodBoard = () => {
   };
 
   // 이미지 API 호출
-  const { data, isPending, isError } = useMoodBoardImage(0, 18);
+  const { data, isPending, isError } = useMoodBoardImage(18);
 
   // 로딩/에러 처리
   if (isPending) return <div>이미지 불러오는 중...</div>;

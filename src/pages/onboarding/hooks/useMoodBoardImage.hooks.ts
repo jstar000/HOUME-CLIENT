@@ -12,9 +12,9 @@ import type { MoodBoardImageResponse } from '../types/apis/moodBoard';
  * @example
  * const { data, isLoading, error } = useMoodBoardImage(0, 10);
  */
-export const useMoodBoardImage = (cursor = 0, limit = 18) => {
+export const useMoodBoardImage = (limit = 18) => {
   return useQuery<MoodBoardImageResponse, Error>({
-    queryKey: ['moodBoardImages', cursor, limit],
+    queryKey: ['moodBoardImages', limit], // cursor는 향후 페이지네이션 구현 시 사용 예정
     queryFn: () => getMoodBoardImage(limit),
   });
 };
