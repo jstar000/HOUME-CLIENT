@@ -10,10 +10,9 @@ export const wrapper = style({
 });
 
 export const landingImage = style({
-  width: '37.5rem',
-  height: '8rem',
-  marginBottom: '4rem',
-  backgroundColor: colorVars.color.gray100,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.8rem',
 });
 
 export const headingText = style({
@@ -24,7 +23,6 @@ export const headingText = style({
   width: '33.5rem',
   height: '6rem',
   textAlign: 'center',
-  marginBottom: '4rem',
   ...fontStyle('heading_sb_18'),
 });
 
