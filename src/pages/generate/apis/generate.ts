@@ -1,7 +1,7 @@
 import type {
   ImageGenerateRequest,
   ImageGenerateResponse,
-} from '@/pages/onboarding/apis/step4';
+} from '../types/GenerateType';
 import { HTTPMethod, request, type RequestConfig } from '@/shared/apis/request';
 
 export const generateImage = async (
