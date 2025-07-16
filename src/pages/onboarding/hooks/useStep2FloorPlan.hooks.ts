@@ -62,5 +62,9 @@ export const useStep2FloorPlan = (
     isLoading: isLoading,
     error: error,
     isError: isError,
+    selectedFloorPlan: step2,
+    // zustand store에 저장해둔 사용자의 step2 선택 정보
+    // step2에서는 isMirror와 floorPlanId를 굳이 뷰에 전달할 필요가 없을 듯합니다(전달돼도 컴포넌트 UI에 변화 X)
+    // 일단 return에 선언은 해놓았습니다.
   };
 };
