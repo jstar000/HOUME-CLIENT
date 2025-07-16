@@ -5,11 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import { patchSignup } from '../apis/signup';
 import type { SignupRequest, SignupResponse } from '../types/apis/signup';
 import { ROUTES } from '@/routes/paths';
-import { useNameStore } from '@/store/useNameStore';
+import { useUserStore } from '@/store/useUserStore';
 
 export const usePatchSignup = () => {
   const navigate = useNavigate();
-  const setUserName = useNameStore((state) => state.setUserName);
+  const setUserName = useUserStore((state) => state.setUserName);
 
   return useMutation<SignupResponse, Error, SignupRequest>({
     mutationFn: patchSignup,

@@ -3,11 +3,11 @@ import * as styles from './SignupCompletePage.css';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 import TitleNavBar from '@/shared/components/navBar/TitleNavBar';
 import { ROUTES } from '@/routes/paths';
-import { useNameStore } from '@/store/useNameStore';
+import { useUserStore } from '@/store/useUserStore';
 
 const SignupCompletePage = () => {
   // zustand에서 userName 가져오기
-  const userName = useNameStore((state) => state.userName);
+  const userName = useUserStore((state) => state.userName);
   const navigate = useNavigate();
 
   const handleGoToOnboarding = () => {
