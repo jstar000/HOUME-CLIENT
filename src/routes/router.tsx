@@ -21,7 +21,6 @@ import KakaoCallback from '@/pages/login/KakaoCallback';
 import SignupCompletePage from '@/pages/signup/SignupCompletePage';
 import LoadingPage from '@/pages/generate/components/loading/LoadingPage';
 import ResultPage from '@/pages/generate/components/result/ResultPage';
-import { MOCK_GENERATE_DATA } from '@/pages/generate/constants/resultMockData';
 
 // 공개 라우트 그룹 (인증 불필요)
 const publicRoutes = [
