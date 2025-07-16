@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   MAIN_ACTIVITY_OPTIONS,
   MAIN_ACTIVITY_VALIDATION,
   type ImageGenerateSteps,
-  type OtherFurnitures,
 } from '../types/funnel';
 import type { GenerateImageRequest } from '@/pages/generate/types/GenerateType';
+import { ROUTES } from '@/routes/paths';
 
 // 타입 가드 함수(타입 단언 사용 X)
 // 유효한 '주요활동' 카테고리 내의 값인지 체크
@@ -27,6 +28,8 @@ const isValidActivityKey = (
 export const useStep4MainActivity = (
   context: ImageGenerateSteps['MainActivity']
 ) => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     primaryUsage: context.primaryUsage,
     bedTypeId: context.bedTypeId,
@@ -140,6 +143,8 @@ export const useStep4MainActivity = (
       bedId: formData.bedTypeId,
       selectiveIds: formData.otherFurnitureIds,
     };
+
+    navigate(ROUTES.GENERATE, { state: { generateImageRequest } });
   };
 
   return {

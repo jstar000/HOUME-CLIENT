@@ -1,15 +1,37 @@
 import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import * as styles from './LoadingPage.css';
 import ProgressBar from './ProgressBar';
 import {
   useStackData,
   useLikeStackMutation,
   useHateStackMutation,
+  useGenerateImageApi,
 } from '../../hooks/generate';
+import type { GenerateImageRequest } from '../../types/GenerateType';
 import LikeButton from '@/shared/components/button/likeButton/LikeButton';
 import DislikeButton from '@/shared/components/button/likeButton/DislikeButton';
 
 const LoadingPage = () => {
+  // 이미지 생성 api 코드 시작
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const requestData: GenerateImageRequest | null =
+    (location.state as { generateImageRequest?: GenerateImageRequest })
+      ?.generateImageRequest || null;
+  const generateImageRequest = useGenerateImageApi();
+
+  useEffect(() => {
+    if (requestData) {
+      console.log('이미지 생성 요청 시작:', requestData);
+
+      // 자동으로 API 호출
+      generateImageRequest.mutate(requestData);
+    }
+  }, [requestData, navigate]);
+  // 이미지 생성 api 코드 끝
+
   const [currentPage, setCurrentPage] = useState(0);
   const {
     data: currentImages,
