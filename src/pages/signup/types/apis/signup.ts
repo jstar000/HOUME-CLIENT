@@ -9,4 +9,5 @@ export interface SignupRequest {
 export interface SignupResponse {
   code: number;
   msg: string;
+  data: string;
 }
