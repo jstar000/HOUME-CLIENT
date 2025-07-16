@@ -15,5 +15,6 @@ export const useHouseInfoApi = () => {
     },
   });
 
+  // 훅 내에서만 있는 지역변수들은 반드시 return 해야 외부에 노출됨
   return selectHouseInfoRequest;
 };

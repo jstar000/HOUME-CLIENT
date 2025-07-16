@@ -4,7 +4,7 @@ export interface GenerateTypes {
   user: string;
 }
 
-export interface ImageGenerateRequest extends Record<string, unknown> {
+export interface GenerateImageRequest extends Record<string, unknown> {
   houseId: boolean;
   equilibrium: string;
   floorPlan: {
@@ -17,7 +17,7 @@ export interface ImageGenerateRequest extends Record<string, unknown> {
   selectiveIds: number[];
 }
 
-export interface ImageGenerateData {
+export interface GenerateImageData {
   imageId: number;
   imageUrl: string;
   isMirror: boolean;
@@ -27,8 +27,8 @@ export interface ImageGenerateData {
   name: string;
 }
 
-export interface ImageGenerateResponse {
+export interface GenerateImageResponse {
   code: number;
   msg: string;
-  data: ImageGenerateData;
+  data: GenerateImageData;
 }
