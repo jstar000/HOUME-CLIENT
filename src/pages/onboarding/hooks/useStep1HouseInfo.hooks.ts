@@ -33,9 +33,8 @@ export const useStep1HouseInfo = (context: ImageGenerateSteps['HouseInfo']) => {
   // 컴포넌트 마운트 시 현재 스텝 설정
   useEffect(() => {
     setCurrentStep(1);
-  }, [setCurrentStep]);
+  }, []);
 
-  // formData 변경 시 Zustand store에 저장
   useEffect(() => {
     // setStep1Data({ }) 안에 있는 데이터가 setStep1Data의 정의에 의해 spread돼서 zustand의 state에 저장됨
     // houseType, roomType, areaType 중 하나만 바뀌어도 그냥 셋 다 spread돼서 저장되는 것
@@ -44,7 +43,7 @@ export const useStep1HouseInfo = (context: ImageGenerateSteps['HouseInfo']) => {
       roomType: formData.roomType,
       areaType: formData.areaType,
     });
-  }, [formData, setStep1Data]);
+  }, [formData]);
 
   // 입력값 3개 입력 여부 확인
   const isFormCompleted = !!(
