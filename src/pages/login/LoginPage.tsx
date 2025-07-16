@@ -4,7 +4,8 @@ import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 import TitleNavBar from '@/shared/components/navBar/TitleNavBar';
 
 const LoginPage = () => {
-  const handleLogin = () => {
+  const handleKakaoLogin = () => {
+    // 외부 URL로 리다이렉트하기 위해 window.location.href 사용
     window.location.href = KAKAO_AUTH_URL;
   };
 
@@ -24,7 +25,7 @@ const LoginPage = () => {
       </div>
       <div className={styles.imgbox}></div>
       <div className={styles.btnarea}>
-        <CtaButton typeVariant="kakao" onClick={handleLogin}>
+        <CtaButton typeVariant="kakao" onClick={handleKakaoLogin}>
           카카오 로그인
         </CtaButton>
         <aside className={styles.aside}>

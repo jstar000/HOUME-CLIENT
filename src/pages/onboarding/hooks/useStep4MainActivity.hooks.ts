@@ -83,7 +83,7 @@ export const useStep4MainActivity = (
     return getRequiredFurnitures().includes(furniture);
   };
 
-  const areAllFieldsFilled = !!(
+  const isFormCompleted = !!(
     formData.primaryUsage &&
     formData.bedType &&
     Array.isArray(formData.otherFurnitures) &&
@@ -94,7 +94,7 @@ export const useStep4MainActivity = (
     formData,
     setFormData,
     // errors,
-    areAllFieldsFilled,
+    isFormCompleted,
     isRequiredFurniture,
     getCurrentActivityLabel,
     getRequiredFurnitureLabels,
