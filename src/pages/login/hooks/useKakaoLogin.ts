@@ -35,7 +35,7 @@ export const useKakaoLogin = () => {
       // zustand에 저장 (localStorage 동시 저장)
       setAccessToken(accessToken);
 
-      // 가입 여부에 따라 리다이렉트
+      // 가입 여부에 따라 리다이렉트 (response.data가 true면 신규회원, false면 기존회원)
       if (response.data) {
         navigate(ROUTES.SIGNUP);
       } else {
