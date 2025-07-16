@@ -12,6 +12,7 @@ export const page = style({
 export const gradFrame = style({
   width: '100%',
   background: colorVars.color.bg_grad,
+  height: '61.2rem',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
