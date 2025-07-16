@@ -18,7 +18,7 @@ export const leftdiv = style({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  height: '4.8rem',
+  height: '7.2rem',
 });
 
 export const profileicon = style({
@@ -32,6 +32,6 @@ export const rightdiv = style({
   justifyContent: 'center',
   alignItems: 'center',
   width: '4.8rem',
-  height: '4.8rem',
+  height: '7.2rem',
   padding: '1.2rem 0',
 });
