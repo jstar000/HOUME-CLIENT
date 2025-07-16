@@ -17,7 +17,7 @@ interface ResultPageProps {
   mockData: GenerateTypes;
 }
 
-const imageId = 15;
+const imageId = 15; // 임시 번호
 
 const ResultPage = ({ mockData }: ResultPageProps) => {
   const [selected, setSelected] = useState<'like' | 'dislike' | null>(null);

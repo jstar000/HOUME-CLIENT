@@ -23,7 +23,7 @@ const ProgressLoadingBar = () => {
 
           return prev + PROGRESS_CONFIG.SLOW_INCREMENT;
         });
-      }, PROGRESS_CONFIG.SLOW_INTERVAL); // 0.1씩 0.055초마다 = 1% 오르는데 0.55초
+      }, PROGRESS_CONFIG.SLOW_INTERVAL); // 0.1씩 0.1초마다 = 1% 오르는데 0.1초
 
       // 완료되는 시간 (완료 신호)
       timeout = setTimeout(() => {
