@@ -39,7 +39,7 @@ const ProgressLoadingBar = () => {
           }
           return prev + PROGRESS_CONFIG.FAST_INCREMENT;
         });
-      }, 100); // 0.1씩 약 0.122초마다
+      }, PROGRESS_CONFIG.FAST_INTERVAL); // 0.1씩 약 0.122초마다
     }
 
     return () => {
