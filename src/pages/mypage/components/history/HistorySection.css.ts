@@ -15,4 +15,5 @@ export const container = style({
 export const title = style({
   ...fontStyle('title_sb_16'),
   color: colorVars.color.gray800,
+  alignSelf: 'flex-start',
 });
