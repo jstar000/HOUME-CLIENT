@@ -67,15 +67,14 @@ export const useStep1HouseInfo = (context: ImageGenerateSteps['HouseInfo']) => {
       return;
     }
 
-    const temp = {
+    const selectedHouseInfo = {
       houseType: formData.houseType,
       roomType: formData.roomType,
       areaType: formData.areaType,
     };
 
-    // 집구조 선택 POST API에 전달할 데이터
     const requestData = {
-      ...temp,
+      ...selectedHouseInfo,
       isValid: isValidInput,
     };
 
@@ -84,7 +83,12 @@ export const useStep1HouseInfo = (context: ImageGenerateSteps['HouseInfo']) => {
         if (res) {
           console.log('유효한 주거정보, House ID:', res.houseId);
           // funnel의 context에 넣을 데이터(다음 step으로 전달할 데이터)
-          // onNext({ ...temp, houseId: res.houseId });
+          const completedHouseInfo = {
+            ...selectedHouseInfo,
+            houseId: res.houseId,
+          };
+
+          onNext(completedHouseInfo);
         } else {
           console.log('유효하지 않은 주거정보');
         }
