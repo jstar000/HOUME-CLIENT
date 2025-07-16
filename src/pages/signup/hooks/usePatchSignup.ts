@@ -11,6 +11,7 @@ export const usePatchSignup = () => {
 
   return useMutation<SignupResponse, Error, SignupRequest>({
     mutationFn: patchSignup,
+    retry: 3,
     // 회원가입 성공 시 실행되는 함수
     onSuccess: (response) => {
       console.log('[usePatchSignup] 회원가입 성공:', response);
