@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { colorVars } from '@/shared/styles/tokens/color.css';
+import { zIndex } from '@/shared/styles/tokens/zIndex';
 
 export const page = style({
   background: colorVars.color.bg_grad,
@@ -7,12 +8,14 @@ export const page = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
+  position: 'relative',
 });
 
 export const gradFrame = style({
   width: '100%',
-  background: colorVars.color.bg_grad,
-  height: '61.2rem',
+  background:
+    'linear-gradient(180deg, #A696FF -15.93%, #DDD6FF 13.05%, #FFF 47.05%, #FFF 100%)',
+  height: '51rem',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -33,4 +36,15 @@ export const contents = style({
   alignItems: 'center',
 
   background: colorVars.color.gray000,
+});
+
+export const buttonContainer = style({
+  width: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  position: 'fixed',
+  bottom: '0',
+  zIndex: zIndex.button,
+  paddingBottom: '2rem',
 });

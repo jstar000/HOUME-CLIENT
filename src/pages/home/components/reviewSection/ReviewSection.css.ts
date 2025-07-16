@@ -3,7 +3,6 @@ import { fontStyle } from '@/shared/styles/fontStyle';
 import { colorVars } from '@/shared/styles/tokens/color.css';
 
 export const wrapper = style({
-  backgroundColor: colorVars.color.primary_light2,
   minWidth: '37.5rem',
   width: '100%',
 });
@@ -14,6 +13,7 @@ export const container = style({
   alignItems: 'center',
   padding: '3.2rem 3rem',
   gap: '2.4rem',
+  backgroundColor: colorVars.color.primary_light2,
 });
 
 export const footerContainer = style({
@@ -22,7 +22,7 @@ export const footerContainer = style({
   alignItems: 'center',
   justifyContent: 'center',
   width: '100%',
-  paddingBottom: '2rem',
+  marginBottom: '11.7rem',
   gap: '4rem',
   backgroundColor: colorVars.color.gray000,
 });

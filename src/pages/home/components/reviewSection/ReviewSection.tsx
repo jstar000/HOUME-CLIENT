@@ -1,7 +1,6 @@
 import * as styles from './ReviewSection.css';
 import { REVIEW_DATA } from '../../constants/reviewData';
 import { CardReview } from '@/shared/components/cardReview/CardReview';
-import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 
 const ReviewSection = () => {
   return (
@@ -18,7 +17,6 @@ const ReviewSection = () => {
       </section>
       <div className={styles.footerContainer}>
         <p className={styles.copy}>&copy; 2025 HouMe Labs, Inc.</p>
-        <CtaButton>우리집에 딱 맞는 스타일 보기</CtaButton>
       </div>
     </div>
   );
