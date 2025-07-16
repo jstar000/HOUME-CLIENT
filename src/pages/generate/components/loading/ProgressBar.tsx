@@ -23,7 +23,7 @@ const ProgressLoadingBar = () => {
 
           return prev + PROGRESS_CONFIG.SLOW_INCREMENT;
         });
-      }, PROGRESS_CONFIG.SLOW_INTERVAL); // 0.1씩 0.055초마다 = 1% 오르는데 0.55초
+      }, PROGRESS_CONFIG.SLOW_INTERVAL); // 0.1씩 0.1초마다 = 1% 오르는데 0.1초
 
       // 완료되는 시간 (완료 신호)
       timeout = setTimeout(() => {
@@ -33,25 +33,26 @@ const ProgressLoadingBar = () => {
       // 완료되었을 때
       interval = setInterval(() => {
         setProgress((prev) => {
-          if (prev >= PROGRESS_CONFIG.FAST_INTERVAL) {
+          if (prev >= PROGRESS_CONFIG.FAST_PHASE_END) {
             if (interval) clearInterval(interval);
-            return PROGRESS_CONFIG.FAST_INTERVAL;
+            return PROGRESS_CONFIG.FAST_PHASE_END;
           }
           return prev + PROGRESS_CONFIG.FAST_INCREMENT;
         });
-      }, 100); // 0.1초마다 1% 씩
-
-      return () => {
-        if (interval) clearInterval(interval);
-        if (timeout) clearTimeout(timeout);
-      };
+      }, PROGRESS_CONFIG.FAST_INTERVAL); // 0.1씩 약 0.122초마다
     }
+
+    return () => {
+      if (interval) clearInterval(interval);
+      if (timeout) clearTimeout(timeout);
+    };
   }, [isDone]);
 
   useEffect(() => {
     if (progress === 100) {
-      alert('이미지 생성 완료!');
-      navigate('/generate/result');
+      setTimeout(() => {
+        navigate('/generate/result');
+      }, 1000);
     }
   }, [progress, navigate]);
 

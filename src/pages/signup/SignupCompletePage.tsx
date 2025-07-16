@@ -19,7 +19,7 @@ const SignupCompletePage = () => {
       <TitleNavBar title="시작하기" isBackIcon={false} isLoginBtn={false} />
       <div className={styles.textbox}>
         <h1 className={styles.title}>
-          {userName}님, <br /> 집 꾸미기 바로 시작해봐요!
+          {userName}님, 지금 바로 <br /> 집 꾸미기 시작해봐요!
         </h1>
         <p className={styles.content}>
           24시간 동안 무료로 이미지를 생성할 수 있는 <br />
