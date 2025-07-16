@@ -1,24 +1,18 @@
-import { useState } from 'react';
 import Horizontal from '@assets/icons/horizontal.svg?react';
 import clsx from 'clsx';
 import * as styles from './FlipButton.css';
 
-interface FilpButtonProps extends React.ComponentProps<'button'> {}
+interface FlipProps extends React.ComponentProps<'button'> {
+  isFlipped: boolean;
+}
 
-const FilpButton = ({ ...props }: FilpButtonProps) => {
-  const [isClicked, setIsClicked] = useState(false);
-
-  const handleClick = () => {
-    setIsClicked((prev) => !prev);
-  };
-
+const Flip = ({ isFlipped, ...props }: FlipProps) => {
   return (
     <button
       type="button"
-      onClick={handleClick}
       className={clsx(
         styles.flipButtonBase,
-        styles.flipButtonVariants[isClicked ? 'clicked' : 'normal']
+        styles.flipButtonVariants[isFlipped ? 'clicked' : 'normal']
       )}
       {...props}
     >
@@ -27,4 +21,4 @@ const FilpButton = ({ ...props }: FilpButtonProps) => {
   );
 };
 
-export default FilpButton;
+export default Flip;
