@@ -4,6 +4,16 @@ export interface GenerateTypes {
   user: string;
 }
 
+// 스택 UI
+export interface CarouselItem {
+  carouselId: number;
+  url: string;
+}
+
+export interface ImageStackResponse {
+  carouselResponseDTOS: CarouselItem[];
+}
+
 export interface GenerateImageRequest extends Record<string, unknown> {
   houseId: boolean;
   equilibrium: string;

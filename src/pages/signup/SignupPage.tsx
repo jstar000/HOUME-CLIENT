@@ -1,5 +1,6 @@
 import * as styles from './SignupPage.css';
 import useSignupForm from './hooks/useSignupForm';
+import { usePatchSignup } from './hooks/usePatchSignup';
 import TitleNavBar from '@/shared/components/navBar/TitleNavBar.tsx';
 import TextField from '@/shared/components/textField/TextField.tsx';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton.tsx';
@@ -28,8 +29,25 @@ const SignupPage = () => {
     isFormValid,
   } = useSignupForm();
 
+  const { mutate: patchSignup } = usePatchSignup();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!isFormValid || !gender) return;
+
+    const formattedBirthday = `${birthYear}-${birthMonth}-${birthDay}`;
+
+    console.log(name, gender.value, formattedBirthday);
+
+    patchSignup({
+      name,
+      gender: gender.value,
+      birthday: formattedBirthday,
+    });
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <TitleNavBar title="회원가입" isBackIcon={false} isLoginBtn={false} />
 
       <div className={styles.container}>
@@ -63,7 +81,7 @@ const SignupPage = () => {
               placeholder="YYYY"
               maxLength={4}
               value={birthYear}
-              onChange={handleBirthYearChange} // 이렇게!
+              onChange={handleBirthYearChange}
               isError={birthYear !== '' && (yearFormatError || yearAgeError)}
               inputMode="numeric"
             />
@@ -103,23 +121,23 @@ const SignupPage = () => {
           <div className={styles.flexbox}>
             <LargeFilled
               buttonSize="medium"
-              isSelected={gender?.value === 'male'}
-              onClick={() => setGender({ value: 'male', label: '남성' })}
+              isSelected={gender?.value === 'MALE'}
+              onClick={() => setGender({ value: 'MALE', label: '남성' })}
             >
               남성
             </LargeFilled>
             <LargeFilled
               buttonSize="medium"
-              isSelected={gender?.value === 'female'}
-              onClick={() => setGender({ value: 'female', label: '여성' })}
+              isSelected={gender?.value === 'FEMALE'}
+              onClick={() => setGender({ value: 'FEMALE', label: '여성' })}
             >
               여성
             </LargeFilled>
             <LargeFilled
               buttonSize="medium"
-              isSelected={gender?.value === 'nonbinary'}
+              isSelected={gender?.value === 'NONBINARY'}
               onClick={() =>
-                setGender({ value: 'nonbinary', label: '논바이너리' })
+                setGender({ value: 'NONBINARY', label: '논바이너리' })
               }
             >
               논바이너리
@@ -129,7 +147,9 @@ const SignupPage = () => {
       </div>
 
       <div className={styles.btnarea}>
-        <CtaButton isActive={isFormValid}>회원가입 완료하기</CtaButton>
+        <CtaButton isActive={isFormValid} type="submit">
+          회원가입 완료하기
+        </CtaButton>
       </div>
     </form>
   );
