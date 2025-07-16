@@ -36,7 +36,7 @@ export const useStep3InteriorTaste = (
     const payload = {
       houseType: context.houseType,
       roomType: context.roomType,
-      roomSize: context.roomSize,
+      areaType: context.areaType,
       floorPlan: {
         floorPlanId: context.floorPlan.floorPlanId,
         isMirror: context.floorPlan.isMirror,
@@ -49,7 +49,8 @@ export const useStep3InteriorTaste = (
     onNext({
       houseType: context.houseType,
       roomType: context.roomType,
-      roomSize: context.roomSize,
+      areaType: context.areaType,
+      houseId: context.houseId,
       floorPlan: context.floorPlan,
       moodBoardIds: selectedImages,
     });
