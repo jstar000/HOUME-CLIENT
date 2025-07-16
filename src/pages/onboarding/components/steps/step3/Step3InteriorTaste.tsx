@@ -7,6 +7,7 @@ import type {
   ImageGenerateSteps,
 } from '../../../types/funnel';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
+import { useStep3InteriorTaste } from '@/pages/onboarding/hooks/useStep3InteriorTaste.hooks';
 
 interface Step3InteriorTasteProps {
   context: ImageGenerateSteps['InteriorTaste'];
@@ -14,6 +15,9 @@ interface Step3InteriorTasteProps {
 }
 
 const Step3InteriorTaste = ({ context, onNext }: Step3InteriorTasteProps) => {
+  const { selectedImages, handleImageSelect, handleNext, isDataComplete } =
+    useStep3InteriorTaste(context, onNext);
+
   return (
     <div className={styles.container}>
       {/* 테스트 코드 */}
@@ -23,20 +27,13 @@ const Step3InteriorTaste = ({ context, onNext }: Step3InteriorTasteProps) => {
         detail={`인테리어 취향에 맞는 이미지를\n최대 5개까지 선택해주세요.`}
         currentStep={3}
       />
-      <MoodBoard />
+
+      <MoodBoard
+        selectedImages={selectedImages}
+        onImageSelect={handleImageSelect}
+      />
       <div className={styles.buttonWrapper}>
-        <CtaButton
-          isActive={true}
-          onClick={() =>
-            onNext({
-              houseType: 'office',
-              roomType: 'openOne',
-              roomSize: 'sixToTen',
-              selectedHouseStructure: [1, 2, 3],
-              selectedInteriorTaste: [1, 2, 3, 4],
-            })
-          }
-        >
+        <CtaButton isActive={isDataComplete} onClick={handleNext}>
           집구조 선택하기
         </CtaButton>
       </div>

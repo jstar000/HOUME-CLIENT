@@ -24,7 +24,7 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
     formData,
     setFormData,
     // errors,
-    areAllFieldsFilled,
+    isFormCompleted,
     isRequiredFurniture,
     getCurrentActivityLabel,
     getRequiredFurnitureLabels,
@@ -39,7 +39,22 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
   );
 
   const handleOnClick = () => {
-    // 이미지 생성 로직
+    // 디버깅용
+    const payload = {
+      houseType: context.houseType,
+      roomType: context.roomType,
+      roomSize: context.roomSize,
+      floorPlan: {
+        floorPlanId: context.floorPlan.floorPlanId,
+        isMirror: context.floorPlan.isMirror,
+      },
+      moodBoardIds: context.moodBoardIds,
+      primaryUsage: formData.primaryUsage,
+      bedType: formData.bedType,
+      otherFurnitures: formData.otherFurnitures,
+    };
+
+    console.log('선택된 퍼널 페이로드:', payload);
   };
 
   return (
@@ -93,7 +108,7 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
         </div>
 
         <div>
-          <CtaButton isActive={areAllFieldsFilled} onClick={handleOnClick}>
+          <CtaButton isActive={isFormCompleted} onClick={handleOnClick}>
             이미지 생성하기
           </CtaButton>
         </div>
