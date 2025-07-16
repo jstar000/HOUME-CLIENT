@@ -7,7 +7,7 @@ export const wrapper = style({
   flexDirection: 'column',
   alignItems: 'center',
   width: '37.5rem',
-  padding: '3.2rem 3rem 4.6rem',
+  padding: '3.2rem 3rem',
   gap: '2.4rem',
   backgroundColor: colorVars.color.primary_light2,
 });

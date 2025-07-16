@@ -13,12 +13,15 @@ export const wrapper = style({
 
 export const title = style({
   ...fontStyle('heading_sb_20'),
+  color: colorVars.color.gray900,
   textAlign: 'left',
 });
 
 export const description = style({
   ...fontStyle('body_r_14'),
+  color: colorVars.color.gray600,
   textAlign: 'left',
+  marginBottom: '4rem',
 });
 
 export const placeholderBox = style({

@@ -1,7 +1,12 @@
+import { useState } from 'react';
 import * as styles from './IntroSection.css';
 import SmallFilledButton from '@/shared/components/button/smallFilledButton/SmallFilledButton';
 
+const options = ['휴식형', '재택근무형', '홈카페형', '영화감상형'];
+
 const IntroSection = () => {
+  const [selected, setSelected] = useState('휴식형');
+
   return (
     <section className={styles.wrapper}>
       <h2 className={styles.title}>
@@ -18,10 +23,15 @@ const IntroSection = () => {
       <div className={styles.placeholderBox} />
 
       <div className={styles.buttonGroup}>
-        <SmallFilledButton>휴식형</SmallFilledButton>
-        <SmallFilledButton>재택근무형</SmallFilledButton>
-        <SmallFilledButton>홈카페형</SmallFilledButton>
-        <SmallFilledButton>영화감상형</SmallFilledButton>
+        {options.map((label) => (
+          <SmallFilledButton
+            key={label}
+            isSelected={selected === label}
+            onClick={() => setSelected(label)}
+          >
+            {label}
+          </SmallFilledButton>
+        ))}
       </div>
     </section>
   );
