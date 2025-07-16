@@ -5,6 +5,7 @@ export const ROUTES = {
   HOME: '/',
   LOGIN: '/login',
   SIGNUP: '/signup',
+  SIGNUPCOMPLETE: '/signup/complete',
   ONBOARDING: '/onboarding',
   GENERATE: '/generate',
   MYPAGE: '/mypage',
