@@ -3,7 +3,8 @@ import ShowErrorMessage from '@/shared/components/button/showErrorButton/ShowErr
 import LargeFilled from '@/shared/components/button/largeFilledButton/LargeFilledButton';
 import Caption from '@/shared/components/text/Caption';
 
-interface SubOption<T = string> {
+interface MultiSubOption<T = string> {
+  id?: number;
   code: T;
   label: string;
 }
@@ -11,15 +12,16 @@ interface SubOption<T = string> {
 interface MultiOptionGroupProps<T = string> {
   subtitle: string;
   caption?: string;
-  options: SubOption<T>[]; // 선택 가능한 모든 버튼 배열
-  selected?: T[]; // 현재 선택된 항목들의 code값 배열
-  onButtonClick: (value: T[]) => void;
+  options: MultiSubOption<T>[];
+  selected?: (T | number)[];
+  onButtonClick: (value: (T | number)[]) => void;
   maxSelect?: number;
   isAlertPresented?: boolean;
   error?: string;
-  isRequiredFurniture?: (furniture: T) => boolean; // 특정 가구가 필수인지 판단
-  currentActivityLabel?: string; // <Caption>의 활동명
-  requiredFurnitureLabels?: string[]; // <Caption>의 필수 가구명
+  isRequiredFurniture?: (furniture: T | number) => boolean;
+  currentActivityLabel?: string;
+  requiredFurnitureLabels?: string[];
+  useId?: boolean;
 }
 
 const MultiOptionGroup = <T = string,>({
@@ -34,15 +36,16 @@ const MultiOptionGroup = <T = string,>({
   isRequiredFurniture,
   currentActivityLabel,
   requiredFurnitureLabels = [],
+  useId = false,
 }: MultiOptionGroupProps<T>) => {
-  const handleClick = (optionCode: T) => {
+  const handleClick = (optionCode: T | number) => {
     // 필수 가구인 경우 클릭 무시
     if (isRequiredFurniture && isRequiredFurniture(optionCode)) {
       return;
     }
 
     const isAlreadySelected = selected?.includes(optionCode) ?? false;
-    let newSelected: T[];
+    let newSelected: (T | number)[];
 
     if (isAlreadySelected) {
       newSelected = selected.filter((item) => item !== optionCode); // 선택 해제
@@ -75,21 +78,20 @@ const MultiOptionGroup = <T = string,>({
 
       <div className={styles.buttonBox}>
         {options.map((option) => {
+          const optionValue = useId ? option.id : option.code;
           const isRequired = isRequiredFurniture
-            ? isRequiredFurniture(option.code)
+            ? isRequiredFurniture(optionValue!)
             : false;
-          const isSelected = selected.includes(option.code);
+          const isSelected = selected.includes(optionValue!);
 
-          const isActive = isRequired
-            ? false // 필수 가구는 무조건 비활성화
-            : isSelected || !hasReachedMax; // 필수가 아닌 경우만 기존 로직 적용
+          const isActive = isRequired ? false : isSelected || !hasReachedMax;
 
           return (
             <LargeFilled
-              key={String(option.code)}
+              key={useId ? option.id : String(option.code)}
               isActive={isActive}
               isSelected={isRequired ? false : isSelected}
-              onClick={() => handleClick(option.code)}
+              onClick={() => handleClick(optionValue!)}
             >
               {option.label}
             </LargeFilled>

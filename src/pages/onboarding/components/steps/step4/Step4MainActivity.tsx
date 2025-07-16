@@ -3,9 +3,7 @@ import * as common from '../StepCommon.css';
 import FunnelHeader from '../../header/FunnelHeader';
 import {
   MAIN_ACTIVITY_OPTIONS,
-  type BedType,
   type ImageGenerateSteps,
-  type OtherFurnitures,
   type PrimaryUsage,
 } from '../../../types/funnel';
 import OptionGroup from '../optionGroup/OptionGroup';
@@ -62,23 +60,27 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
         <div className={common.subWrapper}>
           <MainTitle title="가구" body="선택한 가구가 이미지에 반영돼요." />
 
-          <SubOptionGroup<BedType>
+          <SubOptionGroup<string>
             subtitle="침대"
             options={bedTypeOptions}
-            selected={formData.bedType}
+            selected={formData.bedTypeId}
             onButtonClick={(value) =>
-              setFormData((prev) => ({ ...prev, bedType: value }))
+              setFormData((prev) => ({ ...prev, bedTypeId: value as number }))
             }
+            useId={true}
             // error={errors.bedType}
           />
 
-          <MultiOptionGroup<OtherFurnitures>
+          <MultiOptionGroup<string>
             subtitle="기타 가구"
             caption="(최대 4개 선택)"
             options={otherFurnituresOptions}
-            selected={formData.otherFurnitures}
+            selected={formData.otherFurnitureIds}
             onButtonClick={(value) =>
-              setFormData((prev) => ({ ...prev, otherFurnitures: value }))
+              setFormData((prev) => ({
+                ...prev,
+                otherFurnitureIds: value as number[],
+              }))
             }
             maxSelect={4}
             isAlertPresented={true}
@@ -86,6 +88,7 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
             isRequiredFurniture={isRequiredFurniture}
             currentActivityLabel={getCurrentActivityLabel()} // 추가!
             requiredFurnitureLabels={getRequiredFurnitureLabels()} // 추가!
+            useId={true}
           />
         </div>
 

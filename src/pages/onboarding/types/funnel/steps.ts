@@ -43,8 +43,8 @@ export type ImageGenerateSteps = {
     floorPlan: FloorPlan;
     moodBoardIds: number[];
     primaryUsage?: PrimaryUsage;
-    bedType?: BedType;
-    otherFurnitures?: OtherFurnitures[];
+    bedTypeId?: number;
+    otherFurnitureIds?: number[];
   };
 };
 

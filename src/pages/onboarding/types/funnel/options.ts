@@ -3,9 +3,9 @@ const createOption = (key: string, label: string) => ({
   label: label,
 });
 const createOptionWithId = (id: number, code: string, label: string) => ({
-  id,
-  code,
-  label,
+  id: id,
+  code: code,
+  label: label,
 });
 
 // Step 1

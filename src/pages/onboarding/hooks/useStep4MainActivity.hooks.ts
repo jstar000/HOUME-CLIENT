@@ -29,8 +29,8 @@ export const useStep4MainActivity = (
 ) => {
   const [formData, setFormData] = useState({
     primaryUsage: context.primaryUsage,
-    bedType: context.bedType,
-    otherFurnitures: context.otherFurnitures || [],
+    bedTypeId: context.bedTypeId,
+    otherFurnitureIds: context.otherFurnitureIds || [],
   });
 
   //   const [errors, setErrors] = useState<FormErrors>({});
@@ -39,21 +39,31 @@ export const useStep4MainActivity = (
   // 선택한 주요활동에 매칭되는 필수 가구 자동 선택
   useEffect(() => {
     // 필수 가구 체크
-    const requiredFurnitures = getRequiredFurnitures();
+    const requiredFurnitures = getRequiredFurnitureIds();
     setFormData((prev) => ({
       ...prev,
-      otherFurnitures: requiredFurnitures,
+      otherFurnitureIds: requiredFurnitures,
     }));
   }, [formData.primaryUsage]);
 
-  // 현재 선택된 활동의 필수 가구 목록 반환
-  const getRequiredFurnitures = (): OtherFurnitures[] => {
+  // 현재 선택된 활동의 필수 가구 ID 리스트 반환
+  const getRequiredFurnitureIds = (): number[] => {
     if (!formData.primaryUsage || !isValidActivityKey(formData.primaryUsage))
       return [];
-    return (
+
+    // TODO: 코드 리팩토링
+    const requiredCodes =
       MAIN_ACTIVITY_VALIDATION.combinationRules[formData.primaryUsage]
-        ?.requiredFurnitures || []
-    );
+        ?.requiredFurnitures || [];
+
+    return requiredCodes
+      .map((code) => {
+        const option = Object.values(
+          MAIN_ACTIVITY_OPTIONS.OTHER_FURNITURES
+        ).find((option) => option.code === code);
+        return option?.id;
+      })
+      .filter((id): id is number => id !== undefined);
   };
 
   // 현재 선택된 활동의 label 가져오기(휴식형, 재택근무형, 영화감상형, 홈카페형)
@@ -68,30 +78,38 @@ export const useStep4MainActivity = (
   // 현재 선택된 활동의 필수 가구들의 label 가져오기(책상, 옷장, 식탁/의자, 소파 등)
   // 필수 가구가 여러 개인 경우도 처리 가능
   const getRequiredFurnitureLabels = (): string[] => {
-    const requiredCodes = getRequiredFurnitures();
-    return requiredCodes
-      .map((code) => {
+    const requiredIds = getRequiredFurnitureIds();
+    return requiredIds
+      .map((id) => {
         const option = Object.values(
           MAIN_ACTIVITY_OPTIONS.OTHER_FURNITURES
-        ).find((option) => option.code === code);
+        ).find((option) => option.id === id);
         return option?.label || '';
       })
       .filter((label) => label !== '');
   };
 
   // 특정 가구가 현재 활동의 필수 가구인지 확인
-  const isRequiredFurniture = (furniture: OtherFurnitures): boolean => {
-    return getRequiredFurnitures().includes(furniture);
+  const isRequiredFurniture = (furniture: string | number): boolean => {
+    const requiredIds = getRequiredFurnitureIds();
+    // useId={true}인 경우 number로 비교, 아닌 경우 code로 비교
+    return requiredIds.includes(furniture as number);
   };
 
   const isFormCompleted = !!(
     formData.primaryUsage &&
-    formData.bedType &&
-    Array.isArray(formData.otherFurnitures) &&
-    formData.otherFurnitures.length > 0
+    formData.bedTypeId &&
+    Array.isArray(formData.otherFurnitureIds) &&
+    formData.otherFurnitureIds.length > 0
   );
 
   const handleOnClick = () => {
+    // 타입 단언(as) 대신 사용
+    if (!formData.primaryUsage || !formData.bedTypeId) {
+      console.error('필수 필드가 누락되었습니다');
+      return;
+    }
+
     // 디버깅용
     const payload = {
       houseType: context.houseType,
@@ -104,9 +122,10 @@ export const useStep4MainActivity = (
       },
       moodBoardIds: context.moodBoardIds,
       primaryUsage: formData.primaryUsage,
-      bedType: formData.bedType,
-      otherFurnitures: formData.otherFurnitures,
+      bedTypeId: formData.bedTypeId,
+      otherFurnitureIds: formData.otherFurnitureIds,
     };
+    console.log('선택된 퍼널 페이로드:', payload);
 
     const generateImageRequest: GenerateImageRequest = {
       houseId: context.houseId,
@@ -117,9 +136,10 @@ export const useStep4MainActivity = (
       },
       moodBoardIds: context.moodBoardIds,
       // TODO: 주요활동, 침대, 그 외 가구들 ID값
+      activity: formData.primaryUsage,
+      bedId: formData.bedTypeId,
+      selectiveIds: formData.otherFurnitureIds,
     };
-
-    console.log('선택된 퍼널 페이로드:', payload);
   };
 
   return {
