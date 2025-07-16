@@ -52,29 +52,26 @@ export const useStep2FloorPlan = (
     setIsMirror((prev) => !prev);
   }, []);
 
-  const handleFloorPlanSelection = useCallback(
-    (selectedFloorPlan: SelectedFloorPlanTypes) => {
-      if (selectedId === null) return;
+  const handleFloorPlanSelection = useCallback(() => {
+    if (selectedId === null) return;
 
-      // Step2 이후 데이터 초기화 (Step3, 4 데이터 클리어)
-      clearAfterStep(2);
+    // Step2 이후 데이터 초기화 (Step3, 4 데이터 클리어)
+    clearAfterStep(2);
 
-      const payload: CompletedFloorPlan = {
-        houseType: context.houseType,
-        roomType: context.roomType,
-        areaType: context.areaType,
-        houseId: context.houseId,
-        floorPlan: {
-          floorPlanId: selectedFloorPlan.id,
-          isMirror: selectedFloorPlan.flipped,
-        },
-      };
+    const payload: CompletedFloorPlan = {
+      houseType: context.houseType,
+      roomType: context.roomType,
+      areaType: context.areaType,
+      houseId: context.houseId,
+      floorPlan: {
+        floorPlanId: selectedId,
+        isMirror: isMirror,
+      },
+    };
 
-      console.log('선택된 퍼널 페이로드:', payload);
-      onNext(payload);
-    },
-    [context.houseType, context.roomType, context.areaType, onNext]
-  );
+    console.log('선택된 퍼널 페이로드:', payload);
+    onNext(payload);
+  }, [context.houseType, context.roomType, context.areaType, onNext]);
 
   return {
     // API 데이터

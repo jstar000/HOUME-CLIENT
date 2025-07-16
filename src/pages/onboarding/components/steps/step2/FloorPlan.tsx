@@ -10,25 +10,26 @@ import FlipSheet from '@/shared/components/bottomSheet/flipSheet/FlipSheet';
 import { useToast } from '@/shared/components/toast/useToast';
 
 interface FloorPlanProps {
-  onFloorPlanSelect: (selectedFloorPlan: {
-    id: number;
-    src: string;
-    flipped: boolean;
-  }) => void;
   floorPlanList: FloorPlanList[];
+  selectedId: number | null;
+  isMirror: boolean;
+  selectedImage: FloorPlanList | null | undefined;
+  onImageSelect: (id: number) => void;
+  onFlipToggle: () => void;
+  onFloorPlanSelection: () => void;
 }
 
-const FloorPlan = ({ onFloorPlanSelect, floorPlanList }: FloorPlanProps) => {
-  const [selectedId, setSelectedId] = useState<number | null>(null);
+const FloorPlan = ({
+  floorPlanList,
+  selectedId,
+  isMirror,
+  selectedImage,
+  onImageSelect,
+  onFlipToggle,
+  onFloorPlanSelection,
+}: FloorPlanProps) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [openSheet, setOpenSheet] = useState<OpenSheetKey>(null);
-  const [isFlipped, setIsFlipped] = useState(false);
-
-  const selectedImage =
-    selectedId == null
-      ? null
-      : floorPlanList.find((item) => item.id === selectedId);
-
   const { notify } = useToast();
 
   // toast를 NoMatchSheet의 상위 컴포넌트인 FloorPlan에서 호출해야
@@ -46,8 +47,7 @@ const FloorPlan = ({ onFloorPlanSelect, floorPlanList }: FloorPlanProps) => {
   };
 
   const handleImageClick = (id: number) => {
-    setSelectedId(id);
-    setIsFlipped(false); // 이미지 선택 시 반전 초기화
+    onImageSelect(id);
     handleOpenSheet('flip');
   };
 
@@ -69,22 +69,9 @@ const FloorPlan = ({ onFloorPlanSelect, floorPlanList }: FloorPlanProps) => {
     setOpenSheet(null); // 애니메이션 끝나면 DOM에서 제거
   };
 
-  const handleFlipClick = () => {
-    // 좌우반전 버튼 클릭시
-    setIsFlipped((prev) => !prev);
-  };
-
   const handleChooseClick = () => {
-    if (selectedId !== null && selectedImage) {
-      const selectedFloorPlan = {
-        id: selectedImage.id,
-        src: selectedImage.floorPlanImage,
-        flipped: isFlipped,
-      };
-
-      handleCloseSheet();
-      onFloorPlanSelect(selectedFloorPlan);
-    }
+    handleCloseSheet();
+    onFloorPlanSelection();
   };
 
   return (
@@ -127,10 +114,10 @@ const FloorPlan = ({ onFloorPlanSelect, floorPlanList }: FloorPlanProps) => {
           isOpen={isSheetOpen}
           onClose={handleCloseSheet}
           onExited={handleExited}
-          onFlipClick={handleFlipClick}
+          onFlipClick={onFlipToggle}
           onChooseClick={handleChooseClick}
           src={selectedImage?.floorPlanImage ?? ''}
-          isFlipped={isFlipped}
+          isFlipped={isMirror}
         />
       )}
     </section>
