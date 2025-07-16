@@ -18,17 +18,20 @@ export type ImageGenerateSteps = {
     houseType?: HouseType;
     roomType?: RoomType;
     roomSize?: RoomSize;
+    houseId?: number;
   };
   FloorPlan: {
     houseType: HouseType;
     roomType: RoomType;
     roomSize: RoomSize;
+    houseId: number;
     floorPlan?: FloorPlan;
   };
   InteriorTaste: {
     houseType: HouseType;
     roomType: RoomType;
     roomSize: RoomSize;
+    houseId: number;
     floorPlan: FloorPlan;
     moodBoardIds?: number[];
   };
@@ -36,6 +39,7 @@ export type ImageGenerateSteps = {
     houseType: HouseType;
     roomType: RoomType;
     roomSize: RoomSize;
+    houseId: number;
     floorPlan: FloorPlan;
     moodBoardIds: number[];
     primaryUsage?: PrimaryUsage;

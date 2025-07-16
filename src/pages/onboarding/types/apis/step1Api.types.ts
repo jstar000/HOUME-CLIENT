@@ -1,6 +1,6 @@
 // 집구조 선택 API 요청
 export interface SelectHouseInfoRequest extends Record<string, unknown> {
-  housingType: string;
+  houseType: string;
   roomType: string;
   areaType: string;
   isValid: boolean;
