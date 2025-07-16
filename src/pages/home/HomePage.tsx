@@ -13,8 +13,8 @@ const HomePage = () => {
       <div className={styles.contents}>
         <IntroSection />
         <StepGuideSection />
-        <ReviewSection />
       </div>
+      <ReviewSection />
     </main>
   );
 };

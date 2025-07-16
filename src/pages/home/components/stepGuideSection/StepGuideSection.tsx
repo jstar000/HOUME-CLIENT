@@ -15,6 +15,7 @@ const StepGuideSection = () => {
           </p>
         </div>
       </div>
+
       <TitleStep stepNumber={1} title="우리 집과 유사한 구조를 선택하기" />
       <div className={`${styles.stepLandImage} ${styles.imageGap}`} />
 

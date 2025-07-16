@@ -3,13 +3,17 @@ import { fontStyle } from '@/shared/styles/fontStyle';
 import { colorVars } from '@/shared/styles/tokens/color.css';
 
 export const wrapper = style({
+  backgroundColor: colorVars.color.primary_light2,
+  minWidth: '37.5rem',
+  width: '100%',
+});
+
+export const container = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  width: '37.5rem',
   padding: '3.2rem 3rem',
   gap: '2.4rem',
-  backgroundColor: colorVars.color.primary_light2,
 });
 
 export const footerContainer = style({
@@ -17,7 +21,7 @@ export const footerContainer = style({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  width: '37.5rem',
+  width: '100%',
   paddingBottom: '2rem',
   gap: '4rem',
   backgroundColor: colorVars.color.gray000,

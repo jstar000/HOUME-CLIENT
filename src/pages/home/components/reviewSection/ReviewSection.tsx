@@ -4,8 +4,8 @@ import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 
 const ReviewSection = () => {
   return (
-    <div>
-      <section className={styles.wrapper}>
+    <div className={styles.wrapper}>
+      <section className={styles.container}>
         <CardReview
           title="이제야 나에게 맞는 집이 된 것 같아요!"
           body={`평소 퇴근 후에 OTT 보는 게 유일한 낙이었는\n데,제가 평소 집에서 하는 활동에 맞는 가구 배\n치를 바꿔보고 나니 퇴근 후에 제 취미에 더 집 \n중할 수 있게 된 것 같아요.`}

@@ -37,7 +37,7 @@ export const buttonGroup = style({
   alignItems: 'center',
   gap: '0.7rem',
   marginTop: '1.6rem',
-  marginBottom: '12rem',
+  width: '100%',
 });
 
 export const radioButtonLabel = style({

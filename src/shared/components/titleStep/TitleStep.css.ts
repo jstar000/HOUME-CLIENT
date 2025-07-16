@@ -5,7 +5,7 @@ import { fontStyle } from '@/shared/styles/fontStyle';
 export const wrapper = style({
   display: 'flex',
   flexDirection: 'column',
-  width: '33.5rem',
+  width: '100%',
   gap: '1.2rem',
   alignItems: 'flex-start',
 });

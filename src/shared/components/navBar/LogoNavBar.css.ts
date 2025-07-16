@@ -10,7 +10,7 @@ export const container = style({
   justifyContent: 'space-between',
   alignItems: 'center',
   textAlign: 'center',
-  ...fontStyle('title_m_16'),
+  ...fontStyle('body_r_14'),
   color: colorVars.color.gray900,
 });
 
