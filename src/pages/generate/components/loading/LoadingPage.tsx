@@ -13,7 +13,7 @@ import LikeButton from '@/shared/components/button/likeButton/LikeButton';
 import DislikeButton from '@/shared/components/button/likeButton/DislikeButton';
 
 const LoadingPage = () => {
-  // 이미지 생성 api 코드 시작
+  // 이미지 생성 api 코드 ...
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -26,11 +26,12 @@ const LoadingPage = () => {
     if (requestData) {
       console.log('이미지 생성 요청 시작:', requestData);
 
-      // 자동으로 API 호출
       generateImageRequest.mutate(requestData);
+    } else {
+      console.log('requestData is null');
     }
   }, [requestData, navigate]);
-  // 이미지 생성 api 코드 끝
+  // ... 이미지 생성 api 코드 끝
 
   const [currentPage, setCurrentPage] = useState(0);
   const {
