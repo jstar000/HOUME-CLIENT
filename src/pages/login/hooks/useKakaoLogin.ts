@@ -19,11 +19,11 @@ import { useNavigate } from 'react-router-dom';
 import { getKakaoLogin } from '../apis/kakaoLogin';
 import type { LoginApiResponse } from '../types/auth';
 import { ROUTES } from '@/routes/paths';
-import { useAuthStore } from '@/store/useAuthStore';
+import { useUserStore } from '@/store/useUserStore';
 
 export const useKakaoLogin = () => {
   const navigate = useNavigate();
-  const setAccessToken = useAuthStore((state) => state.setAccessToken); // 액세스토큰 저장 함수 가져오기
+  const setAccessToken = useUserStore((state) => state.setAccessToken); // 액세스토큰 저장 함수 가져오기
 
   return useMutation<LoginApiResponse, Error, string>({
     mutationFn: getKakaoLogin,
