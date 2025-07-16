@@ -6,8 +6,6 @@
 // 2) 공개 라우트      : Home, Login, Signup
 // 3) ProtectedRoute   : 인증이 필요한 하위 라우트 묶음
 //    - 인증 실패 시 ROUTES.LOGIN 으로 리다이렉트
-//
-// isAuthenticated 는 임시 하드코딩 값이며, 추후 useAuth 훅 등의 실제 인증 상태로 교체될 예정입니다.
 // ------------------------------
 import { createBrowserRouter } from 'react-router-dom';
 import { ROUTES } from '@/routes/paths';
@@ -19,13 +17,11 @@ import SignupPage from '@/pages/signup/SignupPage';
 import GeneratePage from '@/pages/generate/Generate';
 import { ImageGenerationFunnel } from '@/pages/onboarding/ImageGenerationFunnel';
 import MyPage from '@/pages/mypage/MyPage';
-import ResultPage from '@/pages/generate/components/result/ResultPage';
-import LoadingPage from '@/pages/generate/components/loading/LoadingPage';
 import KakaoCallback from '@/pages/login/KakaoCallback';
 import SignupCompletePage from '@/pages/signup/SignupCompletePage';
-
-// TODO: Replace with actual auth state management
-const isAuthenticated = true;
+import LoadingPage from '@/pages/generate/components/loading/LoadingPage';
+import ResultPage from '@/pages/generate/components/result/ResultPage';
+import { MOCK_GENERATE_DATA } from '@/pages/generate/constants/resultMockData';
 
 // 공개 라우트 그룹 (인증 불필요)
 const publicRoutes = [
@@ -88,7 +84,7 @@ export const router = createBrowserRouter([
       ...publicRoutes,
       // 보호된 라우트들 (ProtectedRoute로 감싸서 인증 체크)
       {
-        element: <ProtectedRoute isAuthenticated={isAuthenticated} />,
+        element: <ProtectedRoute />,
         children: protectedRoutes,
       },
     ],
