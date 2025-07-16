@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import BlurImage from '@assets/icons/recommendBlur.svg?react';
 import LockImage from '@assets/icons/recommendCta.png';
 import { overlay } from 'overlay-kit';
@@ -9,19 +9,19 @@ import {
   usePreferenceMutation,
   useCreditLogMutation,
 } from '../../hooks/useGenerate';
-import type { GenerateTypes } from '../../types/GenerateType';
+// import type { GenerateTypes } from '../../types/GenerateType';
 import LikeButton from '@/shared/components/button/likeButton/LikeButton';
 import DislikeButton from '@/shared/components/button/likeButton/DislikeButton';
 import HeadingText from '@/shared/components/text/HeadingText';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 import Modal from '@/shared/components/overlay/modal/Modal';
-interface ResultPageProps {
-  mockData: GenerateTypes;
-}
+// interface ResultPageProps {
+//   mockData: GenerateTypes;
+// }
 
 const imageId = 15; // 임시 번호
 
-const ResultPage = ({ mockData }: ResultPageProps) => {
+const ResultPage = () => {
   const location = useLocation();
   const { result } = location.state || {};
 

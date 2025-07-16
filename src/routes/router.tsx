@@ -66,7 +66,7 @@ const protectedRoutes = [
       },
       {
         path: 'result',
-        element: <ResultPage mockData={MOCK_GENERATE_DATA} />,
+        element: <ResultPage />,
       },
     ],
   },
