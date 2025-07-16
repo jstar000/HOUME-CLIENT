@@ -28,6 +28,7 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
     isRequiredFurniture,
     getCurrentActivityLabel,
     getRequiredFurnitureLabels,
+    handleOnClick,
   } = useStep4MainActivity(context);
 
   const primaryUsageOptions = Object.values(
@@ -37,26 +38,6 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
   const otherFurnituresOptions = Object.values(
     MAIN_ACTIVITY_OPTIONS.OTHER_FURNITURES
   );
-
-  const handleOnClick = () => {
-    // 디버깅용
-    const payload = {
-      houseType: context.houseType,
-      roomType: context.roomType,
-      areaType: context.areaType,
-      houseId: context.houseId,
-      floorPlan: {
-        floorPlanId: context.floorPlan.floorPlanId,
-        isMirror: context.floorPlan.isMirror,
-      },
-      moodBoardIds: context.moodBoardIds,
-      primaryUsage: formData.primaryUsage,
-      bedType: formData.bedType,
-      otherFurnitures: formData.otherFurnitures,
-    };
-
-    console.log('선택된 퍼널 페이로드:', payload);
-  };
 
   return (
     <div className={common.container}>

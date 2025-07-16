@@ -14,8 +14,9 @@ export interface ImageStackResponse {
   carouselResponseDTOS: CarouselItem[];
 }
 
+// 이미지 생성 API 요청 데이터 타입
 export interface GenerateImageRequest extends Record<string, unknown> {
-  houseId: boolean;
+  houseId: number;
   equilibrium: string;
   floorPlan: {
     floorPlanId: number;
@@ -27,6 +28,7 @@ export interface GenerateImageRequest extends Record<string, unknown> {
   selectiveIds: number[];
 }
 
+// 이미지 생성 API 응답 데이터 타입
 export interface GenerateImageData {
   imageId: number;
   imageUrl: string;
@@ -37,6 +39,7 @@ export interface GenerateImageData {
   name: string;
 }
 
+// 이미지 생성 API 응답 데이터 타입
 export interface GenerateImageResponse {
   code: number;
   msg: string;

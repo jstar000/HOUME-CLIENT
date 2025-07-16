@@ -5,6 +5,7 @@ import {
   type ImageGenerateSteps,
   type OtherFurnitures,
 } from '../types/funnel';
+import type { GenerateImageRequest } from '@/pages/generate/types/GenerateType';
 
 // 타입 가드 함수(타입 단언 사용 X)
 // 유효한 '주요활동' 카테고리 내의 값인지 체크
@@ -90,6 +91,37 @@ export const useStep4MainActivity = (
     formData.otherFurnitures.length > 0
   );
 
+  const handleOnClick = () => {
+    // 디버깅용
+    const payload = {
+      houseType: context.houseType,
+      roomType: context.roomType,
+      areaType: context.areaType,
+      houseId: context.houseId,
+      floorPlan: {
+        floorPlanId: context.floorPlan.floorPlanId,
+        isMirror: context.floorPlan.isMirror,
+      },
+      moodBoardIds: context.moodBoardIds,
+      primaryUsage: formData.primaryUsage,
+      bedType: formData.bedType,
+      otherFurnitures: formData.otherFurnitures,
+    };
+
+    const generateImageRequest: GenerateImageRequest = {
+      houseId: context.houseId,
+      equilibrium: context.areaType,
+      floorPlan: {
+        floorPlanId: context.floorPlan.floorPlanId,
+        isMirror: context.floorPlan.isMirror,
+      },
+      moodBoardIds: context.moodBoardIds,
+      // TODO: 주요활동, 침대, 그 외 가구들 ID값
+    };
+
+    console.log('선택된 퍼널 페이로드:', payload);
+  };
+
   return {
     formData,
     setFormData,
@@ -98,5 +130,6 @@ export const useStep4MainActivity = (
     isRequiredFurniture,
     getCurrentActivityLabel,
     getRequiredFurnitureLabels,
+    handleOnClick,
   };
 };
