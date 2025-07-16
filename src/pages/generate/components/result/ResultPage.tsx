@@ -8,7 +8,7 @@ import {
   useFurnitureLogMutation,
   usePreferenceMutation,
   useCreditLogMutation,
-} from '../../hooks/generate';
+} from '../../hooks/useGenerate';
 import type { GenerateTypes } from '../../types/GenerateType';
 import LikeButton from '@/shared/components/button/likeButton/LikeButton';
 import DislikeButton from '@/shared/components/button/likeButton/DislikeButton';
@@ -23,16 +23,7 @@ const imageId = 15; // 임시 번호
 
 const ResultPage = ({ mockData }: ResultPageProps) => {
   const location = useLocation();
-  const { imgUrl } = location.state || {};
-
-  // 🔍 디버깅: 전달받은 데이터 확인
-  // console.log('=== ResultPage 디버깅 ===');
-  // console.log('location:', location);
-  // console.log('location.state:', location.state);
-  // console.log('imageUrl:', imageUrl);
-  // console.log('imageUrl type:', typeof imageUrl);
-  // console.log('imageUrl length:', imageUrl?.length);
-  // console.log('========================');
+  const { result } = location.state || {};
 
   const [selected, setSelected] = useState<'like' | 'dislike' | null>(null);
   const { mutate: sendPreference } = usePreferenceMutation(imageId);
@@ -74,15 +65,17 @@ const ResultPage = ({ mockData }: ResultPageProps) => {
         <HeadingText title="이미지 생성이 완료됐어요!" content="" />
         <div className={styles.infoSection}>
           <p className={styles.infoText}>
-            {mockData.sqft}평 오피스텔에 살며 {mockData.style}한 취향을 가진{' '}
-            <br />
-            {mockData.user}님을 위한 맞춤 인테리어 스타일링이에요!
+            {result.equilibrium}평 오피스텔에 살며 {result.tagName}한 취향을
+            가진 {result.name}님을 위한 맞춤 인테리어 스타일링이에요!
           </p>
         </div>
       </section>
       <section className={styles.resultSection}>
-        {/* <div className={styles.imgArea} /> */}
-        <img src={imgUrl} alt="생성된 이미지" className={styles.imgArea} />
+        <img
+          src={result.imageUrl}
+          alt="생성된 이미지"
+          className={styles.imgArea}
+        />
         <div className={styles.buttonGroup}>
           <LikeButton
             size={'large'}

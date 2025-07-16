@@ -12,7 +12,6 @@ import {
 } from '../apis/generate';
 import type { GenerateImageRequest } from '../types/GenerateType';
 import { QUERY_KEY } from '@/shared/constants/queryKey';
-import { ROUTES } from '@/routes/paths';
 
 export const useStackData = (page: number, options: { enabled: boolean }) => {
   return useQuery({
@@ -76,11 +75,8 @@ export const useGenerateImageApi = () => {
     onSuccess: (data) => {
       console.log('이미지 생성 요청 결과: ', data);
       // 성공 시 자동으로 ResultPage로 이동
-      const imgUrl = data.imageUrl;
-
       navigate('/generate/result', {
         state: {
-          imgUrl: imgUrl,
           result: data,
         },
         replace: true,

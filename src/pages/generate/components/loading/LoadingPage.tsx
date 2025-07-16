@@ -7,7 +7,7 @@ import {
   useLikeStackMutation,
   useHateStackMutation,
   useGenerateImageApi,
-} from '../../hooks/generate';
+} from '../../hooks/useGenerate';
 import type { GenerateImageRequest } from '../../types/GenerateType';
 import LikeButton from '@/shared/components/button/likeButton/LikeButton';
 import DislikeButton from '@/shared/components/button/likeButton/DislikeButton';
