@@ -10,6 +10,7 @@ import {
   useCreditLogMutation,
 } from '../../hooks/useGenerate';
 // import type { GenerateTypes } from '../../types/GenerateType';
+import type { GenerateImageData } from '../../types/GenerateType';
 import LikeButton from '@/shared/components/button/likeButton/LikeButton';
 import DislikeButton from '@/shared/components/button/likeButton/DislikeButton';
 import HeadingText from '@/shared/components/text/HeadingText';
@@ -19,11 +20,18 @@ import Modal from '@/shared/components/overlay/modal/Modal';
 //   mockData: GenerateTypes;
 // }
 
-const imageId = 15; // 임시 번호
-
 const ResultPage = () => {
   const location = useLocation();
-  const { result } = location.state || {};
+  // TODO: result를 어디에서 받아오는지 추적이 힘듦, 수정 필요
+  const {
+    imageId,
+    imageUrl,
+    isMirror,
+    equilibrium,
+    houseForm,
+    tasteTag,
+    name,
+  } = (location.state as GenerateImageData) || {};
 
   const [selected, setSelected] = useState<'like' | 'dislike' | null>(null);
   const { mutate: sendPreference } = usePreferenceMutation(imageId);
@@ -65,15 +73,15 @@ const ResultPage = () => {
         <HeadingText title="이미지 생성이 완료됐어요!" content="" />
         <div className={styles.infoSection}>
           <p className={styles.infoText}>
-            {result.equilibrium}평 오피스텔에 살며 {result.tagName}한 취향을
-            가진 {result.name}님을 위한 맞춤 인테리어 스타일링이에요!
+            {equilibrium}평 {houseForm}에 살며 {tasteTag}한 취향을 가진 {name}
+            님을 위한 맞춤 인테리어 스타일링이에요!
           </p>
         </div>
       </section>
       <section className={styles.resultSection}>
         <img
-          src={result.imageUrl}
-          alt="생성된 이미지"
+          src={imageUrl}
+          alt={`${name}님을 위한 맞춤 인테리어 스타일링`}
           className={styles.imgArea}
         />
         <div className={styles.buttonGroup}>
