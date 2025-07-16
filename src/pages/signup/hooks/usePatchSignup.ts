@@ -5,9 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import { patchSignup } from '../apis/signup';
 import type { SignupRequest, SignupResponse } from '../types/apis/signup';
 import { ROUTES } from '@/routes/paths';
+import { useNameStore } from '@/store/useNameStore';
 
 export const usePatchSignup = () => {
   const navigate = useNavigate();
+  const setUserName = useNameStore((state) => state.setUserName);
 
   return useMutation<SignupResponse, Error, SignupRequest>({
     mutationFn: patchSignup,
@@ -15,6 +17,8 @@ export const usePatchSignup = () => {
     // 회원가입 성공 시 실행되는 함수
     onSuccess: (response) => {
       console.log('[usePatchSignup] 회원가입 성공:', response);
+      console.log(response.data);
+      setUserName(response.data); // userName 전역 저장
       // 회원가입 완료 페이지 이동
       navigate(ROUTES.SIGNUPCOMPLETE);
     },
