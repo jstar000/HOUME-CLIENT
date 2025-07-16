@@ -7,3 +7,13 @@ export interface UserInfoResponse {
   name: string;
   creditCount: number;
 }
+
+// 이미지 생성 이력 제공 타입
+export interface ImageHistoryResponse {
+  code: number;
+  msg: string;
+  generatedImageUrl: string;
+  tasteTag: string;
+  equilibrium: string;
+  houseForm: string;
+}

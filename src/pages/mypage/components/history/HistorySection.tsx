@@ -4,9 +4,11 @@ import emptyImage from '@/shared/assets/images/emptyImage.png';
 
 type HistorySectionProps = {
   hasImage?: boolean;
+  imageUrl?: string;
+  title?: string;
 };
 
-const HistorySection = ({ hasImage = true }: HistorySectionProps) => {
+const HistorySection = ({ hasImage }: HistorySectionProps) => {
   return (
     <section className={styles.container}>
       <p className={styles.title}>이미지 생성 히스토리</p>
