@@ -12,9 +12,6 @@
  *
  * // 카카오 인가 코드로 로그인
  * login('authorization_code');
- *
- * if (isPending) return <div>로그인 중...</div>;
- * if (isError) return <div>로그인 실패</div>;
  * ```
  */
 import { useMutation } from '@tanstack/react-query';
@@ -22,23 +19,29 @@ import { useNavigate } from 'react-router-dom';
 import { getKakaoLogin } from '../apis/kakaoLogin';
 import type { LoginApiResponse } from '../types/auth';
 import { ROUTES } from '@/routes/paths';
+import { useAuthStore } from '@/store/useAuthStore';
 
 export const useKakaoLogin = () => {
   const navigate = useNavigate();
+  const setAccessToken = useAuthStore((state) => state.setAccessToken); // 액세스토큰 저장 함수 가져오기
 
   return useMutation<LoginApiResponse, Error, string>({
-    mutationFn: getKakaoLogin, // 카카오 로그인 API 호출 함수
-    // 로그인 성공 시 실행되는 함수
+    mutationFn: getKakaoLogin,
     onSuccess: (response) => {
       console.log('[useKakaoLogin] 로그인 성공:', response.data);
 
-      // 액세스 토큰을 로컬 스토리지에 저장
-      localStorage.setItem('accessToken', response.accessToken);
+      const accessToken = response.accessToken;
 
-      // 홈페이지로 이동
-      navigate(ROUTES.HOME);
+      // zustand에 저장 (localStorage 동시 저장)
+      setAccessToken(accessToken);
+
+      // 가입 여부에 따라 리다이렉트 (response.data가 true면 신규회원, false면 기존회원)
+      if (response.data) {
+        navigate(ROUTES.SIGNUP);
+      } else {
+        navigate(ROUTES.HOME);
+      }
     },
-    // 로그인 실패 시 실행되는 함수
     onError: (error) => {
       console.error('[useKakaoLogin] 로그인 실패:', error);
       alert('로그인에 실패했습니다. 다시 시도해주세요.');
