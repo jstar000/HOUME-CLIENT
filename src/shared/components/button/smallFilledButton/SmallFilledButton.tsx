@@ -1,12 +1,16 @@
 import clsx from 'clsx';
 import * as styles from './SmallFilledButton.css';
 
-interface SmallFilledProps extends React.ComponentProps<'div'> {
+interface SmallFilledButtonProps extends React.ComponentProps<'div'> {
   children: React.ReactNode;
   isSelected: boolean;
 }
 
-const SmallFilled = ({ children, isSelected, ...props }: SmallFilledProps) => {
+const SmallFilledButton = ({
+  children,
+  isSelected,
+  ...props
+}: SmallFilledButtonProps) => {
   return (
     <div
       className={clsx(
@@ -20,4 +24,4 @@ const SmallFilled = ({ children, isSelected, ...props }: SmallFilledProps) => {
   );
 };
 
-export default SmallFilled;
+export default SmallFilledButton;

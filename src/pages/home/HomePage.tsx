@@ -9,12 +9,16 @@ const isLoggedIn = false;
 const HomePage = () => {
   return (
     <main className={styles.page}>
-      <LogoNavBar buttonType={isLoggedIn ? 'profile' : 'login'} />
-      <div className={styles.contents}>
-        <IntroSection />
-        <StepGuideSection />
+      <div className={styles.gradFrame}>
+        <LogoNavBar buttonType={isLoggedIn ? 'profile' : 'login'} />
+        <div className={styles.introSection}>
+          <IntroSection />
+        </div>
       </div>
-      <ReviewSection />
+      <div className={styles.contents}>
+        <StepGuideSection />
+        <ReviewSection />
+      </div>
     </main>
   );
 };

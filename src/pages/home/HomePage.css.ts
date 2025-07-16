@@ -9,10 +9,27 @@ export const page = style({
   alignItems: 'center',
 });
 
-export const contents = style({
+export const gradFrame = style({
+  width: '100%',
+  background: colorVars.color.bg_grad,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+});
+
+export const introSection = style({
   display: 'flex',
   width: '100%',
   flexDirection: 'column',
   alignItems: 'center',
   padding: '1.6rem 2rem 0 2rem',
+});
+
+export const contents = style({
+  display: 'flex',
+  width: '100%',
+  flexDirection: 'column',
+  alignItems: 'center',
+  padding: '0 2rem',
+  background: colorVars.color.gray000,
 });

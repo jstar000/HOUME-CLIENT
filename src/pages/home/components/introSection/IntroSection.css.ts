@@ -11,10 +11,17 @@ export const wrapper = style({
   alignSelf: 'stretch',
 });
 
+export const titleWrapper = style({
+  display: 'flex',
+  flexDirection: 'column',
+  width: '100%',
+});
+
 export const title = style({
   ...fontStyle('heading_sb_20'),
   color: colorVars.color.gray900,
   textAlign: 'left',
+  marginBottom: '0.8rem',
 });
 
 export const description = style({
