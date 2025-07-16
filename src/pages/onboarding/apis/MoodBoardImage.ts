@@ -28,7 +28,6 @@ export const getMoodBoardImage = async (
     return response.data;
   } catch (error: any) {
     console.error('[moodboard] 요청 실패:', error.response);
-    console.error('[moodboard] 상태 코드:', error.response);
     throw error;
   }
 };
