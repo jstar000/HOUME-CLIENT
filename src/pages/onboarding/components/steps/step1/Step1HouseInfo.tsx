@@ -19,7 +19,7 @@ interface Step1HouseInfoProps {
 }
 
 const Step1HouseInfo = ({ context, onNext }: Step1HouseInfoProps) => {
-  const { formData, setFormData, errors, handleSubmit, areAllFieldsFilled } =
+  const { formData, setFormData, errors, handleSubmit, isFormCompleted } =
     useStep1HouseInfo(context);
 
   const houseTypeOptions = Object.values(HOUSE_INFO_OPTIONS.HOUSING_TYPES);
@@ -67,7 +67,7 @@ const Step1HouseInfo = ({ context, onNext }: Step1HouseInfoProps) => {
 
         <div>
           <CtaButton
-            isActive={areAllFieldsFilled}
+            isActive={isFormCompleted}
             onClick={() => handleSubmit(onNext)}
           >
             집구조 선택하기

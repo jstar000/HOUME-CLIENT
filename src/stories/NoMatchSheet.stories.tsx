@@ -46,6 +46,7 @@ export const Default: Story = {
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
           user="김하우미"
+          onSubmit={() => setIsOpen(false)}
         />
       </div>
     );
