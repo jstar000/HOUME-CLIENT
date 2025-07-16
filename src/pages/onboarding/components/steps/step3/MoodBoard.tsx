@@ -9,6 +9,7 @@
  */
 import { useState } from 'react';
 import * as styles from './MoodBoard.css';
+import type { MoodBoardImageItem } from '@/pages/onboarding/types/apis/moodBoard';
 import { useMoodBoardImage } from '@/pages/onboarding/hooks/useMoodBoardImage.hooks';
 import CardImage from '@/shared/components/card/cardImage/CardImage';
 
@@ -63,22 +64,20 @@ const MoodBoard = () => {
   return (
     <div className={styles.container}>
       <div className={styles.gridbox}>
-        {images.map(
-          (image: { id: number; imageUrl: string; fileExtension: string }) => {
-            const isSelected = selectedImages.includes(image.id);
-            const isDisabled = selectedImages.length >= 5 && !isSelected;
+        {images.map((image: MoodBoardImageItem) => {
+          const isSelected = selectedImages.includes(image.id);
+          const isDisabled = selectedImages.length >= 5 && !isSelected;
 
-            return (
-              <CardImage
-                key={image.id}
-                src={image.imageUrl}
-                selectOrder={getSelectOrder(image.id)}
-                onClick={() => handleImageSelect(image.id)}
-                disabled={isDisabled}
-              />
-            );
-          }
-        )}
+          return (
+            <CardImage
+              key={image.id}
+              src={image.imageUrl}
+              selectOrder={getSelectOrder(image.id)}
+              onClick={() => handleImageSelect(image.id)}
+              disabled={isDisabled}
+            />
+          );
+        })}
       </div>
     </div>
   );
