@@ -20,9 +20,10 @@ export const useStep2FloorPlan = (
   const handleFloorPlanSelection = useCallback(
     (selectedFloorPlan: SelectedFloorPlanTypes) => {
       const payload: CompletedFloorPlan = {
-        houseType: context.houseType!,
-        roomType: context.roomType!,
-        roomSize: context.roomSize!,
+        houseType: context.houseType,
+        roomType: context.roomType,
+        areaType: context.areaType,
+        houseId: context.houseId,
         floorPlan: {
           floorPlanId: selectedFloorPlan.id,
           isMirror: selectedFloorPlan.flipped,
@@ -32,7 +33,7 @@ export const useStep2FloorPlan = (
       console.log('선택된 퍼널 페이로드:', payload);
       onNext(payload);
     },
-    [context.houseType, context.roomType, context.roomSize, onNext]
+    [context.houseType, context.roomType, context.areaType, onNext]
   );
 
   return {

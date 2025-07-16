@@ -5,7 +5,7 @@ import {
   type CompletedHouseInfo,
   type HouseType,
   type ImageGenerateSteps,
-  type RoomSize,
+  type AreaType,
   type RoomType,
   HOUSE_INFO_OPTIONS,
 } from '../../../types/funnel';
@@ -24,7 +24,7 @@ const Step1HouseInfo = ({ context, onNext }: Step1HouseInfoProps) => {
 
   const houseTypeOptions = Object.values(HOUSE_INFO_OPTIONS.HOUSING_TYPES);
   const roomTypeOptions = Object.values(HOUSE_INFO_OPTIONS.ROOM_TYPES);
-  const roomSizeOptions = Object.values(HOUSE_INFO_OPTIONS.AREA_TYPES);
+  const areaTypeOptions = Object.values(HOUSE_INFO_OPTIONS.AREA_TYPES);
 
   return (
     <div className={styles.container}>
@@ -55,14 +55,14 @@ const Step1HouseInfo = ({ context, onNext }: Step1HouseInfoProps) => {
           error={errors.roomType}
         />
 
-        <OptionGroup<RoomSize>
+        <OptionGroup<AreaType>
           title="평형"
-          options={roomSizeOptions}
-          selected={formData.roomSize}
+          options={areaTypeOptions}
+          selected={formData.areaType}
           onButtonClick={(value) =>
-            setFormData((prev) => ({ ...prev, roomSize: value }))
+            setFormData((prev) => ({ ...prev, areaType: value }))
           }
-          error={errors.roomSize}
+          error={errors.areaType}
         />
 
         <div>

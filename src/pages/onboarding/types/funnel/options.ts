@@ -57,7 +57,7 @@ export type HouseType =
   (typeof HOUSE_INFO_OPTIONS.HOUSING_TYPES)[keyof typeof HOUSE_INFO_OPTIONS.HOUSING_TYPES]['code'];
 export type RoomType =
   (typeof HOUSE_INFO_OPTIONS.ROOM_TYPES)[keyof typeof HOUSE_INFO_OPTIONS.ROOM_TYPES]['code'];
-export type RoomSize =
+export type AreaType =
   (typeof HOUSE_INFO_OPTIONS.AREA_TYPES)[keyof typeof HOUSE_INFO_OPTIONS.AREA_TYPES]['code'];
 
 // MAIN_ACTIVITY_OPTIONS 개별 타입 추출

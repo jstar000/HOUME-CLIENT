@@ -43,7 +43,8 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
     const payload = {
       houseType: context.houseType,
       roomType: context.roomType,
-      roomSize: context.roomSize,
+      areaType: context.areaType,
+      houseId: context.houseId,
       floorPlan: {
         floorPlanId: context.floorPlan.floorPlanId,
         isMirror: context.floorPlan.isMirror,

@@ -1,7 +1,7 @@
 import type {
   HouseType,
   RoomType,
-  RoomSize,
+  AreaType,
   PrimaryUsage,
   BedType,
   OtherFurnitures,
@@ -17,20 +17,20 @@ export type ImageGenerateSteps = {
   HouseInfo: {
     houseType?: HouseType;
     roomType?: RoomType;
-    roomSize?: RoomSize;
+    areaType?: AreaType;
     houseId?: number;
   };
   FloorPlan: {
     houseType: HouseType;
     roomType: RoomType;
-    roomSize: RoomSize;
+    areaType: AreaType;
     houseId: number;
     floorPlan?: FloorPlan;
   };
   InteriorTaste: {
     houseType: HouseType;
     roomType: RoomType;
-    roomSize: RoomSize;
+    areaType: AreaType;
     houseId: number;
     floorPlan: FloorPlan;
     moodBoardIds?: number[];
@@ -38,7 +38,7 @@ export type ImageGenerateSteps = {
   MainActivity: {
     houseType: HouseType;
     roomType: RoomType;
-    roomSize: RoomSize;
+    areaType: AreaType;
     houseId: number;
     floorPlan: FloorPlan;
     moodBoardIds: number[];
