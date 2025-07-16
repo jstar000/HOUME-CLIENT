@@ -3,14 +3,17 @@ import { colorVars } from '@styles/tokens/color.css';
 import { fontStyle } from '@/shared/styles/fontStyle';
 
 export const smallButtonBase = style({
-  width: '7.2rem',
+  display: 'flex',
+  width: '7.6rem',
   height: '3.6rem',
   padding: '1rem 1.6rem',
   textAlign: 'center',
   alignItems: 'center',
+  justifyContent: 'center',
   borderRadius: '6px',
   transition: 'all 0.2s ease-in-out',
   flexShrink: 0,
+  whiteSpace: 'nowrap',
 });
 
 export const smallButtonVariants = styleVariants({
@@ -21,7 +24,7 @@ export const smallButtonVariants = styleVariants({
     ...fontStyle('caption_m_12'),
   },
   off: {
-    color: colorVars.color.gray800,
+    color: colorVars.color.gray500,
     backgroundColor: colorVars.color.gray000,
     border: `1px solid ${colorVars.color.primary_light2}`,
     ...fontStyle('caption_r_12'),
