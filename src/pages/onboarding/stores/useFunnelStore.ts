@@ -1,4 +1,5 @@
-import { create } from 'domain';
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import type {
   AreaType,
   HouseType,
@@ -57,12 +58,13 @@ const initialState = {
   step2: {},
   step3: {},
   step4: {},
-  currentState: 1,
+  currentStep: 1,
 };
 
 export const useFunnelStore = create<FunnelStore>()(
   persist(
-    (set, get) => ({
+    // 필요하면 get도 선언
+    (set) => ({
       ...initialState,
 
       // state: 퍼널의 전체 데이터(step1,2,3,4) 저장
