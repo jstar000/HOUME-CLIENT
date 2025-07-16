@@ -1,4 +1,4 @@
 export interface GenderOption {
-  value: 'male' | 'female' | 'nonbinary';
+  value: 'MALE' | 'FEMALE' | 'NONBINARY';
   label: string;
 }
