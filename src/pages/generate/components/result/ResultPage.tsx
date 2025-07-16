@@ -6,6 +6,7 @@ import * as styles from './ResultPage.css';
 import {
   useFurnitureLogMutation,
   usePreferenceMutation,
+  useCreditLogMutation,
 } from '../../hooks/generate';
 import type { GenerateTypes } from '../../types/GenerateType';
 import LikeButton from '@/shared/components/button/likeButton/LikeButton';
@@ -23,6 +24,7 @@ const ResultPage = ({ mockData }: ResultPageProps) => {
   const [selected, setSelected] = useState<'like' | 'dislike' | null>(null);
   const { mutate: sendPreference } = usePreferenceMutation(imageId);
   const { mutate: sendFurnituresLogs } = useFurnitureLogMutation();
+  const { mutate: sendCreditLogs } = useCreditLogMutation();
 
   const handleVote = (isLike: boolean) => {
     setSelected(isLike ? 'like' : 'dislike');
@@ -44,6 +46,7 @@ const ResultPage = ({ mockData }: ResultPageProps) => {
       <Modal
         onClose={unmount}
         title={`스타일링 이미지대로 가구를\n추천 받으려면 크레딧이 필요해요`}
+        onCreditAction={sendCreditLogs} // 크레딧 액션 콜백 전달
       />
     ));
     sendFurnituresLogs();

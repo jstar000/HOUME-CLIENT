@@ -33,13 +33,13 @@ const ProgressLoadingBar = () => {
       // 완료되었을 때
       interval = setInterval(() => {
         setProgress((prev) => {
-          if (prev >= 100) {
+          if (prev >= PROGRESS_CONFIG.FAST_PHASE_END) {
             if (interval) clearInterval(interval);
-            return PROGRESS_CONFIG.FAST_INTERVAL;
+            return PROGRESS_CONFIG.FAST_PHASE_END;
           }
           return prev + PROGRESS_CONFIG.FAST_INCREMENT;
         });
-      }, 100); // 0.1초마다 1% 씩
+      }, 100); // 0.1씩 약 0.122초마다
     }
 
     return () => {

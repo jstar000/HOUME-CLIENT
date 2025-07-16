@@ -4,6 +4,8 @@ import {
   getStackData,
   postCreditLog,
   postFurnitureLog,
+  postHateStack,
+  postLikeStack,
   postPreference,
 } from '../apis/generate';
 import { QUERY_KEY } from '@/shared/constants/queryKey';
@@ -20,6 +22,19 @@ export const useResultData = (imageId: number) => {
   return useQuery({
     queryKey: [QUERY_KEY.GENERATE_RESULT, imageId],
     queryFn: () => getResultData(imageId),
+  });
+};
+
+// 캐러셀 이미지 좋아요/별로예요
+export const useLikeStackMutation = () => {
+  return useMutation({
+    mutationFn: postLikeStack,
+  });
+};
+
+export const useHateStackMutation = () => {
+  return useMutation({
+    mutationFn: postHateStack,
   });
 };
 
