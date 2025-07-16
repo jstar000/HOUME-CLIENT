@@ -17,7 +17,6 @@ const HomePage = () => {
 
   return (
     <main className={styles.page}>
-      {hasHistory ? true : false}
       <div className={styles.gradFrame}>
         <LogoNavBar buttonType={isLoggedIn ? 'profile' : 'login'} />
         <div className={styles.introSection}>
