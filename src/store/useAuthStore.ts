@@ -14,7 +14,6 @@ export const useAuthStore = create<AuthState>((set) => ({
     typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null,
   // accessToken을 localStorage와 zustand 상태에 모두 저장
   setAccessToken: (token) => {
-    localStorage.setItem('accessToken', token);
     try {
       localStorage.setItem('accessToken', token);
     } catch (error) {
