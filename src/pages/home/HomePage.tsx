@@ -5,10 +5,10 @@ import ReviewSection from './components/reviewSection/ReviewSection';
 import * as styles from './HomePage.css';
 import TokenRefreshTest from '../login/components/TokenRefreshTest';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
-import { useAuthStore } from '@/store/useAuthStore';
+import { useUserStore } from '@/store/useUserStore';
 
 const HomePage = () => {
-  const accessToken = useAuthStore((state) => state.accessToken);
+  const accessToken = useUserStore((state) => state.accessToken);
   // 인증 여부: prop이 있으면 우선 사용, 없으면 accessToken 존재 여부로 판단
   const isAuthenticated = !!accessToken;
 
