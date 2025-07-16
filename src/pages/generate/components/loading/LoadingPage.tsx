@@ -5,7 +5,7 @@ import {
   useStackData,
   useLikeStackMutation,
   useHateStackMutation,
-} from '../../hooks/generate';
+} from '../../hooks/useGenerate';
 import LikeButton from '@/shared/components/button/likeButton/LikeButton';
 import DislikeButton from '@/shared/components/button/likeButton/DislikeButton';
 

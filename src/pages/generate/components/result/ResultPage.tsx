@@ -7,7 +7,7 @@ import {
   useFurnitureLogMutation,
   usePreferenceMutation,
   useCreditLogMutation,
-} from '../../hooks/generate';
+} from '../../hooks/useGenerate';
 import type { GenerateTypes } from '../../types/GenerateType';
 import LikeButton from '@/shared/components/button/likeButton/LikeButton';
 import DislikeButton from '@/shared/components/button/likeButton/DislikeButton';
