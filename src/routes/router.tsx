@@ -15,11 +15,15 @@ import RootLayout from '@/layout/RootLayout';
 import ProtectedRoute from '@/routes/ProtectedRoute';
 import HomePage from '@/pages/home/HomePage';
 import LoginPage from '@/pages/login/LoginPage';
-import SignupPage from '@/pages/signup/Signup';
+import SignupPage from '@/pages/signup/SignupPage';
 import GeneratePage from '@/pages/generate/Generate';
-import MyPage from '@/pages/mypage/MyPage';
 import { ImageGenerationFunnel } from '@/pages/onboarding/ImageGenerationFunnel';
+import MyPage from '@/pages/mypage/MyPage';
+import ResultPage from '@/pages/generate/components/result/ResultPage';
+import LoadingPage from '@/pages/generate/components/loading/LoadingPage';
+import { MOCK_GENERATE_DATA } from '@/pages/generate/constants/resultMockData';
 import KakaoCallback from '@/pages/login/KakaoCallback';
+import SignupCompletePage from '@/pages/signup/SignupCompletePage';
 
 // TODO: Replace with actual auth state management
 const isAuthenticated = false;
@@ -44,21 +48,39 @@ const publicRoutes = [
     path: ROUTES.OAUTH,
     element: <KakaoCallback />,
   },
+  {
+    path: ROUTES.GENERATE,
+    element: <GeneratePage />,
+    children: [
+      {
+        index: true,
+        element: <LoadingPage />,
+      },
+      {
+        path: 'result',
+        element: <ResultPage data={MOCK_GENERATE_DATA} />,
+      },
+    ],
+  },
 ];
 
 // 보호된 라우트 그룹 (인증 필요)
 const protectedRoutes = [
   {
-    path: ROUTES.GENERATE,
-    element: <GeneratePage />,
-  },
-  {
     path: ROUTES.ONBOARDING,
     element: <ImageGenerationFunnel />,
   },
   {
+    path: ROUTES.GENERATE,
+    element: <GeneratePage />,
+  },
+  {
     path: ROUTES.MYPAGE,
     element: <MyPage />,
+  },
+  {
+    path: ROUTES.SIGNUPCOMPLETE,
+    element: <SignupCompletePage />,
   },
 ];
 

@@ -4,9 +4,13 @@ import type {
   RoomSize,
   PrimaryUsage,
   BedType,
-  ClosetType,
   OtherFurnitures,
 } from './options';
+
+interface FloorPlan {
+  floorPlanId: number;
+  isMirror: boolean;
+}
 
 // Funnel Step 정의
 export type ImageGenerateSteps = {
@@ -15,36 +19,33 @@ export type ImageGenerateSteps = {
     roomType?: RoomType;
     roomSize?: RoomSize;
   };
-  HouseStructure: {
+  FloorPlan: {
     houseType: HouseType;
     roomType: RoomType;
     roomSize: RoomSize;
-    selectedHouseStructure?: number[];
+    floorPlan?: FloorPlan;
   };
   InteriorTaste: {
     houseType: HouseType;
     roomType: RoomType;
     roomSize: RoomSize;
-    selectedHouseStructure: number[];
-    selectedInteriorTaste?: number[];
+    floorPlan: FloorPlan;
+    moodBoardIds?: number[];
   };
   MainActivity: {
     houseType: HouseType;
     roomType: RoomType;
     roomSize: RoomSize;
-    selectedHouseStructure: number[];
-    selectedInteriorTaste: number[];
+    floorPlan: FloorPlan;
+    moodBoardIds: number[];
     primaryUsage?: PrimaryUsage;
     bedType?: BedType;
-    closetType?: ClosetType;
     otherFurnitures?: OtherFurnitures[];
   };
 };
 
 export type CompletedHouseInfo = Required<ImageGenerateSteps['HouseInfo']>;
-export type CompletedHouseStructure = Required<
-  ImageGenerateSteps['HouseStructure']
->;
+export type CompletedFloorPlan = Required<ImageGenerateSteps['FloorPlan']>;
 export type CompletedInteriorTaste = Required<
   ImageGenerateSteps['InteriorTaste']
 >;

@@ -1,27 +1,29 @@
-import { useState } from 'react';
-import LikeIcon from '@assets/icons/likeIcon.svg?react';
+import LikeIconGray from '@assets/icons/likeGray.svg?react';
+import LikeIconColor from '@assets/icons/likeColor.svg?react';
 import * as styles from './LikeButton.css';
 interface LikeButtonProps extends React.ComponentProps<'button'> {
   children: React.ReactNode;
+  size?: 'small' | 'large';
+  isSelected?: boolean;
 }
 
-const LikeButton = ({ children, ...props }: LikeButtonProps) => {
-  const [isSelected, setIsSelected] = useState(false);
-
-  const handleClick = () => {
-    setIsSelected((prev) => !prev);
-  };
-
+const LikeButton = ({
+  children,
+  size = 'small',
+  isSelected = false,
+  ...props
+}: LikeButtonProps) => {
   return (
     <button
       type="button"
-      onClick={handleClick}
+      aria-pressed={isSelected}
       className={styles.likeButton({
-        selected: isSelected ? true : false,
+        selected: isSelected,
+        size,
       })}
       {...props}
     >
-      <LikeIcon />
+      {isSelected ? <LikeIconColor /> : <LikeIconGray />}
       {children}
     </button>
   );

@@ -1,14 +1,18 @@
-import * as styles from '../step1/Step1HouseInfo.css';
+import * as styles from '../StepCommon.css';
+import MainTitle from '../title/Maintitle';
 import ShowErrorMessage from '@/shared/components/button/showErrorButton/ShowErrorButton';
 import LargeFilled from '@/shared/components/button/largeFilledButton/LargeFilledButton';
 
 interface Option<T = string> {
-  value: T;
+  code: T;
   label: string;
 }
 
 interface OptionGroupProps<T = string> {
   title: string; // '주거 형태', '구조', '평형' 등
+  body?: string;
+  subtitle?: string;
+  caption?: string;
   options: Option<T>[]; // '오피스텔', '빌라/다세대', '아파트', '그 외' 등
   selected?: T; // 사용자가 선택한 옵션
   onButtonClick: (value: T) => void;
@@ -19,21 +23,22 @@ interface OptionGroupProps<T = string> {
 // -> OptionGroup 호출부에서 value 사용 시 타입 단언(as) 사용 방지
 const OptionGroup = <T = string,>({
   title,
+  body,
   options,
   selected,
   onButtonClick,
   error,
 }: OptionGroupProps<T>) => {
   return (
-    <div className={styles.selectBox}>
-      <span className={styles.title}>{title}</span>
+    <div className={styles.optionGroupWrapper}>
+      <MainTitle title={title} body={body} />
       <div className={styles.buttonBox}>
         {options.map((option) => (
           <LargeFilled
-            key={String(option.value)}
+            key={String(option.code)}
             isActive={true}
-            isSelected={selected === option.value}
-            onClick={() => onButtonClick(option.value)}
+            isSelected={selected === option.code}
+            onClick={() => onButtonClick(option.code)}
           >
             {option.label}
           </LargeFilled>
