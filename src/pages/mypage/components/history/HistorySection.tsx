@@ -8,7 +8,7 @@ type HistorySectionProps = {
   title?: string;
 };
 
-const HistorySection = ({ hasImage }: HistorySectionProps) => {
+const HistorySection = ({ hasImage = true }: HistorySectionProps) => {
   return (
     <section className={styles.container}>
       <p className={styles.title}>이미지 생성 히스토리</p>
