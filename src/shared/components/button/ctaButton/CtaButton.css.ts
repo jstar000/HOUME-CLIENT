@@ -1,18 +1,22 @@
 import { recipe } from '@vanilla-extract/recipes';
 import { colorVars } from '@styles/tokens/color.css';
+import { style } from '@vanilla-extract/css';
 import { fontStyle } from '@/shared/styles/fontStyle';
+
+export const buttonWrapper = style({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: '100%',
+});
 
 export const CtaButton = recipe({
   base: {
-    display: 'flex',
-    justifyContent: 'center',
     width: '100%',
     minWidth: '12.1rem',
-    maxWidth: '33.5rem',
     height: '5.6rem',
     padding: '1.7rem 0',
     textAlign: 'center',
-    alignItems: 'center',
     gap: '0.8rem',
     borderRadius: '99.9rem',
     ...fontStyle('title_m_16'),

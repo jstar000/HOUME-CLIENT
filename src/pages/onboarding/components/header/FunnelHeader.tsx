@@ -6,17 +6,36 @@ interface FunnelHeaderProps {
   title: string;
   detail: string;
   currentStep: ProgressStep;
+  image: string;
+  size?: 'short' | 'long';
 }
 
-const FunnelHeader = ({ title, detail, currentStep }: FunnelHeaderProps) => {
+const FunnelHeader = ({
+  title,
+  detail,
+  currentStep,
+  image,
+  size = 'long',
+}: FunnelHeaderProps) => {
   return (
-    <header className={styles.wrapper}>
-      <div>
-        <ProgressBarKey currentStep={currentStep} />
-      </div>
-      <div className={styles.textWrapper}>
-        <span className={styles.title}>{title}</span>
-        <span className={styles.detail}>{detail}</span>
+    <header
+      className={styles.wrapper({
+        size: size,
+      })}
+    >
+      <div className={styles.container}>
+        <div>
+          <div className={styles.progressWrapper}>
+            <ProgressBarKey currentStep={currentStep} />
+          </div>
+          <div className={styles.textWrapper}>
+            <span className={styles.title}>{title}</span>
+            <span className={styles.detail}>{detail}</span>
+          </div>
+        </div>
+        <div className={styles.imgWrapper}>
+          <img src={image} alt="헤더 이미지" />
+        </div>
       </div>
     </header>
   );

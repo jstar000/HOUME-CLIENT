@@ -25,7 +25,7 @@ import '@styles/fontFace.css';
  */
 export const layoutVars = createGlobalTheme(':root', {
   minWidth: '375px',
-  maxWidth: '430px',
+  maxWidth: '440px',
   height: '100dvh',
 });
 
