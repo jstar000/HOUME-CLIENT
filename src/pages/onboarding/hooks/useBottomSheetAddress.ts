@@ -1,10 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
 import { postAddress } from '../apis/BottomSheetAddress';
-import type { BottomSheetAddressResponse } from '../types/apis/bottomSheetAddress.types';
+import type { BottomSheetAddressRequest } from '../types/apis/bottomSheetAddress.types';
 
 export const useBottomSheetAddress = () => {
   return useMutation({
-    mutationFn: (body: BottomSheetAddressResponse) => postAddress(body),
+    mutationFn: (body: BottomSheetAddressRequest) => postAddress(body),
     onSuccess: () => {
       console.log('주소 등록 성공!');
     },
