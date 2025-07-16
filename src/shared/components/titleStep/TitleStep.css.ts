@@ -11,10 +11,10 @@ export const wrapper = style({
 });
 
 export const stepLabelBox = style({
-  display: 'flex',
+  display: '5.6rem',
   height: '2.8rem',
   padding: '0 1.6rem',
-  justifyContent: 'center',
+  justifyContent: 'space-between',
   alignItems: 'center',
   borderRadius: '0.4rem',
   backgroundColor: colorVars.color.primary_light2,

@@ -4,9 +4,16 @@ import * as styles from './SmallFilledButton.css';
 
 interface SmallFilledProps extends React.ComponentProps<'button'> {
   children: React.ReactNode;
+  isSelected: boolean;
+  onClick: () => void;
 }
 
-const SmallFilled = ({ children, ...props }: SmallFilledProps) => {
+const SmallFilled = ({
+  children,
+  isSelected,
+  onClick,
+  ...props
+}: SmallFilledProps) => {
   const [isClicked, setIsClicked] = useState(false);
 
   const handleClick = () => {
