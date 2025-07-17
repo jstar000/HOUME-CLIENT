@@ -9,16 +9,12 @@ import {
   usePreferenceMutation,
   useCreditLogMutation,
 } from '../../hooks/useGenerate';
-// import type { GenerateTypes } from '../../types/GenerateType';
 import type { GenerateImageData } from '../../types/GenerateType';
 import LikeButton from '@/shared/components/button/likeButton/LikeButton';
 import DislikeButton from '@/shared/components/button/likeButton/DislikeButton';
 import HeadingText from '@/shared/components/text/HeadingText';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 import Modal from '@/shared/components/overlay/modal/Modal';
-// interface ResultPageProps {
-//   mockData: GenerateTypes;
-// }
 
 const ResultPage = () => {
   const location = useLocation();

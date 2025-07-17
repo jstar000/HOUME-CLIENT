@@ -5,8 +5,7 @@ import { colorVars } from '@/shared/styles/tokens/color.css';
 export const container = style({
   display: 'flex',
   flexDirection: 'column',
-  // gap: '0.8rem',
-  width: '33.5rem',
+  width: '100%',
   textAlign: 'left',
   ...fontStyle('title_m_16'),
 });

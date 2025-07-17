@@ -4,7 +4,7 @@ import { colorVars } from '@/shared/styles/tokens/color.css';
 
 export const container = style({
   display: 'flex',
-  width: '33.5rem',
+  width: '100%',
   minWidth: '33.5rem',
   minHeight: '33.2rem',
   flexDirection: 'column',
@@ -15,7 +15,8 @@ export const container = style({
 });
 
 export const imgbox = style({
-  width: '33.5rem',
+  width: '100%',
+  minWidth: '33.5rem',
   height: '22rem',
   overflow: 'hidden',
 });
