@@ -16,6 +16,7 @@ import DislikeButton from '@/shared/components/button/likeButton/DislikeButton';
 import HeadingText from '@/shared/components/text/HeadingText';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 import Modal from '@/shared/components/overlay/modal/Modal';
+import Loading from '@/shared/components/loading/Loading';
 
 const ResultPage = () => {
   const location = useLocation();
@@ -46,7 +47,7 @@ const ResultPage = () => {
 
   // 로딩 중이면 로딩 표시
   if (!result && isLoading) {
-    return <div>로딩 중...</div>;
+    return <Loading text="결과를 불러오는 중..." />;
   }
 
   // 여전히 데이터가 없으면 홈으로 리다이렉션
