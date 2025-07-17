@@ -3,17 +3,29 @@ import IntroSection from './components/introSection/IntroSection';
 import StepGuideSection from './components/stepGuideSection/StepGuideSection';
 import ReviewSection from './components/reviewSection/ReviewSection';
 import * as styles from './HomePage.css';
+import { useLandingData } from './hooks/useLanding';
+import TokenRefreshTest from '../login/components/TokenRefreshTest';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
-
-const isLoggedIn = false;
+import { useUserStore } from '@/store/useUserStore';
 
 const HomePage = () => {
+  const { data: hasHistory, isLoading, isError } = useLandingData();
+
+  const accessToken = useUserStore((state) => state.accessToken);
+  // 인증 여부: prop이 있으면 우선 사용, 없으면 accessToken 존재 여부로 판단
+  const isAuthenticated = !!accessToken;
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error</div>;
+  console.log(hasHistory);
+
   return (
     <main className={styles.page}>
       <div className={styles.gradFrame}>
-        <LogoNavBar buttonType={isLoggedIn ? 'profile' : 'login'} />
+        <LogoNavBar buttonType={isAuthenticated ? 'profile' : 'login'} />
         <div className={styles.introSection}>
           <IntroSection />
+          <TokenRefreshTest />
         </div>
       </div>
       <div className={styles.contents}>

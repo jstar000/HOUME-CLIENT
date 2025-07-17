@@ -4,6 +4,8 @@ import emptyImage from '@/shared/assets/images/emptyImage.png';
 
 type HistorySectionProps = {
   hasImage?: boolean;
+  imageUrl?: string;
+  title?: string;
 };
 
 const HistorySection = ({ hasImage = true }: HistorySectionProps) => {

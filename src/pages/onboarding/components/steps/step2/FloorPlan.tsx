@@ -8,6 +8,7 @@ import NoMatchButton from '@/shared/components/button/noMatchButton/NoMatchButto
 import NoMatchSheet from '@/shared/components/bottomSheet/noMatchSheet/NoMatchSheet';
 import FlipSheet from '@/shared/components/bottomSheet/flipSheet/FlipSheet';
 import { useToast } from '@/shared/components/toast/useToast';
+import { useBottomSheetAddress } from '@/pages/onboarding/hooks/useBottomSheetAddress';
 
 interface FloorPlanProps {
   onFloorPlanSelect: (selectedFloorPlan: {
@@ -30,10 +31,12 @@ const FloorPlan = ({ onFloorPlanSelect, floorPlanList }: FloorPlanProps) => {
       : floorPlanList.find((item) => item.id === selectedId);
 
   const { notify } = useToast();
+  const { mutate: postAddress } = useBottomSheetAddress();
 
   // toast를 NoMatchSheet의 상위 컴포넌트인 FloorPlan에서 호출해야
   // toast의 option에 준 autoClose가 정상적으로 적용됨
-  const handleAddressSubmit = () => {
+  const handleAddressSubmit = (region: string, address: string) => {
+    postAddress({ sigungu: region, roadName: address });
     handleCloseSheet();
     notify({
       text: '주소가 성공적으로 제출되었어요',
