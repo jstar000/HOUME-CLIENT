@@ -12,6 +12,7 @@ import type { GenerateImageRequest } from '../../types/GenerateType';
 import LikeButton from '@/shared/components/button/likeButton/LikeButton';
 import DislikeButton from '@/shared/components/button/likeButton/DislikeButton';
 import { ROUTES } from '@/routes/paths';
+import Loading from '@/shared/components/loading/Loading';
 
 const LoadingPage = () => {
   // 이미지 생성 api 코드 ...
@@ -58,7 +59,7 @@ const LoadingPage = () => {
     setCurrentIndex(0);
   }, [currentImages]);
 
-  if (isLoading) return <div>로딩중</div>;
+  if (isLoading) return <Loading text="로딩중" />;
   if (isError || !currentImages) return <div>에러 발생!</div>;
 
   const currentImage = currentImages[currentIndex];
