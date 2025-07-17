@@ -133,19 +133,3 @@ globalStyle('img', {
   // 이미지 하이라이트 방지
   WebkitTapHighlightColor: 'transparent',
 });
-
-globalStyle(
-  'a[href*="lottielab"], a[href*="Made with Lottielab"], a[href*="Made with LottieLab"]',
-  {
-    display: 'none',
-    visibility: 'hidden',
-    opacity: 0,
-    position: 'absolute',
-    top: -9999,
-    left: -9999,
-  }
-);
-
-globalStyle('svg a', {
-  display: 'none',
-});
