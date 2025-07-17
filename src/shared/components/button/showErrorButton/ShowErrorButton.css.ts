@@ -8,6 +8,7 @@ export const messageWrapper = style({
   alignItems: 'flex-start',
   gap: '1rem',
   width: '100%',
+  marginTop: '0.4rem',
 });
 
 export const messageText = style({

@@ -9,6 +9,10 @@ export const container = style({
   width: '100%',
 });
 
+export const margin = style({
+  marginTop: '1.6rem',
+});
+
 // step1
 export const wrapper = style({
   display: 'flex',
@@ -21,7 +25,6 @@ export const wrapper = style({
 export const optionGroupWrapper = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '1.6rem',
 });
 
 // step4의 '가구'를 감싸는 wrapper
@@ -72,6 +75,16 @@ export const subtitle = style({
 export const caption = style({
   ...fontStyle('caption_r_12'),
   color: colorVars.color.gray500,
+});
+
+export const count = style({
+  ...fontStyle('caption_m_12'),
+  color: colorVars.color.gray900,
+  padding: '0 0.1rem',
+});
+
+export const slash = style({
+  paddingRight: '0.1rem',
 });
 
 export const buttonBox = style({
