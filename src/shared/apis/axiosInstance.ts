@@ -1,5 +1,4 @@
 import axios, { AxiosError } from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { ERROR_CODES } from '../constants/apiErrorCode';
 import type { AxiosRequestConfig } from 'axios';
 import type { BaseResponse } from '../types/apis';
