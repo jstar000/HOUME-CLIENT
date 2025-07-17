@@ -65,7 +65,7 @@ const ResultPage = () => {
         <HeadingText title="이미지 생성이 완료됐어요!" content="" />
         <div className={styles.infoSection}>
           <p className={styles.infoText}>
-            {`${result.equilibrium}평에 거주하며 ${result.tagName}한 취향을 가진\n${result.name}님을 위한 맞춤 인테리어 스타일링이에요!`}
+            {`${result.equilibrium}에 거주하며 ${result.tagName}한 취향을 가진\n${result.name}님을 위한 맞춤 인테리어 스타일링이에요!`}
           </p>
         </div>
       </section>

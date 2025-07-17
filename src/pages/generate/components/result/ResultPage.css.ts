@@ -15,8 +15,7 @@ export const wrapper = style({
 export const headerSection = style({
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
+  alignItems: 'flex-start',
   gap: '2.4rem',
   padding: '1.6rem 2rem 0 2rem',
   marginBottom: '1.2rem',
@@ -27,7 +26,7 @@ export const infoSection = style({
   backgroundColor: colorVars.color.primary_light3,
   padding: '1.2rem 1.6rem',
   borderRadius: '12px',
-  width: '33.5rem',
+  width: '100%',
 });
 
 export const infoText = style({
@@ -39,15 +38,18 @@ export const infoText = style({
 export const resultSection = style({
   display: 'flex',
   flexDirection: 'column',
+  alignItems: 'center',
   gap: '2.4rem',
   marginBottom: '2.4rem',
+  width: '100%',
+  padding: '0 2rem 0 2rem',
 });
 
 export const imgArea = style({
-  width: '33.5rem',
+  width: '100%',
   height: '22rem',
   borderRadius: '16px',
-  objectFit: 'cover', // 비율 유지하며 영역 완전히 채움(이미지 잘릴 수 있음)
+  objectFit: 'cover', // 비율 유지하며 영역 완전히 채움
   objectPosition: 'center', // 이미지 중앙 부분 표시
 });
 
