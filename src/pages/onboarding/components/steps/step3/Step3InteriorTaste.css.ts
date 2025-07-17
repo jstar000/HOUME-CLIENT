@@ -19,6 +19,7 @@ export const buttonWrapper = style({
   justifyContent: 'center',
   zIndex: zIndex.button,
   padding: '0 2rem 0 2rem',
-  left: '50%',
-  transform: 'translateX(-50%)', // 중앙 정렬을 위한 추가
+  left: 0,
+  right: 0,
+  margin: '0 auto',
 });
