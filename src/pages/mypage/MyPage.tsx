@@ -4,6 +4,7 @@ import SettingSection from './components/setting/SettingSection';
 import * as styles from './MyPage.css';
 import { useMyPageUser } from './hooks/useMyPage';
 import TitleNavBar from '@/shared/components/navBar/TitleNavBar';
+import Loading from '@/shared/components/loading/Loading';
 
 const MyPage = () => {
   const {
@@ -15,10 +16,12 @@ const MyPage = () => {
   // 로딩 상태 처리
   if (isUserLoading) {
     return (
-      <div className={styles.contentWrapper}>
-        <TitleNavBar title="마이페이지" isBackIcon isLoginBtn={false} />
-        <div>사용자 정보를 불러오는 중...</div>
-      </div>
+      <>
+        <div className={styles.contentWrapper}>
+          <TitleNavBar title="마이페이지" isBackIcon isLoginBtn={false} />
+        </div>
+        <Loading text="사용자 정보를 불러오는 중..." />
+      </>
     );
   }
 
@@ -37,10 +40,10 @@ const MyPage = () => {
       <TitleNavBar title="마이페이지" isBackIcon isLoginBtn={false} />
       <ProfileSection
         userName={userData.name}
-        credit={userData.CreditCount}
+        credit={userData.creditCount}
         isChargeDisabled={false}
       />
-      <HistorySection hasImage={hasImage} />
+      <HistorySection />
       <SettingSection />
     </div>
   );

@@ -16,6 +16,7 @@ import {
 } from '@/pages/onboarding/types/apis/moodBoard';
 import { useMoodBoardImage } from '@/pages/onboarding/hooks/useStep3Api.hooks';
 import CardImage from '@/shared/components/card/cardImage/CardImage';
+import Loading from '@/shared/components/loading/Loading';
 
 interface MoodBoardProps {
   selectedImages: number[];
@@ -40,7 +41,7 @@ const MoodBoard = ({ selectedImages, onImageSelect }: MoodBoardProps) => {
   );
 
   // 로딩/에러 처리
-  if (isPending) return <div>이미지 불러오는 중...</div>;
+  if (isPending) return <Loading text="이미지 불러오는 중..." />;
   if (isError) return <div>이미지 불러오기 실패</div>;
 
   // 받아온 이미지 데이터

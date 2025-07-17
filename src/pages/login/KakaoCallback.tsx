@@ -15,6 +15,7 @@
  */
 import { useEffect } from 'react';
 import { useKakaoLogin } from './hooks/useKakaoLogin';
+import Loading from '@/shared/components/loading/Loading';
 
 const KakaoCallback = () => {
   // Tanstack Query - useKakaoLogin 훅 호출
@@ -35,7 +36,7 @@ const KakaoCallback = () => {
   }, [kakaoLogin]);
 
   if (isPending) {
-    return <div>카카오 로그인 처리 중...</div>;
+    return <Loading text="카카오 로그인 처리 중..." />;
   }
 
   if (isError) {
@@ -51,7 +52,7 @@ const KakaoCallback = () => {
     );
   }
 
-  return <div>로그인 중...</div>;
+  return <Loading text="로그인 중..." />;
 };
 
 export default KakaoCallback;

@@ -3,6 +3,7 @@ import * as styles from './HistorySection.css';
 import { useMyPageImages } from '../../hooks/useMyPage';
 import CardHistory from '@/shared/components/card/cardHistory/CardHistory';
 import emptyImage from '@/shared/assets/images/emptyImage.png';
+import Loading from '@/shared/components/loading/Loading';
 
 const HistorySection = () => {
   const navigate = useNavigate();
@@ -19,10 +20,12 @@ const HistorySection = () => {
   // 로딩 상태
   if (isLoading) {
     return (
-      <section className={styles.container}>
-        <p className={styles.title}>이미지 생성 히스토리</p>
-        <div>히스토리를 불러오는 중...</div>
-      </section>
+      <>
+        <section className={styles.container}>
+          <p className={styles.title}>이미지 생성 히스토리</p>
+        </section>
+        <Loading text="히스토리를 불러오는 중..." />
+      </>
     );
   }
 
