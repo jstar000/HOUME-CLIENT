@@ -8,6 +8,7 @@ import {
 import { useFunnelStore } from '../stores/useFunnelStore';
 import type { GenerateImageRequest } from '@/pages/generate/types/GenerateType';
 import { ROUTES } from '@/routes/paths';
+import { useCreditGuard } from '@/shared/hooks/useCreditGuard';
 
 // 타입 가드 함수(타입 단언 사용 X)
 // 유효한 '주요활동' 카테고리 내의 값인지 체크
@@ -33,6 +34,9 @@ export const useStep4MainActivity = (
 
   // Zustand store에서 상태 가져오기
   const { step4, setStep4Data, setCurrentStep } = useFunnelStore();
+
+  // 크레딧 가드 훅 (이미지 생성 시 1크레딧 필요)
+  const { checkCredit } = useCreditGuard(1);
 
   useEffect(() => {
     setCurrentStep(4);
@@ -131,10 +135,17 @@ export const useStep4MainActivity = (
     localFormData.otherFurnitureIds.length > 0
   );
 
-  const handleOnClick = () => {
+  const handleOnClick = async () => {
     // 타입 단언(as) 대신 사용
     if (!localFormData.primaryUsage || !localFormData.bedTypeId) {
       console.error('필수 필드가 누락되었습니다');
+      return;
+    }
+
+    // 이미지 생성 전 크레딧 확인
+    const hasCredit = await checkCredit();
+    if (!hasCredit) {
+      console.log('크레딧이 부족하여 이미지 생성을 중단합니다');
       return;
     }
 
