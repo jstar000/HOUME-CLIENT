@@ -49,6 +49,7 @@ export const buttonGroup = style({
 
 export const radioButtonLabel = style({
   display: 'inline-block',
+  width: '100%',
 });
 
 export const radioButton = style({
