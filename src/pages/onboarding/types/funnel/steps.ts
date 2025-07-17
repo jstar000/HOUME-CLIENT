@@ -1,50 +1,48 @@
-import type {
-  HouseType,
-  RoomType,
-  RoomSize,
-  PrimaryUsage,
-  BedType,
-  ClosetType,
-  OtherFurnitures,
-} from './options';
+import type { HouseType, RoomType, AreaType, PrimaryUsage } from './options';
+
+interface FloorPlan {
+  floorPlanId: number;
+  isMirror: boolean;
+}
 
 // Funnel Step 정의
 export type ImageGenerateSteps = {
   HouseInfo: {
     houseType?: HouseType;
     roomType?: RoomType;
-    roomSize?: RoomSize;
+    areaType?: AreaType;
+    houseId?: number;
   };
-  HouseStructure: {
+  FloorPlan: {
     houseType: HouseType;
     roomType: RoomType;
-    roomSize: RoomSize;
-    selectedHouseStructure?: number[];
+    areaType: AreaType;
+    houseId: number;
+    floorPlan?: FloorPlan;
   };
   InteriorTaste: {
     houseType: HouseType;
     roomType: RoomType;
-    roomSize: RoomSize;
-    selectedHouseStructure: number[];
-    selectedInteriorTaste?: number[];
+    areaType: AreaType;
+    houseId: number;
+    floorPlan: FloorPlan;
+    moodBoardIds?: number[];
   };
   MainActivity: {
     houseType: HouseType;
     roomType: RoomType;
-    roomSize: RoomSize;
-    selectedHouseStructure: number[];
-    selectedInteriorTaste: number[];
+    areaType: AreaType;
+    houseId: number;
+    floorPlan: FloorPlan;
+    moodBoardIds: number[];
     primaryUsage?: PrimaryUsage;
-    bedType?: BedType;
-    closetType?: ClosetType;
-    otherFurnitures?: OtherFurnitures[];
+    bedTypeId?: number;
+    otherFurnitureIds?: number[];
   };
 };
 
 export type CompletedHouseInfo = Required<ImageGenerateSteps['HouseInfo']>;
-export type CompletedHouseStructure = Required<
-  ImageGenerateSteps['HouseStructure']
->;
+export type CompletedFloorPlan = Required<ImageGenerateSteps['FloorPlan']>;
 export type CompletedInteriorTaste = Required<
   ImageGenerateSteps['InteriorTaste']
 >;

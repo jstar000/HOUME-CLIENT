@@ -7,13 +7,17 @@ interface ChargeButtonProps extends React.ComponentProps<'button'> {
 const ChargeButton = ({
   children,
   isActive = true,
+  disabled = false,
   ...props
 }: ChargeButtonProps) => {
+  const isDisabled = disabled || !isActive;
+
   return (
     <button
       type="button"
+      disabled={isDisabled}
       className={styles.chargeButton({
-        state: isActive ? 'active' : 'disabled',
+        state: isDisabled ? 'disabled' : 'active',
       })}
       {...props}
     >

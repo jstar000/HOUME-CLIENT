@@ -1,10 +1,30 @@
+import { useState } from 'react';
 import ChargeButton from '@components/button/chargeButton/ChargeButton';
 import * as styles from './CreditBox.css';
+import { useToast } from '../toast/useToast';
 
 interface CreditBoxProps {
   credit: number;
+  disabled?: boolean;
 }
-const CreditBox = ({ credit }: CreditBoxProps) => {
+const CreditBox = ({ credit, disabled = false }: CreditBoxProps) => {
+  const { notify } = useToast();
+  const [isChargeDisabled, setIsChargeDisabled] = useState(false);
+
+  const handleChargeClick = () => {
+    if (isChargeDisabled || disabled) return; // 추가 가드 조건
+
+    setIsChargeDisabled(true); // 먼저 비활성화
+
+    notify({
+      text: '결제는 아직 준비 중인 기능이에요',
+      type: 'warning',
+      options: {
+        style: { marginBottom: '2rem' },
+      },
+    });
+  };
+
   return (
     <div className={styles.boxWrapper}>
       <div className={styles.textContainer}>
@@ -15,7 +35,13 @@ const CreditBox = ({ credit }: CreditBoxProps) => {
           {credit}
         </span>
       </div>
-      <ChargeButton>충전하기</ChargeButton>
+      <ChargeButton
+        disabled={disabled || isChargeDisabled}
+        onClick={handleChargeClick}
+        isActive={!isChargeDisabled}
+      >
+        충전하기
+      </ChargeButton>
     </div>
   );
 };

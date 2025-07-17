@@ -32,11 +32,13 @@
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.0",
     "lint-staged": "^16.1.2",
+    "lottie-react": "^2.4.1",
     "overlay-kit": "^1.8.4",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.3",
-    "react-toastify": "^11.0.5"
+    "react-toastify": "^11.0.5",
+    "zustand": "^5.0.6"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.0.1",

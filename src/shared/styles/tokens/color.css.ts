@@ -24,7 +24,8 @@ export const colorVars = createGlobalTheme(':root', {
     primary_light2: '#E8E3FC',
     primary_light3: '#EFEDFD',
     primary_dark: '#5000B8',
-    bg_grad: 'linear-gradient(180deg, #DDD6FF 0%, #FFF 50%, #FFF 100%)',
+    bg_grad:
+      'linear-gradient(180deg, #A696FF -15.93%, #DDD6FF 7.25%, #FFF 42.03%, #FFF 100%)',
 
     // Feedback
     error: '#FF0000',
