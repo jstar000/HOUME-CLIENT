@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import BlurImage from '@assets/icons/recommendBlur.svg?react';
 import LockImage from '@assets/icons/recommendCta.png';
 import { overlay } from 'overlay-kit';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import * as styles from './ResultPage.css';
 import {
   useFurnitureLogMutation,
@@ -22,6 +22,7 @@ import Modal from '@/shared/components/overlay/modal/Modal';
 
 const ResultPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   // TODO: result를 어디에서 받아오는지 추적이 힘듦, 수정 필요
   const { result } = location.state as { result: GenerateImageData };
 
@@ -29,6 +30,19 @@ const ResultPage = () => {
   const { mutate: sendPreference } = usePreferenceMutation(result.imageId);
   const { mutate: sendFurnituresLogs } = useFurnitureLogMutation();
   const { mutate: sendCreditLogs } = useCreditLogMutation();
+
+  // 뒤로가기 시 랜딩페이지로 이동하도록 설정
+  useEffect(() => {
+    const handlePopState = () => {
+      navigate('/', { replace: true });
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [navigate]);
 
   const handleVote = (isLike: boolean) => {
     setSelected(isLike ? 'like' : 'dislike');
