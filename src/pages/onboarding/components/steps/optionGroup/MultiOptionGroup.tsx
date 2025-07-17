@@ -1,4 +1,5 @@
 import * as styles from '../StepCommon.css';
+import Subtitle from '../subtitle/Subtitle';
 import ShowErrorMessage from '@/shared/components/button/showErrorButton/ShowErrorButton';
 import LargeFilled from '@/shared/components/button/largeFilledButton/LargeFilledButton';
 import Caption from '@/shared/components/text/Caption';
@@ -10,11 +11,10 @@ interface MultiSubOption<T = string> {
 }
 
 interface MultiOptionGroupProps<T = string> {
-  subtitle: string;
-  caption?: string;
   options: MultiSubOption<T>[];
   selected?: (T | number)[];
   onButtonClick: (value: (T | number)[]) => void;
+  selectedCount?: number;
   maxSelect?: number;
   isAlertPresented?: boolean;
   error?: string;
@@ -25,11 +25,10 @@ interface MultiOptionGroupProps<T = string> {
 }
 
 const MultiOptionGroup = <T = string,>({
-  subtitle,
-  caption,
   options,
   selected = [],
   onButtonClick,
+  selectedCount,
   maxSelect,
   isAlertPresented = false,
   error,
@@ -62,10 +61,11 @@ const MultiOptionGroup = <T = string,>({
 
   return (
     <div className={styles.subOptionGroupWrapper}>
-      <div className={styles.subTextBox}>
-        <span className={styles.subtitle}>{subtitle}</span>
-        <span className={styles.caption}>{caption}</span>
-      </div>
+      <Subtitle
+        subtitle="주요 가구"
+        count={selectedCount}
+        maxCount={maxSelect}
+      />
 
       {isAlertPresented &&
         currentActivityLabel &&

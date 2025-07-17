@@ -9,6 +9,10 @@ export const container = style({
   width: '100%',
 });
 
+export const margin = style({
+  marginTop: '1.6rem',
+});
+
 // step1
 export const wrapper = style({
   display: 'flex',
@@ -72,9 +76,18 @@ export const caption = style({
   color: colorVars.color.gray500,
 });
 
+export const count = style({
+  ...fontStyle('caption_m_12'),
+  color: colorVars.color.gray900,
+  padding: '0 0.1rem',
+});
+
+export const slash = style({
+  paddingRight: '0.1rem',
+});
+
 export const buttonBox = style({
   display: 'grid',
   gridTemplateColumns: '1fr 1fr',
   gap: '0.7rem',
-  marginTop: '1.6rem',
 });

@@ -176,6 +176,7 @@ export const useStep4MainActivity = (
     formData: localFormData,
     setFormData: updateFormData,
     // errors,
+    localFormData,
     isFormCompleted,
     isRequiredFurniture,
     getCurrentActivityLabel,

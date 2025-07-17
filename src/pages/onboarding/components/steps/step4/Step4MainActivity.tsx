@@ -23,6 +23,7 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
     setFormData,
     // errors,
     isFormCompleted,
+    localFormData,
     isRequiredFurniture,
     getCurrentActivityLabel,
     getRequiredFurnitureLabels,
@@ -78,10 +79,9 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
           />
 
           <MultiOptionGroup<string>
-            subtitle="기타 가구"
-            caption="(최대 4개 선택)"
             options={otherFurnituresOptions}
             selected={formData.otherFurnitureIds}
+            selectedCount={localFormData.otherFurnitureIds.length}
             onButtonClick={(value) =>
               setFormData((prev: typeof formData) => ({
                 ...prev,
@@ -92,8 +92,8 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
             isAlertPresented={true}
             // error={errors.otherFurnitures}
             isRequiredFurniture={isRequiredFurniture}
-            currentActivityLabel={getCurrentActivityLabel()} // 추가!
-            requiredFurnitureLabels={getRequiredFurnitureLabels()} // 추가!
+            currentActivityLabel={getCurrentActivityLabel()}
+            requiredFurnitureLabels={getRequiredFurnitureLabels()}
             useId={true}
           />
         </div>

@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import * as styles from '../StepCommon.css';
 import MainTitle from '../title/Maintitle';
 import ShowErrorMessage from '@/shared/components/button/showErrorButton/ShowErrorButton';
@@ -32,7 +33,7 @@ const OptionGroup = <T = string,>({
   return (
     <div className={styles.optionGroupWrapper}>
       <MainTitle title={title} body={body} />
-      <div className={styles.buttonBox}>
+      <div className={clsx(styles.buttonBox, styles.margin)}>
         {options.map((option) => (
           <LargeFilled
             key={String(option.code)}
