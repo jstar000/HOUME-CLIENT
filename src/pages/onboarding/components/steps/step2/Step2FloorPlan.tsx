@@ -45,11 +45,6 @@ const Step2FloorPlan = ({ context, onNext }: Step2FloorPlanProps) => {
     return <Loading text="Floor Plan 데이터를 불러오는 중..." />;
   }
 
-  // 에러 상태 처리
-  if (isError) {
-    return null;
-  }
-
   // 데이터가 없는 경우
   if (!floorPlanList || floorPlanList.length === 0) {
     return (

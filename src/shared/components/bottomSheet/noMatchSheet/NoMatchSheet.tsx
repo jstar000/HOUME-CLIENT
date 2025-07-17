@@ -5,12 +5,12 @@ import TextField from '@components/textField/TextField';
 import CtaButton from '@components/button/ctaButton/CtaButton';
 import * as styles from './NoMatchSheet.css';
 import { useBottomSheetDrag } from '@/shared/hooks/useBottomSheetDrag';
+import { useUserStore } from '@/store/useUserStore';
 
 interface NoMatchSheetProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (region: string, address: string) => void;
-  user?: string;
   onExited?: () => void; // 애니메이션 끝나면 호출(unmount)
 }
 
@@ -18,10 +18,10 @@ const NoMatchSheet = ({
   isOpen,
   onClose,
   onSubmit,
-  user,
   onExited,
 }: NoMatchSheetProps) => {
-  const displayName = user?.trim() || '사용자';
+  // zustand에서 userName 가져오기
+  const userName = useUserStore((state) => state.userName);
 
   const [region, setRegion] = useState('');
   const [address, setAddress] = useState('');
@@ -71,7 +71,8 @@ const NoMatchSheet = ({
             </span>
             <span className={styles.descriptionText}>
               아래 버튼을 통해 주소를 공유해주시면, <br />
-              {displayName}님의 스타일링을 위해 빠르게 반영해드릴게요!
+              {userName ? `${userName}님의` : '사용자님의'} 스타일링을 위해
+              빠르게 반영해드릴게요!
             </span>
           </div>
           <div className={styles.fieldWrapper}>
