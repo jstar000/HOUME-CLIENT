@@ -68,7 +68,7 @@ const MyPage = () => {
       <TitleNavBar title="마이페이지" isBackIcon isLoginBtn={false} />
       <ProfileSection
         userName={userData.name || '사용자'}
-        credit={userData.creditCount ?? 0}
+        credit={userData.CreditCount ?? 0}
         isChargeDisabled={false}
       />
       <HistorySection />

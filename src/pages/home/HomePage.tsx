@@ -37,7 +37,7 @@ const HomePage = () => {
   const getButtonText = () => {
     if (!isLoggedIn) return '로그인하고 스타일 보기';
     if (isUserDataLoading) return '로딩중...';
-    if (userData?.creditCount && userData.creditCount > 0) {
+    if (userData?.CreditCount && userData.CreditCount > 0) {
       return '우리집에 딱 맞는 스타일 보기';
     }
     return '마이페이지에서 크레딧 충전하기';
@@ -59,7 +59,7 @@ const HomePage = () => {
     if (isUserDataLoading) return;
 
     // 크레딧이 있으면 onboarding으로, 없으면 마이페이지로
-    if (userData?.creditCount && userData.creditCount > 0) {
+    if (userData?.CreditCount && userData.CreditCount > 0) {
       navigate(ROUTES.ONBOARDING);
     } else {
       navigate(ROUTES.MYPAGE);
@@ -69,7 +69,7 @@ const HomePage = () => {
   // 개발용 로그 (추후 제거 예정)
   console.log('HomePage - 로그인 상태:', isLoggedIn);
   console.log('HomePage - 사용자 데이터:', userData);
-  console.log('HomePage - 크레딧 정보:', userData?.creditCount);
+  console.log('HomePage - 크레딧 정보:', userData?.CreditCount);
 
   return (
     <main className={styles.page}>

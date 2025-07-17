@@ -32,7 +32,7 @@ export const useCreditGuard = (
   const [isChecking, setIsChecking] = useState(false);
 
   // 현재 크레딧 수
-  const creditCount = userData?.creditCount;
+  const creditCount = userData?.CreditCount;
 
   // 크레딧 충분 여부
   const hasEnoughCredit =
@@ -63,7 +63,7 @@ export const useCreditGuard = (
         return false;
       }
 
-      const currentCredit = latestUserData.creditCount || 0;
+      const currentCredit = latestUserData.CreditCount || 0;
 
       if (currentCredit >= requiredCredits) {
         return true;
