@@ -1,4 +1,5 @@
 import * as styles from './SettingSection.css';
+import { useLogout } from '@/pages/login/hooks/useLogout';
 
 type SettingItem = {
   id: string;
@@ -6,11 +7,16 @@ type SettingItem = {
   onClick: () => void;
 };
 
-const handleTerms = () => console.log('약관 클릭');
-const handleLogout = () => console.log('로그아웃 클릭');
-const handleWithdraw = () => console.log('탈퇴하기 클릭');
-
 const SettingSection = () => {
+  const { mutate: logout } = useLogout();
+
+  const handleTerms = () => console.log('약관 클릭');
+  const handleLogout = () => {
+    if (confirm('로그아웃 하시겠습니까?')) {
+      logout();
+    }
+  };
+  const handleWithdraw = () => console.log('탈퇴하기 클릭');
   const settingItems: SettingItem[] = [
     { id: 'terms', label: '약관 및 정책', onClick: handleTerms },
     { id: 'logout', label: '로그아웃', onClick: handleLogout },
