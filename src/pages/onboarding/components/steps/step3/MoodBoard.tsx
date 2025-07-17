@@ -9,6 +9,8 @@
  * @param {function} onImageSelect - 이미지 선택/해제 처리 함수
  * @returns JSX.Element - 무드보드 컴포넌트
  */
+
+import { useEffect, useState } from 'react';
 import * as styles from './MoodBoard.css';
 import {
   MOOD_BOARD_CONSTANTS,
@@ -16,6 +18,7 @@ import {
 } from '@/pages/onboarding/types/apis/moodBoard';
 import { useMoodBoardImage } from '@/pages/onboarding/hooks/useMoodBoardImage.hooks';
 import CardImage from '@/shared/components/card/cardImage/CardImage';
+import SkeletonCardImage from '@/shared/components/card/cardImage/SkeletonCardImage';
 
 interface MoodBoardProps {
   selectedImages: number[];
@@ -34,17 +37,34 @@ const MoodBoard = ({ selectedImages, onImageSelect }: MoodBoardProps) => {
     return index !== -1 ? index + 1 : 0;
   };
 
-  // 이미지 API 호출
   const { data, isPending, isError } = useMoodBoardImage(
     MOOD_BOARD_CONSTANTS.DEFAULT_LIMIT
   );
-
-  // 로딩/에러 처리
-  if (isPending) return <div>이미지 불러오는 중...</div>;
-  if (isError) return <div>이미지 불러오기 실패</div>;
-
-  // 받아온 이미지 데이터
   const images = data?.data?.moodBoardResponseList || [];
+
+  // 3초간만 스켈레톤 보여주기
+  const [showSkeleton, setShowSkeleton] = useState(true);
+  useEffect(() => {
+    const timer = setTimeout(() => setShowSkeleton(false), 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isPending || images.length === 0 || showSkeleton) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.gridbox}>
+          {Array.from(
+            { length: MOOD_BOARD_CONSTANTS.DEFAULT_LIMIT },
+            (_, idx) => (
+              <SkeletonCardImage key={idx} />
+            )
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  if (isError) return <div>이미지 불러오기 실패</div>;
 
   return (
     <div className={styles.container}>
