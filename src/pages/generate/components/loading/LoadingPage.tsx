@@ -13,11 +13,13 @@ import LikeButton from '@/shared/components/button/likeButton/LikeButton';
 import DislikeButton from '@/shared/components/button/likeButton/DislikeButton';
 import { ROUTES } from '@/routes/paths';
 import Loading from '@/shared/components/loading/Loading';
+import { useErrorHandler } from '@/shared/hooks/useErrorHandler';
 
 const LoadingPage = () => {
   // 이미지 생성 api 코드 ...
   const location = useLocation();
   const navigate = useNavigate();
+  const { handleError } = useErrorHandler('generate');
 
   // TODO: location.state의 타입 검증 로직 개선 필요(런타임 오류 방지)
   const requestData: GenerateImageRequest | null =
@@ -34,7 +36,7 @@ const LoadingPage = () => {
       console.log('requestData is null, redirect to /onboarding');
       navigate(ROUTES.ONBOARDING);
     }
-  }, [requestData]);
+  }, [requestData, generateImageRequest, navigate]);
   // ... 이미지 생성 api 코드 끝
 
   const [currentPage, setCurrentPage] = useState(0);
@@ -42,6 +44,7 @@ const LoadingPage = () => {
     data: currentImages,
     isLoading,
     isError,
+    error,
   } = useStackData(currentPage, { enabled: true });
   const { data: nextImages } = useStackData(currentPage + 1, {
     enabled: !!currentImages, // next prefetch
@@ -59,8 +62,17 @@ const LoadingPage = () => {
     setCurrentIndex(0);
   }, [currentImages]);
 
+  useEffect(() => {
+    if (isError || !currentImages) {
+      handleError(error || new Error('Stack data load failed'), 'loading');
+    }
+  }, [isError, currentImages, error, handleError]);
+
   if (isLoading) return <Loading text="로딩중" />;
-  if (isError || !currentImages) return <div>에러 발생!</div>;
+
+  if (isError || !currentImages) {
+    return null;
+  }
 
   const currentImage = currentImages[currentIndex];
   const isLast = currentIndex === currentImages.length - 1;

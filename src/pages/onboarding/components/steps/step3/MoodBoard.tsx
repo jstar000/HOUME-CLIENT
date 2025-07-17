@@ -9,6 +9,7 @@
  * @param {function} onImageSelect - 이미지 선택/해제 처리 함수
  * @returns JSX.Element - 무드보드 컴포넌트
  */
+import { useEffect } from 'react';
 import * as styles from './MoodBoard.css';
 import {
   MOOD_BOARD_CONSTANTS,
@@ -17,6 +18,7 @@ import {
 import { useMoodBoardImage } from '@/pages/onboarding/hooks/useStep3Api.hooks';
 import CardImage from '@/shared/components/card/cardImage/CardImage';
 import Loading from '@/shared/components/loading/Loading';
+import { useErrorHandler } from '@/shared/hooks/useErrorHandler';
 
 interface MoodBoardProps {
   selectedImages: number[];
@@ -24,6 +26,8 @@ interface MoodBoardProps {
 }
 
 const MoodBoard = ({ selectedImages, onImageSelect }: MoodBoardProps) => {
+  const { handleError } = useErrorHandler('onboarding');
+
   /**
    * 이미지의 선택 순서를 반환하는 함수
    *
@@ -36,13 +40,25 @@ const MoodBoard = ({ selectedImages, onImageSelect }: MoodBoardProps) => {
   };
 
   // 이미지 API 호출
-  const { data, isPending, isError } = useMoodBoardImage(
+  const { data, isPending, isError, error } = useMoodBoardImage(
     MOOD_BOARD_CONSTANTS.DEFAULT_LIMIT
   );
 
+  useEffect(() => {
+    if (isError) {
+      handleError(
+        error || new Error('Mood board image load failed'),
+        'loading'
+      );
+    }
+  }, [isError, error, handleError]);
+
   // 로딩/에러 처리
   if (isPending) return <Loading text="이미지 불러오는 중..." />;
-  if (isError) return <div>이미지 불러오기 실패</div>;
+
+  if (isError) {
+    return null;
+  }
 
   // 받아온 이미지 데이터
   const images = data?.data?.moodBoardResponseList || [];
