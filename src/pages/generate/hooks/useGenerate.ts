@@ -12,6 +12,7 @@ import {
 } from '../apis/generate';
 import type { GenerateImageRequest } from '../types/GenerateType';
 import { QUERY_KEY } from '@/shared/constants/queryKey';
+import { queryClient } from '@/shared/apis/queryClient';
 
 export const useStackData = (page: number, options: { enabled: boolean }) => {
   return useQuery({
@@ -81,6 +82,7 @@ export const useGenerateImageApi = () => {
         },
         replace: true,
       });
+      queryClient.invalidateQueries({ queryKey: ['generateImage'] });
     },
   });
 

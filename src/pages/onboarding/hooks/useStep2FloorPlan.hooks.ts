@@ -17,6 +17,7 @@ export const useStep2FloorPlan = (
   // Step2FloorPlan 컴포넌트 렌더링 -> useStep2FloorPlan 훅 실행
   // -> useFloorPlanQuery 실행 -> 데이터 fetching
   const { data, isLoading, error, isError } = useFloorPlanApi();
+  console.log('도면 데이터: ', data);
 
   // Zustand 스토어에서 상태 가져오기
   const { step2, setStep2Data, setCurrentStep, clearAfterStep } =

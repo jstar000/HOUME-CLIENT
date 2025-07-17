@@ -96,6 +96,8 @@ export const useStep1HouseInfo = (context: ImageGenerateSteps['HouseInfo']) => {
       areaType: formData.areaType,
     };
 
+    console.log(selectedHouseInfo);
+
     const requestData = {
       ...selectedHouseInfo,
       isValid: isValidInput,
@@ -105,6 +107,8 @@ export const useStep1HouseInfo = (context: ImageGenerateSteps['HouseInfo']) => {
       onSuccess: (res) => {
         if (res) {
           console.log('유효한 주거정보, House ID:', res.houseId);
+          console.log(res);
+
           // zustand store에 houseId 저장
           setStep1Data({
             ...selectedHouseInfo,
