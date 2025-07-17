@@ -21,7 +21,7 @@ const Step3InteriorTaste = ({ context, onNext }: Step3InteriorTasteProps) => {
   return (
     <div className={styles.container}>
       {/* 테스트 코드 */}
-      <span>{context.houseType}</span>
+      {/* <span>{context.houseType}</span> */}
       <FunnelHeader
         title={`인테리어 취향을 알려주세요`}
         detail={`인테리어 취향에 맞는 이미지를\n최대 5개까지 선택해주세요.`}
