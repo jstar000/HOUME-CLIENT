@@ -27,7 +27,7 @@ export const useStep3InteriorTaste = (
     setStep3Data({
       moodBoardIds: selectedImages,
     });
-  }, selectedImages);
+  }, [selectedImages]);
 
   // 이미지 선택/해제를 처리하는 함수
   const handleImageSelect = useCallback(
