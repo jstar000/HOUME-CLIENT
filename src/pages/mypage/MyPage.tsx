@@ -67,8 +67,8 @@ const MyPage = () => {
     <div className={styles.contentWrapper}>
       <TitleNavBar title="마이페이지" isBackIcon isLoginBtn={false} />
       <ProfileSection
-        userName={userData.name}
-        credit={userData.creditCount}
+        userName={userData.name || '사용자'}
+        credit={userData.creditCount ?? 0}
         isChargeDisabled={false}
       />
       <HistorySection />
