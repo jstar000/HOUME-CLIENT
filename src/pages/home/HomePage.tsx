@@ -11,13 +11,13 @@ import { useUserStore } from '@/store/useUserStore';
 const HomePage = () => {
   const { data: hasHistory, isLoading, isError } = useLandingData();
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error</div>;
-  console.log(hasHistory);
-
   const accessToken = useUserStore((state) => state.accessToken);
   // 인증 여부: prop이 있으면 우선 사용, 없으면 accessToken 존재 여부로 판단
   const isAuthenticated = !!accessToken;
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error</div>;
+  console.log(hasHistory);
 
   return (
     <main className={styles.page}>
