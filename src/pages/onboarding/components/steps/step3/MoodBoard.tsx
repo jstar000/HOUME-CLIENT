@@ -16,7 +16,10 @@ import {
   MOOD_BOARD_CONSTANTS,
   type MoodBoardImageItem,
 } from '@/pages/onboarding/types/apis/moodBoard';
-import { useMoodBoardImage } from '@/pages/onboarding/hooks/useStep3Api.hooks';
+import {
+  useMoodBoardImage,
+  useMoodBoardQuery,
+} from '@/pages/onboarding/hooks/useStep3Api.hooks';
 import CardImage from '@/shared/components/card/cardImage/CardImage';
 import SkeletonCardImage from '@/shared/components/card/cardImage/SkeletonCardImage';
 import { useErrorHandler } from '@/shared/hooks/useErrorHandler';
@@ -41,13 +44,17 @@ const MoodBoard = ({ selectedImages, onImageSelect }: MoodBoardProps) => {
   };
 
   // 이미지 API 호출
-  const { data, isPending, isError, error } = useMoodBoardImage(
-    MOOD_BOARD_CONSTANTS.DEFAULT_LIMIT
-  );
-  const images = data?.data?.moodBoardResponseList || [];
+  const {
+    data: moodBoardData,
+    isLoading,
+    error,
+    isError,
+  } = useMoodBoardQuery();
+  const images = moodBoardData?.data?.moodBoardResponseList || [];
+  console.log('이미지: ', images);
 
   // 3초간만 스켈레톤 보여주기
-  const [showSkeleton, setShowSkeleton] = useState(true);
+  // const [showSkeleton, setShowSkeleton] = useState(true);
 
   useEffect(() => {
     if (isError) {
@@ -58,13 +65,14 @@ const MoodBoard = ({ selectedImages, onImageSelect }: MoodBoardProps) => {
     }
   }, [isError, error, handleError]);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setShowSkeleton(false), 3000);
-    return () => clearTimeout(timer);
-  }, []);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => setShowSkeleton(false), 3000);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   // 로딩/에러 처리
-  if (isPending || images.length === 0 || showSkeleton) {
+  // if (isLoading || images.length === 0 || showSkeleton) {
+  if (isLoading || images.length === 0) {
     return (
       <div className={styles.container}>
         <div className={styles.gridbox}>

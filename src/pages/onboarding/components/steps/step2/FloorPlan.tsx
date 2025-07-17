@@ -56,6 +56,7 @@ const FloorPlan = ({
 
     // 무드보드 이미지 사전로딩
     prefetchMoodBoard();
+    console.log('prefetch 완료');
 
     handleOpenSheet('flip');
   };
