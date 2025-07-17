@@ -14,8 +14,18 @@ interface Step2FloorPlanProps {
 }
 
 const Step2FloorPlan = ({ context, onNext }: Step2FloorPlanProps) => {
-  const { handleFloorPlanSelection, floorPlanList, isLoading, error, isError } =
-    useStep2FloorPlan(context, onNext);
+  const {
+    floorPlanList,
+    isLoading,
+    error,
+    isError,
+    selectedId,
+    isMirror,
+    selectedImage,
+    handleImageSelect,
+    handleFlipToggle,
+    handleFloorPlanSelection,
+  } = useStep2FloorPlan(context, onNext);
 
   /* 아래 if문들은 임시로 적용했습니다 */
   // 로딩 상태 처리
@@ -59,8 +69,13 @@ const Step2FloorPlan = ({ context, onNext }: Step2FloorPlanProps) => {
       />
 
       <FloorPlan
-        onFloorPlanSelect={handleFloorPlanSelection}
         floorPlanList={floorPlanList}
+        selectedId={selectedId}
+        isMirror={isMirror}
+        selectedImage={selectedImage}
+        onImageSelect={handleImageSelect}
+        onFlipToggle={handleFlipToggle}
+        onFloorPlanSelection={handleFloorPlanSelection}
       />
     </div>
   );

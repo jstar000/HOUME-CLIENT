@@ -14,7 +14,7 @@ import {
   MOOD_BOARD_CONSTANTS,
   type MoodBoardImageItem,
 } from '@/pages/onboarding/types/apis/moodBoard';
-import { useMoodBoardImage } from '@/pages/onboarding/hooks/useMoodBoardImage.hooks';
+import { useMoodBoardImage } from '@/pages/onboarding/hooks/useStep3Api.hooks';
 import CardImage from '@/shared/components/card/cardImage/CardImage';
 
 interface MoodBoardProps {

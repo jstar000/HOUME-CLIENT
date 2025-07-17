@@ -11,25 +11,26 @@ import { useToast } from '@/shared/components/toast/useToast';
 import { useBottomSheetAddress } from '@/pages/onboarding/hooks/useBottomSheetAddress';
 
 interface FloorPlanProps {
-  onFloorPlanSelect: (selectedFloorPlan: {
-    id: number;
-    src: string;
-    flipped: boolean;
-  }) => void;
   floorPlanList: FloorPlanList[];
+  selectedId: number | null;
+  isMirror: boolean;
+  selectedImage: FloorPlanList | null | undefined;
+  onImageSelect: (id: number) => void;
+  onFlipToggle: () => void;
+  onFloorPlanSelection: () => void;
 }
 
-const FloorPlan = ({ onFloorPlanSelect, floorPlanList }: FloorPlanProps) => {
-  const [selectedId, setSelectedId] = useState<number | null>(null);
+const FloorPlan = ({
+  floorPlanList,
+  selectedId,
+  isMirror,
+  selectedImage,
+  onImageSelect,
+  onFlipToggle,
+  onFloorPlanSelection,
+}: FloorPlanProps) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [openSheet, setOpenSheet] = useState<OpenSheetKey>(null);
-  const [isFlipped, setIsFlipped] = useState(false);
-
-  const selectedImage =
-    selectedId == null
-      ? null
-      : floorPlanList.find((item) => item.id === selectedId);
-
   const { notify } = useToast();
   const { mutate: postAddress } = useBottomSheetAddress();
 
@@ -49,8 +50,7 @@ const FloorPlan = ({ onFloorPlanSelect, floorPlanList }: FloorPlanProps) => {
   };
 
   const handleImageClick = (id: number) => {
-    setSelectedId(id);
-    setIsFlipped(false); // 이미지 선택 시 반전 초기화
+    onImageSelect(id);
     handleOpenSheet('flip');
   };
 
@@ -60,7 +60,11 @@ const FloorPlan = ({ onFloorPlanSelect, floorPlanList }: FloorPlanProps) => {
 
   useEffect(() => {
     if (openSheet) {
-      setIsSheetOpen(true);
+      // 도면 이미지 클릭 -> FlipSheet 컴포넌트가 DOM에 마운트, 동시에 isOpen={true}로 렌더링 -> 바텀시트 애니메이션 없이 바로 나타남
+      // 따라서 requestAnimationFrame()으로 Flipsheet 마운트 후 1프레임 뒤에 isOpen을 true로 변경
+      requestAnimationFrame(() => {
+        setIsSheetOpen(true);
+      });
     }
   }, [openSheet]);
 
@@ -72,22 +76,9 @@ const FloorPlan = ({ onFloorPlanSelect, floorPlanList }: FloorPlanProps) => {
     setOpenSheet(null); // 애니메이션 끝나면 DOM에서 제거
   };
 
-  const handleFlipClick = () => {
-    // 좌우반전 버튼 클릭시
-    setIsFlipped((prev) => !prev);
-  };
-
   const handleChooseClick = () => {
-    if (selectedId !== null && selectedImage) {
-      const selectedFloorPlan = {
-        id: selectedImage.id,
-        src: selectedImage.floorPlanImage,
-        flipped: isFlipped,
-      };
-
-      handleCloseSheet();
-      onFloorPlanSelect(selectedFloorPlan);
-    }
+    handleCloseSheet();
+    onFloorPlanSelection();
   };
 
   return (
@@ -130,10 +121,10 @@ const FloorPlan = ({ onFloorPlanSelect, floorPlanList }: FloorPlanProps) => {
           isOpen={isSheetOpen}
           onClose={handleCloseSheet}
           onExited={handleExited}
-          onFlipClick={handleFlipClick}
+          onFlipClick={onFlipToggle}
           onChooseClick={handleChooseClick}
           src={selectedImage?.floorPlanImage ?? ''}
-          isFlipped={isFlipped}
+          isFlipped={isMirror}
         />
       )}
     </section>
