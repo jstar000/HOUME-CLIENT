@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import BlurImage from '@assets/icons/recommendBlur.svg?react';
 import LockImage from '@assets/icons/recommendCta.png';
 import { overlay } from 'overlay-kit';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import * as styles from './ResultPage.css';
 import {
   useFurnitureLogMutation,
@@ -22,7 +22,6 @@ import Modal from '@/shared/components/overlay/modal/Modal';
 
 const ResultPage = () => {
   const location = useLocation();
-  const navigate = useNavigate();
   // TODO: result를 어디에서 받아오는지 추적이 힘듦, 수정 필요
   const { result } = location.state as { result: GenerateImageData };
 
@@ -30,26 +29,6 @@ const ResultPage = () => {
   const { mutate: sendPreference } = usePreferenceMutation(result.imageId);
   const { mutate: sendFurnituresLogs } = useFurnitureLogMutation();
   const { mutate: sendCreditLogs } = useCreditLogMutation();
-
-  // 뒤로가기 시 랜딩페이지로 이동하도록 설정
-  // useEffect를 사용하는 이유:
-  // 1. 브라우저의 popstate 이벤트를 감지하기 위해 이벤트 리스너 등록 필요 (사이드 이펙트)
-  // 2. 컴포넌트 마운트 시에만 이벤트 리스너 등록, 언마운트 시 제거로 생명주기 관리
-  // 3. cleanup 함수를 통해 메모리 누수 방지
-  // 4. React에서 DOM 이벤트를 다룰 때의 표준 패턴
-  useEffect(() => {
-    const handlePopState = () => {
-      navigate('/', { replace: true });
-    };
-
-    // 마운트 시 이벤트 리스너 등록
-    window.addEventListener('popstate', handlePopState);
-
-    // 언마운트 시 이벤트 리스너 제거 (cleanup)
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, [navigate]); // navigate가 변경될 때만 재실행
 
   const handleVote = (isLike: boolean) => {
     setSelected(isLike ? 'like' : 'dislike');
