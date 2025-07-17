@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import * as styles from './HistorySection.css';
-import { useMyPageImages } from '../../hooks/useMypage';
+import { useMyPageImages } from '../../hooks/useMyPage';
 import CardHistory from '@/shared/components/card/cardHistory/CardHistory';
 import emptyImage from '@/shared/assets/images/emptyImage.png';
 

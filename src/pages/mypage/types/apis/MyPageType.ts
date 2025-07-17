@@ -16,6 +16,7 @@ export interface MyPageImageHistory {
   tasteTag: string;
   equilibrium: string;
   houseForm: string;
+  imageId: number;
 }
 
 export interface MyPageImagesData {

@@ -2,7 +2,7 @@ import type {
   MyPageUserResponse,
   MyPageImagesResponse,
   MyPageImageDetailResponse,
-} from '../types/apis/mypage.types';
+} from '../types/apis/MyPageType';
 import { HTTPMethod, request, type RequestConfig } from '@/shared/apis/request';
 
 /**
