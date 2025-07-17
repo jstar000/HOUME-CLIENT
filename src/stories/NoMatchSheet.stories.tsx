@@ -45,7 +45,6 @@ export const Default: Story = {
         <NoMatchSheet
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
-          user="김하우미"
           onSubmit={() => setIsOpen(false)}
         />
       </div>
