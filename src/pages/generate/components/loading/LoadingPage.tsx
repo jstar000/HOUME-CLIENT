@@ -80,10 +80,15 @@ const LoadingPage = () => {
     return null;
   }
 
-  const currentImage = currentImages?.[currentIndex];
-  const isLast = currentIndex === (currentImages?.length ?? 0) - 1;
+  // 이 시점에서 currentImages는 확실히 존재하고 배열임을 보장
+  if (!currentImages || currentImages.length === 0) {
+    return null;
+  }
+
+  const currentImage = currentImages[currentIndex];
+  const isLast = currentIndex === currentImages.length - 1;
   const nextImage = !isLast
-    ? currentImages?.[currentIndex + 1]
+    ? currentImages[currentIndex + 1]
     : nextImages && nextImages.length > 0
       ? nextImages[0]
       : undefined;
