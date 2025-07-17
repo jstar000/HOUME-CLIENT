@@ -18,8 +18,7 @@ export const useStep1HouseInfo = (context: ImageGenerateSteps['HouseInfo']) => {
   const selectHouseInfoRequest = useHouseInfoApi();
 
   // Zustand store에서 상태 가져오기
-  const { step1, setStep1Data, setCurrentStep, clearAfterStep, resetFunnel } =
-    useFunnelStore();
+  const { step1, setStep1Data, setCurrentStep } = useFunnelStore();
 
   // useEffect(() => {
   //   // 한 프레임 뒤에 실행 (persist 복원 후)
@@ -130,7 +129,7 @@ export const useStep1HouseInfo = (context: ImageGenerateSteps['HouseInfo']) => {
           });
 
           // Step1 이후 데이터 초기화 (Step2, 3, 4 데이터 클리어)
-          clearAfterStep(1);
+          // clearAfterStep(1);
 
           // funnel의 context에 넣을 데이터(다음 step으로 전달할 데이터)
           const completedHouseInfo = {

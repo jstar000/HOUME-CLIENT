@@ -11,8 +11,7 @@ export const useStep3InteriorTaste = (
   onNext: (data: CompletedInteriorTaste) => void
 ) => {
   // Zustand store에서 상태 가져오기
-  const { step3, setStep3Data, setCurrentStep, clearAfterStep } =
-    useFunnelStore();
+  const { step3, setStep3Data, setCurrentStep } = useFunnelStore();
 
   const [selectedImages, setSelectedImages] = useState<number[]>(
     step3.moodBoardIds || []
@@ -64,7 +63,7 @@ export const useStep3InteriorTaste = (
 
     console.log('선택된 퍼널 페이로드:', payload);
 
-    clearAfterStep(3);
+    // clearAfterStep(3);
 
     onNext({
       houseType: context.houseType,

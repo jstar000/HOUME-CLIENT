@@ -32,8 +32,7 @@ export const useStep4MainActivity = (
   const navigate = useNavigate();
 
   // Zustand store에서 상태 가져오기
-  const { step4, setStep4Data, setCurrentStep, clearAfterStep } =
-    useFunnelStore();
+  const { step4, setStep4Data, setCurrentStep } = useFunnelStore();
 
   useEffect(() => {
     setCurrentStep(4);

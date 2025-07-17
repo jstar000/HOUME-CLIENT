@@ -20,8 +20,7 @@ export const useStep2FloorPlan = (
   console.log('도면 데이터: ', data);
 
   // Zustand 스토어에서 상태 가져오기
-  const { step2, setStep2Data, setCurrentStep, clearAfterStep } =
-    useFunnelStore();
+  const { step2, setStep2Data, setCurrentStep } = useFunnelStore();
 
   // Zustand에서 이전 선택값 가져와서 초기화
   const [selectedId, setSelectedId] = useState<number | null>(
@@ -57,7 +56,7 @@ export const useStep2FloorPlan = (
     if (selectedId === null) return;
 
     // Step2 이후 데이터 초기화 (Step3, 4 데이터 클리어)
-    clearAfterStep(2);
+    // clearAfterStep(2);
 
     const payload: CompletedFloorPlan = {
       houseType: context.houseType,
@@ -80,7 +79,6 @@ export const useStep2FloorPlan = (
     context.roomType,
     context.areaType,
     onNext,
-    clearAfterStep,
   ]);
 
   return {
