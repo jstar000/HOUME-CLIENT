@@ -12,6 +12,10 @@ const CreditBox = ({ credit, disabled = false }: CreditBoxProps) => {
   const [isChargeDisabled, setIsChargeDisabled] = useState(false);
 
   const handleChargeClick = () => {
+    if (isChargeDisabled || disabled) return; // 추가 가드 조건
+
+    setIsChargeDisabled(true); // 먼저 비활성화
+
     notify({
       text: '결제는 아직 준비 중인 기능이에요',
       type: 'warning',
@@ -19,7 +23,6 @@ const CreditBox = ({ credit, disabled = false }: CreditBoxProps) => {
         style: { marginBottom: '2rem' },
       },
     });
-    setIsChargeDisabled(true);
   };
 
   return (
@@ -33,7 +36,7 @@ const CreditBox = ({ credit, disabled = false }: CreditBoxProps) => {
         </span>
       </div>
       <ChargeButton
-        disabled={disabled}
+        disabled={disabled || isChargeDisabled}
         onClick={handleChargeClick}
         isActive={!isChargeDisabled}
       >

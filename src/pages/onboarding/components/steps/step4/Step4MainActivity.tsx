@@ -28,6 +28,7 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
     getCurrentActivityLabel,
     getRequiredFurnitureLabels,
     handleOnClick,
+    isButtonActive,
   } = useStep4MainActivity(context);
 
   const primaryUsageOptions = Object.values(
@@ -101,7 +102,10 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
         </div>
 
         <div>
-          <CtaButton isActive={isFormCompleted} onClick={handleOnClick}>
+          <CtaButton
+            isActive={isFormCompleted && isButtonActive}
+            onClick={handleOnClick}
+          >
             이미지 생성하기
           </CtaButton>
         </div>
