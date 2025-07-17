@@ -32,7 +32,7 @@ export const useLogout = () => {
       console.error('[useLogout] 로그아웃 실패:', error);
 
       // 에러가 발생해도 로컬 토큰은 제거하고 로그인 페이지로 이동
-      useAuthStore.getState().clearAuth();
+      useUserStore.getState().clearUser();
       navigate('/');
     },
   });
