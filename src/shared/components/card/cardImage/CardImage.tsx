@@ -3,6 +3,7 @@ import * as styles from './CardImage.css.ts';
 
 interface CardImageProps extends React.ComponentProps<'div'> {
   src: string;
+  alt: string;
   selectOrder?: number;
   disabled?: boolean;
   onClick?: () => void;

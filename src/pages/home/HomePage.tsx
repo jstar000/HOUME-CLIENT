@@ -3,6 +3,7 @@ import IntroSection from './components/introSection/IntroSection';
 import StepGuideSection from './components/stepGuideSection/StepGuideSection';
 import ReviewSection from './components/reviewSection/ReviewSection';
 import * as styles from './HomePage.css';
+import { useLandingData } from './hooks/useLanding';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 import { useUserStore } from '@/store/useUserStore';
 

@@ -80,6 +80,7 @@ const MoodBoard = ({ selectedImages, onImageSelect }: MoodBoardProps) => {
               <CardImage
                 key={image.id}
                 src={image.imageUrl}
+                alt={'선택 가능한 무드보드 이미지'}
                 selectOrder={getSelectOrder(image.id)}
                 onClick={() => onImageSelect(image.id)}
                 disabled={isDisabled}

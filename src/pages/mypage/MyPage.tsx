@@ -2,7 +2,7 @@ import ProfileSection from './components/profile/ProfileSection';
 import HistorySection from './components/history/HistorySection';
 import SettingSection from './components/setting/SettingSection';
 import * as styles from './MyPage.css';
-import { useMyPageUser } from './hooks/useMyPage';
+import { useMyPageUser } from './hooks/useMypage';
 import TitleNavBar from '@/shared/components/navBar/TitleNavBar';
 
 const MyPage = () => {
