@@ -1,5 +1,8 @@
 import AiLandingImage from '@assets/images/landingAIImage.png';
 import InfoLandingImage from '@assets/images/landingInfoImage.png';
+import LandingImage3_1 from '@assets/images/landingImage3-1.png';
+import LandingImage3_2 from '@assets/images/landingImage3-2.png';
+import LandingImage3_3 from '@assets/images/landingImage3-3.png';
 import * as styles from './StepGuideSection.css.ts';
 import TitleStep from '@/shared/components/titleStep/TitleStep';
 
@@ -17,13 +20,25 @@ const StepGuideSection = () => {
       </div>
 
       <TitleStep stepNumber={1} title="우리 집과 유사한 구조를 선택하기" />
-      <div className={`${styles.stepLandImage} ${styles.imageGap}`} />
+      <img
+        src={LandingImage3_1}
+        alt="집 구조 선택 이미지"
+        className={`${styles.stepLandImage} ${styles.imageGap}`}
+      />
 
       <TitleStep stepNumber={2} title="내 취향인 인테리어 이미지 선택하기" />
-      <div className={`${styles.stepLandImage} ${styles.imageGap}`} />
+      <img
+        src={LandingImage3_2}
+        alt="인테리어 이미지 선택"
+        className={`${styles.stepLandImage} ${styles.imageGap}`}
+      />
 
       <TitleStep stepNumber={3} title="집에서 하는 주요 활동과 가구 선택하기" />
-      <div className={`${styles.stepLandImage} ${styles.imageGap}`} />
+      <img
+        src={LandingImage3_3}
+        alt="가구 선택 이미지"
+        className={`${styles.stepLandImage} ${styles.imageGap}`}
+      />
 
       <div className={styles.landingImage}>
         <img src={AiLandingImage} alt="ai 랜딩 이미지" />
