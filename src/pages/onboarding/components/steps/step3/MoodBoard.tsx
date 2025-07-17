@@ -9,7 +9,8 @@
  * @param {function} onImageSelect - 이미지 선택/해제 처리 함수
  * @returns JSX.Element - 무드보드 컴포넌트
  */
-import { useEffect } from 'react';
+
+import { useEffect, useState } from 'react';
 import * as styles from './MoodBoard.css';
 import {
   MOOD_BOARD_CONSTANTS,
@@ -17,7 +18,7 @@ import {
 } from '@/pages/onboarding/types/apis/moodBoard';
 import { useMoodBoardImage } from '@/pages/onboarding/hooks/useStep3Api.hooks';
 import CardImage from '@/shared/components/card/cardImage/CardImage';
-import Loading from '@/shared/components/loading/Loading';
+import SkeletonCardImage from '@/shared/components/card/cardImage/SkeletonCardImage';
 import { useErrorHandler } from '@/shared/hooks/useErrorHandler';
 
 interface MoodBoardProps {
@@ -43,6 +44,10 @@ const MoodBoard = ({ selectedImages, onImageSelect }: MoodBoardProps) => {
   const { data, isPending, isError, error } = useMoodBoardImage(
     MOOD_BOARD_CONSTANTS.DEFAULT_LIMIT
   );
+  const images = data?.data?.moodBoardResponseList || [];
+
+  // 3초간만 스켈레톤 보여주기
+  const [showSkeleton, setShowSkeleton] = useState(true);
 
   useEffect(() => {
     if (isError) {
@@ -53,15 +58,30 @@ const MoodBoard = ({ selectedImages, onImageSelect }: MoodBoardProps) => {
     }
   }, [isError, error, handleError]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => setShowSkeleton(false), 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
   // 로딩/에러 처리
-  if (isPending) return <Loading text="이미지 불러오는 중..." />;
+  if (isPending || images.length === 0 || showSkeleton) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.gridbox}>
+          {Array.from(
+            { length: MOOD_BOARD_CONSTANTS.DEFAULT_LIMIT },
+            (_, idx) => (
+              <SkeletonCardImage key={idx} />
+            )
+          )}
+        </div>
+      </div>
+    );
+  }
 
   if (isError) {
     return null;
   }
-
-  // 받아온 이미지 데이터
-  const images = data?.data?.moodBoardResponseList || [];
 
   return (
     <div className={styles.container}>
