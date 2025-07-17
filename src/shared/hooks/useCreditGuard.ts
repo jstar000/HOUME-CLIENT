@@ -50,7 +50,7 @@ export const useCreditGuard = (
 
       if (!latestUserData) {
         notify({
-          text: '사용자 정보를 불러올 수 없습니다.',
+          text: '정보를 불러올 수 없습니다.',
           type: 'warning',
         });
         return false;
