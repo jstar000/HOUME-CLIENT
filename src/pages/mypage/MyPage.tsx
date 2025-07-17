@@ -40,7 +40,7 @@ const MyPage = () => {
         credit={userData.CreditCount}
         isChargeDisabled={false}
       />
-      <HistorySection />
+      <HistorySection hasImage={hasImage} />
       <SettingSection />
     </div>
   );

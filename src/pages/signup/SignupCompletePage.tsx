@@ -1,13 +1,13 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as styles from './SignupCompletePage.css';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 import TitleNavBar from '@/shared/components/navBar/TitleNavBar';
 import { ROUTES } from '@/routes/paths';
+import { useUserStore } from '@/store/useUserStore';
 
 const SignupCompletePage = () => {
-  // 사용자 이름을 상태로 관리 (추후 API 연동 시 setUserName 사용)
-  const [userName] = useState('사용자 이름');
+  // zustand에서 userName 가져오기
+  const userName = useUserStore((state) => state.userName);
   const navigate = useNavigate();
 
   const handleGoToOnboarding = () => {
@@ -19,7 +19,8 @@ const SignupCompletePage = () => {
       <TitleNavBar title="시작하기" isBackIcon={false} isLoginBtn={false} />
       <div className={styles.textbox}>
         <h1 className={styles.title}>
-          {userName}님, 지금 바로 <br /> 집 꾸미기 시작해봐요!
+          {userName ? `${userName}님, 지금 바로` : '하우미님, 지금 바로'}
+          <br />집 꾸미기 시작해봐요!
         </h1>
         <p className={styles.content}>
           24시간 동안 무료로 이미지를 생성할 수 있는 <br />

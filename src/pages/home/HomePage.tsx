@@ -3,6 +3,8 @@ import IntroSection from './components/introSection/IntroSection';
 import StepGuideSection from './components/stepGuideSection/StepGuideSection';
 import ReviewSection from './components/reviewSection/ReviewSection';
 import * as styles from './HomePage.css';
+import { useLandingData } from './hooks/useLanding';
+import TokenRefreshTest from '../login/components/TokenRefreshTest';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 import { useAuthStore } from '@/store/useAuthStore';
 
@@ -20,6 +22,7 @@ const HomePage = () => {
         <LogoNavBar buttonType={isLoggedIn ? 'profile' : 'login'} />
         <div className={styles.introSection}>
           <IntroSection />
+          <TokenRefreshTest />
         </div>
       </div>
       <div className={styles.contents}>

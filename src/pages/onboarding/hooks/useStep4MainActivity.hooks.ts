@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   MAIN_ACTIVITY_OPTIONS,
   MAIN_ACTIVITY_VALIDATION,
   type ImageGenerateSteps,
 } from '../types/funnel';
+import { useFunnelStore } from '../stores/useFunnelStore';
 import type { GenerateImageRequest } from '@/pages/generate/types/GenerateType';
 import { ROUTES } from '@/routes/paths';
 
@@ -30,11 +31,32 @@ export const useStep4MainActivity = (
 ) => {
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    primaryUsage: context.primaryUsage,
-    bedTypeId: context.bedTypeId,
-    otherFurnitureIds: context.otherFurnitureIds || [],
+  // Zustand store에서 상태 가져오기
+  const { step4, setStep4Data, setCurrentStep } = useFunnelStore();
+
+  useEffect(() => {
+    setCurrentStep(4);
+  }, []);
+
+  // 초기값 설정: funnel의 context보다 zustand store 우선
+  const [localFormData, setLocalFormData] = useState({
+    primaryUsage: step4.primaryUsage || context.primaryUsage,
+    bedTypeId: step4.bedTypeId || context.bedTypeId,
+    otherFurnitureIds:
+      step4.otherFurnitureIds || context.otherFurnitureIds || [],
   });
+
+  // TODO: 코드 확인
+  const updateFormData = useCallback(
+    (updater: any) => {
+      const newData =
+        typeof updater === 'function' ? updater(localFormData) : updater;
+
+      setLocalFormData(newData);
+      setStep4Data(newData); // Zustand 동시 업데이트
+    },
+    [localFormData, setStep4Data]
+  );
 
   //   const [errors, setErrors] = useState<FormErrors>({});
 
@@ -43,20 +65,23 @@ export const useStep4MainActivity = (
   useEffect(() => {
     // 필수 가구 체크
     const requiredFurnitures = getRequiredFurnitureIds();
-    setFormData((prev) => ({
+    setLocalFormData((prev) => ({
       ...prev,
       otherFurnitureIds: requiredFurnitures,
     }));
-  }, [formData.primaryUsage]);
+  }, [localFormData.primaryUsage]);
 
   // 현재 선택된 활동의 필수 가구 ID 리스트 반환
   const getRequiredFurnitureIds = (): number[] => {
-    if (!formData.primaryUsage || !isValidActivityKey(formData.primaryUsage))
+    if (
+      !localFormData.primaryUsage ||
+      !isValidActivityKey(localFormData.primaryUsage)
+    )
       return [];
 
     // TODO: 코드 리팩토링
     const requiredCodes =
-      MAIN_ACTIVITY_VALIDATION.combinationRules[formData.primaryUsage]
+      MAIN_ACTIVITY_VALIDATION.combinationRules[localFormData.primaryUsage]
         ?.requiredFurnitures || [];
 
     return requiredCodes
@@ -71,9 +96,9 @@ export const useStep4MainActivity = (
 
   // 현재 선택된 활동의 label 가져오기(휴식형, 재택근무형, 영화감상형, 홈카페형)
   const getCurrentActivityLabel = (): string => {
-    if (!formData.primaryUsage) return '';
+    if (!localFormData.primaryUsage) return '';
     const option = Object.values(MAIN_ACTIVITY_OPTIONS.PRIMARY_USAGE).find(
-      (option) => option.code === formData.primaryUsage
+      (option) => option.code === localFormData.primaryUsage
     );
     return option?.label || '';
   };
@@ -100,15 +125,15 @@ export const useStep4MainActivity = (
   };
 
   const isFormCompleted = !!(
-    formData.primaryUsage &&
-    formData.bedTypeId &&
-    Array.isArray(formData.otherFurnitureIds) &&
-    formData.otherFurnitureIds.length > 0
+    localFormData.primaryUsage &&
+    localFormData.bedTypeId &&
+    Array.isArray(localFormData.otherFurnitureIds) &&
+    localFormData.otherFurnitureIds.length > 0
   );
 
   const handleOnClick = () => {
     // 타입 단언(as) 대신 사용
-    if (!formData.primaryUsage || !formData.bedTypeId) {
+    if (!localFormData.primaryUsage || !localFormData.bedTypeId) {
       console.error('필수 필드가 누락되었습니다');
       return;
     }
@@ -124,9 +149,9 @@ export const useStep4MainActivity = (
         isMirror: context.floorPlan.isMirror,
       },
       moodBoardIds: context.moodBoardIds,
-      primaryUsage: formData.primaryUsage,
-      bedTypeId: formData.bedTypeId,
-      otherFurnitureIds: formData.otherFurnitureIds,
+      primaryUsage: localFormData.primaryUsage,
+      bedTypeId: localFormData.bedTypeId,
+      otherFurnitureIds: localFormData.otherFurnitureIds,
     };
     console.log('선택된 퍼널 페이로드:', payload);
 
@@ -139,17 +164,17 @@ export const useStep4MainActivity = (
       },
       moodBoardIds: context.moodBoardIds,
       // TODO: 주요활동, 침대, 그 외 가구들 ID값
-      activity: formData.primaryUsage,
-      bedId: formData.bedTypeId,
-      selectiveIds: formData.otherFurnitureIds,
+      activity: localFormData.primaryUsage,
+      bedId: localFormData.bedTypeId,
+      selectiveIds: localFormData.otherFurnitureIds,
     };
 
     navigate(ROUTES.GENERATE, { state: { generateImageRequest } });
   };
 
   return {
-    formData,
-    setFormData,
+    formData: localFormData,
+    setFormData: updateFormData,
     // errors,
     isFormCompleted,
     isRequiredFurniture,
