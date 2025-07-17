@@ -2,7 +2,6 @@ import axios, { AxiosError } from 'axios';
 import { ERROR_CODES } from '../constants/apiErrorCode';
 import type { AxiosRequestConfig } from 'axios';
 import type { BaseResponse } from '../types/apis';
-import { ROUTES } from '@/routes/paths';
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
