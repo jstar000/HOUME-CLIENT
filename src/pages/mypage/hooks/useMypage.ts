@@ -9,11 +9,12 @@ import { QUERY_KEY } from '@/shared/constants/queryKey';
 /**
  * 마이페이지 사용자 정보 조회 훅
  */
-export const useMyPageUser = () => {
+export const useMyPageUser = (options?: { enabled?: boolean }) => {
   return useQuery({
     queryKey: [QUERY_KEY.MYPAGE_USER],
     queryFn: getMyPageUser,
     staleTime: 5 * 60 * 1000, // 5분간 캐시 유지
+    ...options,
   });
 };
 

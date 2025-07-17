@@ -5,12 +5,28 @@ import ReviewSection from './components/reviewSection/ReviewSection';
 import * as styles from './HomePage.css';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 import { useUserStore } from '@/store/useUserStore';
+import { useMyPageUser } from '@/pages/mypage/hooks/useMyPage';
 
 const HomePage = () => {
   // useUserStore에서 accessToken을 가져와서 로그인 상태 확인
   const accessToken = useUserStore((state) => state.accessToken);
   // accessToken 존재 여부로 로그인 상태 판단 (!!로 boolean 변환)
   const isLoggedIn = !!accessToken;
+
+  /**
+   * 로그인된 사용자의 크레딧 정보 조회
+   * - 로그인 상태일 때만 API 호출 (enabled 옵션 활용)
+   * - React Query 캐싱으로 중복 호출 방지 (5분 캐시)
+   * - 크레딧 기반 플로팅 버튼 분기 처리를 위한 데이터 수집
+   */
+  const { data: userData, isLoading: isUserDataLoading } = useMyPageUser({
+    enabled: isLoggedIn, // 핵심: 로그인 상태일 때만 API 호출
+  });
+
+  // 개발용 로그 (추후 제거 예정)
+  console.log('HomePage - 로그인 상태:', isLoggedIn);
+  console.log('HomePage - 사용자 데이터:', userData);
+  console.log('HomePage - 크레딧 정보:', userData?.creditCount);
 
   return (
     <main className={styles.page}>
