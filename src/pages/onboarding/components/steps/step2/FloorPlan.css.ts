@@ -10,25 +10,26 @@ export const wrapper = style({
 
 export const container = style({
   width: '100%',
+  maxWidth: '44rem',
   height: '100%',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  padding: '2rem 0 2.4rem 0',
+  padding: '2rem 2rem 2.4rem 2rem',
 });
 
 export const gridbox = style({
   width: '100%',
-  height: 'fit-content',
   display: 'grid',
-  gridTemplateColumns: 'repeat(2, auto)',
-  justifyContent: 'center',
-  rowGap: '1.2rem',
-  columnGap: '1.1rem',
+  gridTemplateColumns: 'repeat(auto-fill, minmax(16rem, 1fr))',
+  gap: '1.2rem',
+  boxSizing: 'border-box',
 });
 
 export const buttonContainer = style({
   display: 'flex',
   width: '100%',
   marginBottom: '2rem',
+  position: 'fixed',
+  bottom: '0',
 });

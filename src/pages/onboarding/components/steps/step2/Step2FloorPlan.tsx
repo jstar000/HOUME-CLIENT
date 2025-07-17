@@ -59,6 +59,7 @@ const Step2FloorPlan = ({ context, onNext }: Step2FloorPlanProps) => {
         detail={`템플릿을 선택하면 좌우반전을 할 수 있어요.`}
         currentStep={2}
         image={FUNNELHEADER_IMAGES[2]}
+        size="short"
       />
 
       <FloorPlan

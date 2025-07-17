@@ -24,7 +24,7 @@ const FunnelHeader = ({
       })}
     >
       <div className={styles.container}>
-        <div>
+        <div className={styles.headerWapper}>
           <div className={styles.progressWrapper}>
             <ProgressBarKey currentStep={currentStep} />
           </div>
@@ -34,7 +34,7 @@ const FunnelHeader = ({
           </div>
         </div>
         <div className={styles.imgWrapper}>
-          <img src={image} alt="헤더 이미지" />
+          <img src={image} alt="헤더 이미지" className={styles.image} />
         </div>
       </div>
     </header>

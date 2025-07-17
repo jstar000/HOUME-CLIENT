@@ -12,11 +12,13 @@ export const buttonWrapper = style({
 
 export const CtaButton = recipe({
   base: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     width: '100%',
     minWidth: '12.1rem',
     height: '5.6rem',
     padding: '1.7rem 0',
-    textAlign: 'center',
     gap: '0.8rem',
     borderRadius: '99.9rem',
     ...fontStyle('title_m_16'),
