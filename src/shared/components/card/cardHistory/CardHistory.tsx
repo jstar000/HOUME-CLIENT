@@ -5,9 +5,10 @@ interface CardHistoryProps extends React.ComponentProps<'div'> {
   src: string;
   title: string;
   btnText: string;
+  onClick?: () => void;
 }
 
-const CardHistory = ({ src, title, btnText }: CardHistoryProps) => {
+const CardHistory = ({ src, title, btnText, onClick }: CardHistoryProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.imgbox}>
@@ -15,7 +16,9 @@ const CardHistory = ({ src, title, btnText }: CardHistoryProps) => {
       </div>
       <div className={styles.textbox}>
         <h1 className={styles.title}>{title}</h1>
-        <CtaButton buttonSize={'medium'}>{btnText}</CtaButton>
+        <CtaButton buttonSize={'medium'} onClick={onClick}>
+          {btnText}
+        </CtaButton>
       </div>
     </div>
   );
