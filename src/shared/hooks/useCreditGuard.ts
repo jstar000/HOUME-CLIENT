@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useMyPageUser } from '@/pages/mypage/hooks/useMyPage';
 import { useToast } from '@/shared/components/toast/useToast';
 
@@ -6,6 +6,7 @@ interface CreditGuardReturn {
   checkCredit: () => Promise<boolean>;
   hasEnoughCredit: boolean | undefined;
   isLoading: boolean;
+  isChecking: boolean;
   creditCount: number | undefined;
 }
 
@@ -27,6 +28,9 @@ export const useCreditGuard = (
   // 토스트 알림 훅
   const { notify } = useToast();
 
+  // 크레딧 확인 중 상태
+  const [isChecking, setIsChecking] = useState(false);
+
   // 현재 크레딧 수
   const creditCount = userData?.creditCount;
 
@@ -44,6 +48,9 @@ export const useCreditGuard = (
    * @returns 크레딧이 충분한지 여부
    */
   const checkCredit = useCallback(async (): Promise<boolean> => {
+    if (isChecking) return false; // 이미 확인 중이면 중복 호출 방지
+
+    setIsChecking(true);
     try {
       // 최신 데이터 다시 조회
       const { data: latestUserData } = await refetch();
@@ -75,13 +82,16 @@ export const useCreditGuard = (
         type: 'warning',
       });
       return false;
+    } finally {
+      setIsChecking(false);
     }
-  }, [requiredCredits, refetch, notify]);
+  }, [isChecking, requiredCredits, refetch, notify]);
 
   return {
     checkCredit,
     hasEnoughCredit,
     isLoading,
+    isChecking,
     creditCount,
   };
 };

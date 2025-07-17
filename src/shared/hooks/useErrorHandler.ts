@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { ErrorType, PageContext } from '@/shared/types/error';
 import { useToast } from '@/shared/components/toast/useToast';
@@ -14,6 +14,12 @@ import { ERROR_MESSAGES } from '@/shared/types/error';
 export const useErrorHandler = (context: PageContext) => {
   const navigate = useNavigate();
   const { notify } = useToast();
+
+  // 토스트 중복 방지를 위한 ref
+  const lastErrorRef = useRef<{ message: string; timestamp: number } | null>(
+    null
+  );
+  const TOAST_COOLDOWN = 3000; // 3초 내 같은 에러 메시지 중복 방지
 
   /**
    * 컨텍스트와 에러 타입에 따른 리다이렉트 경로 반환
@@ -73,6 +79,19 @@ export const useErrorHandler = (context: PageContext) => {
 
       // 토스트 알림
       const message = customMessage || ERROR_MESSAGES[type];
+      const now = Date.now();
+
+      // 같은 메시지가 쿨다운 시간 내에 이미 표시되었다면 무시
+      if (
+        lastErrorRef.current &&
+        lastErrorRef.current.message === message &&
+        now - lastErrorRef.current.timestamp < TOAST_COOLDOWN
+      ) {
+        return;
+      }
+
+      lastErrorRef.current = { message, timestamp: now };
+
       notify({
         text: message,
         type: 'warning',
