@@ -17,7 +17,6 @@ export const boxWrapper = style({
 export const textContainer = style({
   display: 'flex',
   alignItems: 'center',
-  paddingRight: '0.8rem',
   gap: '0.8rem',
 });
 
