@@ -4,11 +4,11 @@ import { useFloorPlanApi } from './useStep2Api.hooks';
 import { useFunnelStore } from '../stores/useFunnelStore';
 import type { CompletedFloorPlan, ImageGenerateSteps } from '../types/funnel';
 
-interface SelectedFloorPlanTypes {
-  id: number;
-  src: string;
-  flipped: boolean;
-}
+// interface SelectedFloorPlanTypes {
+//   id: number;
+//   src: string;
+//   flipped: boolean;
+// }
 
 export const useStep2FloorPlan = (
   context: ImageGenerateSteps['FloorPlan'],
@@ -71,7 +71,16 @@ export const useStep2FloorPlan = (
 
     console.log('선택된 퍼널 페이로드:', payload);
     onNext(payload);
-  }, [context.houseType, context.roomType, context.areaType, onNext]);
+    console.log('실행됨');
+  }, [
+    selectedId,
+    isMirror,
+    context.houseType,
+    context.roomType,
+    context.areaType,
+    onNext,
+    clearAfterStep,
+  ]);
 
   return {
     // API 데이터
