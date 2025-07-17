@@ -1,15 +1,17 @@
 import Lottie from 'lottie-react';
 import loadingAnimation from '../../assets/lottie/loading.json';
 
-const LoadingLottie = () => (
-  <div>
-    <Lottie
-      animationData={loadingAnimation}
-      loop
-      autoPlay
-      style={{ width: 300, height: 300 }}
-    />
-  </div>
-);
+const LoadingLottie = () => {
+  return (
+    <div>
+      <Lottie
+        animationData={loadingAnimation}
+        style={{ width: 200, height: 200 }}
+        loop={true}
+        autoplay={true}
+      />
+    </div>
+  );
+};
 
 export default LoadingLottie;
