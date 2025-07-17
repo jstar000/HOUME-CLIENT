@@ -21,7 +21,7 @@ const Subtitle = ({
         <span className={styles.caption}>
           (<span className={styles.count}>{count}</span>
           <span className={styles.slash}>/</span>
-          4개 선택)
+          {maxCount}개 선택)
         </span>
       )}
     </div>
