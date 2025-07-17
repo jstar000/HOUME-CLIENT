@@ -90,7 +90,10 @@ export const useFunnelStore = create<FunnelStore>()(
 
       setCurrentStep: (step) => set({ currentStep: step }),
 
-      resetFunnel: () => set(initialState),
+      resetFunnel: () => {
+        set(initialState);
+        console.log('reset');
+      },
 
       clearAfterStep: (step) =>
         set((state) => {
