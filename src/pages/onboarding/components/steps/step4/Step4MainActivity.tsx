@@ -54,7 +54,10 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
           options={primaryUsageOptions}
           selected={formData.primaryUsage}
           onButtonClick={(value) =>
-            setFormData((prev) => ({ ...prev, primaryUsage: value }))
+            setFormData((prev: typeof formData) => ({
+              ...prev,
+              primaryUsage: value,
+            }))
           }
           // error={errors.primaryUsage}
         />
@@ -67,7 +70,10 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
             options={bedTypeOptions}
             selected={formData.bedTypeId}
             onButtonClick={(value) =>
-              setFormData((prev) => ({ ...prev, bedTypeId: value as number }))
+              setFormData((prev: typeof formData) => ({
+                ...prev,
+                bedTypeId: value as number,
+              }))
             }
             useId={true}
             // error={errors.bedType}
@@ -79,7 +85,7 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
             options={otherFurnituresOptions}
             selected={formData.otherFurnitureIds}
             onButtonClick={(value) =>
-              setFormData((prev) => ({
+              setFormData((prev: typeof formData) => ({
                 ...prev,
                 otherFurnitureIds: value as number[],
               }))

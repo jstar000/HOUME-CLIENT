@@ -1,5 +1,6 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { MAX_MOOD_BOARD_SELECTION } from '../constants/step3.constants';
+import { useFunnelStore } from '../stores/useFunnelStore';
 import type {
   CompletedInteriorTaste,
   ImageGenerateSteps,
@@ -9,7 +10,23 @@ export const useStep3InteriorTaste = (
   context: ImageGenerateSteps['InteriorTaste'],
   onNext: (data: CompletedInteriorTaste) => void
 ) => {
-  const [selectedImages, setSelectedImages] = useState<number[]>([]);
+  // Zustand store에서 상태 가져오기
+  const { step3, setStep3Data, setCurrentStep } = useFunnelStore();
+
+  const [selectedImages, setSelectedImages] = useState<number[]>(
+    step3.moodBoardIds || []
+  );
+
+  // 컴포넌트 마운트 시 현재 스텝 설정
+  useEffect(() => {
+    setCurrentStep(3);
+  }, []);
+
+  useEffect(() => {
+    setStep3Data({
+      moodBoardIds: selectedImages,
+    });
+  }, [selectedImages]);
 
   // 이미지 선택/해제를 처리하는 함수
   const handleImageSelect = useCallback(
@@ -45,6 +62,8 @@ export const useStep3InteriorTaste = (
     };
 
     console.log('선택된 퍼널 페이로드:', payload);
+
+    // clearAfterStep(3);
 
     onNext({
       houseType: context.houseType,

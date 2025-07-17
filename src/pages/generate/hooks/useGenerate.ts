@@ -12,6 +12,8 @@ import {
 } from '../apis/generate';
 import type { GenerateImageRequest } from '../types/GenerateType';
 import { QUERY_KEY } from '@/shared/constants/queryKey';
+import { queryClient } from '@/shared/apis/queryClient';
+import { useFunnelStore } from '@/pages/onboarding/stores/useFunnelStore';
 
 export const useStackData = (page: number, options: { enabled: boolean }) => {
   return useQuery({
@@ -69,6 +71,7 @@ export const useCreditLogMutation = () => {
 export const useGenerateImageApi = () => {
   // const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const { resetFunnel } = useFunnelStore();
 
   const generateImageRequest = useMutation({
     mutationFn: (userInfo: GenerateImageRequest) => generateImage(userInfo),
@@ -81,6 +84,8 @@ export const useGenerateImageApi = () => {
         },
         replace: true,
       });
+      resetFunnel(); // 성공 시에도 초기화
+      queryClient.invalidateQueries({ queryKey: ['generateImage'] });
     },
   });
 

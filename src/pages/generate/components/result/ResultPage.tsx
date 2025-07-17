@@ -19,6 +19,8 @@ import Modal from '@/shared/components/overlay/modal/Modal';
 const ResultPage = () => {
   const location = useLocation();
   // TODO: result를 어디에서 받아오는지 추적이 힘듦, 수정 필요
+  // React Router의 location.state는 내부적으로 HTML5 History API의 history state에 저장됨
+  // 따라서 브라우저를 새로고침해도 그 페이지의 히스토리 엔트리에 이미 저장된 state가 그대로 복원됨
   const { result } = location.state as { result: GenerateImageData };
 
   const [selected, setSelected] = useState<'like' | 'dislike' | null>(null);
@@ -69,7 +71,7 @@ const ResultPage = () => {
         <img
           src={result.imageUrl}
           alt={`${result.name}님을 위한 맞춤 인테리어 스타일링`}
-          className={styles.imgArea}
+          className={styles.imgArea({ mirrored: result.isMirror })}
         />
         <div className={styles.buttonGroup}>
           <LikeButton

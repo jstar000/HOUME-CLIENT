@@ -7,10 +7,15 @@ import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 import { useUserStore } from '@/store/useUserStore';
 
 const HomePage = () => {
+  const { data: hasHistory, isLoading, isError } = useLandingData();
   // useAuthStore에서 accessToken을 가져와서 로그인 상태 확인
   const accessToken = useUserStore((state) => state.accessToken);
   // accessToken 존재 여부로 로그인 상태 판단 (!!로 boolean 변환)
   const isLoggedIn = !!accessToken;
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error</div>;
+  console.log(hasHistory);
 
   return (
     <main className={styles.page}>

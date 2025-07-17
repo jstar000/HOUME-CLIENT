@@ -1,5 +1,6 @@
 import { colorVars } from '@styles/tokens/color.css';
 import { style } from '@vanilla-extract/css';
+import { recipe } from '@vanilla-extract/recipes';
 import { fontStyle } from '@/shared/styles/fontStyle';
 import { zIndex } from '@/shared/styles/tokens/zIndex';
 
@@ -46,11 +47,26 @@ export const resultSection = style({
 });
 
 export const imgArea = style({
-  width: '100%',
-  height: '22rem',
-  borderRadius: '16px',
-  objectFit: 'cover', // 비율 유지하며 영역 완전히 채움
-  objectPosition: 'center', // 이미지 중앙 부분 표시
+  base: {
+    width: '100%',
+    height: '22rem',
+    borderRadius: '16px',
+    objectFit: 'cover', // 비율 유지하며 영역 완전히 채움
+    objectPosition: 'center', // 이미지 중앙 부분 표시
+  },
+  variants: {
+    mirrored: {
+      true: {
+        transform: 'scaleX(-1)',
+      },
+      false: {
+        transform: 'none',
+      },
+    },
+  },
+  defaultVariants: {
+    mirrored: false,
+  },
 });
 
 export const buttonGroup = style({
