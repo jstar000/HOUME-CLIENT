@@ -132,3 +132,15 @@ export const imageStyle = style({
   objectFit: 'cover',
   borderRadius: '16px',
 });
+
+// 에러 메시지 스타일
+export const errorMessage = style({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: '100%',
+  height: '100%',
+  ...fontStyle('body_r_14'),
+  color: colorVars.color.gray600,
+  textAlign: 'center',
+});

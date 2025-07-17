@@ -76,13 +76,30 @@ const LoadingPage = () => {
 
   if (isLoading) return <Loading text="로딩중" />;
 
-  if (isError || (!isLoading && !currentImages)) {
-    return null;
-  }
-
-  // 이 시점에서 currentImages는 확실히 존재하고 배열임을 보장
-  if (!currentImages || currentImages.length === 0) {
-    return null;
+  if (
+    isError ||
+    (!isLoading && !currentImages) ||
+    !currentImages ||
+    currentImages.length === 0
+  ) {
+    return (
+      <div className={styles.wrapper}>
+        <section className={styles.infoSection}>
+          <ProgressBar />
+          <p className={styles.infoText}>
+            마음에 드는 가구를 선택하면, <br />
+            하우미가 사용자님의 취향을 더 잘 이해할 수 있어요!
+          </p>
+        </section>
+        <section className={styles.carouselSection}>
+          <div className={styles.imageContainer}>
+            <div className={styles.errorMessage}>
+              <p>이미지를 불러올 수 없습니다</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    );
   }
 
   const currentImage = currentImages[currentIndex];
