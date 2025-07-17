@@ -1,5 +1,5 @@
-import AiLandingImage from '@assets/icons/landingAIImage.png';
-import InfoLandingImage from '@assets/icons/landingInfoImage.png';
+import AiLandingImage from '@assets/images/landingAIImage.png';
+import InfoLandingImage from '@assets/images/landingInfoImage.png';
 import * as styles from './StepGuideSection.css.ts';
 import TitleStep from '@/shared/components/titleStep/TitleStep';
 
