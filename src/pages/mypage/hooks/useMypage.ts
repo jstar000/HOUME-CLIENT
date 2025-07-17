@@ -14,6 +14,7 @@ export const useMyPageUser = (options?: { enabled?: boolean }) => {
     queryKey: [QUERY_KEY.MYPAGE_USER],
     queryFn: getMyPageUser,
     ...options,
+    staleTime: 0,
   });
 };
 
@@ -24,6 +25,7 @@ export const useMyPageImages = () => {
   return useQuery({
     queryKey: [QUERY_KEY.MYPAGE_IMAGES],
     queryFn: getMyPageImages,
+    staleTime: 0,
   });
 };
 
@@ -37,6 +39,7 @@ export const useMyPageImageDetail = (
   return useQuery({
     queryKey: [QUERY_KEY.MYPAGE_IMAGE_DETAIL, imageId],
     queryFn: () => getMyPageImageDetail(imageId),
+    staleTime: 0,
     ...options,
   });
 };
