@@ -9,6 +9,8 @@
  * @param {function} onImageSelect - 이미지 선택/해제 처리 함수
  * @returns JSX.Element - 무드보드 컴포넌트
  */
+
+import { useEffect, useState } from 'react';
 import * as styles from './MoodBoard.css';
 import {
   MOOD_BOARD_CONSTANTS,
@@ -16,6 +18,8 @@ import {
 } from '@/pages/onboarding/types/apis/moodBoard';
 import { useMoodBoardImage } from '@/pages/onboarding/hooks/useStep3Api.hooks';
 import CardImage from '@/shared/components/card/cardImage/CardImage';
+import SkeletonCardImage from '@/shared/components/card/cardImage/SkeletonCardImage';
+import { useErrorHandler } from '@/shared/hooks/useErrorHandler';
 
 interface MoodBoardProps {
   selectedImages: number[];
@@ -23,6 +27,8 @@ interface MoodBoardProps {
 }
 
 const MoodBoard = ({ selectedImages, onImageSelect }: MoodBoardProps) => {
+  const { handleError } = useErrorHandler('onboarding');
+
   /**
    * 이미지의 선택 순서를 반환하는 함수
    *
@@ -35,36 +41,70 @@ const MoodBoard = ({ selectedImages, onImageSelect }: MoodBoardProps) => {
   };
 
   // 이미지 API 호출
-  const { data, isPending, isError } = useMoodBoardImage(
+  const { data, isPending, isError, error } = useMoodBoardImage(
     MOOD_BOARD_CONSTANTS.DEFAULT_LIMIT
   );
-
-  // 로딩/에러 처리
-  if (isPending) return <div>이미지 불러오는 중...</div>;
-  if (isError) return <div>이미지 불러오기 실패</div>;
-
-  // 받아온 이미지 데이터
   const images = data?.data?.moodBoardResponseList || [];
 
-  return (
-    <div className={styles.container}>
-      <div className={styles.gridbox}>
-        {images.map((image: MoodBoardImageItem) => {
-          const isSelected = selectedImages.includes(image.id);
-          const isDisabled =
-            selectedImages.length >= MOOD_BOARD_CONSTANTS.MAX_SELECTIONS &&
-            !isSelected;
+  // 3초간만 스켈레톤 보여주기
+  const [showSkeleton, setShowSkeleton] = useState(true);
 
-          return (
-            <CardImage
-              key={image.id}
-              src={image.imageUrl}
-              selectOrder={getSelectOrder(image.id)}
-              onClick={() => onImageSelect(image.id)}
-              disabled={isDisabled}
-            />
-          );
-        })}
+  useEffect(() => {
+    if (isError) {
+      handleError(
+        error || new Error('Mood board image load failed'),
+        'loading'
+      );
+    }
+  }, [isError, error, handleError]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowSkeleton(false), 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // 로딩/에러 처리
+  if (isPending || images.length === 0 || showSkeleton) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.gridbox}>
+          {Array.from(
+            { length: MOOD_BOARD_CONSTANTS.DEFAULT_LIMIT },
+            (_, idx) => (
+              <SkeletonCardImage key={idx} />
+            )
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return null;
+  }
+
+  return (
+    <div className={styles.wrapper}>
+      <div className={styles.container}>
+        <div className={styles.gridbox}>
+          {images.map((image: MoodBoardImageItem) => {
+            const isSelected = selectedImages.includes(image.id);
+            const isDisabled =
+              selectedImages.length >= MOOD_BOARD_CONSTANTS.MAX_SELECTIONS &&
+              !isSelected;
+
+            return (
+              <CardImage
+                key={image.id}
+                src={image.imageUrl}
+                alt={'선택 가능한 무드보드 이미지'}
+                selectOrder={getSelectOrder(image.id)}
+                onClick={() => onImageSelect(image.id)}
+                disabled={isDisabled}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );

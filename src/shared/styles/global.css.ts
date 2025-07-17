@@ -25,7 +25,7 @@ import '@styles/fontFace.css';
  */
 export const layoutVars = createGlobalTheme(':root', {
   minWidth: '375px',
-  maxWidth: '430px',
+  maxWidth: '440px',
   height: '100dvh',
 });
 
@@ -70,7 +70,7 @@ globalStyle('html::-webkit-scrollbar', {
  * - 긴 단어 자동 줄바꿈
  *
  * 레이아웃:
- * - 모바일 중심 고정 너비 (375px ~ 430px)
+ * - 모바일 중심 고정 너비 (375px ~ 440px)
  * - 가운데 정렬로 데스크톱에서도 모바일 뷰 유지
  * - 플렉스 컨테이너로 하위 요소 배치 관리
  *

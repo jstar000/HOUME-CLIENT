@@ -92,18 +92,18 @@ HOUME는 사용자가 자신만의 개성 있는 공간을 디자인하고 꾸�
 
 ## 🛠️ Tech Stack
 
-| 역할                       | 종류                                                                                                                                                                                                                                                             |
-| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`Build Tool`**           | ![VITE](https://img.shields.io/badge/VITE-646CFF?style=for-the-badge&logo=Vite&logoColor=white)                                                                                                                                                                  |
-| **`Library`**              | ![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white)                                                                                                                                                               |
-| **`Programming Language`** | ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6.svg?style=for-the-badge&logo=TypeScript&logoColor=white)                                                                                                                                            |
-| **`Styling`**              | ![Vanilla Extract](https://img.shields.io/badge/Vanilla%20Extract-%23F786AD?style=for-the-badge&logo=vanillaextract&logoColor=white)                                                                                                                             |
-| **`Data Fetching`**        | ![TanstackQuery](https://img.shields.io/badge/TanstackQuery-FF4154?style=for-the-badge&logo=ReactQuery&logoColor=white) ![swagger-typescript-api](https://img.shields.io/badge/swagger--typescript--api-85EA2D?style=for-the-badge&logo=Swagger&logoColor=white) |
-| **`UI Documentation`**     | ![Chromatic](https://img.shields.io/badge/Chromatic-Storybook-FF4785?style=for-the-badge&logo=storybook&logoColor=white)                                                                                                                                         |
-| **`Formatting`**           | ![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white) ![Prettier](https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=white)                                                |
-| **`Package Manager`**      | ![PNPM](https://img.shields.io/badge/pnpm-%23F29F05?style=for-the-badge&logo=pnpm&logoColor=white)                                                                                                                                                               |
-| **`Deployment`**           | ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)                                                                                                                                                            |
-| **`Version Control`**      | ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)                                                 |
+| 역할                       | 종류                                                                                                                                                                                                              |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`Build Tool`**           | ![VITE](https://img.shields.io/badge/VITE-646CFF?style=for-the-badge&logo=Vite&logoColor=white)                                                                                                                   |
+| **`Library`**              | ![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white)                                                                                                                |
+| **`Programming Language`** | ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6.svg?style=for-the-badge&logo=TypeScript&logoColor=white)                                                                                             |
+| **`Styling`**              | ![Vanilla Extract](https://img.shields.io/badge/Vanilla%20Extract-%23F786AD?style=for-the-badge&logo=vanillaextract&logoColor=white)                                                                              |
+| **`Data Fetching`**        | ![TanstackQuery](https://img.shields.io/badge/TanstackQuery-FF4154?style=for-the-badge&logo=ReactQuery&logoColor=white)                                                                                           |
+| **`UI Documentation`**     | ![Chromatic](https://img.shields.io/badge/Chromatic-Storybook-FF4785?style=for-the-badge&logo=storybook&logoColor=white)                                                                                          |
+| **`Formatting`**           | ![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white) ![Prettier](https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=white) |
+| **`Package Manager`**      | ![PNPM](https://img.shields.io/badge/pnpm-%23F29F05?style=for-the-badge&logo=pnpm&logoColor=white)                                                                                                                |
+| **`Deployment`**           | ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)                                                                                                             |
+| **`Version Control`**      | ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)  |
 
 <br />
 
@@ -150,17 +150,9 @@ HOUME는 사용자가 자신만의 개성 있는 공간을 디자인하고 꾸�
 
 #### 개발 프로세스
 
-##### 페어 프로그래밍
-
-짝을 이루어 업무를 수행함으로써 코드 품질을 높이고 이해도를 높입니다.
-
-##### 코드 리뷰
-
-짝과 리드가 함께 코드 리뷰 세션을 진행하여 코드 품질을 보장하고 상호 이해도를 확인합니다.
-
 ##### 스크럼
 
-격일로 진행되며, 전날과 당일 수행한 업무를 공유하고 다음날 수행할 계획을 논의합니다.  
+매일 진행되며, 전날과 당일 수행한 업무를 공유하고 다음날 수행할 계획을 논의합니다.  
 또한 프로젝트 진행 중 발생한 이슈들을 함께 해결합니다.
 
 #### 일정 관리
@@ -194,8 +186,7 @@ HOUME는 사용자가 자신만의 개성 있는 공간을 디자인하고 꾸�
 
 #### 브랜치 보호 룰셋
 
-2명 이상 Approve 이후 Merge를 실시합니다.  
-리뷰를 확인하면 이모지를 남기며 리뷰 반영 시 리뷰 댓글에 커밋 ID를 남겨서 결과를 공유합니다.  
+2명 이상 Approve 이후 Merge를 실시하고 리뷰 확인하면 이모지를 남깁니다.
 리뷰 반영 후에는 re-request review를 실시합니다.
 
 <br />

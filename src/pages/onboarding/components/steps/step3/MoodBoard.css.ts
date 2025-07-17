@@ -1,5 +1,12 @@
 import { style } from '@vanilla-extract/css';
 
+export const wrapper = style({
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  alignItems: 'center',
+});
+
 export const container = style({
   width: '100%',
   height: '100%',
@@ -10,12 +17,10 @@ export const container = style({
 });
 
 export const gridbox = style({
-  width: 'fit-content',
+  width: '100%',
   height: 'fit-content',
   display: 'grid',
-  gridTemplateColumns: 'repeat(2, 1fr)',
+  gridTemplateColumns: 'repeat(auto-fill, minmax(16rem, 1fr))',
   rowGap: '1.2rem',
   columnGap: '1.1rem',
-  justifyContent: 'center',
-  alignContent: 'center',
 });

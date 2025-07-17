@@ -1,19 +1,35 @@
-// 마이페이지 관련 타입
+import type { BaseResponse } from '@shared/types/apis';
 
-// 유저 정보 타입
-export interface UserInfoResponse {
-  code: number;
-  msg: string;
+// 마이페이지 사용자 정보 조회 API
+export interface MyPageUserData {
   name: string;
-  creditCount: number;
+  creditCount: number; // 서버: CreditCount → 클라이언트: creditCount (camelCase)
 }
 
-// 이미지 생성 이력 제공 타입
-export interface ImageHistoryResponse {
-  code: number;
-  msg: string;
-  generatedImageUrl: string;
-  tasteTag: string;
+export type MyPageUserResponse = BaseResponse<MyPageUserData>;
+
+// 마이페이지 이미지 생성 이력 조회 API
+export interface MyPageImageHistory {
+  imageUrl: string; // 서버: generatedImageUrl → 클라이언트: imageUrl (GenerateType과 통일)
+  tagName: string; // 서버: tasteTag → 클라이언트: tagName (GenerateType과 통일)
   equilibrium: string;
   houseForm: string;
+  imageId: number;
 }
+
+export interface MyPageImagesData {
+  histories: MyPageImageHistory[];
+}
+
+export type MyPageImagesResponse = BaseResponse<MyPageImagesData>;
+
+// 마이페이지 이미지 상세 조회 API
+export interface MyPageImageDetailData {
+  equilibrium: string;
+  houseForm: string;
+  tagName: string; // 서버: tasteTag → 클라이언트: tagName (GenerateType과 통일)
+  name: string;
+  imageUrl: string; // 서버: generatedImageUrl → 클라이언트: imageUrl (GenerateType과 통일)
+}
+
+export type MyPageImageDetailResponse = BaseResponse<MyPageImageDetailData>;

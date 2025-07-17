@@ -4,7 +4,7 @@ import { fontStyle } from '@/shared/styles/fontStyle';
 
 export const smallButtonBase = style({
   display: 'flex',
-  width: '7.6rem',
+  width: '100%',
   height: '3.6rem',
   padding: '1rem 1.6rem',
   textAlign: 'center',

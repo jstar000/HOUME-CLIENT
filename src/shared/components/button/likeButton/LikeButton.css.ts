@@ -4,7 +4,8 @@ import { fontStyle } from '@/shared/styles/fontStyle';
 
 export const likeButton = recipe({
   base: {
-    width: '12.8rem',
+    width: '100%',
+    minWidth: '12.8rem',
     height: '4rem',
     padding: '1rem',
     display: 'flex',

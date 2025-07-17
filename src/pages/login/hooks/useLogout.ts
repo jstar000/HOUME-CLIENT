@@ -25,7 +25,7 @@ export const useLogout = () => {
       // 액세스 토큰 제거
       useUserStore.getState().clearUser();
 
-      navigate('/login');
+      navigate('/');
     },
     // 로그아웃 실패 시 실행되는 함수
     onError: (error) => {
@@ -33,7 +33,7 @@ export const useLogout = () => {
 
       // 에러가 발생해도 로컬 토큰은 제거하고 로그인 페이지로 이동
       useUserStore.getState().clearUser();
-      navigate('/login');
+      navigate('/');
     },
   });
 };

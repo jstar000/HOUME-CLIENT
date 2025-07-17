@@ -13,7 +13,7 @@ export const container = style({
 });
 
 export const title = style({
-  width: '33.5rem',
+  width: '100%',
   ...fontStyle('heading_sb_20'),
   color: colorVars.color.gray900,
 });
@@ -21,7 +21,8 @@ export const title = style({
 export const fieldbox = style({
   display: 'flex',
   flexDirection: 'column',
-  width: '33.5rem',
+  width: '100%',
+  gap: '1.2rem',
   justifyContent: 'center',
   alignItems: 'center',
 });
@@ -45,7 +46,7 @@ export const btnarea = style({
   position: 'fixed',
   bottom: 0,
   width: '100%',
-  maxWidth: '430px',
+  maxWidth: '440px',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',

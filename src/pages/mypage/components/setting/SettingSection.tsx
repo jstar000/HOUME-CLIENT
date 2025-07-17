@@ -11,9 +11,12 @@ const SettingSection = () => {
   const { mutate: logout } = useLogout();
 
   const handleTerms = () => console.log('약관 클릭');
-  const handleLogout = () => logout();
+  const handleLogout = () => {
+    if (confirm('로그아웃 하시겠습니까?')) {
+      logout();
+    }
+  };
   const handleWithdraw = () => console.log('탈퇴하기 클릭');
-
   const settingItems: SettingItem[] = [
     { id: 'terms', label: '약관 및 정책', onClick: handleTerms },
     { id: 'logout', label: '로그아웃', onClick: handleLogout },
