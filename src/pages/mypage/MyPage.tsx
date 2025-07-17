@@ -37,10 +37,10 @@ const MyPage = () => {
       <TitleNavBar title="마이페이지" isBackIcon isLoginBtn={false} />
       <ProfileSection
         userName={userData.name}
-        credit={userData.CreditCount}
+        credit={userData.creditCount}
         isChargeDisabled={false}
       />
-      <HistorySection hasImage={hasImage} />
+      <HistorySection />
       <SettingSection />
     </div>
   );
