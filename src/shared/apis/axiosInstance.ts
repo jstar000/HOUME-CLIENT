@@ -1,7 +1,9 @@
 import axios, { AxiosError } from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { ERROR_CODES } from '../constants/apiErrorCode';
 import type { AxiosRequestConfig } from 'axios';
 import type { BaseResponse } from '../types/apis';
+import { ROUTES } from '@/routes/paths';
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -69,6 +71,8 @@ axiosInstance.interceptors.response.use(
       } catch (refreshError) {
         console.error('[axiosInstance] 토큰 재발급 실패:', refreshError);
         alert('세션이 만료되었습니다. 다시 로그인해주세요.');
+        const navigate = useNavigate();
+        navigate(ROUTES.LOGIN);
         return Promise.reject(refreshError);
       }
     }
