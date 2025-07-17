@@ -6,10 +6,10 @@ export const buttonWrapper = style({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  width: '37.5rem',
+  width: '100%',
   height: '4.4rem',
   padding: '0.4rem 2rem',
-  backgroundColor: colorVars.color.gray000,
+  backgroundColor: colorVars.color.gray100,
 });
 
 export const textContainer = style({

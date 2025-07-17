@@ -7,7 +7,8 @@ export const messageWrapper = style({
   justifyContent: 'flex-start',
   alignItems: 'flex-start',
   gap: '1rem',
-  width: '33.5rem', // 임시 넓이
+  width: '100%',
+  marginTop: '0.4rem',
 });
 
 export const messageText = style({

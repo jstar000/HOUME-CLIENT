@@ -25,7 +25,7 @@ import '@styles/fontFace.css';
  */
 export const layoutVars = createGlobalTheme(':root', {
   minWidth: '375px',
-  maxWidth: '430px',
+  maxWidth: '440px',
   height: '100dvh',
 });
 
@@ -70,7 +70,7 @@ globalStyle('html::-webkit-scrollbar', {
  * - 긴 단어 자동 줄바꿈
  *
  * 레이아웃:
- * - 모바일 중심 고정 너비 (375px ~ 430px)
+ * - 모바일 중심 고정 너비 (375px ~ 440px)
  * - 가운데 정렬로 데스크톱에서도 모바일 뷰 유지
  * - 플렉스 컨테이너로 하위 요소 배치 관리
  *
@@ -109,4 +109,27 @@ globalStyle('body', {
  */
 globalStyle('body::-webkit-scrollbar', {
   display: 'none',
+});
+
+/* ===== 이미지 보호 설정 ===== */
+/**
+ * 모든 이미지 요소에 대한 사용자 상호작용 제한
+ *
+ * Best Practice:
+ * - CSS만으로는 완전한 드래그 방지가 불가능
+ * - 중요한 이미지는 개별적으로 draggable="false" HTML 속성 추가 권장
+ * - 모바일 환경에서의 길게 누르기 메뉴도 방지
+ */
+globalStyle('img', {
+  // 텍스트/이미지 선택 방지
+  userSelect: 'none',
+  WebkitUserSelect: 'none',
+  MozUserSelect: 'none',
+  msUserSelect: 'none',
+
+  // 모바일 터치 콜아웃(길게 누르기 메뉴) 방지
+  WebkitTouchCallout: 'none',
+
+  // 이미지 하이라이트 방지
+  WebkitTapHighlightColor: 'transparent',
 });

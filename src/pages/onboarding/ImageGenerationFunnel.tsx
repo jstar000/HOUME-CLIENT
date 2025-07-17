@@ -1,17 +1,30 @@
+import { useEffect, useRef } from 'react';
 import { useImageGenerationFunnel } from './hooks/useImageGenerationFunnel.hooks';
 import Step1HouseInfo from './components/steps/step1/Step1HouseInfo';
-import Step2HouseStructure from './components/steps/step2/Step2HouseStructure';
-import Step4InteriorTaste from './components/steps/step3/Step3InteriorTaste';
+import Step2FloorPlan from './components/steps/step2/Step2FloorPlan';
+import Step3InteriorTaste from './components/steps/step3/Step3InteriorTaste';
 import Step4MainActivity from './components/steps/step4/Step4MainActivity';
 import {
   type CompletedHouseInfo,
-  type CompletedHouseStructure,
+  type CompletedFloorPlan,
   type CompletedInteriorTaste,
 } from './types/funnel';
 import FunnelLayout from './components/layout/FunnelLayout';
 
 export const ImageGenerationFunnel = () => {
   const funnel = useImageGenerationFunnel();
+  const prevStepRef = useRef<string | null>(null);
+
+  // 현재 스텝 가져오기
+  const currentStep = funnel.step;
+
+  // 다음 스텝 이동 시 스크롤 최상단으로 이동(뒤로가기에는 적용 안됨)
+  useEffect(() => {
+    if (prevStepRef.current !== null && prevStepRef.current !== currentStep) {
+      window.scrollTo(0, 0);
+    }
+    prevStepRef.current = currentStep;
+  }, [currentStep]);
 
   return (
     <FunnelLayout>
@@ -19,7 +32,7 @@ export const ImageGenerationFunnel = () => {
         HouseInfo={funnel.Render.with({
           events: {
             selectHouseInfo: (data: CompletedHouseInfo, { history }) => {
-              history.push('HouseStructure', data);
+              history.push('FloorPlan', data);
             },
           },
           render({ dispatch, context }) {
@@ -31,20 +44,17 @@ export const ImageGenerationFunnel = () => {
             );
           },
         })}
-        HouseStructure={funnel.Render.with({
+        FloorPlan={funnel.Render.with({
           events: {
-            selectHouseStructure: (
-              data: CompletedHouseStructure,
-              { history }
-            ) => {
+            selectedFloorPlan: (data: CompletedFloorPlan, { history }) => {
               history.push('InteriorTaste', data);
             },
           },
           render({ dispatch, context }) {
             return (
-              <Step2HouseStructure
+              <Step2FloorPlan
                 context={context}
-                onNext={(data) => dispatch('selectHouseStructure', data)}
+                onNext={(data) => dispatch('selectedFloorPlan', data)}
               />
             );
           },
@@ -60,7 +70,7 @@ export const ImageGenerationFunnel = () => {
           },
           render({ dispatch, context }) {
             return (
-              <Step4InteriorTaste
+              <Step3InteriorTaste
                 context={context}
                 onNext={(data) => dispatch('selectInteriorTaste', data)}
               />

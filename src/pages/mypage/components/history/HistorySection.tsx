@@ -1,0 +1,74 @@
+import { useNavigate } from 'react-router-dom';
+import * as styles from './HistorySection.css';
+import { useMyPageImages } from '../../hooks/useMypage';
+import CardHistory from '@/shared/components/card/cardHistory/CardHistory';
+import emptyImage from '@/shared/assets/images/emptyImage.png';
+import Loading from '@/shared/components/loading/Loading';
+
+const HistorySection = () => {
+  const navigate = useNavigate();
+  const { data: imagesData, isLoading, isError } = useMyPageImages();
+
+  const handleViewResult = (imageId: number) => {
+    navigate(`/generate/result?from=mypage&imageId=${imageId}`);
+  };
+
+  const handleCreateImage = () => {
+    navigate('/onboarding');
+  };
+
+  // 로딩 상태
+  if (isLoading) {
+    return (
+      <>
+        <section className={styles.container}>
+          <p className={styles.title}>이미지 생성 히스토리</p>
+        </section>
+        <Loading text="히스토리를 불러오는 중..." />
+      </>
+    );
+  }
+
+  // 에러 또는 데이터 없음
+  if (isError || !imagesData) {
+    return (
+      <section className={styles.container}>
+        <p className={styles.title}>이미지 생성 히스토리</p>
+        <CardHistory
+          src={emptyImage}
+          title="히스토리를 불러올 수 없어요"
+          btnText="다시 시도하기"
+        />
+      </section>
+    );
+  }
+
+  const hasImages = imagesData.histories && imagesData.histories.length > 0;
+
+  return (
+    <section className={styles.container}>
+      <p className={styles.title}>이미지 생성 히스토리</p>
+
+      {hasImages ? (
+        imagesData.histories.map((history, index) => (
+          <CardHistory
+            key={index}
+            src={history.imageUrl}
+            title={`${history.tagName} 인테리어 스타일링`}
+            btnText="가구 추천 보러가기"
+            onClick={() => handleViewResult(index)} // TODO: 실제 imageId로 수정 필요
+          />
+        ))
+      ) : (
+        <CardHistory
+          src={emptyImage}
+          title="생성한 이미지가 없어요"
+          btnText="이미지 생성하러 가기"
+          onClick={handleCreateImage}
+        />
+      )}
+    </section>
+  );
+};
+
+export default HistorySection;

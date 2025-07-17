@@ -1,12 +1,17 @@
-import { style } from '@vanilla-extract/css';
+import { keyframes, style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 import { fontStyle } from '@/shared/styles/fontStyle';
 import { colorVars } from '@/shared/styles/tokens/color.css';
+const shimmer = keyframes({
+  '0%': { transform: 'translateX(-100%)' },
+  '100%': { transform: 'translateX(100%)' },
+});
 
 export const cardcontainer = recipe({
   base: {
-    width: '16rem',
-    height: '24rem',
+    width: '100%',
+    minWidth: '16rem',
+    maxWidth: '19.4rem',
     overflow: 'hidden',
     borderRadius: '1.6rem',
     outline: 'none',
@@ -30,13 +35,8 @@ export const cardcontainer = recipe({
   },
   variants: {
     state: {
-      default: {
-        ':active': {
-          outline: `1px solid ${colorVars.color.primary}`,
-        },
-      },
+      default: { backgroundColor: colorVars.color.gray100 },
       pressed: {
-        backgroundColor: colorVars.color.primary,
         outline: 'none',
         selectors: {
           '&::after': {
@@ -45,8 +45,13 @@ export const cardcontainer = recipe({
         },
       },
       selected: {
-        backgroundColor: colorVars.color.primary,
-        outline: `1px solid ${colorVars.color.primary}`,
+        outline: `1.5px solid ${colorVars.color.primary}`,
+        outlineOffset: '-1.5px',
+        selectors: {
+          '&::after': {
+            backgroundColor: 'transparent',
+          },
+        },
       },
       disabled: {
         cursor: 'not-allowed',
@@ -76,7 +81,7 @@ export const cardimg = style({
 export const disabledcardimg = style([
   cardimg,
   {
-    opacity: 0.5,
+    opacity: 0.15,
   },
 ]);
 
@@ -114,6 +119,29 @@ export const checkbox = recipe({
       disabled: {
         display: 'none',
       },
+    },
+  },
+});
+
+export const skeletonCardImg = style({
+  width: '100%',
+  height: '100%',
+  borderRadius: '12px',
+  backgroundColor: colorVars.color.gray100,
+  position: 'relative',
+  overflow: 'hidden',
+
+  selectors: {
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      height: '100%',
+      width: '60%',
+      background:
+        'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
+      animation: `${shimmer} 1s infinite`,
     },
   },
 });
