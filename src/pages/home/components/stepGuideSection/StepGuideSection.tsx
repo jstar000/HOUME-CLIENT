@@ -10,7 +10,11 @@ const StepGuideSection = () => {
   return (
     <section className={styles.wrapper}>
       <div className={styles.landingImage}>
-        <img src={InfoLandingImage} alt="안내 랜딩 이미지" />
+        <img
+          src={InfoLandingImage}
+          alt="안내 랜딩 이미지"
+          className={styles.landingImageImg}
+        />
         <div className={styles.headingText}>
           <p>
             간단하게 정보를 입력하고 <br />
@@ -41,7 +45,11 @@ const StepGuideSection = () => {
       />
 
       <div className={styles.landingImage}>
-        <img src={AiLandingImage} alt="ai 랜딩 이미지" />
+        <img
+          src={AiLandingImage}
+          alt="ai 랜딩 이미지"
+          className={styles.landingImageImg}
+        />
         <div className={styles.headingText}>
           <p>
             AI 이미지로 나와 집에 딱 맞는 <br />
