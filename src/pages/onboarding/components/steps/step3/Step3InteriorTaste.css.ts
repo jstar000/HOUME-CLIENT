@@ -14,8 +14,12 @@ export const buttonWrapper = style({
   position: 'fixed',
   bottom: '2rem',
   width: '100%',
+  maxWidth: '44rem', // CtaButton 최대 너비 설정
   display: 'flex',
   justifyContent: 'center',
   zIndex: zIndex.button,
   padding: '0 2rem 0 2rem',
+  left: 0,
+  right: 0,
+  margin: '0 auto',
 });

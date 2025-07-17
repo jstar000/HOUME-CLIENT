@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import * as styles from './LoadingPage.css';
 import { PROGRESS_CONFIG } from '../../constants/progressConfig';
 
 const ProgressLoadingBar = () => {
   const [progress, setProgress] = useState(0);
   const [isDone, setIsDone] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval> | null = null;
@@ -48,13 +46,14 @@ const ProgressLoadingBar = () => {
     };
   }, [isDone]);
 
-  useEffect(() => {
-    if (progress === 100) {
-      setTimeout(() => {
-        navigate('/generate/result');
-      }, 1000);
-    }
-  }, [progress, navigate]);
+  // 주석: navigate는 useGenerateImageApi에서 이미 처리되므로 제거
+  // useEffect(() => {
+  //   if (progress === 100) {
+  //     setTimeout(() => {
+  //       navigate('/generate/result');
+  //     }, 1000);
+  //   }
+  // }, [progress, navigate]);
 
   return (
     <div className={styles.progressBarBox}>
