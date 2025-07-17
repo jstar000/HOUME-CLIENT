@@ -70,7 +70,8 @@ axiosInstance.interceptors.response.use(
       } catch (refreshError) {
         console.error('[axiosInstance] 토큰 재발급 실패:', refreshError);
         alert('세션이 만료되었습니다. 다시 로그인해주세요.');
-        window.location.href = ROUTES.LOGIN;
+        // 인터셉터에서는 직접 네비게이션하지 않고 에러를 던짐
+        // 컴포넌트에서 에러를 처리하여 네비게이션 처리
         return Promise.reject(refreshError);
       }
     }
