@@ -34,6 +34,7 @@ export const creditWrapper = style({
   gap: '0.8rem',
   flex: 1,
   minWidth: 0,
+  width: '100%',
 });
 
 export const textArea = style({

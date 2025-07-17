@@ -15,6 +15,8 @@ const MyPage = () => {
   const image = imageData?.generatedImageUrl;
   const hasImage = !!image;
 
+  console.log(credit);
+
   return (
     <div className={styles.contentWrapper}>
       <TitleNavBar title="마이페이지" isBackIcon isLoginBtn={false} />
