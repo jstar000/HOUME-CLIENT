@@ -2,28 +2,45 @@ import ProfileSection from './components/profile/ProfileSection';
 import HistorySection from './components/history/HistorySection';
 import SettingSection from './components/setting/SettingSection';
 import * as styles from './MyPage.css';
-import { useUserData, useImageHistory } from './hooks/useUser';
+import { useMyPageUser } from './hooks/useMypage';
 import TitleNavBar from '@/shared/components/navBar/TitleNavBar';
 
 const MyPage = () => {
-  const { data: userData } = useUserData();
-  const { data: imageData } = useImageHistory();
+  const {
+    data: userData,
+    isLoading: isUserLoading,
+    isError: isUserError,
+  } = useMyPageUser();
 
-  const userName = userData?.name ?? '사용자';
-  const credit = userData ? userData.creditCount : 0;
+  // 로딩 상태 처리
+  if (isUserLoading) {
+    return (
+      <div className={styles.contentWrapper}>
+        <TitleNavBar title="마이페이지" isBackIcon isLoginBtn={false} />
+        <div>사용자 정보를 불러오는 중...</div>
+      </div>
+    );
+  }
 
-  const image = imageData?.generatedImageUrl;
-  const hasImage = !!image;
+  // 에러 상태 처리
+  if (isUserError || !userData) {
+    return (
+      <div className={styles.contentWrapper}>
+        <TitleNavBar title="마이페이지" isBackIcon isLoginBtn={false} />
+        <div>사용자 정보를 불러오는데 실패했습니다.</div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.contentWrapper}>
       <TitleNavBar title="마이페이지" isBackIcon isLoginBtn={false} />
       <ProfileSection
-        userName={userName}
-        credit={credit}
+        userName={userData.name}
+        credit={userData.creditCount}
         isChargeDisabled={false}
       />
-      <HistorySection hasImage={hasImage} />
+      <HistorySection />
       <SettingSection />
     </div>
   );

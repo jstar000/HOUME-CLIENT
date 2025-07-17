@@ -34,17 +34,18 @@ export const contents = style({
   width: '100%',
   flexDirection: 'column',
   alignItems: 'center',
-
   background: colorVars.color.gray000,
 });
 
 export const buttonContainer = style({
   width: '100%',
+  maxWidth: '44rem',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   position: 'fixed',
   bottom: '0',
   zIndex: zIndex.button,
-  paddingBottom: '2rem',
+  marginTop: '4rem',
+  padding: '0rem 2rem 2rem 2rem',
 });

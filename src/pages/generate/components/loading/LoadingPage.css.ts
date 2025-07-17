@@ -16,6 +16,7 @@ export const infoSection = style({
   gap: '2.4rem',
   justifyContent: 'center',
   marginBottom: '2.4rem',
+  width: '93%',
 });
 
 export const progressBarBox = style({
@@ -23,7 +24,8 @@ export const progressBarBox = style({
   flexDirection: 'column',
   alignItems: 'center',
   gap: '0.8rem',
-  width: '30.5rem',
+  width: '100%',
+  minWidth: '30.5rem',
   padding: '1.6rem 2rem 1.2rem 2rem',
   borderRadius: '12px',
   backgroundColor: colorVars.color.gray050,
@@ -31,7 +33,8 @@ export const progressBarBox = style({
 
 // progress bar
 export const progressBack = style({
-  width: '26.5rem',
+  width: '100%',
+  minWidth: '26.5rem',
   height: '0.4rem',
   backgroundColor: colorVars.color.gray200,
   borderRadius: '999px',
@@ -59,19 +62,24 @@ export const infoText = style({
 export const carouselSection = style({
   display: 'flex',
   flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
   gap: '5.2rem',
+  width: '100%',
 });
 
 export const buttonGroup = style({
   display: 'flex',
   gap: '0.7rem',
   justifyContent: 'center',
+  width: '100%',
 });
 
 // 이미지 영역 컨테이너
 export const imageContainer = style({
   position: 'relative',
-  width: '33.5rem',
+  width: '100%',
+  minWidth: '33.5rem',
   height: '33.5rem',
   display: 'flex',
   justifyContent: 'center',
@@ -81,7 +89,8 @@ export const imageContainer = style({
 // 현재 이미지 영역
 export const currentImageArea = style({
   position: 'absolute',
-  width: '33.5rem',
+  width: '100%',
+  minWidth: '33.5rem',
   height: '33.5rem',
   overflow: 'hidden',
   transition: 'transform 0.6s ease, opacity 0.6s ease',
@@ -97,7 +106,8 @@ export const currentImageAreaOut = style({
 // 다음 이미지 영역
 export const nextImageArea = style({
   position: 'absolute',
-  width: '30.5rem',
+  width: '91%',
+  minWidth: '30.5rem',
   height: '30.5rem',
   borderRadius: '16px',
   overflow: 'hidden',
@@ -108,7 +118,8 @@ export const nextImageArea = style({
 });
 
 export const nextImageAreaActive = style({
-  width: '33.5rem',
+  width: '100%',
+  minWidth: '33.5rem',
   height: '33.5rem',
   transform: 'translateY(0)',
   opacity: 1,

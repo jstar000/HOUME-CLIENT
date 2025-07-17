@@ -4,6 +4,7 @@ import { fontStyle } from '@/shared/styles/fontStyle';
 
 export const textField = recipe({
   base: {
+    width: '100%',
     height: '4.9rem',
     padding: '1.4rem 1.2rem',
     borderRadius: '6px',
@@ -53,16 +54,16 @@ export const textField = recipe({
     },
     fieldSize: {
       thin: {
-        width: '25.9rem',
+        minWidth: '25.9rem',
         height: '3.6rem',
         padding: '0.8rem 1.2rem',
       },
       small: {
-        width: '10.7rem',
+        minWidth: '10.7rem',
         textAlign: 'center',
       },
       large: {
-        width: '33.5rem',
+        minWidth: '33.5rem',
       },
     },
   },

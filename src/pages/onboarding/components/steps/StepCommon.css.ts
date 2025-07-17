@@ -19,6 +19,7 @@ export const wrapper = style({
   flexDirection: 'column',
   gap: '4rem',
   padding: '2rem',
+  width: '100%',
 });
 
 export const optionGroupWrapper = style({

@@ -2,33 +2,31 @@ import { style } from '@vanilla-extract/css';
 
 export const wrapper = style({
   width: '100%',
-  height: '100%',
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
+  justifyContent: 'flex-start',
 });
 
 export const container = style({
   width: '100%',
-  height: '100%',
+  maxWidth: '44rem',
   display: 'flex',
   justifyContent: 'center',
-  alignItems: 'center',
-  padding: '2rem 0 2.4rem 0',
+  alignItems: 'flex-start',
+  padding: '2rem 2rem 4rem 2rem',
 });
 
 export const gridbox = style({
   width: '100%',
-  height: 'fit-content',
   display: 'grid',
-  gridTemplateColumns: 'repeat(2, auto)',
-  justifyContent: 'center',
+  gridTemplateColumns: 'repeat(auto-fill, minmax(16rem, 1fr))',
   rowGap: '1.2rem',
   columnGap: '1.1rem',
+  justifyContent: 'center',
 });
 
 export const buttonContainer = style({
-  display: 'flex',
   width: '100%',
-  marginBottom: '2rem',
+  maxWidth: '44rem',
+  marginBottom: '4rem',
 });

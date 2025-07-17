@@ -5,11 +5,12 @@ import { fontStyle } from '@/shared/styles/fontStyle';
 export const boxWrapper = style({
   display: 'flex',
   alignItems: 'center',
+  justifyContent: 'space-between',
   gap: '1.8rem',
   backgroundColor: colorVars.color.gray100,
   height: '4rem',
   padding: '0rem 0.8rem 0rem 1.6rem',
-  maxWidth: '19.9rem',
+  maxWidth: '100%',
   borderRadius: '0.6rem',
   flexShrink: 0,
 });

@@ -16,20 +16,22 @@ const CtaButton = ({
   ...props
 }: CtaButtonProps) => {
   return (
-    <button
-      type="button"
-      disabled={!isActive}
-      aria-disabled={!isActive}
-      className={styles.CtaButton({
-        state: isActive ? 'active' : 'disabled',
-        type: typeVariant,
-        buttonSize: buttonSize,
-      })}
-      {...props}
-    >
-      {typeVariant === 'kakao' && <KakaoIcon />}
-      {children}
-    </button>
+    <div className={styles.buttonWrapper}>
+      <button
+        type="button"
+        disabled={!isActive}
+        aria-disabled={!isActive}
+        className={styles.CtaButton({
+          state: isActive ? 'active' : 'disabled',
+          type: typeVariant,
+          buttonSize: buttonSize,
+        })}
+        {...props}
+      >
+        {typeVariant === 'kakao' && <KakaoIcon />}
+        {children}
+      </button>
+    </div>
   );
 };
 
