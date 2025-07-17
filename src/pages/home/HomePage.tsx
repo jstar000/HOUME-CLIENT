@@ -6,11 +6,11 @@ import * as styles from './HomePage.css';
 import { useLandingData } from './hooks/useLanding';
 import TokenRefreshTest from '../login/components/TokenRefreshTest';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
-import { useAuthStore } from '@/store/useAuthStore';
+import { useUserStore } from '@/store/useUserStore';
 
 const HomePage = () => {
-  // useAuthStore에서 accessToken을 가져와서 로그인 상태 확인
-  const accessToken = useAuthStore((state) => state.accessToken);
+  // useUserStore에서 accessToken을 가져와서 로그인 상태 확인
+  const accessToken = useUserStore((state) => state.accessToken);
   // accessToken 존재 여부로 로그인 상태 판단 (!!로 boolean 변환)
   const isLoggedIn = !!accessToken;
 
