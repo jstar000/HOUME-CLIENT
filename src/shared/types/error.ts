@@ -12,7 +12,7 @@ export type PageContext =
 // 에러 타입별 메시지 매핑
 export const ERROR_MESSAGES: Record<ErrorType, string> = {
   loading: '데이터를 불러오는 중 오류가 발생했습니다.',
-  api: 'API 요청 중 오류가 발생했습니다.',
+  api: '요청 중 오류가 발생했습니다.',
   network: '네트워크 연결을 확인해주세요.',
   auth: '로그인이 필요합니다.',
   validation: '입력 정보를 확인해주세요.',
