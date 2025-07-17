@@ -31,12 +31,17 @@ const LoadingPage = () => {
     if (requestData) {
       console.log('이미지 생성 요청 시작:', requestData);
 
-      generateImageRequest.mutate(requestData);
+      // 이미 진행 중인 요청이 있으면 중복 실행 방지
+      if (generateImageRequest.isIdle) {
+        generateImageRequest.mutate(requestData);
+      } else {
+        console.log('이미지 생성 요청이 이미 진행 중이므로 스킵');
+      }
     } else {
       console.log('requestData is null, redirect to /onboarding');
       navigate(ROUTES.ONBOARDING);
     }
-  }, [requestData, generateImageRequest, navigate]);
+  }, [requestData, navigate]); // generateImageRequest 의존성 제거
   // ... 이미지 생성 api 코드 끝
 
   const [currentPage, setCurrentPage] = useState(0);
@@ -63,14 +68,15 @@ const LoadingPage = () => {
   }, [currentImages]);
 
   useEffect(() => {
-    if (isError || !currentImages) {
+    // 실제 에러가 발생했거나, 로딩이 완료되었는데 데이터가 없는 경우에만 에러 처리
+    if (isError || (!isLoading && !currentImages)) {
       handleError(error || new Error('Stack data load failed'), 'loading');
     }
-  }, [isError, currentImages, error, handleError]);
+  }, [isError, isLoading, currentImages, error, handleError]);
 
   if (isLoading) return <Loading text="로딩중" />;
 
-  if (isError || !currentImages) {
+  if (isError || (!isLoading && !currentImages)) {
     return null;
   }
 
