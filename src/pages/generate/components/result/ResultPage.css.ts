@@ -46,7 +46,7 @@ export const resultSection = style({
   padding: '0 2rem 0 2rem',
 });
 
-export const imgArea = style({
+export const imgArea = recipe({
   base: {
     width: '100%',
     height: '22rem',
