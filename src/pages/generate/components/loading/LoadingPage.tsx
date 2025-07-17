@@ -80,10 +80,10 @@ const LoadingPage = () => {
     return null;
   }
 
-  const currentImage = currentImages[currentIndex];
-  const isLast = currentIndex === currentImages.length - 1;
+  const currentImage = currentImages?.[currentIndex];
+  const isLast = currentIndex === (currentImages?.length ?? 0) - 1;
   const nextImage = !isLast
-    ? currentImages[currentIndex + 1]
+    ? currentImages?.[currentIndex + 1]
     : nextImages && nextImages.length > 0
       ? nextImages[0]
       : undefined;
