@@ -173,10 +173,9 @@ export const useStep4MainActivity = (
   };
 
   return {
-    formData: localFormData,
+    localFormData,
     setFormData: updateFormData,
     // errors,
-    localFormData,
     isFormCompleted,
     isRequiredFurniture,
     getCurrentActivityLabel,

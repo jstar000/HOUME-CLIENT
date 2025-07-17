@@ -19,11 +19,10 @@ interface Step4MainActivityProps {
 
 const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
   const {
-    formData,
+    localFormData,
     setFormData,
     // errors,
     isFormCompleted,
-    localFormData,
     isRequiredFurniture,
     getCurrentActivityLabel,
     getRequiredFurnitureLabels,
@@ -51,9 +50,9 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
           title="주요 활동"
           body="선택한 활동에 최적화된 동선을 알려드려요."
           options={primaryUsageOptions}
-          selected={formData.primaryUsage}
+          selected={localFormData.primaryUsage}
           onButtonClick={(value) =>
-            setFormData((prev: typeof formData) => ({
+            setFormData((prev: typeof localFormData) => ({
               ...prev,
               primaryUsage: value,
             }))
@@ -67,9 +66,9 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
           <SubOptionGroup<string>
             subtitle="침대"
             options={bedTypeOptions}
-            selected={formData.bedTypeId}
+            selected={localFormData.bedTypeId}
             onButtonClick={(value) =>
-              setFormData((prev: typeof formData) => ({
+              setFormData((prev: typeof localFormData) => ({
                 ...prev,
                 bedTypeId: value as number,
               }))
@@ -80,10 +79,10 @@ const Step4MainActivity = ({ context }: Step4MainActivityProps) => {
 
           <MultiOptionGroup<string>
             options={otherFurnituresOptions}
-            selected={formData.otherFurnitureIds}
+            selected={localFormData.otherFurnitureIds}
             selectedCount={localFormData.otherFurnitureIds.length}
             onButtonClick={(value) =>
-              setFormData((prev: typeof formData) => ({
+              setFormData((prev: typeof localFormData) => ({
                 ...prev,
                 otherFurnitureIds: value as number[],
               }))
