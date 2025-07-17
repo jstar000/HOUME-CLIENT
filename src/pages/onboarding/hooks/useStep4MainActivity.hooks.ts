@@ -36,7 +36,10 @@ export const useStep4MainActivity = (
   const { step4, setStep4Data, setCurrentStep } = useFunnelStore();
 
   // 크레딧 가드 훅 (이미지 생성 시 1크레딧 필요)
-  const { checkCredit } = useCreditGuard(1);
+  const { checkCredit, isChecking } = useCreditGuard(1);
+
+  // 버튼 비활성화 상태 (토스트 표시 후 비활성화)
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   useEffect(() => {
     setCurrentStep(4);
@@ -136,6 +139,9 @@ export const useStep4MainActivity = (
   );
 
   const handleOnClick = async () => {
+    // 중복 클릭 방지 (CreditBox 패턴)
+    if (isChecking || isButtonDisabled) return;
+
     // 타입 단언(as) 대신 사용
     if (!localFormData.primaryUsage || !localFormData.bedTypeId) {
       console.error('필수 필드가 누락되었습니다');
@@ -146,6 +152,7 @@ export const useStep4MainActivity = (
     const hasCredit = await checkCredit();
     if (!hasCredit) {
       console.log('크레딧이 부족하여 이미지 생성을 중단합니다');
+      setIsButtonDisabled(true); // 크레딧 부족 시 버튼 비활성화
       return;
     }
 
@@ -192,5 +199,6 @@ export const useStep4MainActivity = (
     getCurrentActivityLabel,
     getRequiredFurnitureLabels,
     handleOnClick,
+    isButtonActive: !isChecking && !isButtonDisabled, // CreditBox 패턴과 동일
   };
 };
