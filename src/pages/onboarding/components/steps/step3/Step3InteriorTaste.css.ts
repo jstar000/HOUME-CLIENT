@@ -17,4 +17,5 @@ export const buttonWrapper = style({
   display: 'flex',
   justifyContent: 'center',
   zIndex: zIndex.button,
+  padding: '0 2rem 0 2rem',
 });

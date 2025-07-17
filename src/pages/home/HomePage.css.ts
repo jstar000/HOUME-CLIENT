@@ -39,6 +39,7 @@ export const contents = style({
 
 export const buttonContainer = style({
   width: '100%',
+  maxWidth: '44rem',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
