@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import * as styles from './HistorySection.css';
-import { useMyPageImages } from '../../hooks/useMyPage';
+import { useMyPageImages } from '../../hooks/useMypage';
 import CardHistory from '@/shared/components/card/cardHistory/CardHistory';
 import emptyImage from '@/shared/assets/images/emptyImage.png';
 import Loading from '@/shared/components/loading/Loading';
@@ -53,8 +53,8 @@ const HistorySection = () => {
         imagesData.histories.map((history, index) => (
           <CardHistory
             key={index}
-            src={history.generatedImageUrl}
-            title={`${history.tasteTag} 인테리어 스타일링`}
+            src={history.imageUrl}
+            title={`${history.tagName} 인테리어 스타일링`}
             btnText="가구 추천 보러가기"
             onClick={() => handleViewResult(index)} // TODO: 실제 imageId로 수정 필요
           />

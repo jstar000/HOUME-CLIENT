@@ -3,7 +3,7 @@ import ProfileSection from './components/profile/ProfileSection';
 import HistorySection from './components/history/HistorySection';
 import SettingSection from './components/setting/SettingSection';
 import * as styles from './MyPage.css';
-import { useMyPageUser } from './hooks/useMyPage';
+import { useMyPageUser } from './hooks/useMypage';
 import TitleNavBar from '@/shared/components/navBar/TitleNavBar';
 import Loading from '@/shared/components/loading/Loading';
 import { useErrorHandler } from '@/shared/hooks/useErrorHandler';

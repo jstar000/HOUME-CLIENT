@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { useMyPageUser } from '@/pages/mypage/hooks/useMyPage';
+import { useMyPageUser } from '@/pages/mypage/hooks/useMypage';
 import { useToast } from '@/shared/components/toast/useToast';
 
 interface CreditGuardReturn {

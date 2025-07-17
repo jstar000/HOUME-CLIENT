@@ -6,7 +6,7 @@ import ReviewSection from './components/reviewSection/ReviewSection';
 import * as styles from './HomePage.css';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 import { useUserStore } from '@/store/useUserStore';
-import { useMyPageUser } from '@/pages/mypage/hooks/useMyPage';
+import { useMyPageUser } from '@/pages/mypage/hooks/useMypage';
 import { ROUTES } from '@/routes/paths';
 
 const HomePage = () => {
