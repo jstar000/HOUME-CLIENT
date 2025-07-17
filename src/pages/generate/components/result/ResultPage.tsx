@@ -75,7 +75,7 @@ const ResultPage = () => {
         <img
           src={result.imageUrl}
           alt={`${result.name}님을 위한 맞춤 인테리어 스타일링`}
-          className={styles.imgArea}
+          className={styles.imgArea({ mirrored: result.isMirror })}
         />
         <div className={styles.buttonGroup}>
           <LikeButton
