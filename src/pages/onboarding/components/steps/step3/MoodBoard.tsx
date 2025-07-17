@@ -84,24 +84,27 @@ const MoodBoard = ({ selectedImages, onImageSelect }: MoodBoardProps) => {
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.gridbox}>
-        {images.map((image: MoodBoardImageItem) => {
-          const isSelected = selectedImages.includes(image.id);
-          const isDisabled =
-            selectedImages.length >= MOOD_BOARD_CONSTANTS.MAX_SELECTIONS &&
-            !isSelected;
+    <div className={styles.wrapper}>
+      <div className={styles.container}>
+        <div className={styles.gridbox}>
+          {images.map((image: MoodBoardImageItem) => {
+            const isSelected = selectedImages.includes(image.id);
+            const isDisabled =
+              selectedImages.length >= MOOD_BOARD_CONSTANTS.MAX_SELECTIONS &&
+              !isSelected;
 
-          return (
-            <CardImage
-              key={image.id}
-              src={image.imageUrl}
-              selectOrder={getSelectOrder(image.id)}
-              onClick={() => onImageSelect(image.id)}
-              disabled={isDisabled}
-            />
-          );
-        })}
+            return (
+              <CardImage
+                key={image.id}
+                src={image.imageUrl}
+                alt={'선택 가능한 무드보드 이미지'}
+                selectOrder={getSelectOrder(image.id)}
+                onClick={() => onImageSelect(image.id)}
+                disabled={isDisabled}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );

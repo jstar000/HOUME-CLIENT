@@ -4,7 +4,8 @@ import { fontStyle } from '@/shared/styles/fontStyle';
 
 export const largeFilled = recipe({
   base: {
-    width: '16.4rem',
+    width: '100%',
+    minWidth: '16.4rem',
     height: '4.8rem',
     padding: '1rem 2rem',
     alignItems: 'center',
@@ -37,7 +38,7 @@ export const largeFilled = recipe({
     },
     buttonSize: {
       medium: {
-        width: '10.7rem',
+        minWidth: '10.7rem',
         textAlign: 'center',
       },
       large: {},

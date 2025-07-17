@@ -31,7 +31,7 @@ export const sheetWrapper = style({
   bottom: 0,
   left: '50%',
   width: '100%',
-  maxWidth: '43rem',
+  maxWidth: '44rem',
   padding: '0rem 2.4rem 2rem 2.4rem',
   backgroundColor: colorVars.color.gray000,
   borderRadius: '30px 30px 0 0',

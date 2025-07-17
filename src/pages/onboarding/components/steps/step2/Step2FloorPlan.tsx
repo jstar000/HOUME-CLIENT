@@ -8,6 +8,7 @@ import type {
   ImageGenerateSteps,
 } from '../../../types/funnel';
 import { useStep2FloorPlan } from '@/pages/onboarding/hooks/useStep2FloorPlan.hooks';
+import { FUNNELHEADER_IMAGES } from '@/pages/onboarding/constants/headerImages';
 import Loading from '@/shared/components/loading/Loading';
 import { useErrorHandler } from '@/shared/hooks/useErrorHandler';
 
@@ -57,6 +58,7 @@ const Step2FloorPlan = ({ context, onNext }: Step2FloorPlanProps) => {
           title={`유사한 집 구조를 선택해주세요`}
           detail={`템플릿을 선택하면 좌우반전을 할 수 있어요.`}
           currentStep={2}
+          image={FUNNELHEADER_IMAGES[2]}
         />
         <div>사용 가능한 집 구조 템플릿이 없습니다.</div>
       </div>
@@ -69,6 +71,8 @@ const Step2FloorPlan = ({ context, onNext }: Step2FloorPlanProps) => {
         title={`유사한 집 구조를 선택해주세요`}
         detail={`템플릿을 선택하면 좌우반전을 할 수 있어요.`}
         currentStep={2}
+        image={FUNNELHEADER_IMAGES[2]}
+        size="short"
       />
 
       <FloorPlan

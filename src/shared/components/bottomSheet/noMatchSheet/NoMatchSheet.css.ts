@@ -30,7 +30,7 @@ export const sheetWrapper = style({
   left: '50%',
   transform: 'translate(-50%, 100%)',
   width: '100%',
-  maxWidth: '43rem',
+  maxWidth: '44rem',
   padding: '0rem 2.4rem 2rem 2.4rem',
   backgroundColor: colorVars.color.gray000,
   borderRadius: '30px 30px 0 0',
@@ -63,7 +63,6 @@ export const contentWapper = style({
   flexDirection: 'column',
   pointerEvents: 'none',
   alignItems: 'center',
-  maxWidth: '37.5rem',
   margin: '0 auto',
 });
 
@@ -80,7 +79,7 @@ export const dragHandleContainer = style({
 export const infoTextContainer = style({
   display: 'flex',
   flexDirection: 'column',
-  width: '33.5rem',
+  width: '100%',
   gap: '1.2rem',
   marginBottom: '3.2rem',
   pointerEvents: 'auto',
@@ -102,22 +101,21 @@ export const fieldWrapper = style({
   gap: '1.2rem',
   marginBottom: '4.8rem',
   pointerEvents: 'auto',
-  width: '100%', // 전체 너비 사용
-  alignItems: 'center', // 가운데 정렬
+  width: '100%',
+  alignItems: 'center',
 });
 
 export const fieldContainer = style({
   display: 'flex',
   alignItems: 'center',
   gap: '1.2rem',
-  width: '100%', // 전체 너비 사용
-  justifyContent: 'center', // 가운데 정렬
+  width: '100%',
 });
 
 export const title = style({
   ...fontStyle('title_sb_15'),
   color: colorVars.color.gray800,
-  width: '5.6rem',
+  minWidth: '5.6rem',
 });
 
 export const buttonContainer = style({

@@ -2,7 +2,9 @@ import { style } from '@vanilla-extract/css';
 import { colorVars } from '@/shared/styles/tokens/color.css';
 
 export const container = style({
-  width: '16rem',
+  width: '100%',
+  minWidth: '16rem',
+  maxWidth: '19.4rem',
   height: '24rem',
   overflow: 'hidden',
   borderRadius: '16px',

@@ -9,8 +9,9 @@ const shimmer = keyframes({
 
 export const cardcontainer = recipe({
   base: {
-    width: '16rem',
-    height: '24rem',
+    width: '100%',
+    minWidth: '16rem',
+    maxWidth: '19.4rem',
     overflow: 'hidden',
     borderRadius: '1.6rem',
     outline: 'none',
