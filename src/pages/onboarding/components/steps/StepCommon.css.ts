@@ -20,7 +20,6 @@ export const wrapper = style({
 export const optionGroupWrapper = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '1.6rem',
 });
 
 // step4의 '가구'를 감싸는 wrapper
@@ -77,4 +76,5 @@ export const buttonBox = style({
   display: 'grid',
   gridTemplateColumns: '1fr 1fr',
   gap: '0.7rem',
+  marginTop: '1.6rem',
 });

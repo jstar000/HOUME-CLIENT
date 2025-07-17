@@ -22,7 +22,6 @@ export const fieldbox = style({
   display: 'flex',
   flexDirection: 'column',
   width: '33.5rem',
-  gap: '1.2rem',
   justifyContent: 'center',
   alignItems: 'center',
 });
@@ -31,6 +30,7 @@ export const fieldtitle = style({
   width: '100%',
   ...fontStyle('title_sb_16'),
   color: colorVars.color.gray800,
+  marginBottom: '1.2rem',
 });
 
 export const flexbox = style({
