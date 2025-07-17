@@ -54,8 +54,6 @@ const HomePage = () => {
       navigate(ROUTES.LOGIN);
       return;
     }
-    if (isLoading) return <div>Loading...</div>;
-    if (isError) return <div>Error</div>;
 
     // 로딩 중이면 클릭 무시
     if (isUserDataLoading) return;
