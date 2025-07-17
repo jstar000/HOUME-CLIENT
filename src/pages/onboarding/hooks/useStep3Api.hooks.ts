@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getMoodBoardImage } from '../apis/MoodBoardImage';
 import {
   MOOD_BOARD_CONSTANTS,
@@ -22,4 +22,29 @@ export const useMoodBoardImage = (
     queryKey: ['moodBoardImages', limit], // cursor는 향후 페이지네이션 구현 시 사용 예정
     queryFn: () => getMoodBoardImage(limit),
   });
+};
+
+export const useMoodBoardQuery = (
+  limit = MOOD_BOARD_CONSTANTS.DEFAULT_LIMIT
+) => {
+  return useQuery({
+    queryKey: ['moodBoardImages', limit],
+    queryFn: () => getMoodBoardImage(limit),
+    staleTime: 5 * 60 * 1000, // QUESTION
+    gcTime: 10 * 60 * 1000, // QUESTION
+  });
+};
+
+export const usePrefetchMoodBoard = () => {
+  const queryClient = useQueryClient();
+
+  const prefetchMoodBoard = (limit = MOOD_BOARD_CONSTANTS.DEFAULT_LIMIT) => {
+    queryClient.prefetchQuery({
+      queryKey: ['moodBoardImages', limit],
+      queryFn: () => getMoodBoardImage(limit),
+      staleTime: 5 * 60 * 1000,
+    });
+  };
+
+  return { prefetchMoodBoard };
 };
