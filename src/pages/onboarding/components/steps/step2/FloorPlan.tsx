@@ -57,7 +57,11 @@ const FloorPlan = ({
 
   useEffect(() => {
     if (openSheet) {
-      setIsSheetOpen(true);
+      // 도면 이미지 클릭 -> FlipSheet 컴포넌트가 DOM에 마운트, 동시에 isOpen={true}로 렌더링 -> 바텀시트 애니메이션 없이 바로 나타남
+      // 따라서 requestAnimationFrame()으로 Flipsheet 마운트 후 1프레임 뒤에 isOpen을 true로 변경
+      requestAnimationFrame(() => {
+        setIsSheetOpen(true);
+      });
     }
   }, [openSheet]);
 
