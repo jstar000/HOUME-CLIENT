@@ -8,12 +8,14 @@ interface TitleNavBarProps extends React.ComponentProps<'nav'> {
   title: string;
   isBackIcon?: boolean;
   isLoginBtn?: boolean;
+  onBackClick?: () => void;
 }
 
 const TitleNavBar = ({
   title,
   isBackIcon = true,
   isLoginBtn = true,
+  onBackClick,
   ...props
 }: TitleNavBarProps) => {
   const navigate = useNavigate();
@@ -23,7 +25,7 @@ const TitleNavBar = ({
       <div className={styles.leftdiv}>
         {isBackIcon && (
           <BackIcon
-            onClick={() => navigate(-1)}
+            onClick={onBackClick || (() => navigate(-1))}
             className={styles.backicon}
             aria-label="뒤로가기"
           />

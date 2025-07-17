@@ -17,6 +17,12 @@ export const landingImage = style({
   gap: '0.8rem',
   marginTop: '12rem',
   marginBottom: '4rem',
+  alignItems: 'center',
+});
+
+export const landingImageImg = style({
+  width: '37.5rem',
+  objectFit: 'cover',
 });
 
 export const headingText = style({
@@ -31,21 +37,21 @@ export const headingText = style({
 });
 
 export const stepLandImage = style({
-  minWidth: '37.5rem',
-  width: '100%',
+  width: '37.5rem',
   height: '22rem',
   backgroundColor: colorVars.color.gray100,
   marginBottom: '4rem',
+  objectFit: 'cover',
 });
 
 export const imageGap = style({
   marginTop: '2rem',
 });
 
-export const resultLandImage = style([
-  stepLandImage,
-  {
-    height: '24rem',
-    marginBottom: '4rem',
-  },
-]);
+export const resultLandImage = style({
+  width: '37.5rem',
+  height: '24rem',
+  backgroundColor: colorVars.color.gray100,
+  marginBottom: '4rem',
+  objectFit: 'cover',
+});
