@@ -1,23 +1,76 @@
 import LogoNavBar from '@shared/components/navBar/LogoNavBar';
+import { useNavigate } from 'react-router-dom';
 import IntroSection from './components/introSection/IntroSection';
 import StepGuideSection from './components/stepGuideSection/StepGuideSection';
 import ReviewSection from './components/reviewSection/ReviewSection';
 import * as styles from './HomePage.css';
-import { useLandingData } from './hooks/useLanding';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 import { useUserStore } from '@/store/useUserStore';
+import { useMyPageUser } from '@/pages/mypage/hooks/useMypage';
+import { ROUTES } from '@/routes/paths';
 
 const HomePage = () => {
-  const { data: hasHistory, isLoading, isError } = useLandingData();
-  // useAuthStore에서 accessToken을 가져와서 로그인 상태 확인
+  const navigate = useNavigate();
+
+  // useUserStore에서 accessToken을 가져와서 로그인 상태 확인
   const accessToken = useUserStore((state) => state.accessToken);
   // accessToken 존재 여부로 로그인 상태 판단 (!!로 boolean 변환)
   const isLoggedIn = !!accessToken;
-
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error</div>;
-  console.log(hasHistory);
   
+  /**
+   * 로그인된 사용자의 크레딧 정보 조회
+   * - 로그인 상태일 때만 API 호출 (enabled 옵션 활용)
+   * - React Query 캐싱으로 중복 호출 방지 (5분 캐시)
+   * - 크레딧 기반 플로팅 버튼 분기 처리를 위한 데이터 수집
+   */
+  const { data: userData, isLoading: isUserDataLoading } = useMyPageUser({
+    enabled: isLoggedIn, // 핵심: 로그인 상태일 때만 API 호출
+  });
+
+  /**
+   * 크레딧 기반 플로팅 버튼 텍스트 결정
+   * - 로그인 안됨: "로그인하고 스타일 보기"
+   * - 로그인됨 + 로딩중: "로딩중..."
+   * - 로그인됨 + 크레딧 있음: "우리집에 딱 맞는 스타일 보기"
+   * - 로그인됨 + 크레딧 없음: "마이페이지에서 크레딧 충전하기"
+   */
+  const getButtonText = () => {
+    if (!isLoggedIn) return '로그인하고 스타일 보기';
+    if (isUserDataLoading) return '로딩중...';
+    if (userData?.CreditCount && userData.CreditCount > 0) {
+      return '우리집에 딱 맞는 스타일 보기';
+    }
+    return '마이페이지에서 크레딧 충전하기';
+  };
+
+  /**
+   * 플로팅 버튼 클릭 핸들러
+   * - 로그인 안됨: 로그인 페이지로 이동
+   * - 로그인됨 + 크레딧 있음: onboarding 이미지 생성 플로우로 이동
+   * - 로그인됨 + 크레딧 없음: 마이페이지로 이동
+   */
+  const handleCtaButtonClick = () => {
+    if (!isLoggedIn) {
+      navigate(ROUTES.LOGIN);
+      return;
+    }
+
+    // 로딩 중이면 클릭 무시
+    if (isUserDataLoading) return;
+
+    // 크레딧이 있으면 onboarding으로, 없으면 마이페이지로
+    if (userData?.CreditCount && userData.CreditCount > 0) {
+      navigate(ROUTES.ONBOARDING);
+    } else {
+      navigate(ROUTES.MYPAGE);
+    }
+  };
+
+  // 개발용 로그 (추후 제거 예정)
+  console.log('HomePage - 로그인 상태:', isLoggedIn);
+  console.log('HomePage - 사용자 데이터:', userData);
+  console.log('HomePage - 크레딧 정보:', userData?.CreditCount);
+
   return (
     <main className={styles.page}>
       <div className={styles.gradFrame}>
@@ -33,12 +86,8 @@ const HomePage = () => {
         <ReviewSection />
       </div>
       <div className={styles.buttonContainer}>
-        {/* 로그인 상태에 따라 하단 플로팅 버튼 텍스트 동적 변경 */}
-        <CtaButton>
-          {isLoggedIn
-            ? '우리집에 딱 맞는 스타일 보기'
-            : '로그인하고 스타일 보기'}
-        </CtaButton>
+        {/* 로그인 상태와 크레딧에 따라 하단 플로팅 버튼 동적 변경 */}
+        <CtaButton onClick={handleCtaButtonClick}>{getButtonText()}</CtaButton>
       </div>
     </main>
   );

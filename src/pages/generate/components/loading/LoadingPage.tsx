@@ -12,11 +12,14 @@ import type { GenerateImageRequest } from '../../types/GenerateType';
 import LikeButton from '@/shared/components/button/likeButton/LikeButton';
 import DislikeButton from '@/shared/components/button/likeButton/DislikeButton';
 import { ROUTES } from '@/routes/paths';
+import Loading from '@/shared/components/loading/Loading';
+import { useErrorHandler } from '@/shared/hooks/useErrorHandler';
 
 const LoadingPage = () => {
   // 이미지 생성 api 코드 ...
   const location = useLocation();
   const navigate = useNavigate();
+  const { handleError } = useErrorHandler('generate');
 
   // TODO: location.state의 타입 검증 로직 개선 필요(런타임 오류 방지)
   const requestData: GenerateImageRequest | null =
@@ -28,12 +31,17 @@ const LoadingPage = () => {
     if (requestData) {
       console.log('이미지 생성 요청 시작:', requestData);
 
-      generateImageRequest.mutate(requestData);
+      // 이미 진행 중인 요청이 있으면 중복 실행 방지
+      if (generateImageRequest.isIdle) {
+        generateImageRequest.mutate(requestData);
+      } else {
+        console.log('이미지 생성 요청이 이미 진행 중이므로 스킵');
+      }
     } else {
       console.log('requestData is null, redirect to /onboarding');
       navigate(ROUTES.ONBOARDING);
     }
-  }, [requestData]);
+  }, [requestData, navigate]); // generateImageRequest 의존성 제거
   // ... 이미지 생성 api 코드 끝
 
   const [currentPage, setCurrentPage] = useState(0);
@@ -41,6 +49,7 @@ const LoadingPage = () => {
     data: currentImages,
     isLoading,
     isError,
+    error,
   } = useStackData(currentPage, { enabled: true });
   const { data: nextImages } = useStackData(currentPage + 1, {
     enabled: !!currentImages, // next prefetch
@@ -58,8 +67,18 @@ const LoadingPage = () => {
     setCurrentIndex(0);
   }, [currentImages]);
 
-  if (isLoading) return <div>로딩중</div>;
-  if (isError || !currentImages) return <div>에러 발생!</div>;
+  useEffect(() => {
+    // 실제 에러가 발생했거나, 로딩이 완료되었는데 데이터가 없는 경우에만 에러 처리
+    if (isError || (!isLoading && !currentImages)) {
+      handleError(error || new Error('Stack data load failed'), 'loading');
+    }
+  }, [isError, isLoading, currentImages, error, handleError]);
+
+  if (isLoading) return <Loading text="로딩중" />;
+
+  if (isError || (!isLoading && !currentImages)) {
+    return null;
+  }
 
   const currentImage = currentImages[currentIndex];
   const isLast = currentIndex === currentImages.length - 1;
