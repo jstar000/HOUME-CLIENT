@@ -5,7 +5,6 @@ export const wrapper = style({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'flex-start',
-  position: 'relative',
 });
 
 export const container = style({
@@ -14,7 +13,7 @@ export const container = style({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'flex-start',
-  padding: '2rem 2rem 8.8rem 2rem',
+  padding: '2rem 2rem 4rem 2rem',
 });
 
 export const gridbox = style({
@@ -29,7 +28,5 @@ export const gridbox = style({
 export const buttonContainer = style({
   width: '100%',
   maxWidth: '44rem',
-  marginTop: 'auto',
-  position: 'fixed',
-  bottom: '2rem',
+  marginBottom: '4rem',
 });
