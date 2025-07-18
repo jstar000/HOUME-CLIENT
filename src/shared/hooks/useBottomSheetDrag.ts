@@ -16,6 +16,7 @@ export function useBottomSheetDrag({
   const startY = useRef(0); // 드래그 시작 Y좌표
   const currentY = useRef(0); // 현재 드래그된 Y거리
   const isDragging = useRef(false); // 드래그 중 상태
+  const isClosing = useRef(false); // 닫기 중 상태
 
   // 위치 업데이트 함수
   const updateSheetPosition = (deltaY: number) => {
@@ -28,11 +29,12 @@ export function useBottomSheetDrag({
 
   // 드래그 종료 함수
   const finishDrag = () => {
-    if (!isDragging.current || !sheetRef.current) return;
+    if (!isDragging.current || !sheetRef.current || isClosing.current) return;
     isDragging.current = false;
     sheetRef.current.style.transition = 'transform 0.3s ease';
     sheetRef.current.style.transform = 'translate(-50%, 0)';
-    if (currentY.current > threshold) {
+    if (currentY.current > threshold && !isClosing.current) {
+      isClosing.current = true;
       onClose();
     }
     currentY.current = 0;
@@ -46,6 +48,7 @@ export function useBottomSheetDrag({
   };
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isDragging.current) return;
+    e.preventDefault(); // 브라우저 기본 동작 방지
     const deltaY = e.touches[0].clientY - startY.current;
     updateSheetPosition(deltaY);
   };
@@ -73,8 +76,10 @@ export function useBottomSheetDrag({
   };
 
   useEffect(() => {
-    // 언마운트 시 이벤트 해제
+    // 언마운트 시 이벤트 해제 및 상태 초기화
     return () => {
+      isDragging.current = false;
+      isClosing.current = false;
       document.removeEventListener('mousemove', handleMouseMove as any);
       document.removeEventListener('mouseup', handleMouseUp as any);
     };

@@ -13,7 +13,7 @@ export const backdrop = style({
   zIndex: zIndex.backdrop,
   opacity: 0,
   visibility: 'hidden',
-  touchAction: 'none',
+  touchAction: 'pan-y',
   pointerEvents: 'none',
   transition: 'opacity 0.3s ease-in-out, visibility 0.3s ease-in-out',
 });
@@ -21,7 +21,6 @@ export const backdrop = style({
 export const backdropVisible = style({
   opacity: 1,
   visibility: 'visible',
-  pointerEvents: 'auto',
 });
 
 export const sheetWrapper = style({
@@ -35,7 +34,7 @@ export const sheetWrapper = style({
   backgroundColor: colorVars.color.gray000,
   borderRadius: '30px 30px 0 0',
   willChange: 'transform',
-  transition: 'transform 0.6s ease-in-out ',
+  transition: 'transform 0.3s ease-in-out',
   zIndex: zIndex.sheet,
   overflow: 'hidden',
   userSelect: 'none', // 텍스트 선택 방지
@@ -61,7 +60,6 @@ export const sheetWrapperCollapsed = style({
 export const contentWapper = style({
   display: 'flex',
   flexDirection: 'column',
-  pointerEvents: 'none',
   alignItems: 'center',
   margin: '0 auto',
 });
@@ -73,7 +71,6 @@ export const dragHandleContainer = style({
   justifyContent: 'center',
   alignItems: 'center',
   marginBottom: '2rem',
-  pointerEvents: 'auto', // 드래그 핸들은 클릭 가능하게
 });
 
 export const infoTextContainer = style({
@@ -82,7 +79,6 @@ export const infoTextContainer = style({
   width: '100%',
   gap: '1.2rem',
   marginBottom: '3.2rem',
-  pointerEvents: 'auto',
 });
 
 export const infoText = style({
@@ -100,7 +96,6 @@ export const fieldWrapper = style({
   flexDirection: 'column',
   gap: '1.2rem',
   marginBottom: '4.8rem',
-  pointerEvents: 'auto',
   width: '100%',
   alignItems: 'center',
 });
@@ -122,5 +117,4 @@ export const buttonContainer = style({
   display: 'flex',
   justifyContent: 'center',
   width: '100%',
-  pointerEvents: 'auto',
 });

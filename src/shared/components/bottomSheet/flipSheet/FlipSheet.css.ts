@@ -14,7 +14,7 @@ export const backdrop = style({
   zIndex: zIndex.backdrop,
   opacity: 0,
   visibility: 'hidden',
-  touchAction: 'none',
+  touchAction: 'pan-y',
   pointerEvents: 'none',
   transition: 'opacity 0.3s ease-in-out, visibility 0.3s ease-in-out',
 });
@@ -39,6 +39,8 @@ export const sheetWrapper = style({
   overflow: 'hidden',
   userSelect: 'none',
   cursor: 'grab',
+  willChange: 'transform',
+  transition: 'transform 0.3s ease-in-out',
 
   // 드래그 중일 때만 transition 비활성화
   selectors: {
@@ -50,12 +52,10 @@ export const sheetWrapper = style({
 
 export const sheetWrapperExpanded = style({
   transform: 'translate(-50%, 0)',
-  transition: 'transform 0.6s ease-in-out',
 });
 
 export const sheetWrapperCollapsed = style({
   transform: 'translate(-50%, 100%)',
-  transition: 'transform 0.6s ease-in-out',
 });
 
 export const imageArea = style({
@@ -64,7 +64,6 @@ export const imageArea = style({
   gap: '2rem',
   alignItems: 'center',
   justifyContent: 'center',
-  pointerEvents: 'none', // 드래그 중 이미지 영역 클릭 방지
 });
 
 export const dragHandleContainer = style({
@@ -72,7 +71,6 @@ export const dragHandleContainer = style({
   height: '2.8rem',
   alignItems: 'center',
   justifyContent: 'center',
-  pointerEvents: 'auto', // 드래그 핸들은 클릭 가능하게
 });
 
 export const infoText = style({
@@ -110,5 +108,4 @@ export const buttonGroup = style({
   display: 'flex',
   gap: '1.2rem',
   marginTop: '3.2rem',
-  pointerEvents: 'auto', // 버튼 클릭 가능
 });
