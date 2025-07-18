@@ -60,7 +60,7 @@ export const creditBox = style({
   height: '3.6rem',
   padding: '0 1.6rem',
   alignItems: 'center',
-  justifyContent: 'space-between',
+  gap: '0.8rem',
   borderRadius: '6px',
   background: colorVars.color.gray100,
 });
