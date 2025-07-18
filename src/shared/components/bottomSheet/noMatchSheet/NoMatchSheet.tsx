@@ -48,7 +48,7 @@ const NoMatchSheet = ({
     onSubmit(region, address);
   };
 
-  const handleBackdropClick = (e: React.MouseEvent) => {
+  const handleBackdropClick = (e: React.MouseEvent | React.TouchEvent) => {
     e.stopPropagation();
     onClose();
   };
