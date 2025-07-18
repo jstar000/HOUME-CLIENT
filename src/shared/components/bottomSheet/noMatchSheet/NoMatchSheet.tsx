@@ -4,7 +4,6 @@ import DragHandle from '@components/dragHandle/DragHandle';
 import TextField from '@components/textField/TextField';
 import CtaButton from '@components/button/ctaButton/CtaButton';
 import * as styles from './NoMatchSheet.css';
-import { useBottomSheetDrag } from '@/shared/hooks/useBottomSheetDrag';
 import { useUserStore } from '@/store/useUserStore';
 
 interface NoMatchSheetProps {
@@ -30,12 +29,6 @@ const NoMatchSheet = ({
   // 1. ref 생성
   const sheetRef = useRef<HTMLDivElement | null>(null);
 
-  // 2. 훅 사용
-  const dragHandlers = useBottomSheetDrag({
-    sheetRef,
-    onClose,
-  });
-
   // transitionend 핸들러
   const handleTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
     // sheetWrapper에서만, 닫힐 때만 호출
@@ -48,17 +41,11 @@ const NoMatchSheet = ({
     onSubmit(region, address);
   };
 
-  const handleBackdropClick = (e: React.MouseEvent | React.TouchEvent) => {
-    e.stopPropagation();
-    onClose();
-  };
-
   return (
     <>
       <div
         className={clsx(styles.backdrop, isOpen && styles.backdropVisible)}
-        onClick={handleBackdropClick}
-        onTouchEnd={handleBackdropClick}
+        onClick={onClose}
       />
       <div
         ref={sheetRef}
@@ -71,7 +58,7 @@ const NoMatchSheet = ({
       >
         <div className={styles.contentWapper}>
           <div className={styles.dragHandleContainer}>
-            <DragHandle {...dragHandlers} />
+            <DragHandle />
           </div>
           <div className={styles.infoTextContainer}>
             <span className={styles.infoText}>
