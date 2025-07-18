@@ -31,7 +31,7 @@ const NoMatchSheet = ({
   const sheetRef = useRef<HTMLDivElement | null>(null);
 
   // 2. 훅 사용
-  const { ref: dragHandleRef, ...dragHandlers } = useBottomSheetDrag({
+  const dragHandlers = useBottomSheetDrag({
     sheetRef,
     onClose,
   });
@@ -65,7 +65,7 @@ const NoMatchSheet = ({
       >
         <div className={styles.contentWapper}>
           <div className={styles.dragHandleContainer}>
-            <DragHandle ref={dragHandleRef} {...dragHandlers} />
+            <DragHandle {...dragHandlers} />
           </div>
           <div className={styles.infoTextContainer}>
             <span className={styles.infoText}>

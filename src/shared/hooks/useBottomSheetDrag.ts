@@ -13,11 +13,10 @@ export function useBottomSheetDrag({
   onClose,
   threshold = DRAG_CLOSE_THRESHOLD_PX,
 }: UseBottomSheetDragProps) {
-  const startY = useRef(0); // 드래그 시작 Y좌표
-  const currentY = useRef(0); // 현재 드래그된 Y거리
-  const isDragging = useRef(false); // 드래그 중 상태
-  const isClosing = useRef(false); // 닫기 중 상태
-  const dragHandleRef = useRef<HTMLDivElement | null>(null);
+  const startY = useRef(0);
+  const currentY = useRef(0);
+  const isDragging = useRef(false);
+  const isClosing = useRef(false);
 
   // 위치 업데이트 함수
   const updateSheetPosition = (deltaY: number) => {
@@ -47,65 +46,57 @@ export function useBottomSheetDrag({
     currentY.current = 0;
   }, [threshold, onClose]);
 
-  // 터치 이벤트
-  const handleTouchStart = (e: React.TouchEvent) => {
+  // 터치 이벤트 핸들러
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
     e.stopPropagation();
     startY.current = e.touches[0].clientY;
     isDragging.current = true;
-  };
-  const handleTouchMove = () => {
-    // React 이벤트에서는 preventDefault를 호출하지 않음
-    // useEffect에서 등록한 non-passive 리스너가 처리함
-  };
-  const handleTouchEnd = () => {
-    finishDrag();
-  };
+  }, []);
 
-  // 마우스 이벤트
-  const handleMouseDown = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    startY.current = e.clientY;
-    isDragging.current = true;
-    document.addEventListener('mousemove', handleMouseMove as any);
-    document.addEventListener('mouseup', handleMouseUp as any);
-  };
-  const handleMouseMove = (e: MouseEvent) => {
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
     if (!isDragging.current) return;
-    const deltaY = e.clientY - startY.current;
+    const deltaY = e.touches[0].clientY - startY.current;
     updateSheetPosition(deltaY);
-  };
-  const handleMouseUp = () => {
+  }, []);
+
+  const handleTouchEnd = useCallback(() => {
     finishDrag();
-    document.removeEventListener('mousemove', handleMouseMove as any);
-    document.removeEventListener('mouseup', handleMouseUp as any);
-  };
+  }, [finishDrag]);
 
-  // Passive 이벤트 리스너 문제 해결을 위한 useEffect
+  // 마우스 이벤트 핸들러
+  const handleMouseDown = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      startY.current = e.clientY;
+      isDragging.current = true;
+
+      const handleMouseMove = (e: MouseEvent) => {
+        if (!isDragging.current) return;
+        const deltaY = e.clientY - startY.current;
+        updateSheetPosition(deltaY);
+      };
+
+      const handleMouseUp = () => {
+        finishDrag();
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+      };
+
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+    },
+    [finishDrag]
+  );
+
+  // 클린업
   useEffect(() => {
-    const element = dragHandleRef.current;
-    if (!element) return;
-
-    const touchMoveHandler = (e: TouchEvent) => {
-      if (!isDragging.current) return;
-      e.preventDefault();
-      const deltaY = e.touches[0].clientY - startY.current;
-      updateSheetPosition(deltaY);
-    };
-
-    // non-passive 리스너로 등록
-    element.addEventListener('touchmove', touchMoveHandler, { passive: false });
-
     return () => {
-      element.removeEventListener('touchmove', touchMoveHandler);
       isDragging.current = false;
       isClosing.current = false;
-      document.removeEventListener('mousemove', handleMouseMove as any);
-      document.removeEventListener('mouseup', handleMouseUp as any);
     };
   }, []);
 
   return {
-    ref: dragHandleRef,
     onTouchStart: handleTouchStart,
     onTouchMove: handleTouchMove,
     onTouchEnd: handleTouchEnd,

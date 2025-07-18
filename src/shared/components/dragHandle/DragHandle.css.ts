@@ -9,4 +9,7 @@ export const wrapper = style({
   alignItems: 'center',
   justifyContent: 'center',
   color: colorVars.color.gray300,
+  touchAction: 'none', // 터치 스크롤 방지
+  cursor: 'grab',
+  userSelect: 'none',
 });
