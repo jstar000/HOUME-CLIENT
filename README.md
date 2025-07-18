@@ -1,8 +1,13 @@
 # HOUME
 
 ![HOUME Logo](https://img.shields.io/badge/HOUME-나다운%20집을%20만들어주는%20여정-6F00FF?style=for-the-badge)
-
-<img width="5940" height="4200" alt="Mask group" src="https://github.com/user-attachments/assets/a81f9453-b170-4136-8959-3178a5d12f80" />
+<img width="7680" height="4320" alt="Slide 16_9 - 154" src="https://github.com/user-attachments/assets/ac72d5ec-b96e-4eaa-bf28-8e60e3d19a25" />
+<img width="7680" height="4320" alt="Slide 16_9 - 178" src="https://github.com/user-attachments/assets/0983921e-06a2-419e-8a86-b0ff16a61528" />
+<img width="1920" height="1080" alt="Slide 16_9 - 180" src="https://github.com/user-attachments/assets/62100a23-18e0-40ab-b9a7-a74e1f5e9a32" />
+<img width="7680" height="4320" alt="Slide 16_9 - 181" src="https://github.com/user-attachments/assets/7943a277-2e2a-4015-bf7f-45f4bfc02b38" />
+<img width="7680" height="4320" alt="Slide 16_9 - 182" src="https://github.com/user-attachments/assets/dcf87579-e345-47bf-bec3-eb6243cc3e48" />
+<img width="5760" height="3240" alt="Slide 16_9 - 167" src="https://github.com/user-attachments/assets/073163d3-85f2-44d3-af8c-89d833538062" />
+<img width="1920" height="1080" alt="Slide 16_9 - 176" src="https://github.com/user-attachments/assets/9f36894d-65b6-42cc-9699-7c9d275cf308" />
 
 <br/> <strong>"나다운 집을 만들어주는 여정, 하우미"</strong>
 
@@ -40,7 +45,7 @@ HOUME는 사용자가 자신만의 개성 있는 공간을 디자인하고 꾸�
         </td>
         <td>
           <img 
-            src="https://github.com/user-attachments/assets/19b88a4d-f69c-45e4-9759-d8d5992ce052"
+            src="https://github.com/user-attachments/assets/7308ada2-10b4-4155-94e2-c33919216e24"
             alt="박소이" 
             style="width: 140px; height: 224px"
           />
@@ -54,14 +59,14 @@ HOUME는 사용자가 자신만의 개성 있는 공간을 디자인하고 꾸�
         </td>
         <td>
           <img 
-            src="https://github.com/user-attachments/assets/bf9ee9cd-02de-417e-b683-c6762f6679e8"
+            src="https://github.com/user-attachments/assets/50f9a237-f65c-4b74-b099-984462290951"
             alt="조성하" 
             style="width: 140px; height: 224px"
           />
         </td>
         <td>
           <img 
-            src="https://github.com/user-attachments/assets/2bd6e242-9efb-47a5-9b9f-444797a28295"
+            src="https://github.com/user-attachments/assets/5faa515e-6a90-4c2a-96c3-04c05dea6a4e"
             alt="문혜성" 
             style="width: 140px; height: 224px"
           />
@@ -422,27 +427,13 @@ type ButtonVariant = 'primary' | 'secondary' | 'danger';
 
 <div align="center">
 
-### 🌟
-
-**"Alone we can do so little, together we can do so much."**  
-_- Helen Keller_
-
-<br>
-
-_우리가 함께하는 여정은 혼자서는 갈 수 없는 곳으로 우리를 데려다줍니다._
-
-_실패를 두려워하지 마세요._  
-_넘어져도 서로 일으켜 세워줄 팀원들이 있습니다._  
-_모든 오류는 배움의 기회이고, 모든 이슈는 성장의 계단입니다._
-
-_혼자가 아닌 우리이기에 더 멀리 갈 수 있습니다._  
-_HOUME 끝까지 파이팅입니다._
-
-</div>
-
-<br>
-
 ---
+
+<img width="1920" height="1080" alt="Slide 16_9 - 49" src="https://github.com/user-attachments/assets/5ee6dc3f-c86d-463a-a7d5-291a415c2ded" />
+
+<br/>
+<br/>
+<br/>
 
 <div align="center">
   <strong>🏠 나다운 집을 만들어가는 여정, HOUME 🏠</strong>

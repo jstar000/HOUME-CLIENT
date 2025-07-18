@@ -43,11 +43,6 @@ const ResultPage = () => {
   // Hook들을 최상단에 배치
   const [selected, setSelected] = useState<'like' | 'dislike' | null>(null);
 
-  // 페이지 이동 시 스크롤 위치 초기화
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   // 1차: location.state에서 데이터 가져오기 (정상적인 플로우)
   let result = (location.state as { result?: GenerateImageData })?.result;
 
@@ -81,9 +76,16 @@ const ResultPage = () => {
   const { mutate: sendFurnituresLogs } = useFurnitureLogMutation();
   const { mutate: sendCreditLogs } = useCreditLogMutation();
 
+  // 마이페이지에서 온 경우 기존 isLike 상태를 버튼에 반영
+  useEffect(() => {
+    if (isFromMypage && mypageResult?.isLike !== undefined) {
+      setSelected(mypageResult.isLike ? 'like' : 'dislike');
+    }
+  }, [isFromMypage, mypageResult?.isLike]);
+
   // 로딩 중이면 로딩 표시
   if (!result && (isLoading || mypageLoading)) {
-    return <Loading text="결과를 불러오는 중..." />;
+    return <Loading />;
   }
 
   // 여전히 데이터가 없으면 홈으로 리다이렉션
