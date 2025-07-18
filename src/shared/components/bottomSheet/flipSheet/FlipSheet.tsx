@@ -26,7 +26,10 @@ const FlipSheet = ({
   isFlipped,
 }: FlipSheetProps) => {
   const sheetRef = useRef<HTMLDivElement | null>(null); // bottom sheet DOM 참조
-  const dragHandlers = useBottomSheetDrag({ sheetRef, onClose });
+  const { ref: dragHandleRef, ...dragHandlers } = useBottomSheetDrag({
+    sheetRef,
+    onClose,
+  });
 
   // CSS transition이 끝났을 때 호출
   const handleTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
@@ -52,7 +55,7 @@ const FlipSheet = ({
       >
         <div className={styles.imageArea}>
           <div className={styles.dragHandleContainer}>
-            <DragHandle {...dragHandlers} />
+            <DragHandle ref={dragHandleRef} {...dragHandlers} />
           </div>
           <p className={styles.infoText}>이미지를 좌우반전 할 수 있어요</p>
           <div className={styles.imageContainer}>

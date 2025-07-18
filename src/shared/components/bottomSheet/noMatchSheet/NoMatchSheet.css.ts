@@ -21,6 +21,7 @@ export const backdrop = style({
 export const backdropVisible = style({
   opacity: 1,
   visibility: 'visible',
+  pointerEvents: 'auto',
 });
 
 export const sheetWrapper = style({

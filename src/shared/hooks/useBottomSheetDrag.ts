@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useCallback } from 'react';
 
 interface UseBottomSheetDragProps {
   sheetRef: React.RefObject<HTMLDivElement | null>;
@@ -17,6 +17,7 @@ export function useBottomSheetDrag({
   const currentY = useRef(0); // 현재 드래그된 Y거리
   const isDragging = useRef(false); // 드래그 중 상태
   const isClosing = useRef(false); // 닫기 중 상태
+  const dragHandleRef = useRef<HTMLDivElement | null>(null);
 
   // 위치 업데이트 함수
   const updateSheetPosition = (deltaY: number) => {
@@ -28,17 +29,23 @@ export function useBottomSheetDrag({
   };
 
   // 드래그 종료 함수
-  const finishDrag = () => {
-    if (!isDragging.current || !sheetRef.current || isClosing.current) return;
+  const finishDrag = useCallback(() => {
+    if (!isDragging.current || !sheetRef.current) return;
     isDragging.current = false;
     sheetRef.current.style.transition = 'transform 0.3s ease';
-    sheetRef.current.style.transform = 'translate(-50%, 0)';
+
     if (currentY.current > threshold && !isClosing.current) {
       isClosing.current = true;
-      onClose();
+      sheetRef.current.style.transform = 'translate(-50%, 100%)';
+      setTimeout(() => {
+        onClose();
+        isClosing.current = false;
+      }, 300);
+    } else {
+      sheetRef.current.style.transform = 'translate(-50%, 0)';
     }
     currentY.current = 0;
-  };
+  }, [threshold, onClose]);
 
   // 터치 이벤트
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -46,11 +53,9 @@ export function useBottomSheetDrag({
     startY.current = e.touches[0].clientY;
     isDragging.current = true;
   };
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging.current) return;
-    e.preventDefault(); // 브라우저 기본 동작 방지
-    const deltaY = e.touches[0].clientY - startY.current;
-    updateSheetPosition(deltaY);
+  const handleTouchMove = () => {
+    // React 이벤트에서는 preventDefault를 호출하지 않음
+    // useEffect에서 등록한 non-passive 리스너가 처리함
   };
   const handleTouchEnd = () => {
     finishDrag();
@@ -75,9 +80,23 @@ export function useBottomSheetDrag({
     document.removeEventListener('mouseup', handleMouseUp as any);
   };
 
+  // Passive 이벤트 리스너 문제 해결을 위한 useEffect
   useEffect(() => {
-    // 언마운트 시 이벤트 해제 및 상태 초기화
+    const element = dragHandleRef.current;
+    if (!element) return;
+
+    const touchMoveHandler = (e: TouchEvent) => {
+      if (!isDragging.current) return;
+      e.preventDefault();
+      const deltaY = e.touches[0].clientY - startY.current;
+      updateSheetPosition(deltaY);
+    };
+
+    // non-passive 리스너로 등록
+    element.addEventListener('touchmove', touchMoveHandler, { passive: false });
+
     return () => {
+      element.removeEventListener('touchmove', touchMoveHandler);
       isDragging.current = false;
       isClosing.current = false;
       document.removeEventListener('mousemove', handleMouseMove as any);
@@ -86,6 +105,7 @@ export function useBottomSheetDrag({
   }, []);
 
   return {
+    ref: dragHandleRef,
     onTouchStart: handleTouchStart,
     onTouchMove: handleTouchMove,
     onTouchEnd: handleTouchEnd,
