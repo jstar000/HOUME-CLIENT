@@ -5,7 +5,7 @@ import { colorVars } from '@/shared/styles/tokens/color.css';
 export const container = style({
   display: 'flex',
   flexDirection: 'column',
-  padding: '2rem 0rem 2.4rem',
+  padding: '4.4rem 2rem 6rem 2rem',
   alignItems: 'flex-start',
   alignSelf: 'stretch',
 });
@@ -36,7 +36,8 @@ export const buttonText = style({
 });
 
 export const divider = style({
-  width: '100%',
+  width: 'calc(100% + 4rem)',
   height: '0.1rem',
   backgroundColor: colorVars.color.gray100,
+  marginLeft: '-2rem',
 });
