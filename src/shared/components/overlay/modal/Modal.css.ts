@@ -56,7 +56,7 @@ export const title = style({
 
 export const creditBox = style({
   display: 'flex',
-  width: '11.5rem',
+  minWidth: '11.5rem',
   height: '3.6rem',
   padding: '0 1.6rem',
   alignItems: 'center',
