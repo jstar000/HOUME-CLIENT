@@ -48,11 +48,17 @@ const NoMatchSheet = ({
     onSubmit(region, address);
   };
 
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onClose();
+  };
+
   return (
     <>
       <div
         className={clsx(styles.backdrop, isOpen && styles.backdropVisible)}
-        onClick={onClose}
+        onClick={handleBackdropClick}
+        onTouchEnd={handleBackdropClick}
       />
       <div
         ref={sheetRef}

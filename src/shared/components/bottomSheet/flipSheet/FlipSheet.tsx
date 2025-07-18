@@ -38,11 +38,17 @@ const FlipSheet = ({
     }
   };
 
+  const handleBackdropClick = (e: React.MouseEvent | React.TouchEvent) => {
+    e.stopPropagation();
+    onClose();
+  };
+
   return (
     <>
       <div
         className={clsx(styles.backdrop, isOpen && styles.backdropVisible)}
-        onClick={onClose}
+        onClick={handleBackdropClick}
+        onTouchEnd={handleBackdropClick}
       />
       <div
         ref={sheetRef}

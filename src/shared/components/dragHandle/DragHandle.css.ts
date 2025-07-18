@@ -12,4 +12,8 @@ export const wrapper = style({
   touchAction: 'none', // 터치 스크롤 방지
   cursor: 'grab',
   userSelect: 'none',
+  WebkitTapHighlightColor: 'transparent', // iOS 터치 하이라이트 제거
+  WebkitTouchCallout: 'none', // iOS 콜아웃 메뉴 방지
+  position: 'relative',
+  zIndex: 1, // 다른 요소보다 위에 위치
 });
