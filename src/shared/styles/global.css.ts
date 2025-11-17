@@ -1,4 +1,5 @@
 import { globalStyle, createGlobalTheme } from '@vanilla-extract/css';
+
 import { colorVars } from '@styles/tokens/color.css';
 import { fontVars } from '@styles/tokens/font.css';
 import '@styles/reset.css.ts';
@@ -50,6 +51,7 @@ globalStyle('#root', {
 globalStyle('html', {
   height: '100%',
   scrollbarWidth: 'none', // Firefox 스크롤바 숨김
+  backgroundColor: colorVars.color.gray100,
 });
 
 /**
@@ -98,9 +100,15 @@ globalStyle('body', {
 
   // 시각적 효과
   backgroundColor: colorVars.color.gray000,
-  // boxShadow: '0px 0px 30px 0px rgba(0, 0, 0, 0.25)', // 그림자 제거
+  boxShadow: 'none',
   scrollBehavior: 'smooth', // 부드러운 스크롤
   scrollbarWidth: 'none', // Firefox 스크롤바 숨김
+  transition: 'box-shadow 0.3s ease',
+  '@media': {
+    '(min-width: 440px)': {
+      boxShadow: '0px 32px 84px rgba(16, 18, 24, 0.22)',
+    },
+  },
 });
 
 /**
