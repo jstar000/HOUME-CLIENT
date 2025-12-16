@@ -1,36 +1,54 @@
 import { useNavigate } from 'react-router-dom';
+
+import { ROUTES } from '@/routes/paths';
+
 import LogoIcon from '@shared/assets/icons/logoIcon.svg?react';
 import ProfileIcon from '@shared/assets/icons/profileIcon.svg?react';
+
 import * as styles from './LogoNavBar.css';
-import * as btnStyles from './LoginNavBtn.css';
-import { ROUTES } from '@/routes/paths';
+import * as btnStyles from './NavBtn.css';
 
 type ButtonType = 'login' | 'profile' | null;
 
 interface LogoNavBarProps extends React.ComponentProps<'nav'> {
   buttonType?: ButtonType;
+  onProfileClick?: () => void; // 프로필 버튼 클릭 시 실행할 콜백 (선택적)
 }
 
-const LogoNavBar = ({ buttonType = null, ...props }: LogoNavBarProps) => {
+const LogoNavBar = ({
+  buttonType = null,
+  onProfileClick,
+  ...props
+}: LogoNavBarProps) => {
   const navigate = useNavigate();
+
+  const handleProfileClick = () => {
+    if (onProfileClick) {
+      onProfileClick();
+    } else {
+      navigate(ROUTES.MYPAGE);
+    }
+  };
 
   const handleRenderBtn = () => {
     switch (buttonType) {
       case 'login':
         return (
-          <button
-            type="button"
+          <div
+            className={styles.rightdiv}
             onClick={() => navigate(ROUTES.LOGIN)}
-            className={btnStyles.loginNav}
+            style={{ cursor: 'pointer' }}
           >
-            로그인
-          </button>
+            <button type="button" className={btnStyles.loginNav}>
+              로그인
+            </button>
+          </div>
         );
       case 'profile':
         return (
           <button
             type="button"
-            onClick={() => navigate(ROUTES.MYPAGE)}
+            onClick={handleProfileClick}
             className={styles.profileicon}
           >
             <ProfileIcon />
@@ -46,7 +64,7 @@ const LogoNavBar = ({ buttonType = null, ...props }: LogoNavBarProps) => {
       <div className={styles.leftdiv}>
         <LogoIcon />
       </div>
-      <div className={styles.rightdiv}>{handleRenderBtn()}</div>
+      {handleRenderBtn()}
     </nav>
   );
 };

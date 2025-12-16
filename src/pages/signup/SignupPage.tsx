@@ -1,12 +1,19 @@
-import * as styles from './SignupPage.css';
-import useSignupForm from './hooks/useSignupForm';
-import { usePatchSignup } from './hooks/usePatchSignup';
+import { useEffect, useRef } from 'react';
+
+import CtaButton from '@/shared/components/button/ctaButton/CtaButton.tsx';
+import ErrorMessage from '@/shared/components/button/ErrorButton/ErrorMessage';
+import LargeFilled from '@/shared/components/button/largeFilledButton/LargeFilledButton.tsx';
 import TitleNavBar from '@/shared/components/navBar/TitleNavBar.tsx';
 import TextField from '@/shared/components/textField/TextField.tsx';
-import CtaButton from '@/shared/components/button/ctaButton/CtaButton.tsx';
-import LargeFilled from '@/shared/components/button/largeFilledButton/LargeFilledButton.tsx';
-import ShowErrorMessage from '@/shared/components/button/showErrorButton/ShowErrorButton.tsx';
 import { ERROR_MESSAGES } from '@/shared/constants/clientErrorMessage.ts';
+
+import { useSignupMutation } from './apis/signup';
+import useSignupForm from './hooks/useSignupForm';
+import * as styles from './SignupPage.css';
+import {
+  logSignupFormClickBtnCTA,
+  logSignupFormViewError,
+} from './utils/analytics';
 
 const SignupPage = () => {
   const {
@@ -27,17 +34,35 @@ const SignupPage = () => {
     monthFieldError,
     dayFieldError,
     isFormValid,
+    hasError,
   } = useSignupForm();
 
-  const { mutate: patchSignup } = usePatchSignup();
+  const { mutate: patchSignup } = useSignupMutation();
+
+  const errorSentRef = useRef(false);
+
+  // 에러가 표시될 때 이벤트 전송 (최초 1회)
+  useEffect(() => {
+    if (hasError && !errorSentRef.current) {
+      logSignupFormViewError();
+      errorSentRef.current = true;
+    } else if (!hasError) {
+      // 에러가 사라지면 ref 초기화 (다시 에러가 발생하면 이벤트 전송)
+      errorSentRef.current = false;
+    }
+  }, [hasError]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // CTA 버튼 클릭 시 GA 이벤트 전송
+    logSignupFormClickBtnCTA();
+
     if (!isFormValid || !gender) return;
 
     const formattedBirthday = `${birthYear}-${birthMonth}-${birthDay}`;
 
-    console.log(name, gender.value, formattedBirthday);
+    // console.log(name, gender.value, formattedBirthday);
 
     patchSignup({
       name,
@@ -65,10 +90,10 @@ const SignupPage = () => {
             isError={isNameFormatInvalid || isNameLengthInvalid}
           />
           {isNameFormatInvalid && (
-            <ShowErrorMessage message={ERROR_MESSAGES.NAME_INVALID} />
+            <ErrorMessage message={ERROR_MESSAGES.NAME_INVALID} />
           )}
           {!isNameFormatInvalid && isNameLengthInvalid && (
-            <ShowErrorMessage message={ERROR_MESSAGES.LENGTH_INVALID} />
+            <ErrorMessage message={ERROR_MESSAGES.LENGTH_INVALID} />
           )}
         </div>
 
@@ -106,11 +131,9 @@ const SignupPage = () => {
           </div>
           {(() => {
             if (yearAgeError)
-              return <ShowErrorMessage message={ERROR_MESSAGES.AGE_INVALID} />;
+              return <ErrorMessage message={ERROR_MESSAGES.AGE_INVALID} />;
             if (yearFormatError || monthFieldError || dayFieldError)
-              return (
-                <ShowErrorMessage message={ERROR_MESSAGES.BIRTH_INVALID} />
-              );
+              return <ErrorMessage message={ERROR_MESSAGES.BIRTH_INVALID} />;
             return null;
           })()}
         </div>
@@ -120,21 +143,21 @@ const SignupPage = () => {
           <h2 className={styles.fieldtitle}>성별</h2>
           <div className={styles.flexbox}>
             <LargeFilled
-              buttonSize="medium"
+              buttonSize="small"
               isSelected={gender?.value === 'MALE'}
               onClick={() => setGender({ value: 'MALE', label: '남성' })}
             >
               남성
             </LargeFilled>
             <LargeFilled
-              buttonSize="medium"
+              buttonSize="small"
               isSelected={gender?.value === 'FEMALE'}
               onClick={() => setGender({ value: 'FEMALE', label: '여성' })}
             >
               여성
             </LargeFilled>
             <LargeFilled
-              buttonSize="medium"
+              buttonSize="small"
               isSelected={gender?.value === 'NONBINARY'}
               onClick={() =>
                 setGender({ value: 'NONBINARY', label: '논바이너리' })

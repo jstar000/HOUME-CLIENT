@@ -1,7 +1,9 @@
-import { recipe } from '@vanilla-extract/recipes';
-import { colorVars } from '@styles/tokens/color.css';
 import { style } from '@vanilla-extract/css';
+import { recipe } from '@vanilla-extract/recipes';
+
 import { fontStyle } from '@/shared/styles/fontStyle';
+
+import { colorVars } from '@styles/tokens/color.css';
 
 export const buttonWrapper = style({
   display: 'flex',
@@ -20,7 +22,7 @@ export const CtaButton = recipe({
     height: '5.6rem',
     padding: '1.7rem 0',
     gap: '0.8rem',
-    borderRadius: '99.9rem',
+    borderRadius: '999px',
     ...fontStyle('title_m_16'),
     color: colorVars.color.gray000,
     transition: 'all 0.2s ease-in-out',
@@ -53,6 +55,14 @@ export const CtaButton = recipe({
           backgroundColor: '#FEE500',
         },
       },
+      notFound: {
+        backgroundColor: colorVars.color.gray200,
+        color: colorVars.color.gray900,
+
+        ':active': {
+          backgroundColor: colorVars.color.gray300,
+        },
+      },
     },
     buttonSize: {
       small: {
@@ -61,11 +71,36 @@ export const CtaButton = recipe({
       medium: {
         height: '4.4rem',
       },
-      large: {},
+      large: {
+        height: '5.2rem',
+      },
+      xlarge: {},
+    },
+    font: {
+      default: {},
+      body: {
+        ...fontStyle('body_m_14'),
+      },
     },
   },
   defaultVariants: {
     state: 'active',
     type: 'default',
+    font: 'default',
   },
+});
+
+export const kakaoContent = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.8rem',
+});
+
+export const kakaoIcon = style({
+  flexShrink: 0,
+});
+
+export const kakaoText = style({
+  lineHeight: 1,
+  alignSelf: 'flex-end',
 });

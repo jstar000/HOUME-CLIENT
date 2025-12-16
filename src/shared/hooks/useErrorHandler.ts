@@ -1,9 +1,13 @@
 import { useCallback, useRef } from 'react';
+
 import { useNavigate } from 'react-router-dom';
-import type { ErrorType, PageContext } from '@/shared/types/error';
-import { useToast } from '@/shared/components/toast/useToast';
+
+import { logLoginSocialViewToastLoginError } from '@/pages/login/utils/analytics';
 import { ROUTES } from '@/routes/paths';
+import { useToast } from '@/shared/components/toast/useToast';
+import type { ErrorType, PageContext } from '@/shared/types/error';
 import { ERROR_MESSAGES } from '@/shared/types/error';
+import { TOAST_TYPE } from '@/shared/types/toast';
 
 /**
  * 중앙화된 에러 핸들러 훅
@@ -35,7 +39,7 @@ export const useErrorHandler = (context: PageContext) => {
           api: ROUTES.HOME,
           network: ROUTES.HOME,
         },
-        onboarding: {
+        imageSetup: {
           loading: ROUTES.HOME,
           api: ROUTES.HOME,
           network: ROUTES.HOME,
@@ -57,6 +61,7 @@ export const useErrorHandler = (context: PageContext) => {
           loading: ROUTES.HOME,
           api: ROUTES.HOME,
           network: ROUTES.HOME,
+          auth: ROUTES.LOGIN,
         },
       };
 
@@ -74,6 +79,35 @@ export const useErrorHandler = (context: PageContext) => {
    */
   const handleError = useCallback(
     (error: Error | unknown, type: ErrorType, customMessage?: string) => {
+      // SESSION_EXPIRED 에러는 특별 처리 (토큰 만료 상황)
+      if (error instanceof Error && error.message === 'SESSION_EXPIRED') {
+        console.error(`[${context}] Session expired, redirecting to login`);
+
+        // 토스트 중복 방지 체크
+        const message = '세션이 만료되었습니다. 다시 로그인해주세요.';
+        const now = Date.now();
+
+        if (
+          lastErrorRef.current &&
+          lastErrorRef.current.message === message &&
+          now - lastErrorRef.current.timestamp < TOAST_COOLDOWN
+        ) {
+          return;
+        }
+
+        lastErrorRef.current = { message, timestamp: now };
+
+        notify({
+          text: message,
+          type: TOAST_TYPE.WARNING,
+        });
+
+        setTimeout(() => {
+          navigate(ROUTES.LOGIN);
+        }, 1000);
+        return;
+      }
+
       // 에러 로깅
       console.error(`[${context}] ${type} error:`, error);
 
@@ -92,9 +126,14 @@ export const useErrorHandler = (context: PageContext) => {
 
       lastErrorRef.current = { message, timestamp: now };
 
+      // 로그인 컨텍스트에서 에러 토스트 표시 시 GA 이벤트 전송
+      if (context === 'login') {
+        logLoginSocialViewToastLoginError();
+      }
+
       notify({
         text: message,
-        type: 'warning',
+        type: TOAST_TYPE.WARNING,
       });
 
       // 리다이렉트

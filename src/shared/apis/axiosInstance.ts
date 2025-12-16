@@ -1,7 +1,10 @@
 import axios, { AxiosError } from 'axios';
+
 import { ERROR_CODES } from '../constants/apiErrorCode';
-import type { AxiosRequestConfig } from 'axios';
+import { RESPONSE_MESSAGE, HTTP_STATUS } from '../constants/response';
+
 import type { BaseResponse } from '../types/apis';
+import type { AxiosRequestConfig } from 'axios';
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -12,7 +15,7 @@ const axiosInstance = axios.create({
 });
 
 // 인증 제외 API 경로 (Authorization 헤더 제거 대상)
-const EXCLUDE_AUTH_URLS = ['/oauth/kakao/callback'];
+const EXCLUDE_AUTH_URLS = ['/oauth/kakao', '/oauth/kakao/callback'];
 
 // 요청 시 accessToken 자동 삽입
 axiosInstance.interceptors.request.use((config) => {
@@ -37,7 +40,7 @@ axiosInstance.interceptors.response.use(
       _retry?: boolean;
     };
 
-    console.error('[axiosInstance] 응답 에러 발생:', error.response?.data);
+    // console.error('[axiosInstance] 응답 에러 발생:', error.response?.data);
 
     // accessToken 만료 에러 처리
     if (
@@ -57,21 +60,31 @@ axiosInstance.interceptors.response.use(
         );
 
         const newAccessToken = res.headers['access-token'];
-        if (!newAccessToken) throw new Error('새 액세스 토큰이 없습니다.');
+        if (!newAccessToken) {
+          throw new Error(
+            RESPONSE_MESSAGE[HTTP_STATUS.UNAUTHORIZED] ||
+              '새 액세스 토큰이 없습니다.'
+          );
+        }
 
         localStorage.setItem('accessToken', newAccessToken);
+
+        // Zustand 상태도 동기화
+        const { useUserStore } = await import('../../store/useUserStore');
+        useUserStore.getState().setAccessToken(newAccessToken);
 
         if (originalRequest.headers) {
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         }
 
         return axiosInstance(originalRequest); // 원래 요청 재시도
-      } catch (refreshError) {
-        console.error('[axiosInstance] 토큰 재발급 실패:', refreshError);
-        alert('세션이 만료되었습니다. 다시 로그인해주세요.');
-        // 인터셉터에서는 직접 네비게이션하지 않고 에러를 던짐
-        // 컴포넌트에서 에러를 처리하여 네비게이션 처리
-        return Promise.reject(refreshError);
+      } catch {
+        // 리프레시 토큰 재발급 실패 시 상태 정리 및 에러 처리
+        const { useUserStore } = await import('../../store/useUserStore');
+        useUserStore.getState().clearUser();
+
+        // 통일된 SESSION_EXPIRED 에러로 변환하여 상위 컴포넌트에서 처리하도록 함
+        return Promise.reject(new Error('SESSION_EXPIRED'));
       }
     }
 

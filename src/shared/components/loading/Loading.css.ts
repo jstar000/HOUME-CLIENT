@@ -1,18 +1,21 @@
 import { style, keyframes } from '@vanilla-extract/css';
-import { colorVars } from '@styles/tokens/color.css';
+
 import { fontStyle } from '@/shared/styles/fontStyle';
+
+import { colorVars } from '@styles/tokens/color.css';
 
 export const loadingOverlay = style({
   position: 'fixed',
-  top: 0,
-  left: 0,
-  width: '100vw',
-  height: '100vh',
+  inset: 0,
+  width: '100%',
+  height: '100%',
   backgroundColor: 'rgba(255, 255, 255, 0.8)',
   backdropFilter: 'blur(4px)',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  overflow: 'hidden',
+  boxSizing: 'border-box',
   zIndex: 9999,
 });
 

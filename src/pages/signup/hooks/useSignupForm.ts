@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+
 import {
   VALIDATION_RULES,
   isKoreanOnly,
@@ -10,6 +11,7 @@ import {
   isMinimumAge,
   isValidDate,
 } from '../utils/validation';
+
 import type { GenderOption } from '../types/formOptions';
 
 const useSignupForm = () => {
@@ -93,10 +95,21 @@ const useSignupForm = () => {
       !monthFieldError &&
       !dayFieldError;
 
+    // 에러가 있는지 확인
+    const hasError = Boolean(
+      isNameFormatInvalid ||
+        isNameLengthInvalid ||
+        yearFormatError ||
+        yearAgeError ||
+        monthFieldError ||
+        dayFieldError
+    );
+
     return {
       allFieldsFilled,
       noErrors,
       isFormValid: allFieldsFilled && noErrors,
+      hasError,
     };
   }, [
     name,
@@ -105,13 +118,15 @@ const useSignupForm = () => {
     birthDay,
     gender,
     isNameValid,
+    isNameFormatInvalid,
+    isNameLengthInvalid,
     yearFormatError,
     yearAgeError,
     monthFieldError,
     dayFieldError,
   ]);
 
-  const { isFormValid } = validationResult;
+  const { isFormValid, hasError } = validationResult;
 
   // -------------------------
   // 입력 핸들러
@@ -151,6 +166,7 @@ const useSignupForm = () => {
     isNameFormatInvalid,
     isNameLengthInvalid,
     isFormValid,
+    hasError,
     yearFormatError,
     yearAgeError,
     monthFieldError,

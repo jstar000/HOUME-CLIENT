@@ -1,6 +1,8 @@
 import { recipe } from '@vanilla-extract/recipes';
-import { colorVars } from '@styles/tokens/color.css';
+
 import { fontStyle } from '@/shared/styles/fontStyle';
+
+import { colorVars } from '@styles/tokens/color.css';
 
 export const chargeButton = recipe({
   base: {
@@ -8,7 +10,7 @@ export const chargeButton = recipe({
     padding: '0rem 1.2rem',
     alignItems: 'center',
     gap: '0.8rem',
-    borderRadius: '99.9rem',
+    borderRadius: '999px',
     ...fontStyle('caption_m_12'),
     color: colorVars.color.primary,
     transition: 'all 0.2s ease-in-out',

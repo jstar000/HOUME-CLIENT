@@ -1,4 +1,5 @@
 import { style } from '@vanilla-extract/css';
+
 import { fontStyle } from '@/shared/styles/fontStyle';
 import { colorVars } from '@/shared/styles/tokens/color.css';
 
@@ -15,7 +16,7 @@ export const landingImage = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '0.8rem',
-  marginTop: '12rem',
+  marginTop: '2.5rem',
   marginBottom: '4rem',
   alignItems: 'center',
 });
@@ -48,10 +49,18 @@ export const imageGap = style({
   marginTop: '2rem',
 });
 
-export const resultLandImage = style({
-  width: '37.5rem',
-  height: '24rem',
-  backgroundColor: colorVars.color.gray100,
+export const resultImageContainer = style({
+  width: '100%',
+  padding: '0 2rem',
   marginBottom: '4rem',
+});
+
+export const resultLandImage = style({
+  width: '100%',
+  aspectRatio: '3 / 2',
+  backgroundColor: colorVars.color.gray100,
   objectFit: 'cover',
+  borderRadius: '16px',
+  display: 'block',
+  boxSizing: 'border-box',
 });

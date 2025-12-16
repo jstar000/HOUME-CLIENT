@@ -1,4 +1,5 @@
 import { style } from '@vanilla-extract/css';
+
 import { colorVars } from '@/shared/styles/tokens/color.css';
 import { zIndex } from '@/shared/styles/tokens/zIndex';
 
@@ -15,7 +16,7 @@ export const gradFrame = style({
   width: '100%',
   background:
     'linear-gradient(180deg, #A696FF -15.93%, #DDD6FF 13.05%, #FFF 47.05%, #FFF 100%)',
-  height: '53.4rem',
+  height: '55.65rem',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',

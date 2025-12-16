@@ -1,12 +1,13 @@
 /// <reference types="vitest/config" />
-import path from 'path';
 import { fileURLToPath } from 'node:url';
+import path from 'path';
+
+import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
+import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
+import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import svgr from 'vite-plugin-svgr';
-import react from '@vitejs/plugin-react';
-import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 // https://vite.dev/config/
-import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 const dirname =
   typeof __dirname !== 'undefined'
     ? __dirname
@@ -26,6 +27,9 @@ export default defineConfig({
       },
     }),
   ],
+  server: {
+    host: true,
+  },
   test: {
     projects: [
       {
@@ -33,9 +37,13 @@ export default defineConfig({
         plugins: [
           // The plugin will run tests for the stories defined in your Storybook config
           // See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
-          storybookTest({
-            configDir: path.join(dirname, '.storybook'),
-          }),
+          ...(process.env.NODE_ENV !== 'production'
+            ? [
+                storybookTest({
+                  configDir: path.join(dirname, '.storybook'),
+                }),
+              ]
+            : []),
         ],
         test: {
           name: 'storybook',
@@ -50,6 +58,13 @@ export default defineConfig({
             ],
           },
           setupFiles: ['.storybook/vitest.setup.ts'],
+        },
+      },
+      {
+        test: {
+          name: 'unit',
+          include: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
+          environment: 'node',
         },
       },
     ],

@@ -1,4 +1,5 @@
 import { style } from '@vanilla-extract/css';
+
 import { fontStyle } from '@/shared/styles/fontStyle';
 import { colorVars } from '@/shared/styles/tokens/color.css';
 
@@ -21,16 +22,15 @@ export const leftdiv = style({
 });
 
 export const profileicon = style({
-  width: '2.8rem',
-  height: '2.8rem',
   cursor: 'pointer',
+  padding: '0 1.6rem',
 });
 
 export const rightdiv = style({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  width: '8rem',
+  minWidth: '8rem',
   height: '4.8rem',
   padding: '1.2rem 1.6rem',
 });

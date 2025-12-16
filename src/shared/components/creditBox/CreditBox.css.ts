@@ -1,6 +1,8 @@
 import { style } from '@vanilla-extract/css';
-import { colorVars } from '@styles/tokens/color.css';
+
 import { fontStyle } from '@/shared/styles/fontStyle';
+
+import { colorVars } from '@styles/tokens/color.css';
 
 export const boxWrapper = style({
   display: 'flex',
@@ -11,13 +13,21 @@ export const boxWrapper = style({
   height: '4rem',
   padding: '0rem 0.8rem 0rem 1.6rem',
   maxWidth: '100%',
-  borderRadius: '0.6rem',
+  borderRadius: '6px',
   flexShrink: 0,
+});
+
+export const contentWrapper = style({
+  display: 'flex',
+  alignItems: 'baseline',
+  justifyContent: 'space-between',
+  width: '100%',
+  gap: '1.8rem',
 });
 
 export const textContainer = style({
   display: 'flex',
-  alignItems: 'center',
+  alignItems: 'baseline',
   gap: '0.8rem',
 });
 
@@ -29,4 +39,5 @@ export const infoText = style({
 export const creditText = style({
   ...fontStyle('title_sb_16'),
   color: colorVars.color.gray900,
+  transform: 'translateY(0.1rem)',
 });

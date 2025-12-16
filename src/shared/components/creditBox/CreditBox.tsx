@@ -1,5 +1,11 @@
+// 스프린트 PhaseA에서 사라진 컴포넌트, 더이상 사용 X
+
 import { useState } from 'react';
+
+import { TOAST_TYPE } from '@/shared/types/toast';
+
 import ChargeButton from '@components/button/chargeButton/ChargeButton';
+
 import * as styles from './CreditBox.css';
 import { useToast } from '../toast/useToast';
 
@@ -18,7 +24,7 @@ const CreditBox = ({ credit, disabled = false }: CreditBoxProps) => {
 
     notify({
       text: '결제는 아직 준비 중인 기능이에요',
-      type: 'warning',
+      type: TOAST_TYPE.WARNING,
       options: {
         style: { marginBottom: '2rem' },
       },
@@ -27,21 +33,23 @@ const CreditBox = ({ credit, disabled = false }: CreditBoxProps) => {
 
   return (
     <div className={styles.boxWrapper}>
-      <div className={styles.textContainer}>
-        <span className={styles.infoText} id="credit-label">
-          보유 크레딧
-        </span>
-        <span className={styles.creditText} aria-labelledby="credit-label">
-          {credit}
-        </span>
+      <div className={styles.contentWrapper}>
+        <div className={styles.textContainer}>
+          <span className={styles.infoText} id="credit-label">
+            보유 크레딧
+          </span>
+          <span className={styles.creditText} aria-labelledby="credit-label">
+            {credit}
+          </span>
+        </div>
+        <ChargeButton
+          disabled={disabled || isChargeDisabled}
+          onClick={handleChargeClick}
+          isActive={!isChargeDisabled}
+        >
+          충전하기
+        </ChargeButton>
       </div>
-      <ChargeButton
-        disabled={disabled || isChargeDisabled}
-        onClick={handleChargeClick}
-        isActive={!isChargeDisabled}
-      >
-        충전하기
-      </ChargeButton>
     </div>
   );
 };

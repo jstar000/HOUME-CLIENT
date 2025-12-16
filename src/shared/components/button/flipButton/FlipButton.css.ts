@@ -1,4 +1,5 @@
 import { style, styleVariants } from '@vanilla-extract/css';
+
 import { colorVars } from '@styles/tokens/color.css';
 
 export const flipButtonBase = style({
@@ -9,10 +10,14 @@ export const flipButtonBase = style({
   justifyContent: 'center',
   alignItems: 'center',
   gap: '0.8rem',
-  borderRadius: '99.9rem',
+  borderRadius: '999px',
   transition: 'all 0.2s ease-in-out',
   border: 'none',
   flexShrink: 0,
+
+  ':active': {
+    backgroundColor: colorVars.color.primary_light1,
+  },
 });
 
 export const flipButtonVariants = styleVariants({

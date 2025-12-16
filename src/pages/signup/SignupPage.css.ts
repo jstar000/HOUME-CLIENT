@@ -1,5 +1,7 @@
 import { style } from '@vanilla-extract/css';
+
 import { fontStyle } from '@/shared/styles/fontStyle';
+import { animationTokens } from '@/shared/styles/tokens/animation.css';
 import { colorVars } from '@/shared/styles/tokens/color.css';
 
 export const container = style({
@@ -10,6 +12,7 @@ export const container = style({
   padding: '1.6rem 2rem 0 2rem',
   justifyContent: 'center',
   alignItems: 'center',
+  animation: animationTokens.fadeInUpFast,
 });
 
 export const title = style({
@@ -22,7 +25,6 @@ export const fieldbox = style({
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
-  gap: '1.2rem',
   justifyContent: 'center',
   alignItems: 'center',
 });
