@@ -21,8 +21,8 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.AUTO_ACTIONS }}
         with:
           source-directory: 'output'
-          destination-github-username: maehwasoo
-          destination-repository-name: HOUME-CLIENT
+          destination-github-username: ${{ vars.DEPLOY_DESTINATION_OWNER }}
+          destination-repository-name: ${{ vars.DEPLOY_DESTINATION_REPO }}
           user-email: ${{ secrets.EMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
           target-branch: ${{ github.ref_name }}
