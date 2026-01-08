@@ -2,7 +2,7 @@ name: deploy
 
 on:
   push:
-    branches: ['main'] # main 브랜치에 푸시될 때만 트리거
+    branches: ['main', 'develop'] # main/develop 브랜치에 푸시될 때만 트리거
 
 jobs:
   build:
@@ -25,6 +25,6 @@ jobs:
           destination-repository-name: HOUME-CLIENT
           user-email: ${{ secrets.EMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
-          target-branch: main
+          target-branch: ${{ github.ref_name }}
       - name: Test get variable exported by push-to-another-repository
         run: echo $DESTINATION_CLONED_DIRECTORY
