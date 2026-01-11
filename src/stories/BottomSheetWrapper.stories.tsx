@@ -5,7 +5,7 @@ import { BottomSheetWrapper } from '@/shared/components/bottomSheet/BottomSheetW
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: 'shared/components/bottomSheet/BottomSheetWrapper',
+  title: 'shared/bottomSheet/BottomSheetWrapper',
   component: BottomSheetWrapper,
   tags: ['autodocs'],
   parameters: {

@@ -3,7 +3,7 @@ import Modal from '@/shared/components/overlay/modal/CreditModal';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: 'shared/components/overlay/Modal',
+  title: 'shared/overlay/CreditModal',
   component: Modal,
   argTypes: {
     title: { control: 'text' },

@@ -3,7 +3,7 @@ import FloorPlanItem from '@/shared/components/card/floorCard/FloorCard';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof FloorPlanItem> = {
-  title: 'Components/FloorCard',
+  title: 'shared/card/FloorCard',
   component: FloorPlanItem,
   argTypes: {
     src: {

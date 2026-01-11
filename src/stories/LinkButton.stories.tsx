@@ -3,7 +3,7 @@ import LinkButton from '@components/button/linkButton/LinkButton';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof LinkButton> = {
-  title: 'Button/LinkButton',
+  title: 'shared/button/LinkButton',
   component: LinkButton,
   tags: ['autodocs'],
   argTypes: {

@@ -5,7 +5,7 @@ import SaveButton from '@components/button/saveButton/SaveButton';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof SaveButton> = {
-  title: 'Button/SaveButton',
+  title: 'shared/button/SaveButton',
   component: SaveButton,
   tags: ['autodocs'],
   argTypes: {

@@ -3,7 +3,7 @@ import ErrorImageGroup from '@/pages/Error404Page/components/ErrorImageGroup';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: 'pages/Error404/ErrorImageGroup',
+  title: 'pages/error404/ErrorImageGroup',
   component: ErrorImageGroup,
   tags: ['autodocs'],
   parameters: {

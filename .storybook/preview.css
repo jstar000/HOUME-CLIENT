@@ -1,0 +1,23 @@
+/**
+ * Storybook preview overrides
+ * - full-width canvas
+ * - responsive layout (no app-fixed width)
+ */
+
+html,
+body {
+  min-width: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+body {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-shadow: none !important;
+}
+
+#storybook-root {
+  min-height: 100dvh;
+}

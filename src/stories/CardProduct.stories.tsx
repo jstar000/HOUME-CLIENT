@@ -6,7 +6,7 @@ import CardProduct from '@/shared/components/card/cardProduct/CardProduct';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof CardProduct> = {
-  title: 'Components/CardProduct',
+  title: 'shared/card/CardProduct',
   component: CardProduct,
   tags: ['autodocs'],
   argTypes: {

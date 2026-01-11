@@ -3,7 +3,7 @@ import Loading from '@/shared/components/loading/Loading';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: 'shared/components/loading/Loading',
+  title: 'shared/loading/Loading',
   component: Loading,
   tags: ['autodocs'],
   argTypes: {

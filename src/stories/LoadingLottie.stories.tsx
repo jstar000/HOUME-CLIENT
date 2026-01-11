@@ -3,7 +3,7 @@ import LoadingLottie from '@/shared/components/lottie/LoadingLottie';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: 'shared/components/lottie/LoadingLottie',
+  title: 'shared/loading/LoadingLottie',
   component: LoadingLottie,
   tags: ['autodocs'],
   parameters: {

@@ -3,7 +3,7 @@ import CreditChip from '@/shared/components/creditChip/CreditChip';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: 'shared/components/creditChip/CreditChip',
+  title: 'shared/credit/CreditChip',
   component: CreditChip,
   tags: ['autodocs'],
   argTypes: {

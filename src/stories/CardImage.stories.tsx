@@ -3,7 +3,7 @@ import CardImage from '@/shared/components/card/cardImage/CardImage';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof CardImage> = {
-  title: 'Components/CardImage',
+  title: 'shared/card/CardImage',
   component: CardImage,
   argTypes: {
     selectOrder: {

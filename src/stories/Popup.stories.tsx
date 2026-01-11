@@ -3,7 +3,7 @@ import Popup from '../shared/components/overlay/popup/Popup';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: 'shared/components/overlay/popup',
+  title: 'shared/overlay/Popup',
   component: Popup,
   tags: ['autodocs'],
   argTypes: {

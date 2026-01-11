@@ -3,7 +3,7 @@ import NoMatchButton from '@components/button/noMatchButton/NoMatchButton';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof NoMatchButton> = {
-  title: 'Button/NoMatchButton',
+  title: 'shared/button/NoMatchButton',
   component: NoMatchButton,
   tags: ['autodocs'],
   argTypes: {

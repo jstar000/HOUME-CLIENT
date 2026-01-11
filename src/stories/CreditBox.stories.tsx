@@ -6,7 +6,7 @@ import { toastConfig } from '@/shared/types/toast';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: 'shared/components/creditBox/CreditBox',
+  title: 'shared/credit/CreditBox',
   component: CreditBox,
   tags: ['autodocs'],
   decorators: [

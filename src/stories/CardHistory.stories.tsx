@@ -3,7 +3,7 @@ import CardHistory from '@/shared/components/card/cardHistory/CardHistory';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof CardHistory> = {
-  title: 'Components/CardHistory',
+  title: 'shared/card/CardHistory',
   component: CardHistory,
   argTypes: {
     src: {
