@@ -21,3 +21,14 @@ body {
 #storybook-root {
   min-height: 100dvh;
 }
+
+/**
+ * Storybook Docs
+ * - global rem base (10px) 대응
+ * - TOC(우측 Table of Contents) 너비 고정
+ */
+.sbdocs-toc--custom {
+  width: 280px;
+  flex: 0 0 280px;
+  max-width: 280px;
+}
