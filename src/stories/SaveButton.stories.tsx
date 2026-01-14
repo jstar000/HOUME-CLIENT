@@ -18,7 +18,7 @@ export default meta;
 
 type Story = StoryObj<typeof SaveButton>;
 
-const renderButton = (args: Story['args']) => {
+const RenderButton = (args: Story['args']) => {
   const [isSelected, setIsSelected] = useState(args?.isSelected ?? false);
 
   useEffect(() => {
@@ -29,7 +29,10 @@ const renderButton = (args: Story['args']) => {
     <SaveButton
       {...args}
       isSelected={isSelected}
-      onClick={() => setIsSelected((prev) => !prev)}
+      onClick={() => {
+        args?.onClick?.();
+        setIsSelected((prev) => !prev);
+      }}
     />
   );
 };
@@ -38,12 +41,12 @@ export const Default: Story = {
   args: {
     isSelected: false,
   },
-  render: (args) => renderButton(args),
+  render: (args) => <RenderButton {...args} />,
 };
 
 export const Selected: Story = {
   args: {
     isSelected: true,
   },
-  render: (args) => renderButton(args),
+  render: (args) => <RenderButton {...args} />,
 };
