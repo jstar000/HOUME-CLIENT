@@ -39,9 +39,14 @@ export const useKakaoLoginMutation = () => {
       // 신규 회원: signupToken 기반으로 회원가입 진행
       if (response.data.isNewUser) {
         const signupToken = response.data.signupToken;
-        if (signupToken) {
-          sessionStorage.setItem('signupToken', signupToken);
+        if (!signupToken) {
+          console.error(
+            '[useKakaoLoginMutation] 신규 회원 응답에 signupToken이 없습니다.'
+          );
+          return;
         }
+
+        sessionStorage.setItem('signupToken', signupToken);
 
         navigate(ROUTES.SIGNUP, {
           state: {
