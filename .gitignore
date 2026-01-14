@@ -56,5 +56,5 @@ node_modules/
 AGENTS.md
 
 .pnpm-store/
-.npm-cache/
 .serena/
+.npm-cache/
