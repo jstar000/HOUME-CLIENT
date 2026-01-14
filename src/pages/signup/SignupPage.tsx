@@ -9,7 +9,7 @@ import TextField from '@/shared/components/textField/TextField.tsx';
 import { ERROR_MESSAGES } from '@/shared/constants/clientErrorMessage.ts';
 import { ROUTES } from '@/routes/paths';
 
-import { useSignupMutation } from './apis/signup';
+import { usePostSignupMutation } from './apis/signup';
 import useSignupForm from './hooks/useSignupForm';
 import * as styles from './SignupPage.css';
 import {
@@ -76,7 +76,7 @@ const SignupPage = () => {
     hasError,
   } = useSignupForm();
 
-  const { mutate: signUp } = useSignupMutation();
+  const { mutate: signUp } = usePostSignupMutation();
 
   const errorSentRef = useRef(false);
 
