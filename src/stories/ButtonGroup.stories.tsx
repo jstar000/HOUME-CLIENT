@@ -26,6 +26,9 @@ const meta = {
   title: 'pages/imageSetup/ButtonGroup',
   component: ButtonGroup,
   tags: ['autodocs'],
+  args: {
+    onSelectionChange: () => {},
+  },
   argTypes: {
     title: { control: 'text' },
     titleSize: {
@@ -61,7 +64,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-type ButtonGroupArgs = ButtonGroupProps<string>;
+type ButtonGroupArgs = ButtonGroupProps<unknown>;
 
 const ButtonGroupStory = (args: ButtonGroupArgs) => {
   const [selectedValues, setSelectedValues] = useState(args.selectedValues);

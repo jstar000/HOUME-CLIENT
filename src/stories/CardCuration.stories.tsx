@@ -27,6 +27,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
+    imageId: 1,
     imageUrl: CardImageUrl,
   },
 };

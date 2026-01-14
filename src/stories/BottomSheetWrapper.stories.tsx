@@ -8,6 +8,11 @@ const meta = {
   title: 'shared/bottomSheet/BottomSheetWrapper',
   component: BottomSheetWrapper,
   tags: ['autodocs'],
+  args: {
+    isOpen: true,
+    onClose: () => {},
+    children: <div style={{ padding: '1rem' }}>바텀시트 콘텐츠 영역</div>,
+  },
   parameters: {
     layout: 'fullscreen',
     docs: {
