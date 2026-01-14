@@ -36,17 +36,29 @@ export const useKakaoLoginMutation = () => {
   >({
     mutationFn: ({ code, env }) => getKakaoLogin(code, env),
     onSuccess: (response) => {
-      const accessToken = response.accessToken;
+      // 신규 회원: signupToken 기반으로 회원가입 진행
+      if (response.data.isNewUser) {
+        const signupToken = response.data.signupToken;
+        if (signupToken) {
+          sessionStorage.setItem('signupToken', signupToken);
+        }
 
-      // zustand에 저장 (localStorage 동시 저장)
-      setAccessToken(accessToken);
-
-      // 가입 여부에 따라 리다이렉트 (response.data가 true면 신규회원, false면 기존회원)
-      if (response.data) {
-        navigate(ROUTES.SIGNUP);
-      } else {
-        navigate(ROUTES.HOME);
+        navigate(ROUTES.SIGNUP, {
+          state: {
+            signupToken,
+            prefill: response.data.prefill,
+          },
+        });
+        return;
       }
+
+      // 기존 회원: access-token 헤더로 로그인 완료
+      if (response.accessToken) {
+        // zustand에 저장 (localStorage 동시 저장)
+        setAccessToken(response.accessToken);
+      }
+
+      navigate(ROUTES.HOME);
     },
     onError: () => {
       // 오류 처리는 KakaoCallback 컴포넌트에서 useErrorHandler로 처리
