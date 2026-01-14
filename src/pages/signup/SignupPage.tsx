@@ -1,13 +1,14 @@
 import { useEffect, useRef } from 'react';
+
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { ROUTES } from '@/routes/paths';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton.tsx';
 import ErrorMessage from '@/shared/components/button/ErrorButton/ErrorMessage';
 import LargeFilled from '@/shared/components/button/largeFilledButton/LargeFilledButton.tsx';
 import TitleNavBar from '@/shared/components/navBar/TitleNavBar.tsx';
 import TextField from '@/shared/components/textField/TextField.tsx';
 import { ERROR_MESSAGES } from '@/shared/constants/clientErrorMessage.ts';
-import { ROUTES } from '@/routes/paths';
 
 import { usePostSignupMutation } from './apis/signup';
 import useSignupForm from './hooks/useSignupForm';
@@ -39,7 +40,7 @@ const SignupPage = () => {
   const navigate = useNavigate();
 
   const routeSignupToken = isSignupLocationState(location.state)
-    ? location.state.signupToken ?? null
+    ? (location.state.signupToken ?? null)
     : null;
   const signupToken = routeSignupToken ?? sessionStorage.getItem('signupToken');
 

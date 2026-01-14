@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/routes/paths';
 import axiosInstance from '@/shared/apis/axiosInstance';
 import { RESPONSE_MESSAGE, HTTP_STATUS } from '@/shared/constants/response';
+import type { BaseResponse } from '@/shared/types/apis';
 import { useUserStore } from '@/store/useUserStore';
 
 import { API_ENDPOINT } from '@constants/apiEndpoints';
 
-import type { BaseResponse } from '@/shared/types/apis';
 import type { SignupRequest, SignupResponse } from '../types/apis/signup';
 
 /* 회원가입 API 함수 */
