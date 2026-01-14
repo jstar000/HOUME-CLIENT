@@ -41,7 +41,7 @@ export const useSignupMutation = () => {
 
   return useMutation<SignupResponse, Error, SignupRequest>({
     mutationFn: postSignup,
-    retry: 3,
+    retry: false,
     onSuccess: (response) => {
       setUserName(response.userName); // userName 전역 저장 (zustand)
       setAccessToken(response.accessToken);
