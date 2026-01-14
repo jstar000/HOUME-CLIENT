@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton.tsx';
 import ErrorMessage from '@/shared/components/button/ErrorButton/ErrorMessage';
@@ -6,6 +7,7 @@ import LargeFilled from '@/shared/components/button/largeFilledButton/LargeFille
 import TitleNavBar from '@/shared/components/navBar/TitleNavBar.tsx';
 import TextField from '@/shared/components/textField/TextField.tsx';
 import { ERROR_MESSAGES } from '@/shared/constants/clientErrorMessage.ts';
+import { ROUTES } from '@/routes/paths';
 
 import { useSignupMutation } from './apis/signup';
 import useSignupForm from './hooks/useSignupForm';
@@ -15,7 +17,30 @@ import {
   logSignupFormViewError,
 } from './utils/analytics';
 
+interface SignupLocationState {
+  signupToken?: string | null;
+}
+
 const SignupPage = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const routeSignupToken =
+    (location.state as SignupLocationState | null)?.signupToken ?? null;
+  const signupToken = routeSignupToken ?? sessionStorage.getItem('signupToken');
+
+  useEffect(() => {
+    if (routeSignupToken) {
+      sessionStorage.setItem('signupToken', routeSignupToken);
+    }
+  }, [routeSignupToken]);
+
+  useEffect(() => {
+    if (!signupToken) {
+      navigate(ROUTES.LOGIN, { replace: true });
+    }
+  }, [signupToken, navigate]);
+
   const {
     name,
     birthYear,
@@ -37,7 +62,7 @@ const SignupPage = () => {
     hasError,
   } = useSignupForm();
 
-  const { mutate: patchSignup } = useSignupMutation();
+  const { mutate: signUp } = useSignupMutation();
 
   const errorSentRef = useRef(false);
 
@@ -58,13 +83,14 @@ const SignupPage = () => {
     // CTA 버튼 클릭 시 GA 이벤트 전송
     logSignupFormClickBtnCTA();
 
-    if (!isFormValid || !gender) return;
+    if (!isFormValid || !gender || !signupToken) return;
 
     const formattedBirthday = `${birthYear}-${birthMonth}-${birthDay}`;
 
     // console.log(name, gender.value, formattedBirthday);
 
-    patchSignup({
+    signUp({
+      signupToken,
       name,
       gender: gender.value,
       birthday: formattedBirthday,
@@ -170,7 +196,7 @@ const SignupPage = () => {
       </div>
 
       <div className={styles.btnarea}>
-        <CtaButton isActive={isFormValid} type="submit">
+        <CtaButton isActive={isFormValid && !!signupToken} type="submit">
           회원가입 완료하기
         </CtaButton>
       </div>
