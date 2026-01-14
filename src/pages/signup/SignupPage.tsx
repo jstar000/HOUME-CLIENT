@@ -21,12 +21,26 @@ interface SignupLocationState {
   signupToken?: string | null;
 }
 
+// Type Guard: SignupLocationState 검증
+const isSignupLocationState = (
+  value: unknown
+): value is SignupLocationState => {
+  if (!value || typeof value !== 'object') return false;
+
+  const state = value as Record<string, unknown>;
+  if (!('signupToken' in state)) return false;
+
+  const signupToken = state.signupToken;
+  return signupToken == null || typeof signupToken === 'string';
+};
+
 const SignupPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const routeSignupToken =
-    (location.state as SignupLocationState | null)?.signupToken ?? null;
+  const routeSignupToken = isSignupLocationState(location.state)
+    ? location.state.signupToken ?? null
+    : null;
   const signupToken = routeSignupToken ?? sessionStorage.getItem('signupToken');
 
   useEffect(() => {
@@ -96,6 +110,8 @@ const SignupPage = () => {
       birthday: formattedBirthday,
     });
   };
+
+  if (!signupToken) return null;
 
   return (
     <form onSubmit={handleSubmit}>
