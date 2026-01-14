@@ -9,6 +9,9 @@ const meta = {
   title: 'pages/mypage/TabNavBar',
   component: TabNavBar,
   tags: ['autodocs'],
+  args: {
+    onTabChange: () => {},
+  },
   argTypes: {
     activeTab: {
       control: { type: 'radio' },
@@ -37,7 +40,7 @@ const TabNavBarStory = (args: TabNavBarArgs) => {
       activeTab={activeTab}
       onTabChange={(tab) => {
         setActiveTab(tab);
-        args.onTabChange(tab);
+        args.onTabChange?.(tab);
       }}
     />
   );
@@ -46,7 +49,6 @@ const TabNavBarStory = (args: TabNavBarArgs) => {
 export const GeneratedImages: Story = {
   args: {
     activeTab: 'generatedImages',
-    onTabChange: () => {},
   },
   render: (args) => <TabNavBarStory {...args} />,
 };
@@ -54,7 +56,6 @@ export const GeneratedImages: Story = {
 export const SavedItems: Story = {
   args: {
     activeTab: 'savedItems',
-    onTabChange: () => {},
   },
   render: (args) => <TabNavBarStory {...args} />,
 };

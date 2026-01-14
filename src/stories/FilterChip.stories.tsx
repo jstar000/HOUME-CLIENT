@@ -37,7 +37,10 @@ const FilterChipStory = (args: Story['args']) => {
     <FilterChip
       {...args}
       isSelected={isSelected}
-      onClick={() => setIsSelected((prev) => !prev)}
+      onClick={(event) => {
+        args.onClick?.(event);
+        setIsSelected((prev) => !prev);
+      }}
     >
       {args?.children}
     </FilterChip>
