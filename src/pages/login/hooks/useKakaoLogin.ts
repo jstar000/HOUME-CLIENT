@@ -20,7 +20,7 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/routes/paths';
 import { useUserStore } from '@/store/useUserStore';
 
-import { getKakaoLogin } from '../apis/kakaoLogin';
+import { getKakaoOAuthCallback } from '../apis/kakaoOAuthCallback';
 
 import type { LoginApiResponse } from '../types/auth';
 import type { AuthEnvironment } from '../types/environment';
@@ -34,7 +34,7 @@ export const useKakaoLoginMutation = () => {
     Error,
     { code: string; env: AuthEnvironment }
   >({
-    mutationFn: ({ code, env }) => getKakaoLogin(code, env),
+    mutationFn: ({ code, env }) => getKakaoOAuthCallback(code, env),
     onSuccess: (response) => {
       // 신규 회원: signupToken 기반으로 회원가입 진행
       if (response.data.isNewUser) {

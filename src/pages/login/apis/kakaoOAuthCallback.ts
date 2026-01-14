@@ -25,14 +25,14 @@ import type { BaseResponse } from '@shared/types/apis';
  * // KakaoCallback 컴포넌트에서:
  * const code = new URL(window.location.href).searchParams.get('code');
  * const env = window.location.hostname === 'localhost' ? 'local' : 'dev';
- * const response = await getKakaoLogin(code, env);
+ * const response = await getKakaoOAuthCallback(code, env);
  * console.log(response.data.isNewUser); // 신규 회원 여부
  * console.log(response.data.signupToken); // 신규 회원 임시 토큰(신규 회원일 때만)
  * console.log(response.accessToken); // 액세스 토큰(기존 회원일 때만)
  * ```
  */
 
-export const getKakaoLogin = async (
+export const getKakaoOAuthCallback = async (
   code: string,
   env: AuthEnvironment
 ): Promise<LoginApiResponse> => {
@@ -42,8 +42,8 @@ export const getKakaoLogin = async (
     { params: { code, env } }
   );
 
-  // console.log('[kakaoLogin] 응답 헤더:', response.headers);
-  // console.log('[kakaoLogin] 응답 데이터:', response.data);
+  // console.log('[kakaoOAuthCallback] 응답 헤더:', response.headers);
+  // console.log('[kakaoOAuthCallback] 응답 데이터:', response.data);
 
   const data = response.data.data;
 
