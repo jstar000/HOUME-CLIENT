@@ -28,7 +28,21 @@ body {
  * - TOC(우측 Table of Contents) 너비 고정
  */
 .sbdocs-toc--custom {
-  width: 280px;
-  flex: 0 0 280px;
-  max-width: 280px;
+  width: 320px;
+  flex: 0 0 320px;
+  max-width: 320px;
+}
+
+/* TOC 내부 텍스트 영역 확장 */
+.sbdocs-toc--custom > * {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.sbdocs-toc--custom a {
+  display: block;
+  width: 100%;
+  max-width: none !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere;
 }
