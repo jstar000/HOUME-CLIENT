@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import type { Preview } from '@storybook/react-vite';
 import '@shared/styles/global.css';
+import './preview.css';
 
 const queryClient = new QueryClient({
   defaultOptions: {
