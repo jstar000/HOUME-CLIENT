@@ -272,3 +272,9 @@ knowledge_base:
     enabled: true
     filePatterns:
       - 'README.md'
+      - 'docs/README.md'
+      - 'docs/architecture/**/*.md'
+      - 'docs/reference/**/*.md'
+      - 'docs/decisions/**/*.md'
+      - 'docs/changes/**/*.md'
+      - 'docs/operations/**/*.md'
