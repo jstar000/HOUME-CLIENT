@@ -276,3 +276,5 @@ knowledge_base:
       - 'docs/architecture/**/*.md'
       - 'docs/reference/**/*.md'
       - 'docs/decisions/**/*.md'
+      - 'docs/changes/**/*.md'
+      - 'docs/operations/**/*.md'
