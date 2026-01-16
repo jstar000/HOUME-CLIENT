@@ -36,12 +36,12 @@ dist-ssr
 storybook-static
 
 .pnpm-store/
+.npm-cache/
 
 # Others
 .claude
 CLAUDE.md
 .cursor
-docs/
 
 dev-debug.log
 # Dependency directories
@@ -55,6 +55,4 @@ node_modules/
 # tasks/ 
 AGENTS.md
 
-.pnpm-store/
 .serena/
-.npm-cache/
