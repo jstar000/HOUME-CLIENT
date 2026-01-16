@@ -19,7 +19,8 @@
 
 ### Changes
 
-- [2025-12-11: MyPage image cache & inference](./changes/2025-12-11_mypage-image-cache-and-inference.md)
+- `./changes/`: 변경 기록(왜/무엇/검증) 모음
+  - [Index](./changes/README.md)
 
 ### Reference
 
@@ -27,9 +28,9 @@
 - [Component Catalog](./reference/component-catalog.md)
 - [Furniture Curation Mapping](./reference/curation-mapping.md)
 
-### Techtalk / Deep dive
+### Operations
 
-- [WebML + ONNX Runtime(Web)](./techtalk/webml-onnx-runtime.md)
+- [ONNX Runtime(Web) 도입 기록](./operations/onnx-runtime-web.md)
 
 ## 작성/유지 규칙(간단)
 
