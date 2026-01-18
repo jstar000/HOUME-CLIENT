@@ -6,7 +6,10 @@ import { createRoot } from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 import { ToastContainer } from 'react-toastify';
 
-import { getSentryReactErrorHandlerOptions, initSentry } from '@/shared/config/sentry.ts';
+import {
+  getSentryReactErrorHandlerOptions,
+  initSentry,
+} from '@/shared/config/sentry.ts';
 import '@/shared/styles/global.css.ts';
 
 import App from './App.tsx';
