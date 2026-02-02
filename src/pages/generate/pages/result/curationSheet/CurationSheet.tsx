@@ -96,6 +96,11 @@ export const CurationSheet = ({ groupId = null }: CurationSheetProps) => {
         ? byProductId
         : index + 1;
 
+      const originalPrice = Number(product.furnitureProductOriginalPrice);
+      const discountPrice = Number(product.furnitureProductDiscountPrice);
+      const discountRate = Number(product.furnitureProductDiscountRate);
+      const saveCount = Number(product.furnitureProductSaveCount);
+
       return {
         id: recommendId,
         isRecommendId: Boolean(recommendId),
@@ -105,6 +110,23 @@ export const CurationSheet = ({ groupId = null }: CurationSheetProps) => {
         furnitureProductImageUrl:
           product.furnitureProductImageUrl || product.baseFurnitureImageUrl,
         furnitureProductSiteUrl: product.furnitureProductSiteUrl,
+        furnitureProductOriginalPrice: Number.isFinite(originalPrice)
+          ? originalPrice
+          : undefined,
+        furnitureProductDiscountPrice: Number.isFinite(discountPrice)
+          ? discountPrice
+          : undefined,
+        furnitureProductDiscountRate: Number.isFinite(discountRate)
+          ? discountRate
+          : undefined,
+        furnitureProductColorHexes: Array.isArray(
+          product.furnitureProductColorHexes
+        )
+          ? product.furnitureProductColorHexes
+          : undefined,
+        furnitureProductSaveCount: Number.isFinite(saveCount)
+          ? saveCount
+          : undefined,
       };
     });
   }, [productsData]);
