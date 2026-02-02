@@ -218,14 +218,12 @@ const ResultPage = () => {
             userProfile={forwardedUserProfile}
             detectionCache={forwardedDetectionMap ?? undefined}
             isSlideCountLoading={isSlideCountLoading}
-            groupId={groupId}
           />
         ) : (
           <GeneratedImgB
             result={result}
             onCurrentImgIdChange={setCurrentImgId}
             detectionCache={forwardedDetectionMap ?? undefined}
-            groupId={groupId}
           />
         )}
       </section>
