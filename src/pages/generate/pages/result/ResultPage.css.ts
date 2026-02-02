@@ -9,15 +9,14 @@ import { colorVars } from '@styles/tokens/color.css';
 export const wrapper = style({
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
-  minHeight: '66.7rem',
   width: '100%',
+  height: 'calc(100dvh - 4.8rem)', // TitleNavBar height
+  overflow: 'hidden',
 });
 
 export const resultSection = style({
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
   width: '100%',
 });
 
