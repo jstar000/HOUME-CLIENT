@@ -81,10 +81,11 @@ export const gridbox = style({
   width: '100%',
   height: 'fit-content',
   display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fill, minmax(16.6rem, 1fr))',
-  columnGap: '1.1rem',
-  rowGap: '2rem',
-  justifyItems: 'center',
+  gridTemplateColumns: 'repeat(2, 16.4rem)',
+  columnGap: '0.7rem',
+  rowGap: '1.6rem',
+  justifyContent: 'space-between',
+  justifyItems: 'start',
 });
 
 export const statusContainer = style({
