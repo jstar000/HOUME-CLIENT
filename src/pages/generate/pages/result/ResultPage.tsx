@@ -226,8 +226,8 @@ const ResultPage = () => {
             detectionCache={forwardedDetectionMap ?? undefined}
           />
         )}
+        <CurationSheet groupId={groupId} />
       </section>
-      <CurationSheet groupId={groupId} />
     </div>
   );
 };
