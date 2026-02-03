@@ -15,9 +15,22 @@ const queryClient = new QueryClient({
 
 const preview: Preview = {
   decorators: [
-    (Story) => (
+    (Story, context) => (
       <QueryClientProvider client={queryClient}>
-        <Story />
+        {context.viewMode === 'story' ? (
+          <div
+            style={{
+              width: '100%',
+              maxWidth: '440px',
+              margin: '0 auto',
+              boxSizing: 'border-box',
+            }}
+          >
+            <Story />
+          </div>
+        ) : (
+          <Story />
+        )}
       </QueryClientProvider>
     ),
   ],
@@ -47,10 +60,24 @@ const preview: Preview = {
     },
     viewport: {
       viewports: {
-        mobile: {
-          name: 'Mobile',
+        mobile360: {
+          name: 'Mobile 360',
+          styles: {
+            width: '360px',
+            height: '667px',
+          },
+        },
+        mobile375: {
+          name: 'Mobile 375',
           styles: {
             width: '375px',
+            height: '667px',
+          },
+        },
+        mobile440: {
+          name: 'Mobile 440',
+          styles: {
+            width: '440px',
             height: '667px',
           },
         },
@@ -69,6 +96,7 @@ const preview: Preview = {
           },
         },
       },
+      defaultViewport: 'mobile375',
     },
     a11y: {
       // 'todo' - show a11y violations in the test UI only
