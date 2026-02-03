@@ -56,14 +56,6 @@ const preview: Preview = {
     },
     viewport: {
       options: {
-        mobile360: {
-          name: 'Mobile 360',
-          styles: {
-            width: '360px',
-            height: '667px',
-          },
-          type: 'mobile',
-        },
         mobile375: {
           name: 'Mobile 375',
           styles: {
@@ -79,22 +71,6 @@ const preview: Preview = {
             height: '667px',
           },
           type: 'mobile',
-        },
-        tablet: {
-          name: 'Tablet',
-          styles: {
-            width: '768px',
-            height: '1024px',
-          },
-          type: 'tablet',
-        },
-        desktop: {
-          name: 'Desktop',
-          styles: {
-            width: '1440px',
-            height: '900px',
-          },
-          type: 'desktop',
         },
       },
     },
