@@ -127,6 +127,7 @@ const CardProduct = ({
         <div
           className={styles.linkBtnContainer({ size })}
           onClick={(event) => event.stopPropagation()}
+          onKeyDown={(event) => event.stopPropagation()}
         >
           {linkHref && (
             <LinkButton
@@ -144,6 +145,7 @@ const CardProduct = ({
           <div
             className={styles.saveBtnOverlay}
             onClick={(event) => event.stopPropagation()}
+            onKeyDown={(event) => event.stopPropagation()}
           >
             <SaveButton
               disabled={disabled}
@@ -217,7 +219,10 @@ const CardProduct = ({
             {!!brand && <p className={styles.brandText}>{brand}</p>}
           </div>
           <div className={styles.saveBtnContainer}>
-            <div onClick={(event) => event.stopPropagation()}>
+            <div
+              onClick={(event) => event.stopPropagation()}
+              onKeyDown={(event) => event.stopPropagation()}
+            >
               <SaveButton
                 disabled={disabled}
                 isSelected={isSaved}
