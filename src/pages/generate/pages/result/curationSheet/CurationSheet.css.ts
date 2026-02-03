@@ -10,7 +10,7 @@ export const container = style({
   flex: '1 1 auto',
   display: 'flex',
   flexDirection: 'column',
-  padding: '2rem',
+  padding: '2rem 2rem 0',
   backgroundColor: colorVars.color.gray000,
   overflow: 'hidden',
 });
@@ -24,6 +24,7 @@ export const filterSection = style({
   display: 'flex',
   gap: '0.4rem',
   marginTop: '0.8rem',
+  padding: '0.8rem 0',
   alignItems: 'center',
   backgroundColor: colorVars.color.gray000,
 
@@ -65,7 +66,7 @@ export const content = style({
   display: 'flex',
   flexDirection: 'column',
   overflowY: 'auto',
-  marginTop: '1.6rem',
+  marginTop: '0.8rem',
   overscrollBehavior: 'contain',
 
   selectors: {
@@ -83,7 +84,7 @@ export const gridbox = style({
   display: 'grid',
   gridTemplateColumns: 'repeat(2, 16.4rem)',
   columnGap: '0.7rem',
-  rowGap: '1.6rem',
+  rowGap: 0,
   justifyContent: 'space-between',
   justifyItems: 'start',
 });
