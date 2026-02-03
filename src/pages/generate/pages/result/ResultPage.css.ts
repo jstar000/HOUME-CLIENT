@@ -6,11 +6,13 @@ import { animationTokens } from '@/shared/styles/tokens/animation.css';
 
 import { colorVars } from '@styles/tokens/color.css';
 
+const TITLE_NAV_BAR_HEIGHT = '4.8rem';
+
 export const wrapper = style({
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
-  height: 'calc(100dvh - 4.8rem)', // TitleNavBar height
+  height: `calc(100dvh - ${TITLE_NAV_BAR_HEIGHT})`, // TitleNavBar height
   overflow: 'hidden',
 });
 
