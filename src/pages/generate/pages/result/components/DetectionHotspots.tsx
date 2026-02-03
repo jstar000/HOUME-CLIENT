@@ -90,16 +90,9 @@ const DetectionHotspots = ({
 
   // 훅으로 로직 이동: refs/hotspots/error 제공
   // 페이지 시나리오별로 추론 사용 여부 제어
-  const handleInferenceComplete = useCallback(
-    (result: ProcessedDetections, latestHotspots: FurnitureHotspot[]) => {
-      lastDetectionsRef.current = result;
-      saveEntry({
-        processedDetections: result,
-        hotspots: latestHotspots,
-      });
-    },
-    [saveEntry]
-  );
+  const handleInferenceComplete = useCallback((result: ProcessedDetections) => {
+    lastDetectionsRef.current = result;
+  }, []);
 
   useEffect(() => {
     if (!prefetchedDetections) return;
