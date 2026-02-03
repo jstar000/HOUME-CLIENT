@@ -15,12 +15,21 @@ const queryClient = new QueryClient({
 
 const preview: Preview = {
   decorators: [
-    (Story) => (
+    (Story, context) => (
       <QueryClientProvider client={queryClient}>
-        <Story />
+        {context.viewMode === 'story' ? (
+          <div className="sb-story-wrapper">
+            <Story />
+          </div>
+        ) : (
+          <Story />
+        )}
       </QueryClientProvider>
     ),
   ],
+  initialGlobals: {
+    viewport: { value: 'mobile375', isRotated: false },
+  },
   parameters: {
     controls: {
       matchers: {
@@ -46,13 +55,30 @@ const preview: Preview = {
       ],
     },
     viewport: {
-      viewports: {
-        mobile: {
-          name: 'Mobile',
+      options: {
+        mobile360: {
+          name: 'Mobile 360',
+          styles: {
+            width: '360px',
+            height: '667px',
+          },
+          type: 'mobile',
+        },
+        mobile375: {
+          name: 'Mobile 375',
           styles: {
             width: '375px',
             height: '667px',
           },
+          type: 'mobile',
+        },
+        mobile440: {
+          name: 'Mobile 440',
+          styles: {
+            width: '440px',
+            height: '667px',
+          },
+          type: 'mobile',
         },
         tablet: {
           name: 'Tablet',
@@ -60,6 +86,7 @@ const preview: Preview = {
             width: '768px',
             height: '1024px',
           },
+          type: 'tablet',
         },
         desktop: {
           name: 'Desktop',
@@ -67,6 +94,7 @@ const preview: Preview = {
             width: '1440px',
             height: '900px',
           },
+          type: 'desktop',
         },
       },
     },
