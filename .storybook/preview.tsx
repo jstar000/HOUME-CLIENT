@@ -27,6 +27,9 @@ const preview: Preview = {
       </QueryClientProvider>
     ),
   ],
+  initialGlobals: {
+    viewport: { value: 'mobile375', isRotated: false },
+  },
   parameters: {
     controls: {
       matchers: {
@@ -52,13 +55,14 @@ const preview: Preview = {
       ],
     },
     viewport: {
-      viewports: {
+      options: {
         mobile360: {
           name: 'Mobile 360',
           styles: {
             width: '360px',
             height: '667px',
           },
+          type: 'mobile',
         },
         mobile375: {
           name: 'Mobile 375',
@@ -66,6 +70,7 @@ const preview: Preview = {
             width: '375px',
             height: '667px',
           },
+          type: 'mobile',
         },
         mobile440: {
           name: 'Mobile 440',
@@ -73,6 +78,7 @@ const preview: Preview = {
             width: '440px',
             height: '667px',
           },
+          type: 'mobile',
         },
         tablet: {
           name: 'Tablet',
@@ -80,6 +86,7 @@ const preview: Preview = {
             width: '768px',
             height: '1024px',
           },
+          type: 'tablet',
         },
         desktop: {
           name: 'Desktop',
@@ -87,9 +94,9 @@ const preview: Preview = {
             width: '1440px',
             height: '900px',
           },
+          type: 'desktop',
         },
       },
-      defaultViewport: 'mobile375',
     },
     a11y: {
       // 'todo' - show a11y violations in the test UI only
