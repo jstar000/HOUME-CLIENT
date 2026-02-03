@@ -232,6 +232,10 @@ globalStyle(`${saveCountIcon} svg`, {
   height: '100%',
 });
 
+globalStyle(`${saveCountIcon} path`, {
+  fill: colorVars.color.gray400,
+});
+
 export const saveCountText = style({
   ...fontStyle('caption_r_11'),
   color: colorVars.color.gray400,
