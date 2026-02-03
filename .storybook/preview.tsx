@@ -18,14 +18,7 @@ const preview: Preview = {
     (Story, context) => (
       <QueryClientProvider client={queryClient}>
         {context.viewMode === 'story' ? (
-          <div
-            style={{
-              width: '100%',
-              maxWidth: '440px',
-              margin: '0 auto',
-              boxSizing: 'border-box',
-            }}
-          >
+          <div className="sb-story-wrapper">
             <Story />
           </div>
         ) : (

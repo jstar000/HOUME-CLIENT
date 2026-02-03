@@ -20,6 +20,13 @@ body {
   min-height: 100dvh;
 }
 
+.sb-story-wrapper {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
 /**
  * Storybook Docs
  * - global rem base (10px) 대응
