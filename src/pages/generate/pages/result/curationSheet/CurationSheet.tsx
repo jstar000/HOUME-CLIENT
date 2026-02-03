@@ -191,7 +191,7 @@ export const CurationSheet = ({ groupId = null }: CurationSheetProps) => {
             variables.categoryId
           );
         },
-        staleTime: 30 * 1000,
+        staleTime: 5 * 60 * 1000,
       });
     });
   }, [queryClient, activeImageId, categories, groupId, groupProductCache]);
