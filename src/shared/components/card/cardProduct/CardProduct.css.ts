@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 import { fontStyle } from '@/shared/styles/fontStyle';
@@ -225,12 +225,11 @@ export const saveCountIcon = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  selectors: {
-    '& svg': {
-      width: '100%',
-      height: '100%',
-    },
-  },
+});
+
+globalStyle(`${saveCountIcon} svg`, {
+  width: '100%',
+  height: '100%',
 });
 
 export const saveCountText = style({
