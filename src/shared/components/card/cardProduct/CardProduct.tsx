@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import HeartGrayIcon from '@assets/icons/icnHeartGray.svg?react';
+import HeartGrayXSIcon from '@assets/icons/icnHeartGrayXS.svg?react';
 import CardImage from '@assets/images/cardExImg.svg?url';
 import LinkButton from '@components/button/linkButton/LinkButton';
 import SaveButton from '@components/button/saveButton/SaveButton';
@@ -204,7 +204,7 @@ const CardProduct = ({
           {typeof saveCount === 'number' && Number.isFinite(saveCount) && (
             <div className={styles.saveCountRow}>
               <span className={styles.saveCountIcon} aria-hidden>
-                <HeartGrayIcon />
+                <HeartGrayXSIcon />
               </span>
               <span className={styles.saveCountText}>
                 {saveCount.toLocaleString('ko-KR')}
