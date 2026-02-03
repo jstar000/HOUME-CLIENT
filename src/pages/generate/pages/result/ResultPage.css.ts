@@ -4,14 +4,14 @@ import { recipe } from '@vanilla-extract/recipes';
 import { fontStyle } from '@/shared/styles/fontStyle';
 import { animationTokens } from '@/shared/styles/tokens/animation.css';
 
+import { layoutVars } from '@styles/global.css';
 import { colorVars } from '@styles/tokens/color.css';
-import { TITLE_NAV_BAR_HEIGHT } from '@styles/tokens/layout';
 
 export const wrapper = style({
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
-  height: `calc(100dvh - ${TITLE_NAV_BAR_HEIGHT})`, // TitleNavBar height
+  height: `calc(100dvh - ${layoutVars.titleNavBarHeight})`, // TitleNavBar height
   overflow: 'hidden',
 });
 
