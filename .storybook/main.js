@@ -4,7 +4,8 @@ const config = {
     '@chromatic-com/storybook',
     '@storybook/addon-docs',
     '@storybook/addon-a11y',
-    '@storybook/addon-viewport',
+    // eslint-disable-next-line storybook/no-uninstalled-addons -- consolidated addon export
+    'storybook/viewport',
     // '@storybook/addon-vitest',
   ],
   framework: {
