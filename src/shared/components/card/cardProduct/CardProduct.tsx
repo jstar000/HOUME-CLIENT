@@ -128,6 +128,7 @@ const CardProduct = ({
           className={styles.linkBtnContainer({ size })}
           onClick={(event) => event.stopPropagation()}
           onKeyDown={(event) => event.stopPropagation()}
+          role="presentation"
         >
           {linkHref && (
             <LinkButton
@@ -146,6 +147,7 @@ const CardProduct = ({
             className={styles.saveBtnOverlay}
             onClick={(event) => event.stopPropagation()}
             onKeyDown={(event) => event.stopPropagation()}
+            role="presentation"
           >
             <SaveButton
               disabled={disabled}
@@ -222,6 +224,7 @@ const CardProduct = ({
             <div
               onClick={(event) => event.stopPropagation()}
               onKeyDown={(event) => event.stopPropagation()}
+              role="presentation"
             >
               <SaveButton
                 disabled={disabled}
