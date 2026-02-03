@@ -5,8 +5,7 @@ import { fontStyle } from '@/shared/styles/fontStyle';
 import { animationTokens } from '@/shared/styles/tokens/animation.css';
 
 import { colorVars } from '@styles/tokens/color.css';
-
-const TITLE_NAV_BAR_HEIGHT = '4.8rem';
+import { TITLE_NAV_BAR_HEIGHT } from '@styles/tokens/layout';
 
 export const wrapper = style({
   display: 'flex',
