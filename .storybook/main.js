@@ -4,6 +4,7 @@ const config = {
     '@chromatic-com/storybook',
     '@storybook/addon-docs',
     '@storybook/addon-a11y',
+    '@storybook/addon-viewport',
     // '@storybook/addon-vitest',
   ],
   framework: {
