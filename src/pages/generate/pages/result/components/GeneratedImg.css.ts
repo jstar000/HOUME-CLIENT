@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 // import { zIndex } from '@/shared/styles/tokens/zIndex';
@@ -97,19 +97,14 @@ export const slidePrevBtn = style({
       width: '2.4rem',
       height: '2.4rem',
       borderRadius: '99.9rem',
-      backgroundColor: colorVars.color.gray999_30,
-    },
-    '& > svg': {
-      position: 'relative',
-      zIndex: 1,
-      width: '1.2rem',
-      height: '1.2rem',
+      backgroundColor: colorVars.color.gray999,
+      opacity: 0.3,
     },
     '&:active::before': {
-      backgroundColor: colorVars.color.gray999_50,
+      opacity: 0.5,
     },
     '&:disabled::before': {
-      backgroundColor: colorVars.color.gray999_04,
+      opacity: 0.04,
     },
   },
 });
@@ -136,21 +131,30 @@ export const slideNextBtn = style({
       width: '2.4rem',
       height: '2.4rem',
       borderRadius: '99.9rem',
-      backgroundColor: colorVars.color.gray999_30,
-    },
-    '& > svg': {
-      position: 'relative',
-      zIndex: 1,
-      width: '1.2rem',
-      height: '1.2rem',
+      backgroundColor: colorVars.color.gray999,
+      opacity: 0.3,
     },
     '&:active::before': {
-      backgroundColor: colorVars.color.gray999_50,
+      opacity: 0.5,
     },
     '&:disabled::before': {
-      backgroundColor: colorVars.color.gray999_04,
+      opacity: 0.04,
     },
   },
+});
+
+globalStyle(`${slidePrevBtn} > svg`, {
+  position: 'relative',
+  zIndex: 1,
+  width: '1.2rem',
+  height: '1.2rem',
+});
+
+globalStyle(`${slideNextBtn} > svg`, {
+  position: 'relative',
+  zIndex: 1,
+  width: '1.2rem',
+  height: '1.2rem',
 });
 
 export const imgAreaBlurred = recipe({

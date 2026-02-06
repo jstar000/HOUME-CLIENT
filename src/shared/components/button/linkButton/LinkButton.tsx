@@ -20,7 +20,9 @@ const LinkButton = ({
         type: typeVariant,
       })}
     >
-      <LinkIcon />
+      <span className={styles.linkIconWrapper}>
+        <LinkIcon />
+      </span>
       {children ? <span className={styles.linkLabel}>{children}</span> : null}
     </a>
   );

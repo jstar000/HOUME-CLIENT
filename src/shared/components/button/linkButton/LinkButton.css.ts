@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 import { fontStyle } from '@/shared/styles/fontStyle';
@@ -30,17 +30,11 @@ export const linkButton = recipe({
         height: '2.6rem',
         padding: '0.3rem 0.5rem',
         gap: 0,
+        flexShrink: 0,
         whiteSpace: 'nowrap',
         ...fontStyle('caption_r_11'),
+        lineHeight: '1',
         color: colorVars.color.gray700,
-        selectors: {
-          '& svg': {
-            width: '1.4rem',
-            height: '1.4rem',
-            flex: '0 0 1.6rem',
-            padding: '0.1rem',
-          },
-        },
       },
       onlyIcon: {
         width: '3rem',
@@ -54,8 +48,24 @@ export const linkButton = recipe({
 
 export const linkLabel = style({
   width: '3.3rem',
-  lineHeight: '1.1rem',
+  lineHeight: '1',
   textAlign: 'center',
   flex: '0 0 3.3rem',
+  flexShrink: 0,
   whiteSpace: 'nowrap',
+});
+
+export const linkIconWrapper = style({
+  width: '1.6rem',
+  height: '1.6rem',
+  flex: '0 0 1.6rem',
+  padding: '0.1rem',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+});
+
+globalStyle(`${linkIconWrapper} svg`, {
+  width: '1.4rem',
+  height: '1.4rem',
 });
