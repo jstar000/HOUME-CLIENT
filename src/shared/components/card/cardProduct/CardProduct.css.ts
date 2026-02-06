@@ -139,6 +139,7 @@ export const infoSection = style({
   display: 'flex',
   flexDirection: 'column',
   paddingTop: '1.2rem',
+  paddingBottom: '2rem',
   gap: '0.8rem',
 });
 
