@@ -215,6 +215,7 @@ const ResultPage = () => {
           <GeneratedImgA
             result={result}
             onCurrentImgIdChange={setCurrentImgId}
+            shouldInferHotspots={false}
             userProfile={forwardedUserProfile}
             detectionCache={forwardedDetectionMap ?? undefined}
             isSlideCountLoading={isSlideCountLoading}
@@ -223,6 +224,7 @@ const ResultPage = () => {
           <GeneratedImgB
             result={result}
             onCurrentImgIdChange={setCurrentImgId}
+            shouldInferHotspots={false}
             detectionCache={forwardedDetectionMap ?? undefined}
           />
         )}

@@ -218,7 +218,15 @@ export const preloadONNXModel = async (
  * - 640×640 렌더링 텐서를 입력으로 받아 감지 결과를 반환
  * - 추론 결과는 후속 파이프라인(`useFurnitureHotspots`)에서 원본 좌표로 보정
  */
-export function useONNXModel(modelPath: string) {
+interface UseONNXModelOptions {
+  enabled?: boolean;
+}
+
+export function useONNXModel(
+  modelPath: string,
+  options?: UseONNXModelOptions
+) {
+  const enabled = options?.enabled ?? true;
   const [session, setSession] = useState<InferenceSession | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -226,6 +234,15 @@ export function useONNXModel(modelPath: string) {
   const ortRef = useRef<OnnxModule | null>(null); // onnxruntime-web 모듈 보관
 
   useEffect(() => {
+    if (!enabled) {
+      setSession(null);
+      ortRef.current = null;
+      setIsLoading(false);
+      setError(null);
+      setProgress(0);
+      return;
+    }
+
     if (typeof window === 'undefined') {
       setIsLoading(false);
       setError('브라우저 환경이 아닙니다');
@@ -260,7 +277,7 @@ export function useONNXModel(modelPath: string) {
     return () => {
       isMounted = false;
     };
-  }, [modelPath]);
+  }, [enabled, modelPath]);
 
   const runInference = useCallback(
     async (imageElement: HTMLImageElement): Promise<ProcessedDetections> => {

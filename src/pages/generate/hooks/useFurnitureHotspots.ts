@@ -130,7 +130,7 @@ export function useFurnitureHotspots(
     runInference,
     isLoading,
     error: modelError,
-  } = useONNXModel(OBJ365_MODEL_PATH);
+  } = useONNXModel(OBJ365_MODEL_PATH, { enabled });
   const prefetchedDetections = options?.prefetchedDetections ?? null;
   const onInferenceComplete = options?.onInferenceComplete;
   const inferenceCompleteRef =
