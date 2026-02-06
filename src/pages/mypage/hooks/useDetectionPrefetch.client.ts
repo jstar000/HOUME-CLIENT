@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 import { OBJ365_MODEL_PATH } from '@pages/generate/constants/detection';
 import { buildHotspotsPipeline } from '@pages/generate/hooks/furnitureHotspotPipeline';
@@ -14,38 +14,73 @@ import type { FurnitureCategoryCode } from '@pages/generate/constants/furnitureC
 import type { FurnitureHotspot } from '@pages/generate/hooks/useFurnitureHotspots';
 import type { ProcessedDetections } from '@pages/generate/types/detection';
 
+import type {
+  DetectionPrefetchOptions,
+  PrefetchTask,
+} from './detectionPrefetch.types';
+
 const PREFETCH_DELAY_MS = 120;
 const MAX_CONCURRENCY = 1;
-
-type PrefetchPriority = 'immediate' | 'background';
-type PrefetchTask = {
-  imageId: number;
-  imageUrl: string;
-};
-
-interface DetectionPrefetchOptions {
-  priority?: PrefetchPriority;
-}
+const IMAGE_LOAD_TIMEOUT_MS = 12_000;
 
 /**
  * 외부 이미지 요소 로더
  * - crossOrigin 허용을 기본으로 시도
  * - 실패 시 에러를 상위로 전달
  */
-const loadImageElement = (url: string) =>
+const loadImageElement = (url: string, signal?: AbortSignal) =>
   new Promise<HTMLImageElement>((resolve, reject) => {
     const img = new Image();
+    let settled = false;
     img.crossOrigin = 'anonymous';
     img.decoding = 'async';
-    img.onload = () => resolve(img);
-    img.onerror = (event) =>
-      reject(
+    const cleanup = () => {
+      clearTimeout(timeoutId);
+      img.onload = null;
+      img.onerror = null;
+      signal?.removeEventListener('abort', handleAbort);
+    };
+    const finalizeReject = (reason: unknown) => {
+      if (settled) return;
+      settled = true;
+      cleanup();
+      reject(reason);
+    };
+    const handleAbort = () => {
+      img.src = '';
+      finalizeReject(new DOMException('이미지 로드 취소', 'AbortError'));
+    };
+    const timeoutId = window.setTimeout(() => {
+      img.src = '';
+      finalizeReject(
+        new Error(`이미지 로드 타임아웃(${IMAGE_LOAD_TIMEOUT_MS}ms)`)
+      );
+    }, IMAGE_LOAD_TIMEOUT_MS);
+
+    if (signal?.aborted) {
+      handleAbort();
+      return;
+    }
+
+    signal?.addEventListener('abort', handleAbort, { once: true });
+    img.onload = () => {
+      if (settled) return;
+      settled = true;
+      cleanup();
+      resolve(img);
+    };
+    img.onerror = (event) => {
+      finalizeReject(
         event instanceof ErrorEvent
           ? event.error
           : new Error('이미지 로드 실패')
       );
+    };
     img.src = url;
   });
+
+const isAbortError = (value: unknown) =>
+  value instanceof DOMException && value.name === 'AbortError';
 
 const sleep = (ms: number) =>
   new Promise((resolve) => {
@@ -59,11 +94,16 @@ const sleep = (ms: number) =>
 export const useDetectionPrefetchClient = () => {
   const { runInference, isLoading, error } = useONNXModel(OBJ365_MODEL_PATH);
   const setEntry = useDetectionCacheStore((state) => state.setEntry);
+  const modelStateRef = useRef({ isLoading, error });
+  const isMountedRef = useRef(true);
   const pendingRef = useRef<Set<number>>(new Set());
   const queueRef = useRef<PrefetchTask[]>([]);
   const drainingRef = useRef(false);
   const activeCountRef = useRef(0); // 동시에 실행 중인 작업 수
   const waitersRef = useRef<(() => void)[]>([]); // 세마포어 대기열
+  const inflightControllersRef = useRef<Map<number, AbortController>>(
+    new Map()
+  );
 
   // 세마포어 슬롯 확보
   const acquireSlot = useCallback(async () => {
@@ -150,42 +190,59 @@ export const useDetectionPrefetchClient = () => {
       if (pendingRef.current.has(imageId)) return;
       const cached = useDetectionCacheStore.getState().images[imageId];
       if (cached) return;
-      if (isLoading || error) return;
+      if (modelStateRef.current.isLoading || modelStateRef.current.error) return;
+      if (!isMountedRef.current) return;
 
+      const controller = new AbortController();
+      inflightControllersRef.current.set(imageId, controller);
       pendingRef.current.add(imageId);
       try {
         let targetImage: HTMLImageElement | null = null;
         try {
-          targetImage = await loadImageElement(imageUrl);
+          targetImage = await loadImageElement(imageUrl, controller.signal);
         } catch {
+          if (controller.signal.aborted || !isMountedRef.current) return;
           targetImage = await loadCorsImage(imageUrl);
         }
-        if (!targetImage) return;
+        if (!targetImage || controller.signal.aborted || !isMountedRef.current) {
+          return;
+        }
 
         try {
           const result = await runInference(targetImage);
+          if (controller.signal.aborted || !isMountedRef.current) return;
           processAndStore(imageId, imageUrl, targetImage, result);
           return;
         } catch (inferenceError) {
+          if (isAbortError(inferenceError)) return;
           if (
             inferenceError instanceof DOMException &&
             inferenceError.name === 'SecurityError'
           ) {
             const corsImage = await loadCorsImage(imageUrl);
-            if (!corsImage) return;
+            if (
+              !corsImage ||
+              controller.signal.aborted ||
+              !isMountedRef.current
+            ) {
+              return;
+            }
             const corsResult = await runInference(corsImage);
+            if (controller.signal.aborted || !isMountedRef.current) return;
             processAndStore(imageId, imageUrl, corsImage, corsResult);
             return;
           }
           console.warn('감지 프리페치 실패', inferenceError);
         }
       } catch (unexpectedError) {
+        if (isAbortError(unexpectedError)) return;
         console.warn('감지 프리페치 예외', unexpectedError);
       } finally {
+        inflightControllersRef.current.delete(imageId);
         pendingRef.current.delete(imageId);
       }
     },
-    [error, isLoading, processAndStore, runInference]
+    [processAndStore, runInference]
   );
 
   // 백그라운드 큐를 순차로 소모해 모델 호출 폭주 방지
@@ -193,20 +250,27 @@ export const useDetectionPrefetchClient = () => {
     if (drainingRef.current) return;
     drainingRef.current = true;
     try {
-      const jobs: Promise<void>[] = [];
       while (queueRef.current.length > 0) {
+        if (modelStateRef.current.isLoading || modelStateRef.current.error) {
+          break;
+        }
         const task = queueRef.current.shift();
         if (!task) continue;
-        jobs.push(
-          runWithSemaphore(async () => {
-            await executePrefetch(task.imageId, task.imageUrl);
-            await sleep(PREFETCH_DELAY_MS); // 감지 모델 연속 호출 완화
-          })
-        );
+        await runWithSemaphore(async () => {
+          await executePrefetch(task.imageId, task.imageUrl);
+          await sleep(PREFETCH_DELAY_MS); // 감지 모델 연속 호출 완화
+        });
       }
-      await Promise.all(jobs);
     } finally {
       drainingRef.current = false;
+      if (
+        isMountedRef.current &&
+        queueRef.current.length > 0 &&
+        !modelStateRef.current.isLoading &&
+        !modelStateRef.current.error
+      ) {
+        void drainQueue();
+      }
     }
   }, [executePrefetch, runWithSemaphore]);
 
@@ -224,6 +288,10 @@ export const useDetectionPrefetchClient = () => {
     (imageId: number, imageUrl: string, options?: DetectionPrefetchOptions) => {
       const priority = options?.priority ?? 'background';
       if (priority === 'immediate') {
+        if (modelStateRef.current.isLoading || modelStateRef.current.error) {
+          scheduleBackgroundPrefetch(imageId, imageUrl);
+          return;
+        }
         void runWithSemaphore(() => executePrefetch(imageId, imageUrl));
         return;
       }
@@ -231,6 +299,25 @@ export const useDetectionPrefetchClient = () => {
     },
     [executePrefetch, runWithSemaphore, scheduleBackgroundPrefetch]
   );
+
+  useEffect(() => {
+    modelStateRef.current = { isLoading, error };
+    if (!isLoading && !error && queueRef.current.length > 0) {
+      void drainQueue();
+    }
+  }, [isLoading, error, drainQueue]);
+
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+      queueRef.current = [];
+      pendingRef.current.clear();
+      activeCountRef.current = 0;
+      inflightControllersRef.current.forEach((controller) => controller.abort());
+      inflightControllersRef.current.clear();
+      waitersRef.current.splice(0).forEach((resolve) => resolve());
+    };
+  }, []);
 
   return { prefetchDetection };
 };

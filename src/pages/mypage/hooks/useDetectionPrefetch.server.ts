@@ -1,10 +1,6 @@
 import { useCallback } from 'react';
 
-type PrefetchPriority = 'immediate' | 'background';
-
-interface DetectionPrefetchOptions {
-  priority?: PrefetchPriority;
-}
+import type { DetectionPrefetchOptions } from './detectionPrefetch.types';
 
 export const useDetectionPrefetchServer = () => {
   const prefetchDetection = useCallback(
