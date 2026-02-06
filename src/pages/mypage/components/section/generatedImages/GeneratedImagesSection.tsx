@@ -1,8 +1,9 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
 import CardCuration from '@/pages/mypage/components/card/cardCuration/CardCuration';
+import { useDetectionPrefetch } from '@/pages/mypage/hooks/useDetectionPrefetch';
 import { useMyPageImagesQuery } from '@/pages/mypage/hooks/useMypage';
 import type {
   MyPageImageHistory,
@@ -22,13 +23,15 @@ interface GeneratedImagesSectionProps {
 
 /**
  * 마이페이지 생성 이미지 목록 섹션
- * - 결과 페이지 네비게이션 상태 구성을 함께 처리
+ * - 감지 데이터 프리패치와 네비게이션 상태 구성을 함께 처리
  */
 const GeneratedImagesSection = ({
   userProfile,
 }: GeneratedImagesSectionProps) => {
   const navigate = useNavigate();
   const { data: imagesData, isLoading, isError } = useMyPageImagesQuery();
+  const { prefetchDetection } = useDetectionPrefetch();
+  const prefetchedImageIdsRef = useRef<Set<number>>(new Set<number>());
   const [loadedImages, setLoadedImages] = useState<Record<number, boolean>>(
     () => {
       if (typeof window === 'undefined') return {};
@@ -40,9 +43,51 @@ const GeneratedImagesSection = ({
       }
     }
   );
+  const primaryImageId = imagesData?.histories[0]?.imageId ?? null;
+
+  useEffect(() => {
+    if (!imagesData?.histories) return;
+    imagesData.histories.forEach((history, index) => {
+      if (prefetchedImageIdsRef.current.has(history.imageId)) return;
+      prefetchedImageIdsRef.current.add(history.imageId);
+      prefetchDetection(history.imageId, history.generatedImageUrl, {
+        priority: index === 0 ? 'immediate' : 'background',
+      });
+    });
+  }, [imagesData, prefetchDetection]);
 
   /**
-   * 결과 페이지로 이동
+   * 감지 프리패치를 브라우저 idle 시간에 스케줄링
+   * - 우선순위(immediate) 요청은 즉시 수행
+   */
+  const scheduleDetectionPrefetch = useCallback(
+    (imageId: number, imageUrl: string, options?: { immediate?: boolean }) => {
+      if (!imageId || !imageUrl) return;
+      const runTask = () => {
+        prefetchDetection(imageId, imageUrl, {
+          priority: options?.immediate ? 'immediate' : 'background',
+        });
+      };
+      if (options?.immediate || typeof window === 'undefined') {
+        runTask();
+        return;
+      }
+      const idleCallback = (
+        window as Window & {
+          requestIdleCallback?: (callback: IdleRequestCallback) => number;
+        }
+      ).requestIdleCallback;
+      if (idleCallback) {
+        idleCallback(() => runTask());
+        return;
+      }
+      window.setTimeout(runTask, 0);
+    },
+    [prefetchDetection]
+  );
+
+  /**
+   * 결과 페이지로 이동하며 필요한 감지 데이터를 선행 프리패치
    */
   const handleViewResult = (history: MyPageImageHistory) => {
     const { houseId } = history;
@@ -58,13 +103,17 @@ const GeneratedImagesSection = ({
     navigate(`${ROUTES.GENERATE_RESULT}?${params.toString()}`, {
       state: navigationState,
     });
+    // 네비게이션 직후 우선순위 감지 프리페치 실행
+    scheduleDetectionPrefetch(history.imageId, history.generatedImageUrl, {
+      immediate: true,
+    });
   };
 
   /**
-   * 이미지 로드 완료 시 로컬 캐시 갱신
+   * 이미지 로드 완료 시 로컬 캐시를 갱신하고 프리패치 스케줄
    */
   const handleImageLoad = useCallback(
-    (imageId: number) => {
+    (imageId: number, imageUrl?: string) => {
       setLoadedImages((prev) => {
         if (prev[imageId]) return prev;
         const next = { ...prev, [imageId]: true };
@@ -73,8 +122,13 @@ const GeneratedImagesSection = ({
         }
         return next;
       });
+      if (imageUrl) {
+        scheduleDetectionPrefetch(imageId, imageUrl, {
+          immediate: primaryImageId === imageId,
+        });
+      }
     },
-    []
+    [primaryImageId, scheduleDetectionPrefetch]
   );
 
   // 로딩 중

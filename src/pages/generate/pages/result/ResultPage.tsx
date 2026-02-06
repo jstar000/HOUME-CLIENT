@@ -11,6 +11,7 @@ import type {
 import { createImageDetailPlaceholder } from '@/pages/mypage/utils/resultNavigation';
 
 import Loading from '@components/loading/Loading';
+import { IS_CLIENT_DETECTION_MODE } from '@pages/generate/constants/curationDetectionMode';
 import { useABTest } from '@pages/generate/hooks/useABTest';
 import { useGetResultDataQuery } from '@pages/generate/hooks/useGenerate';
 import { useCurationStore } from '@pages/generate/stores/useCurationStore';
@@ -215,7 +216,7 @@ const ResultPage = () => {
           <GeneratedImgA
             result={result}
             onCurrentImgIdChange={setCurrentImgId}
-            shouldInferHotspots={false}
+            shouldInferHotspots={IS_CLIENT_DETECTION_MODE}
             userProfile={forwardedUserProfile}
             detectionCache={forwardedDetectionMap ?? undefined}
             isSlideCountLoading={isSlideCountLoading}
@@ -224,7 +225,7 @@ const ResultPage = () => {
           <GeneratedImgB
             result={result}
             onCurrentImgIdChange={setCurrentImgId}
-            shouldInferHotspots={false}
+            shouldInferHotspots={IS_CLIENT_DETECTION_MODE}
             detectionCache={forwardedDetectionMap ?? undefined}
           />
         )}

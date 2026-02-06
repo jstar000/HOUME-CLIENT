@@ -20,6 +20,7 @@ import { QUERY_KEY } from '@/shared/constants/queryKey';
 import { useSavedItemsStore } from '@/store/useSavedItemsStore';
 
 import { getGeneratedImageProducts } from '@pages/generate/apis/furniture';
+import { IS_CLIENT_DETECTION_MODE } from '@pages/generate/constants/curationDetectionMode';
 
 import CardProductItem from './CardProductItem';
 import * as styles from './CurationSheet.css';
@@ -52,6 +53,11 @@ export const CurationSheet = ({ groupId = null }: CurationSheetProps) => {
   const imageState = useActiveImageCurationState();
   const selectedCategoryId = imageState?.selectedCategoryId ?? null;
   const selectCategory = useCurationStore((state) => state.selectCategory);
+  const detectedObjects = useMemo(
+    () => imageState?.detectedObjects ?? [],
+    [imageState?.detectedObjects]
+  );
+  const hasDetectionCodes = detectedObjects.length > 0;
 
   const navigate = useNavigate();
   const { variant } = useABTest();
@@ -249,6 +255,9 @@ export const CurationSheet = ({ groupId = null }: CurationSheetProps) => {
         '가구 추천을 보려면 생성된 이미지를 먼저 선택해 주세요',
         '상단 가구 필터에서 원하는 가구를 선택해 주세요'
       );
+    }
+    if (IS_CLIENT_DETECTION_MODE && !hasDetectionCodes) {
+      return renderStatus('가구를 분석 중이에요', '잠시만 기다려 주세요');
     }
     if (categoriesQuery.isLoading) {
       return renderStatus(

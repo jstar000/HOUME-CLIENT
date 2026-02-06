@@ -10,6 +10,7 @@ import {
   getGeneratedImageCategories,
   getGeneratedImageProducts,
 } from '@pages/generate/apis/furniture';
+import { IS_CLIENT_DETECTION_MODE } from '@pages/generate/constants/curationDetectionMode';
 import { useCurationCacheStore } from '@pages/generate/stores/useCurationCacheStore';
 import {
   useCurationStore,
@@ -135,8 +136,13 @@ export const useGeneratedCategoriesQuery = (
     // queryKey에 이미지/감지값 전체를 직접 포함해 의존성 유지
     queryKey: categoriesQueryKey,
     queryFn: () =>
-      getGeneratedImageCategories(imageId!, normalizedDetectedObjects),
-    enabled: Boolean(imageId),
+      getGeneratedImageCategories(
+        imageId!,
+        IS_CLIENT_DETECTION_MODE ? normalizedDetectedObjects : undefined
+      ),
+    enabled:
+      Boolean(imageId) &&
+      (!IS_CLIENT_DETECTION_MODE || normalizedDetectedObjects.length > 0),
     staleTime: 15 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
     ...(initialCategoriesResponse
