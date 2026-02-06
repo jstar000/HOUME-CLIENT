@@ -111,7 +111,9 @@ export const useGeneratedCategoriesQuery = (
   );
   const canUseGroupInitialData =
     groupId !== null &&
+    imageId !== null &&
     groupCategoriesEntry !== null &&
+    groupCategoriesEntry.imageId === imageId &&
     groupCategoriesEntry.detectionSignature === detectionSignature;
 
   const categoriesQueryKey: CategoriesQueryKey = [
@@ -153,11 +155,13 @@ export const useGeneratedCategoriesQuery = (
 
   useEffect(() => {
     if (groupId === null) return;
+    if (imageId === null) return;
     if (!query.data) return;
     const existing =
       useCurationCacheStore.getState().groups[groupId]?.categories ?? null;
     if (
       existing &&
+      existing.imageId === imageId &&
       existing.detectionSignature === detectionSignature &&
       existing.response === query.data
     ) {
@@ -165,12 +169,14 @@ export const useGeneratedCategoriesQuery = (
     }
     saveGroupCategories({
       groupId,
+      imageId,
       response: query.data,
       detectedObjects: normalizedDetectedObjects,
       detectionSignature,
     });
   }, [
     groupId,
+    imageId,
     query.data,
     detectionSignature,
     normalizedDetectedObjects,
@@ -181,7 +187,7 @@ export const useGeneratedCategoriesQuery = (
     // 카테고리 자동 선택 제거
     // - 기본값은 선택 해제 상태 유지
     // - 현재 선택이 더 이상 유효하지 않다면 null 로 초기화
-    if (!imageId) return;
+    if (imageId === null) return;
     if (!query.data) {
       if (selectedCategoryId !== null) selectCategory(imageId, null);
       return;
@@ -233,7 +239,10 @@ export const useGeneratedProductsQuery = (
   ];
 
   const initialProductsResponse =
-    groupId !== null && productCacheEntry
+    groupId !== null &&
+    imageId !== null &&
+    productCacheEntry &&
+    productCacheEntry.imageId === imageId
       ? productCacheEntry.response
       : undefined;
 
@@ -246,7 +255,7 @@ export const useGeneratedProductsQuery = (
     // queryKey에 그룹/이미지/카테고리 식별자를 직접 배치
     queryKey: productsQueryKey,
     queryFn: () => getGeneratedImageProducts(imageId!, categoryId!),
-    enabled: Boolean(imageId) && categoryId !== null,
+    enabled: imageId !== null && categoryId !== null,
     staleTime: 5 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
     ...(initialProductsResponse
@@ -255,19 +264,20 @@ export const useGeneratedProductsQuery = (
   });
 
   useEffect(() => {
-    if (groupId === null || categoryId === null) return;
+    if (groupId === null || imageId === null || categoryId === null) return;
     if (!query.data) return;
     const groupCache = useCurationCacheStore.getState().groups[groupId];
     const existing = groupCache?.products[categoryId] ?? null;
-    if (existing?.response === query.data) {
+    if (existing?.imageId === imageId && existing.response === query.data) {
       return;
     }
     saveGroupProducts({
       groupId,
+      imageId,
       categoryId,
       response: query.data,
     });
-  }, [groupId, categoryId, query.data, saveGroupProducts]);
+  }, [groupId, imageId, categoryId, query.data, saveGroupProducts]);
 
   return query;
 };

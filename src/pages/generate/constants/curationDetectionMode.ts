@@ -15,7 +15,7 @@ export const isCategoryQueryEnabled = (
   imageId: number | null,
   detectedObjectsCount: number
 ) =>
-  Boolean(imageId) &&
+  imageId !== null &&
   (!IS_CLIENT_DETECTION_ENABLED || detectedObjectsCount > 0);
 
 export const shouldShowDetectionPending = (detectedObjectsCount: number) =>
