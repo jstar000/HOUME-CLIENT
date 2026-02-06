@@ -81,20 +81,34 @@ export const slidePrevBtn = style({
   alignItems: 'center',
   justifyContent: 'center',
   left: '0.6rem',
-  top: '50%',
+  top: 'calc(50% + 0.8rem)',
   transform: 'translateY(-50%)',
   width: '3.6rem',
   height: '3.6rem',
-  backgroundColor: colorVars.color.gray999_30,
   borderRadius: '99.9rem',
   zIndex: 1,
-
-  ':active': {
-    backgroundColor: colorVars.color.gray999_50,
-  },
-
-  ':disabled': {
-    backgroundColor: colorVars.color.gray999_04,
+  selectors: {
+    '&::before': {
+      content: '',
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: '2.4rem',
+      height: '2.4rem',
+      borderRadius: '1.2rem',
+      backgroundColor: colorVars.color.gray999_30,
+    },
+    '& > svg': {
+      position: 'relative',
+      zIndex: 1,
+    },
+    '&:active::before': {
+      backgroundColor: colorVars.color.gray999_50,
+    },
+    '&:disabled::before': {
+      backgroundColor: colorVars.color.gray999_04,
+    },
   },
 });
 
@@ -104,20 +118,34 @@ export const slideNextBtn = style({
   alignItems: 'center',
   justifyContent: 'center',
   right: '0.6rem',
-  top: '50%',
+  top: 'calc(50% + 0.8rem)',
   transform: 'translateY(-50%)',
   width: '3.6rem',
   height: '3.6rem',
-  backgroundColor: colorVars.color.gray999_30,
   borderRadius: '99.9rem',
   zIndex: 1,
-
-  ':active': {
-    backgroundColor: colorVars.color.gray999_50,
-  },
-
-  ':disabled': {
-    backgroundColor: colorVars.color.gray999_04,
+  selectors: {
+    '&::before': {
+      content: '',
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: '2.4rem',
+      height: '2.4rem',
+      borderRadius: '1.2rem',
+      backgroundColor: colorVars.color.gray999_30,
+    },
+    '& > svg': {
+      position: 'relative',
+      zIndex: 1,
+    },
+    '&:active::before': {
+      backgroundColor: colorVars.color.gray999_50,
+    },
+    '&:disabled::before': {
+      backgroundColor: colorVars.color.gray999_04,
+    },
   },
 });
 
