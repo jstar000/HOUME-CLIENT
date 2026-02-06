@@ -136,7 +136,7 @@ export const useGeneratedCategoriesQuery = (
     queryKey: categoriesQueryKey,
     queryFn: () =>
       getGeneratedImageCategories(imageId!, normalizedDetectedObjects),
-    enabled: Boolean(imageId) && normalizedDetectedObjects.length > 0,
+    enabled: Boolean(imageId),
     staleTime: 15 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
     ...(initialCategoriesResponse
