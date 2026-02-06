@@ -9,10 +9,7 @@ import { OBJ365_MODEL_PATH } from '@pages/generate/constants/detection';
 
 import { preloadONNXModel } from './useOnnxModel';
 
-const GENERATE_WARMUP_PATHS = [
-  ROUTES.GENERATE,
-  ROUTES.IMAGE_SETUP,
-];
+const GENERATE_WARMUP_PATHS = [ROUTES.GENERATE, ROUTES.IMAGE_SETUP];
 
 const useGenerateWarmupClient = () => {
   const location = useLocation();

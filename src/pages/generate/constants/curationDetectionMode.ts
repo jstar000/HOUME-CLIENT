@@ -1,13 +1,14 @@
 export type CurationDetectionMode = 'server' | 'client';
 
-export const CURATION_DETECTION_MODE =
-  (import.meta.env.VITE_CURATION_DETECTION_MODE === 'client'
+export const CURATION_DETECTION_MODE = (
+  import.meta.env.VITE_CURATION_DETECTION_MODE === 'client'
     ? 'client'
-    : 'server') satisfies CurationDetectionMode;
+    : 'server'
+) satisfies CurationDetectionMode;
 
 export const IS_CLIENT_DETECTION_ENABLED = CURATION_DETECTION_MODE === 'client';
 
-export const getCategoryQueryDetectedObjects = <T>(detectedObjects: T[]) =>
+export const getCategoryQueryDetectedObjects = <T,>(detectedObjects: T[]) =>
   IS_CLIENT_DETECTION_ENABLED ? detectedObjects : undefined;
 
 export const isCategoryQueryEnabled = (

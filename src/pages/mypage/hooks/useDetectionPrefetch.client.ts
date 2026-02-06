@@ -10,14 +10,13 @@ import {
   mapHotspotsToDetectedObjects,
 } from '@pages/generate/utils/detectedObjectMapper';
 
-import type { FurnitureCategoryCode } from '@pages/generate/constants/furnitureCategoryMapping';
-import type { FurnitureHotspot } from '@pages/generate/hooks/useFurnitureHotspots';
-import type { ProcessedDetections } from '@pages/generate/types/detection';
-
 import type {
   DetectionPrefetchOptions,
   PrefetchTask,
 } from './detectionPrefetch.types';
+import type { FurnitureCategoryCode } from '@pages/generate/constants/furnitureCategoryMapping';
+import type { FurnitureHotspot } from '@pages/generate/hooks/useFurnitureHotspots';
+import type { ProcessedDetections } from '@pages/generate/types/detection';
 
 const PREFETCH_DELAY_MS = 120;
 const MAX_CONCURRENCY = 1;
@@ -190,7 +189,12 @@ export const useDetectionPrefetchClient = () => {
       if (pendingRef.current.has(imageId)) return;
       const cached = useDetectionCacheStore.getState().images[imageId];
       if (cached) return;
-      if (modelStateRef.current.isLoading || modelStateRef.current.error) return;
+      if (
+        modelStateRef.current.isLoading ||
+        modelStateRef.current.error
+      ) {
+        return;
+      }
       if (!isMountedRef.current) return;
 
       const controller = new AbortController();
@@ -202,9 +206,13 @@ export const useDetectionPrefetchClient = () => {
           targetImage = await loadImageElement(imageUrl, controller.signal);
         } catch {
           if (controller.signal.aborted || !isMountedRef.current) return;
-          targetImage = await loadCorsImage(imageUrl);
+          targetImage = await loadCorsImage(imageUrl, controller.signal);
         }
-        if (!targetImage || controller.signal.aborted || !isMountedRef.current) {
+        if (
+          !targetImage ||
+          controller.signal.aborted ||
+          !isMountedRef.current
+        ) {
           return;
         }
 
@@ -219,7 +227,7 @@ export const useDetectionPrefetchClient = () => {
             inferenceError instanceof DOMException &&
             inferenceError.name === 'SecurityError'
           ) {
-            const corsImage = await loadCorsImage(imageUrl);
+            const corsImage = await loadCorsImage(imageUrl, controller.signal);
             if (
               !corsImage ||
               controller.signal.aborted ||
@@ -313,7 +321,9 @@ export const useDetectionPrefetchClient = () => {
       queueRef.current = [];
       pendingRef.current.clear();
       activeCountRef.current = 0;
-      inflightControllersRef.current.forEach((controller) => controller.abort());
+      inflightControllersRef.current.forEach((controller) =>
+        controller.abort()
+      );
       inflightControllersRef.current.clear();
       waitersRef.current.splice(0).forEach((resolve) => resolve());
     };
