@@ -9,31 +9,39 @@ export const linkButton = recipe({
   base: {
     height: '3rem',
     padding: '0.6rem',
-    display: 'flex',
+    display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
     flexWrap: 'nowrap',
+    textDecoration: 'none',
+    whiteSpace: 'nowrap',
     borderRadius: '999px',
 
     transition: 'all 0.2s ease-in-out',
     border: `1px solid ${colorVars.color.gray300}`,
     backgroundColor: colorVars.color.gray000,
 
+    ':hover': {
+      backgroundColor: colorVars.color.gray000,
+    },
     ':active': {
       backgroundColor: colorVars.color.gray000,
+    },
+    ':visited': {
+      color: colorVars.color.gray700,
     },
   },
   variants: {
     type: {
       withText: {
         width: '6.1rem',
+        minWidth: '6.1rem',
         height: '2.6rem',
-        padding: '0.3rem 0.5rem',
+        padding: '0.4rem 0.6rem',
         gap: 0,
-        flexShrink: 0,
-        whiteSpace: 'nowrap',
+        flex: '0 0 6.1rem',
         ...fontStyle('caption_r_11'),
-        lineHeight: '1',
+        lineHeight: '1.1rem',
         color: colorVars.color.gray700,
       },
       onlyIcon: {
@@ -46,13 +54,27 @@ export const linkButton = recipe({
   },
 });
 
+export const linkContent = style({
+  width: '4.9rem',
+  height: '1.8rem',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: 0,
+  flex: '0 0 4.9rem',
+});
+
 export const linkLabel = style({
   width: '3.3rem',
-  lineHeight: '1',
+  height: '1.8rem',
+  lineHeight: '1.1rem',
   textAlign: 'center',
   flex: '0 0 3.3rem',
-  flexShrink: 0,
   whiteSpace: 'nowrap',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  overflow: 'hidden',
 });
 
 export const linkIconWrapper = style({
