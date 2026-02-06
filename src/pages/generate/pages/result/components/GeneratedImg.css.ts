@@ -102,6 +102,8 @@ export const slidePrevBtn = style({
     '& > svg': {
       position: 'relative',
       zIndex: 1,
+      width: '1.2rem',
+      height: '1.2rem',
     },
     '&:active::before': {
       backgroundColor: colorVars.color.gray999_50,
@@ -139,6 +141,8 @@ export const slideNextBtn = style({
     '& > svg': {
       position: 'relative',
       zIndex: 1,
+      width: '1.2rem',
+      height: '1.2rem',
     },
     '&:active::before': {
       backgroundColor: colorVars.color.gray999_50,
