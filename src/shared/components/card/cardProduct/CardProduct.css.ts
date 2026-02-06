@@ -72,7 +72,12 @@ export const cardImage = recipe({
 export const skeleton = style({
   position: 'absolute',
   inset: 0,
-  background: 'linear-gradient(90deg, #ececec 8%, #f0f0f0 18%, #ececec 33%)',
+  background: `linear-gradient(
+    90deg,
+    ${colorVars.color.gray200} 8%,
+    ${colorVars.color.gray100} 18%,
+    ${colorVars.color.gray200} 33%
+  )`,
   backgroundSize: '200% 100%',
   animation: `${animationTokens.skeletonWave} 2s linear infinite`,
 });
