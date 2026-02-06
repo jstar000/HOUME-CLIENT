@@ -1,0 +1,38 @@
+import { useEffect } from 'react';
+
+import { useLocation } from 'react-router-dom';
+
+import { ROUTES } from '@/routes/paths';
+
+import { IS_CLIENT_DETECTION_ENABLED } from '@pages/generate/constants/curationDetectionMode';
+import { OBJ365_MODEL_PATH } from '@pages/generate/constants/detection';
+
+import { preloadONNXModel } from './useOnnxModel';
+
+const GENERATE_WARMUP_PATHS = [
+  ROUTES.GENERATE,
+  ROUTES.GENERATE_RESULT,
+  ROUTES.GENERATE_START,
+  ROUTES.IMAGE_SETUP,
+];
+
+const useGenerateWarmupClient = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    const pathname = location.pathname;
+    const shouldWarmup = GENERATE_WARMUP_PATHS.some(
+      (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)
+    );
+
+    if (!shouldWarmup) return;
+
+    preloadONNXModel(OBJ365_MODEL_PATH).catch(() => undefined);
+  }, [location.pathname]);
+};
+
+const useGenerateWarmupServer = () => {};
+
+export const useGenerateWarmup = IS_CLIENT_DETECTION_ENABLED
+  ? useGenerateWarmupClient
+  : useGenerateWarmupServer;

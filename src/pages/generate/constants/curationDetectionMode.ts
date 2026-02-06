@@ -1,19 +1,22 @@
 export type CurationDetectionMode = 'server' | 'client';
 
-const DEFAULT_DETECTION_MODE: CurationDetectionMode = 'server';
+export const CURATION_DETECTION_MODE: CurationDetectionMode =
+  import.meta.env.VITE_CURATION_DETECTION_MODE === 'client'
+    ? 'client'
+    : 'server';
 
-const normalizeMode = (
-  rawMode: string | undefined
-): CurationDetectionMode => {
-  if (rawMode?.trim().toLowerCase() === 'client') {
-    return 'client';
-  }
-  return DEFAULT_DETECTION_MODE;
-};
-
-export const CURATION_DETECTION_MODE = normalizeMode(
-  import.meta.env.VITE_CURATION_DETECTION_MODE
-);
-
-export const IS_CLIENT_DETECTION_MODE =
+export const IS_CLIENT_DETECTION_ENABLED =
   CURATION_DETECTION_MODE === 'client';
+
+export const getCategoryQueryDetectedObjects = <T>(detectedObjects: T[]) =>
+  IS_CLIENT_DETECTION_ENABLED ? detectedObjects : undefined;
+
+export const isCategoryQueryEnabled = (
+  imageId: number | null,
+  detectedObjectsCount: number
+) =>
+  Boolean(imageId) &&
+  (!IS_CLIENT_DETECTION_ENABLED || detectedObjectsCount > 0);
+
+export const shouldShowDetectionPending = (detectedObjectsCount: number) =>
+  IS_CLIENT_DETECTION_ENABLED && detectedObjectsCount === 0;

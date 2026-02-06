@@ -10,7 +10,10 @@ import {
   getGeneratedImageCategories,
   getGeneratedImageProducts,
 } from '@pages/generate/apis/furniture';
-import { IS_CLIENT_DETECTION_MODE } from '@pages/generate/constants/curationDetectionMode';
+import {
+  getCategoryQueryDetectedObjects,
+  isCategoryQueryEnabled,
+} from '@pages/generate/constants/curationDetectionMode';
 import { useCurationCacheStore } from '@pages/generate/stores/useCurationCacheStore';
 import {
   useCurationStore,
@@ -138,11 +141,9 @@ export const useGeneratedCategoriesQuery = (
     queryFn: () =>
       getGeneratedImageCategories(
         imageId!,
-        IS_CLIENT_DETECTION_MODE ? normalizedDetectedObjects : undefined
+        getCategoryQueryDetectedObjects(normalizedDetectedObjects)
       ),
-    enabled:
-      Boolean(imageId) &&
-      (!IS_CLIENT_DETECTION_MODE || normalizedDetectedObjects.length > 0),
+    enabled: isCategoryQueryEnabled(imageId, normalizedDetectedObjects.length),
     staleTime: 15 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
     ...(initialCategoriesResponse
