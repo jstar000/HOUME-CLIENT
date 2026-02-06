@@ -12,6 +12,7 @@ export const linkButton = recipe({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    flexWrap: 'nowrap',
     borderRadius: '999px',
 
     transition: 'all 0.2s ease-in-out',
@@ -56,4 +57,5 @@ export const linkLabel = style({
   lineHeight: '1.1rem',
   textAlign: 'center',
   flex: '0 0 3.3rem',
+  whiteSpace: 'nowrap',
 });

@@ -153,7 +153,7 @@ export const colorChip = style({
   width: '1.4rem',
   height: '1.4rem',
   borderRadius: '50%',
-  border: `1px solid ${colorVars.color.gray999_30}`,
+  border: `0.5px solid ${colorVars.color.gray999_30}`,
   boxSizing: 'border-box',
 });
 

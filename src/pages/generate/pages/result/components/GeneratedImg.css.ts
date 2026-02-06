@@ -96,7 +96,7 @@ export const slidePrevBtn = style({
       transform: 'translate(-50%, -50%)',
       width: '2.4rem',
       height: '2.4rem',
-      borderRadius: '1.2rem',
+      borderRadius: '99.9rem',
       backgroundColor: colorVars.color.gray999_30,
     },
     '& > svg': {
@@ -135,7 +135,7 @@ export const slideNextBtn = style({
       transform: 'translate(-50%, -50%)',
       width: '2.4rem',
       height: '2.4rem',
-      borderRadius: '1.2rem',
+      borderRadius: '99.9rem',
       backgroundColor: colorVars.color.gray999_30,
     },
     '& > svg': {
