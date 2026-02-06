@@ -1,4 +1,5 @@
 import { Outlet } from 'react-router-dom';
+
 import { useScrollToTop } from '@/shared/hooks/useScrollToTop';
 
 import { useGenerateWarmup } from '@pages/generate/hooks/useGenerateWarmup';

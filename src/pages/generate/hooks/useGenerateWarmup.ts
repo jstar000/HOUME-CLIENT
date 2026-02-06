@@ -11,8 +11,6 @@ import { preloadONNXModel } from './useOnnxModel';
 
 const GENERATE_WARMUP_PATHS = [
   ROUTES.GENERATE,
-  ROUTES.GENERATE_RESULT,
-  ROUTES.GENERATE_START,
   ROUTES.IMAGE_SETUP,
 ];
 
@@ -31,7 +29,9 @@ const useGenerateWarmupClient = () => {
   }, [location.pathname]);
 };
 
-const useGenerateWarmupServer = () => {};
+const useGenerateWarmupServer = () => {
+  // 서버 모드 no-op 훅
+};
 
 export const useGenerateWarmup = IS_CLIENT_DETECTION_ENABLED
   ? useGenerateWarmupClient

@@ -222,10 +222,7 @@ interface UseONNXModelOptions {
   enabled?: boolean;
 }
 
-export function useONNXModel(
-  modelPath: string,
-  options?: UseONNXModelOptions
-) {
+export function useONNXModel(modelPath: string, options?: UseONNXModelOptions) {
   const enabled = options?.enabled ?? true;
   const [session, setSession] = useState<InferenceSession | null>(null);
   const [isLoading, setIsLoading] = useState(true);

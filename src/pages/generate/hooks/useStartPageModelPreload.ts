@@ -11,7 +11,9 @@ const useStartPageModelPreloadClient = () => {
   }, []);
 };
 
-const useStartPageModelPreloadServer = () => {};
+const useStartPageModelPreloadServer = () => {
+  // 서버 모드 no-op 훅
+};
 
 export const useStartPageModelPreload = IS_CLIENT_DETECTION_ENABLED
   ? useStartPageModelPreloadClient
