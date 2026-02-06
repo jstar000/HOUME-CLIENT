@@ -21,7 +21,7 @@ const LinkButton = ({
       })}
     >
       <LinkIcon />
-      {children}
+      {children ? <span className={styles.linkLabel}>{children}</span> : null}
     </a>
   );
 };

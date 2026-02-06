@@ -1,3 +1,4 @@
+import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 import { fontStyle } from '@/shared/styles/fontStyle';
@@ -24,11 +25,10 @@ export const linkButton = recipe({
   variants: {
     type: {
       withText: {
-        width: 'fit-content',
-        minWidth: '6.1rem',
+        width: '6.1rem',
         height: '2.6rem',
-        padding: '0.5rem 0.7rem',
-        gap: '0.2rem',
+        padding: '0.3rem 0.5rem',
+        gap: 0,
         whiteSpace: 'nowrap',
         ...fontStyle('caption_r_11'),
         color: colorVars.color.gray700,
@@ -36,6 +36,8 @@ export const linkButton = recipe({
           '& svg': {
             width: '1.4rem',
             height: '1.4rem',
+            flex: '0 0 1.6rem',
+            padding: '0.1rem',
           },
         },
       },
@@ -47,4 +49,11 @@ export const linkButton = recipe({
   defaultVariants: {
     type: 'withText',
   },
+});
+
+export const linkLabel = style({
+  width: '3.3rem',
+  lineHeight: '1.1rem',
+  textAlign: 'center',
+  flex: '0 0 3.3rem',
 });
