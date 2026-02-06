@@ -8,7 +8,7 @@ export const CURATION_DETECTION_MODE = (
 
 export const IS_CLIENT_DETECTION_ENABLED = CURATION_DETECTION_MODE === 'client';
 
-export const getCategoryQueryDetectedObjects = <T,>(detectedObjects: T[]) =>
+export const getCategoryQueryDetectedObjects = <T>(detectedObjects: T[]) =>
   IS_CLIENT_DETECTION_ENABLED ? detectedObjects : undefined;
 
 export const isCategoryQueryEnabled = (
