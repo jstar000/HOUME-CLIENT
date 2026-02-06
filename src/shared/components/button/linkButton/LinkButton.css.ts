@@ -25,11 +25,19 @@ export const linkButton = recipe({
     type: {
       withText: {
         width: 'fit-content',
-        minWidth: '6.5rem',
-        gap: '0.3rem',
+        minWidth: '6.1rem',
+        height: '2.6rem',
+        padding: '0.5rem 0.7rem',
+        gap: '0.2rem',
         whiteSpace: 'nowrap',
-        ...fontStyle('caption_r_12'),
+        ...fontStyle('caption_r_11'),
         color: colorVars.color.gray700,
+        selectors: {
+          '& svg': {
+            width: '1.4rem',
+            height: '1.4rem',
+          },
+        },
       },
       onlyIcon: {
         width: '3rem',
