@@ -152,6 +152,15 @@ export const colorRow = style({
 export const colorChip = style({
   width: '1.4rem',
   height: '1.4rem',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flex: '0 0 1.4rem',
+});
+
+export const colorChipInner = style({
+  width: '1.2rem',
+  height: '1.2rem',
   borderRadius: '50%',
   border: `0.5px solid ${colorVars.color.gray999_30}`,
   boxSizing: 'border-box',
@@ -160,7 +169,6 @@ export const colorChip = style({
 export const colorChipCount = style({
   ...fontStyle('caption_r_11'),
   color: colorVars.color.gray500,
-  marginLeft: '0.2rem',
 });
 
 export const productInfo = style({
