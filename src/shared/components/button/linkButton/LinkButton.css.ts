@@ -19,7 +19,7 @@ export const linkButton = recipe({
     backgroundColor: colorVars.color.gray000,
 
     ':active': {
-      backgroundColor: colorVars.color.gray300,
+      backgroundColor: colorVars.color.gray000,
     },
   },
   variants: {
