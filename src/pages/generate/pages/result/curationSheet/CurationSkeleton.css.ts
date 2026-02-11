@@ -35,7 +35,7 @@ export const pageIndicator = style({
   right: '1.2rem',
   width: '3.4rem',
   height: '2rem',
-  borderRadius: '99.9rem',
+  borderRadius: '999px',
   backgroundColor: colorVars.color.gray999_30,
   display: 'flex',
   alignItems: 'center',
@@ -119,7 +119,7 @@ export const filterChipSkeleton = style({
   height: '3.6rem',
   borderRadius: '999px',
   flexShrink: 0,
-  width: '7.2rem',
+  width: '6.9em',
 });
 
 // ─── 상품 카드 그리드 ───
