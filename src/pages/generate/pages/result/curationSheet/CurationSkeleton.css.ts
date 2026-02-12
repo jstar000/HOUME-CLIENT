@@ -116,10 +116,10 @@ export const filterSection = style({
 
 export const filterChipSkeleton = style({
   ...skeletonBlock,
+  width: '6.9rem',
   height: '3.6rem',
   borderRadius: '999px',
   flexShrink: 0,
-  width: '6.9em',
 });
 
 // ─── 상품 카드 그리드 ───
