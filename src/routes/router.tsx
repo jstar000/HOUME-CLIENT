@@ -27,6 +27,7 @@ import Setting from '@/pages/mypage/pages/setting/SettingPage';
 import SignupPage from '@/pages/signup/SignupPage';
 import { ROUTES } from '@/routes/paths';
 import ProtectedRoute from '@/routes/ProtectedRoute';
+import RouteErrorFallback from '@/shared/components/errorFallback/RouteErrorFallback';
 
 // 공개 라우트 그룹 (인증 불필요)
 const publicRoutes = [
@@ -96,12 +97,14 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: <RootLayout />,
+    errorElement: <RouteErrorFallback />,
     children: [
       // 공개 라우트들
       ...publicRoutes,
       // 보호된 라우트들 (ProtectedRoute로 감싸서 인증 체크)
       {
         element: <ProtectedRoute />,
+        errorElement: <RouteErrorFallback />,
         children: protectedRoutes,
       },
       {

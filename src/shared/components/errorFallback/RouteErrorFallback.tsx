@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+
+import * as Sentry from '@sentry/react';
 import { isRouteErrorResponse, useRouteError } from 'react-router-dom';
 
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
@@ -8,6 +11,10 @@ import * as styles from './RouteErrorFallback.css.ts';
 
 export default function RouteErrorFallback() {
   const error = useRouteError();
+
+  useEffect(() => {
+    Sentry.captureException(error);
+  }, [error]);
 
   const message = isRouteErrorResponse(error)
     ? `${error.status} 오류가 발생했어요.`
