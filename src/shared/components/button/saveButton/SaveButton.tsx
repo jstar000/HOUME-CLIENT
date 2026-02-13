@@ -1,5 +1,7 @@
 import React from 'react';
 
+import clsx from 'clsx';
+
 import SaveOnIcon from '@assets/icons/icnHeartColor.svg?react';
 import SaveOffIcon from '@assets/icons/icnHeartGray.svg?react';
 
@@ -16,17 +18,13 @@ const SaveButton = ({
   className,
   ...props
 }: SaveButtonProps) => {
-  const mergedClassName = `${styles.buttonWrapper}${
-    className ? ` ${className}` : ''
-  }`;
-
   return (
     <button
       {...props}
       type="button"
       onClick={onClick}
       aria-pressed={isSelected}
-      className={mergedClassName}
+      className={clsx(styles.buttonWrapper, className)}
     >
       {isSelected ? <SaveOnIcon /> : <SaveOffIcon />}
     </button>
