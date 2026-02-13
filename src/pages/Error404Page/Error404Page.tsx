@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/routes/paths';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 
-import ErrorImageGroup from '@pages/Error404Page/components/ErrorImageGroup';
+import ErrorImageGroup from '@components/errorFallback/ErrorImageGroup';
 import * as styles from '@pages/Error404Page/Error404Page.css.ts';
 
 const Error404Page = () => {
