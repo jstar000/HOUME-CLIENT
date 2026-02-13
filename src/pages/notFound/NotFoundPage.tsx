@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/routes/paths';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 
-import ErrorImageGroup from '@components/errorFallback/ErrorImageGroup';
-import * as styles from '@pages/Error404Page/Error404Page.css.ts';
+import ErrorIllustration from '@components/errorFallback/ErrorIllustration';
+import * as styles from '@pages/notFound/NotFoundPage.css.ts';
 
-const Error404Page = () => {
+const NotFoundPage = () => {
   const navigate = useNavigate();
 
   const handleGoToHome = () => {
@@ -30,7 +30,7 @@ const Error404Page = () => {
       </section>
 
       <section className={styles.imgSection}>
-        <ErrorImageGroup />
+        <ErrorIllustration />
       </section>
 
       <section className={styles.buttonSection}>
@@ -42,4 +42,4 @@ const Error404Page = () => {
   );
 };
 
-export default Error404Page;
+export default NotFoundPage;

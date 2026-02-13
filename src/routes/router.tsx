@@ -107,10 +107,10 @@ export const router = createBrowserRouter([
       {
         path: '*',
         lazy: async () => {
-          const { default: Error404Page } = await import(
-            '@/pages/Error404Page/Error404Page'
+          const { default: NotFoundPage } = await import(
+            '@/pages/notFound/NotFoundPage'
           );
-          return { Component: Error404Page };
+          return { Component: NotFoundPage };
         },
       },
     ],
