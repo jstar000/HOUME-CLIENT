@@ -5,7 +5,7 @@ import SaveOffIcon from '@assets/icons/icnHeartGray.svg?react';
 
 import * as styles from './SaveButton.css';
 
-interface SaveButtonProps extends React.ComponentProps<'button'> {
+interface SaveButtonProps extends Omit<React.ComponentProps<'button'>, 'type'> {
   isSelected: boolean;
   onClick: () => void;
 }
