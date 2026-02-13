@@ -23,7 +23,7 @@ export default function AppErrorFallback() {
         <ErrorIllustration />
       </section>
 
-      {/* App-level crash 발생 시 앱 전체가 불안정한 상황 ->  */}
+      {/* App-level crash 발생 시 앱 전체가 불안정한 상황 -> '다시 시도'보다는 '홈으로 돌아가기'가 적절*/}
       <section className={styles.buttonSection}>
         <CtaButton typeVariant="notFound" onClick={handleGoToHome}>
           홈으로 돌아가기
