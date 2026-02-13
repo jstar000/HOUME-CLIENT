@@ -35,7 +35,11 @@ const Toast = ({ text, type, onClick, closeToast }: ToastProps) => {
   };
 
   return (
-    <div className={styles.container}>
+    <div
+      className={styles.container({
+        type: type === TOAST_TYPE.NAVIGATE ? 'navigate' : undefined,
+      })}
+    >
       {ICON_MAP[type]}
       <span
         className={styles.text({
