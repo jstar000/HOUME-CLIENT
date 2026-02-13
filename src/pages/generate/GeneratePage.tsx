@@ -1,3 +1,5 @@
+import * as Sentry from '@sentry/react';
+import { ErrorBoundary } from 'react-error-boundary';
 import {
   Outlet,
   useLocation,
@@ -6,6 +8,7 @@ import {
   useMatch,
 } from 'react-router-dom';
 
+import FeatureErrorFallback from '@/shared/components/errorFallback/FeatureErrorFallback';
 import TitleNavBar from '@/shared/components/navBar/TitleNavBar';
 import { getCanHistoryGoBack } from '@/shared/utils/history';
 
@@ -50,7 +53,16 @@ const GeneratePage = () => {
         isLoginBtn={false}
         onBackClick={handleBackClick}
       />
-      <Outlet />
+      <ErrorBoundary
+        FallbackComponent={FeatureErrorFallback}
+        onError={(error, info) => {
+          Sentry.captureException(error, {
+            extra: { componentStack: info.componentStack },
+          });
+        }}
+      >
+        <Outlet />
+      </ErrorBoundary>
     </main>
   );
 };
