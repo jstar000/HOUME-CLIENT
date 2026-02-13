@@ -28,9 +28,11 @@ const Error404Page = () => {
           홈으로 돌아가 다시 시도해주세요.
         </p>
       </section>
+
       <section className={styles.imgSection}>
         <ErrorImageGroup />
       </section>
+
       <section className={styles.buttonSection}>
         <CtaButton typeVariant="notFound" onClick={handleGoToHome}>
           홈으로 돌아가기
