@@ -10,17 +10,27 @@ interface SaveButtonProps extends React.ComponentProps<'button'> {
   onClick: () => void;
 }
 
-const SaveButton = ({ isSelected, onClick, ...props }: SaveButtonProps) => {
+const SaveButton = ({
+  isSelected,
+  onClick,
+  className,
+  ...props
+}: SaveButtonProps) => {
+  const mergedClassName = `${styles.buttonWrapper}${
+    className ? ` ${className}` : ''
+  }`;
+
   return (
     <button
+      {...props}
       type="button"
       onClick={onClick}
       aria-pressed={isSelected}
-      className={styles.buttonWrapper}
-      {...props}
+      className={mergedClassName}
     >
       {isSelected ? <SaveOnIcon /> : <SaveOffIcon />}
     </button>
   );
 };
+
 export default SaveButton;
