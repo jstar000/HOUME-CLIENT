@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 
 import { overlay } from 'overlay-kit';
-import { useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
@@ -12,16 +11,12 @@ import { useABTest } from '@/pages/generate/hooks/useABTest';
 import {
   logResultImgClickBtnMoreImg,
   logResultImgClickMoreModalBack,
-  logResultImgClickMoreModalMakeNew,
   logResultImgSwipeSlideLeft,
   logResultImgSwipeSlideRight,
 } from '@/pages/generate/utils/analytics';
-import { useMyPageUser } from '@/pages/mypage/hooks/useMypage';
-import type { MyPageUserData } from '@/pages/mypage/types/apis/MyPage';
-import { ROUTES } from '@/routes/paths.ts';
-import GeneralModal from '@/shared/components/overlay/modal/GeneralModal';
+import CommunityComingSoonModal from '@/shared/components/overlay/modal/CommunityComingSoonModal';
 
-import LockIcon from '@shared/assets/icons/lockIcon.svg?react';
+import generateResultLockedPreview from '@assets/images/generateResultLockedPreview.png';
 import SlideNext from '@shared/assets/icons/nextAbled.svg?react';
 import SlideNextDisabled from '@shared/assets/icons/nextDisabled.svg?react';
 import SlidePrev from '@shared/assets/icons/prevAbled.svg?react';
@@ -51,7 +46,6 @@ interface GeneratedImgAProps {
   onSlideChange?: (currentIndex: number, totalCount: number) => void;
   onCurrentImgIdChange?: (currentImgId: number) => void;
   shouldInferHotspots?: boolean;
-  userProfile?: MyPageUserData | null;
   detectionCache?: Record<number, DetectionCacheEntry> | null;
   isSlideCountLoading?: boolean;
 }
@@ -66,22 +60,13 @@ const GeneratedImgA = ({
   onSlideChange,
   onCurrentImgIdChange,
   shouldInferHotspots = true,
-  userProfile,
   detectionCache,
   isSlideCountLoading = false,
 }: GeneratedImgAProps) => {
-  const navigate = useNavigate();
   const [swiper, setSwiper] = useState<SwiperType | null>(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [currentImgId, setCurrentImgId] = useState(0);
   const { variant } = useABTest();
-
-  // 마이페이지 사용자 정보 (크레딧 정보 포함)
-  const { data: fetchedUserData } = useMyPageUser({
-    enabled: !userProfile,
-  });
-  const creditCount =
-    userProfile?.CreditCount ?? fetchedUserData?.CreditCount ?? 0;
 
   // currentImgId가 변경될 때마다 부모에게 전달
   useEffect(() => {
@@ -123,44 +108,14 @@ const GeneratedImgA = ({
    */
   const handleOpenModal = () => {
     logResultImgClickBtnMoreImg(variant);
-    overlay.open(
-      (
-        { unmount } // @toss/overlay-kit 사용
-      ) => {
-        const closeModal = (afterClose?: () => void) => {
-          unmount();
-          afterClose?.();
-        };
+    overlay.open(({ unmount }) => {
+      const closeModal = () => {
+        logResultImgClickMoreModalBack(variant);
+        unmount();
+      };
 
-        return (
-          <GeneralModal
-            title="더 다양한 이미지가 궁금하신가요?"
-            content={`새로운 취향과 정보를 반영해 다시 생성해보세요!\n이미지를 생성할 때마다 크레딧이 1개 소진돼요.`}
-            cancelText="돌아가기"
-            confirmText="이미지 새로 만들기"
-            cancelVariant="default"
-            confirmVariant="primary"
-            showCreditChip={true}
-            creditCount={creditCount}
-            maxCredit={5}
-            onCancel={() => {
-              logResultImgClickMoreModalBack(variant);
-              closeModal();
-            }}
-            onConfirm={() => {
-              logResultImgClickMoreModalMakeNew(variant);
-              closeModal(() =>
-                navigate(ROUTES.GENERATE_START, { replace: true })
-              );
-            }}
-            onClose={() => {
-              logResultImgClickMoreModalBack(variant);
-              closeModal();
-            }}
-          />
-        );
-      }
-    );
+      return <CommunityComingSoonModal onClose={closeModal} />;
+    });
   };
 
   return (
@@ -227,17 +182,17 @@ const GeneratedImgA = ({
           );
         })}
         {lastImage && (
-          <SwiperSlide key="blurred-last-image" className={styles.swiperSlide}>
+          <SwiperSlide key="locked-preview" className={styles.swiperSlide}>
             <img
-              crossOrigin="anonymous"
-              src={lastImage.imageUrl}
-              alt="이미지 더보기"
-              className={styles.imgAreaBlurred({
-                mirrored: lastImage.isMirror,
-              })}
+              src={generateResultLockedPreview}
+              alt=""
+              className={styles.lockedPreviewImg}
             />
             <div className={styles.lockWrapper}>
-              <LockIcon />
+              <div className={styles.lockTextBox}>
+                <p>나와 취향이 비슷한</p>
+                <p>유저들이 만든 이미지도 궁금하신가요?</p>
+              </div>
               <button
                 type="button"
                 className={styles.moreBtn}

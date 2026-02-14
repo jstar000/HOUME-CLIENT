@@ -6,7 +6,6 @@ import { useMyPageImageDetail } from '@/pages/mypage/hooks/useMypage';
 import type {
   MyPageImageDetail,
   MyPageImageHistory,
-  MyPageUserData,
 } from '@/pages/mypage/types/apis/MyPage';
 import { createImageDetailPlaceholder } from '@/pages/mypage/utils/resultNavigation';
 
@@ -70,12 +69,10 @@ const ResultPage = () => {
       | UnifiedGenerateImageResult
       | GenerateImageAResponse['data']
       | GenerateImageBResponse['data'];
-    userProfile?: MyPageUserData | null;
     initialHistory?: MyPageImageHistory | null;
     cachedDetection?: DetectionCacheEntry | null;
   };
   const forwardedResult = locationState?.result ?? null;
-  const forwardedUserProfile = locationState?.userProfile ?? null;
   const initialHistory = locationState?.initialHistory ?? null;
   const forwardedDetection = locationState?.cachedDetection ?? null;
   const initialImageId = initialHistory?.imageId ?? null;
@@ -215,7 +212,6 @@ const ResultPage = () => {
           <GeneratedImgA
             result={result}
             onCurrentImgIdChange={setCurrentImgId}
-            userProfile={forwardedUserProfile}
             detectionCache={forwardedDetectionMap ?? undefined}
             isSlideCountLoading={isSlideCountLoading}
           />

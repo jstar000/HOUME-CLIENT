@@ -143,18 +143,39 @@ export const imgAreaBlurred = recipe({
   },
 });
 
+export const lockedPreviewImg = style({
+  width: '100%',
+  aspectRatio: '3 / 2',
+  objectFit: 'cover',
+  objectPosition: 'center',
+});
+
 export const lockWrapper = style({
   position: 'absolute',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: '1.6rem',
+  gap: '2rem',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   zIndex: 1,
-  filter: 'none',
+  width: '23.2rem',
+});
+
+export const lockTextBox = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  textAlign: 'center',
+  color: colorVars.color.gray900,
+  ...fontStyle('body_m_14'),
+  selectors: {
+    '& p': {
+      margin: 0,
+    },
+  },
 });
 
 export const moreBtn = style({
