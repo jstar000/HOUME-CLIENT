@@ -4,7 +4,9 @@ interface CommunityComingSoonModalProps {
   onClose: () => void;
 }
 
-const CommunityComingSoonModal = ({ onClose }: CommunityComingSoonModalProps) => {
+const CommunityComingSoonModal = ({
+  onClose,
+}: CommunityComingSoonModalProps) => {
   return (
     <div className={styles.backdrop} onClick={onClose}>
       <div
@@ -23,7 +25,11 @@ const CommunityComingSoonModal = ({ onClose }: CommunityComingSoonModalProps) =>
           </div>
         </div>
         <div className={styles.buttonArea}>
-          <button type="button" className={styles.closeButton} onClick={onClose}>
+          <button
+            type="button"
+            className={styles.closeButton}
+            onClick={onClose}
+          >
             닫기
           </button>
         </div>
@@ -33,4 +39,3 @@ const CommunityComingSoonModal = ({ onClose }: CommunityComingSoonModalProps) =>
 };
 
 export default CommunityComingSoonModal;
-

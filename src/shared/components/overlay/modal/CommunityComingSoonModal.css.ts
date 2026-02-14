@@ -69,4 +69,3 @@ export const closeButton = style({
   ...fontStyle('body_r_14'),
   color: colorVars.color.gray700,
 });
-

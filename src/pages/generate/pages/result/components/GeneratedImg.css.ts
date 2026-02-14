@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 // import { zIndex } from '@/shared/styles/tokens/zIndex';
@@ -171,11 +171,10 @@ export const lockTextBox = style({
   textAlign: 'center',
   color: colorVars.color.gray900,
   ...fontStyle('body_m_14'),
-  selectors: {
-    '& p': {
-      margin: 0,
-    },
-  },
+});
+
+globalStyle(`${lockTextBox} p`, {
+  margin: 0,
 });
 
 export const moreBtn = style({
