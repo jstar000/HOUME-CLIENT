@@ -50,5 +50,4 @@ export const buttonSection = style({
   justifyContent: 'center',
   width: '100%',
   padding: '2rem',
-  marginTop: '2rem',
 });
