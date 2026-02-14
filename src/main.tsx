@@ -1,5 +1,4 @@
 // import { StrictMode } from 'react';
-import * as Sentry from '@sentry/react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { OverlayProvider } from 'overlay-kit';
@@ -44,14 +43,7 @@ if (!rootElement) {
 
 createRoot(rootElement, getSentryReactErrorHandlerOptions()).render(
   // <StrictMode>
-  <ErrorBoundary
-    FallbackComponent={AppErrorFallback}
-    onError={(error, info) => {
-      Sentry.captureException(error, {
-        extra: { componentStack: info.componentStack },
-      });
-    }}
-  >
+  <ErrorBoundary FallbackComponent={AppErrorFallback}>
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
         <OverlayProvider>

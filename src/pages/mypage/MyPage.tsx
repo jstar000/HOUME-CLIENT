@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import * as Sentry from '@sentry/react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useNavigate } from 'react-router-dom';
 
@@ -78,14 +77,7 @@ const MyPage = () => {
         onBackClick={() => navigate(ROUTES.HOME)}
       />
 
-      <ErrorBoundary
-        FallbackComponent={FeatureErrorFallback}
-        onError={(error, info) => {
-          Sentry.captureException(error, {
-            extra: { componentStack: info.componentStack },
-          });
-        }}
-      >
+      <ErrorBoundary FallbackComponent={FeatureErrorFallback}>
         <ProfileSection
           userName={profileName}
           credit={profileCredit}

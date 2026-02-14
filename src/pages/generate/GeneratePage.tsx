@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/react';
 import { ErrorBoundary } from 'react-error-boundary';
 import {
   Outlet,
@@ -53,14 +52,7 @@ const GeneratePage = () => {
         isLoginBtn={false}
         onBackClick={handleBackClick}
       />
-      <ErrorBoundary
-        FallbackComponent={FeatureErrorFallback}
-        onError={(error, info) => {
-          Sentry.captureException(error, {
-            extra: { componentStack: info.componentStack },
-          });
-        }}
-      >
+      <ErrorBoundary FallbackComponent={FeatureErrorFallback}>
         <Outlet />
       </ErrorBoundary>
     </main>

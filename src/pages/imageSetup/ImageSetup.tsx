@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import * as Sentry from '@sentry/react';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import FeatureErrorFallback from '@/shared/components/errorFallback/FeatureErrorFallback';
@@ -50,11 +49,6 @@ export const ImageSetup = () => {
     <FunnelLayout currentStep={currentStep}>
       <ErrorBoundary
         FallbackComponent={FeatureErrorFallback}
-        onError={(error, info) => {
-          Sentry.captureException(error, {
-            extra: { componentStack: info.componentStack },
-          });
-        }}
         onReset={() => {
           useFunnelStore.getState().reset();
         }}
