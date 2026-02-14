@@ -139,6 +139,7 @@ export const infoSection = style({
   display: 'flex',
   flexDirection: 'column',
   paddingTop: '1.2rem',
+  paddingBottom: '2rem',
   gap: '0.8rem',
 });
 
@@ -152,20 +153,20 @@ export const colorChip = style({
   width: '1.4rem',
   height: '1.4rem',
   borderRadius: '50%',
-  border: `1px solid ${colorVars.color.gray999_30}`,
+  border: `0.5px solid ${colorVars.color.gray999_30}`,
   boxSizing: 'border-box',
 });
 
 export const colorChipCount = style({
   ...fontStyle('caption_r_11'),
   color: colorVars.color.gray500,
-  marginLeft: '0.2rem',
 });
 
 export const productInfo = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '0.4rem',
+  padding: '0.2rem',
 });
 
 export const brandTextLarge = style({
@@ -195,12 +196,13 @@ export const priceSection = style({
 export const originalPriceText = style({
   ...fontStyle('caption_r_11'),
   color: colorVars.color.gray500,
+  textDecoration: 'line-through',
 });
 
 export const discountRow = style({
   display: 'flex',
   alignItems: 'center',
-  gap: '0.2rem',
+  gap: '0.1rem',
 });
 
 export const discountRateText = style({

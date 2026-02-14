@@ -9,6 +9,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { ToastContainer } from 'react-toastify';
 
 import AppErrorFallback from '@/shared/components/errorFallback/AppErrorFallback';
+import { initClarity } from '@/shared/config/clarity.ts';
 import {
   getSentryReactErrorHandlerOptions,
   initSentry,
@@ -20,6 +21,7 @@ import { queryClient } from './shared/apis/queryClient.ts';
 import { toastConfig } from './shared/types/toast.ts';
 
 initSentry();
+initClarity();
 
 // 개발 모드: 최초 진입 시 ?ab=single|multiple 을 로컬스토리지에 저장
 if (import.meta.env.DEV) {
