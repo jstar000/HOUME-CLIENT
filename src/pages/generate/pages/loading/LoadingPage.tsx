@@ -60,6 +60,7 @@ const isValidGenerateImageRequest = (
 const LoadingPage = () => {
   const navigate = useNavigate();
   const { handleError } = useErrorHandler('generate');
+  const { notify } = useToast();
 
   // Zustand store: 이미지 생성 완료 상태 및 결과 데이터
   const { isApiCompleted, navigationData, resetGenerate } = useGenerateStore();
@@ -242,7 +243,10 @@ const LoadingPage = () => {
         }, ANIMATION_DURATION);
       },
       onError: () => {
-        alert(isLike ? '좋아요 실패' : '싫어요 실패');
+        notify({
+          text: '잠시 오류가 발생했어요. 다시 시도해주세요.',
+          type: TOAST_TYPE.WARNING,
+        });
         setSelected(null);
         setIsVoting(false);
       },
