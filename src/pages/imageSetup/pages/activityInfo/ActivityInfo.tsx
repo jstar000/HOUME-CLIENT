@@ -3,6 +3,7 @@ import { FUNNELHEADER_IMAGES } from '@/pages/imageSetup/constants/headerImages';
 import { useActivityInfo } from '@/pages/imageSetup/hooks/activityInfo/useActivityInfo';
 import { useCreditCheck } from '@/pages/imageSetup/hooks/useCreditCheck';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
+import InlineError from '@/shared/components/inlineError/InlineError';
 import Loading from '@/shared/components/loading/Loading';
 
 import * as styles from './ActivityInfo.css';
@@ -21,7 +22,8 @@ const ActivityInfo = ({ context }: ActivityInfoProps) => {
   const {
     data: activityOptionsData,
     isPending,
-    error,
+    isError,
+    refetch,
   } = useActivityOptionsQuery();
 
   // console.log(activityOptionsData);
@@ -47,9 +49,9 @@ const ActivityInfo = ({ context }: ActivityInfoProps) => {
     }
   };
 
-  // 에러 처리
-  if (error) {
-    return <div>데이터를 불러올 수 없습니다.</div>;
+  // API 에러 시 인라인 에러 표시
+  if (isError) {
+    return <InlineError onRetry={refetch} />;
   }
 
   // pending / 데이터가 없는 경우
