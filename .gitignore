@@ -41,6 +41,7 @@ storybook-static
 # Others
 .claude/settings.local.json
 .claude/skills/
+.claude/commands/
 .cursor
 
 dev-debug.log
