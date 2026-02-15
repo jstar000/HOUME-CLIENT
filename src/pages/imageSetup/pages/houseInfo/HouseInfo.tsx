@@ -7,6 +7,7 @@ import { useHouseInfo } from '@/pages/imageSetup/hooks/useHouseInfo';
 import type { CompletedHouseInfo } from '@/pages/imageSetup/types/funnel/houseInfo';
 import type { ImageSetupSteps } from '@/pages/imageSetup/types/funnel/steps';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
+import InlineError from '@/shared/components/inlineError/InlineError';
 
 import * as styles from './HouseInfo.css';
 import ButtonGroup from '../../components/buttonGroup/ButtonGroup';
