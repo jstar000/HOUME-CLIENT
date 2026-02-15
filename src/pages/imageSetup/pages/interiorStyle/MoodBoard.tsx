@@ -10,8 +10,6 @@
  * @returns JSX.Element - 무드보드 컴포넌트
  */
 
-import { useEffect } from 'react';
-
 import { useMoodBoardQuery } from '@/pages/imageSetup/apis/interiorStyle';
 import {
   MOOD_BOARD_CONSTANTS,
@@ -19,7 +17,7 @@ import {
 } from '@/pages/imageSetup/types/apis/interiorStyle';
 import CardImage from '@/shared/components/card/cardImage/CardImage';
 import SkeletonCardImage from '@/shared/components/card/cardImage/SkeletonCardImage';
-import { useErrorHandler } from '@/shared/hooks/useErrorHandler';
+import InlineError from '@/shared/components/inlineError/InlineError';
 
 import * as styles from './MoodBoard.css';
 
@@ -29,8 +27,6 @@ interface MoodBoardProps {
 }
 
 const MoodBoard = ({ selectedImages, onImageSelect }: MoodBoardProps) => {
-  const { handleError } = useErrorHandler('imageSetup');
-
   /**
    * 이미지의 선택 순서를 반환하는 함수
    *
@@ -46,30 +42,12 @@ const MoodBoard = ({ selectedImages, onImageSelect }: MoodBoardProps) => {
   const {
     data: moodBoardData,
     isLoading,
-    error,
     isError,
+    refetch,
   } = useMoodBoardQuery();
   const images = moodBoardData?.moodBoardResponseList || [];
 
-  // 3초간만 스켈레톤 보여주기
-  // const [showSkeleton, setShowSkeleton] = useState(true);
-
-  useEffect(() => {
-    if (isError) {
-      handleError(
-        error || new Error('Mood board image load failed'),
-        'loading'
-      );
-    }
-  }, [isError, error, handleError]);
-
-  // useEffect(() => {
-  //   const timer = setTimeout(() => setShowSkeleton(false), 3000);
-  //   return () => clearTimeout(timer);
-  // }, []);
-
-  // 로딩/에러 처리
-  // if (isLoading || images.length === 0 || showSkeleton) {
+  // 로딩 상태 처리
   if (isLoading || images.length === 0) {
     return (
       <div className={styles.container}>
@@ -85,8 +63,11 @@ const MoodBoard = ({ selectedImages, onImageSelect }: MoodBoardProps) => {
     );
   }
 
+  // API 에러 시 인라인 에러 표시
   if (isError) {
-    return null;
+    return (
+      <InlineError onRetry={refetch} message="무드보드를 불러올 수 없습니다" />
+    );
   }
 
   return (
