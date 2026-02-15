@@ -5,7 +5,7 @@ import { colorVars } from '@styles/tokens/color.css';
 
 export const container = style({
   width: '100%',
-  height: '100%',
+  flex: 1,
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
