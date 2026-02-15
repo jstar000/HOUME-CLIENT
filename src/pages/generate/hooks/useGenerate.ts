@@ -5,6 +5,10 @@ import { useNavigate } from 'react-router-dom';
 
 import { ROUTES } from '@/routes/paths';
 import { queryClient } from '@/shared/apis/queryClient';
+import {
+  ERROR_CODES,
+  FALLBACK_TRIGGER_CODES,
+} from '@/shared/constants/apiErrorCode';
 import { QUERY_KEY } from '@/shared/constants/queryKey';
 
 import {
@@ -213,10 +217,8 @@ export const useFallbackImage = (
       }
 
       if (
-        status === 429 ||
-        code === 40900 ||
-        code === 42900 ||
-        code === 42901
+        status === ERROR_CODES.HTTP_RATE_LIMITED ||
+        FALLBACK_TRIGGER_CODES.has(code)
       ) {
         // console.log(
         //   `폴백 API 대기 중 (${status || code}): 재시도 ${failureCount + 1}/10`
