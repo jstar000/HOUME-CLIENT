@@ -8,6 +8,7 @@ import type { CompletedHouseInfo } from '@/pages/imageSetup/types/funnel/houseIn
 import type { ImageSetupSteps } from '@/pages/imageSetup/types/funnel/steps';
 import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
 import InlineError from '@/shared/components/inlineError/InlineError';
+import Loading from '@/shared/components/loading/Loading';
 
 import * as styles from './HouseInfo.css';
 import ButtonGroup from '../../components/buttonGroup/ButtonGroup';
@@ -35,6 +36,7 @@ const HouseInfo = ({ context, onNext }: HouseInfoProps) => {
 
   const {
     data: housingOptions,
+    isPending: isOptionsPending,
     isError: isOptionsError,
     refetch: refetchOptions,
   } = useHousingOptionsQuery();
@@ -68,6 +70,11 @@ const HouseInfo = ({ context, onNext }: HouseInfoProps) => {
       logSelectHouseInfoClickBtnCTAInactive();
     }
   };
+
+  // 로딩 상태 처리
+  if (isOptionsPending) {
+    return <Loading />;
+  }
 
   // API 에러 시 인라인 에러 표시
   if (isOptionsError) {
