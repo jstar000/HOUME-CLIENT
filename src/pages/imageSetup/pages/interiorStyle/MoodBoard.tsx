@@ -41,14 +41,14 @@ const MoodBoard = ({ selectedImages, onImageSelect }: MoodBoardProps) => {
   // 이미지 API 호출
   const {
     data: moodBoardData,
-    isLoading,
+    isPending,
     isError,
     refetch,
   } = useMoodBoardQuery();
   const images = moodBoardData?.moodBoardResponseList || [];
 
   // 로딩 상태 처리
-  if (isLoading || images.length === 0) {
+  if (isPending || images.length === 0) {
     return (
       <div className={styles.container}>
         <div className={styles.gridbox}>

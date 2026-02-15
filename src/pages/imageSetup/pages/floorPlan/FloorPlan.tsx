@@ -21,7 +21,7 @@ interface FloorPlanProps {
 const FloorPlan = ({ context, onNext }: FloorPlanProps) => {
   const {
     floorPlanList,
-    isLoading,
+    isPending,
     isError,
     refetch,
     selectedId,
@@ -33,7 +33,7 @@ const FloorPlan = ({ context, onNext }: FloorPlanProps) => {
   } = useFloorPlan(context, onNext);
 
   // 로딩 상태 처리
-  if (isLoading) {
+  if (isPending) {
     return <Loading />;
   }
 
