@@ -14,7 +14,7 @@ const showGlobalToast = (text: string) => {
 };
 
 // React 외부 navigate (dynamic import로 순환 참조 방지)
-const navigateOutsideReact = async (path: string) => {
+const redirectTo = async (path: string): Promise<void> => {
   const { router } = await import('@/routes/router');
   router.navigate(path);
 };
@@ -33,7 +33,7 @@ const handleSessionExpired = () => {
   lastSessionExpiredAt = now;
 
   showGlobalToast('세션이 만료되었습니다. 다시 로그인해주세요.');
-  setTimeout(() => navigateOutsideReact(ROUTES.LOGIN), 1000);
+  setTimeout(() => redirectTo(ROUTES.LOGIN), 1000);
 };
 
 /** QueryCache/MutationCache의 onError에서 호출 */
