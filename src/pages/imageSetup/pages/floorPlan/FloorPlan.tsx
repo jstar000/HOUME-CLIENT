@@ -1,10 +1,8 @@
 // Step2FloorPlan.tsx (UI만 담당)
-import { useEffect } from 'react';
-
 import { FUNNELHEADER_IMAGES } from '@/pages/imageSetup/constants/headerImages';
 import { useFloorPlan } from '@/pages/imageSetup/hooks/useFloorPlan';
+import InlineError from '@/shared/components/inlineError/InlineError';
 import Loading from '@/shared/components/loading/Loading';
-import { useErrorHandler } from '@/shared/hooks/useErrorHandler';
 
 import * as styles from './FloorPlan.css';
 import FloorPlanList from './FloorPlanList';
@@ -21,13 +19,11 @@ interface FloorPlanProps {
 }
 
 const FloorPlan = ({ context, onNext }: FloorPlanProps) => {
-  const { handleError } = useErrorHandler('imageSetup');
-
   const {
     floorPlanList,
     isLoading,
-    error,
     isError,
+    refetch,
     selectedId,
     isMirror,
     selectedImage,
@@ -36,16 +32,14 @@ const FloorPlan = ({ context, onNext }: FloorPlanProps) => {
     handleFloorPlanSelection,
   } = useFloorPlan(context, onNext);
 
-  useEffect(() => {
-    if (isError) {
-      handleError(error || new Error('Floor plan data load failed'), 'api');
-    }
-  }, [isError, error, handleError]);
-
-  /* 아래 if문들은 임시로 적용했습니다 */
   // 로딩 상태 처리
   if (isLoading) {
     return <Loading />;
+  }
+
+  // API 에러 시 인라인 에러 표시
+  if (isError) {
+    return <InlineError onRetry={refetch} />;
   }
 
   // 데이터가 없는 경우
