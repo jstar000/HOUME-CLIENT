@@ -33,7 +33,11 @@ const HouseInfo = ({ context, onNext }: HouseInfoProps) => {
     hasError,
   } = useHouseInfo(context);
 
-  const { data: housingOptions } = useHousingOptionsQuery();
+  const {
+    data: housingOptions,
+    isError: isOptionsError,
+    refetch: refetchOptions,
+  } = useHousingOptionsQuery();
 
   const houseTypeOptions = housingOptions?.houseTypes || [];
   const roomTypeOptions = housingOptions?.roomTypes || [];
@@ -64,6 +68,16 @@ const HouseInfo = ({ context, onNext }: HouseInfoProps) => {
       logSelectHouseInfoClickBtnCTAInactive();
     }
   };
+
+  // API 에러 시 인라인 에러 표시
+  if (isOptionsError) {
+    return (
+      <InlineError
+        onRetry={refetchOptions}
+        message="주거 옵션을 불러올 수 없습니다"
+      />
+    );
+  }
 
   return (
     <div className={styles.container}>
