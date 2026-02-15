@@ -32,30 +32,7 @@ const FloorPlan = ({ context, onNext }: FloorPlanProps) => {
     handleFloorPlanSelection,
   } = useFloorPlan(context, onNext);
 
-  // 로딩 상태 처리
-  if (isPending) {
-    return <Loading />;
-  }
-
-  // API 에러 시 인라인 에러 표시
-  if (isError) {
-    return <InlineError onRetry={refetch} />;
-  }
-
-  // 데이터가 없는 경우
-  if (!floorPlanList || floorPlanList.length === 0) {
-    return (
-      <div className={styles.container}>
-        <FunnelHeader
-          title={`유사한 집 구조를 선택해주세요`}
-          detail={`템플릿을 선택하면 좌우반전을 할 수 있어요.`}
-          currentStep={2}
-          image={FUNNELHEADER_IMAGES[2]}
-        />
-        <div>사용 가능한 집 구조 템플릿이 없습니다.</div>
-      </div>
-    );
-  }
+  const hasFloorPlans = floorPlanList && floorPlanList.length > 0;
 
   return (
     <div className={styles.container}>
@@ -64,18 +41,26 @@ const FloorPlan = ({ context, onNext }: FloorPlanProps) => {
         detail={`템플릿을 선택하면 좌우반전을 할 수 있어요.`}
         currentStep={2}
         image={FUNNELHEADER_IMAGES[2]}
-        size="short"
+        size={hasFloorPlans ? 'short' : undefined}
       />
 
-      <FloorPlanList
-        floorPlanList={floorPlanList}
-        selectedId={selectedId}
-        isMirror={isMirror}
-        selectedImage={selectedImage}
-        onImageSelect={handleImageSelect}
-        onFlipToggle={handleFlipToggle}
-        onFloorPlanSelection={handleFloorPlanSelection}
-      />
+      {isError ? (
+        <InlineError message="도면을 불러울 수 없습니다" onRetry={refetch} />
+      ) : isPending ? (
+        <Loading />
+      ) : hasFloorPlans ? (
+        <FloorPlanList
+          floorPlanList={floorPlanList}
+          selectedId={selectedId}
+          isMirror={isMirror}
+          selectedImage={selectedImage}
+          onImageSelect={handleImageSelect}
+          onFlipToggle={handleFlipToggle}
+          onFloorPlanSelection={handleFloorPlanSelection}
+        />
+      ) : (
+        <div>사용 가능한 집 구조 템플릿이 없습니다.</div>
+      )}
     </div>
   );
 };

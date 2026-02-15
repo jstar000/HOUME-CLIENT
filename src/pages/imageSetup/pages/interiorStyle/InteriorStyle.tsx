@@ -48,18 +48,6 @@ const InteriorStyle = ({ context, onNext }: InteriorStyleProps) => {
     }
   };
 
-  // API 에러 시 인라인 에러 표시
-  if (isError) {
-    return (
-      <InlineError onRetry={refetch} message="무드보드를 불러올 수 없습니다" />
-    );
-  }
-
-  // 로딩 상태 처리
-  if (isPending) {
-    return <Loading />;
-  }
-
   return (
     <div className={styles.container}>
       <FunnelHeader
@@ -69,16 +57,27 @@ const InteriorStyle = ({ context, onNext }: InteriorStyleProps) => {
         image={FUNNELHEADER_IMAGES[3]}
       />
 
-      <MoodBoard
-        images={images}
-        selectedImages={selectedImages}
-        onImageSelect={handleImageSelect}
-      />
-      <div className={styles.buttonWrapper}>
-        <CtaButton isActive={isDataComplete} onClick={handleCtaButtonClick}>
-          주요 활동 선택하기
-        </CtaButton>
-      </div>
+      {isError ? (
+        <InlineError
+          onRetry={refetch}
+          message="무드보드를 불러올 수 없습니다"
+        />
+      ) : isPending ? (
+        <Loading />
+      ) : (
+        <>
+          <MoodBoard
+            images={images}
+            selectedImages={selectedImages}
+            onImageSelect={handleImageSelect}
+          />
+          <div className={styles.buttonWrapper}>
+            <CtaButton isActive={isDataComplete} onClick={handleCtaButtonClick}>
+              주요 활동 선택하기
+            </CtaButton>
+          </div>
+        </>
+      )}
     </div>
   );
 };
