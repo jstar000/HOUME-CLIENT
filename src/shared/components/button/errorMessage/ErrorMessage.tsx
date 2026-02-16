@@ -1,6 +1,6 @@
 import WarningIcon from '@assets/icons/warningRed.svg?react';
 
-import * as styles from './ErrorButton.css';
+import * as styles from './ErrorMessage.css';
 
 interface ErrorMessageProps {
   message: string;

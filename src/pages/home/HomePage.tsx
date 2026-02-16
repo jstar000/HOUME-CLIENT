@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { useMyPageUser } from '@pages/mypage/hooks/useMypage';
+import { useMyPageUserQuery } from '@pages/mypage/hooks/useMypage';
 
 import { ROUTES } from '@routes/paths';
 
@@ -31,7 +31,7 @@ const HomePage = () => {
   const scrollDepth50Sent = useRef(false);
   const scrollDepth100Sent = useRef(false);
 
-  const { isLoading: isUserDataLoading } = useMyPageUser({
+  const { isLoading: isUserDataLoading } = useMyPageUserQuery({
     enabled: isLoggedIn,
   });
 

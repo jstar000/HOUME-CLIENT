@@ -1,5 +1,5 @@
 import CtaButton from '@components/button/ctaButton/CtaButton';
-import FilpButton from '@components/button/flipButton/FlipButton';
+import FlipButton from '@components/button/flipButton/FlipButton';
 
 import * as styles from './FlipSheet.css';
 import { BottomSheetWrapper } from '../BottomSheetWrapper';
@@ -41,7 +41,7 @@ export const FlipSheet = ({
       </div>
 
       <div className={styles.buttonGroup}>
-        <FilpButton onClick={onFlipClick} isFlipped={false} />
+        <FlipButton onClick={onFlipClick} isFlipped={false} />
         <CtaButton onClick={onChooseClick}>선택하기</CtaButton>
       </div>
     </BottomSheetWrapper>

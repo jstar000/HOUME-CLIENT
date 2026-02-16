@@ -34,7 +34,7 @@ const StepWrapper = ({ step, onMount, children }: StepWrapperProps) => {
   return <>{children}</>;
 };
 
-export const ImageSetup = () => {
+const ImageSetupPage = () => {
   const funnel = useImageSetup();
   const [currentStep, setCurrentStep] = useState<StepType>('HouseInfo');
 
@@ -123,3 +123,5 @@ export const ImageSetup = () => {
     </FunnelLayout>
   );
 };
+
+export default ImageSetupPage;

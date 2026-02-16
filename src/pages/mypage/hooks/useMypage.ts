@@ -25,7 +25,7 @@ type UseMyPageUserOptions = UseQueryBaseOptions<
   QueryResult<ReturnType<typeof getMyPageUser>>
 >;
 
-export const useMyPageUser = (options?: UseMyPageUserOptions) => {
+export const useMyPageUserQuery = (options?: UseMyPageUserOptions) => {
   return useQuery<QueryResult<ReturnType<typeof getMyPageUser>>>({
     queryKey: queryKeys.mypage.user(),
     queryFn: getMyPageUser,
@@ -64,7 +64,7 @@ export const useMyPageImagesQuery = (options?: UseMyPageImagesOptions) => {
 type ImageDetailResult = MyPageImageDetailData;
 type ImageDetailOptions = UseQueryBaseOptions<ImageDetailResult>;
 
-export const useMyPageImageDetail = (
+export const useMyPageImageDetailQuery = (
   houseId: number,
   options?: ImageDetailOptions
 ) => {

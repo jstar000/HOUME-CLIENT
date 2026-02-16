@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useMyPageUser } from '@pages/mypage/hooks/useMypage';
+import { useMyPageUserQuery } from '@pages/mypage/hooks/useMypage';
 
 import { useUserStore } from '@store/useUserStore';
 
@@ -27,7 +27,7 @@ const CreditModal = ({ onClose, title, onCreditAction }: CreditModalProps) => {
   const isLoggedIn = !!accessToken;
 
   // 사용자 크레딧 정보 조회
-  const { data: userData, isLoading: isUserDataLoading } = useMyPageUser({
+  const { data: userData, isLoading: isUserDataLoading } = useMyPageUserQuery({
     enabled: isLoggedIn, // 로그인 상태일 때만 API 호출
   });
 

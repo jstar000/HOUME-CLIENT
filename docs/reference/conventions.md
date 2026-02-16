@@ -4,7 +4,7 @@
 > 각 Phase 완료 시 해당 섹션이 추가/업데이트됩니다.
 > 리팩토링 완료 후 CLAUDE.md 및 팀 온보딩 문서에 반영 예정입니다.
 >
-> **마지막 업데이트**: 2026-02-16 (Phase 2 완료)
+> **마지막 업데이트**: 2026-02-17 (Phase 3 완료 + 보완)
 
 ---
 
@@ -156,7 +156,57 @@ import { colorVars } from '@/shared/styles/colors.css';
 ---
 
 <!-- Phase 2 완료 -->
-<!-- Phase 3 완료 시: 네이밍 컨벤션 추가 -->
+
+## 네이밍 컨벤션 (Phase 3)
+
+### 파일/폴더 네이밍
+
+| 대상          | 규칙              | 예시                                      |
+| ------------- | ----------------- | ----------------------------------------- |
+| 폴더          | camelCase         | `floorPlan/`, `houseInfo/`, `imageSetup/` |
+| 컴포넌트 파일 | PascalCase.tsx    | `FloorPlan.tsx`, `CardCuration.tsx`       |
+| 스타일 파일   | PascalCase.css.ts | `FloorPlan.css.ts`                        |
+| 훅 파일       | use{Subject}.ts   | `useHouseInfo.ts`, `useGenerate.ts`       |
+| API 파일      | {도메인}.ts       | `generate.ts`, `furniture.ts`             |
+| 타입 파일     | {도메인}.ts       | `generate.ts`, `detection.ts`             |
+| 상수 파일     | {도메인}.ts       | `detection.ts`, `response.ts`             |
+
+### 코드 네이밍
+
+| 대상                  | 규칙                            | 예시                                                               |
+| --------------------- | ------------------------------- | ------------------------------------------------------------------ |
+| 컴포넌트              | PascalCase (파일명과 동일)      | `HomePage`, `FlipButton`, `LargeFilledButton`                      |
+| 페이지 컴포넌트       | `{Feature}Page`                 | `HomePage`, `LoginPage`, `ImageSetupPage`                          |
+| 커스텀 훅 (상태/로직) | `use{Subject}`                  | `useABTest`, `useFloorPlan`, `useCreditCheck`                      |
+| Query 훅              | `use{Subject}Query`             | `useStackDataQuery`, `useFallbackImageQuery`, `useMyPageUserQuery` |
+| Mutation 훅           | `use{Subject}Mutation`          | `useGenerateImageMutation`, `useLogoutMutation`                    |
+| API 함수              | `{httpMethod}{Subject}`         | `getFloorPlan`, `postHousingSelection`                             |
+| 상수                  | UPPER_SNAKE_CASE                | `API_ENDPOINT`, `QUERY_KEY`, `ROUTES`                              |
+| 타입/인터페이스       | PascalCase                      | `CarouselItem`, `BaseResponse<T>`                                  |
+| Props                 | `{Component}Props`              | `ButtonProps`, `FloorPlanProps`                                    |
+| Zustand 스토어        | `use{Domain}Store`              | `useUserStore`, `useGenerateStore`                                 |
+| 쿼리키 팩토리         | `queryKeys.{domain}.{action}()` | `queryKeys.generate.result(houseId)`                               |
+
+### Query/Mutation 접미사 규칙
+
+- **`Query` 접미사**: `useQuery`를 래핑하는 훅에만 붙인다
+- **`Mutation` 접미사**: `useMutation`을 래핑하는 훅에만 붙인다
+- **상태/로직 훅**: `useQuery`/`useMutation`을 사용하지 않으면 접미사 없이 `use{Subject}`
+
+```typescript
+// ✅ Good
+export const useStackDataQuery = (...) => useQuery({ ... });     // Query 래퍼
+export const useGenerateImageMutation = () => useMutation({ ... }); // Mutation 래퍼
+export const useABTest = () => { ... };                          // 상태/로직 훅
+
+// ❌ Bad
+export const useStackData = (...) => useQuery({ ... });          // Query인데 접미사 없음
+export const useGenerateImageApi = () => useMutation({ ... });   // Api 접미사 사용
+```
+
+---
+
+<!-- Phase 3 완료 -->
 <!-- Phase 4 완료 시: 폴더 구조 컨벤션 추가 -->
 <!-- Phase 5 완료 시: Export 컨벤션 추가 -->
 <!-- Phase 6 완료 시: API/데이터 페칭 컨벤션 추가 -->
@@ -169,8 +219,10 @@ import { colorVars } from '@/shared/styles/colors.css';
 
 ## 변경 이력
 
-| 날짜       | 변경 내용                                                                            |
-| ---------- | ------------------------------------------------------------------------------------ |
-| 2026-02-16 | 템플릿 생성                                                                          |
-| 2026-02-16 | Phase 1: Query Key 컨벤션 추가 (factory 패턴, ESLint 설정)                           |
-| 2026-02-16 | Phase 2: Path Alias 컨벤션 추가 (@/ 제거, 세부 alias 통일, @store 추가, @types 금지) |
+| 날짜       | 변경 내용                                                                                    |
+| ---------- | -------------------------------------------------------------------------------------------- |
+| 2026-02-16 | 템플릿 생성                                                                                  |
+| 2026-02-16 | Phase 1: Query Key 컨벤션 추가 (factory 패턴, ESLint 설정)                                   |
+| 2026-02-16 | Phase 2: Path Alias 컨벤션 추가 (@/ 제거, 세부 alias 통일, @store 추가, @types 금지)         |
+| 2026-02-17 | Phase 3: 네이밍 컨벤션 추가 ({Feature}Page, Query/Mutation 접미사, 코드 네이밍 규칙)         |
+| 2026-02-17 | Phase 3 보완: mypage/login 훅 접미사, 컴포넌트명=파일명 규칙, 폴더 camelCase, dead code 삭제 |

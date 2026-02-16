@@ -5,8 +5,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ROUTES } from '@routes/paths';
 
 import CtaButton from '@components/button/ctaButton/CtaButton.tsx';
-import ErrorMessage from '@components/button/ErrorButton/ErrorMessage';
-import LargeFilled from '@components/button/largeFilledButton/LargeFilledButton.tsx';
+import ErrorMessage from '@components/button/errorMessage/ErrorMessage';
+import LargeFilledButton from '@components/button/largeFilledButton/LargeFilledButton.tsx';
 import TitleNavBar from '@components/navBar/TitleNavBar.tsx';
 import TextField from '@components/textField/TextField.tsx';
 
@@ -187,21 +187,21 @@ const SignupPage = () => {
         <div className={styles.fieldbox}>
           <h2 className={styles.fieldtitle}>성별</h2>
           <div className={styles.flexbox}>
-            <LargeFilled
+            <LargeFilledButton
               buttonSize="small"
               isSelected={gender?.value === 'MALE'}
               onClick={() => setGender({ value: 'MALE', label: '남성' })}
             >
               남성
-            </LargeFilled>
-            <LargeFilled
+            </LargeFilledButton>
+            <LargeFilledButton
               buttonSize="small"
               isSelected={gender?.value === 'FEMALE'}
               onClick={() => setGender({ value: 'FEMALE', label: '여성' })}
             >
               여성
-            </LargeFilled>
-            <LargeFilled
+            </LargeFilledButton>
+            <LargeFilledButton
               buttonSize="small"
               isSelected={gender?.value === 'NONBINARY'}
               onClick={() =>
@@ -209,7 +209,7 @@ const SignupPage = () => {
               }
             >
               논바이너리
-            </LargeFilled>
+            </LargeFilledButton>
           </div>
         </div>
       </div>

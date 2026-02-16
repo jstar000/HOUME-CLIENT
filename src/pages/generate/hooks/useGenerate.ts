@@ -34,7 +34,7 @@ import { queryKeys } from '@constants/queryKey';
 import { useABTest } from './useABTest';
 import { useGenerateStore } from '../stores/useGenerateStore';
 
-export const useStackData = (
+export const useStackDataQuery = (
   page: number,
   options: {
     enabled: boolean;
@@ -132,7 +132,7 @@ export const useCreditLogMutation = () => {
 };
 
 // 이미지 생성 api (A/B 테스트 적용)
-export const useGenerateImageApi = () => {
+export const useGenerateImageMutation = () => {
   const { setApiCompleted, setNavigationData, resetGenerate } =
     useGenerateStore();
   const { isMultipleImages } = useABTest();
@@ -178,7 +178,7 @@ export const useGenerateImageApi = () => {
 };
 
 // 이미지 생성 폴백
-export const useFallbackImage = (
+export const useFallbackImageQuery = (
   houseId: number,
   enabled: boolean,
   onError?: (error: unknown) => void // 쿼리문에서 에러 발생 시 전달받은 에러 핸들러(handleError()) 실행

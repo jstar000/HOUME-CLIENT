@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { useMyPageUser } from '@pages/mypage/hooks/useMypage';
+import { useMyPageUserQuery } from '@pages/mypage/hooks/useMypage';
 
 import { useUserStore } from '@store/useUserStore';
 
@@ -14,7 +14,7 @@ export const useUserSync = () => {
   const setUserId = useUserStore((state) => state.setUserId);
   const isLoggedIn = !!accessToken;
 
-  const { data: userData } = useMyPageUser({
+  const { data: userData } = useMyPageUserQuery({
     enabled: isLoggedIn,
   });
 

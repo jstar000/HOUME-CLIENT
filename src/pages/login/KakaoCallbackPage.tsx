@@ -31,7 +31,7 @@ import { useErrorHandler } from '@hooks/useErrorHandler';
 import { useKakaoLoginMutation } from './hooks/useKakaoLogin';
 import { getAuthEnvironment } from './utils/environment';
 
-const KakaoCallback = () => {
+const KakaoCallbackPage = () => {
   // 오류 핸들러
   const { handleError } = useErrorHandler('login');
 
@@ -81,4 +81,4 @@ const KakaoCallback = () => {
   return <Loading />;
 };
 
-export default KakaoCallback;
+export default KakaoCallbackPage;

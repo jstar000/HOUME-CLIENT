@@ -16,7 +16,7 @@ import TabNavBar from './components/navBar/TabNavBar';
 import GeneratedImagesSection from './components/section/generatedImages/GeneratedImagesSection';
 import ProfileSection from './components/section/profile/ProfileSection';
 import SavedItemsSection from './components/section/savedItems/SavedItemsSection';
-import { useMyPageUser } from './hooks/useMypage';
+import { useMyPageUserQuery } from './hooks/useMypage';
 import * as styles from './MyPage.css';
 
 const MyPage = () => {
@@ -44,7 +44,7 @@ const MyPage = () => {
     isLoading: isUserLoading,
     isError: isUserError,
     refetch,
-  } = useMyPageUser({
+  } = useMyPageUserQuery({
     enabled: isLoggedIn,
   });
 

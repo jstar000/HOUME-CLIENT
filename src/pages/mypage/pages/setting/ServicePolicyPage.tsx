@@ -6,7 +6,7 @@ import TitleNavBar from '@components/navBar/TitleNavBar';
 import { SERVICE_TERMS } from './constants/policies';
 import * as styles from './PolicyPage.css';
 
-const ServicePolicy = () => {
+const ServicePolicyPage = () => {
   return (
     <div className={styles.container}>
       <TitleNavBar title="서비스 이용 약관" />
@@ -22,4 +22,4 @@ const ServicePolicy = () => {
   );
 };
 
-export default ServicePolicy;
+export default ServicePolicyPage;

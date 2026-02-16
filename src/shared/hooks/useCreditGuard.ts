@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import { useMyPageUser } from '@pages/mypage/hooks/useMypage';
+import { useMyPageUserQuery } from '@pages/mypage/hooks/useMypage';
 
 import { useToast } from '@components/toast/useToast';
 
@@ -27,7 +27,7 @@ export const useCreditGuard = (
   requiredCredits: number = 1
 ): CreditGuardReturn => {
   // 사용자 데이터 조회 (실시간으로 API 호출)
-  const { data: userData, isLoading, refetch } = useMyPageUser();
+  const { data: userData, isLoading, refetch } = useMyPageUserQuery();
 
   // 토스트 알림 훅
   const { notify } = useToast();

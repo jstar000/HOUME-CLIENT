@@ -4,7 +4,7 @@ import { queryKeys } from '@constants/queryKey';
 
 import { getHistoryData } from '../apis/landing';
 
-export const useLandingData = () => {
+export const useLandingDataQuery = () => {
   return useQuery({
     queryKey: queryKeys.landing.history(),
     queryFn: () => getHistoryData(),

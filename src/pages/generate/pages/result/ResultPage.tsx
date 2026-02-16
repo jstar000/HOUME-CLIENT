@@ -11,7 +11,7 @@ import type {
   GenerateImageBResponse,
   GenerateImageData,
 } from '@pages/generate/types/generate';
-import { useMyPageImageDetail } from '@pages/mypage/hooks/useMypage';
+import { useMyPageImageDetailQuery } from '@pages/mypage/hooks/useMypage';
 import type {
   MyPageImageDetail,
   MyPageImageHistory,
@@ -120,7 +120,7 @@ const ResultPage = () => {
     enabled: shouldFetchExternalResult,
   });
 
-  const mypageDetailQuery = useMyPageImageDetail(parsedHouseId ?? 0, {
+  const mypageDetailQuery = useMyPageImageDetailQuery(parsedHouseId ?? 0, {
     enabled: shouldFetchMypageDetail,
     placeholderData: detailPlaceholder ? () => detailPlaceholder : undefined,
   });

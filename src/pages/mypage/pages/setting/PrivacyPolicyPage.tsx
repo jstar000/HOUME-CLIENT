@@ -6,7 +6,7 @@ import TitleNavBar from '@components/navBar/TitleNavBar';
 import { PRIVACY_POLICY } from './constants/policies';
 import * as styles from './PolicyPage.css';
 
-const PrivacyPolicy = () => {
+const PrivacyPolicyPage = () => {
   return (
     <div className={styles.container}>
       <TitleNavBar title="개인정보 처리방침" />
@@ -24,4 +24,4 @@ const PrivacyPolicy = () => {
   );
 };
 
-export default PrivacyPolicy;
+export default PrivacyPolicyPage;

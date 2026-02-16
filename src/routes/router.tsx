@@ -16,13 +16,13 @@ import LoadingPage from '@pages/generate/pages/loading/LoadingPage';
 import ResultPage from '@pages/generate/pages/result/ResultPage';
 import StartPage from '@pages/generate/pages/start/StartPage';
 import HomePage from '@pages/home/HomePage';
-import { ImageSetup } from '@pages/imageSetup/ImageSetup';
-import KakaoCallback from '@pages/login/KakaoCallback';
+import ImageSetupPage from '@pages/imageSetup/ImageSetupPage';
+import KakaoCallbackPage from '@pages/login/KakaoCallbackPage';
 import LoginPage from '@pages/login/LoginPage';
 import MyPage from '@pages/mypage/MyPage';
-import PrivacyPolicy from '@pages/mypage/pages/setting/PrivacyPolicyPage';
-import ServicePolicy from '@pages/mypage/pages/setting/ServicePolicyPage';
-import Setting from '@pages/mypage/pages/setting/SettingPage';
+import PrivacyPolicyPage from '@pages/mypage/pages/setting/PrivacyPolicyPage';
+import ServicePolicyPage from '@pages/mypage/pages/setting/ServicePolicyPage';
+import SettingPage from '@pages/mypage/pages/setting/SettingPage';
 import SignupPage from '@pages/signup/SignupPage';
 
 import RootLayout from '@layout/RootLayout';
@@ -50,15 +50,15 @@ const publicRoutes = [
   },
   {
     path: ROUTES.OAUTH,
-    element: <KakaoCallback />,
+    element: <KakaoCallbackPage />,
   },
   {
     path: ROUTES.SETTING_SERVICE,
-    element: <ServicePolicy />,
+    element: <ServicePolicyPage />,
   },
   {
     path: ROUTES.SETTING_PRIVACY,
-    element: <PrivacyPolicy />,
+    element: <PrivacyPolicyPage />,
   },
 ];
 
@@ -66,7 +66,7 @@ const publicRoutes = [
 const protectedRoutes = [
   {
     path: ROUTES.IMAGE_SETUP,
-    element: <ImageSetup />,
+    element: <ImageSetupPage />,
   },
   {
     path: ROUTES.GENERATE,
@@ -88,7 +88,7 @@ const protectedRoutes = [
   },
   {
     path: ROUTES.SETTING,
-    element: <Setting />,
+    element: <SettingPage />,
   },
   {
     path: ROUTES.GENERATE_START,
@@ -114,7 +114,7 @@ export const router = createBrowserRouter([
         path: '*',
         lazy: async () => {
           const { default: NotFoundPage } = await import(
-            '@/pages/notFound/NotFoundPage'
+            '@pages/notFound/NotFoundPage'
           );
           return { Component: NotFoundPage };
         },

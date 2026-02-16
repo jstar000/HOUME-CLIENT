@@ -22,7 +22,7 @@ import {
   logResultImgSwipeSlideLeft,
   logResultImgSwipeSlideRight,
 } from '@pages/generate/utils/analytics';
-import { useMyPageUser } from '@pages/mypage/hooks/useMypage';
+import { useMyPageUserQuery } from '@pages/mypage/hooks/useMypage';
 import type { MyPageUserData } from '@pages/mypage/types/apis/MyPage';
 
 import { ROUTES } from '@routes/paths.ts';
@@ -79,7 +79,7 @@ const GeneratedImgA = ({
   const { variant } = useABTest();
 
   // 마이페이지 사용자 정보 (크레딧 정보 포함)
-  const { data: fetchedUserData } = useMyPageUser({
+  const { data: fetchedUserData } = useMyPageUserQuery({
     enabled: !userProfile,
   });
   const creditCount =

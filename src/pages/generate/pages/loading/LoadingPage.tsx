@@ -3,11 +3,11 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 import {
-  useStackData,
+  useStackDataQuery,
   usePostCarouselLikeMutation,
   usePostCarouselHateMutation,
-  useGenerateImageApi,
-  useFallbackImage,
+  useGenerateImageMutation,
+  useFallbackImageQuery,
 } from '@pages/generate/hooks/useGenerate';
 import { useGenerateStore } from '@pages/generate/stores/useGenerateStore';
 import type { GenerateImageRequest } from '@pages/generate/types/generate';
@@ -91,12 +91,12 @@ const LoadingPage = () => {
   const [isNormalEntry, setIsNormalEntry] = useState(true);
 
   // 일반 이미지 생성 API(A/B 테스트 분류에 따라 이미지 1장/2장 생성)
-  const { mutate: mutateGenerateImage } = useGenerateImageApi();
+  const { mutate: mutateGenerateImage } = useGenerateImageMutation();
 
   // 폴백 이미지 생성 API (일반 API 실패 시 사용)
-  // isNormalEntry가 변경되면 컴포넌트 리렌더링 -> useFallbackImage 실행 -> useQuery가 enabled값 감지
+  // isNormalEntry가 변경되면 컴포넌트 리렌더링 -> useFallbackImageQuery 실행 -> useQuery가 enabled값 감지
   // -> true: 폴백 API 요청, false: 쿼리 실행 X
-  useFallbackImage(requestData?.houseId || 0, !isNormalEntry, (error) => {
+  useFallbackImageQuery(requestData?.houseId || 0, !isNormalEntry, (error) => {
     handleError(error, 'loading');
   });
 
@@ -118,13 +118,13 @@ const LoadingPage = () => {
     data: currentImages,
     isLoading,
     isError,
-  } = useStackData(currentPage, {
+  } = useStackDataQuery(currentPage, {
     enabled: !!requestData, // requestData가 있을 때만 활성화
     onSuccess: () => setCurrentIndex(0), // 새 페이지 로드 시 첫 이미지부터 시작
     onError: (err) => handleError(err, 'loading'),
   });
 
-  const { data: nextImages } = useStackData(currentPage + 1, {
+  const { data: nextImages } = useStackDataQuery(currentPage + 1, {
     enabled: !!currentImages && !!requestData,
   });
 
