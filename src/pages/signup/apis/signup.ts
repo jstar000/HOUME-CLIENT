@@ -8,7 +8,7 @@ import { useUserStore } from '@store/useUserStore';
 import type { BaseResponse } from '@shared/types/apis';
 import { TOAST_TYPE } from '@shared/types/toast';
 
-import axiosInstance from '@apis/axiosInstance';
+import axiosInstance from '@apis/config/axiosInstance';
 
 import { useToast } from '@components/toast/useToast';
 

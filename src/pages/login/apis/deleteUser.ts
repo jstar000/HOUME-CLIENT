@@ -7,8 +7,8 @@ import { useUserStore } from '@store/useUserStore';
 
 import { TOAST_TYPE } from '@shared/types/toast';
 
-import { queryClient } from '@apis/queryClient';
-import { HTTPMethod, request } from '@apis/request';
+import { queryClient } from '@apis/config/queryClient';
+import { HTTPMethod, request } from '@apis/config/request';
 
 import { useToast } from '@components/toast/useToast';
 

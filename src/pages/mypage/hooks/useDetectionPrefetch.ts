@@ -1,17 +1,17 @@
 import { useCallback, useRef } from 'react';
 
-import { OBJ365_MODEL_PATH } from '@pages/generate/constants/detection';
-import type { FurnitureCategoryCode } from '@pages/generate/constants/furnitureCategoryMapping';
-import { buildHotspotsPipeline } from '@pages/generate/hooks/furnitureHotspotPipeline';
-import { loadCorsImage } from '@pages/generate/hooks/useFurnitureHotspots';
-import type { FurnitureHotspot } from '@pages/generate/hooks/useFurnitureHotspots';
-import { useONNXModel } from '@pages/generate/hooks/useOnnxModel';
-import { useDetectionCacheStore } from '@pages/generate/stores/useDetectionCacheStore';
-import type { ProcessedDetections } from '@pages/generate/types/detection';
+import { OBJ365_MODEL_PATH } from '@shared/detection/constants';
+import type { FurnitureCategoryCode } from '@shared/detection/furnitureCategoryMapping';
+import { buildHotspotsPipeline } from '@shared/detection/hooks/furnitureHotspotPipeline';
+import { loadCorsImage } from '@shared/detection/hooks/useFurnitureHotspots';
+import type { FurnitureHotspot } from '@shared/detection/hooks/useFurnitureHotspots';
+import { useONNXModel } from '@shared/detection/hooks/useOnnxModel';
+import { useDetectionCacheStore } from '@shared/detection/stores/useDetectionCacheStore';
+import type { ProcessedDetections } from '@shared/detection/types';
 import {
   filterAllowedDetectedObjects,
   mapHotspotsToDetectedObjects,
-} from '@pages/generate/utils/detectedObjectMapper';
+} from '@shared/detection/utils/detectedObjectMapper';
 
 const PREFETCH_DELAY_MS = 120;
 

@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-import { HTTPMethod, type RequestConfig, request } from '@apis/request';
+import { HTTPMethod, type RequestConfig, request } from '@apis/config/request';
 
 import { API_ENDPOINT } from '@constants/apiEndpoints';
 import { queryKeys } from '@constants/queryKey';

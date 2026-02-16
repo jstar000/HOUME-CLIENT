@@ -1,8 +1,8 @@
-import { HTTPMethod, request } from '@apis/request';
+import type { SaveItemsRequest, SaveItemsResponse } from '@shared/types/jjym';
+
+import { HTTPMethod, request } from '@apis/config/request';
 
 import { API_ENDPOINT } from '@constants/apiEndpoints';
-
-import type { SaveItemsRequest, SaveItemsResponse } from '../types/saveItems';
 
 // 가구 찜하기 API
 export const postJjym = async (

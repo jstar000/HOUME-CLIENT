@@ -1,9 +1,10 @@
 import axios, { AxiosError } from 'axios';
 
-import { ERROR_CODES } from '../constants/apiErrorCode';
-import { RESPONSE_MESSAGE, HTTP_STATUS } from '../constants/response';
+import type { BaseResponse } from '@shared/types/apis';
 
-import type { BaseResponse } from '../types/apis';
+import { ERROR_CODES } from '@constants/apiErrorCode';
+import { RESPONSE_MESSAGE, HTTP_STATUS } from '@constants/response';
+
 import type { AxiosRequestConfig } from 'axios';
 
 const axiosInstance = axios.create({
@@ -70,7 +71,7 @@ axiosInstance.interceptors.response.use(
         localStorage.setItem('accessToken', newAccessToken);
 
         // Zustand 상태도 동기화
-        const { useUserStore } = await import('../../store/useUserStore');
+        const { useUserStore } = await import('@store/useUserStore');
         useUserStore.getState().setAccessToken(newAccessToken);
 
         if (originalRequest.headers) {
@@ -80,7 +81,7 @@ axiosInstance.interceptors.response.use(
         return axiosInstance(originalRequest); // 원래 요청 재시도
       } catch {
         // 리프레시 토큰 재발급 실패 시 상태 정리 및 에러 처리
-        const { useUserStore } = await import('../../store/useUserStore');
+        const { useUserStore } = await import('@store/useUserStore');
         useUserStore.getState().clearUser();
 
         // 통일된 SESSION_EXPIRED 에러로 변환하여 상위 컴포넌트에서 처리하도록 함

@@ -1,5 +1,5 @@
 // 마이페이지 찜한 가구 조회
-import { HTTPMethod, request } from '@apis/request';
+import { HTTPMethod, request } from '@apis/config/request';
 
 import { API_ENDPOINT } from '@constants/apiEndpoints';
 

@@ -9,7 +9,6 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 import { useABTest } from '@pages/generate/hooks/useABTest';
-import type { DetectionCacheEntry } from '@pages/generate/stores/useDetectionCacheStore';
 import type {
   GenerateImageData,
   GenerateImageAResponse,
@@ -32,6 +31,7 @@ import SlideNext from '@shared/assets/icons/nextAbled.svg?react';
 import SlideNextDisabled from '@shared/assets/icons/nextDisabled.svg?react';
 import SlidePrev from '@shared/assets/icons/prevAbled.svg?react';
 import SlidePrevDisabled from '@shared/assets/icons/prevDisabled.svg?react';
+import type { DetectionCacheEntry } from '@shared/detection/stores/useDetectionCacheStore';
 
 import GeneralModal from '@components/overlay/modal/GeneralModal';
 

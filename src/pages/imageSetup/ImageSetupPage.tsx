@@ -6,10 +6,10 @@ import FeatureErrorFallback from '@components/errorFallback/FeatureErrorFallback
 
 import FunnelLayout from './components/layout/FunnelLayout';
 import { useImageSetup } from './hooks/useImageGeneration';
-import ActivityInfo from './pages/activityInfo/ActivityInfo';
-import FloorPlan from './pages/floorPlan/FloorPlan';
-import HouseInfo from './pages/houseInfo/HouseInfo';
-import InteriorStyle from './pages/interiorStyle/InteriorStyle';
+import ActivityInfo from './steps/activityInfo/ActivityInfo';
+import FloorPlan from './steps/floorPlan/FloorPlan';
+import HouseInfo from './steps/houseInfo/HouseInfo';
+import InteriorStyle from './steps/interiorStyle/InteriorStyle';
 import { useFunnelStore } from './stores/useFunnelStore';
 import {
   type CompletedFloorPlan,

@@ -2,17 +2,17 @@ import { useMutation } from '@tanstack/react-query';
 
 import { useSavedItemsStore } from '@store/useSavedItemsStore';
 
-import { queryClient } from '@apis/queryClient';
+import type { SaveItemsResponse } from '@shared/types/jjym';
+
+import { queryClient } from '@apis/config/queryClient';
+import { postJjym } from '@apis/jjym';
 
 import { queryKeys } from '@constants/queryKey';
 
-import { postJjym } from '../apis/saveItems';
-
-import type { SaveItemsResponse } from '../types/saveItems';
 import type { AxiosError } from 'axios';
 
 // 가구 찜하기 훅
-export const usePostJjymMutation = () => {
+export const useJjymMutation = () => {
   const toggleSaveProduct = useSavedItemsStore((s) => s.toggleSaveProduct);
 
   return useMutation<SaveItemsResponse, AxiosError, number>({

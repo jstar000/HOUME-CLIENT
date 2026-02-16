@@ -1,12 +1,13 @@
 // 생성 이미지 큐레이션 API 모음
-import type { FurnitureCategoryCode } from '@pages/generate/constants/furnitureCategoryMapping';
 import type {
   FurnitureAndActivityResponse,
   FurnitureCategoriesResponse,
   FurnitureProductsInfoResponse,
 } from '@pages/generate/types/furniture';
 
-import { HTTPMethod, request } from '@apis/request';
+import type { FurnitureCategoryCode } from '@shared/detection/furnitureCategoryMapping';
+
+import { HTTPMethod, request } from '@apis/config/request';
 
 import { API_ENDPOINT } from '@constants/apiEndpoints';
 

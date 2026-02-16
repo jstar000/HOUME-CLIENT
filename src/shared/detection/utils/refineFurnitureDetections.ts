@@ -1,4 +1,4 @@
-import type { Detection } from '@pages/generate/types/detection';
+import type { Detection } from '@shared/detection/types';
 
 import {
   CABINET_REFINEMENT_CATEGORY_LABELS,

@@ -1,7 +1,7 @@
 import type { Dispatch } from 'react';
 
-import type { Detection as FurnitureDetection } from '@pages/generate/types/detection';
-import type { CabinetRefinementCategory } from '@pages/generate/utils/refineFurnitureDetections';
+import type { Detection as FurnitureDetection } from '@shared/detection/types';
+import type { CabinetRefinementCategory } from '@shared/detection/utils/refineFurnitureDetections';
 
 // 가구 핫스팟 상태 타입과 reducer 정의
 export type FurnitureHotspot = FurnitureDetection & {

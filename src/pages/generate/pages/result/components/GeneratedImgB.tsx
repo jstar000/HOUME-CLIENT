@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
 
-import type { DetectionCacheEntry } from '@pages/generate/stores/useDetectionCacheStore';
 import type {
   GenerateImageData,
   GenerateImageAResponse,
   GenerateImageBResponse,
 } from '@pages/generate/types/generate';
+
+import type { DetectionCacheEntry } from '@shared/detection/stores/useDetectionCacheStore';
 
 import DetectionHotspots from './DetectionHotspots';
 import * as styles from './GeneratedImg.css.ts';

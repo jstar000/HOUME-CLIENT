@@ -7,8 +7,8 @@ import { ROUTES } from '@routes/paths';
 
 import { useUserStore } from '@store/useUserStore';
 
-import { queryClient } from '@apis/queryClient';
-import { HTTPMethod, request } from '@apis/request';
+import { queryClient } from '@apis/config/queryClient';
+import { HTTPMethod, request } from '@apis/config/request';
 
 import { API_ENDPOINT } from '@constants/apiEndpoints';
 

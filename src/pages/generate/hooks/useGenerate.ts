@@ -26,7 +26,7 @@ import type {
 
 import { ROUTES } from '@routes/paths';
 
-import { queryClient } from '@apis/queryClient';
+import { queryClient } from '@apis/config/queryClient';
 
 import { ERROR_CODES, FALLBACK_TRIGGER_CODES } from '@constants/apiErrorCode';
 import { queryKeys } from '@constants/queryKey';

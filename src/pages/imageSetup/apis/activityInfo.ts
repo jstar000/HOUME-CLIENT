@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { HTTPMethod, request } from '@apis/request';
+import { HTTPMethod, request } from '@apis/config/request';
 
 import { API_ENDPOINT } from '@constants/apiEndpoints';
 import { queryKeys } from '@constants/queryKey';

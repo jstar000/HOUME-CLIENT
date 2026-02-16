@@ -1,9 +1,9 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
-import type { FurnitureCategoryCode } from '@pages/generate/constants/furnitureCategoryMapping';
-import type { FurnitureHotspot } from '@pages/generate/hooks/furnitureHotspotState';
-import type { ProcessedDetections } from '@pages/generate/types/detection';
+import type { FurnitureCategoryCode } from '@shared/detection/furnitureCategoryMapping';
+import type { FurnitureHotspot } from '@shared/detection/hooks/furnitureHotspotState';
+import type { ProcessedDetections } from '@shared/detection/types';
 
 // 세션 감지 캐시 저장소 키 정의
 const CACHE_STORAGE_KEY = 'houme-detection-cache';

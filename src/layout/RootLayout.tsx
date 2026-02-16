@@ -2,10 +2,10 @@ import { useEffect } from 'react';
 
 import { Outlet, useLocation } from 'react-router-dom';
 
-import { OBJ365_MODEL_PATH } from '@pages/generate/constants/detection';
-import { preloadONNXModel } from '@pages/generate/hooks/useOnnxModel';
-
 import { ROUTES } from '@routes/paths';
+
+import { OBJ365_MODEL_PATH } from '@shared/detection/constants';
+import { preloadONNXModel } from '@shared/detection/hooks/useOnnxModel';
 
 import { useScrollToTop } from '@hooks/useScrollToTop';
 

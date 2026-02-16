@@ -8,7 +8,6 @@ import {
   getGeneratedImageCategories,
   getGeneratedImageProducts,
 } from '@pages/generate/apis/furniture';
-import type { FurnitureCategoryCode } from '@pages/generate/constants/furnitureCategoryMapping';
 import { useCurationCacheStore } from '@pages/generate/stores/useCurationCacheStore';
 import {
   useCurationStore,
@@ -20,6 +19,8 @@ import type {
   FurnitureCategoriesResponse,
   FurnitureProductsInfoResponse,
 } from '@pages/generate/types/furniture';
+
+import type { FurnitureCategoryCode } from '@shared/detection/furnitureCategoryMapping';
 
 import {
   queryKeys,

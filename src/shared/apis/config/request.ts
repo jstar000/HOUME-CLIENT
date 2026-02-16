@@ -2,8 +2,9 @@ import { isAxiosError } from 'axios';
 
 import type { BaseResponse } from '@shared/types/apis';
 
+import { RESPONSE_MESSAGE } from '@constants/response';
+
 import axiosInstance from './axiosInstance';
-import { RESPONSE_MESSAGE } from '../constants/response';
 
 export const HTTPMethod = {
   GET: 'GET',

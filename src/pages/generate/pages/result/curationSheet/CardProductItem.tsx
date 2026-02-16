@@ -3,7 +3,6 @@ import { memo, useRef } from 'react';
 import { useIsMutating } from '@tanstack/react-query';
 
 import { useABTest } from '@pages/generate/hooks/useABTest';
-import { usePostJjymMutation } from '@pages/generate/hooks/useSaveItem';
 import {
   logResultImgClickCurationSheetBtnGoSite,
   logResultImgClickCurationSheetBtnSave,
@@ -20,6 +19,8 @@ import CardProduct from '@components/card/cardProduct/CardProduct';
 import { useToast } from '@components/toast/useToast';
 
 import { SESSION_STORAGE_KEYS } from '@constants/bottomSheet';
+
+import { useJjymMutation } from '@hooks/useJjymMutation';
 
 const buildCurationOutboundUrl = (url: string) => {
   const utmQuery = import.meta.env.VITE_CURATION_OUTBOUND_UTM_QUERY;
@@ -74,7 +75,7 @@ const CardProductItem = memo(
     const isSaved = hasRecommendId ? savedProductIds.has(recommendId) : false;
     const toastCooldownRef = useRef(0); // 최근 스낵바 노출 시각(ms)
 
-    const { mutate: toggleJjym } = usePostJjymMutation();
+    const { mutate: toggleJjym } = useJjymMutation();
     const { notify } = useToast();
 
     const isMutating =

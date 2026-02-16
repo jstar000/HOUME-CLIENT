@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { TOAST_TYPE } from '@shared/types/toast';
 
-import { queryClient } from '@apis/queryClient';
+import { queryClient } from '@apis/config/queryClient';
 
 import { useToast } from '@components/toast/useToast';
 

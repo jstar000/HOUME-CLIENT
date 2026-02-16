@@ -1,22 +1,22 @@
 import {
   DETECTION_MIN_CONFIDENCE,
   FALLBACK_MAX_CANDIDATES,
-} from '@pages/generate/constants/detection';
+} from '@shared/detection/constants';
 import {
   describeObj365Index,
   hasFurnitureCodeForIndex,
-} from '@pages/generate/constants/furnitureCategoryMapping';
+} from '@shared/detection/furnitureCategoryMapping';
 import type {
   Detection as FurnitureDetection,
   ProcessedDetections,
-} from '@pages/generate/types/detection';
-import { toImageSpaceBBox } from '@pages/generate/utils/imageProcessing';
-import { OBJ365_ALL_CLASSES } from '@pages/generate/utils/obj365AllClasses';
-import { isCabinetShelfIndex } from '@pages/generate/utils/obj365Furniture';
+} from '@shared/detection/types';
+import { toImageSpaceBBox } from '@shared/detection/utils/imageProcessing';
+import { OBJ365_ALL_CLASSES } from '@shared/detection/utils/obj365AllClasses';
+import { isCabinetShelfIndex } from '@shared/detection/utils/obj365Furniture';
 import {
   refineFurnitureDetections,
   type RefinedFurnitureDetection,
-} from '@pages/generate/utils/refineFurnitureDetections';
+} from '@shared/detection/utils/refineFurnitureDetections';
 
 import type {
   DebugRect,

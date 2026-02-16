@@ -1,5 +1,6 @@
-import axiosInstance from '@shared/apis/axiosInstance';
 import type { BaseResponse } from '@shared/types/apis';
+
+import axiosInstance from '@apis/config/axiosInstance';
 
 import { API_ENDPOINT } from '@constants/apiEndpoints';
 import { RESPONSE_MESSAGE, HTTP_STATUS } from '@constants/response';

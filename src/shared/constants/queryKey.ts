@@ -1,4 +1,4 @@
-import type { FurnitureCategoryCode } from '@pages/generate/constants/furnitureCategoryMapping';
+import type { FurnitureCategoryCode } from '@shared/detection/furnitureCategoryMapping';
 
 // Furniture Query Variables
 export interface CategoriesQueryVariables {

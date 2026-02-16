@@ -7,7 +7,7 @@ import type {
   FactorsResponse,
 } from '@pages/generate/types/generate';
 
-import { HTTPMethod, request, type RequestConfig } from '@apis/request';
+import { HTTPMethod, request, type RequestConfig } from '@apis/config/request';
 
 import { API_ENDPOINT } from '@constants/apiEndpoints';
 

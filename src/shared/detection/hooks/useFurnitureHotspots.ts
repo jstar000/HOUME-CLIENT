@@ -9,13 +9,13 @@ import { useCallback, useEffect, useMemo, useReducer, useRef } from 'react';
 //   - 기준: cabinet은 refine confidence, 그 외는 모델 score 사용(단일 랭크 스코어로 비교)
 //   - 방식: 신뢰도/점수 상위 K개만 노출, K는 FALLBACK_MAX_CANDIDATES
 
-import { OBJ365_MODEL_PATH } from '@pages/generate/constants/detection';
-import { useONNXModel } from '@pages/generate/hooks/useOnnxModel';
-import type { ProcessedDetections } from '@pages/generate/types/detection';
+import { OBJ365_MODEL_PATH } from '@shared/detection/constants';
+import { useONNXModel } from '@shared/detection/hooks/useOnnxModel';
+import type { ProcessedDetections } from '@shared/detection/types';
 import {
   logFurniturePipelineEvent,
   reportFurniturePipelineWarning,
-} from '@pages/generate/utils/furniturePipelineMonitor';
+} from '@shared/detection/utils/furniturePipelineMonitor';
 
 import {
   buildHotspotsPipeline,

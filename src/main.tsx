@@ -17,7 +17,7 @@ import AppErrorFallback from '@components/errorFallback/AppErrorFallback';
 import '@/shared/styles/global.css.ts';
 
 import App from './App.tsx';
-import { queryClient } from './shared/apis/queryClient.ts';
+import { queryClient } from './shared/apis/config/queryClient.ts';
 import { toastConfig } from './shared/types/toast.ts';
 
 initSentry();

@@ -5,7 +5,6 @@ import { useLocation, useSearchParams, Navigate } from 'react-router-dom';
 import { useABTest } from '@pages/generate/hooks/useABTest';
 import { useGetResultDataQuery } from '@pages/generate/hooks/useGenerate';
 import { useCurationStore } from '@pages/generate/stores/useCurationStore';
-import type { DetectionCacheEntry } from '@pages/generate/stores/useDetectionCacheStore';
 import type {
   GenerateImageAResponse,
   GenerateImageBResponse,
@@ -18,6 +17,8 @@ import type {
   MyPageUserData,
 } from '@pages/mypage/types/apis/MyPage';
 import { createImageDetailPlaceholder } from '@pages/mypage/utils/resultNavigation';
+
+import type { DetectionCacheEntry } from '@shared/detection/stores/useDetectionCacheStore';
 
 import InlineError from '@components/inlineError/InlineError';
 import Loading from '@components/loading/Loading';

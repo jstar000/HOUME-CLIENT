@@ -1,10 +1,10 @@
-import { OBJ365_ALL_CLASSES } from '../utils/obj365AllClasses';
+import { OBJ365_ALL_CLASSES } from './utils/obj365AllClasses';
 import {
   isCabinetShelfIndex,
   OBJ365_FURNITURE_INDEX_SET,
-} from '../utils/obj365Furniture';
+} from './utils/obj365Furniture';
 
-import type { CabinetRefinementCategory } from '../utils/cabinetRefinementCategories';
+import type { CabinetRefinementCategory } from './utils/cabinetRefinementCategories';
 
 // 허용 FurnitureCategoryCode 목록
 export const FURNITURE_CATEGORY_CODES = [
