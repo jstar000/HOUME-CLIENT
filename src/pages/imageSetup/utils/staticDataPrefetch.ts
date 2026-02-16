@@ -1,8 +1,8 @@
 import { queryKeys } from '@constants/queryKey';
 
-import { getActivityOptions } from '../apis/activityInfo';
-import { getHousingOptions } from '../apis/houseInfo';
-import { getMoodBoardImage } from '../apis/interiorStyle';
+import { getActivityOptions } from '../apis/queries/useActivityOptionsQuery';
+import { getHousingOptions } from '../apis/queries/useHousingOptionsQuery';
+import { getMoodBoardImage } from '../apis/queries/useMoodBoardQuery';
 import { MOOD_BOARD_CONSTANTS } from '../types/apis/interiorStyle';
 
 import type { QueryClient } from '@tanstack/react-query';

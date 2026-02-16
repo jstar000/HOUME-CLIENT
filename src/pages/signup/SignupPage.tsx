@@ -12,7 +12,7 @@ import TextField from '@components/textField/TextField.tsx';
 
 import { ERROR_MESSAGES } from '@constants/clientErrorMessage.ts';
 
-import { usePostSignupMutation } from './apis/signup';
+import { usePostSignupMutation } from './apis/mutations/usePostSignupMutation';
 import useSignupForm from './hooks/useSignupForm';
 import * as styles from './SignupPage.css';
 import {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useMyPageUserQuery } from '@pages/mypage/hooks/useMypage';
+import { useMyPageUserQuery } from '@pages/mypage/apis/queries/useMyPageUserQuery';
 
 import { TOAST_TYPE } from '@shared/types/toast';
 

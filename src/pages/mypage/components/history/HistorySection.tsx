@@ -6,7 +6,7 @@ import CardHistory from '@components/card/cardHistory/CardHistory';
 import Loading from '@components/loading/Loading';
 
 import * as styles from './HistorySection.css';
-import { useMyPageImagesQuery } from '../../hooks/useMypage';
+import { useMyPageImagesQuery } from '../../apis/queries/useMyPageImagesQuery';
 
 /**
  * 마이페이지 결과 히스토리 섹션

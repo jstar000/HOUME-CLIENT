@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import { useMyPageUserQuery } from '@pages/mypage/hooks/useMypage';
+import { useMyPageUserQuery } from '@pages/mypage/apis/queries/useMyPageUserQuery';
 
 import { useToast } from '@components/toast/useToast';
 

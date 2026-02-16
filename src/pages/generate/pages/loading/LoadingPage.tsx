@@ -2,13 +2,11 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Navigate, useNavigate } from 'react-router-dom';
 
-import {
-  useStackDataQuery,
-  usePostCarouselLikeMutation,
-  usePostCarouselHateMutation,
-  useGenerateImageMutation,
-  useFallbackImageQuery,
-} from '@pages/generate/hooks/useGenerate';
+import { usePostCarouselHateMutation } from '@pages/generate/apis/mutations/useCarouselHateMutation';
+import { usePostCarouselLikeMutation } from '@pages/generate/apis/mutations/useCarouselLikeMutation';
+import { useGenerateImageMutation } from '@pages/generate/apis/mutations/useGenerateImageMutation';
+import { useFallbackImageQuery } from '@pages/generate/apis/queries/useFallbackImageQuery';
+import { useStackDataQuery } from '@pages/generate/apis/queries/useStackDataQuery';
 import { useGenerateStore } from '@pages/generate/stores/useGenerateStore';
 import type { GenerateImageRequest } from '@pages/generate/types/generate';
 

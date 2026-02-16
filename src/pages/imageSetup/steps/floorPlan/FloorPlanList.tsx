@@ -1,7 +1,7 @@
 // FloorPlan.tsx
 import { useEffect, useRef, useState } from 'react';
 
-import { useUserAddressMutation } from '@pages/imageSetup/apis/floorPlan';
+import { useUserAddressMutation } from '@pages/imageSetup/apis/mutations/useUserAddressMutation';
 import { type FloorPlanData } from '@pages/imageSetup/types/apis/floorPlan';
 import type { OpenSheetKey } from '@pages/imageSetup/types/OpenSheet';
 import {

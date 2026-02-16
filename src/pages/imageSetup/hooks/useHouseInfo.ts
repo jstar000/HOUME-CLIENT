@@ -8,7 +8,7 @@ import { useToast } from '@components/toast/useToast';
 
 import { queryKeys } from '@constants/queryKey';
 
-import { useHousingSelectionMutation } from '../apis/houseInfo';
+import { useHousingSelectionMutation } from '../apis/mutations/useHousingSelectionMutation';
 import { useFunnelStore } from '../stores/useFunnelStore';
 import { HOUSE_INFO_VALIDATION } from '../types/funnel/validation';
 

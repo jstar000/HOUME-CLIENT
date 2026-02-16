@@ -1,4 +1,4 @@
-import { useActivityOptionsQuery } from '@pages/imageSetup/apis/activityInfo';
+import { useActivityOptionsQuery } from '@pages/imageSetup/apis/queries/useActivityOptionsQuery';
 import { FUNNELHEADER_IMAGES } from '@pages/imageSetup/constants/headerImages';
 import { useActivityInfo } from '@pages/imageSetup/hooks/activityInfo/useActivityInfo';
 import { useCreditCheck } from '@pages/imageSetup/hooks/useCreditCheck';

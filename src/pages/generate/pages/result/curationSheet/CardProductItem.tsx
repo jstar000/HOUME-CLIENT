@@ -15,12 +15,12 @@ import { useSavedItemsStore } from '@store/useSavedItemsStore';
 
 import { TOAST_TYPE } from '@shared/types/toast';
 
+import { useJjymMutation } from '@apis/mutations/useJjymMutation';
+
 import CardProduct from '@components/card/cardProduct/CardProduct';
 import { useToast } from '@components/toast/useToast';
 
 import { SESSION_STORAGE_KEYS } from '@constants/bottomSheet';
-
-import { useJjymMutation } from '@hooks/useJjymMutation';
 
 const buildCurationOutboundUrl = (url: string) => {
   const utmQuery = import.meta.env.VITE_CURATION_OUTBOUND_UTM_QUERY;

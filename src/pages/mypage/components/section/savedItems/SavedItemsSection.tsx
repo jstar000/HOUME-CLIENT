@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { useGetJjymListQuery } from '@pages/mypage/hooks/useSaveItemList';
+import { useGetJjymListQuery } from '@pages/mypage/apis/queries/useGetJjymListQuery';
 import { logMyPageClickBtnFurnitureCard } from '@pages/mypage/utils/analytics';
+
+import { useJjymMutation } from '@apis/mutations/useJjymMutation';
 
 import CardProduct from '@components/card/cardProduct/CardProduct';
 
 import { SESSION_STORAGE_KEYS } from '@constants/bottomSheet';
-
-import { useJjymMutation } from '@hooks/useJjymMutation';
 
 import * as styles from './SavedItemsSection.css';
 import EmptyStateSection from '../emptyState/EmptyStateSection';

@@ -6,6 +6,8 @@ import { RESPONSE_MESSAGE } from '@constants/response';
 
 import axiosInstance from './axiosInstance';
 
+import type { AxiosResponse } from 'axios';
+
 export const HTTPMethod = {
   GET: 'GET',
   POST: 'POST',
@@ -21,11 +23,22 @@ export interface RequestConfig {
   method: HTTPMethodType;
   url: string;
   query?: Record<string, QueryValue>;
-  body?: Record<string, unknown>;
+  body?: object;
+  rawResponse?: boolean;
 }
 
-export const request = async <T>(config: RequestConfig): Promise<T> => {
-  const { method, url, query, body } = config;
+/* eslint-disable no-redeclare -- 함수 오버로드는 TypeScript에서 정상 패턴 */
+// 오버로드: rawResponse: true → AxiosResponse 전체 반환
+export async function request<T>(
+  config: RequestConfig & { rawResponse: true }
+): Promise<AxiosResponse<BaseResponse<T>>>;
+// 오버로드: 기본 → data만 반환
+export async function request<T>(config: RequestConfig): Promise<T>;
+// 구현
+export async function request<T>(
+  config: RequestConfig
+): Promise<T | AxiosResponse<BaseResponse<T>>> {
+  const { method, url, query, body, rawResponse } = config;
   let params: URLSearchParams | undefined;
   if (query) {
     params = new URLSearchParams();
@@ -46,32 +59,28 @@ export const request = async <T>(config: RequestConfig): Promise<T> => {
       data: body,
     });
 
-    // console.log(`[성공] ${url} : ${response.data.message}`);
+    if (rawResponse) return response;
 
     return response.data.data;
   } catch (error: unknown) {
     if (!isAxiosError(error)) {
-      console.error(`[실패] ${url} : 네트워크 오류`);
+      if (import.meta.env.DEV) {
+        console.error(`[실패] ${url} : 예상치 못한 오류`);
+      }
       throw error;
     }
 
-    if (error.response) {
-      const { status, data } = error.response;
-      const message = data?.message;
+    const status = error.response?.status;
+    const message =
+      error.response?.data?.message ??
+      (status ? RESPONSE_MESSAGE[status] : undefined) ??
+      '알 수 없는 오류가 발생했습니다.';
 
-      const displayMessage =
-        RESPONSE_MESSAGE[status] ||
-        message ||
-        '알 수 없는 오류가 발생했습니다.';
-
-      if (process.env.NODE_ENV === 'development') {
-        console.error(`[실패] ${url} : ${displayMessage}`);
-      }
-    } else {
-      if (process.env.NODE_ENV === 'development') {
-        console.error(`[실패] ${url} : 서버에 연결할 수 없습니다.`);
-      }
+    if (import.meta.env.DEV) {
+      console.error(`[실패] ${url} : ${message}`);
     }
+
     throw error;
   }
-};
+}
+/* eslint-enable no-redeclare */

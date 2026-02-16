@@ -12,11 +12,11 @@ import InlineError from '@components/inlineError/InlineError';
 import Loading from '@components/loading/Loading';
 import TitleNavBar from '@components/navBar/TitleNavBar';
 
+import { useMyPageUserQuery } from './apis/queries/useMyPageUserQuery';
 import TabNavBar from './components/navBar/TabNavBar';
 import GeneratedImagesSection from './components/section/generatedImages/GeneratedImagesSection';
 import ProfileSection from './components/section/profile/ProfileSection';
 import SavedItemsSection from './components/section/savedItems/SavedItemsSection';
-import { useMyPageUserQuery } from './hooks/useMypage';
 import * as styles from './MyPage.css';
 
 const MyPage = () => {

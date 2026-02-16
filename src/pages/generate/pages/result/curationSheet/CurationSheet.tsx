@@ -3,20 +3,20 @@ import { useEffect, useMemo, useRef } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
-import { getGeneratedImageProducts } from '@pages/generate/apis/furniture';
+import { useGeneratedCategoriesQuery } from '@pages/generate/apis/queries/useGeneratedCategoriesQuery';
+import { getGeneratedImageProducts } from '@pages/generate/apis/queries/useGeneratedProductsQuery';
+import { useGeneratedProductsQuery } from '@pages/generate/apis/queries/useGeneratedProductsQuery';
 import FilterChip from '@pages/generate/components/filterChip/FilterChip';
 import { useABTest } from '@pages/generate/hooks/useABTest';
 import {
   useActiveImageCurationState,
   useActiveImageId,
-  useGeneratedCategoriesQuery,
-  useGeneratedProductsQuery,
-} from '@pages/generate/hooks/useFurnitureCuration';
+} from '@pages/generate/hooks/useCurationState';
 import { useCurationCacheStore } from '@pages/generate/stores/useCurationCacheStore';
 import { useCurationStore } from '@pages/generate/stores/useCurationStore';
 import type { FurnitureProductsInfoResponse } from '@pages/generate/types/furniture';
 import { logResultImgClickCurationSheetFilter } from '@pages/generate/utils/analytics';
-import { useGetJjymListQuery } from '@pages/mypage/hooks/useSaveItemList';
+import { useGetJjymListQuery } from '@pages/mypage/apis/queries/useGetJjymListQuery';
 
 import { ROUTES } from '@routes/paths';
 

@@ -2,9 +2,9 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
+import { useMyPageImagesQuery } from '@pages/mypage/apis/queries/useMyPageImagesQuery';
 import CardCuration from '@pages/mypage/components/card/cardCuration/CardCuration';
 import { useDetectionPrefetch } from '@pages/mypage/hooks/useDetectionPrefetch';
-import { useMyPageImagesQuery } from '@pages/mypage/hooks/useMypage';
 import type {
   MyPageImageHistory,
   MyPageUserData,

@@ -4,7 +4,7 @@
 > 각 Phase 완료 시 해당 섹션이 추가/업데이트됩니다.
 > 리팩토링 완료 후 CLAUDE.md 및 팀 온보딩 문서에 반영 예정입니다.
 >
-> **마지막 업데이트**: 2026-02-17 (Phase 5 완료)
+> **마지막 업데이트**: 2026-02-17 (Phase 6 완료)
 
 ---
 
@@ -261,7 +261,7 @@ import { useONNXModel } from '@shared/detection/hooks/useOnnxModel';
 
 ### shared/apis/ 구조
 
-인프라 설정과 도메인 API를 분리한다:
+인프라 설정과 공유 API를 분리한다:
 
 ```
 shared/apis/
@@ -269,8 +269,9 @@ shared/apis/
 │   ├── axiosInstance.ts     # Axios 인스턴스 + 인터셉터
 │   ├── globalErrorHandler.ts # QueryCache onError 핸들러
 │   ├── queryClient.ts       # QueryClient 생성 + 기본 옵션
-│   └── request.ts           # request<T>() 래퍼
-└── jjym.ts                  # 도메인 API (공유 API는 여기에 추가)
+│   └── request.ts           # request<T>() 래퍼 + rawResponse 오버로드
+└── mutations/
+    └── useJjymMutation.ts   # 공유 mutation (bare + hook colocate)
 ```
 
 ```typescript
@@ -278,8 +279,8 @@ shared/apis/
 import { HTTPMethod, request } from '@apis/config/request';
 import { queryClient } from '@apis/config/queryClient';
 
-// 도메인 API import — @apis/
-import { postJjym } from '@apis/jjym';
+// 공유 mutation import
+import { useJjymMutation } from '@apis/mutations/useJjymMutation';
 ```
 
 ### Feature 내부 폴더 구조
@@ -369,7 +370,102 @@ export const getCanHistoryGoBack = () => { ... };
    ```
 
 <!-- Phase 5 완료 -->
-<!-- Phase 6 완료 시: API/데이터 페칭 컨벤션 추가 -->
+
+## API/데이터 페칭 컨벤션 (Phase 6)
+
+### 파일 구조
+
+```
+pages/{feature}/apis/
+├── queries/
+│   └── use{Subject}Query.ts       # bare 함수 + query 훅
+├── mutations/
+│   └── use{Subject}Mutation.ts    # bare 함수 + mutation 훅
+└── {action}.ts                    # 훅 불필요한 단발성 bare 함수
+```
+
+- **1파일 = 1 API 작업**: bare API 함수와 React Query 훅을 같은 파일에 colocate
+- **파일 네이밍**: 훅 이름으로 (`useXxxQuery.ts`, `useXxxMutation.ts`) — camelCase
+
+### 파일 내부 패턴
+
+```typescript
+// queries/useXxxQuery.ts
+import { useQuery } from '@tanstack/react-query';
+import { HTTPMethod, request } from '@apis/config/request';
+import { API_ENDPOINT } from '@constants/apiEndpoints';
+import { queryKeys } from '@constants/queryKey';
+
+// 1. bare API 함수 (named export)
+export const getXxx = async (): Promise<XxxResponse> => {
+  return request<XxxResponse>({
+    method: HTTPMethod.GET,
+    url: API_ENDPOINT.XXX.YYY,
+  });
+};
+
+// 2. React Query 훅 (named export)
+export const useXxxQuery = () => {
+  return useQuery({
+    queryKey: queryKeys.xxx.yyy(),
+    queryFn: getXxx,
+  });
+};
+```
+
+### `request()` 래퍼 규칙
+
+1. **모든 API 호출은 `request<T>()` 경유** — 직접 `axiosInstance` 사용 금지
+
+   ```typescript
+   // ❌ Bad — axiosInstance 직접 사용
+   const response = await axiosInstance.get('/api/...');
+
+   // ✅ Good — request() 래퍼 사용
+   const data = await request<ResponseType>({
+     method: HTTPMethod.GET,
+     url: '...',
+   });
+   ```
+
+2. **헤더 접근 필요 시 `rawResponse: true`**
+
+   ```typescript
+   const response = await request<T>({
+     method: HTTPMethod.POST,
+     url: API_ENDPOINT.USER.SIGN_UP,
+     body: data,
+     rawResponse: true, // AxiosResponse 전체 반환
+   });
+   const token = response.headers['access-token'];
+   ```
+
+3. **`body` 타입은 `object`** — 인터페이스를 캐스트 없이 직접 전달 가능
+4. **모든 bare 함수에 explicit `Promise<T>` 리턴 타입 필수**
+
+### 훅 위치 규칙
+
+| 훅 종류               | 위치                                   | 예시                                   |
+| --------------------- | -------------------------------------- | -------------------------------------- |
+| API query/mutation 훅 | `apis/queries/` 또는 `apis/mutations/` | `useStackDataQuery`, `useJjymMutation` |
+| 순수 상태/UI 훅       | `hooks/` (feature 레벨)                | `useABTest`, `useCurationState`        |
+
+- **`apis/` 아래에 `hooks/` 폴더 금지** — API 폴더에는 queries/mutations만 허용
+
+### shared API 구조
+
+```
+shared/apis/
+├── config/                  # 인프라 설정
+│   ├── axiosInstance.ts     # Axios 인스턴스 + 인터셉터
+│   ├── request.ts           # request<T>() 래퍼 + rawResponse 오버로드
+│   ├── queryClient.ts       # QueryClient 생성
+│   └── globalErrorHandler.ts
+└── mutations/
+    └── useJjymMutation.ts   # 공유 mutation (bare + hook colocate)
+```
+
+<!-- Phase 6 완료 -->
 <!-- Phase 7 완료 시: Provider 구조 추가 -->
 <!-- Phase 8 완료 시: Lazy Loading 컨벤션 추가 -->
 <!-- Phase 9 완료 시: 에러/로딩 처리 컨벤션 추가 -->
@@ -379,13 +475,14 @@ export const getCanHistoryGoBack = () => { ... };
 
 ## 변경 이력
 
-| 날짜       | 변경 내용                                                                                    |
-| ---------- | -------------------------------------------------------------------------------------------- |
-| 2026-02-16 | 템플릿 생성                                                                                  |
-| 2026-02-16 | Phase 1: Query Key 컨벤션 추가 (factory 패턴, ESLint 설정)                                   |
-| 2026-02-16 | Phase 2: Path Alias 컨벤션 추가 (@/ 제거, 세부 alias 통일, @store 추가, @types 금지)         |
-| 2026-02-17 | Phase 3: 네이밍 컨벤션 추가 ({Feature}Page, Query/Mutation 접미사, 코드 네이밍 규칙)         |
-| 2026-02-17 | Phase 3 보완: mypage/login 훅 접미사, 컴포넌트명=파일명 규칙, 폴더 camelCase, dead code 삭제 |
-| 2026-02-17 | Phase 4: 폴더 구조 정규화 (Detection 분리, cross-feature import 해소, steps 리네임)          |
-| 2026-02-17 | Phase 4 보완: shared/apis/ 인프라-도메인 분리 (config/ 하위폴더)                             |
-| 2026-02-17 | Phase 5: Export 컨벤션 추가 (컴포넌트 default, 훅/유틸 named, barrel/mixed 금지)             |
+| 날짜       | 변경 내용                                                                                          |
+| ---------- | -------------------------------------------------------------------------------------------------- |
+| 2026-02-16 | 템플릿 생성                                                                                        |
+| 2026-02-16 | Phase 1: Query Key 컨벤션 추가 (factory 패턴, ESLint 설정)                                         |
+| 2026-02-16 | Phase 2: Path Alias 컨벤션 추가 (@/ 제거, 세부 alias 통일, @store 추가, @types 금지)               |
+| 2026-02-17 | Phase 3: 네이밍 컨벤션 추가 ({Feature}Page, Query/Mutation 접미사, 코드 네이밍 규칙)               |
+| 2026-02-17 | Phase 3 보완: mypage/login 훅 접미사, 컴포넌트명=파일명 규칙, 폴더 camelCase, dead code 삭제       |
+| 2026-02-17 | Phase 4: 폴더 구조 정규화 (Detection 분리, cross-feature import 해소, steps 리네임)                |
+| 2026-02-17 | Phase 4 보완: shared/apis/ 인프라-도메인 분리 (config/ 하위폴더)                                   |
+| 2026-02-17 | Phase 5: Export 컨벤션 추가 (컴포넌트 default, 훅/유틸 named, barrel/mixed 금지)                   |
+| 2026-02-17 | Phase 6: API/데이터 페칭 컨벤션 추가 (queries/mutations 구조, request() rawResponse, 훅 위치 규칙) |

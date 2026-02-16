@@ -28,7 +28,7 @@ import { RESPONSE_MESSAGE, HTTP_STATUS } from '@constants/response';
 
 import { useErrorHandler } from '@hooks/useErrorHandler';
 
-import { useKakaoLoginMutation } from './hooks/useKakaoLogin';
+import { useKakaoLoginMutation } from './apis/mutations/useKakaoLoginMutation';
 import { getAuthEnvironment } from './utils/environment';
 
 const KakaoCallbackPage = () => {

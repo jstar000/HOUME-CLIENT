@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { useMyPageUserQuery } from '@pages/mypage/hooks/useMypage';
+import { useMyPageUserQuery } from '@pages/mypage/apis/queries/useMyPageUserQuery';
 
 import { ROUTES } from '@routes/paths';
 

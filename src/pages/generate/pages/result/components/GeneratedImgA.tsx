@@ -21,7 +21,7 @@ import {
   logResultImgSwipeSlideLeft,
   logResultImgSwipeSlideRight,
 } from '@pages/generate/utils/analytics';
-import { useMyPageUserQuery } from '@pages/mypage/hooks/useMypage';
+import { useMyPageUserQuery } from '@pages/mypage/apis/queries/useMyPageUserQuery';
 import type { MyPageUserData } from '@pages/mypage/types/apis/MyPage';
 
 import { ROUTES } from '@routes/paths.ts';

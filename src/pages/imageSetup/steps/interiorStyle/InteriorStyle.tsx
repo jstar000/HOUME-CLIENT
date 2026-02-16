@@ -1,5 +1,5 @@
 // Step 3
-import { useMoodBoardQuery } from '@pages/imageSetup/apis/interiorStyle';
+import { useMoodBoardQuery } from '@pages/imageSetup/apis/queries/useMoodBoardQuery';
 import { FUNNELHEADER_IMAGES } from '@pages/imageSetup/constants/headerImages';
 import { useInteriorStyle } from '@pages/imageSetup/hooks/useInteriorStyle';
 import {

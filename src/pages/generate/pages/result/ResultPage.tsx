@@ -2,15 +2,15 @@ import { useState, useEffect, useMemo } from 'react';
 
 import { useLocation, useSearchParams, Navigate } from 'react-router-dom';
 
+import { useGetResultDataQuery } from '@pages/generate/apis/queries/useGetResultDataQuery';
 import { useABTest } from '@pages/generate/hooks/useABTest';
-import { useGetResultDataQuery } from '@pages/generate/hooks/useGenerate';
 import { useCurationStore } from '@pages/generate/stores/useCurationStore';
 import type {
   GenerateImageAResponse,
   GenerateImageBResponse,
   GenerateImageData,
 } from '@pages/generate/types/generate';
-import { useMyPageImageDetailQuery } from '@pages/mypage/hooks/useMypage';
+import { useMyPageImageDetailQuery } from '@pages/mypage/apis/queries/useMyPageImageDetailQuery';
 import type {
   MyPageImageDetail,
   MyPageImageHistory,

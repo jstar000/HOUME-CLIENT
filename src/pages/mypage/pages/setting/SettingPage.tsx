@@ -3,8 +3,8 @@ import { useRef } from 'react';
 import { overlay } from 'overlay-kit';
 import { useNavigate } from 'react-router-dom';
 
-import { useDeleteUserMutation } from '@pages/login/apis/deleteUser';
-import { useLogoutMutation } from '@pages/login/apis/logout';
+import { useDeleteUserMutation } from '@pages/login/apis/mutations/useDeleteUserMutation';
+import { useLogoutMutation } from '@pages/login/apis/mutations/useLogoutMutation';
 import {
   logMyPageClickBtnLogout,
   logMyPageClickBtnSuccession,

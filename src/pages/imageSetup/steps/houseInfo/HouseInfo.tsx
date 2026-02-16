@@ -1,7 +1,7 @@
 // Step 1
 import { useEffect, useRef } from 'react';
 
-import { useHousingOptionsQuery } from '@pages/imageSetup/apis/houseInfo';
+import { useHousingOptionsQuery } from '@pages/imageSetup/apis/queries/useHousingOptionsQuery';
 import { FUNNELHEADER_IMAGES } from '@pages/imageSetup/constants/headerImages';
 import { useHouseInfo } from '@pages/imageSetup/hooks/useHouseInfo';
 import type { CompletedHouseInfo } from '@pages/imageSetup/types/funnel/houseInfo';
