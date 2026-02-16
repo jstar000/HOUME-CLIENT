@@ -73,7 +73,7 @@ interface CurationSheetProps {
  * - 감지된 가구 카테고리/상품을 고정 영역에 표시
  * - 그룹 기반 진입 시 groupId를 통해 캐시·프리패치 범위를 확정
  */
-export const CurationSheet = ({ groupId = null }: CurationSheetProps) => {
+const CurationSheet = ({ groupId = null }: CurationSheetProps) => {
   const activeImageId = useActiveImageId();
   const imageState = useActiveImageCurationState();
   const selectedCategoryId = imageState?.selectedCategoryId ?? null;
@@ -377,3 +377,5 @@ export const CurationSheet = ({ groupId = null }: CurationSheetProps) => {
     </section>
   );
 };
+
+export default CurationSheet;

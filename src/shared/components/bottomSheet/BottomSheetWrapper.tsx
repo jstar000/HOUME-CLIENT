@@ -3,7 +3,7 @@ import { useRef, useEffect } from 'react';
 
 import clsx from 'clsx';
 
-import { DragHandle } from '@components/dragHandle/DragHandle';
+import DragHandle from '@components/dragHandle/DragHandle';
 
 import { SHEET_BASIC_THRESHOLD } from '@constants/bottomSheet';
 
@@ -20,7 +20,7 @@ interface BottomSheetWrapperProps {
   typeVariant?: 'basic' | 'curation';
 }
 
-export const BottomSheetWrapper = ({
+const BottomSheetWrapper = ({
   isOpen,
   onClose,
   onExited,
@@ -99,3 +99,5 @@ export const BottomSheetWrapper = ({
     </>
   );
 };
+
+export default BottomSheetWrapper;

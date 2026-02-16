@@ -2,7 +2,7 @@ import CtaButton from '@components/button/ctaButton/CtaButton';
 import FlipButton from '@components/button/flipButton/FlipButton';
 
 import * as styles from './FlipSheet.css';
-import { BottomSheetWrapper } from '../BottomSheetWrapper';
+import BottomSheetWrapper from '../BottomSheetWrapper';
 
 interface FlipSheetProps {
   onFlipClick: () => void;
@@ -14,7 +14,7 @@ interface FlipSheetProps {
   isFlipped: boolean;
 }
 
-export const FlipSheet = ({
+const FlipSheet = ({
   onFlipClick,
   onChooseClick,
   isOpen,

@@ -12,7 +12,7 @@ import LogoNavBar from '@shared/components/navBar/LogoNavBar';
 
 import CtaButton from '@components/button/ctaButton/CtaButton';
 
-import { AnimatedSection } from './components/AnimatedSection';
+import AnimatedSection from './components/AnimatedSection';
 import IntroSection from './components/introSection/IntroSection';
 import ReviewSection from './components/reviewSection/ReviewSection';
 import StepGuideSection from './components/stepGuideSection/StepGuideSection';

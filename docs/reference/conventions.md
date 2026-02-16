@@ -4,7 +4,7 @@
 > 각 Phase 완료 시 해당 섹션이 추가/업데이트됩니다.
 > 리팩토링 완료 후 CLAUDE.md 및 팀 온보딩 문서에 반영 예정입니다.
 >
-> **마지막 업데이트**: 2026-02-17 (Phase 4 완료)
+> **마지막 업데이트**: 2026-02-17 (Phase 5 완료)
 
 ---
 
@@ -296,7 +296,79 @@ import { postJjym } from '@apis/jjym';
 | `utils/`      | Feature 유틸리티       | `analytics.ts`                  |
 
 <!-- Phase 4 완료 -->
-<!-- Phase 5 완료 시: Export 컨벤션 추가 -->
+
+## Export 컨벤션 (Phase 5)
+
+### 핵심 규칙
+
+| 대상                   | Export 방식      | 이유                                     |
+| ---------------------- | ---------------- | ---------------------------------------- |
+| 컴포넌트 (\*.tsx)      | `default export` | `React.lazy()` 호환, 1파일=1컴포넌트     |
+| 훅 (use\*.ts)          | `named export`   | 한 파일에 여러 export 가능, IDE 자동완성 |
+| 유틸 (utils/\*.ts)     | `named export`   | 〃                                       |
+| 상수 (constants/\*.ts) | `named export`   | 〃                                       |
+| 타입 (types/\*.ts)     | `named export`   | 〃                                       |
+| 스토어 (stores/\*.ts)  | `named export`   | 〃                                       |
+
+### 컴포넌트 Default Export 패턴 (rafce 스타일)
+
+```typescript
+// ✅ Good — rafce 스타일
+const DragHandle = () => {
+  return <div>...</div>;
+};
+
+export default DragHandle;
+
+// ✅ Good — forwardRef도 동일
+const AnimatedSection = forwardRef<HTMLDivElement, Props>(
+  (props, ref) => { ... }
+);
+
+export default AnimatedSection;
+
+// ❌ Bad — named export
+export const DragHandle = () => { ... };
+
+// ❌ Bad — mixed export
+export const FlipSheet = () => { ... };
+export default FlipSheet;
+```
+
+### Named Export 패턴
+
+```typescript
+// ✅ Good — 훅
+export const useToast = () => { ... };
+export const useMyPageUserQuery = (...) => useQuery({ ... });
+
+// ✅ Good — 상수
+export const API_ENDPOINT = { ... };
+export const ROUTES = { ... };
+
+// ✅ Good — 유틸
+export const getCanHistoryGoBack = () => { ... };
+```
+
+### 금지 패턴
+
+1. **Barrel export (index.ts) 금지**
+
+   ```typescript
+   // ❌ Bad — index.ts 재내보내기
+   export { Button } from './Button';
+   export { Input } from './Input';
+   ```
+
+2. **Mixed export 금지** — 한 파일에 named + default 혼용 금지
+
+   ```typescript
+   // ❌ Bad
+   export const Component = () => { ... };
+   export default Component;
+   ```
+
+<!-- Phase 5 완료 -->
 <!-- Phase 6 완료 시: API/데이터 페칭 컨벤션 추가 -->
 <!-- Phase 7 완료 시: Provider 구조 추가 -->
 <!-- Phase 8 완료 시: Lazy Loading 컨벤션 추가 -->
@@ -316,3 +388,4 @@ import { postJjym } from '@apis/jjym';
 | 2026-02-17 | Phase 3 보완: mypage/login 훅 접미사, 컴포넌트명=파일명 규칙, 폴더 camelCase, dead code 삭제 |
 | 2026-02-17 | Phase 4: 폴더 구조 정규화 (Detection 분리, cross-feature import 해소, steps 리네임)          |
 | 2026-02-17 | Phase 4 보완: shared/apis/ 인프라-도메인 분리 (config/ 하위폴더)                             |
+| 2026-02-17 | Phase 5: Export 컨벤션 추가 (컴포넌트 default, 훅/유틸 named, barrel/mixed 금지)             |

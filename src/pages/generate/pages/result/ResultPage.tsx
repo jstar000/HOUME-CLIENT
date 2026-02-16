@@ -25,7 +25,7 @@ import Loading from '@components/loading/Loading';
 
 import GeneratedImgA from './components/GeneratedImgA.tsx';
 import GeneratedImgB from './components/GeneratedImgB.tsx';
-import { CurationSheet } from './curationSheet/CurationSheet';
+import CurationSheet from './curationSheet/CurationSheet';
 import * as styles from './ResultPage.css.ts';
 
 // 통일된 타입 정의

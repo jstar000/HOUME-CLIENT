@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { BottomSheetWrapper } from '@components/bottomSheet/BottomSheetWrapper';
+import BottomSheetWrapper from '@components/bottomSheet/BottomSheetWrapper';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
