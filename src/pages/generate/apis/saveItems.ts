@@ -1,4 +1,4 @@
-import { HTTPMethod, request } from '@/shared/apis/request';
+import { HTTPMethod, request } from '@apis/request';
 
 import { API_ENDPOINT } from '@constants/apiEndpoints';
 

@@ -8,17 +8,16 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 
 import { MODEL_MIN_CONFIDENCE } from '@pages/generate/constants/detection';
+import type {
+  Detection,
+  ProcessedDetections,
+} from '@pages/generate/types/detection';
 import { preprocessImage } from '@pages/generate/utils/imageProcessing'; // 입력 이미지를 640x640 텐서로 변환
 import { OBJ365_ALL_CLASSES } from '@pages/generate/utils/obj365AllClasses';
 import {
   isFurnitureIndex,
   normalizeObj365Label,
 } from '@pages/generate/utils/obj365Furniture';
-
-import type {
-  Detection,
-  ProcessedDetections,
-} from '@pages/generate/types/detection';
 
 type OnnxModule = typeof import('onnxruntime-web');
 type InferenceSession = import('onnxruntime-web').InferenceSession;

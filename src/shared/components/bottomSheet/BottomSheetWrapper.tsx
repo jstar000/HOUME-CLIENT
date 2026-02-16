@@ -3,9 +3,11 @@ import { useRef, useEffect } from 'react';
 
 import clsx from 'clsx';
 
-import { DragHandle } from '@/shared/components/dragHandle/DragHandle';
-import { SHEET_BASIC_THRESHOLD } from '@/shared/constants/bottomSheet';
-import { useBottomSheetDrag } from '@/shared/hooks/useBottomSheetDrag.ts';
+import { DragHandle } from '@components/dragHandle/DragHandle';
+
+import { SHEET_BASIC_THRESHOLD } from '@constants/bottomSheet';
+
+import { useBottomSheetDrag } from '@hooks/useBottomSheetDrag.ts';
 
 import * as styles from './BottomSheetWrapper.css';
 

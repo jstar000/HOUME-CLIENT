@@ -2,31 +2,30 @@ import { useState, useEffect, useMemo } from 'react';
 
 import { useLocation, useSearchParams, Navigate } from 'react-router-dom';
 
-import { useMyPageImageDetail } from '@/pages/mypage/hooks/useMypage';
-import type {
-  MyPageImageDetail,
-  MyPageImageHistory,
-  MyPageUserData,
-} from '@/pages/mypage/types/apis/MyPage';
-import { createImageDetailPlaceholder } from '@/pages/mypage/utils/resultNavigation';
-import InlineError from '@/shared/components/inlineError/InlineError';
-
-import Loading from '@components/loading/Loading';
 import { useABTest } from '@pages/generate/hooks/useABTest';
 import { useGetResultDataQuery } from '@pages/generate/hooks/useGenerate';
 import { useCurationStore } from '@pages/generate/stores/useCurationStore';
-
-import GeneratedImgA from './components/GeneratedImgA.tsx';
-import GeneratedImgB from './components/GeneratedImgB.tsx';
-import { CurationSheet } from './curationSheet/CurationSheet';
-import * as styles from './ResultPage.css.ts';
-
 import type { DetectionCacheEntry } from '@pages/generate/stores/useDetectionCacheStore';
 import type {
   GenerateImageAResponse,
   GenerateImageBResponse,
   GenerateImageData,
 } from '@pages/generate/types/generate';
+import { useMyPageImageDetail } from '@pages/mypage/hooks/useMypage';
+import type {
+  MyPageImageDetail,
+  MyPageImageHistory,
+  MyPageUserData,
+} from '@pages/mypage/types/apis/MyPage';
+import { createImageDetailPlaceholder } from '@pages/mypage/utils/resultNavigation';
+
+import InlineError from '@components/inlineError/InlineError';
+import Loading from '@components/loading/Loading';
+
+import GeneratedImgA from './components/GeneratedImgA.tsx';
+import GeneratedImgB from './components/GeneratedImgB.tsx';
+import { CurationSheet } from './curationSheet/CurationSheet';
+import * as styles from './ResultPage.css.ts';
 
 // 통일된 타입 정의
 type UnifiedGenerateImageResult = {

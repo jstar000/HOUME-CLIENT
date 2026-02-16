@@ -2,16 +2,19 @@ import { useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { useABTest } from '@/pages/generate/hooks/useABTest';
-import { logGenerateStartClickBtnCTA } from '@/pages/generate/utils/analytics';
-import { ROUTES } from '@/routes/paths';
-import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
-import TitleNavBar from '@/shared/components/navBar/TitleNavBar';
-import { useUserStore } from '@/store/useUserStore';
+import { OBJ365_MODEL_PATH } from '@pages/generate/constants/detection';
+import { useABTest } from '@pages/generate/hooks/useABTest';
+import { preloadONNXModel } from '@pages/generate/hooks/useOnnxModel';
+import { logGenerateStartClickBtnCTA } from '@pages/generate/utils/analytics';
+
+import { ROUTES } from '@routes/paths';
+
+import { useUserStore } from '@store/useUserStore';
 
 import SignupImage from '@assets/icons/loginAfter.png';
-import { OBJ365_MODEL_PATH } from '@pages/generate/constants/detection';
-import { preloadONNXModel } from '@pages/generate/hooks/useOnnxModel';
+
+import CtaButton from '@components/button/ctaButton/CtaButton';
+import TitleNavBar from '@components/navBar/TitleNavBar';
 
 import * as styles from './StartPage.css.ts';
 

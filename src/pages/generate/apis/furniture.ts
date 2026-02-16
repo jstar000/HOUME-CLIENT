@@ -1,14 +1,14 @@
 // 생성 이미지 큐레이션 API 모음
-import { HTTPMethod, request } from '@/shared/apis/request';
-
-import { API_ENDPOINT } from '@constants/apiEndpoints';
-
 import type { FurnitureCategoryCode } from '@pages/generate/constants/furnitureCategoryMapping';
 import type {
   FurnitureAndActivityResponse,
   FurnitureCategoriesResponse,
   FurnitureProductsInfoResponse,
 } from '@pages/generate/types/furniture';
+
+import { HTTPMethod, request } from '@apis/request';
+
+import { API_ENDPOINT } from '@constants/apiEndpoints';
 
 // 생성 이미지 카테고리 조회 API 호출
 export const getGeneratedImageCategories = async (

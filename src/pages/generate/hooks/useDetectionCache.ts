@@ -1,12 +1,11 @@
 import { useCallback, useEffect, useMemo } from 'react';
 
+import type { FurnitureCategoryCode } from '@pages/generate/constants/furnitureCategoryMapping';
+import type { FurnitureHotspot } from '@pages/generate/hooks/useFurnitureHotspots';
 import {
   useDetectionCacheStore,
   type DetectionCacheEntry,
 } from '@pages/generate/stores/useDetectionCacheStore';
-
-import type { FurnitureCategoryCode } from '@pages/generate/constants/furnitureCategoryMapping';
-import type { FurnitureHotspot } from '@pages/generate/hooks/useFurnitureHotspots';
 import type { ProcessedDetections } from '@pages/generate/types/detection';
 
 export const DETECTION_CACHE_TTL = 30 * 60 * 1000; // 30분

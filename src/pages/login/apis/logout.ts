@@ -1,14 +1,16 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
-import { ROUTES } from '@/routes/paths';
-import { queryClient } from '@/shared/apis/queryClient';
-import { HTTPMethod, request } from '@/shared/apis/request';
-import { useUserStore } from '@/store/useUserStore';
+import type { LogoutResponse } from '@pages/login/types/auth';
+
+import { ROUTES } from '@routes/paths';
+
+import { useUserStore } from '@store/useUserStore';
+
+import { queryClient } from '@apis/queryClient';
+import { HTTPMethod, request } from '@apis/request';
 
 import { API_ENDPOINT } from '@constants/apiEndpoints';
-
-import type { LogoutResponse } from '@pages/login/types/auth';
 
 /**
  * 로그아웃 API 함수

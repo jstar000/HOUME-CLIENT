@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
-import { animationTokens } from '@/shared/styles/tokens/animation.css';
+import { animationTokens } from '@styles/tokens/animation.css';
 
 export const cardCurationContainer = style({
   display: 'flex',

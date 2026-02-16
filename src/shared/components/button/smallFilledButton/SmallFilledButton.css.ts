@@ -1,7 +1,6 @@
 import { style, styleVariants } from '@vanilla-extract/css';
 
-import { fontStyle } from '@/shared/styles/fontStyle';
-
+import { fontStyle } from '@styles/fontStyle';
 import { colorVars } from '@styles/tokens/color.css';
 
 export const smallButtonBase = style({

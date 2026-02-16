@@ -1,11 +1,11 @@
-import { RESPONSE_MESSAGE, HTTP_STATUS } from '@/shared/constants/response';
+import axiosInstance from '@shared/apis/axiosInstance';
+import type { BaseResponse } from '@shared/types/apis';
 
 import { API_ENDPOINT } from '@constants/apiEndpoints';
-import axiosInstance from '@shared/apis/axiosInstance';
+import { RESPONSE_MESSAGE, HTTP_STATUS } from '@constants/response';
 
 import type { KakaoLoginResponse, LoginApiResponse } from '../types/auth';
 import type { AuthEnvironment } from '../types/environment';
-import type { BaseResponse } from '@shared/types/apis';
 
 /**
  * 카카오 OAuth 로그인 콜백 API 함수

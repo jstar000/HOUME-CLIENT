@@ -1,7 +1,7 @@
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-import TitleNavBar from '@/shared/components/navBar/TitleNavBar';
+import TitleNavBar from '@components/navBar/TitleNavBar';
 
 import { SERVICE_TERMS } from './constants/policies';
 import * as styles from './PolicyPage.css';

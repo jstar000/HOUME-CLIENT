@@ -7,9 +7,10 @@ import {
   useMatch,
 } from 'react-router-dom';
 
-import FeatureErrorFallback from '@/shared/components/errorFallback/FeatureErrorFallback';
-import TitleNavBar from '@/shared/components/navBar/TitleNavBar';
-import { getCanHistoryGoBack } from '@/shared/utils/history';
+import FeatureErrorFallback from '@components/errorFallback/FeatureErrorFallback';
+import TitleNavBar from '@components/navBar/TitleNavBar';
+
+import { getCanHistoryGoBack } from '@utils/history';
 
 const GeneratePage = () => {
   const location = useLocation();

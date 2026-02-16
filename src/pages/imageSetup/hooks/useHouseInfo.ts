@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
 
-import { queryClient } from '@/shared/apis/queryClient';
-import { useToast } from '@/shared/components/toast/useToast';
-import { queryKeys } from '@/shared/constants/queryKey';
-import { TOAST_TYPE } from '@/shared/types/toast';
+import { TOAST_TYPE } from '@shared/types/toast';
+
+import { queryClient } from '@apis/queryClient';
+
+import { useToast } from '@components/toast/useToast';
+
+import { queryKeys } from '@constants/queryKey';
 
 import { useHousingSelectionMutation } from '../apis/houseInfo';
 import { useFunnelStore } from '../stores/useFunnelStore';

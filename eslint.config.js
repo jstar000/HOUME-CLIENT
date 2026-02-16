@@ -111,8 +111,24 @@ export default [
             // react를 external 최상단에
             { pattern: 'react', group: 'external', position: 'before' },
 
-            // @/** 를 internal 최상단으로
-            { pattern: '@/**', group: 'internal', position: 'before' },
+            // path alias를 internal로 분류
+            { pattern: '@pages/**', group: 'internal', position: 'before' },
+            { pattern: '@layout/**', group: 'internal', position: 'before' },
+            { pattern: '@routes/**', group: 'internal', position: 'before' },
+            { pattern: '@store/**', group: 'internal', position: 'before' },
+            { pattern: '@shared/**', group: 'internal', position: 'before' },
+            { pattern: '@apis/**', group: 'internal', position: 'before' },
+            { pattern: '@assets/**', group: 'internal', position: 'before' },
+            {
+              pattern: '@components/**',
+              group: 'internal',
+              position: 'before',
+            },
+            { pattern: '@constants/**', group: 'internal', position: 'before' },
+            { pattern: '@hooks/**', group: 'internal', position: 'before' },
+            { pattern: '@styles/**', group: 'internal', position: 'before' },
+            // @types는 npm @types 스코프와 충돌 → @shared/types/ 사용
+            { pattern: '@utils/**', group: 'internal', position: 'before' },
           ],
           pathGroupsExcludedImportTypes: ['react'],
 

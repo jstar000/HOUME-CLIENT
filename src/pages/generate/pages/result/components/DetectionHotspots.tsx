@@ -5,7 +5,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useDetectionCache } from '@pages/generate/hooks/useDetectionCache';
 import { useFurnitureHotspots } from '@pages/generate/hooks/useFurnitureHotspots';
+import type { FurnitureHotspot } from '@pages/generate/hooks/useFurnitureHotspots';
 import { useCurationStore } from '@pages/generate/stores/useCurationStore';
+import type { DetectionCacheEntry } from '@pages/generate/stores/useDetectionCacheStore';
+import type { ProcessedDetections } from '@pages/generate/types/detection';
 import {
   filterAllowedDetectedObjects,
   mapHotspotsToDetectedObjects,
@@ -13,10 +16,6 @@ import {
 import { logFurniturePipelineEvent } from '@pages/generate/utils/furniturePipelineMonitor';
 
 import * as styles from './DetectionHotspots.css.ts';
-
-import type { FurnitureHotspot } from '@pages/generate/hooks/useFurnitureHotspots';
-import type { DetectionCacheEntry } from '@pages/generate/stores/useDetectionCacheStore';
-import type { ProcessedDetections } from '@pages/generate/types/detection';
 
 const isSameHotspotArray = (
   prev: FurnitureHotspot[] | null,

@@ -1,8 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { queryClient } from '@/shared/apis/queryClient';
-import { queryKeys } from '@/shared/constants/queryKey';
-import { useSavedItemsStore } from '@/store/useSavedItemsStore';
+import { useSavedItemsStore } from '@store/useSavedItemsStore';
+
+import { queryClient } from '@apis/queryClient';
+
+import { queryKeys } from '@constants/queryKey';
 
 import { postJjym } from '../apis/saveItems';
 

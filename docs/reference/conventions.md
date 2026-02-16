@@ -4,7 +4,7 @@
 > 각 Phase 완료 시 해당 섹션이 추가/업데이트됩니다.
 > 리팩토링 완료 후 CLAUDE.md 및 팀 온보딩 문서에 반영 예정입니다.
 >
-> **마지막 업데이트**: 2026-02-16 (Phase 1 완료)
+> **마지막 업데이트**: 2026-02-16 (Phase 2 완료)
 
 ---
 
@@ -73,7 +73,89 @@
 
 ---
 
-<!-- Phase 2 완료 시: Import/Path Alias 컨벤션 추가 -->
+## Import / Path Alias 컨벤션 (Phase 2)
+
+### 핵심 원칙
+
+**가장 짧은 alias를 사용한다.** 같은 경로에 대해 여러 alias가 존재하면, 가장 짧은 것을 선택한다.
+
+```typescript
+// ✅ Good — 가장 짧은 alias
+import { colorVars } from '@styles/colors.css';
+import Button from '@components/Button/Button';
+
+// ❌ Bad — 불필요하게 긴 경로
+import { colorVars } from '@shared/styles/colors.css';
+import { colorVars } from '@/shared/styles/colors.css';
+```
+
+### 사용 가능한 Alias 목록
+
+| Alias          | 실제 경로                | 용도                          |
+| -------------- | ------------------------ | ----------------------------- |
+| `@pages/`      | `src/pages/`             | Feature 페이지                |
+| `@layout/`     | `src/layout/`            | 레이아웃 컴포넌트             |
+| `@routes/`     | `src/routes/`            | 라우팅 설정                   |
+| `@store/`      | `src/store/`             | 전역 Zustand 스토어           |
+| `@shared/`     | `src/shared/`            | shared 직접 접근 (config 등)  |
+| `@apis/`       | `src/shared/apis/`       | HTTP 클라이언트, request 래퍼 |
+| `@assets/`     | `src/shared/assets/`     | 이미지, SVG 등                |
+| `@components/` | `src/shared/components/` | 공통 UI 컴포넌트              |
+| `@constants/`  | `src/shared/constants/`  | 상수, 쿼리 키                 |
+| `@hooks/`      | `src/shared/hooks/`      | 공통 훅                       |
+| `@styles/`     | `src/shared/styles/`     | 디자인 토큰, 글로벌 스타일    |
+| `@utils/`      | `src/shared/utils/`      | 유틸리티 함수                 |
+
+### 금지 패턴
+
+1. **`@/` prefix 사용 금지** — 모든 세부 alias로 대체됨
+
+   ```typescript
+   // ❌ Bad
+   import { colorVars } from '@/shared/styles/colors.css';
+   import Button from '@/pages/generate/...';
+
+   // ✅ Good
+   import { colorVars } from '@styles/colors.css';
+   import Button from '@pages/generate/...';
+   ```
+
+2. **`@types/` alias 사용 불가** — npm `@types` 스코프와 충돌
+
+   ```typescript
+   // ❌ Bad — TypeScript가 DefinitelyTyped로 해석
+   import type { ToastType } from '@types/toast';
+
+   // ✅ Good
+   import type { ToastType } from '@shared/types/toast';
+   ```
+
+3. **3단계 이상 상대경로 금지**
+
+   ```typescript
+   // ❌ Bad
+   import { request } from '../../../shared/apis/request';
+
+   // ✅ Good
+   import { request } from '@apis/request';
+   ```
+
+4. **Feature 내부에서는 상대경로 허용** (1~2단계)
+
+   ```typescript
+   // ✅ OK — 같은 feature 내부
+   import { useHouseInfo } from '../hooks/useHouseInfo';
+   import { HouseInfo } from './HouseInfo';
+   ```
+
+### ESLint 설정
+
+- `import/order` pathGroups에 모든 alias가 `internal` 그룹으로 등록됨
+- `eslint --fix`로 import 순서 자동 정렬 가능
+
+---
+
+<!-- Phase 2 완료 -->
 <!-- Phase 3 완료 시: 네이밍 컨벤션 추가 -->
 <!-- Phase 4 완료 시: 폴더 구조 컨벤션 추가 -->
 <!-- Phase 5 완료 시: Export 컨벤션 추가 -->
@@ -87,7 +169,8 @@
 
 ## 변경 이력
 
-| 날짜       | 변경 내용                                                  |
-| ---------- | ---------------------------------------------------------- |
-| 2026-02-16 | 템플릿 생성                                                |
-| 2026-02-16 | Phase 1: Query Key 컨벤션 추가 (factory 패턴, ESLint 설정) |
+| 날짜       | 변경 내용                                                                            |
+| ---------- | ------------------------------------------------------------------------------------ |
+| 2026-02-16 | 템플릿 생성                                                                          |
+| 2026-02-16 | Phase 1: Query Key 컨벤션 추가 (factory 패턴, ESLint 설정)                           |
+| 2026-02-16 | Phase 2: Path Alias 컨벤션 추가 (@/ 제거, 세부 alias 통일, @store 추가, @types 금지) |

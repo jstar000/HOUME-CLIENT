@@ -1,4 +1,4 @@
-import DragHandleIcon from '@/shared/assets/icons/dragHandle.svg?react';
+import DragHandleIcon from '@assets/icons/dragHandle.svg?react';
 
 import * as styles from './DragHandle.css.ts';
 

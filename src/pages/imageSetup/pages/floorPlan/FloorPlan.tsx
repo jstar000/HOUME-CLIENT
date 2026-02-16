@@ -1,8 +1,9 @@
 // Step2FloorPlan.tsx (UI만 담당)
-import { FUNNELHEADER_IMAGES } from '@/pages/imageSetup/constants/headerImages';
-import { useFloorPlan } from '@/pages/imageSetup/hooks/useFloorPlan';
-import InlineError from '@/shared/components/inlineError/InlineError';
-import Loading from '@/shared/components/loading/Loading';
+import { FUNNELHEADER_IMAGES } from '@pages/imageSetup/constants/headerImages';
+import { useFloorPlan } from '@pages/imageSetup/hooks/useFloorPlan';
+
+import InlineError from '@components/inlineError/InlineError';
+import Loading from '@components/loading/Loading';
 
 import * as styles from './FloorPlan.css';
 import FloorPlanList from './FloorPlanList';

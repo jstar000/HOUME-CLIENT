@@ -1,8 +1,8 @@
 import { keyframes, style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
-import { fontStyle } from '@/shared/styles/fontStyle';
-import { colorVars } from '@/shared/styles/tokens/color.css';
+import { fontStyle } from '@styles/fontStyle';
+import { colorVars } from '@styles/tokens/color.css';
 const shimmer = keyframes({
   '0%': { transform: 'translateX(-100%)' },
   '100%': { transform: 'translateX(100%)' },

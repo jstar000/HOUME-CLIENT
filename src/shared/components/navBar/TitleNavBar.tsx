@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import { ROUTES } from '@/routes/paths';
+import { ROUTES } from '@routes/paths';
 
 import BackIcon from '@shared/assets/icons/backIcon.svg?react';
 

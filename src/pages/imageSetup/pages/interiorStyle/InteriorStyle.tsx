@@ -1,14 +1,15 @@
 // Step 3
-import { useMoodBoardQuery } from '@/pages/imageSetup/apis/interiorStyle';
-import { FUNNELHEADER_IMAGES } from '@/pages/imageSetup/constants/headerImages';
-import { useInteriorStyle } from '@/pages/imageSetup/hooks/useInteriorStyle';
+import { useMoodBoardQuery } from '@pages/imageSetup/apis/interiorStyle';
+import { FUNNELHEADER_IMAGES } from '@pages/imageSetup/constants/headerImages';
+import { useInteriorStyle } from '@pages/imageSetup/hooks/useInteriorStyle';
 import {
   logSelectMoodboardClickBtnCTA,
   logSelectMoodboardClickBtnCTAInactive,
-} from '@/pages/imageSetup/utils/analytics';
-import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
-import InlineError from '@/shared/components/inlineError/InlineError';
-import Loading from '@/shared/components/loading/Loading';
+} from '@pages/imageSetup/utils/analytics';
+
+import CtaButton from '@components/button/ctaButton/CtaButton';
+import InlineError from '@components/inlineError/InlineError';
+import Loading from '@components/loading/Loading';
 
 import * as styles from './InteriorStyle.css';
 import MoodBoard from './MoodBoard';

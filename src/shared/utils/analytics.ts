@@ -2,9 +2,9 @@
 
 import { logEvent, setUserProperties } from 'firebase/analytics';
 
-import { analytics } from '@/shared/config/firebase';
-
 import type { ImageGenerationVariant } from '@pages/generate/hooks/useABTest';
+
+import { analytics } from '@shared/config/firebase';
 
 /**
  * 공통 Analytics 이벤트 로깅 헬퍼 함수

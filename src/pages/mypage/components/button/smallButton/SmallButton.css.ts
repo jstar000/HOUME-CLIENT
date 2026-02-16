@@ -1,8 +1,8 @@
 import { style } from '@vanilla-extract/css';
 
-import { fontStyle } from '@/shared/styles/fontStyle';
-
 import { colorVars } from '@shared/styles/tokens/color.css';
+
+import { fontStyle } from '@styles/fontStyle';
 
 export const smallButton = style({
   display: 'inline-flex',

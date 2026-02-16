@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { queryKeys } from '@/shared/constants/queryKey';
+import { queryKeys } from '@constants/queryKey';
 
 import { getHistoryData } from '../apis/landing';
 

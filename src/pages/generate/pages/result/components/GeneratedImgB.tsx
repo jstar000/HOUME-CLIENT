@@ -1,14 +1,14 @@
 import { useEffect } from 'react';
 
-import DetectionHotspots from './DetectionHotspots';
-import * as styles from './GeneratedImg.css.ts';
-
 import type { DetectionCacheEntry } from '@pages/generate/stores/useDetectionCacheStore';
 import type {
   GenerateImageData,
   GenerateImageAResponse,
   GenerateImageBResponse,
 } from '@pages/generate/types/generate';
+
+import DetectionHotspots from './DetectionHotspots';
+import * as styles from './GeneratedImg.css.ts';
 
 // 통일된 타입 정의
 interface UnifiedGenerateImageResult {

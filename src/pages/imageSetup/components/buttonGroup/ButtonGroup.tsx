@@ -1,5 +1,5 @@
-import ErrorMessage from '@/shared/components/button/ErrorButton/ErrorMessage';
-import LargeFilled from '@/shared/components/button/largeFilledButton/LargeFilledButton';
+import ErrorMessage from '@components/button/ErrorButton/ErrorMessage';
+import LargeFilled from '@components/button/largeFilledButton/LargeFilledButton';
 
 import * as styles from './ButtonGroup.css';
 

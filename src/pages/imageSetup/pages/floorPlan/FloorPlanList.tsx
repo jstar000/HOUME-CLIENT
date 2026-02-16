@@ -1,9 +1,9 @@
 // FloorPlan.tsx
 import { useEffect, useRef, useState } from 'react';
 
-import { useUserAddressMutation } from '@/pages/imageSetup/apis/floorPlan';
-import { type FloorPlanData } from '@/pages/imageSetup/types/apis/floorPlan';
-import type { OpenSheetKey } from '@/pages/imageSetup/types/OpenSheet';
+import { useUserAddressMutation } from '@pages/imageSetup/apis/floorPlan';
+import { type FloorPlanData } from '@pages/imageSetup/types/apis/floorPlan';
+import type { OpenSheetKey } from '@pages/imageSetup/types/OpenSheet';
 import {
   logSelectFloorPlanClickBtnCTASelect,
   logSelectFloorPlanClickBtnCTASubmit,
@@ -12,13 +12,15 @@ import {
   logSelectFloorPlanClickDeemded,
   logSelectFloorPlanViewModalNoPlan,
   logSelectFloorPlanViewModalReversed,
-} from '@/pages/imageSetup/utils/analytics';
-import FlipSheet from '@/shared/components/bottomSheet/flipSheet/FlipSheet';
-import NoMatchSheet from '@/shared/components/bottomSheet/noMatchSheet/NoMatchSheet';
-import NoMatchButton from '@/shared/components/button/noMatchButton/NoMatchButton';
-import FloorPlanItem from '@/shared/components/card/floorCard/FloorCard';
-import { useToast } from '@/shared/components/toast/useToast';
-import { TOAST_TYPE } from '@/shared/types/toast';
+} from '@pages/imageSetup/utils/analytics';
+
+import { TOAST_TYPE } from '@shared/types/toast';
+
+import FlipSheet from '@components/bottomSheet/flipSheet/FlipSheet';
+import NoMatchSheet from '@components/bottomSheet/noMatchSheet/NoMatchSheet';
+import NoMatchButton from '@components/button/noMatchButton/NoMatchButton';
+import FloorPlanItem from '@components/card/floorCard/FloorCard';
+import { useToast } from '@components/toast/useToast';
 
 import * as styles from './FloorPlanList.css';
 

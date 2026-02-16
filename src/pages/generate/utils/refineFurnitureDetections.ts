@@ -1,10 +1,10 @@
+import type { Detection } from '@pages/generate/types/detection';
+
 import {
   CABINET_REFINEMENT_CATEGORY_LABELS,
   type CabinetRefinementCategory,
 } from './cabinetRefinementCategories';
 import { isCabinetShelfIndex } from './obj365Furniture';
-
-import type { Detection } from '@pages/generate/types/detection';
 
 export { CABINET_REFINEMENT_CATEGORY_LABELS } from './cabinetRefinementCategories';
 export type { CabinetRefinementCategory } from './cabinetRefinementCategories';

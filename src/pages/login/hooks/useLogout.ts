@@ -10,9 +10,11 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
-import { ROUTES } from '@/routes/paths';
-import { queryClient } from '@/shared/apis/queryClient';
-import { useUserStore } from '@/store/useUserStore';
+import { ROUTES } from '@routes/paths';
+
+import { useUserStore } from '@store/useUserStore';
+
+import { queryClient } from '@apis/queryClient';
 
 import { postLogout } from '../apis/logout';
 

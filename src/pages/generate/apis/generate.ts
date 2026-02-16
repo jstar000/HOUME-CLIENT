@@ -1,7 +1,3 @@
-import { HTTPMethod, request, type RequestConfig } from '@/shared/apis/request';
-
-import { API_ENDPOINT } from '@constants/apiEndpoints';
-
 import type {
   GenerateImageRequest,
   GenerateImageAResponse,
@@ -10,6 +6,10 @@ import type {
   ImageStackResponse,
   FactorsResponse,
 } from '@pages/generate/types/generate';
+
+import { HTTPMethod, request, type RequestConfig } from '@apis/request';
+
+import { API_ENDPOINT } from '@constants/apiEndpoints';
 
 // 스택 UI
 // 캐러셀 가구 이미지 제공

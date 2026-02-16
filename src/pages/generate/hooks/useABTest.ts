@@ -8,8 +8,9 @@
 
 import { useEffect, useState } from 'react';
 
-import { logABTestAssignment, setABTestGroup } from '@/shared/utils/analytics';
-import { useUserStore } from '@/store/useUserStore';
+import { useUserStore } from '@store/useUserStore';
+
+import { logABTestAssignment, setABTestGroup } from '@utils/analytics';
 
 export type ImageGenerationVariant = 'single' | 'multiple';
 

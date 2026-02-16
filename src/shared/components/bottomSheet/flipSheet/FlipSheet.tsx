@@ -1,6 +1,5 @@
-import FilpButton from '@/shared/components/button/flipButton/FlipButton';
-
 import CtaButton from '@components/button/ctaButton/CtaButton';
+import FilpButton from '@components/button/flipButton/FlipButton';
 
 import * as styles from './FlipSheet.css';
 import { BottomSheetWrapper } from '../BottomSheetWrapper';

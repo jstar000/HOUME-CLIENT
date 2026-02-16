@@ -2,11 +2,12 @@ import { useEffect } from 'react';
 
 import { Outlet, useLocation } from 'react-router-dom';
 
-import { ROUTES } from '@/routes/paths';
-import { useScrollToTop } from '@/shared/hooks/useScrollToTop';
-
 import { OBJ365_MODEL_PATH } from '@pages/generate/constants/detection';
 import { preloadONNXModel } from '@pages/generate/hooks/useOnnxModel';
+
+import { ROUTES } from '@routes/paths';
+
+import { useScrollToTop } from '@hooks/useScrollToTop';
 
 const GENERATE_WARMUP_PATHS = [
   ROUTES.GENERATE,

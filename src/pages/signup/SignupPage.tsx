@@ -2,13 +2,15 @@ import { useEffect, useRef } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { ROUTES } from '@/routes/paths';
-import CtaButton from '@/shared/components/button/ctaButton/CtaButton.tsx';
-import ErrorMessage from '@/shared/components/button/ErrorButton/ErrorMessage';
-import LargeFilled from '@/shared/components/button/largeFilledButton/LargeFilledButton.tsx';
-import TitleNavBar from '@/shared/components/navBar/TitleNavBar.tsx';
-import TextField from '@/shared/components/textField/TextField.tsx';
-import { ERROR_MESSAGES } from '@/shared/constants/clientErrorMessage.ts';
+import { ROUTES } from '@routes/paths';
+
+import CtaButton from '@components/button/ctaButton/CtaButton.tsx';
+import ErrorMessage from '@components/button/ErrorButton/ErrorMessage';
+import LargeFilled from '@components/button/largeFilledButton/LargeFilledButton.tsx';
+import TitleNavBar from '@components/navBar/TitleNavBar.tsx';
+import TextField from '@components/textField/TextField.tsx';
+
+import { ERROR_MESSAGES } from '@constants/clientErrorMessage.ts';
 
 import { usePostSignupMutation } from './apis/signup';
 import useSignupForm from './hooks/useSignupForm';

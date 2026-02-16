@@ -6,6 +6,10 @@ import {
   describeObj365Index,
   hasFurnitureCodeForIndex,
 } from '@pages/generate/constants/furnitureCategoryMapping';
+import type {
+  Detection as FurnitureDetection,
+  ProcessedDetections,
+} from '@pages/generate/types/detection';
 import { toImageSpaceBBox } from '@pages/generate/utils/imageProcessing';
 import { OBJ365_ALL_CLASSES } from '@pages/generate/utils/obj365AllClasses';
 import { isCabinetShelfIndex } from '@pages/generate/utils/obj365Furniture';
@@ -21,10 +25,6 @@ import type {
   HotspotImageMeta,
   RenderMetrics,
 } from './furnitureHotspotState';
-import type {
-  Detection as FurnitureDetection,
-  ProcessedDetections,
-} from '@pages/generate/types/detection';
 
 // ID 생성 시 bbox 좌표 정규화를 위한 소수점 자릿수
 const HOTSPOT_ID_PRECISION = 3;

@@ -1,12 +1,16 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
-import { ROUTES } from '@/routes/paths';
-import { queryClient } from '@/shared/apis/queryClient';
-import { HTTPMethod, request } from '@/shared/apis/request';
-import { useToast } from '@/shared/components/toast/useToast';
-import { TOAST_TYPE } from '@/shared/types/toast';
-import { useUserStore } from '@/store/useUserStore';
+import { ROUTES } from '@routes/paths';
+
+import { useUserStore } from '@store/useUserStore';
+
+import { TOAST_TYPE } from '@shared/types/toast';
+
+import { queryClient } from '@apis/queryClient';
+import { HTTPMethod, request } from '@apis/request';
+
+import { useToast } from '@components/toast/useToast';
 
 import { API_ENDPOINT } from '@constants/apiEndpoints';
 

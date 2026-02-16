@@ -3,10 +3,12 @@ import { useQuery } from '@tanstack/react-query';
 import {
   MOOD_BOARD_CONSTANTS,
   type MoodBoardImageResponse,
-} from '@/pages/imageSetup/types/apis/interiorStyle';
-import { HTTPMethod, request } from '@/shared/apis/request';
-import { API_ENDPOINT } from '@/shared/constants/apiEndpoints';
-import { queryKeys } from '@/shared/constants/queryKey';
+} from '@pages/imageSetup/types/apis/interiorStyle';
+
+import { HTTPMethod, request } from '@apis/request';
+
+import { API_ENDPOINT } from '@constants/apiEndpoints';
+import { queryKeys } from '@constants/queryKey';
 
 // API Functions
 /**

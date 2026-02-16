@@ -1,15 +1,19 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
-import { ROUTES } from '@/routes/paths';
-import axiosInstance from '@/shared/apis/axiosInstance';
-import { useToast } from '@/shared/components/toast/useToast';
-import { RESPONSE_MESSAGE, HTTP_STATUS } from '@/shared/constants/response';
-import type { BaseResponse } from '@/shared/types/apis';
-import { TOAST_TYPE } from '@/shared/types/toast';
-import { useUserStore } from '@/store/useUserStore';
+import { ROUTES } from '@routes/paths';
+
+import { useUserStore } from '@store/useUserStore';
+
+import type { BaseResponse } from '@shared/types/apis';
+import { TOAST_TYPE } from '@shared/types/toast';
+
+import axiosInstance from '@apis/axiosInstance';
+
+import { useToast } from '@components/toast/useToast';
 
 import { API_ENDPOINT } from '@constants/apiEndpoints';
+import { RESPONSE_MESSAGE, HTTP_STATUS } from '@constants/response';
 
 import type { SignupRequest, SignupResponse } from '../types/apis/signup';
 

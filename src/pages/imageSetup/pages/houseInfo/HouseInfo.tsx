@@ -1,14 +1,15 @@
 // Step 1
 import { useEffect, useRef } from 'react';
 
-import { useHousingOptionsQuery } from '@/pages/imageSetup/apis/houseInfo';
-import { FUNNELHEADER_IMAGES } from '@/pages/imageSetup/constants/headerImages';
-import { useHouseInfo } from '@/pages/imageSetup/hooks/useHouseInfo';
-import type { CompletedHouseInfo } from '@/pages/imageSetup/types/funnel/houseInfo';
-import type { ImageSetupSteps } from '@/pages/imageSetup/types/funnel/steps';
-import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
-import InlineError from '@/shared/components/inlineError/InlineError';
-import Loading from '@/shared/components/loading/Loading';
+import { useHousingOptionsQuery } from '@pages/imageSetup/apis/houseInfo';
+import { FUNNELHEADER_IMAGES } from '@pages/imageSetup/constants/headerImages';
+import { useHouseInfo } from '@pages/imageSetup/hooks/useHouseInfo';
+import type { CompletedHouseInfo } from '@pages/imageSetup/types/funnel/houseInfo';
+import type { ImageSetupSteps } from '@pages/imageSetup/types/funnel/steps';
+
+import CtaButton from '@components/button/ctaButton/CtaButton';
+import InlineError from '@components/inlineError/InlineError';
+import Loading from '@components/loading/Loading';
 
 import * as styles from './HouseInfo.css';
 import ButtonGroup from '../../components/buttonGroup/ButtonGroup';

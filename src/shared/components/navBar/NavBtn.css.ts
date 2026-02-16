@@ -1,6 +1,6 @@
 import { style } from '@vanilla-extract/css';
 
-import { colorVars } from '@/shared/styles/tokens/color.css';
+import { colorVars } from '@styles/tokens/color.css';
 
 export const loginNav = style({
   width: '4.8rem',

@@ -2,18 +2,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Navigate, useNavigate } from 'react-router-dom';
 
-import { ROUTES } from '@/routes/paths';
-import DislikeButton from '@/shared/components/button/likeButton/DislikeButton';
-import LikeButton from '@/shared/components/button/likeButton/LikeButton';
-import Loading from '@/shared/components/loading/Loading';
-import { useToast } from '@/shared/components/toast/useToast';
-import {
-  ERROR_CODES,
-  FALLBACK_TRIGGER_CODES,
-} from '@/shared/constants/apiErrorCode';
-import { useErrorHandler } from '@/shared/hooks/useErrorHandler';
-import { TOAST_TYPE } from '@/shared/types/toast';
-
 import {
   useStackData,
   usePostCarouselLikeMutation,
@@ -22,11 +10,23 @@ import {
   useFallbackImage,
 } from '@pages/generate/hooks/useGenerate';
 import { useGenerateStore } from '@pages/generate/stores/useGenerateStore';
+import type { GenerateImageRequest } from '@pages/generate/types/generate';
+
+import { ROUTES } from '@routes/paths';
+
+import { TOAST_TYPE } from '@shared/types/toast';
+
+import DislikeButton from '@components/button/likeButton/DislikeButton';
+import LikeButton from '@components/button/likeButton/LikeButton';
+import Loading from '@components/loading/Loading';
+import { useToast } from '@components/toast/useToast';
+
+import { ERROR_CODES, FALLBACK_TRIGGER_CODES } from '@constants/apiErrorCode';
+
+import { useErrorHandler } from '@hooks/useErrorHandler';
 
 import * as styles from './LoadingPage.css';
 import ProgressBar from './ProgressBar';
-
-import type { GenerateImageRequest } from '@pages/generate/types/generate';
 
 const ANIMATION_DURATION = 600; // 캐러셀 애니메이션 지속 시간 (ms)
 const SESSION_STORAGE_KEY = 'generate_image_request'; // sessionStorage 키

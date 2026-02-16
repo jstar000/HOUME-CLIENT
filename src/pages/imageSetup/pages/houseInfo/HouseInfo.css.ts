@@ -1,6 +1,6 @@
 import { style } from '@vanilla-extract/css';
 
-import { animationTokens } from '@/shared/styles/tokens/animation.css';
+import { animationTokens } from '@styles/tokens/animation.css';
 
 export const container = style({
   display: 'flex',

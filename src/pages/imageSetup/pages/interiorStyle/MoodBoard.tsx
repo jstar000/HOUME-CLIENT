@@ -9,8 +9,9 @@
 import {
   MOOD_BOARD_CONSTANTS,
   type MoodBoardImageItem,
-} from '@/pages/imageSetup/types/apis/interiorStyle';
-import CardImage from '@/shared/components/card/cardImage/CardImage';
+} from '@pages/imageSetup/types/apis/interiorStyle';
+
+import CardImage from '@components/card/cardImage/CardImage';
 
 import * as styles from './MoodBoard.css';
 

@@ -1,9 +1,9 @@
 import { isAxiosError } from 'axios';
 
+import type { BaseResponse } from '@shared/types/apis';
+
 import axiosInstance from './axiosInstance';
 import { RESPONSE_MESSAGE } from '../constants/response';
-
-import type { BaseResponse } from '@shared/types/apis';
 
 export const HTTPMethod = {
   GET: 'GET',

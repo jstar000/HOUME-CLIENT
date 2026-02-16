@@ -4,9 +4,8 @@ import {
   resolveFurnitureCode,
   type FurnitureCategoryCode,
 } from '@pages/generate/constants/furnitureCategoryMapping';
-import { logFurniturePipelineEvent } from '@pages/generate/utils/furniturePipelineMonitor';
-
 import type { FurnitureHotspot } from '@pages/generate/hooks/useFurnitureHotspots';
+import { logFurniturePipelineEvent } from '@pages/generate/utils/furniturePipelineMonitor';
 
 // 감지된 핫스팟을 API 파라미터 배열로 변환
 // 핫스팟 라벨을 허용 FurnitureCategoryCode 배열로 변환

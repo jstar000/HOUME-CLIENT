@@ -1,5 +1,4 @@
-import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
-
+import CtaButton from '@components/button/ctaButton/CtaButton';
 import ErrorIllustration from '@components/errorFallback/ErrorIllustration';
 
 import * as styles from './AppErrorFallback.css.ts';

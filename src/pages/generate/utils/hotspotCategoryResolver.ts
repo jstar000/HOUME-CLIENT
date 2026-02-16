@@ -2,7 +2,6 @@ import {
   resolveFurnitureCode,
   type FurnitureCategoryCode,
 } from '@pages/generate/constants/furnitureCategoryMapping';
-
 import type { FurnitureHotspot } from '@pages/generate/hooks/useFurnitureHotspots';
 import type { FurnitureCategoryResponse } from '@pages/generate/types/furniture';
 

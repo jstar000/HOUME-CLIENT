@@ -8,18 +8,24 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-import { useABTest } from '@/pages/generate/hooks/useABTest';
+import { useABTest } from '@pages/generate/hooks/useABTest';
+import type { DetectionCacheEntry } from '@pages/generate/stores/useDetectionCacheStore';
+import type {
+  GenerateImageData,
+  GenerateImageAResponse,
+  GenerateImageBResponse,
+} from '@pages/generate/types/generate';
 import {
   logResultImgClickBtnMoreImg,
   logResultImgClickMoreModalBack,
   logResultImgClickMoreModalMakeNew,
   logResultImgSwipeSlideLeft,
   logResultImgSwipeSlideRight,
-} from '@/pages/generate/utils/analytics';
-import { useMyPageUser } from '@/pages/mypage/hooks/useMypage';
-import type { MyPageUserData } from '@/pages/mypage/types/apis/MyPage';
-import { ROUTES } from '@/routes/paths.ts';
-import GeneralModal from '@/shared/components/overlay/modal/GeneralModal';
+} from '@pages/generate/utils/analytics';
+import { useMyPageUser } from '@pages/mypage/hooks/useMypage';
+import type { MyPageUserData } from '@pages/mypage/types/apis/MyPage';
+
+import { ROUTES } from '@routes/paths.ts';
 
 import LockIcon from '@shared/assets/icons/lockIcon.svg?react';
 import SlideNext from '@shared/assets/icons/nextAbled.svg?react';
@@ -27,15 +33,11 @@ import SlideNextDisabled from '@shared/assets/icons/nextDisabled.svg?react';
 import SlidePrev from '@shared/assets/icons/prevAbled.svg?react';
 import SlidePrevDisabled from '@shared/assets/icons/prevDisabled.svg?react';
 
+import GeneralModal from '@components/overlay/modal/GeneralModal';
+
 import DetectionHotspots from './DetectionHotspots';
 import * as styles from './GeneratedImg.css.ts';
 
-import type { DetectionCacheEntry } from '@pages/generate/stores/useDetectionCacheStore';
-import type {
-  GenerateImageData,
-  GenerateImageAResponse,
-  GenerateImageBResponse,
-} from '@pages/generate/types/generate';
 import type { Swiper as SwiperType } from 'swiper';
 
 // 통일된 타입 정의

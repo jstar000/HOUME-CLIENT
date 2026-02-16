@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { ErrorBoundary } from 'react-error-boundary';
 
-import FeatureErrorFallback from '@/shared/components/errorFallback/FeatureErrorFallback';
+import FeatureErrorFallback from '@components/errorFallback/FeatureErrorFallback';
 
 import FunnelLayout from './components/layout/FunnelLayout';
 import { useImageSetup } from './hooks/useImageGeneration';

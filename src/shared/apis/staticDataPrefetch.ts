@@ -1,8 +1,9 @@
-import { getActivityOptions } from '@/pages/imageSetup/apis/activityInfo';
-import { getHousingOptions } from '@/pages/imageSetup/apis/houseInfo';
-import { getMoodBoardImage } from '@/pages/imageSetup/apis/interiorStyle';
-import { MOOD_BOARD_CONSTANTS } from '@/pages/imageSetup/types/apis/interiorStyle';
-import { queryKeys } from '@/shared/constants/queryKey';
+import { getActivityOptions } from '@pages/imageSetup/apis/activityInfo';
+import { getHousingOptions } from '@pages/imageSetup/apis/houseInfo';
+import { getMoodBoardImage } from '@pages/imageSetup/apis/interiorStyle';
+import { MOOD_BOARD_CONSTANTS } from '@pages/imageSetup/types/apis/interiorStyle';
+
+import { queryKeys } from '@constants/queryKey';
 
 import type { QueryClient } from '@tanstack/react-query';
 

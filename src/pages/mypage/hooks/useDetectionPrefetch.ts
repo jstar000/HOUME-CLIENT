@@ -1,18 +1,17 @@
 import { useCallback, useRef } from 'react';
 
 import { OBJ365_MODEL_PATH } from '@pages/generate/constants/detection';
+import type { FurnitureCategoryCode } from '@pages/generate/constants/furnitureCategoryMapping';
 import { buildHotspotsPipeline } from '@pages/generate/hooks/furnitureHotspotPipeline';
 import { loadCorsImage } from '@pages/generate/hooks/useFurnitureHotspots';
+import type { FurnitureHotspot } from '@pages/generate/hooks/useFurnitureHotspots';
 import { useONNXModel } from '@pages/generate/hooks/useOnnxModel';
 import { useDetectionCacheStore } from '@pages/generate/stores/useDetectionCacheStore';
+import type { ProcessedDetections } from '@pages/generate/types/detection';
 import {
   filterAllowedDetectedObjects,
   mapHotspotsToDetectedObjects,
 } from '@pages/generate/utils/detectedObjectMapper';
-
-import type { FurnitureCategoryCode } from '@pages/generate/constants/furnitureCategoryMapping';
-import type { FurnitureHotspot } from '@pages/generate/hooks/useFurnitureHotspots';
-import type { ProcessedDetections } from '@pages/generate/types/detection';
 
 const PREFETCH_DELAY_MS = 120;
 

@@ -3,28 +3,29 @@ import { useEffect, useMemo, useRef } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
-import FilterChip from '@/pages/generate/components/filterChip/FilterChip';
-import { useABTest } from '@/pages/generate/hooks/useABTest';
+import { getGeneratedImageProducts } from '@pages/generate/apis/furniture';
+import FilterChip from '@pages/generate/components/filterChip/FilterChip';
+import { useABTest } from '@pages/generate/hooks/useABTest';
 import {
   useActiveImageCurationState,
   useActiveImageId,
   useGeneratedCategoriesQuery,
   useGeneratedProductsQuery,
-} from '@/pages/generate/hooks/useFurnitureCuration';
-import { useCurationCacheStore } from '@/pages/generate/stores/useCurationCacheStore';
-import { useCurationStore } from '@/pages/generate/stores/useCurationStore';
-import { logResultImgClickCurationSheetFilter } from '@/pages/generate/utils/analytics';
-import { useGetJjymListQuery } from '@/pages/mypage/hooks/useSaveItemList';
-import { ROUTES } from '@/routes/paths';
-import { queryKeys } from '@/shared/constants/queryKey';
-import { useSavedItemsStore } from '@/store/useSavedItemsStore';
+} from '@pages/generate/hooks/useFurnitureCuration';
+import { useCurationCacheStore } from '@pages/generate/stores/useCurationCacheStore';
+import { useCurationStore } from '@pages/generate/stores/useCurationStore';
+import type { FurnitureProductsInfoResponse } from '@pages/generate/types/furniture';
+import { logResultImgClickCurationSheetFilter } from '@pages/generate/utils/analytics';
+import { useGetJjymListQuery } from '@pages/mypage/hooks/useSaveItemList';
 
-import { getGeneratedImageProducts } from '@pages/generate/apis/furniture';
+import { ROUTES } from '@routes/paths';
+
+import { useSavedItemsStore } from '@store/useSavedItemsStore';
+
+import { queryKeys } from '@constants/queryKey';
 
 import CardProductItem from './CardProductItem';
 import * as styles from './CurationSheet.css';
-
-import type { FurnitureProductsInfoResponse } from '@pages/generate/types/furniture';
 
 // 카테고리 스켈레톤 칩 길이 프리셋 중 세 번째(long)만 사용
 const FILTER_SKELETON_WIDTH = 'long' as const;

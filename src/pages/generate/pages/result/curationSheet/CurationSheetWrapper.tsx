@@ -2,16 +2,17 @@ import { useRef, useCallback, useEffect, type ReactNode } from 'react';
 
 import clsx from 'clsx';
 
-import { useABTest } from '@/pages/generate/hooks/useABTest';
-import type { CurationSnapState } from '@/pages/generate/stores/useCurationStore';
+import { useABTest } from '@pages/generate/hooks/useABTest';
+import type { CurationSnapState } from '@pages/generate/stores/useCurationStore';
 import {
   logResultImgSwipeCurationSheetDown,
   logResultImgSwipeCurationSheetUp,
-} from '@/pages/generate/utils/analytics';
-import { DragHandle } from '@/shared/components/dragHandle/DragHandle';
-import { useBottomSheetDrag } from '@/shared/hooks/useBottomSheetDrag';
+} from '@pages/generate/utils/analytics';
 
 import * as commonStyles from '@components/bottomSheet/BottomSheetWrapper.css';
+import { DragHandle } from '@components/dragHandle/DragHandle';
+
+import { useBottomSheetDrag } from '@hooks/useBottomSheetDrag';
 
 import * as styles from './CurationSheetWrapper.css';
 

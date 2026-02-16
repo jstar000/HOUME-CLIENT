@@ -11,23 +11,26 @@
 // TODO(지성): 컴포넌트 lazy load 적용하기
 import { createBrowserRouter } from 'react-router-dom';
 
-import RootLayout from '@/layout/RootLayout';
-import GeneratePage from '@/pages/generate/GeneratePage';
-import LoadingPage from '@/pages/generate/pages/loading/LoadingPage';
-import ResultPage from '@/pages/generate/pages/result/ResultPage';
-import StartPage from '@/pages/generate/pages/start/StartPage';
-import HomePage from '@/pages/home/HomePage';
-import { ImageSetup } from '@/pages/imageSetup/ImageSetup';
-import KakaoCallback from '@/pages/login/KakaoCallback';
-import LoginPage from '@/pages/login/LoginPage';
-import MyPage from '@/pages/mypage/MyPage';
-import PrivacyPolicy from '@/pages/mypage/pages/setting/PrivacyPolicyPage';
-import ServicePolicy from '@/pages/mypage/pages/setting/ServicePolicyPage';
-import Setting from '@/pages/mypage/pages/setting/SettingPage';
-import SignupPage from '@/pages/signup/SignupPage';
-import { ROUTES } from '@/routes/paths';
-import ProtectedRoute from '@/routes/ProtectedRoute';
-import RouteErrorFallback from '@/shared/components/errorFallback/RouteErrorFallback';
+import GeneratePage from '@pages/generate/GeneratePage';
+import LoadingPage from '@pages/generate/pages/loading/LoadingPage';
+import ResultPage from '@pages/generate/pages/result/ResultPage';
+import StartPage from '@pages/generate/pages/start/StartPage';
+import HomePage from '@pages/home/HomePage';
+import { ImageSetup } from '@pages/imageSetup/ImageSetup';
+import KakaoCallback from '@pages/login/KakaoCallback';
+import LoginPage from '@pages/login/LoginPage';
+import MyPage from '@pages/mypage/MyPage';
+import PrivacyPolicy from '@pages/mypage/pages/setting/PrivacyPolicyPage';
+import ServicePolicy from '@pages/mypage/pages/setting/ServicePolicyPage';
+import Setting from '@pages/mypage/pages/setting/SettingPage';
+import SignupPage from '@pages/signup/SignupPage';
+
+import RootLayout from '@layout/RootLayout';
+
+import { ROUTES } from '@routes/paths';
+import ProtectedRoute from '@routes/ProtectedRoute';
+
+import RouteErrorFallback from '@components/errorFallback/RouteErrorFallback';
 
 // 공개 라우트 그룹 (인증 불필요)
 const publicRoutes = [

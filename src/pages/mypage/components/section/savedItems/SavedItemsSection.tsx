@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { usePostJjymMutation } from '@/pages/generate/hooks/useSaveItem';
-import { useGetJjymListQuery } from '@/pages/mypage/hooks/useSaveItemList';
-import { logMyPageClickBtnFurnitureCard } from '@/pages/mypage/utils/analytics';
-import CardProduct from '@/shared/components/card/cardProduct/CardProduct';
-import { SESSION_STORAGE_KEYS } from '@/shared/constants/bottomSheet';
+import { usePostJjymMutation } from '@pages/generate/hooks/useSaveItem';
+import { useGetJjymListQuery } from '@pages/mypage/hooks/useSaveItemList';
+import { logMyPageClickBtnFurnitureCard } from '@pages/mypage/utils/analytics';
+
+import CardProduct from '@components/card/cardProduct/CardProduct';
+
+import { SESSION_STORAGE_KEYS } from '@constants/bottomSheet';
 
 import * as styles from './SavedItemsSection.css';
 import EmptyStateSection from '../emptyState/EmptyStateSection';

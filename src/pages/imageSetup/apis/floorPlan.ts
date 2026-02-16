@@ -1,8 +1,9 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-import { HTTPMethod, type RequestConfig, request } from '@/shared/apis/request';
-import { API_ENDPOINT } from '@/shared/constants/apiEndpoints';
-import { queryKeys } from '@/shared/constants/queryKey';
+import { HTTPMethod, type RequestConfig, request } from '@apis/request';
+
+import { API_ENDPOINT } from '@constants/apiEndpoints';
+import { queryKeys } from '@constants/queryKey';
 
 import { type FloorPlanResponse } from '../types/apis/floorPlan';
 

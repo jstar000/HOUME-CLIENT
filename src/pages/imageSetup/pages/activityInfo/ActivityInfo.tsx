@@ -1,10 +1,11 @@
-import { useActivityOptionsQuery } from '@/pages/imageSetup/apis/activityInfo';
-import { FUNNELHEADER_IMAGES } from '@/pages/imageSetup/constants/headerImages';
-import { useActivityInfo } from '@/pages/imageSetup/hooks/activityInfo/useActivityInfo';
-import { useCreditCheck } from '@/pages/imageSetup/hooks/useCreditCheck';
-import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
-import InlineError from '@/shared/components/inlineError/InlineError';
-import Loading from '@/shared/components/loading/Loading';
+import { useActivityOptionsQuery } from '@pages/imageSetup/apis/activityInfo';
+import { FUNNELHEADER_IMAGES } from '@pages/imageSetup/constants/headerImages';
+import { useActivityInfo } from '@pages/imageSetup/hooks/activityInfo/useActivityInfo';
+import { useCreditCheck } from '@pages/imageSetup/hooks/useCreditCheck';
+
+import CtaButton from '@components/button/ctaButton/CtaButton';
+import InlineError from '@components/inlineError/InlineError';
+import Loading from '@components/loading/Loading';
 
 import * as styles from './ActivityInfo.css';
 import ButtonGroup from '../../components/buttonGroup/ButtonGroup';

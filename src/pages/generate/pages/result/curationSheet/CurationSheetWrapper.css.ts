@@ -1,9 +1,9 @@
 import { style, styleVariants } from '@vanilla-extract/css';
 
-import { layoutVars } from '@/shared/styles/global.css';
-import { zIndex } from '@/shared/styles/tokens/zIndex';
-
 import { CURATION_PEEK_HEIGHT } from '@constants/bottomSheet';
+
+import { layoutVars } from '@styles/global.css';
+import { zIndex } from '@styles/tokens/zIndex';
 
 export const sheetWrapper = style({
   position: 'fixed',

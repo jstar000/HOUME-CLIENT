@@ -1,6 +1,6 @@
 import { style, keyframes } from '@vanilla-extract/css';
 
-import { zIndex } from '@/shared/styles/tokens/zIndex';
+import { zIndex } from '@styles/tokens/zIndex';
 
 export const wrapper = style({
   position: 'relative',

@@ -1,8 +1,10 @@
 import { useState } from 'react';
 
-import { useMyPageUser } from '@/pages/mypage/hooks/useMypage';
-import { TOAST_TYPE } from '@/shared/types/toast';
-import { useUserStore } from '@/store/useUserStore';
+import { useMyPageUser } from '@pages/mypage/hooks/useMypage';
+
+import { useUserStore } from '@store/useUserStore';
+
+import { TOAST_TYPE } from '@shared/types/toast';
 
 import CreditIcon from '@assets/icons/modalCoin.png';
 

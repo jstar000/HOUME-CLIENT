@@ -11,6 +11,7 @@ import { useCallback, useEffect, useMemo, useReducer, useRef } from 'react';
 
 import { OBJ365_MODEL_PATH } from '@pages/generate/constants/detection';
 import { useONNXModel } from '@pages/generate/hooks/useOnnxModel';
+import type { ProcessedDetections } from '@pages/generate/types/detection';
 import {
   logFurniturePipelineEvent,
   reportFurniturePipelineWarning,
@@ -28,7 +29,6 @@ import {
 } from './furnitureHotspotState';
 
 import type { FurnitureHotspot, RenderMetrics } from './furnitureHotspotState';
-import type { ProcessedDetections } from '@pages/generate/types/detection';
 
 type FurnitureHotspotOptions = {
   prefetchedDetections?: ProcessedDetections | null;

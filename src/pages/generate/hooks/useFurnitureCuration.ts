@@ -4,29 +4,28 @@ import { useEffect, useMemo } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
-  queryKeys,
-  type CategoriesQueryVariables,
-  type ProductsQueryVariables,
-} from '@/shared/constants/queryKey';
-
-import {
   getFurnitureDashboardInfo,
   getGeneratedImageCategories,
   getGeneratedImageProducts,
 } from '@pages/generate/apis/furniture';
+import type { FurnitureCategoryCode } from '@pages/generate/constants/furnitureCategoryMapping';
 import { useCurationCacheStore } from '@pages/generate/stores/useCurationCacheStore';
 import {
   useCurationStore,
   selectActiveImageState,
   type CurationSnapState,
 } from '@pages/generate/stores/useCurationStore';
-
-import type { FurnitureCategoryCode } from '@pages/generate/constants/furnitureCategoryMapping';
 import type {
   FurnitureAndActivityResponse,
   FurnitureCategoriesResponse,
   FurnitureProductsInfoResponse,
 } from '@pages/generate/types/furniture';
+
+import {
+  queryKeys,
+  type CategoriesQueryVariables,
+  type ProductsQueryVariables,
+} from '@constants/queryKey';
 
 type CategoriesQueryKey = ReturnType<
   | typeof queryKeys.furniture.categoriesGroup

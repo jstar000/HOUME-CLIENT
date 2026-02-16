@@ -17,8 +17,9 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
-import { ROUTES } from '@/routes/paths';
-import { useUserStore } from '@/store/useUserStore';
+import { ROUTES } from '@routes/paths';
+
+import { useUserStore } from '@store/useUserStore';
 
 import { getKakaoOAuthCallback } from '../apis/kakaoOAuthCallback';
 

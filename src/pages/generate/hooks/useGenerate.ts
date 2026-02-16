@@ -3,14 +3,6 @@ import { useEffect } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
-import { ROUTES } from '@/routes/paths';
-import { queryClient } from '@/shared/apis/queryClient';
-import {
-  ERROR_CODES,
-  FALLBACK_TRIGGER_CODES,
-} from '@/shared/constants/apiErrorCode';
-import { queryKeys } from '@/shared/constants/queryKey';
-
 import {
   getFallbackImage,
   postGenerateImage,
@@ -26,15 +18,21 @@ import {
   postFactorPreference,
   deleteResultPreference,
 } from '@pages/generate/apis/generate';
-
-import { useABTest } from './useABTest';
-import { useGenerateStore } from '../stores/useGenerateStore';
-
 import type {
   CarouselItem,
   GenerateImageData,
   GenerateImageRequest,
 } from '@pages/generate/types/generate';
+
+import { ROUTES } from '@routes/paths';
+
+import { queryClient } from '@apis/queryClient';
+
+import { ERROR_CODES, FALLBACK_TRIGGER_CODES } from '@constants/apiErrorCode';
+import { queryKeys } from '@constants/queryKey';
+
+import { useABTest } from './useABTest';
+import { useGenerateStore } from '../stores/useGenerateStore';
 
 export const useStackData = (
   page: number,

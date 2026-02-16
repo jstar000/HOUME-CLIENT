@@ -1,11 +1,12 @@
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 
-import { ROUTES } from '@/routes/paths';
-import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
-
-import ErrorIllustration from '@components/errorFallback/ErrorIllustration';
 import * as styles from '@pages/notFound/NotFoundPage.css.ts';
+
+import { ROUTES } from '@routes/paths';
+
+import CtaButton from '@components/button/ctaButton/CtaButton';
+import ErrorIllustration from '@components/errorFallback/ErrorIllustration';
 
 const NotFoundPage = () => {
   const navigate = useNavigate();

@@ -1,6 +1,5 @@
-import { TOAST_TYPE } from '@/shared/types/toast';
-
 import Toast from '@shared/components/toast/Toast';
+import { TOAST_TYPE } from '@shared/types/toast';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 

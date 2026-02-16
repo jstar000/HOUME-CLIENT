@@ -2,12 +2,15 @@ import { useEffect, useRef } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { useMyPageUser } from '@/pages/mypage/hooks/useMypage';
-import { ROUTES } from '@/routes/paths';
-import CtaButton from '@/shared/components/button/ctaButton/CtaButton';
-import { useUserStore } from '@/store/useUserStore';
+import { useMyPageUser } from '@pages/mypage/hooks/useMypage';
+
+import { ROUTES } from '@routes/paths';
+
+import { useUserStore } from '@store/useUserStore';
 
 import LogoNavBar from '@shared/components/navBar/LogoNavBar';
+
+import CtaButton from '@components/button/ctaButton/CtaButton';
 
 import { AnimatedSection } from './components/AnimatedSection';
 import IntroSection from './components/introSection/IntroSection';
