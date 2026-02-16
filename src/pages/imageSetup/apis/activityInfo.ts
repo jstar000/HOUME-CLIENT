@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { HTTPMethod, request } from '@/shared/apis/request';
 import { API_ENDPOINT } from '@/shared/constants/apiEndpoints';
+import { queryKeys } from '@/shared/constants/queryKey';
 
 import type { ActivityOptionsResponse } from '../types/apis/activityInfo';
 
@@ -14,7 +15,7 @@ export const getActivityOptions = async () => {
 
 export const useActivityOptionsQuery = () => {
   return useQuery({
-    queryKey: ['activity-options'], // TODO(지성): 쿼리키 관리
+    queryKey: queryKeys.imageSetup.activityOptions(),
     queryFn: getActivityOptions,
     staleTime: Infinity,
     gcTime: 1000 * 60 * 60 * 24,

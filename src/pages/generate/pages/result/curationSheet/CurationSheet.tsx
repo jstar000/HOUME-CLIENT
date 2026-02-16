@@ -16,7 +16,7 @@ import { useCurationStore } from '@/pages/generate/stores/useCurationStore';
 import { logResultImgClickCurationSheetFilter } from '@/pages/generate/utils/analytics';
 import { useGetJjymListQuery } from '@/pages/mypage/hooks/useSaveItemList';
 import { ROUTES } from '@/routes/paths';
-import { QUERY_KEY } from '@/shared/constants/queryKey';
+import { queryKeys } from '@/shared/constants/queryKey';
 import { useSavedItemsStore } from '@/store/useSavedItemsStore';
 
 import { getGeneratedImageProducts } from '@pages/generate/apis/furniture';
@@ -28,15 +28,6 @@ import type { FurnitureProductsInfoResponse } from '@pages/generate/types/furnit
 
 // 카테고리 스켈레톤 칩 길이 프리셋 중 세 번째(long)만 사용
 const FILTER_SKELETON_WIDTH = 'long' as const;
-// 프리패치 쿼리키 튜플 정의
-type ProductPrefetchQueryKey = [
-  string,
-  {
-    groupId: number | null;
-    imageId: number;
-    categoryId: number;
-  },
-];
 
 const RESULT_CARD_UI_FALLBACK = {
   productName: '상품명 준비중',
@@ -201,16 +192,15 @@ export const CurationSheet = ({ groupId = null }: CurationSheetProps) => {
         return;
       }
       // 프리패치용 쿼리키를 그룹/이미지/카테고리 세트로 구성
-      const productQueryKey: ProductPrefetchQueryKey = [
+      const productQueryVars = {
+        groupId,
+        imageId: activeImageId,
+        categoryId: category.id,
+      };
+      const productQueryKey =
         groupId !== null
-          ? QUERY_KEY.GENERATE_FURNITURE_PRODUCTS_GROUP
-          : QUERY_KEY.GENERATE_FURNITURE_PRODUCTS,
-        {
-          groupId,
-          imageId: activeImageId,
-          categoryId: category.id,
-        },
-      ];
+          ? queryKeys.furniture.productsGroup(productQueryVars)
+          : queryKeys.furniture.products(productQueryVars);
       const cachedQuery =
         queryClient.getQueryData<FurnitureProductsInfoResponse>(
           productQueryKey
@@ -222,11 +212,10 @@ export const CurationSheet = ({ groupId = null }: CurationSheetProps) => {
       prefetchedRef.current.add(dedupeKey);
       void queryClient.prefetchQuery({
         queryKey: productQueryKey,
-        queryFn: ({ queryKey }) => {
-          const [, variables] = queryKey as ProductPrefetchQueryKey;
+        queryFn: () => {
           return getGeneratedImageProducts(
-            variables.imageId,
-            variables.categoryId
+            productQueryVars.imageId,
+            productQueryVars.categoryId
           );
         },
         staleTime: 5 * 60 * 1000,

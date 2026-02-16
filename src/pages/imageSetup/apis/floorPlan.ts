@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 
 import { HTTPMethod, type RequestConfig, request } from '@/shared/apis/request';
 import { API_ENDPOINT } from '@/shared/constants/apiEndpoints';
+import { queryKeys } from '@/shared/constants/queryKey';
 
 import { type FloorPlanResponse } from '../types/apis/floorPlan';
 
@@ -30,7 +31,7 @@ export const postAddress = async (body: UserAddressRequest) => {
 // Query Hooks
 export const useFloorPlanQuery = () => {
   return useQuery({
-    queryKey: ['floorPlan'],
+    queryKey: queryKeys.imageSetup.floorPlan(),
     queryFn: getFloorPlan,
   });
 };

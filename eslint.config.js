@@ -58,7 +58,15 @@ export default [
       ...js.configs.recommended.rules,
       'no-undef': 'off',
       'no-unused-vars': 'off',
-      '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          destructuredArrayIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
       ...reactHooks.configs.recommended.rules, // React Hooks 규칙
       'react-refresh/only-export-components': [
         'warn',
@@ -73,7 +81,15 @@ export default [
       '@typescript-eslint/no-floating-promises': 'off', // 처리되지 않은 Promises 경고 무시
       '@typescript-eslint/strict-boolean-expressions': 'off', // 엄격한 boolean 표현 사용 X
       '@typescript-eslint/no-confusing-void-expression': 'off', // void 표현 규칙 무시
-      '@typescript-eslint/no-unused-vars': 'warn', // 사용되지 않는 변수 경고
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          destructuredArrayIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ], // 사용되지 않는 변수 경고 (_prefix 무시)
 
       '@tanstack/query/exhaustive-deps': 'error', // 의존성 배열이 완전한지 검사
       '@tanstack/query/no-rest-destructuring': 'warn', // REST 매개변수 해체 사용 경고

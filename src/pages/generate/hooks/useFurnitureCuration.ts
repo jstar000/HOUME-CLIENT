@@ -3,7 +3,11 @@ import { useEffect, useMemo } from 'react';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { QUERY_KEY } from '@/shared/constants/queryKey';
+import {
+  queryKeys,
+  type CategoriesQueryVariables,
+  type ProductsQueryVariables,
+} from '@/shared/constants/queryKey';
 
 import {
   getFurnitureDashboardInfo,
@@ -24,34 +28,14 @@ import type {
   FurnitureProductsInfoResponse,
 } from '@pages/generate/types/furniture';
 
-interface CategoriesQueryVariables {
-  groupId: number | null;
-  imageId: number | null;
-  detectionSignature: string;
-  codes: FurnitureCategoryCode[];
-}
+type CategoriesQueryKey = ReturnType<
+  | typeof queryKeys.furniture.categoriesGroup
+  | typeof queryKeys.furniture.categories
+>;
 
-type CategoriesQueryKey = readonly [
-  (
-    | typeof QUERY_KEY.GENERATE_FURNITURE_CATEGORIES_GROUP
-    | typeof QUERY_KEY.GENERATE_FURNITURE_CATEGORIES
-  ),
-  CategoriesQueryVariables,
-];
-
-interface ProductsQueryVariables {
-  groupId: number | null;
-  imageId: number | null;
-  categoryId: number | null;
-}
-
-type ProductsQueryKey = readonly [
-  (
-    | typeof QUERY_KEY.GENERATE_FURNITURE_PRODUCTS_GROUP
-    | typeof QUERY_KEY.GENERATE_FURNITURE_PRODUCTS
-  ),
-  ProductsQueryVariables,
-];
+type ProductsQueryKey = ReturnType<
+  typeof queryKeys.furniture.productsGroup | typeof queryKeys.furniture.products
+>;
 
 /**
  * 가구 대시보드 정보를 조회하는 React Query 훅
@@ -59,7 +43,7 @@ type ProductsQueryKey = readonly [
  */
 export const useFurnitureDashboardQuery = () => {
   return useQuery<FurnitureAndActivityResponse>({
-    queryKey: [QUERY_KEY.GENERATE_FURNITURE_DASHBOARD],
+    queryKey: queryKeys.furniture.dashboard(),
     queryFn: getFurnitureDashboardInfo,
     staleTime: 5 * 60 * 1000,
   });
@@ -110,17 +94,17 @@ export const useGeneratedCategoriesQuery = (
     groupCategoriesEntry !== null &&
     groupCategoriesEntry.detectionSignature === detectionSignature;
 
-  const categoriesQueryKey: CategoriesQueryKey = [
+  const categoryQueryVars: CategoriesQueryVariables = {
+    groupId,
+    imageId,
+    detectionSignature,
+    codes: normalizedDetectedObjects,
+  };
+
+  const categoriesQueryKey: CategoriesQueryKey =
     groupId !== null
-      ? QUERY_KEY.GENERATE_FURNITURE_CATEGORIES_GROUP
-      : QUERY_KEY.GENERATE_FURNITURE_CATEGORIES,
-    {
-      groupId,
-      imageId,
-      detectionSignature,
-      codes: normalizedDetectedObjects,
-    },
-  ];
+      ? queryKeys.furniture.categoriesGroup(categoryQueryVars)
+      : queryKeys.furniture.categories(categoryQueryVars);
 
   const initialCategoriesResponse = canUseGroupInitialData
     ? groupCategoriesEntry!.response
@@ -133,6 +117,7 @@ export const useGeneratedCategoriesQuery = (
     CategoriesQueryKey
   >({
     // queryKey에 이미지/감지값 전체를 직접 포함해 의존성 유지
+    // eslint-disable-next-line @tanstack/query/exhaustive-deps -- imageId, normalizedDetectedObjects는 categoriesQueryKey(factory) 내부에 포함됨
     queryKey: categoriesQueryKey,
     queryFn: () =>
       getGeneratedImageCategories(imageId!, normalizedDetectedObjects),
@@ -215,16 +200,16 @@ export const useGeneratedProductsQuery = (
     (state) => state.saveProducts
   );
 
-  const productsQueryKey: ProductsQueryKey = [
+  const productQueryVars: ProductsQueryVariables = {
+    groupId,
+    imageId,
+    categoryId,
+  };
+
+  const productsQueryKey: ProductsQueryKey =
     groupId !== null
-      ? QUERY_KEY.GENERATE_FURNITURE_PRODUCTS_GROUP
-      : QUERY_KEY.GENERATE_FURNITURE_PRODUCTS,
-    {
-      groupId,
-      imageId,
-      categoryId,
-    },
-  ];
+      ? queryKeys.furniture.productsGroup(productQueryVars)
+      : queryKeys.furniture.products(productQueryVars);
 
   const initialProductsResponse =
     groupId !== null && productCacheEntry
@@ -238,6 +223,7 @@ export const useGeneratedProductsQuery = (
     ProductsQueryKey
   >({
     // queryKey에 그룹/이미지/카테고리 식별자를 직접 배치
+    // eslint-disable-next-line @tanstack/query/exhaustive-deps -- imageId, categoryId는 productsQueryKey(factory) 내부에 포함됨
     queryKey: productsQueryKey,
     queryFn: () => getGeneratedImageProducts(imageId!, categoryId!),
     enabled: Boolean(imageId) && categoryId !== null,
@@ -292,6 +278,9 @@ export const useSheetSnapState = () => {
  * 카테고리/상품 쿼리를 정밀 무효화(invalidate)하는 헬퍼 훅
  * - 그룹 단위와 단일 이미지 단위를 분기 처리
  * - 캐시 스토어도 함께 비워 일관성 유지
+ *
+ * factory 패턴에서 queryKey 구조: ['furniture', 'categoriesGroup'|'categories', vars]
+ * predicate는 [0]=도메인, [1]=타입, [2]=variables 로 비교
  */
 export const useInvalidateCurationQueries = () => {
   const queryClient = useQueryClient();
@@ -312,12 +301,14 @@ export const useInvalidateCurationQueries = () => {
           queryClient.invalidateQueries({
             // 그룹 기반 카테고리 쿼리만 정밀 무효화
             predicate: (query) => {
-              const [key, variables] = query.queryKey as [
-                unknown,
-                Partial<CategoriesQueryVariables>,
+              const [domain, type, variables] = query.queryKey as [
+                string,
+                string,
+                Partial<CategoriesQueryVariables> | undefined,
               ];
               return (
-                key === QUERY_KEY.GENERATE_FURNITURE_CATEGORIES_GROUP &&
+                domain === 'furniture' &&
+                type === 'categoriesGroup' &&
                 variables?.groupId === groupId
               );
             },
@@ -326,12 +317,14 @@ export const useInvalidateCurationQueries = () => {
           queryClient.invalidateQueries({
             // 단일 이미지 기반 카테고리 쿼리만 정밀 무효화
             predicate: (query) => {
-              const [key, variables] = query.queryKey as [
-                unknown,
-                Partial<CategoriesQueryVariables>,
+              const [domain, type, variables] = query.queryKey as [
+                string,
+                string,
+                Partial<CategoriesQueryVariables> | undefined,
               ];
               return (
-                key === QUERY_KEY.GENERATE_FURNITURE_CATEGORIES &&
+                domain === 'furniture' &&
+                type === 'categories' &&
                 variables?.imageId === imageId
               );
             },
@@ -349,20 +342,22 @@ export const useInvalidateCurationQueries = () => {
         queryClient.invalidateQueries({
           // 그룹/이미지별 상품 쿼리 정밀 무효화
           predicate: (query) => {
-            const [key, variables] = query.queryKey as [
-              unknown,
-              Partial<ProductsQueryVariables>,
+            const [domain, type, variables] = query.queryKey as [
+              string,
+              string,
+              Partial<ProductsQueryVariables> | undefined,
             ];
 
+            if (domain !== 'furniture') return false;
+
             if (groupId !== null) {
-              if (key !== QUERY_KEY.GENERATE_FURNITURE_PRODUCTS_GROUP)
-                return false;
+              if (type !== 'productsGroup') return false;
               if (variables?.groupId !== groupId) return false;
               if (categoryId === undefined) return true; // 그룹 내 전체 무효화
               return variables?.categoryId === categoryId;
             }
 
-            if (key !== QUERY_KEY.GENERATE_FURNITURE_PRODUCTS) return false;
+            if (type !== 'products') return false;
             if (variables?.imageId !== imageId) return false;
             if (categoryId === undefined) return true; // 이미지 내 전체 무효화
             return variables?.categoryId === categoryId;

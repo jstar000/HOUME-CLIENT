@@ -1,6 +1,6 @@
 import { useQuery, type UseQueryOptions } from '@tanstack/react-query';
 
-import { QUERY_KEY } from '@/shared/constants/queryKey';
+import { queryKeys } from '@/shared/constants/queryKey';
 
 import {
   getMyPageUser,
@@ -27,7 +27,7 @@ type UseMyPageUserOptions = UseQueryBaseOptions<
 
 export const useMyPageUser = (options?: UseMyPageUserOptions) => {
   return useQuery<QueryResult<ReturnType<typeof getMyPageUser>>>({
-    queryKey: [QUERY_KEY.MYPAGE_USER],
+    queryKey: queryKeys.mypage.user(),
     queryFn: getMyPageUser,
     ...options,
     staleTime: 15 * 60 * 1000,
@@ -46,7 +46,7 @@ type UseMyPageImagesOptions = UseQueryBaseOptions<
 
 export const useMyPageImagesQuery = (options?: UseMyPageImagesOptions) => {
   return useQuery<QueryResult<ReturnType<typeof getMyPageImages>>>({
-    queryKey: [QUERY_KEY.MYPAGE_IMAGES],
+    queryKey: queryKeys.mypage.images(),
     queryFn: getMyPageImages,
     staleTime: 15 * 60 * 1000, // 15분 캐시
     gcTime: 30 * 60 * 1000,
@@ -69,7 +69,7 @@ export const useMyPageImageDetail = (
   options?: ImageDetailOptions
 ) => {
   return useQuery<ImageDetailResult>({
-    queryKey: [QUERY_KEY.MYPAGE_IMAGE_DETAIL, houseId],
+    queryKey: queryKeys.mypage.imageDetail(houseId),
     queryFn: () => getMyPageImageDetail(houseId),
     staleTime: 5 * 60 * 1000,
     gcTime: 30 * 60 * 1000,

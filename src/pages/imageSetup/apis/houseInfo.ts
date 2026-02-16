@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 
 import { HTTPMethod, request } from '@/shared/apis/request';
 import { API_ENDPOINT } from '@/shared/constants/apiEndpoints';
+import { queryKeys } from '@/shared/constants/queryKey';
 
 import type {
   HousingOptionsResponse,
@@ -28,7 +29,7 @@ const postHousingSelection = async (requestData: HousingSelectionRequest) => {
 // Query Hooks
 export const useHousingOptionsQuery = () => {
   return useQuery({
-    queryKey: ['housing-options'], // prefetching한 쿼리와 같은 QueryKey값으로 설정, 캐시에서 데이터 조회
+    queryKey: queryKeys.imageSetup.housingOptions(),
     queryFn: getHousingOptions,
     staleTime: Infinity,
     gcTime: 1000 * 60 * 60 * 24,

@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 
 import { queryClient } from '@/shared/apis/queryClient';
-import { QUERY_KEY } from '@/shared/constants/queryKey';
+import { queryKeys } from '@/shared/constants/queryKey';
 import { useSavedItemsStore } from '@/store/useSavedItemsStore';
 
 import { postJjym } from '../apis/saveItems';
@@ -33,7 +33,7 @@ export const usePostJjymMutation = () => {
       }
 
       // 찜 목록 토글 성공시 목록 최신화
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.JJYM_LIST] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.jjym.list() });
 
       // if (import.meta.env.DEV) console.log('찜하기 성공', data);
     },

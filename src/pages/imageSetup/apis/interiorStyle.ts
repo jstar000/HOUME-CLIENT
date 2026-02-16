@@ -6,6 +6,7 @@ import {
 } from '@/pages/imageSetup/types/apis/interiorStyle';
 import { HTTPMethod, request } from '@/shared/apis/request';
 import { API_ENDPOINT } from '@/shared/constants/apiEndpoints';
+import { queryKeys } from '@/shared/constants/queryKey';
 
 // API Functions
 /**
@@ -33,7 +34,7 @@ export const useMoodBoardQuery = (
   limit = MOOD_BOARD_CONSTANTS.DEFAULT_LIMIT
 ) => {
   return useQuery({
-    queryKey: ['moodBoardImages', limit],
+    queryKey: queryKeys.imageSetup.moodBoard(limit),
     queryFn: () => getMoodBoardImage(limit),
   });
 };

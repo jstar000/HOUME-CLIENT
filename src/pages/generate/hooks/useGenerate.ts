@@ -9,7 +9,7 @@ import {
   ERROR_CODES,
   FALLBACK_TRIGGER_CODES,
 } from '@/shared/constants/apiErrorCode';
-import { QUERY_KEY } from '@/shared/constants/queryKey';
+import { queryKeys } from '@/shared/constants/queryKey';
 
 import {
   getFallbackImage,
@@ -45,7 +45,7 @@ export const useStackData = (
   }
 ) => {
   const query = useQuery<CarouselItem[], unknown>({
-    queryKey: [QUERY_KEY.GENERATE_LOADING, page],
+    queryKey: queryKeys.generate.stack(page),
     queryFn: () => getStackData(page),
     staleTime: 2 * 60 * 1000,
     retry: 2,
@@ -72,7 +72,7 @@ export const useGetResultDataQuery = (
   options?: { enabled?: boolean }
 ) => {
   return useQuery({
-    queryKey: [QUERY_KEY.GENERATE_RESULT, houseId],
+    queryKey: queryKeys.generate.result(houseId),
     queryFn: () => getResultData(houseId),
     ...options,
   });
@@ -112,7 +112,7 @@ export const useFactorsQuery = (
   options?: { enabled?: boolean }
 ) => {
   return useQuery({
-    queryKey: [QUERY_KEY.GENERATE_FACTORS, isLike],
+    queryKey: queryKeys.generate.factors(isLike),
     queryFn: () => getPreferFactors(isLike),
     staleTime: 5 * 60 * 1000, // 5분간 캐시
     ...options,
@@ -171,8 +171,8 @@ export const useGenerateImageApi = () => {
       setApiCompleted(true);
 
       // console.log('프로그래스 바 완료 대기 중...');
-      queryClient.invalidateQueries({ queryKey: ['generateImage'] });
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.MYPAGE_IMAGES] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.generate.image() });
+      queryClient.invalidateQueries({ queryKey: queryKeys.mypage.images() });
     },
   });
 
@@ -190,7 +190,7 @@ export const useFallbackImage = (
     useGenerateStore();
 
   const query = useQuery({
-    queryKey: ['fallbackImage', houseId],
+    queryKey: queryKeys.generate.fallback(houseId),
     queryFn: () => getFallbackImage(houseId),
     enabled,
     retry: (failureCount, error: any) => {
@@ -234,8 +234,8 @@ export const useFallbackImage = (
       // console.log('프로그래스 바 완료 대기 중...');
 
       // 프로그래스 바 완료 후 이동하도록 변경
-      queryClient.invalidateQueries({ queryKey: ['generateImage'] });
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.MYPAGE_IMAGES] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.generate.image() });
+      queryClient.invalidateQueries({ queryKey: queryKeys.mypage.images() });
     }
   }, [query.isSuccess, query.data]);
 
