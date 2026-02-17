@@ -4,7 +4,7 @@ import { HTTPMethod, request } from '@apis/config/request';
 
 import { API_ENDPOINT } from '@constants/apiEndpoints';
 
-export const postStackLike = async (carouselId: number): Promise<void> => {
+export const postCarouselLike = async (carouselId: number): Promise<void> => {
   return request({
     method: HTTPMethod.POST,
     url: API_ENDPOINT.GENERATE.CAROUSELS_LIKE,
@@ -14,6 +14,6 @@ export const postStackLike = async (carouselId: number): Promise<void> => {
 
 export const usePostCarouselLikeMutation = () => {
   return useMutation({
-    mutationFn: postStackLike,
+    mutationFn: postCarouselLike,
   });
 };

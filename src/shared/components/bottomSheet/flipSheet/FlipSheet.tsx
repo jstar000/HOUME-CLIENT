@@ -41,6 +41,7 @@ const FlipSheet = ({
       </div>
 
       <div className={styles.buttonGroup}>
+        {/* 의도적으로 isFlipped를 false로 고정 (버튼 색상용, 실제 flip 상태 저장과는 무관함) */}
         <FlipButton onClick={onFlipClick} isFlipped={false} />
         <CtaButton onClick={onChooseClick}>선택하기</CtaButton>
       </div>

@@ -4,7 +4,7 @@ import { HTTPMethod, request } from '@apis/config/request';
 
 import { API_ENDPOINT } from '@constants/apiEndpoints';
 
-export const postStackHate = async (carouselId: number): Promise<void> => {
+export const postCarouselHate = async (carouselId: number): Promise<void> => {
   return request({
     method: HTTPMethod.POST,
     url: API_ENDPOINT.GENERATE.CAROUSELS_HATE,
@@ -14,6 +14,6 @@ export const postStackHate = async (carouselId: number): Promise<void> => {
 
 export const usePostCarouselHateMutation = () => {
   return useMutation({
-    mutationFn: postStackHate,
+    mutationFn: postCarouselHate,
   });
 };

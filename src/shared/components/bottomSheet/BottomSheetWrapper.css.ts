@@ -40,16 +40,14 @@ export const sheetWrapper = style({
   overscrollBehavior: 'none',
 
   userSelect: 'none',
-  // touchAction: 'none', // Pull-to-refresh 방지
   vars: {
     '--base-y': '100%',
     '--drag-y': '0px',
-  }, // overscroll 방지
+  },
   WebkitOverflowScrolling: 'touch', // iOS에서 부드러운 스크롤
   WebkitUserSelect: 'none', // Safari에서 텍스트 선택 방지
   WebkitTouchCallout: 'none', // iOS에서 터치 콜아웃 방지
 
-  // 드래그 중일 때만 transition 비활성화
   selectors: {
     '&:active': {
       cursor: 'grabbing',

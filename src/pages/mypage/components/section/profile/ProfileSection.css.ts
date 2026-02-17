@@ -21,10 +21,7 @@ export const profileBox = style({
 });
 
 export const profileImage = style({
-  aspectRatio: '1/1',
   flexShrink: 0,
-  alignItems: 'center',
-  justifyContent: 'center',
   borderRadius: '50%',
   width: '4.8rem',
   height: '4.8rem',
