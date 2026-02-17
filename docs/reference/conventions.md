@@ -412,6 +412,40 @@ export const useXxxQuery = () => {
 };
 ```
 
+### TanStack Query 상태값 규칙
+
+- **`isLoading` 사용 금지** → `isPending` 사용 (TanStack Query v5 마이그레이션)
+- `useState` 기반 로딩 상태는 `isLoading` 허용 (useQuery/useMutation과 무관한 경우)
+
+```typescript
+// ❌ Bad — TanStack Query v5에서 deprecated
+const { data, isLoading } = useXxxQuery();
+
+// ✅ Good
+const { data, isPending } = useXxxQuery();
+
+// ✅ OK — useState 기반은 isLoading 허용
+const [isLoading, setIsLoading] = useState(false);
+```
+
+### 경로 상수 규칙
+
+- **모든 `navigate()`, `<Navigate>` 경로는 `ROUTES` 상수 사용** (`@routes/paths`)
+- 하드코딩 문자열 경로 금지 (`'/'`, `'/mypage'` 등)
+- **예외**: `window.location.href`는 React Router 사용 불가 상황 (에러 폴백)에서만 허용
+
+```typescript
+// ❌ Bad — 하드코딩 경로
+navigate('/');
+navigate('/mypage', { replace: true });
+<Navigate to="/" replace />;
+
+// ✅ Good
+navigate(ROUTES.HOME);
+navigate(ROUTES.MYPAGE, { replace: true });
+<Navigate to={ROUTES.HOME} replace />;
+```
+
 ### `request()` 래퍼 규칙
 
 1. **모든 API 호출은 `request<T>()` 경유** — 직접 `axiosInstance` 사용 금지
@@ -583,3 +617,4 @@ position/z-index → display/flex → margin → border → padding → width/he
 | 2026-02-17 | Phase 6: API/데이터 페칭 컨벤션 추가 (queries/mutations 구조, request() rawResponse, 훅 위치 규칙)   |
 | 2026-02-17 | Phase 9: Lazy Loading 컨벤션 추가 (eager/lazy 분류, RootLayout 이동, ONNX preload 정리)              |
 | 2026-02-17 | Phase 11: Vanilla Extract 스타일링 컨벤션 추가 (concentric order, 디자인 토큰 규칙, ESLint 플러그인) |
+| 2026-02-17 | 컨벤션 감사: TanStack Query isPending 규칙 추가, 경로 상수 규칙 추가                                 |
