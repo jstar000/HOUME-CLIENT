@@ -6,7 +6,7 @@ import { isRouteErrorResponse, useRouteError } from 'react-router-dom';
 import CtaButton from '@components/button/ctaButton/CtaButton';
 import ErrorIllustration from '@components/errorFallback/ErrorIllustration';
 
-import * as styles from './RouteErrorFallback.css.ts';
+import * as styles from './RouteErrorFallback.css';
 
 export default function RouteErrorFallback() {
   const error = useRouteError();

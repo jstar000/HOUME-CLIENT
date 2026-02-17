@@ -24,19 +24,20 @@ import {
 import { useMyPageUserQuery } from '@pages/mypage/apis/queries/useMyPageUserQuery';
 import type { MyPageUserData } from '@pages/mypage/types/apis/MyPage';
 
-import { ROUTES } from '@routes/paths.ts';
+import { ROUTES } from '@routes/paths';
 
-import LockIcon from '@shared/assets/icons/lockIcon.svg?react';
-import SlideNext from '@shared/assets/icons/nextAbled.svg?react';
-import SlideNextDisabled from '@shared/assets/icons/nextDisabled.svg?react';
-import SlidePrev from '@shared/assets/icons/prevAbled.svg?react';
-import SlidePrevDisabled from '@shared/assets/icons/prevDisabled.svg?react';
 import type { DetectionCacheEntry } from '@shared/detection/stores/useDetectionCacheStore';
+
+import LockIcon from '@assets/icons/lockIcon.svg?react';
+import SlideNext from '@assets/icons/nextAbled.svg?react';
+import SlideNextDisabled from '@assets/icons/nextDisabled.svg?react';
+import SlidePrev from '@assets/icons/prevAbled.svg?react';
+import SlidePrevDisabled from '@assets/icons/prevDisabled.svg?react';
 
 import GeneralModal from '@components/overlay/modal/GeneralModal';
 
 import DetectionHotspots from './DetectionHotspots';
-import * as styles from './GeneratedImg.css.ts';
+import * as styles from './GeneratedImg.css';
 
 import type { Swiper as SwiperType } from 'swiper';
 

@@ -12,7 +12,7 @@ import type {
 import { logMyPageClickBtnImgCard } from '@pages/mypage/utils/analytics';
 import { buildResultNavigationState } from '@pages/mypage/utils/resultNavigation';
 
-import { ROUTES } from '@routes/paths.ts';
+import { ROUTES } from '@routes/paths';
 
 import Loading from '@components/loading/Loading';
 

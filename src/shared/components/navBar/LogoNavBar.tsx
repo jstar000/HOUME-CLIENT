@@ -2,8 +2,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { ROUTES } from '@routes/paths';
 
-import LogoIcon from '@shared/assets/icons/logoIcon.svg?react';
-import ProfileIcon from '@shared/assets/icons/profileIcon.svg?react';
+import LogoIcon from '@assets/icons/logoIcon.svg?react';
+import ProfileIcon from '@assets/icons/profileIcon.svg?react';
 
 import * as styles from './LogoNavBar.css';
 import * as btnStyles from './NavBtn.css';

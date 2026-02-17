@@ -1,6 +1,6 @@
 import DragHandleIcon from '@assets/icons/dragHandle.svg?react';
 
-import * as styles from './DragHandle.css.ts';
+import * as styles from './DragHandle.css';
 
 const DragHandle = () => {
   return (

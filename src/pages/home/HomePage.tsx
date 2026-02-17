@@ -8,9 +8,8 @@ import { ROUTES } from '@routes/paths';
 
 import { useUserStore } from '@store/useUserStore';
 
-import LogoNavBar from '@shared/components/navBar/LogoNavBar';
-
 import CtaButton from '@components/button/ctaButton/CtaButton';
+import LogoNavBar from '@components/navBar/LogoNavBar';
 
 import AnimatedSection from './components/AnimatedSection';
 import IntroSection from './components/introSection/IntroSection';
@@ -31,7 +30,7 @@ const HomePage = () => {
   const scrollDepth50Sent = useRef(false);
   const scrollDepth100Sent = useRef(false);
 
-  const { isLoading: isUserDataLoading } = useMyPageUserQuery({
+  const { isPending: isUserDataLoading } = useMyPageUserQuery({
     enabled: isLoggedIn,
   });
 

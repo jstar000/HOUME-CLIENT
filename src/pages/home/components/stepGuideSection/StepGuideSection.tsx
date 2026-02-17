@@ -7,8 +7,8 @@ import InfoLandingImage from '@assets/images/landingInfoImage.png';
 
 import TitleStep from '@components/titleStep/TitleStep';
 
-import * as styles from './StepGuideSection.css.ts';
-import AnimatedSection from '../AnimatedSection.tsx';
+import * as styles from './StepGuideSection.css';
+import AnimatedSection from '../AnimatedSection';
 
 const StepGuideSection = () => {
   return (

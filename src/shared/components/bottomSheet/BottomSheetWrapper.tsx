@@ -7,7 +7,7 @@ import DragHandle from '@components/dragHandle/DragHandle';
 
 import { SHEET_BASIC_THRESHOLD } from '@constants/bottomSheet';
 
-import { useBottomSheetDrag } from '@hooks/useBottomSheetDrag.ts';
+import { useBottomSheetDrag } from '@hooks/useBottomSheetDrag';
 
 import * as styles from './BottomSheetWrapper.css';
 

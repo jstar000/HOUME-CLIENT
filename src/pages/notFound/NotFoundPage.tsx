@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 
-import * as styles from '@pages/notFound/NotFoundPage.css.ts';
+import * as styles from '@pages/notFound/NotFoundPage.css';
 
 import { ROUTES } from '@routes/paths';
 

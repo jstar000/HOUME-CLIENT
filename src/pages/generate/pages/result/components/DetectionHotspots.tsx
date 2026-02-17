@@ -16,7 +16,7 @@ import {
 } from '@shared/detection/utils/detectedObjectMapper';
 import { logFurniturePipelineEvent } from '@shared/detection/utils/furniturePipelineMonitor';
 
-import * as styles from './DetectionHotspots.css.ts';
+import * as styles from './DetectionHotspots.css';
 
 const isSameHotspotArray = (
   prev: FurnitureHotspot[] | null,

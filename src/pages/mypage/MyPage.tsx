@@ -41,7 +41,7 @@ const MyPage = () => {
 
   const {
     data: userData,
-    isLoading: isUserLoading,
+    isPending: isUserLoading,
     isError: isUserError,
     refetch,
   } = useMyPageUserQuery({

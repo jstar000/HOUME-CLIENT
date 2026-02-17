@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { ROUTES } from '@routes/paths';
 
-import BackIcon from '@shared/assets/icons/backIcon.svg?react';
+import BackIcon from '@assets/icons/backIcon.svg?react';
 
 import * as btnStyles from './NavBtn.css';
 import * as styles from './TitleNavBar.css';

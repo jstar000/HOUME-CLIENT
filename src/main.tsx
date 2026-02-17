@@ -7,18 +7,19 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { HelmetProvider } from 'react-helmet-async';
 import { ToastContainer } from 'react-toastify';
 
-import { initClarity } from '@shared/config/clarity.ts';
+import { initClarity } from '@shared/config/clarity';
 import {
   getSentryReactErrorHandlerOptions,
   initSentry,
-} from '@shared/config/sentry.ts';
+} from '@shared/config/sentry';
+import { toastConfig } from '@shared/types/toast';
+
+import { queryClient } from '@apis/config/queryClient';
 
 import AppErrorFallback from '@components/errorFallback/AppErrorFallback';
-import '@/shared/styles/global.css.ts';
+import '@styles/global.css';
 
-import App from './App.tsx';
-import { queryClient } from './shared/apis/config/queryClient.ts';
-import { toastConfig } from './shared/types/toast.ts';
+import App from './App';
 
 initSentry();
 initClarity();

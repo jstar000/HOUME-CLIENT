@@ -117,7 +117,7 @@ const LoadingPage = () => {
 
   const {
     data: currentImages,
-    isLoading,
+    isPending,
     isError,
   } = useStackDataQuery(currentPage, {
     enabled: !!requestData, // requestData가 있을 때만 활성화
@@ -169,7 +169,7 @@ const LoadingPage = () => {
 
   const hasError =
     isError ||
-    (!isLoading && !currentImages) ||
+    (!isPending && !currentImages) ||
     !currentImages ||
     currentImages.length === 0;
 
@@ -200,7 +200,7 @@ const LoadingPage = () => {
 
   const handleVote = (isLike: boolean) => {
     // 로딩 중 or 투표 중에는 투표(vote) 불가
-    if (isLoading || isVoting) return;
+    if (isPending || isVoting) return;
 
     if (!currentImage) return;
     setIsVoting(true);
@@ -268,7 +268,7 @@ const LoadingPage = () => {
         isLoginBtn={false}
       />
       <ErrorBoundary FallbackComponent={FeatureErrorFallback}>
-        {isLoading ? (
+        {isPending ? (
           <Loading />
         ) : (
           <div className={styles.wrapper}>

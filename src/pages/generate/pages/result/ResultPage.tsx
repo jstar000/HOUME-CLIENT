@@ -24,6 +24,8 @@ import type {
 } from '@pages/mypage/types/apis/MyPage';
 import { createImageDetailPlaceholder } from '@pages/mypage/utils/resultNavigation';
 
+import { ROUTES } from '@routes/paths';
+
 import type { DetectionCacheEntry } from '@shared/detection/stores/useDetectionCacheStore';
 
 import FeatureErrorFallback from '@components/errorFallback/FeatureErrorFallback';
@@ -33,10 +35,10 @@ import TitleNavBar from '@components/navBar/TitleNavBar';
 
 import { getCanHistoryGoBack } from '@utils/history';
 
-import GeneratedImgA from './components/GeneratedImgA.tsx';
-import GeneratedImgB from './components/GeneratedImgB.tsx';
+import GeneratedImgA from './components/GeneratedImgA';
+import GeneratedImgB from './components/GeneratedImgB';
 import CurationSheet from './curationSheet/CurationSheet';
-import * as styles from './ResultPage.css.ts';
+import * as styles from './ResultPage.css';
 
 // 통일된 타입 정의
 type UnifiedGenerateImageResult = {
@@ -126,7 +128,7 @@ const ResultPage = () => {
   // 마이페이지에서 온 경우와 일반 생성 플로우에서 온 경우 구분
   const {
     data: apiResult,
-    isLoading,
+    isPending,
     isError: isResultError,
   } = useGetResultDataQuery(parsedHouseId ?? 0, {
     enabled: shouldFetchExternalResult,
@@ -139,10 +141,10 @@ const ResultPage = () => {
   const mypageResult = mypageDetailQuery.data;
   const mypageHistories: MyPageImageDetail[] | null =
     mypageResult?.histories ?? null;
-  const mypageLoading = mypageDetailQuery.isLoading;
+  const mypageLoading = mypageDetailQuery.isPending;
   const isSlideCountReady =
     !shouldFetchMypageDetail ||
-    (!mypageDetailQuery.isLoading && !mypageDetailQuery.isPlaceholderData);
+    (!mypageDetailQuery.isPending && !mypageDetailQuery.isPlaceholderData);
   const isSlideCountLoading = !isSlideCountReady;
 
   const resolvedResult = useMemo(() => {
@@ -215,15 +217,15 @@ const ResultPage = () => {
       if (getCanHistoryGoBack()) {
         navigate(-1);
       } else {
-        navigate('/mypage', { replace: true });
+        navigate(ROUTES.MYPAGE, { replace: true });
       }
     } else {
-      navigate('/');
+      navigate(ROUTES.HOME);
     }
   };
 
   // 로딩 중이면 로딩 표시
-  if (!result && (isLoading || mypageLoading)) {
+  if (!result && (isPending || mypageLoading)) {
     return (
       <main className={styles.pageLayout}>
         <TitleNavBar
@@ -255,7 +257,7 @@ const ResultPage = () => {
   // 데이터 없으면 홈으로 리다이렉션
   if (!result) {
     console.error('Result data is missing');
-    return <Navigate to="/" replace />;
+    return <Navigate to={ROUTES.HOME} replace />;
   }
 
   return (

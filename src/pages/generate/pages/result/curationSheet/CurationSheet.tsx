@@ -286,7 +286,7 @@ const CurationSheet = ({ groupId = null }: CurationSheetProps) => {
     if (!hasDetectionCodes) {
       return renderStatus('가구를 분석 중이에요', '잠시만 기다려 주세요');
     }
-    if (categoriesQuery.isLoading) {
+    if (categoriesQuery.isPending) {
       return renderStatus(
         '감지된 가구를 분석 중이에요',
         '잠시만 기다려 주세요',
@@ -313,7 +313,7 @@ const CurationSheet = ({ groupId = null }: CurationSheetProps) => {
         '상단 필터에서 원하는 가구를 골라 주세요'
       );
     }
-    if (productsQuery.isLoading) {
+    if (productsQuery.isPending) {
       return renderStatus(
         '선택한 가구에 맞는 상품을 찾는 중이에요',
         '곧 추천을 보여드릴게요',

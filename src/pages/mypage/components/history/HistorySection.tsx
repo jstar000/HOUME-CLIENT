@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
+import { ROUTES } from '@routes/paths';
+
 import emptyImage from '@assets/images/emptyImage.png';
 
 import CardHistory from '@components/card/cardHistory/CardHistory';
@@ -18,12 +20,12 @@ const HistorySection = () => {
 
   // 생성 결과 상세로 이동
   const handleViewResult = (houseId: number) => {
-    navigate(`/generate/result?from=mypage&houseId=${houseId}`);
+    navigate(`${ROUTES.GENERATE_RESULT}?from=mypage&houseId=${houseId}`);
   };
 
   // 이미지 생성 플로우로 이동
   const handleCreateImage = () => {
-    navigate('/imageSetup');
+    navigate(ROUTES.IMAGE_SETUP);
   };
 
   // 로딩 상태

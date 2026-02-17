@@ -1,12 +1,11 @@
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
-import { zIndex } from '@shared/styles/tokens/zIndex';
-
 import {
   SKELETON_GRADIENT,
   animationTokens,
 } from '@styles/tokens/animation.css';
+import { zIndex } from '@styles/tokens/zIndex';
 
 export const container = style({
   aspectRatio: '3 / 2',

@@ -12,7 +12,7 @@ import SignupImage from '@assets/icons/loginAfter.png';
 import CtaButton from '@components/button/ctaButton/CtaButton';
 import TitleNavBar from '@components/navBar/TitleNavBar';
 
-import * as styles from './StartPage.css.ts';
+import * as styles from './StartPage.css';
 
 const StartPage = () => {
   // zustand에서 userName 가져오기

@@ -4,13 +4,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ROUTES } from '@routes/paths';
 
-import CtaButton from '@components/button/ctaButton/CtaButton.tsx';
+import CtaButton from '@components/button/ctaButton/CtaButton';
 import ErrorMessage from '@components/button/errorMessage/ErrorMessage';
-import LargeFilledButton from '@components/button/largeFilledButton/LargeFilledButton.tsx';
-import TitleNavBar from '@components/navBar/TitleNavBar.tsx';
-import TextField from '@components/textField/TextField.tsx';
+import LargeFilledButton from '@components/button/largeFilledButton/LargeFilledButton';
+import TitleNavBar from '@components/navBar/TitleNavBar';
+import TextField from '@components/textField/TextField';
 
-import { ERROR_MESSAGES } from '@constants/clientErrorMessage.ts';
+import { ERROR_MESSAGES } from '@constants/clientErrorMessage';
 
 import { usePostSignupMutation } from './apis/mutations/usePostSignupMutation';
 import useSignupForm from './hooks/useSignupForm';
