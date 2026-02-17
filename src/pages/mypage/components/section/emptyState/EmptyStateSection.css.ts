@@ -27,20 +27,20 @@ export const textWrapper = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  padding: '1.6rem 2rem',
   gap: '1.2rem',
+  padding: '1.6rem 2rem',
 });
 
 export const title = style({
   ...fontStyle('title_sb_16'),
   textAlign: 'center',
-  color: colorVars.color.gray999,
   whiteSpace: 'nowrap',
+  color: colorVars.color.gray999,
 });
 
 export const description = style({
   ...fontStyle('body_r_14'),
   textAlign: 'center',
-  color: colorVars.color.gray500,
   whiteSpace: 'pre-line',
+  color: colorVars.color.gray500,
 });

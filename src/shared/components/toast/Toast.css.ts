@@ -7,9 +7,9 @@ import { colorVars } from '@styles/tokens/color.css';
 export const container = style({
   display: 'inline-flex',
   gap: '1.5rem',
-  padding: '1rem 2rem',
   borderRadius: '30px',
   background: colorVars.color.gray900,
+  padding: '1rem 2rem',
 });
 
 export const text = recipe({

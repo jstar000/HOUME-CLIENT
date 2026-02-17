@@ -7,11 +7,11 @@ export const captionChip = recipe({
   base: {
     display: 'inline-flex',
     alignItems: 'center',
-    backgroundColor: colorVars.color.primary_light2,
     borderRadius: '3px',
+    backgroundColor: colorVars.color.primary_light2,
     ...fontStyle('caption_m_12'),
-    color: colorVars.color.primary,
     padding: '0.2rem 0.6rem',
+    color: colorVars.color.primary,
   },
   variants: {
     stroke: {

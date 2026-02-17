@@ -509,22 +509,77 @@ shared/apis/
 - 개별 페이지에서 중복 preload 호출 금지
 
 <!-- Phase 9 완료 -->
-<!-- Phase 10 완료 시: 에러/로딩 처리 컨벤션 추가 -->
-<!-- Phase 11 완료 시: 스타일링 컨벤션 추가 -->
+
+## Vanilla Extract 스타일링 컨벤션 (Phase 11)
+
+### CSS 속성 순서: Concentric Order
+
+ESLint 플러그인(`@antebudimir/eslint-plugin-vanilla-extract`)이 CSS 속성을 **concentric order**로 자동 정렬한다:
+
+```
+바깥 → 안쪽 순서:
+position/z-index → display/flex → margin → border → padding → width/height → overflow → font → color → animation
+```
+
+- 저장 시 자동 정렬 (`.vscode/settings.json` ESLint autofix)
+- 커밋 시에도 husky + lint-staged로 autofix
+
+### 디자인 토큰 사용 규칙
+
+#### 색상
+
+- **모든 색상은 `colorVars`** 사용 (`@styles/tokens/color.css`)
+- 하드코딩된 `#hex`, `rgba()` 금지
+- 필요한 색상이 없으면 `color.css.ts`에 토큰 추가 후 사용
+- 기존 토큰: grayscale (gray000~gray999 + 투명도 변형), brand (primary 계열), feedback (error)
+
+#### 폰트
+
+- **모든 폰트 속성은 `fontStyle()` 헬퍼** 사용 (`@styles/fontStyle`)
+- raw `fontSize`, `fontWeight`, `lineHeight` 직접 사용 금지
+- `...fontStyle('body_r_14')` 형태로 spread
+
+#### 애니메이션
+
+- **키프레임은 `animationTokens`** 사용 (`@styles/tokens/animation.css.ts`)
+- `SKELETON_GRADIENT` 상수 — 스켈레톤 로딩 그라데이션 공유값
+
+### 예외 허용 사항
+
+| 항목                                           | 허용 사유                                      |
+| ---------------------------------------------- | ---------------------------------------------- |
+| `global.css.ts`의 body box-shadow              | 미디어쿼리 안 고유값, 1회 사용                 |
+| `BottomSheetWrapper.css.ts`의 sheet box-shadow | 고유값, 1회 사용                               |
+| `CtaButton.css.ts`의 카카오 폰트               | 외부 브랜드 가이드라인 (`Apple SD Gothic Neo`) |
+| CSS custom property `vars`의 `'0px'`/`'0%'`    | `calc()` 연산에 단위 필수                      |
+
+### ESLint 규칙 설정 사유
+
+| 규칙                    | 설정    | 사유                                                                        |
+| ----------------------- | ------- | --------------------------------------------------------------------------- |
+| `concentric-order`      | `error` | CSS 속성 순서 자동 정렬                                                     |
+| `no-empty-style-blocks` | `off`   | `recipe()` variant에서 빈 블록(`default: {}`)이 TypeScript 타입 추론에 필요 |
+| `no-trailing-zero`      | `error` | 불필요한 후행 0 제거 (ex: `0.50` → `0.5`)                                   |
+| `no-zero-unit`          | `off`   | CSS custom property `vars`에서 `'0px'` → `'0'` 변환 시 `calc()` 연산 불가   |
+| `no-unknown-unit`       | `error` | 잘못된 CSS 단위 방지                                                        |
+| `no-unitless-values`    | `error` | 단위 누락 방지                                                              |
+
+<!-- Phase 11 완료 -->
 
 ---
 
 ## 변경 이력
 
-| 날짜       | 변경 내용                                                                                          |
-| ---------- | -------------------------------------------------------------------------------------------------- |
-| 2026-02-16 | 템플릿 생성                                                                                        |
-| 2026-02-16 | Phase 1: Query Key 컨벤션 추가 (factory 패턴, ESLint 설정)                                         |
-| 2026-02-16 | Phase 2: Path Alias 컨벤션 추가 (@/ 제거, 세부 alias 통일, @store 추가, @types 금지)               |
-| 2026-02-17 | Phase 3: 네이밍 컨벤션 추가 ({Feature}Page, Query/Mutation 접미사, 코드 네이밍 규칙)               |
-| 2026-02-17 | Phase 3 보완: mypage/login 훅 접미사, 컴포넌트명=파일명 규칙, 폴더 camelCase, dead code 삭제       |
-| 2026-02-17 | Phase 4: 폴더 구조 정규화 (Detection 분리, cross-feature import 해소, steps 리네임)                |
-| 2026-02-17 | Phase 4 보완: shared/apis/ 인프라-도메인 분리 (config/ 하위폴더)                                   |
-| 2026-02-17 | Phase 5: Export 컨벤션 추가 (컴포넌트 default, 훅/유틸 named, barrel/mixed 금지)                   |
-| 2026-02-17 | Phase 6: API/데이터 페칭 컨벤션 추가 (queries/mutations 구조, request() rawResponse, 훅 위치 규칙) |
-| 2026-02-17 | Phase 9: Lazy Loading 컨벤션 추가 (eager/lazy 분류, RootLayout 이동, ONNX preload 정리)            |
+| 날짜       | 변경 내용                                                                                            |
+| ---------- | ---------------------------------------------------------------------------------------------------- |
+| 2026-02-16 | 템플릿 생성                                                                                          |
+| 2026-02-16 | Phase 1: Query Key 컨벤션 추가 (factory 패턴, ESLint 설정)                                           |
+| 2026-02-16 | Phase 2: Path Alias 컨벤션 추가 (@/ 제거, 세부 alias 통일, @store 추가, @types 금지)                 |
+| 2026-02-17 | Phase 3: 네이밍 컨벤션 추가 ({Feature}Page, Query/Mutation 접미사, 코드 네이밍 규칙)                 |
+| 2026-02-17 | Phase 3 보완: mypage/login 훅 접미사, 컴포넌트명=파일명 규칙, 폴더 camelCase, dead code 삭제         |
+| 2026-02-17 | Phase 4: 폴더 구조 정규화 (Detection 분리, cross-feature import 해소, steps 리네임)                  |
+| 2026-02-17 | Phase 4 보완: shared/apis/ 인프라-도메인 분리 (config/ 하위폴더)                                     |
+| 2026-02-17 | Phase 5: Export 컨벤션 추가 (컴포넌트 default, 훅/유틸 named, barrel/mixed 금지)                     |
+| 2026-02-17 | Phase 6: API/데이터 페칭 컨벤션 추가 (queries/mutations 구조, request() rawResponse, 훅 위치 규칙)   |
+| 2026-02-17 | Phase 9: Lazy Loading 컨벤션 추가 (eager/lazy 분류, RootLayout 이동, ONNX preload 정리)              |
+| 2026-02-17 | Phase 11: Vanilla Extract 스타일링 컨벤션 추가 (concentric order, 디자인 토큰 규칙, ESLint 플러그인) |

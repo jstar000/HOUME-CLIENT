@@ -11,14 +11,14 @@ export const container = style({
 export const textbox = style({
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'center',
   alignItems: 'center',
+  justifyContent: 'center',
   gap: '0.8rem',
-  width: '100%',
-  textAlign: 'center',
   padding: '4rem 2rem 2rem 2rem',
-  color: colorVars.color.gray900,
+  width: '100%',
   animation: animationTokens.fadeInUpFast,
+  textAlign: 'center',
+  color: colorVars.color.gray900,
 });
 
 export const title = style({
@@ -32,9 +32,9 @@ export const content = style({
 });
 
 export const imgbox = style({
-  width: '100%',
   display: 'flex',
   justifyContent: 'center',
+  width: '100%',
 });
 
 export const signUpImg = style({
@@ -46,12 +46,12 @@ export const signUpImg = style({
 export const btnarea = style({
   position: 'fixed',
   bottom: '0',
-  width: '100%',
-  maxWidth: '430px',
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'center',
   alignItems: 'center',
+  justifyContent: 'center',
   gap: '1rem',
   padding: '0 2rem 2rem 2rem',
+  width: '100%',
+  maxWidth: '430px',
 });

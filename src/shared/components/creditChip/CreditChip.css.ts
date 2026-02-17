@@ -5,18 +5,18 @@ import { colorVars } from '@styles/tokens/color.css';
 
 export const container = style({
   display: 'inline-flex',
-  padding: '0.6rem 0.8rem',
-  borderRadius: '999px',
   alignItems: 'center',
+  borderRadius: '999px',
   backgroundColor: colorVars.color.gray100,
+  padding: '0.6rem 0.8rem',
 });
 
 export const imageContainer = style({
   display: 'inline-flex',
-  height: '2.4rem',
-  width: '2.4rem',
-  justifyContent: 'center',
   alignItems: 'center',
+  justifyContent: 'center',
+  width: '2.4rem',
+  height: '2.4rem',
 });
 
 export const textWrapper = style({

@@ -4,16 +4,16 @@ import { animationTokens } from '@styles/tokens/animation.css';
 
 export const container = style({
   display: 'flex',
-  flexDirection: 'column',
   flex: 1,
+  flexDirection: 'column',
   width: '100%',
 });
 
 export const contents = style({
   display: 'flex',
   flexDirection: 'column',
-  padding: '2rem',
   gap: '4rem',
+  padding: '2rem',
   animation: animationTokens.fadeInUpFast,
 });
 

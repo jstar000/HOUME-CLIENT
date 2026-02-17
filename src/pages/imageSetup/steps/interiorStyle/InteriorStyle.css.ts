@@ -3,25 +3,25 @@ import { style } from '@vanilla-extract/css';
 import { zIndex } from '@styles/tokens/zIndex';
 
 export const container = style({
-  display: 'flex',
   position: 'relative',
+  display: 'flex',
+  flex: 1,
   flexDirection: 'column',
   alignItems: 'center',
-  flex: 1,
-  width: '100%',
   marginBottom: '9.6rem',
+  width: '100%',
 });
 
 export const buttonWrapper = style({
   position: 'fixed',
-  bottom: '2rem',
-  width: '100%',
-  maxWidth: '44rem', // CtaButton 최대 너비 설정
+  zIndex: zIndex.button,
+  right: 0,
+  bottom: '2rem', // CtaButton 최대 너비 설정
+  left: 0,
   display: 'flex',
   justifyContent: 'center',
-  zIndex: zIndex.button,
-  padding: '0 2rem 0 2rem',
-  left: 0,
-  right: 0,
   margin: '0 auto',
+  padding: '0 2rem 0 2rem',
+  width: '100%',
+  maxWidth: '44rem',
 });

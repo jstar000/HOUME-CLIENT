@@ -4,16 +4,16 @@ import { zIndex } from '@styles/tokens/zIndex';
 
 export const container = style({
   display: 'flex',
+  flex: 1,
   flexDirection: 'column',
   alignItems: 'center',
-  flex: 1,
   width: '100%',
 });
 
 export const buttonWrapper = style({
+  zIndex: zIndex.button,
   bottom: '2rem',
-  width: '100%',
   display: 'flex',
   justifyContent: 'center',
-  zIndex: zIndex.button,
+  width: '100%',
 });

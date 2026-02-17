@@ -8,8 +8,8 @@ import { colorVars } from '@styles/tokens/color.css';
 
 export const pageLayout = style({
   display: 'flex',
-  flexDirection: 'column',
   flex: 1,
+  flexDirection: 'column',
 });
 
 export const wrapper = style({
@@ -31,10 +31,10 @@ export const resultSection = style({
 
 export const imgArea = recipe({
   base: {
-    width: '100%',
     aspectRatio: '3 / 2',
-    objectFit: 'cover', // 비율 유지하며 영역 완전히 채움
-    objectPosition: 'center', // 이미지 중앙 부분 표시
+    objectFit: 'cover',
+    objectPosition: 'center', // 비율 유지하며 영역 완전히 채움
+    width: '100%', // 이미지 중앙 부분 표시
     animation: animationTokens.fadeInUpFast,
   },
   variants: {
@@ -65,13 +65,13 @@ export const buttonSectionDisabled = style({
 export const buttonBox = style({
   display: 'flex',
   flexDirection: 'column',
+  justifyContent: 'center',
+  gap: '1rem',
+  borderRadius: '1.2rem',
+  backgroundColor: colorVars.color.gray100,
   padding: '1.6rem clamp(1.6rem, 4vw, 4rem)',
   width: '100%',
   height: '100%',
-  borderRadius: '1.2rem',
-  justifyContent: 'center',
-  gap: '1rem',
-  backgroundColor: colorVars.color.gray100,
 });
 
 export const boxText = style({
@@ -100,11 +100,11 @@ export const tagButton = style({
   alignItems: 'center',
   justifyContent: 'center',
   borderRadius: '99.9rem',
-  height: '3.6rem',
-  padding: '0 1.6rem',
-  ...fontStyle('body_r_14'),
-  cursor: 'pointer',
   backgroundColor: colorVars.color.gray000,
+  cursor: 'pointer',
+  ...fontStyle('body_r_14'),
+  padding: '0 1.6rem',
+  height: '3.6rem',
   color: colorVars.color.gray700,
 
   ':active': {

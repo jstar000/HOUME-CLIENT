@@ -12,6 +12,7 @@ import eslintConfigPrettier from 'eslint-config-prettier';
 import importPlugin from 'eslint-plugin-import';
 import tanstackQueryPlugin from '@tanstack/eslint-plugin-query';
 import prettierPlugin from 'eslint-plugin-prettier';
+import vanillaExtract from '@antebudimir/eslint-plugin-vanilla-extract';
 
 export default [
   {
@@ -113,7 +114,6 @@ export default [
 
             // path alias를 internal로 분류
             { pattern: '@pages/**', group: 'internal', position: 'before' },
-            { pattern: '@layout/**', group: 'internal', position: 'before' },
             { pattern: '@routes/**', group: 'internal', position: 'before' },
             { pattern: '@store/**', group: 'internal', position: 'before' },
             { pattern: '@shared/**', group: 'internal', position: 'before' },
@@ -139,6 +139,21 @@ export default [
           alphabetize: { order: 'asc', caseInsensitive: true },
         },
       ],
+    },
+  },
+  // Vanilla Extract CSS 속성 정렬 + 스타일 검증
+  {
+    files: ['**/*.css.ts'],
+    plugins: {
+      'vanilla-extract': vanillaExtract,
+    },
+    rules: {
+      'vanilla-extract/concentric-order': 'error',
+      'vanilla-extract/no-empty-style-blocks': 'off',
+      'vanilla-extract/no-trailing-zero': 'error',
+      'vanilla-extract/no-zero-unit': 'off',
+      'vanilla-extract/no-unknown-unit': 'error',
+      'vanilla-extract/no-unitless-values': 'error',
     },
   },
   eslintConfigPrettier,
