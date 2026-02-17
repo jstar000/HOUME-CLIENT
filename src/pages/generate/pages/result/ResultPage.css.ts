@@ -6,6 +6,12 @@ import { layoutVars } from '@styles/global.css';
 import { animationTokens } from '@styles/tokens/animation.css';
 import { colorVars } from '@styles/tokens/color.css';
 
+export const pageLayout = style({
+  display: 'flex',
+  flexDirection: 'column',
+  flex: 1,
+});
+
 export const wrapper = style({
   display: 'flex',
   flexDirection: 'column',

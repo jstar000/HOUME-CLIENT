@@ -261,7 +261,7 @@ const LoadingPage = () => {
   }
 
   return (
-    <main style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+    <main className={styles.pageLayout}>
       <TitleNavBar
         title="스타일링 이미지 생성"
         isBackIcon={false}

@@ -225,7 +225,7 @@ const ResultPage = () => {
   // 로딩 중이면 로딩 표시
   if (!result && (isLoading || mypageLoading)) {
     return (
-      <main style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+      <main className={styles.pageLayout}>
         <TitleNavBar
           title="스타일링 이미지 생성"
           isBackIcon={true}
@@ -240,7 +240,7 @@ const ResultPage = () => {
   // API 에러 시 인라인 에러 표시
   if (isResultError && !result) {
     return (
-      <main style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+      <main className={styles.pageLayout}>
         <TitleNavBar
           title="스타일링 이미지 생성"
           isBackIcon={true}
