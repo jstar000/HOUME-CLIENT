@@ -1,7 +1,10 @@
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
-import { animationTokens } from '@styles/tokens/animation.css';
+import {
+  SKELETON_GRADIENT,
+  animationTokens,
+} from '@styles/tokens/animation.css';
 
 export const cardCurationContainer = style({
   display: 'flex',
@@ -46,7 +49,7 @@ export const skeleton = style({
   position: 'absolute',
   inset: 0,
   borderRadius: '0.8rem',
-  background: 'linear-gradient(90deg, #ececec 8%, #f0f0f0 18%, #ececec 33%)',
+  background: SKELETON_GRADIENT,
   backgroundSize: '200% 100%',
   animation: `${animationTokens.skeletonWave} 2s linear infinite`,
 });

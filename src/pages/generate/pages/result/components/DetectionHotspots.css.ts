@@ -3,7 +3,10 @@ import { recipe } from '@vanilla-extract/recipes';
 
 import { zIndex } from '@shared/styles/tokens/zIndex';
 
-import { animationTokens } from '@styles/tokens/animation.css';
+import {
+  SKELETON_GRADIENT,
+  animationTokens,
+} from '@styles/tokens/animation.css';
 
 export const container = style({
   position: 'relative',
@@ -80,7 +83,7 @@ export const hotspot = style({
 export const skeleton = style({
   position: 'absolute',
   inset: 0,
-  background: 'linear-gradient(90deg, #ececec 8%, #f0f0f0 18%, #ececec 33%)',
+  background: SKELETON_GRADIENT,
   backgroundSize: '200% 100%',
   zIndex: zIndex.base,
   animation: `${animationTokens.skeletonWave} 2s linear infinite`,

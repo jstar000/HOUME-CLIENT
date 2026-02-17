@@ -9,6 +9,8 @@ import { preloadONNXModel } from '@shared/detection/hooks/useOnnxModel';
 
 import { useScrollToTop } from '@hooks/useScrollToTop';
 
+import * as styles from './RootLayout.css';
+
 const GENERATE_WARMUP_PATHS = [
   ROUTES.GENERATE,
   ROUTES.GENERATE_RESULT,
@@ -16,18 +18,7 @@ const GENERATE_WARMUP_PATHS = [
   ROUTES.IMAGE_SETUP,
 ];
 
-function RootLayout() {
-  // 라우트/쿼리/해시/키 변화와 초기 마운트 시 스크롤 최상단으로 이동
-  useScrollToTop();
-  useGenerateWarmup();
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-      <Outlet />
-    </div>
-  );
-}
-
-function useGenerateWarmup() {
+const useGenerateWarmup = () => {
   const location = useLocation();
 
   useEffect(() => {
@@ -40,6 +31,17 @@ function useGenerateWarmup() {
 
     preloadONNXModel(OBJ365_MODEL_PATH).catch(() => undefined);
   }, [location.pathname]);
-}
+};
+
+const RootLayout = () => {
+  // 라우트/쿼리/해시/키 변화와 초기 마운트 시 스크롤 최상단으로 이동
+  useScrollToTop();
+  useGenerateWarmup();
+  return (
+    <div className={styles.container}>
+      <Outlet />
+    </div>
+  );
+};
 
 export default RootLayout;
