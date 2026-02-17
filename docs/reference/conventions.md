@@ -4,7 +4,7 @@
 > 각 Phase 완료 시 해당 섹션이 추가/업데이트됩니다.
 > 리팩토링 완료 후 CLAUDE.md 및 팀 온보딩 문서에 반영 예정입니다.
 >
-> **마지막 업데이트**: 2026-02-17 (Phase 6 완료)
+> **마지막 업데이트**: 2026-02-17 (Phase 9 완료)
 
 ---
 
@@ -94,7 +94,6 @@ import { colorVars } from '@/shared/styles/colors.css';
 | Alias          | 실제 경로                | 용도                          |
 | -------------- | ------------------------ | ----------------------------- |
 | `@pages/`      | `src/pages/`             | Feature 페이지                |
-| `@layout/`     | `src/layout/`            | 레이아웃 컴포넌트             |
 | `@routes/`     | `src/routes/`            | 라우팅 설정                   |
 | `@store/`      | `src/store/`             | 전역 Zustand 스토어           |
 | `@shared/`     | `src/shared/`            | shared 직접 접근 (config 등)  |
@@ -466,10 +465,52 @@ shared/apis/
 ```
 
 <!-- Phase 6 완료 -->
-<!-- Phase 7 완료 시: Provider 구조 추가 -->
-<!-- Phase 8 완료 시: Lazy Loading 컨벤션 추가 -->
-<!-- Phase 9 완료 시: 에러/로딩 처리 컨벤션 추가 -->
-<!-- Phase 10 완료 시: 스타일링 컨벤션 추가 -->
+
+## Lazy Loading 컨벤션 (Phase 9)
+
+### 라우트 분류 기준
+
+| 분류  | 기준                               | 로딩 방식    |
+| ----- | ---------------------------------- | ------------ |
+| Eager | 첫 진입 확률 높거나 핵심 퍼널 경로 | 정적 import  |
+| Lazy  | 특정 조건에서만 방문하는 페이지    | `route.lazy` |
+
+### Eager 페이지 (정적 import)
+
+- `HomePage` — 랜딩 페이지
+- `LoginPage` — OAuth 진입점
+- `KakaoCallbackPage` — OAuth redirect
+- `ImageSetupPage` — 퍼널 핵심, prefetch 연동
+- `LoadingPage` — 이미지 생성 직후 즉시 표시
+- `ResultPage` — 생성 결과 즉시 표시, detection 연동
+
+### Lazy 페이지 (`route.lazy` 패턴)
+
+```typescript
+{
+  path: ROUTES.SIGNUP,
+  lazy: async () => {
+    const { default: SignupPage } = await import('@pages/signup/SignupPage');
+    return { Component: SignupPage };
+  },
+},
+```
+
+- `SignupPage`, `StartPage`, `MyPage`, `SettingPage`, `ServicePolicyPage`, `PrivacyPolicyPage`, `NotFoundPage`
+
+### RootLayout 위치
+
+- `src/routes/RootLayout.tsx` — router.tsx와 같은 폴더
+- `@layout` alias 삭제됨 → 상대경로 import (`./RootLayout`)
+
+### ONNX 모델 preload
+
+- RootLayout의 `useGenerateWarmup()`이 `/generate/*`, `/imageSetup` 경로에서 자동 preload
+- 개별 페이지에서 중복 preload 호출 금지
+
+<!-- Phase 9 완료 -->
+<!-- Phase 10 완료 시: 에러/로딩 처리 컨벤션 추가 -->
+<!-- Phase 11 완료 시: 스타일링 컨벤션 추가 -->
 
 ---
 
@@ -486,3 +527,4 @@ shared/apis/
 | 2026-02-17 | Phase 4 보완: shared/apis/ 인프라-도메인 분리 (config/ 하위폴더)                                   |
 | 2026-02-17 | Phase 5: Export 컨벤션 추가 (컴포넌트 default, 훅/유틸 named, barrel/mixed 금지)                   |
 | 2026-02-17 | Phase 6: API/데이터 페칭 컨벤션 추가 (queries/mutations 구조, request() rawResponse, 훅 위치 규칙) |
+| 2026-02-17 | Phase 9: Lazy Loading 컨벤션 추가 (eager/lazy 분류, RootLayout 이동, ONNX preload 정리)            |

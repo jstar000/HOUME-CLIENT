@@ -68,7 +68,6 @@ Each `pages/` feature contains its complete domain:
 ```typescript
 @/           → src/
 @pages       → src/pages/
-@layout      → src/layout/
 @routes      → src/routes/
 @stories     → src/stories/
 @shared      → src/shared/
