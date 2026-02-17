@@ -11,7 +11,6 @@
 // TODO(지성): 컴포넌트 lazy load 적용하기
 import { createBrowserRouter } from 'react-router-dom';
 
-import GeneratePage from '@pages/generate/GeneratePage';
 import LoadingPage from '@pages/generate/pages/loading/LoadingPage';
 import ResultPage from '@pages/generate/pages/result/ResultPage';
 import StartPage from '@pages/generate/pages/start/StartPage';
@@ -70,17 +69,11 @@ const protectedRoutes = [
   },
   {
     path: ROUTES.GENERATE,
-    element: <GeneratePage />,
-    children: [
-      {
-        index: true,
-        element: <LoadingPage />,
-      },
-      {
-        path: 'result',
-        element: <ResultPage />,
-      },
-    ],
+    element: <LoadingPage />,
+  },
+  {
+    path: ROUTES.GENERATE_RESULT,
+    element: <ResultPage />,
   },
   {
     path: ROUTES.MYPAGE,

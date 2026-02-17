@@ -1,6 +1,12 @@
 import { useState, useEffect, useMemo } from 'react';
 
-import { useLocation, useSearchParams, Navigate } from 'react-router-dom';
+import { ErrorBoundary } from 'react-error-boundary';
+import {
+  useLocation,
+  useNavigate,
+  useSearchParams,
+  Navigate,
+} from 'react-router-dom';
 
 import { useGetResultDataQuery } from '@pages/generate/apis/queries/useGetResultDataQuery';
 import { useABTest } from '@pages/generate/hooks/useABTest';
@@ -20,8 +26,12 @@ import { createImageDetailPlaceholder } from '@pages/mypage/utils/resultNavigati
 
 import type { DetectionCacheEntry } from '@shared/detection/stores/useDetectionCacheStore';
 
+import FeatureErrorFallback from '@components/errorFallback/FeatureErrorFallback';
 import InlineError from '@components/inlineError/InlineError';
 import Loading from '@components/loading/Loading';
+import TitleNavBar from '@components/navBar/TitleNavBar';
+
+import { getCanHistoryGoBack } from '@utils/history';
 
 import GeneratedImgA from './components/GeneratedImgA.tsx';
 import GeneratedImgB from './components/GeneratedImgB.tsx';
@@ -58,6 +68,7 @@ const toGenerateImageData = (
  */
 const ResultPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { isMultipleImages } = useABTest();
   const [currentImgId, setCurrentImgId] = useState(0);
@@ -198,14 +209,47 @@ const ResultPage = () => {
     };
   }, [resetCuration]);
 
+  // 뒤로가기 로직 (GeneratePage에서 이관)
+  const handleBackClick = () => {
+    if (isFromMypage) {
+      if (getCanHistoryGoBack()) {
+        navigate(-1);
+      } else {
+        navigate('/mypage', { replace: true });
+      }
+    } else {
+      navigate('/');
+    }
+  };
+
   // 로딩 중이면 로딩 표시
   if (!result && (isLoading || mypageLoading)) {
-    return <Loading />;
+    return (
+      <main style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+        <TitleNavBar
+          title="스타일링 이미지 생성"
+          isBackIcon={true}
+          isLoginBtn={false}
+          onBackClick={handleBackClick}
+        />
+        <Loading />
+      </main>
+    );
   }
 
   // API 에러 시 인라인 에러 표시
   if (isResultError && !result) {
-    return <InlineError message="결과를 불러올 수 없습니다" />;
+    return (
+      <main style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+        <TitleNavBar
+          title="스타일링 이미지 생성"
+          isBackIcon={true}
+          isLoginBtn={false}
+          onBackClick={handleBackClick}
+        />
+        <InlineError message="결과를 불러올 수 없습니다" />
+      </main>
+    );
   }
 
   // 데이터 없으면 홈으로 리다이렉션
@@ -215,27 +259,37 @@ const ResultPage = () => {
   }
 
   return (
-    <div className={styles.wrapper}>
-      <section className={styles.resultSection}>
-        {/* A/B 테스트에 따라 다른 컴포넌트 렌더링 */}
-        {isMultipleImages ? (
-          <GeneratedImgA
-            result={result}
-            onCurrentImgIdChange={setCurrentImgId}
-            userProfile={forwardedUserProfile}
-            detectionCache={forwardedDetectionMap ?? undefined}
-            isSlideCountLoading={isSlideCountLoading}
-          />
-        ) : (
-          <GeneratedImgB
-            result={result}
-            onCurrentImgIdChange={setCurrentImgId}
-            detectionCache={forwardedDetectionMap ?? undefined}
-          />
-        )}
-        <CurationSheet groupId={groupId} />
-      </section>
-    </div>
+    <main style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+      <TitleNavBar
+        title="스타일링 이미지 생성"
+        isBackIcon={true}
+        isLoginBtn={false}
+        onBackClick={handleBackClick}
+      />
+      <ErrorBoundary FallbackComponent={FeatureErrorFallback}>
+        <div className={styles.wrapper}>
+          <section className={styles.resultSection}>
+            {/* A/B 테스트에 따라 다른 컴포넌트 렌더링 */}
+            {isMultipleImages ? (
+              <GeneratedImgA
+                result={result}
+                onCurrentImgIdChange={setCurrentImgId}
+                userProfile={forwardedUserProfile}
+                detectionCache={forwardedDetectionMap ?? undefined}
+                isSlideCountLoading={isSlideCountLoading}
+              />
+            ) : (
+              <GeneratedImgB
+                result={result}
+                onCurrentImgIdChange={setCurrentImgId}
+                detectionCache={forwardedDetectionMap ?? undefined}
+              />
+            )}
+            <CurationSheet groupId={groupId} />
+          </section>
+        </div>
+      </ErrorBoundary>
+    </main>
   );
 };
 

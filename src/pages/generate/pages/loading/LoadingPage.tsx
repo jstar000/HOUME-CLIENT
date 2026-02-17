@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
+import { ErrorBoundary } from 'react-error-boundary';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 import { usePostCarouselHateMutation } from '@pages/generate/apis/mutations/useCarouselHateMutation';
@@ -16,7 +17,9 @@ import { TOAST_TYPE } from '@shared/types/toast';
 
 import DislikeButton from '@components/button/likeButton/DislikeButton';
 import LikeButton from '@components/button/likeButton/LikeButton';
+import FeatureErrorFallback from '@components/errorFallback/FeatureErrorFallback';
 import Loading from '@components/loading/Loading';
+import TitleNavBar from '@components/navBar/TitleNavBar';
 import { useToast } from '@components/toast/useToast';
 
 import { ERROR_CODES, FALLBACK_TRIGGER_CODES } from '@constants/apiErrorCode';
@@ -257,84 +260,92 @@ const LoadingPage = () => {
     return <Navigate to={ROUTES.IMAGE_SETUP} replace />;
   }
 
-  // 로딩 스피너
-  if (isLoading) {
-    return <Loading />;
-  }
-
   return (
-    <div className={styles.wrapper}>
-      <section className={styles.infoSection}>
-        <ProgressBar onComplete={handleProgressComplete} />
-        <p className={styles.infoText}>
-          마음에 드는 가구를 선택하면, <br />
-          하우미가 사용자님의 취향을 더 잘 이해할 수 있어요!
-        </p>
-      </section>
+    <main style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+      <TitleNavBar
+        title="스타일링 이미지 생성"
+        isBackIcon={false}
+        isLoginBtn={false}
+      />
+      <ErrorBoundary FallbackComponent={FeatureErrorFallback}>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <div className={styles.wrapper}>
+            <section className={styles.infoSection}>
+              <ProgressBar onComplete={handleProgressComplete} />
+              <p className={styles.infoText}>
+                마음에 드는 가구를 선택하면, <br />
+                하우미가 사용자님의 취향을 더 잘 이해할 수 있어요!
+              </p>
+            </section>
 
-      <section className={styles.carouselSection}>
-        <div className={styles.imageContainer}>
-          {hasError ? (
-            // 에러 상황: 에러 메시지 표시
-            <div className={styles.errorMessage}>
-              <p>이미지를 불러올 수 없습니다</p>
-            </div>
-          ) : (
-            // 정상 상황: 이미지 캐러셀 표시
-            <>
-              {nextImage && (
-                <div
-                  key={`next-${currentPage + 1}-${nextImage.carouselId}`}
-                  className={`${styles.nextImageArea} ${
-                    animating ? styles.nextImageAreaActive : ''
-                  }`}
-                >
-                  <img
-                    src={nextImage.url}
-                    alt={`다음 가구 이미지 ${nextImage.carouselId}`}
-                    className={styles.imageStyle}
-                  />
+            <section className={styles.carouselSection}>
+              <div className={styles.imageContainer}>
+                {hasError ? (
+                  // 에러 상황: 에러 메시지 표시
+                  <div className={styles.errorMessage}>
+                    <p>이미지를 불러올 수 없습니다</p>
+                  </div>
+                ) : (
+                  // 정상 상황: 이미지 캐러셀 표시
+                  <>
+                    {nextImage && (
+                      <div
+                        key={`next-${currentPage + 1}-${nextImage.carouselId}`}
+                        className={`${styles.nextImageArea} ${
+                          animating ? styles.nextImageAreaActive : ''
+                        }`}
+                      >
+                        <img
+                          src={nextImage.url}
+                          alt={`다음 가구 이미지 ${nextImage.carouselId}`}
+                          className={styles.imageStyle}
+                        />
+                      </div>
+                    )}
+
+                    {currentImage && (
+                      <div
+                        key={`current-${currentPage}-${currentImage.carouselId}`}
+                        className={`${styles.currentImageArea} ${
+                          animating ? styles.currentImageAreaOut : ''
+                        }`}
+                      >
+                        <img
+                          src={currentImage.url}
+                          alt={`현재 가구 이미지 ${currentImage.carouselId}`}
+                          className={styles.imageStyle}
+                        />
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+
+              {!hasError && (
+                <div className={styles.buttonGroup}>
+                  <LikeButton
+                    onClick={() => handleVote(true)}
+                    isSelected={selected === 'like'}
+                    disabled={isVoting || animating}
+                  >
+                    좋아요
+                  </LikeButton>
+                  <DislikeButton
+                    onClick={() => handleVote(false)}
+                    isSelected={selected === 'dislike'}
+                    disabled={isVoting || animating}
+                  >
+                    별로예요
+                  </DislikeButton>
                 </div>
               )}
-
-              {currentImage && (
-                <div
-                  key={`current-${currentPage}-${currentImage.carouselId}`}
-                  className={`${styles.currentImageArea} ${
-                    animating ? styles.currentImageAreaOut : ''
-                  }`}
-                >
-                  <img
-                    src={currentImage.url}
-                    alt={`현재 가구 이미지 ${currentImage.carouselId}`}
-                    className={styles.imageStyle}
-                  />
-                </div>
-              )}
-            </>
-          )}
-        </div>
-
-        {!hasError && (
-          <div className={styles.buttonGroup}>
-            <LikeButton
-              onClick={() => handleVote(true)}
-              isSelected={selected === 'like'}
-              disabled={isVoting || animating}
-            >
-              좋아요
-            </LikeButton>
-            <DislikeButton
-              onClick={() => handleVote(false)}
-              isSelected={selected === 'dislike'}
-              disabled={isVoting || animating}
-            >
-              별로예요
-            </DislikeButton>
+            </section>
           </div>
         )}
-      </section>
-    </div>
+      </ErrorBoundary>
+    </main>
   );
 };
 
