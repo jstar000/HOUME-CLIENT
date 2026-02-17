@@ -30,7 +30,7 @@ const HomePage = () => {
   const scrollDepth50Sent = useRef(false);
   const scrollDepth100Sent = useRef(false);
 
-  const { isPending: isUserDataLoading } = useMyPageUserQuery({
+  const { isLoading: isUserDataLoading } = useMyPageUserQuery({
     enabled: isLoggedIn,
   });
 

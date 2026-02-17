@@ -27,7 +27,7 @@ const CreditModal = ({ onClose, title, onCreditAction }: CreditModalProps) => {
   const isLoggedIn = !!accessToken;
 
   // 사용자 크레딧 정보 조회
-  const { data: userData, isPending: isUserDataLoading } = useMyPageUserQuery({
+  const { data: userData, isLoading: isUserDataLoading } = useMyPageUserQuery({
     enabled: isLoggedIn, // 로그인 상태일 때만 API 호출
   });
 

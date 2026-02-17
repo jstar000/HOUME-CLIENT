@@ -414,15 +414,29 @@ export const useXxxQuery = () => {
 
 ### TanStack Query 상태값 규칙
 
-- **`isLoading` 사용 금지** → `isPending` 사용 (TanStack Query v5 마이그레이션)
-- `useState` 기반 로딩 상태는 `isLoading` 허용 (useQuery/useMutation과 무관한 경우)
+TanStack Query v5에서 `isPending`과 `isLoading`은 **다른 의미**:
+
+| 상태값      | 의미                                        | `enabled: false`일 때 |
+| ----------- | ------------------------------------------- | --------------------- |
+| `isPending` | `status === 'pending'` (캐시에 데이터 없음) | **항상 `true`**       |
+| `isLoading` | `isPending && isFetching` (실제 fetch 중)   | **항상 `false`**      |
+
+#### 사용 규칙
+
+- **항상 활성 쿼리** (enabled 없음 또는 `enabled: true`): `isPending` 사용
+- **조건부 쿼리** (`enabled: someCondition`): `isLoading` 사용
+  - `isPending`은 disabled 쿼리에서도 `true` → 영구 로딩 버그 유발
+- `useState` 기반 로딩 상태는 `isLoading` 허용
 
 ```typescript
-// ❌ Bad — TanStack Query v5에서 deprecated
-const { data, isLoading } = useXxxQuery();
-
-// ✅ Good
+// ✅ Good — 항상 활성 쿼리
 const { data, isPending } = useXxxQuery();
+
+// ✅ Good — 조건부 쿼리 (enabled가 false일 수 있음)
+const { data, isLoading } = useXxxQuery({ enabled: isLoggedIn });
+
+// ❌ Bad — 조건부 쿼리에서 isPending 사용 (disabled 시 영구 true)
+const { data, isPending } = useXxxQuery({ enabled: isLoggedIn });
 
 // ✅ OK — useState 기반은 isLoading 허용
 const [isLoading, setIsLoading] = useState(false);
@@ -618,3 +632,4 @@ position/z-index → display/flex → margin → border → padding → width/he
 | 2026-02-17 | Phase 9: Lazy Loading 컨벤션 추가 (eager/lazy 분류, RootLayout 이동, ONNX preload 정리)              |
 | 2026-02-17 | Phase 11: Vanilla Extract 스타일링 컨벤션 추가 (concentric order, 디자인 토큰 규칙, ESLint 플러그인) |
 | 2026-02-17 | 컨벤션 감사: TanStack Query isPending 규칙 추가, 경로 상수 규칙 추가                                 |
+| 2026-02-17 | P1 핫픽스: 조건부 쿼리(enabled) isPending→isLoading 구분 규칙 추가 (disabled 쿼리 영구 로딩 방지)    |

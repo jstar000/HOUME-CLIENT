@@ -128,7 +128,7 @@ const ResultPage = () => {
   // 마이페이지에서 온 경우와 일반 생성 플로우에서 온 경우 구분
   const {
     data: apiResult,
-    isPending,
+    isLoading: isPending,
     isError: isResultError,
   } = useGetResultDataQuery(parsedHouseId ?? 0, {
     enabled: shouldFetchExternalResult,
@@ -141,10 +141,10 @@ const ResultPage = () => {
   const mypageResult = mypageDetailQuery.data;
   const mypageHistories: MyPageImageDetail[] | null =
     mypageResult?.histories ?? null;
-  const mypageLoading = mypageDetailQuery.isPending;
+  const mypageLoading = mypageDetailQuery.isLoading;
   const isSlideCountReady =
     !shouldFetchMypageDetail ||
-    (!mypageDetailQuery.isPending && !mypageDetailQuery.isPlaceholderData);
+    (!mypageDetailQuery.isLoading && !mypageDetailQuery.isPlaceholderData);
   const isSlideCountLoading = !isSlideCountReady;
 
   const resolvedResult = useMemo(() => {
