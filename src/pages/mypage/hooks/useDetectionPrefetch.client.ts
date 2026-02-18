@@ -21,6 +21,11 @@ import type { ProcessedDetections } from '@pages/generate/types/detection';
 const PREFETCH_DELAY_MS = 120;
 const MAX_CONCURRENCY = 1;
 const IMAGE_LOAD_TIMEOUT_MS = 12_000;
+const LOW_MEMORY_DEVICE_GB_THRESHOLD = 2;
+
+type NavigatorWithDeviceMemory = Navigator & {
+  deviceMemory?: number;
+};
 
 /**
  * 외부 이미지 요소 로더
@@ -103,6 +108,22 @@ export const useDetectionPrefetchClient = () => {
   const inflightControllersRef = useRef<Map<number, AbortController>>(
     new Map()
   );
+  const shouldPausePrefetch = useCallback(() => {
+    if (typeof document !== 'undefined' && document.hidden) return true;
+    if (typeof navigator === 'undefined') return false;
+    const deviceMemory = (navigator as NavigatorWithDeviceMemory).deviceMemory;
+    return (
+      typeof deviceMemory === 'number' &&
+      deviceMemory <= LOW_MEMORY_DEVICE_GB_THRESHOLD
+    );
+  }, []);
+
+  const stopPrefetchTasks = useCallback(() => {
+    queueRef.current = [];
+    pendingRef.current.clear();
+    inflightControllersRef.current.forEach((controller) => controller.abort());
+    inflightControllersRef.current.clear();
+  }, []);
 
   // 세마포어 슬롯 확보
   const acquireSlot = useCallback(async () => {
@@ -253,9 +274,17 @@ export const useDetectionPrefetchClient = () => {
   // 백그라운드 큐를 순차로 소모해 모델 호출 폭주 방지
   const drainQueue = useCallback(async () => {
     if (drainingRef.current) return;
+    if (shouldPausePrefetch()) {
+      stopPrefetchTasks();
+      return;
+    }
     drainingRef.current = true;
     try {
       while (queueRef.current.length > 0) {
+        if (shouldPausePrefetch()) {
+          stopPrefetchTasks();
+          break;
+        }
         if (modelStateRef.current.isLoading || modelStateRef.current.error) {
           break;
         }
@@ -271,26 +300,40 @@ export const useDetectionPrefetchClient = () => {
       if (
         isMountedRef.current &&
         queueRef.current.length > 0 &&
+        !shouldPausePrefetch() &&
         !modelStateRef.current.isLoading &&
         !modelStateRef.current.error
       ) {
         void drainQueue();
       }
     }
-  }, [executePrefetch, runWithSemaphore]);
+  }, [
+    executePrefetch,
+    runWithSemaphore,
+    shouldPausePrefetch,
+    stopPrefetchTasks,
+  ]);
 
   const scheduleBackgroundPrefetch = useCallback(
     (imageId: number, imageUrl: string) => {
       if (!imageId || !imageUrl) return;
+      if (shouldPausePrefetch()) {
+        stopPrefetchTasks();
+        return;
+      }
       if (queueRef.current.some((task) => task.imageId === imageId)) return;
       queueRef.current.push({ imageId, imageUrl });
       void drainQueue();
     },
-    [drainQueue]
+    [drainQueue, shouldPausePrefetch, stopPrefetchTasks]
   );
 
   const prefetchDetection = useCallback(
     (imageId: number, imageUrl: string, options?: DetectionPrefetchOptions) => {
+      if (shouldPausePrefetch()) {
+        stopPrefetchTasks();
+        return;
+      }
       const priority = options?.priority ?? 'background';
       if (priority === 'immediate') {
         if (modelStateRef.current.isLoading || modelStateRef.current.error) {
@@ -302,15 +345,46 @@ export const useDetectionPrefetchClient = () => {
       }
       scheduleBackgroundPrefetch(imageId, imageUrl);
     },
-    [executePrefetch, runWithSemaphore, scheduleBackgroundPrefetch]
+    [
+      executePrefetch,
+      runWithSemaphore,
+      scheduleBackgroundPrefetch,
+      shouldPausePrefetch,
+      stopPrefetchTasks,
+    ]
   );
 
   useEffect(() => {
     modelStateRef.current = { isLoading, error };
+    if (shouldPausePrefetch()) {
+      stopPrefetchTasks();
+      return;
+    }
     if (!isLoading && !error && queueRef.current.length > 0) {
       void drainQueue();
     }
-  }, [isLoading, error, drainQueue]);
+  }, [isLoading, error, drainQueue, shouldPausePrefetch, stopPrefetchTasks]);
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const handleVisibilityChange = () => {
+      if (shouldPausePrefetch()) {
+        stopPrefetchTasks();
+        return;
+      }
+      if (
+        !modelStateRef.current.isLoading &&
+        !modelStateRef.current.error &&
+        queueRef.current.length > 0
+      ) {
+        void drainQueue();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [drainQueue, shouldPausePrefetch, stopPrefetchTasks]);
 
   useEffect(() => {
     return () => {
