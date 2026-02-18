@@ -85,17 +85,15 @@ export const content = style({
   msOverflowStyle: 'none', // IE and Edge
 });
 
-export const categorySection = style({
-  display: 'contents',
+export const sectionList = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 0,
+  paddingBottom: '2.4rem',
 });
 
-export const categoryAnchor = style({
-  gridColumn: '1 / -1',
-  height: '0.1rem',
-  margin: 0,
-  padding: 0,
-  opacity: 0,
-  pointerEvents: 'none',
+export const categorySection = style({
+  width: '100%',
 });
 
 export const gridbox = style({
@@ -121,7 +119,6 @@ export const statusContainer = style({
 });
 
 export const sectionStatusContainer = style({
-  gridColumn: '1 / -1',
   width: '100%',
   minHeight: '10rem',
   display: 'flex',
