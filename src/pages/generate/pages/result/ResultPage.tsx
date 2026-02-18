@@ -8,8 +8,10 @@ import type {
   MyPageImageHistory,
 } from '@/pages/mypage/types/apis/MyPage';
 import { createImageDetailPlaceholder } from '@/pages/mypage/utils/resultNavigation';
+import InlineError from '@/shared/components/inlineError/InlineError';
 
 import Loading from '@components/loading/Loading';
+import { IS_CLIENT_DETECTION_ENABLED } from '@pages/generate/constants/curationDetectionMode';
 import { useABTest } from '@pages/generate/hooks/useABTest';
 import { useGetResultDataQuery } from '@pages/generate/hooks/useGenerate';
 import { useCurationStore } from '@pages/generate/stores/useCurationStore';
@@ -110,12 +112,13 @@ const ResultPage = () => {
       : null;
 
   // 마이페이지에서 온 경우와 일반 생성 플로우에서 온 경우 구분
-  const { data: apiResult, isLoading } = useGetResultDataQuery(
-    parsedHouseId ?? 0,
-    {
-      enabled: shouldFetchExternalResult,
-    }
-  );
+  const {
+    data: apiResult,
+    isLoading,
+    isError: isResultError,
+  } = useGetResultDataQuery(parsedHouseId ?? 0, {
+    enabled: shouldFetchExternalResult,
+  });
 
   const mypageDetailQuery = useMyPageImageDetail(parsedHouseId ?? 0, {
     enabled: shouldFetchMypageDetail,
@@ -203,6 +206,11 @@ const ResultPage = () => {
     return <Loading />;
   }
 
+  // API 에러 시 인라인 에러 표시
+  if (isResultError && !result) {
+    return <InlineError message="결과를 불러올 수 없습니다" />;
+  }
+
   // 데이터 없으면 홈으로 리다이렉션
   if (!result) {
     console.error('Result data is missing');
@@ -218,6 +226,7 @@ const ResultPage = () => {
             result={result}
             onSlideChange={handleSlideChange}
             onCurrentImgIdChange={setCurrentImgId}
+            shouldInferHotspots={IS_CLIENT_DETECTION_ENABLED}
             detectionCache={forwardedDetectionMap ?? undefined}
             isSlideCountLoading={isSlideCountLoading}
           />
@@ -225,6 +234,7 @@ const ResultPage = () => {
           <GeneratedImgB
             result={result}
             onCurrentImgIdChange={setCurrentImgId}
+            shouldInferHotspots={IS_CLIENT_DETECTION_ENABLED}
             detectionCache={forwardedDetectionMap ?? undefined}
           />
         )}

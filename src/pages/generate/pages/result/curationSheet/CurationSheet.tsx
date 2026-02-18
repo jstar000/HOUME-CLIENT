@@ -19,6 +19,7 @@ import { QUERY_KEY } from '@/shared/constants/queryKey';
 import { useSavedItemsStore } from '@/store/useSavedItemsStore';
 
 import { getGeneratedImageProducts } from '@pages/generate/apis/furniture';
+import { shouldShowDetectionPending } from '@pages/generate/constants/curationDetectionMode';
 
 import CardProductItem from './CardProductItem';
 import * as styles from './CurationSheet.css';
@@ -149,11 +150,7 @@ export const CurationSheet = ({ groupId = null }: CurationSheetProps) => {
   const imageState = useActiveImageCurationState();
   const selectedCategoryId = imageState?.selectedCategoryId ?? null;
   const selectCategory = useCurationStore((state) => state.selectCategory);
-  const detectedObjects = useMemo(
-    () => imageState?.detectedObjects ?? [],
-    [imageState?.detectedObjects]
-  );
-  const hasDetectionCodes = detectedObjects.length > 0;
+  const detectedObjectsCount = imageState?.detectedObjects.length ?? 0;
 
   const navigate = useNavigate();
   const { variant } = useABTest();
@@ -459,7 +456,7 @@ export const CurationSheet = ({ groupId = null }: CurationSheetProps) => {
         '상단 가구 필터에서 원하는 가구를 선택해 주세요'
       );
     }
-    if (!hasDetectionCodes) {
+    if (shouldShowDetectionPending(detectedObjectsCount)) {
       return renderStatus('가구를 분석 중이에요', '잠시만 기다려 주세요');
     }
     if (categoriesQuery.isLoading) {
@@ -547,32 +544,34 @@ export const CurationSheet = ({ groupId = null }: CurationSheetProps) => {
     <section className={styles.container}>
       <h2 className={styles.title}>이 공간의 가구 큐레이션</h2>
 
-      <div className={styles.filterSection}>
-        {categories.length === 0 ? (
-          // 감지/로딩 중에는 세 번째 길이(long) 스켈레톤 칩 하나만 노출
-          <span
-            className={`${styles.filterSkeletonChip} ${styles.filterSkeletonChipWidth[FILTER_SKELETON_WIDTH]}`}
-            aria-hidden
-          />
-        ) : (
-          categories.map((category) => (
+      {!categoriesQuery.isError && (
+        <div className={styles.filterSection}>
+          {categories.length === 0 ? (
+            // 감지/로딩 중에는 세 번째 길이(long) 스켈레톤 칩 하나만 노출
             <span
-              key={category.id}
-              ref={(element) => {
-                chipRefs.current[category.id] = element;
-              }}
-              className={styles.filterChipAnchor}
-            >
-              <FilterChip
-                isSelected={selectedCategoryId === category.id}
-                onClick={() => handleCategorySelect(category.id)}
+              className={`${styles.filterSkeletonChip} ${styles.filterSkeletonChipWidth[FILTER_SKELETON_WIDTH]}`}
+              aria-hidden
+            />
+          ) : (
+            categories.map((category) => (
+              <span
+                key={category.id}
+                ref={(element) => {
+                  chipRefs.current[category.id] = element;
+                }}
+                className={styles.filterChipAnchor}
               >
-                {category.categoryName}
-              </FilterChip>
-            </span>
-          ))
-        )}
-      </div>
+                <FilterChip
+                  isSelected={selectedCategoryId === category.id}
+                  onClick={() => handleCategorySelect(category.id)}
+                >
+                  {category.categoryName}
+                </FilterChip>
+              </span>
+            ))
+          )}
+        </div>
+      )}
 
       <div className={styles.content} ref={contentRef}>
         {renderProductSection()}
