@@ -278,22 +278,36 @@ export function useONNXModel(modelPath: string, options?: UseONNXModelOptions) {
 
   const runInference = useCallback(
     async (imageElement: HTMLImageElement): Promise<ProcessedDetections> => {
-      if (!session) {
-        throw new Error('모델이 로드되지 않았습니다');
-      }
-      const ort = ortRef.current;
-      if (!ort) throw new Error('ONNX 런타임이 초기화되지 않았습니다');
-
       const entry = getCacheEntry(modelPath);
+      const resolveRuntime = async () => {
+        const cachedSession = session ?? entry.session;
+        const cachedOrt = ortRef.current ?? entry.ort;
+        if (cachedSession && cachedOrt) {
+          return {
+            session: cachedSession,
+            ort: cachedOrt,
+          };
+        }
+        const loaded = await ensureModelLoad(modelPath);
+        entry.session = loaded.session;
+        entry.ort = loaded.ort;
+        return loaded;
+      };
+
       const task = async (): Promise<ProcessedDetections> => {
+        const runtime = await resolveRuntime();
         const startTime = performance.now();
 
         // 1) 전처리: 640x640 letterbox 후 CHW(float32) 텐서 생성
         const { tensor } = await preprocessImage(imageElement, 640, 640);
 
-        const inputTensor = new ort.Tensor('float32', tensor, [1, 3, 640, 640]); // 입력 이미지 텐서
+        const inputTensor = new runtime.ort.Tensor(
+          'float32',
+          tensor,
+          [1, 3, 640, 640]
+        ); // 입력 이미지 텐서
         // orig_target_sizes는 int64 타입이어야 함
-        const sizeTensor = new ort.Tensor(
+        const sizeTensor = new runtime.ort.Tensor(
           'int64',
           new BigInt64Array([BigInt(640), BigInt(640)]),
           [1, 2]
@@ -305,7 +319,7 @@ export function useONNXModel(modelPath: string, options?: UseONNXModelOptions) {
         };
 
         // 2) 추론 실행: labels/boxes/scores 출력 기대
-        const results = await session.run(feeds);
+        const results = await runtime.session.run(feeds);
 
         // 3) 출력 텐서 파싱
         // - labels는 BigInt64Array로 반환될 수 있음

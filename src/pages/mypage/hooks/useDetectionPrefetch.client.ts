@@ -214,11 +214,10 @@ export const useDetectionPrefetchClient = () => {
       if (pendingRef.current.has(imageId)) return;
       const cached = useDetectionCacheStore.getState().images[imageId];
       if (cached) return;
-      if (modelStateRef.current.isLoading || modelStateRef.current.error) {
-        return;
-      }
 
       const persistAfterUnmount = options?.persistAfterUnmount ?? false;
+      if (modelStateRef.current.error) return;
+      if (modelStateRef.current.isLoading && !persistAfterUnmount) return;
       const shouldSkipBecauseUnmounted =
         !isMountedRef.current && !persistAfterUnmount;
       if (shouldSkipBecauseUnmounted) return;
@@ -382,14 +381,27 @@ export const useDetectionPrefetchClient = () => {
         return;
       }
       const priority = options?.priority ?? 'background';
+      const persistAfterUnmount = options?.persistAfterUnmount ?? false;
       if (priority === 'immediate') {
-        if (modelStateRef.current.isLoading || modelStateRef.current.error) {
+        if (modelStateRef.current.error) {
+          scheduleBackgroundPrefetch(imageId, imageUrl, options);
+          return;
+        }
+        if (modelStateRef.current.isLoading) {
+          if (persistAfterUnmount) {
+            void runWithSemaphore(() =>
+              executePrefetch(imageId, imageUrl, {
+                persistAfterUnmount,
+              })
+            );
+            return;
+          }
           scheduleBackgroundPrefetch(imageId, imageUrl, options);
           return;
         }
         void runWithSemaphore(() =>
           executePrefetch(imageId, imageUrl, {
-            persistAfterUnmount: options?.persistAfterUnmount ?? false,
+            persistAfterUnmount,
           })
         );
         return;
