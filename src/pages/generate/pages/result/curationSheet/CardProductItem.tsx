@@ -90,6 +90,11 @@ const CardProductItem = memo(
       onGotoMypage();
     };
 
+    const handleUndoUnfavorite = () => {
+      if (recommendId === null || isMutating) return;
+      toggleJjym(recommendId);
+    };
+
     const handleToggle = () => {
       if (recommendId === null) {
         notify({
@@ -106,17 +111,33 @@ const CardProductItem = memo(
 
       toggleJjym(recommendId, {
         onSuccess: (data) => {
-          if (!wasSaved && data.favorited) {
-            const now = Date.now();
-            if (now - toastCooldownRef.current < TOAST_COOLDOWN_MS) {
-              return; // 연속 클릭 시 스낵바 중복 방지
-            }
-            toastCooldownRef.current = now;
-            // 스낵바 중복 노출 방지 가드
+          const showFavoriteToast = !wasSaved && data.favorited;
+          const showUnfavoriteToast = wasSaved && !data.favorited;
+
+          if (!showFavoriteToast && !showUnfavoriteToast) return;
+
+          const now = Date.now();
+          if (now - toastCooldownRef.current < TOAST_COOLDOWN_MS) {
+            return; // 연속 클릭 시 스낵바 중복 방지
+          }
+          toastCooldownRef.current = now;
+
+          if (showFavoriteToast) {
             notify({
               text: '상품을 찜했어요! 찜한 가구로 이동할까요?',
               type: TOAST_TYPE.NAVIGATE,
               onClick: handleNavigateAndFocus,
+              options: { style: { marginBottom: '2rem' } },
+            });
+            return;
+          }
+
+          if (showUnfavoriteToast) {
+            notify({
+              text: '상품의 찜이 해제 되었어요',
+              type: TOAST_TYPE.NAVIGATE,
+              onClick: handleUndoUnfavorite,
+              actionLabel: '취소하기',
               options: { style: { marginBottom: '2rem' } },
             });
           }
