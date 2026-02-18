@@ -5,10 +5,7 @@ import { buildHotspotsPipeline } from '@pages/generate/hooks/furnitureHotspotPip
 import { loadCorsImage } from '@pages/generate/hooks/useFurnitureHotspots';
 import { useONNXModel } from '@pages/generate/hooks/useOnnxModel';
 import { useDetectionCacheStore } from '@pages/generate/stores/useDetectionCacheStore';
-import {
-  filterAllowedDetectedObjects,
-  mapHotspotsToDetectedObjects,
-} from '@pages/generate/utils/detectedObjectMapper';
+import { mapHotspotsToDetectedObjects } from '@pages/generate/utils/detectedObjectMapper';
 import { runSerializedInferenceTask } from '@pages/generate/utils/inferenceTaskScheduler';
 
 import type {
@@ -189,14 +186,7 @@ export const useDetectionPrefetchClient = () => {
       processed: ProcessedDetections
     ) => {
       const pipeline = buildHotspotsPipeline(targetImage, processed);
-      const rawDetectedObjects = mapHotspotsToDetectedObjects(
-        pipeline.hotspots
-      );
-      const detectedObjects = filterAllowedDetectedObjects(rawDetectedObjects, {
-        stage: 'prefetch-detection',
-        imageId,
-        hotspotCount: pipeline.hotspots.length,
-      });
+      const detectedObjects = mapHotspotsToDetectedObjects(pipeline.hotspots);
 
       storeDetections(imageId, imageUrl, processed, {
         hotspots: pipeline.hotspots,

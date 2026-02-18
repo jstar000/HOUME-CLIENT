@@ -22,10 +22,16 @@ const useGenerateWarmupClient = () => {
 
     if (!shouldWarmup) return;
 
-    preloadONNXModel(OBJ365_MODEL_PATH).catch(() => undefined);
+    preloadONNXModel(OBJ365_MODEL_PATH).catch((error) => {
+      console.warn('[useGenerateWarmup] model preload failed', error);
+    });
   }, [location.pathname]);
 };
 
+/**
+ * 서버 모드 warmup no-op 훅
+ * - 향후 서버 캐시 예열/백그라운드 작업 확장 지점
+ */
 const useGenerateWarmupServer = () => {
   // 서버 모드 no-op 훅
 };
