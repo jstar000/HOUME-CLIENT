@@ -7,13 +7,10 @@ import { colorVars } from '@styles/tokens/color.css';
 
 export const container = style({
   width: '100%',
-  flex: '1 1 auto',
-  minHeight: 0,
   display: 'flex',
   flexDirection: 'column',
   padding: '2rem 2rem 0',
   backgroundColor: colorVars.color.gray000,
-  overflow: 'hidden',
 });
 
 export const title = style({
@@ -63,13 +60,9 @@ export const filterSkeletonChipWidth = styleVariants({
 });
 
 export const content = style({
-  flex: 1,
-  minHeight: 0,
   display: 'flex',
   flexDirection: 'column',
-  overflowY: 'auto',
   marginTop: '0.8rem',
-  overscrollBehavior: 'contain',
 
   selectors: {
     '&::-webkit-scrollbar': {

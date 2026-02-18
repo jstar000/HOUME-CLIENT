@@ -10,8 +10,6 @@ import { colorVars } from '@styles/tokens/color.css';
 export const container = style({
   width: '100%',
   minHeight: '26rem',
-  aspectRatio: '3 / 2',
-  overflow: 'hidden',
   position: 'relative',
 });
 
@@ -23,9 +21,10 @@ export const swiperSlide = style({
 export const imgArea = recipe({
   base: {
     width: '100%',
-    aspectRatio: '3 / 2',
-    objectFit: 'cover', // 비율 유지하며 영역 완전히 채움
+    height: 'auto',
+    objectFit: 'contain', // 비율 유지하며 이미지 전체 표시
     objectPosition: 'center', // 이미지 중앙 부분 표시
+    display: 'block',
   },
   variants: {
     mirrored: {
@@ -134,11 +133,12 @@ export const slideNavIconFrame = style({
 export const imgAreaBlurred = recipe({
   base: {
     width: '100%',
-    aspectRatio: '3 / 2',
-    objectFit: 'cover',
+    height: 'auto',
+    objectFit: 'contain',
     objectPosition: 'center',
     filter: 'blur(15px)',
     backgroundColor: 'lightgray',
+    display: 'block',
   },
   variants: {
     mirrored: {
