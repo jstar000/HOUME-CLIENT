@@ -9,7 +9,6 @@ import { colorVars } from '@styles/tokens/color.css';
 
 export const container = style({
   width: '100%',
-  minHeight: '26rem',
   position: 'relative',
 });
 
