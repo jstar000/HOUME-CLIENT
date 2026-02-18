@@ -104,9 +104,15 @@ export const useDetectionPrefetchClient = () => {
   const drainingRef = useRef(false);
   const activeCountRef = useRef(0); // 동시에 실행 중인 작업 수
   const waitersRef = useRef<(() => void)[]>([]); // 세마포어 대기열
-  const inflightControllersRef = useRef<Map<number, AbortController>>(
-    new Map()
-  );
+  const inflightControllersRef = useRef<
+    Map<
+      number,
+      {
+        controller: AbortController;
+        persistAfterUnmount: boolean;
+      }
+    >
+  >(new Map());
   const shouldPausePrefetch = useCallback(() => {
     if (typeof document !== 'undefined' && document.hidden) return true;
     if (typeof navigator === 'undefined') return false;
@@ -120,7 +126,9 @@ export const useDetectionPrefetchClient = () => {
   const stopPrefetchTasks = useCallback(() => {
     queueRef.current = [];
     pendingRef.current.clear();
-    inflightControllersRef.current.forEach((controller) => controller.abort());
+    inflightControllersRef.current.forEach(({ controller }) =>
+      controller.abort()
+    );
     inflightControllersRef.current.clear();
   }, []);
 
@@ -197,7 +205,11 @@ export const useDetectionPrefetchClient = () => {
   );
 
   const executePrefetch = useCallback(
-    async (imageId: number, imageUrl: string) => {
+    async (
+      imageId: number,
+      imageUrl: string,
+      options?: DetectionPrefetchOptions
+    ) => {
       if (!imageId || !imageUrl) return;
       if (pendingRef.current.has(imageId)) return;
       const cached = useDetectionCacheStore.getState().images[imageId];
@@ -205,33 +217,55 @@ export const useDetectionPrefetchClient = () => {
       if (modelStateRef.current.isLoading || modelStateRef.current.error) {
         return;
       }
-      if (!isMountedRef.current) return;
+
+      const persistAfterUnmount = options?.persistAfterUnmount ?? false;
+      const shouldSkipBecauseUnmounted =
+        !isMountedRef.current && !persistAfterUnmount;
+      if (shouldSkipBecauseUnmounted) return;
 
       const controller = new AbortController();
-      inflightControllersRef.current.set(imageId, controller);
+      inflightControllersRef.current.set(imageId, {
+        controller,
+        persistAfterUnmount,
+      });
       pendingRef.current.add(imageId);
       try {
         await runSerializedInferenceTask(async () => {
-          if (controller.signal.aborted || !isMountedRef.current) return;
+          if (
+            controller.signal.aborted ||
+            (!isMountedRef.current && !persistAfterUnmount)
+          ) {
+            return;
+          }
 
           let targetImage: HTMLImageElement | null = null;
           try {
             targetImage = await loadImageElement(imageUrl, controller.signal);
           } catch {
-            if (controller.signal.aborted || !isMountedRef.current) return;
+            if (
+              controller.signal.aborted ||
+              (!isMountedRef.current && !persistAfterUnmount)
+            ) {
+              return;
+            }
             targetImage = await loadCorsImage(imageUrl, controller.signal);
           }
           if (
             !targetImage ||
             controller.signal.aborted ||
-            !isMountedRef.current
+            (!isMountedRef.current && !persistAfterUnmount)
           ) {
             return;
           }
 
           try {
             const result = await runInference(targetImage);
-            if (controller.signal.aborted || !isMountedRef.current) return;
+            if (
+              controller.signal.aborted ||
+              (!isMountedRef.current && !persistAfterUnmount)
+            ) {
+              return;
+            }
             processAndStore(imageId, imageUrl, targetImage, result);
             return;
           } catch (inferenceError) {
@@ -247,12 +281,17 @@ export const useDetectionPrefetchClient = () => {
               if (
                 !corsImage ||
                 controller.signal.aborted ||
-                !isMountedRef.current
+                (!isMountedRef.current && !persistAfterUnmount)
               ) {
                 return;
               }
               const corsResult = await runInference(corsImage);
-              if (controller.signal.aborted || !isMountedRef.current) return;
+              if (
+                controller.signal.aborted ||
+                (!isMountedRef.current && !persistAfterUnmount)
+              ) {
+                return;
+              }
               processAndStore(imageId, imageUrl, corsImage, corsResult);
               return;
             }
@@ -290,7 +329,9 @@ export const useDetectionPrefetchClient = () => {
         const task = queueRef.current.shift();
         if (!task) continue;
         await runWithSemaphore(async () => {
-          await executePrefetch(task.imageId, task.imageUrl);
+          await executePrefetch(task.imageId, task.imageUrl, {
+            persistAfterUnmount: task.persistAfterUnmount,
+          });
           await sleep(PREFETCH_DELAY_MS); // 감지 모델 연속 호출 완화
         });
       }
@@ -314,7 +355,7 @@ export const useDetectionPrefetchClient = () => {
   ]);
 
   const scheduleBackgroundPrefetch = useCallback(
-    (imageId: number, imageUrl: string) => {
+    (imageId: number, imageUrl: string, options?: DetectionPrefetchOptions) => {
       if (!imageId || !imageUrl) return;
       if (shouldPausePrefetch()) {
         stopPrefetchTasks();
@@ -324,7 +365,11 @@ export const useDetectionPrefetchClient = () => {
       if (queueRef.current.length >= MAX_PREFETCH_QUEUE_SIZE) {
         queueRef.current.shift();
       }
-      queueRef.current.push({ imageId, imageUrl });
+      queueRef.current.push({
+        imageId,
+        imageUrl,
+        persistAfterUnmount: options?.persistAfterUnmount ?? false,
+      });
       void drainQueue();
     },
     [drainQueue, shouldPausePrefetch, stopPrefetchTasks]
@@ -339,13 +384,17 @@ export const useDetectionPrefetchClient = () => {
       const priority = options?.priority ?? 'background';
       if (priority === 'immediate') {
         if (modelStateRef.current.isLoading || modelStateRef.current.error) {
-          scheduleBackgroundPrefetch(imageId, imageUrl);
+          scheduleBackgroundPrefetch(imageId, imageUrl, options);
           return;
         }
-        void runWithSemaphore(() => executePrefetch(imageId, imageUrl));
+        void runWithSemaphore(() =>
+          executePrefetch(imageId, imageUrl, {
+            persistAfterUnmount: options?.persistAfterUnmount ?? false,
+          })
+        );
         return;
       }
-      scheduleBackgroundPrefetch(imageId, imageUrl);
+      scheduleBackgroundPrefetch(imageId, imageUrl, options);
     },
     [
       executePrefetch,
@@ -394,8 +443,12 @@ export const useDetectionPrefetchClient = () => {
       queueRef.current = [];
       pendingRef.current.clear();
       activeCountRef.current = 0;
-      inflightControllersRef.current.forEach((controller) =>
-        controller.abort()
+      inflightControllersRef.current.forEach(
+        ({ controller, persistAfterUnmount }) => {
+          if (!persistAfterUnmount) {
+            controller.abort();
+          }
+        }
       );
       inflightControllersRef.current.clear();
       waitersRef.current.splice(0).forEach((resolve) => resolve());
