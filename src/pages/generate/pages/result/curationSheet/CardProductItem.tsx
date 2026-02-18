@@ -68,7 +68,13 @@ const CardProductItem = memo(
 
     const savedProductIds = useSavedItemsStore((s) => s.savedProductIds);
     const isSaved = hasRecommendId ? savedProductIds.has(recommendId) : false;
-    const toastCooldownRef = useRef(0); // 최근 스낵바 노출 시각(ms)
+    const toastCooldownRef = useRef<{
+      kind: 'favorite' | 'unfavorite' | null;
+      shownAt: number;
+    }>({
+      kind: null,
+      shownAt: 0,
+    }); // 최근 스낵바 노출 종류/시각(ms)
 
     const { mutate: toggleJjym } = usePostJjymMutation();
     const { notify } = useToast();
@@ -79,6 +85,8 @@ const CardProductItem = memo(
           mutation.options.mutationKey?.[0] === 'jjym' &&
           mutation.state.variables === (recommendId ?? undefined), // 이 카드 id만 추적
       }) > 0;
+    const isMutatingRef = useRef(false);
+    isMutatingRef.current = isMutating; // 토스트 액션 핸들러 최신 동기화
 
     const handleNavigateAndFocus = () => {
       if (recommendId === null) return;
@@ -91,7 +99,7 @@ const CardProductItem = memo(
     };
 
     const handleUndoUnfavorite = () => {
-      if (recommendId === null || isMutating) return;
+      if (recommendId === null || isMutatingRef.current) return;
       toggleJjym(recommendId);
     };
 
@@ -116,18 +124,24 @@ const CardProductItem = memo(
 
           if (!showFavoriteToast && !showUnfavoriteToast) return;
 
+          const toastKind = showFavoriteToast ? 'favorite' : 'unfavorite';
           const now = Date.now();
-          if (now - toastCooldownRef.current < TOAST_COOLDOWN_MS) {
+          if (
+            toastCooldownRef.current.kind === toastKind &&
+            now - toastCooldownRef.current.shownAt < TOAST_COOLDOWN_MS
+          ) {
             return; // 연속 클릭 시 스낵바 중복 방지
           }
-          toastCooldownRef.current = now;
+          toastCooldownRef.current = {
+            kind: toastKind,
+            shownAt: now,
+          };
 
           if (showFavoriteToast) {
             notify({
               text: '상품을 찜했어요! 찜한 가구로 이동할까요?',
               type: TOAST_TYPE.NAVIGATE,
               onClick: handleNavigateAndFocus,
-              options: { style: { marginBottom: '2rem' } },
             });
             return;
           }
@@ -138,7 +152,6 @@ const CardProductItem = memo(
               type: TOAST_TYPE.NAVIGATE,
               onClick: handleUndoUnfavorite,
               actionLabel: '취소하기',
-              options: { style: { marginBottom: '2rem' } },
             });
           }
         },
