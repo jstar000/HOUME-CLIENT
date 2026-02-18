@@ -478,11 +478,19 @@ export const CurationSheet = ({ groupId = null }: CurationSheetProps) => {
     }
 
     return (
-      <div className={styles.sectionList}>
+      <div className={styles.gridbox}>
         {categories.map((category, index) => {
           const categoryQuery = categoryProductQueries[index];
           const normalizedProducts =
             normalizedProductsByCategory[category.id] ?? [];
+          const categoryCards = normalizedProducts.map((product) => (
+            <CardProductItem
+              key={`${category.id}-${product.furnitureProductId}`}
+              product={product}
+              onGotoMypage={handleGotoMypage}
+            />
+          ));
+
           let sectionContent: ReactNode = renderCategoryStatus(
             '상품을 불러오는 중이에요',
             undefined,
@@ -499,36 +507,28 @@ export const CurationSheet = ({ groupId = null }: CurationSheetProps) => {
                 }
               );
             } else if (!categoryQuery.isLoading) {
-              if (normalizedProducts.length === 0) {
-                sectionContent = renderCategoryStatus(
-                  `${category.categoryName} 카테고리 상품이 없어요`
-                );
-              } else {
-                sectionContent = (
-                  <div className={styles.gridbox}>
-                    {normalizedProducts.map((product) => (
-                      <CardProductItem
-                        key={product.furnitureProductId}
-                        product={product}
-                        onGotoMypage={handleGotoMypage}
-                      />
-                    ))}
-                  </div>
-                );
-              }
+              sectionContent =
+                normalizedProducts.length === 0
+                  ? renderCategoryStatus(
+                      `${category.categoryName} 카테고리 상품이 없어요`
+                    )
+                  : categoryCards;
             }
           }
 
           return (
             <section
               key={category.id}
-              ref={(element) => {
-                sectionRefs.current[category.id] = element;
-              }}
               className={styles.categorySection}
               data-category-id={category.id}
             >
-              <h3 className={styles.categoryTitle}>{category.categoryName}</h3>
+              <div
+                ref={(element) => {
+                  sectionRefs.current[category.id] = element;
+                }}
+                className={styles.categoryAnchor}
+                aria-hidden
+              />
               {sectionContent}
             </section>
           );

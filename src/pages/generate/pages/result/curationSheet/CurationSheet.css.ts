@@ -85,23 +85,17 @@ export const content = style({
   msOverflowStyle: 'none', // IE and Edge
 });
 
-export const sectionList = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '2.4rem',
-  paddingBottom: '2.4rem',
-});
-
 export const categorySection = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '1.2rem',
-  scrollMarginTop: '0.8rem',
+  display: 'contents',
 });
 
-export const categoryTitle = style({
-  ...fontStyle('body_m_14'),
-  color: colorVars.color.gray900,
+export const categoryAnchor = style({
+  gridColumn: '1 / -1',
+  height: '0.1rem',
+  margin: 0,
+  padding: 0,
+  opacity: 0,
+  pointerEvents: 'none',
 });
 
 export const gridbox = style({
@@ -127,6 +121,7 @@ export const statusContainer = style({
 });
 
 export const sectionStatusContainer = style({
+  gridColumn: '1 / -1',
   width: '100%',
   minHeight: '10rem',
   display: 'flex',
