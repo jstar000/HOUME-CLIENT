@@ -189,10 +189,7 @@ export const useDetectionPrefetchClient = () => {
       if (pendingRef.current.has(imageId)) return;
       const cached = useDetectionCacheStore.getState().images[imageId];
       if (cached) return;
-      if (
-        modelStateRef.current.isLoading ||
-        modelStateRef.current.error
-      ) {
+      if (modelStateRef.current.isLoading || modelStateRef.current.error) {
         return;
       }
       if (!isMountedRef.current) return;

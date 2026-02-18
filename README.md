@@ -108,6 +108,8 @@
 
 ## Architecture
 
+<img width="4096" height="3138" alt="image" src="https://github.com/user-attachments/assets/566bd2ae-815a-4783-a29b-79d05a813095" />
+
 ```
 src/
 ├── layout/              # 앱 전체에 적용되는 공통 레이아웃 컴포넌트

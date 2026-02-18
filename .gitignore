@@ -39,8 +39,9 @@ storybook-static
 .npm-cache/
 
 # Others
-.claude
-CLAUDE.md
+.claude/settings.local.json
+.claude/skills/
+.claude/commands/
 .cursor
 
 dev-debug.log

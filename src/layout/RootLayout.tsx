@@ -9,7 +9,7 @@ function RootLayout() {
   useScrollToTop();
   useGenerateWarmup();
   return (
-    <div>
+    <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
       <Outlet />
     </div>
   );

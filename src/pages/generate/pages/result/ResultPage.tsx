@@ -9,6 +9,7 @@ import type {
   MyPageUserData,
 } from '@/pages/mypage/types/apis/MyPage';
 import { createImageDetailPlaceholder } from '@/pages/mypage/utils/resultNavigation';
+import InlineError from '@/shared/components/inlineError/InlineError';
 
 import Loading from '@components/loading/Loading';
 import { IS_CLIENT_DETECTION_ENABLED } from '@pages/generate/constants/curationDetectionMode';
@@ -113,12 +114,13 @@ const ResultPage = () => {
       : null;
 
   // 마이페이지에서 온 경우와 일반 생성 플로우에서 온 경우 구분
-  const { data: apiResult, isLoading } = useGetResultDataQuery(
-    parsedHouseId ?? 0,
-    {
-      enabled: shouldFetchExternalResult,
-    }
-  );
+  const {
+    data: apiResult,
+    isLoading,
+    isError: isResultError,
+  } = useGetResultDataQuery(parsedHouseId ?? 0, {
+    enabled: shouldFetchExternalResult,
+  });
 
   const mypageDetailQuery = useMyPageImageDetail(parsedHouseId ?? 0, {
     enabled: shouldFetchMypageDetail,
@@ -200,6 +202,11 @@ const ResultPage = () => {
   // 로딩 중이면 로딩 표시
   if (!result && (isLoading || mypageLoading)) {
     return <Loading />;
+  }
+
+  // API 에러 시 인라인 에러 표시
+  if (isResultError && !result) {
+    return <InlineError message="결과를 불러올 수 없습니다" />;
   }
 
   // 데이터 없으면 홈으로 리다이렉션
