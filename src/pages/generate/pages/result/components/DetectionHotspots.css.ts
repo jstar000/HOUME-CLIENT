@@ -14,9 +14,11 @@ export const image = recipe({
   base: {
     width: '100%',
     height: 'auto',
+    maxHeight: '26rem',
     objectFit: 'contain',
     objectPosition: 'center',
     display: 'block',
+    margin: '0 auto',
     transition: 'transform 0.2s ease-out, opacity 0.3s ease-in-out',
   },
   variants: {

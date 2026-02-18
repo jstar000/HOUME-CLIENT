@@ -21,9 +21,11 @@ export const imgArea = recipe({
   base: {
     width: '100%',
     height: 'auto',
+    maxHeight: '26rem',
     objectFit: 'contain', // 비율 유지하며 이미지 전체 표시
     objectPosition: 'center', // 이미지 중앙 부분 표시
     display: 'block',
+    margin: '0 auto',
   },
   variants: {
     mirrored: {
@@ -135,11 +137,13 @@ export const imgAreaBlurred = recipe({
   base: {
     width: '100%',
     height: 'auto',
+    maxHeight: '26rem',
     objectFit: 'contain',
     objectPosition: 'center',
     filter: 'blur(15px)',
     backgroundColor: 'lightgray',
     display: 'block',
+    margin: '0 auto',
   },
   variants: {
     mirrored: {
