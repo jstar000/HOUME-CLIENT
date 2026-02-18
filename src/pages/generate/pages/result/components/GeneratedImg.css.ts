@@ -16,8 +16,7 @@ export const container = style({
 
 export const sliderArea = style({
   width: '100%',
-  minHeight: '26rem',
-  aspectRatio: '3 / 2',
+  height: '26rem',
   overflow: 'hidden',
   position: 'relative',
 });
@@ -30,9 +29,9 @@ export const swiperSlide = style({
 export const imgArea = recipe({
   base: {
     width: '100%',
-    aspectRatio: '3 / 2',
+    height: '100%',
     objectFit: 'cover', // 비율 유지하며 영역 완전히 채움
-    objectPosition: 'center', // 이미지 중앙 부분 표시
+    objectPosition: 'center center', // 이미지 중앙 기준 크롭
   },
   variants: {
     mirrored: {
@@ -129,9 +128,9 @@ export const slideNextBtn = style({
 export const imgAreaBlurred = recipe({
   base: {
     width: '100%',
-    aspectRatio: '3 / 2',
+    height: '100%',
     objectFit: 'cover',
-    objectPosition: 'center',
+    objectPosition: 'center center',
     filter: 'blur(15px)',
     backgroundColor: 'lightgray',
   },
@@ -152,9 +151,9 @@ export const imgAreaBlurred = recipe({
 
 export const lockedPreviewImg = style({
   width: '100%',
-  aspectRatio: '3 / 2',
+  height: '100%',
   objectFit: 'cover',
-  objectPosition: 'center',
+  objectPosition: 'center center',
 });
 
 export const lockWrapper = style({
