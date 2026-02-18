@@ -59,6 +59,7 @@ const ResultPage = () => {
   const [searchParams] = useSearchParams();
   const { isMultipleImages } = useABTest();
   const [currentImgId, setCurrentImgId] = useState(0);
+  const [isLockedSlide, setIsLockedSlide] = useState(false);
   const setActiveImage = useCurationStore((state) => state.setActiveImage);
   const resetCuration = useCurationStore((state) => state.resetAll);
   const activeImageIdInStore = useCurationStore((state) => state.activeImageId);
@@ -193,6 +194,10 @@ const ResultPage = () => {
     };
   }, [resetCuration]);
 
+  const handleSlideChange = (currentIndex: number, totalCount: number) => {
+    setIsLockedSlide(currentIndex === totalCount - 1);
+  };
+
   // 로딩 중이면 로딩 표시
   if (!result && (isLoading || mypageLoading)) {
     return <Loading />;
@@ -211,6 +216,7 @@ const ResultPage = () => {
         {isMultipleImages ? (
           <GeneratedImgA
             result={result}
+            onSlideChange={handleSlideChange}
             onCurrentImgIdChange={setCurrentImgId}
             detectionCache={forwardedDetectionMap ?? undefined}
             isSlideCountLoading={isSlideCountLoading}
@@ -222,7 +228,7 @@ const ResultPage = () => {
             detectionCache={forwardedDetectionMap ?? undefined}
           />
         )}
-        <CurationSheet groupId={groupId} />
+        {!isLockedSlide && <CurationSheet groupId={groupId} />}
       </section>
     </div>
   );
