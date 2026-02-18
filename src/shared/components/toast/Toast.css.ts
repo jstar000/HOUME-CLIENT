@@ -16,7 +16,8 @@ export const container = recipe({
   variants: {
     type: {
       navigate: {
-        width: '34.3rem', // 343px
+        width: 'calc(100vw - 3.2rem)', // viewport minus horizontal 16px gutters
+        maxWidth: '40.8rem', // 440px layout minus 32px gutters
         height: '4.4rem', // 44px
         justifyContent: 'space-between',
         gap: 0,
