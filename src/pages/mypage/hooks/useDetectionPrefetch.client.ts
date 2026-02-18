@@ -9,6 +9,7 @@ import {
   filterAllowedDetectedObjects,
   mapHotspotsToDetectedObjects,
 } from '@pages/generate/utils/detectedObjectMapper';
+import { runSerializedInferenceTask } from '@pages/generate/utils/inferenceTaskScheduler';
 
 import type {
   DetectionPrefetchOptions,
@@ -220,47 +221,54 @@ export const useDetectionPrefetchClient = () => {
       inflightControllersRef.current.set(imageId, controller);
       pendingRef.current.add(imageId);
       try {
-        let targetImage: HTMLImageElement | null = null;
-        try {
-          targetImage = await loadImageElement(imageUrl, controller.signal);
-        } catch {
+        await runSerializedInferenceTask(async () => {
           if (controller.signal.aborted || !isMountedRef.current) return;
-          targetImage = await loadCorsImage(imageUrl, controller.signal);
-        }
-        if (
-          !targetImage ||
-          controller.signal.aborted ||
-          !isMountedRef.current
-        ) {
-          return;
-        }
 
-        try {
-          const result = await runInference(targetImage);
-          if (controller.signal.aborted || !isMountedRef.current) return;
-          processAndStore(imageId, imageUrl, targetImage, result);
-          return;
-        } catch (inferenceError) {
-          if (isAbortError(inferenceError)) return;
-          if (
-            inferenceError instanceof DOMException &&
-            inferenceError.name === 'SecurityError'
-          ) {
-            const corsImage = await loadCorsImage(imageUrl, controller.signal);
-            if (
-              !corsImage ||
-              controller.signal.aborted ||
-              !isMountedRef.current
-            ) {
-              return;
-            }
-            const corsResult = await runInference(corsImage);
+          let targetImage: HTMLImageElement | null = null;
+          try {
+            targetImage = await loadImageElement(imageUrl, controller.signal);
+          } catch {
             if (controller.signal.aborted || !isMountedRef.current) return;
-            processAndStore(imageId, imageUrl, corsImage, corsResult);
+            targetImage = await loadCorsImage(imageUrl, controller.signal);
+          }
+          if (
+            !targetImage ||
+            controller.signal.aborted ||
+            !isMountedRef.current
+          ) {
             return;
           }
-          console.warn('감지 프리페치 실패', inferenceError);
-        }
+
+          try {
+            const result = await runInference(targetImage);
+            if (controller.signal.aborted || !isMountedRef.current) return;
+            processAndStore(imageId, imageUrl, targetImage, result);
+            return;
+          } catch (inferenceError) {
+            if (isAbortError(inferenceError)) return;
+            if (
+              inferenceError instanceof DOMException &&
+              inferenceError.name === 'SecurityError'
+            ) {
+              const corsImage = await loadCorsImage(
+                imageUrl,
+                controller.signal
+              );
+              if (
+                !corsImage ||
+                controller.signal.aborted ||
+                !isMountedRef.current
+              ) {
+                return;
+              }
+              const corsResult = await runInference(corsImage);
+              if (controller.signal.aborted || !isMountedRef.current) return;
+              processAndStore(imageId, imageUrl, corsImage, corsResult);
+              return;
+            }
+            console.warn('감지 프리페치 실패', inferenceError);
+          }
+        });
       } catch (unexpectedError) {
         if (isAbortError(unexpectedError)) return;
         console.warn('감지 프리페치 예외', unexpectedError);
