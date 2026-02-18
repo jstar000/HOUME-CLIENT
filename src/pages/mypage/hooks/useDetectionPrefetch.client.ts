@@ -21,6 +21,7 @@ import type { ProcessedDetections } from '@pages/generate/types/detection';
 const PREFETCH_DELAY_MS = 120;
 const MAX_CONCURRENCY = 1;
 const IMAGE_LOAD_TIMEOUT_MS = 12_000;
+const MAX_PREFETCH_QUEUE_SIZE = 2;
 const LOW_MEMORY_DEVICE_GB_THRESHOLD = 2;
 
 type NavigatorWithDeviceMemory = Navigator & {
@@ -322,6 +323,9 @@ export const useDetectionPrefetchClient = () => {
         return;
       }
       if (queueRef.current.some((task) => task.imageId === imageId)) return;
+      if (queueRef.current.length >= MAX_PREFETCH_QUEUE_SIZE) {
+        queueRef.current.shift();
+      }
       queueRef.current.push({ imageId, imageUrl });
       void drainQueue();
     },
