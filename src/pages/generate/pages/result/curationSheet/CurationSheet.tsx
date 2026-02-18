@@ -30,7 +30,7 @@ import type {
 
 // 카테고리 스켈레톤 칩 길이 프리셋 중 세 번째(long)만 사용
 const FILTER_SKELETON_WIDTH = 'long' as const;
-const SECTION_SWITCH_OFFSET_PX = 80;
+const SECTION_SWITCH_EPSILON_PX = 1;
 // 프리패치 쿼리키 튜플 정의
 type ProductPrefetchQueryKey = [
   string,
@@ -306,15 +306,17 @@ export const CurationSheet = ({ groupId = null }: CurationSheetProps) => {
     const scrollContainer = contentRef.current;
     if (!scrollContainer) return;
 
+    const currentScrollTop = scrollContainer.scrollTop;
+    const anchorThreshold = currentScrollTop + SECTION_SWITCH_EPSILON_PX;
     const containerTop = scrollContainer.getBoundingClientRect().top;
-    const anchorTop = containerTop + SECTION_SWITCH_OFFSET_PX;
     let nextCategoryId: number | null = categories[0]?.id ?? null;
 
     categories.forEach((category) => {
       const section = sectionRefs.current[category.id];
       if (!section) return;
-      const sectionTop = section.getBoundingClientRect().top;
-      if (sectionTop <= anchorTop) {
+      const sectionTopFromScrollStart =
+        section.getBoundingClientRect().top - containerTop + currentScrollTop;
+      if (sectionTopFromScrollStart <= anchorThreshold) {
         nextCategoryId = category.id;
       }
     });
@@ -357,7 +359,12 @@ export const CurationSheet = ({ groupId = null }: CurationSheetProps) => {
       const section = sectionRefs.current[categoryId];
       if (!scrollContainer || !section) return;
 
-      const targetTop = Math.max(section.offsetTop - 8, 0);
+      const containerTop = scrollContainer.getBoundingClientRect().top;
+      const sectionTopFromScrollStart =
+        section.getBoundingClientRect().top -
+        containerTop +
+        scrollContainer.scrollTop;
+      const targetTop = Math.max(sectionTopFromScrollStart, 0);
       scrollContainer.scrollTo({
         top: targetTop,
         behavior,
@@ -478,18 +485,11 @@ export const CurationSheet = ({ groupId = null }: CurationSheetProps) => {
     }
 
     return (
-      <div className={styles.gridbox}>
+      <div className={styles.sectionList}>
         {categories.map((category, index) => {
           const categoryQuery = categoryProductQueries[index];
           const normalizedProducts =
             normalizedProductsByCategory[category.id] ?? [];
-          const categoryCards = normalizedProducts.map((product) => (
-            <CardProductItem
-              key={`${category.id}-${product.furnitureProductId}`}
-              product={product}
-              onGotoMypage={handleGotoMypage}
-            />
-          ));
 
           let sectionContent: ReactNode = renderCategoryStatus(
             '상품을 불러오는 중이에요',
@@ -508,27 +508,33 @@ export const CurationSheet = ({ groupId = null }: CurationSheetProps) => {
               );
             } else if (!categoryQuery.isLoading) {
               sectionContent =
-                normalizedProducts.length === 0
-                  ? renderCategoryStatus(
-                      `${category.categoryName} 카테고리 상품이 없어요`
-                    )
-                  : categoryCards;
+                normalizedProducts.length === 0 ? (
+                  renderCategoryStatus(
+                    `${category.categoryName} 카테고리 상품이 없어요`
+                  )
+                ) : (
+                  <div className={styles.gridbox}>
+                    {normalizedProducts.map((product) => (
+                      <CardProductItem
+                        key={`${category.id}-${product.furnitureProductId}`}
+                        product={product}
+                        onGotoMypage={handleGotoMypage}
+                      />
+                    ))}
+                  </div>
+                );
             }
           }
 
           return (
             <section
               key={category.id}
+              ref={(element) => {
+                sectionRefs.current[category.id] = element;
+              }}
               className={styles.categorySection}
               data-category-id={category.id}
             >
-              <div
-                ref={(element) => {
-                  sectionRefs.current[category.id] = element;
-                }}
-                className={styles.categoryAnchor}
-                aria-hidden
-              />
               {sectionContent}
             </section>
           );
