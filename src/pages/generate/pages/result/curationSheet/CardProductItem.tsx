@@ -43,7 +43,7 @@ interface CardProductItemProps {
     id?: number; // recommendFurnitureId
     furnitureProductId: number;
     furnitureProductName: string;
-    furnitureProductMallName: string;
+    furnitureProductBrandName: string;
     furnitureProductImageUrl: string;
     furnitureProductSiteUrl: string;
     furnitureProductOriginalPrice?: number;
@@ -162,7 +162,7 @@ const CardProductItem = memo(
       <CardProduct
         size="large"
         title={product.furnitureProductName}
-        brand={product.furnitureProductMallName}
+        brand={product.furnitureProductBrandName}
         imageUrl={product.furnitureProductImageUrl}
         linkHref={buildCurationOutboundUrl(product.furnitureProductSiteUrl)}
         isSaved={isSaved}
