@@ -40,14 +40,14 @@ const toFiniteProductId = (
   value: FurnitureProductInfo['furnitureProductId']
 ) => {
   if (typeof value === 'number') {
-    return Number.isFinite(value) ? value : null;
+    return Number.isFinite(value) && value > 0 ? value : null;
   }
 
   if (typeof value === 'string') {
     const normalized = value.trim();
     if (normalized.length === 0) return null;
     const numeric = Number(normalized);
-    return Number.isFinite(numeric) ? numeric : null;
+    return Number.isFinite(numeric) && numeric > 0 ? numeric : null;
   }
 
   return null;

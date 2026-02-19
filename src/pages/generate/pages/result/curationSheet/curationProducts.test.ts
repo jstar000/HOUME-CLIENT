@@ -6,7 +6,7 @@ import {
 } from './curationProducts';
 
 describe('normalizeProductsForCard', () => {
-  it('uses clientColors first and maps PR #417 fields for card props', () => {
+  it('uses clientColors first and maps server fields for card props', () => {
     const products = normalizeProductsForCard([
       {
         id: 9,
@@ -84,6 +84,7 @@ describe('normalizeProductsForCard', () => {
       },
     ]);
 
+    expect(products[0]?.id).toBeUndefined();
     expect(products[0]).toMatchObject({
       id: undefined,
       furnitureProductId: 'fallback-1',
@@ -114,12 +115,14 @@ describe('normalizeProductsForCard', () => {
         furnitureProductSiteUrl: '',
         furnitureProductName: '',
         furnitureProductMallName: '',
-        furnitureProductId: '',
+        furnitureProductId: 0,
         similarity: 0,
       },
     ]);
 
     expect(products[0]?.furnitureProductId).toBe(1);
+    expect(products[0]?.isRecommendId).toBe(false);
     expect(products[1]?.furnitureProductId).toBe('fallback-2');
+    expect(products[1]?.isRecommendId).toBe(false);
   });
 });
