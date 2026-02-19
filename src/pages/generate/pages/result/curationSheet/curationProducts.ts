@@ -13,7 +13,7 @@ export const RESULT_CARD_UI_FALLBACK = {
 export interface CardProductModel {
   id?: number;
   isRecommendId: boolean;
-  furnitureProductId: number;
+  furnitureProductId: number | string;
   furnitureProductName: string;
   furnitureProductBrandName: string;
   furnitureProductImageUrl: string;
@@ -34,6 +34,23 @@ const normalizeText = (value: unknown, fallback: string) => {
 const toFiniteNumber = (value: unknown) => {
   const numeric = Number(value);
   return Number.isFinite(numeric) ? numeric : null;
+};
+
+const toFiniteProductId = (
+  value: FurnitureProductInfo['furnitureProductId']
+) => {
+  if (typeof value === 'number') {
+    return Number.isFinite(value) ? value : null;
+  }
+
+  if (typeof value === 'string') {
+    const normalized = value.trim();
+    if (normalized.length === 0) return null;
+    const numeric = Number(normalized);
+    return Number.isFinite(numeric) ? numeric : null;
+  }
+
+  return null;
 };
 
 const normalizeColorHexes = (value: unknown) => {
@@ -69,10 +86,9 @@ export const normalizeProductsForCard = (
       typeof byRecommend === 'number' && Number.isFinite(byRecommend)
         ? byRecommend
         : undefined;
-    const byProductId = Number(product.furnitureProductId);
-    const safeProductId = Number.isFinite(byProductId)
-      ? byProductId
-      : index + 1;
+    const byProductId = toFiniteProductId(product.furnitureProductId);
+    const safeProductId =
+      byProductId !== null ? byProductId : `fallback-${index + 1}`;
 
     const originalPrice = toFiniteNumber(
       product.listPrice ?? product.furnitureProductOriginalPrice

@@ -266,7 +266,7 @@ export const CurationSheet = ({ groupId = null }: CurationSheetProps) => {
       <div className={styles.gridbox}>
         {normalizedProducts.map((product) => (
           <CardProductItem
-            key={product.furnitureProductId}
+            key={product.id ?? product.furnitureProductId}
             product={product}
             onGotoMypage={handleGotoMypage}
           />

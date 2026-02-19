@@ -41,7 +41,7 @@ const buildCurationOutboundUrl = (url: string) => {
 interface CardProductItemProps {
   product: {
     id?: number; // recommendFurnitureId
-    furnitureProductId: number;
+    furnitureProductId: number | string;
     furnitureProductName: string;
     furnitureProductBrandName: string;
     furnitureProductImageUrl: string;

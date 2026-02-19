@@ -86,7 +86,7 @@ describe('normalizeProductsForCard', () => {
 
     expect(products[0]).toMatchObject({
       id: undefined,
-      furnitureProductId: 1,
+      furnitureProductId: 'fallback-1',
       furnitureProductName: RESULT_CARD_UI_FALLBACK.productName,
       furnitureProductBrandName: RESULT_CARD_UI_FALLBACK.mallName,
       furnitureProductOriginalPrice: RESULT_CARD_UI_FALLBACK.originalPrice,
@@ -95,5 +95,31 @@ describe('normalizeProductsForCard', () => {
       furnitureProductSaveCount: RESULT_CARD_UI_FALLBACK.saveCount,
       furnitureProductColorHexes: RESULT_CARD_UI_FALLBACK.colorHexes,
     });
+  });
+
+  it('creates unique string fallback ids that do not collide with real numeric ids', () => {
+    const products = normalizeProductsForCard([
+      {
+        baseFurnitureImageUrl: '',
+        furnitureProductImageUrl: '',
+        furnitureProductSiteUrl: '',
+        furnitureProductName: '',
+        furnitureProductMallName: '',
+        furnitureProductId: 1,
+        similarity: 0,
+      },
+      {
+        baseFurnitureImageUrl: '',
+        furnitureProductImageUrl: '',
+        furnitureProductSiteUrl: '',
+        furnitureProductName: '',
+        furnitureProductMallName: '',
+        furnitureProductId: null,
+        similarity: 0,
+      },
+    ]);
+
+    expect(products[0]?.furnitureProductId).toBe(1);
+    expect(products[1]?.furnitureProductId).toBe('fallback-2');
   });
 });
