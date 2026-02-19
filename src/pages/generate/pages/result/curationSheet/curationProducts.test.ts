@@ -114,7 +114,7 @@ describe('normalizeProductsForCard', () => {
         furnitureProductSiteUrl: '',
         furnitureProductName: '',
         furnitureProductMallName: '',
-        furnitureProductId: null,
+        furnitureProductId: '',
         similarity: 0,
       },
     ]);
