@@ -52,7 +52,7 @@ interface GeneratedImgAProps {
     | UnifiedGenerateImageResult
     | GenerateImageAResponse['data']
     | GenerateImageBResponse['data'];
-  onSlideChange?: (currentIndex: number, totalCount: number) => void;
+  onSlideChange?: (currentIndex: number) => void;
   onCurrentImgIdChange?: (currentImgId: number) => void;
   shouldInferHotspots?: boolean;
   detectionCache?: Record<number, DetectionCacheEntry> | null;
@@ -244,7 +244,7 @@ const GeneratedImgA = ({
             const prevIndex = currentSlideIndex;
             const newIndex = swiper.activeIndex;
             setCurrentSlideIndex(newIndex);
-            onSlideChange?.(newIndex, totalSlideCount);
+            onSlideChange?.(newIndex);
 
             // 슬라이드 스와이프 이벤트 전송
             if (newIndex > prevIndex) {

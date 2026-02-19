@@ -61,7 +61,7 @@ const ResultPage = () => {
   const [searchParams] = useSearchParams();
   const { isMultipleImages } = useABTest();
   const [currentImgId, setCurrentImgId] = useState(0);
-  const [isLockedSlide, setIsLockedSlide] = useState(false);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const setActiveImage = useCurationStore((state) => state.setActiveImage);
   const resetCuration = useCurationStore((state) => state.resetAll);
   const activeImageIdInStore = useCurationStore((state) => state.activeImageId);
@@ -172,6 +172,17 @@ const ResultPage = () => {
     mypageHistories,
   ]);
   const result = resolvedResult;
+  const resultImageCount =
+    result &&
+    'imageInfoResponses' in result &&
+    Array.isArray(result.imageInfoResponses)
+      ? result.imageInfoResponses.length
+      : 0;
+  const totalSlideCount = resultImageCount > 0 ? resultImageCount + 1 : 0;
+  const isLockedSlide =
+    isMultipleImages &&
+    totalSlideCount > 0 &&
+    currentSlideIndex === totalSlideCount - 1;
 
   // currentImgId가 변경될 때마다 로그 출력
   // useEffect(() => {
@@ -197,8 +208,8 @@ const ResultPage = () => {
     };
   }, [resetCuration]);
 
-  const handleSlideChange = (currentIndex: number, totalCount: number) => {
-    setIsLockedSlide(currentIndex === totalCount - 1);
+  const handleSlideChange = (currentIndex: number) => {
+    setCurrentSlideIndex(currentIndex);
   };
 
   // 로딩 중이면 로딩 표시
