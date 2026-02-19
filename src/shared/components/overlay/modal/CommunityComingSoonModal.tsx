@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-import * as styles from './CommunityComingSoonModal.css';
+import * as styles from './CommunityComingSoonModal.css.ts';
 
 const COMMUNITY_MODAL_TITLE_ID = 'community-coming-soon-modal-title';
 

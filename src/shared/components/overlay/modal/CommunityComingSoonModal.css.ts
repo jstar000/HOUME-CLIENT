@@ -12,7 +12,7 @@ const fadeIn = keyframes({
 export const backdrop = style({
   position: 'fixed',
   inset: 0,
-  background: 'rgba(0, 0, 0, 0.2)',
+  background: colorVars.color.gray999_20,
   zIndex: zIndex.backdrop,
   animation: `${fadeIn} 0.45s cubic-bezier(0.22, 1, 0.36, 1)`,
 });
