@@ -238,7 +238,15 @@ const ResultPage = () => {
             detectionCache={forwardedDetectionMap ?? undefined}
           />
         )}
-        {!isLockedSlide && <CurationSheet groupId={groupId} />}
+        <div
+          className={
+            isLockedSlide
+              ? styles.curationSheetHidden
+              : styles.curationSheetVisible
+          }
+        >
+          <CurationSheet groupId={groupId} />
+        </div>
       </section>
     </div>
   );

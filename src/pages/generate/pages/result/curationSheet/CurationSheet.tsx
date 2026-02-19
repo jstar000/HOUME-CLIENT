@@ -100,9 +100,8 @@ const normalizeProducts = (
         ? byRecommend
         : undefined;
     const byProductId = Number(product.furnitureProductId);
-    const safeProductId = Number.isFinite(byProductId)
-      ? byProductId
-      : index + 1;
+    const safeProductId =
+      Number.isFinite(byProductId) && byProductId > 0 ? byProductId : index + 1;
 
     const originalPrice = toFiniteNumber(product.furnitureProductOriginalPrice);
     const discountPrice = toFiniteNumber(product.furnitureProductDiscountPrice);

@@ -24,6 +24,14 @@ export const resultSection = style({
   overflow: 'hidden',
 });
 
+export const curationSheetVisible = style({
+  display: 'contents',
+});
+
+export const curationSheetHidden = style({
+  display: 'none',
+});
+
 export const imgArea = recipe({
   base: {
     width: '100%',

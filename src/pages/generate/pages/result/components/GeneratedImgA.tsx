@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { overlay } from 'overlay-kit';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -80,6 +80,8 @@ const GeneratedImgA = ({
   const [selectedFactorId, setSelectedFactorId] = useState<number | null>(null);
   const [isPreferenceSubmitting, setIsPreferenceSubmitting] = useState(false);
   const [isFactorSubmitting, setIsFactorSubmitting] = useState(false);
+  const factorRequestSeqRef = useRef(0);
+  const lockedPreferenceRef = useRef<ResultPageLikeState>(lockedPreference);
   const { variant } = useABTest();
   const { mutate: sendPreference } = useResultPreferenceMutation();
   const { mutate: deletePreference } = useDeleteResultPreferenceMutation();
@@ -95,6 +97,10 @@ const GeneratedImgA = ({
   useEffect(() => {
     onCurrentImgIdChange?.(currentImgId);
   }, [currentImgId, onCurrentImgIdChange]);
+
+  useEffect(() => {
+    lockedPreferenceRef.current = lockedPreference;
+  }, [lockedPreference]);
 
   // 부모로부터 받은 데이터 사용 (필수 prop)
   const result = propResult;
@@ -129,8 +135,25 @@ const GeneratedImgA = ({
     ? currentSlideIndex === totalSlideCount - 1
     : false;
 
+  const submitPreference = (
+    imageId: number,
+    finalState: Exclude<ResultPageLikeState, null>
+  ) => {
+    sendPreference(
+      { imageId, isLike: finalState === 'like' },
+      {
+        onSuccess: () => {
+          setLockedPreference(finalState);
+          setSelectedFactorId(null);
+        },
+        onSettled: () => setIsPreferenceSubmitting(false),
+      }
+    );
+  };
+
   const handleLockedPreference = (isLike: boolean) => {
-    if (!lastImage?.imageId || isPreferenceSubmitting) return;
+    const imageId = lastImage?.imageId;
+    if (!imageId || isPreferenceSubmitting || isFactorSubmitting) return;
 
     const nextState: ResultPageLikeState = isLike ? 'like' : 'dislike';
     const finalState: ResultPageLikeState =
@@ -139,7 +162,7 @@ const GeneratedImgA = ({
     setIsPreferenceSubmitting(true);
 
     if (finalState === null) {
-      deletePreference(lastImage.imageId, {
+      deletePreference(imageId, {
         onSuccess: () => {
           setLockedPreference(null);
           setSelectedFactorId(null);
@@ -151,39 +174,48 @@ const GeneratedImgA = ({
 
     if (lockedPreference !== null && lockedPreference !== finalState) {
       if (selectedFactorId !== null) {
-        sendFactorPreference({
-          imageId: lastImage.imageId,
-          factorId: selectedFactorId,
-        });
+        const previousFactorId = selectedFactorId;
+        setSelectedFactorId(null);
+        sendFactorPreference(
+          {
+            imageId,
+            factorId: previousFactorId,
+          },
+          {
+            onSettled: () => {
+              submitPreference(imageId, finalState);
+            },
+          }
+        );
+        return;
       }
-      setSelectedFactorId(null);
     }
 
-    sendPreference(
-      { imageId: lastImage.imageId, isLike: finalState === 'like' },
-      {
-        onSuccess: () => {
-          setLockedPreference(finalState);
-          setSelectedFactorId(null);
-        },
-        onSettled: () => setIsPreferenceSubmitting(false),
-      }
-    );
+    submitPreference(imageId, finalState);
   };
 
   const handleFactorClick = (factorId: number) => {
-    if (!lastImage?.imageId || isFactorSubmitting) return;
+    const imageId = lastImage?.imageId;
+    if (!imageId || isFactorSubmitting || isPreferenceSubmitting) return;
 
     const isSelected = selectedFactorId === factorId;
+    const expectedPreference = lockedPreference;
+    const requestSeq = factorRequestSeqRef.current + 1;
+    factorRequestSeqRef.current = requestSeq;
     setIsFactorSubmitting(true);
 
     sendFactorPreference(
-      { imageId: lastImage.imageId, factorId },
+      { imageId, factorId },
       {
         onSuccess: () => {
+          if (factorRequestSeqRef.current !== requestSeq) return;
+          if (lockedPreferenceRef.current !== expectedPreference) return;
           setSelectedFactorId(isSelected ? null : factorId);
         },
-        onSettled: () => setIsFactorSubmitting(false),
+        onSettled: () => {
+          if (factorRequestSeqRef.current !== requestSeq) return;
+          setIsFactorSubmitting(false);
+        },
       }
     );
   };
@@ -309,14 +341,14 @@ const GeneratedImgA = ({
               <LikeButton
                 typeVariant="onlyIcon"
                 isSelected={lockedPreference === 'like'}
-                disabled={isPreferenceSubmitting}
+                disabled={isPreferenceSubmitting || isFactorSubmitting}
                 onClick={() => handleLockedPreference(true)}
                 aria-label="이미지 좋아요 버튼"
               />
               <DislikeButton
                 typeVariant="onlyIcon"
                 isSelected={lockedPreference === 'dislike'}
-                disabled={isPreferenceSubmitting}
+                disabled={isPreferenceSubmitting || isFactorSubmitting}
                 onClick={() => handleLockedPreference(false)}
                 aria-label="이미지 싫어요 버튼"
               />
@@ -334,7 +366,7 @@ const GeneratedImgA = ({
                           : ''
                       }`}
                       onClick={() => handleFactorClick(factor.id)}
-                      disabled={isFactorSubmitting}
+                      disabled={isFactorSubmitting || isPreferenceSubmitting}
                     >
                       {factor.text}
                     </button>
@@ -351,7 +383,7 @@ const GeneratedImgA = ({
                           : ''
                       }`}
                       onClick={() => handleFactorClick(factor.id)}
-                      disabled={isFactorSubmitting}
+                      disabled={isFactorSubmitting || isPreferenceSubmitting}
                     >
                       {factor.text}
                     </button>
@@ -373,7 +405,7 @@ const GeneratedImgA = ({
                             : ''
                         }`}
                         onClick={() => handleFactorClick(factor.id)}
-                        disabled={isFactorSubmitting}
+                        disabled={isFactorSubmitting || isPreferenceSubmitting}
                       >
                         {factor.text}
                       </button>
@@ -390,7 +422,7 @@ const GeneratedImgA = ({
                             : ''
                         }`}
                         onClick={() => handleFactorClick(factor.id)}
-                        disabled={isFactorSubmitting}
+                        disabled={isFactorSubmitting || isPreferenceSubmitting}
                       >
                         {factor.text}
                       </button>
