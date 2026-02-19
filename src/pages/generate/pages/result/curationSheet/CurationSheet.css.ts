@@ -5,6 +5,18 @@ import { animationTokens } from '@/shared/styles/tokens/animation.css';
 
 import { colorVars } from '@styles/tokens/color.css';
 
+const skeletonBlock = {
+  borderRadius: '0.4rem',
+  background: `linear-gradient(
+    90deg,
+    ${colorVars.color.gray200} 0%,
+    ${colorVars.color.gray100} 50%,
+    ${colorVars.color.gray200} 100%
+  )`,
+  backgroundSize: '200% 100%',
+  animation: `${animationTokens.skeletonWave} 1.6s ease-in-out infinite`,
+} as const;
+
 export const container = style({
   width: '100%',
   flex: '1 1 auto',
@@ -103,6 +115,45 @@ export const gridbox = style({
   gridTemplateColumns: 'repeat(2, minmax(16.4rem, 1fr))',
   columnGap: '0.7rem',
   rowGap: 0,
+});
+
+export const productSkeletonCard = style({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  paddingBottom: '2rem',
+});
+
+export const productSkeletonImage = style({
+  ...skeletonBlock,
+  width: '100%',
+  aspectRatio: '1 / 1',
+  borderRadius: '0.8rem',
+});
+
+export const productSkeletonInfo = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.4rem',
+  padding: '0.6rem 0.2rem 0',
+});
+
+export const productSkeletonBrand = style({
+  ...skeletonBlock,
+  width: '56%',
+  height: '1.1rem',
+});
+
+export const productSkeletonName = style({
+  ...skeletonBlock,
+  width: '100%',
+  height: '3.2rem',
+});
+
+export const productSkeletonPrice = style({
+  ...skeletonBlock,
+  width: '48%',
+  height: '1.4rem',
 });
 
 export const statusContainer = style({
