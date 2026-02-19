@@ -27,8 +27,7 @@ import * as styles from './CurationSheet.css';
 
 import type { FurnitureProductsInfoResponse } from '@pages/generate/types/furniture';
 
-// 카테고리 스켈레톤 칩 길이 프리셋 중 세 번째(long)만 사용
-const FILTER_SKELETON_WIDTH = 'long' as const;
+const FILTER_SKELETON_CHIP_COUNT = 4;
 const PRODUCT_SKELETON_CARD_COUNT = 4;
 const SECTION_SWITCH_EPSILON_PX = 1;
 // 프리패치 쿼리키 튜플 정의
@@ -376,7 +375,10 @@ export const CurationSheet = ({ groupId = null }: CurationSheetProps) => {
           <div className={styles.productSkeletonInfo}>
             <div className={styles.productSkeletonBrand} />
             <div className={styles.productSkeletonName} />
-            <div className={styles.productSkeletonPrice} />
+            <div className={styles.productSkeletonPriceGroup}>
+              <div className={styles.productSkeletonOldPrice} />
+              <div className={styles.productSkeletonCurrentPrice} />
+            </div>
           </div>
         </div>
       ))}
@@ -479,30 +481,30 @@ export const CurationSheet = ({ groupId = null }: CurationSheetProps) => {
 
       {!categoriesQuery.isError && (
         <div className={styles.filterSection}>
-          {categories.length === 0 ? (
-            // 감지/로딩 중에는 세 번째 길이(long) 스켈레톤 칩 하나만 노출
-            <span
-              className={`${styles.filterSkeletonChip} ${styles.filterSkeletonChipWidth[FILTER_SKELETON_WIDTH]}`}
-              aria-hidden
-            />
-          ) : (
-            categories.map((category) => (
-              <span
-                key={category.id}
-                ref={(element) => {
-                  chipRefs.current[category.id] = element;
-                }}
-                className={styles.filterChipAnchor}
-              >
-                <FilterChip
-                  isSelected={selectedCategoryId === category.id}
-                  onClick={() => handleCategorySelect(category.id)}
+          {categories.length === 0
+            ? Array.from({ length: FILTER_SKELETON_CHIP_COUNT }, (_, index) => (
+                <span
+                  key={`filter-skeleton-${index}`}
+                  className={styles.filterSkeletonChip}
+                  aria-hidden
+                />
+              ))
+            : categories.map((category) => (
+                <span
+                  key={category.id}
+                  ref={(element) => {
+                    chipRefs.current[category.id] = element;
+                  }}
+                  className={styles.filterChipAnchor}
                 >
-                  {category.categoryName}
-                </FilterChip>
-              </span>
-            ))
-          )}
+                  <FilterChip
+                    isSelected={selectedCategoryId === category.id}
+                    onClick={() => handleCategorySelect(category.id)}
+                  >
+                    {category.categoryName}
+                  </FilterChip>
+                </span>
+              ))}
         </div>
       )}
 
