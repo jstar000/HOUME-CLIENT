@@ -21,7 +21,7 @@ export interface FurnitureProductInfo {
   furnitureProductSiteUrl: string;
   furnitureProductName: string;
   furnitureProductMallName: string;
-  furnitureProductId: string | number;
+  furnitureProductId?: string | number;
   similarity: number;
   // optional fields: cardProduct/large/maximal UI
   furnitureProductOriginalPrice?: number;

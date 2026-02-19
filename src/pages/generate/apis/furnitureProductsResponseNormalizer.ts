@@ -10,6 +10,8 @@ const isRecord = (value: unknown): value is UnknownRecord => {
 };
 
 const toOptionalNumber = (value: unknown) => {
+  if (value === null || value === undefined) return undefined;
+  if (typeof value === 'string' && value.trim() === '') return undefined;
   const numeric = Number(value);
   return Number.isFinite(numeric) ? numeric : undefined;
 };
@@ -32,6 +34,19 @@ const toStringArray = (value: unknown) => {
 const toRecordArray = (value: unknown): UnknownRecord[] => {
   if (!Array.isArray(value)) return [];
   return value.filter(isRecord);
+};
+
+const toOptionalProductId = (value: unknown): number | string | undefined => {
+  if (typeof value === 'number') {
+    return Number.isFinite(value) ? value : undefined;
+  }
+
+  if (typeof value === 'string') {
+    const normalized = value.trim();
+    return normalized.length > 0 ? normalized : undefined;
+  }
+
+  return undefined;
 };
 
 const getSourceProducts = (payload: UnknownRecord): UnknownRecord[] => {
@@ -70,8 +85,9 @@ const normalizeProduct = (product: UnknownRecord): FurnitureProductInfo => {
 
   const colors = toStringArray(product.colors);
   const clientColors = toStringArray(product.clientColors);
-  const furnitureProductColorHexes =
-    toStringArray(product.furnitureProductColorHexes) ?? clientColors ?? colors;
+  const furnitureProductColorHexes = toStringArray(
+    product.furnitureProductColorHexes
+  );
 
   return {
     id: toOptionalNumber(product.id),
@@ -84,11 +100,7 @@ const normalizeProduct = (product: UnknownRecord): FurnitureProductInfo => {
     furnitureProductSiteUrl: toStringOrEmpty(product.furnitureProductSiteUrl),
     furnitureProductName: toStringOrEmpty(product.furnitureProductName),
     furnitureProductMallName: toStringOrEmpty(product.furnitureProductMallName),
-    furnitureProductId:
-      typeof product.furnitureProductId === 'number' ||
-      typeof product.furnitureProductId === 'string'
-        ? product.furnitureProductId
-        : '',
+    furnitureProductId: toOptionalProductId(product.furnitureProductId),
     similarity: toOptionalNumber(product.similarity) ?? 0,
     furnitureProductOriginalPrice: listPrice,
     furnitureProductDiscountPrice: discountPrice,

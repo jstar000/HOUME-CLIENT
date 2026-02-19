@@ -41,6 +41,7 @@ describe('normalizeFurnitureProductsResponse', () => {
       clientColors: ['#112233', '#445566'],
       colors: ['#aabbcc'],
     });
+    expect(response.products[0]?.furnitureProductColorHexes).toBeUndefined();
   });
 
   it('flattens naver/raw source arrays into products', () => {
@@ -82,6 +83,39 @@ describe('normalizeFurnitureProductsResponse', () => {
     expect(response).toEqual({
       userName: '',
       products: [],
+    });
+  });
+
+  it('keeps nullable numeric fields as undefined instead of coercing to 0', () => {
+    const response = normalizeFurnitureProductsResponse({
+      userName: 'tester',
+      products: [
+        {
+          id: null,
+          baseFurnitureImageUrl: 'https://img/base.jpg',
+          furnitureProductImageUrl: 'https://img/product.jpg',
+          furnitureProductSiteUrl: 'https://shop/item',
+          furnitureProductName: 'Modern Sofa',
+          furnitureProductMallName: 'MallName',
+          furnitureProductId: null,
+          similarity: 0.91,
+          listPrice: null,
+          discountRate: '',
+          discountPrice: undefined,
+          jjymCount: null,
+          furnitureProductSaveCount: '',
+        },
+      ],
+    });
+
+    expect(response.products[0]).toMatchObject({
+      id: undefined,
+      furnitureProductId: undefined,
+      furnitureProductOriginalPrice: undefined,
+      furnitureProductDiscountRate: undefined,
+      furnitureProductDiscountPrice: undefined,
+      furnitureProductSaveCount: undefined,
+      jjymCount: undefined,
     });
   });
 });
