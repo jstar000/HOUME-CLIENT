@@ -1,16 +1,21 @@
-import { style } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
-// import { zIndex } from '@/shared/styles/tokens/zIndex';
 import { fontStyle } from '@/shared/styles/fontStyle';
 import { animationTokens } from '@/shared/styles/tokens/animation.css';
 
 import { colorVars } from '@styles/tokens/color.css';
 
 export const container = style({
+  display: 'flex',
+  flexDirection: 'column',
   width: '100%',
-  minHeight: '26rem',
-  aspectRatio: '3 / 2',
+  position: 'relative',
+});
+
+export const sliderArea = style({
+  width: '100%',
+  height: '26rem',
   overflow: 'hidden',
   position: 'relative',
 });
@@ -23,9 +28,9 @@ export const swiperSlide = style({
 export const imgArea = recipe({
   base: {
     width: '100%',
-    aspectRatio: '3 / 2',
+    height: '100%',
     objectFit: 'cover', // 비율 유지하며 영역 완전히 채움
-    objectPosition: 'center', // 이미지 중앙 부분 표시
+    objectPosition: 'center center', // 이미지 중앙 기준 크롭
   },
   variants: {
     mirrored: {
@@ -82,8 +87,8 @@ export const slidePrevBtn = style({
   justifyContent: 'center',
   left: '1.2rem',
   bottom: '50%',
-  width: '2.4rem',
-  height: '2.4rem',
+  width: '3.6rem',
+  height: '3.6rem',
   backgroundColor: colorVars.color.gray999_30,
   borderRadius: '99.9rem',
   zIndex: 1,
@@ -104,8 +109,8 @@ export const slideNextBtn = style({
   justifyContent: 'center',
   right: '1.2rem',
   bottom: '50%',
-  width: '2.4rem',
-  height: '2.4rem',
+  width: '3.6rem',
+  height: '3.6rem',
   backgroundColor: colorVars.color.gray999_30,
   borderRadius: '99.9rem',
   zIndex: 1,
@@ -122,9 +127,9 @@ export const slideNextBtn = style({
 export const imgAreaBlurred = recipe({
   base: {
     width: '100%',
-    aspectRatio: '3 / 2',
+    height: '100%',
     objectFit: 'cover',
-    objectPosition: 'center',
+    objectPosition: 'center center',
     filter: 'blur(15px)',
     backgroundColor: 'lightgray',
   },
@@ -143,18 +148,38 @@ export const imgAreaBlurred = recipe({
   },
 });
 
+export const lockedPreviewImg = style({
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
+  objectPosition: 'center center',
+});
+
 export const lockWrapper = style({
   position: 'absolute',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: '1.6rem',
+  gap: '2rem',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   zIndex: 1,
-  filter: 'none',
+  width: '23.2rem',
+});
+
+export const lockTextBox = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  textAlign: 'center',
+  color: colorVars.color.gray900,
+  ...fontStyle('body_m_14'),
+});
+
+globalStyle(`${lockTextBox} p`, {
+  margin: 0,
 });
 
 export const moreBtn = style({
@@ -169,20 +194,64 @@ export const moreBtn = style({
   color: colorVars.color.gray000,
 });
 
-export const tagBtn = style({
-  position: 'absolute',
+export const feedbackSection = style({
+  marginTop: '2rem',
+  padding: '0 2rem',
+});
+
+export const feedbackBox = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '1rem',
+  padding: '1.6rem clamp(1.6rem, 4vw, 4rem)',
+  borderRadius: '1.2rem',
+  backgroundColor: colorVars.color.gray100,
+});
+
+export const feedbackTitle = style({
+  margin: 0,
+  ...fontStyle('body_m_14'),
+  color: colorVars.color.gray900,
+});
+
+export const feedbackButtonGroup = style({
+  display: 'flex',
+  gap: '0.6rem',
+});
+
+export const feedbackTagGroup = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.8rem',
+});
+
+export const feedbackTagRow = style({
+  display: 'flex',
+  gap: '0.6rem',
+});
+
+export const feedbackTagButton = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  right: '1.2rem',
-  bottom: '2.4rem',
-  width: '2.8rem',
-  height: '2.8rem',
-  backgroundColor: colorVars.color.gray999_30,
   borderRadius: '99.9rem',
-  zIndex: 1,
+  height: '3.6rem',
+  padding: '0 1.6rem',
+  ...fontStyle('body_r_14'),
+  backgroundColor: colorVars.color.gray000,
+  color: colorVars.color.gray700,
 
   ':active': {
-    backgroundColor: colorVars.color.gray999_50,
+    backgroundColor: colorVars.color.gray300,
   },
+
+  ':disabled': {
+    opacity: 0.6,
+    cursor: 'not-allowed',
+  },
+});
+
+export const feedbackTagButtonSelected = style({
+  backgroundColor: colorVars.color.gray000,
+  color: colorVars.color.primary,
 });

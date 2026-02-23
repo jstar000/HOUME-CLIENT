@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import type { Preview } from '@storybook/react-vite';
 import '@shared/styles/global.css';
+import './preview.css';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -14,12 +15,21 @@ const queryClient = new QueryClient({
 
 const preview: Preview = {
   decorators: [
-    (Story) => (
+    (Story, context) => (
       <QueryClientProvider client={queryClient}>
-        <Story />
+        {context.viewMode === 'story' ? (
+          <div className="sb-story-wrapper">
+            <Story />
+          </div>
+        ) : (
+          <Story />
+        )}
       </QueryClientProvider>
     ),
   ],
+  initialGlobals: {
+    viewport: { value: 'mobile375', isRotated: false },
+  },
   parameters: {
     controls: {
       matchers: {
@@ -45,27 +55,22 @@ const preview: Preview = {
       ],
     },
     viewport: {
-      viewports: {
-        mobile: {
-          name: 'Mobile',
+      options: {
+        mobile375: {
+          name: 'Mobile 375',
           styles: {
             width: '375px',
             height: '667px',
           },
+          type: 'mobile',
         },
-        tablet: {
-          name: 'Tablet',
+        mobile440: {
+          name: 'Mobile 440',
           styles: {
-            width: '768px',
-            height: '1024px',
+            width: '440px',
+            height: '667px',
           },
-        },
-        desktop: {
-          name: 'Desktop',
-          styles: {
-            width: '1440px',
-            height: '900px',
-          },
+          type: 'mobile',
         },
       },
     },
