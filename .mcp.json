@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "lighthouse": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@danielsogl/lighthouse-mcp@latest"],
+      "env": {}
+    }
+  }
+}
