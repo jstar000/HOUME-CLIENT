@@ -60,6 +60,7 @@ export const useGenerateImageMutation = () => {
       setApiCompleted(true);
       queryClient.invalidateQueries({ queryKey: queryKeys.generate.image() });
       queryClient.invalidateQueries({ queryKey: queryKeys.mypage.images() });
+      queryClient.invalidateQueries({ queryKey: queryKeys.mypage.user() });
     },
   });
 
