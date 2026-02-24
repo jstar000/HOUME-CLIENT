@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
 import { useABTest } from '@pages/generate/hooks/useABTest';
+import { useStartPageModelPreload } from '@pages/generate/hooks/useStartPageModelPreload';
 import { logGenerateStartClickBtnCTA } from '@pages/generate/utils/analytics';
 
 import { ROUTES } from '@routes/paths';
@@ -20,6 +21,7 @@ const StartPage = () => {
   const navigate = useNavigate();
   const { variant } = useABTest();
 
+  useStartPageModelPreload();
   const handleGoToImageSetup = () => {
     // 이미지 생성 시작 페이지 CTA 버튼 클릭 시 GA 이벤트 전송
     logGenerateStartClickBtnCTA(variant);

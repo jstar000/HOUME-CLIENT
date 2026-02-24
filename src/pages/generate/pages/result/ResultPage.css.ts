@@ -16,7 +16,7 @@ export const wrapper = style({
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
-  height: `calc(100dvh - ${layoutVars.titleNavBarHeight})`, // TitleNavBar height
+  height: `calc(100dvh - ${layoutVars.titleNavBarHeight})`,
   overflow: 'hidden',
 });
 
@@ -29,12 +29,20 @@ export const resultSection = style({
   overflow: 'hidden',
 });
 
+export const curationSheetVisible = style({
+  display: 'contents',
+});
+
+export const curationSheetHidden = style({
+  display: 'none',
+});
+
 export const imgArea = recipe({
   base: {
     aspectRatio: '3 / 2',
     objectFit: 'cover',
-    objectPosition: 'center', // 비율 유지하며 영역 완전히 채움
-    width: '100%', // 이미지 중앙 부분 표시
+    objectPosition: 'center',
+    width: '100%',
     animation: animationTokens.fadeInUpFast,
   },
   variants: {

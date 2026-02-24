@@ -11,6 +11,7 @@ interface UseToastParams {
   type?: ToastType;
   options?: ToastOptions;
   onClick?: () => void;
+  actionLabel?: string;
   ariaLabel?: string;
   marginBottom?: string;
 }
@@ -26,6 +27,7 @@ export const useToast = () => {
       type = TOAST_TYPE.INFO,
       options,
       onClick,
+      actionLabel,
       ariaLabel = '토스트 알림',
       marginBottom = '2rem',
     }: UseToastParams) => {
@@ -36,7 +38,12 @@ export const useToast = () => {
 
       // 2) 새 토스트를 띄우고, 반환된 ID를 저장
       toastId.current = toast(
-        <Toast text={text} type={type} onClick={onClick} />,
+        <Toast
+          text={text}
+          type={type}
+          onClick={onClick}
+          actionLabel={actionLabel}
+        />,
         {
           ...options,
           ariaLabel: ariaLabel,

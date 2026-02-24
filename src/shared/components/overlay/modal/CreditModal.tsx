@@ -8,7 +8,7 @@ import { TOAST_TYPE } from '@shared/types/toast';
 
 import CreditIcon from '@assets/icons/modalCoin.png';
 
-import * as styles from './CreditModal.css';
+import * as styles from './CreditModal.css.ts';
 import CtaButton from '../../button/ctaButton/CtaButton';
 import { useToast } from '../../toast/useToast';
 

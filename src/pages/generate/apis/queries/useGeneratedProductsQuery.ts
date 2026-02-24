@@ -50,7 +50,10 @@ export const useGeneratedProductsQuery = (
       : queryKeys.furniture.products(productQueryVars);
 
   const initialProductsResponse =
-    groupId !== null && productCacheEntry
+    groupId !== null &&
+    imageId !== null &&
+    productCacheEntry &&
+    productCacheEntry.imageId === imageId
       ? productCacheEntry.response
       : undefined;
 
@@ -72,19 +75,20 @@ export const useGeneratedProductsQuery = (
   });
 
   useEffect(() => {
-    if (groupId === null || categoryId === null) return;
+    if (groupId === null || imageId === null || categoryId === null) return;
     if (!query.data) return;
     const groupCache = useCurationCacheStore.getState().groups[groupId];
     const existing = groupCache?.products[categoryId] ?? null;
-    if (existing?.response === query.data) {
+    if (existing?.imageId === imageId && existing.response === query.data) {
       return;
     }
     saveGroupProducts({
       groupId,
+      imageId,
       categoryId,
       response: query.data,
     });
-  }, [groupId, categoryId, query.data, saveGroupProducts]);
+  }, [groupId, imageId, categoryId, query.data, saveGroupProducts]);
 
   return query;
 };

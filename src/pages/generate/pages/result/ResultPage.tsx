@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom';
 
 import { useGetResultDataQuery } from '@pages/generate/apis/queries/useGetResultDataQuery';
+import { IS_CLIENT_DETECTION_ENABLED } from '@pages/generate/constants/curationDetectionMode';
 import { useABTest } from '@pages/generate/hooks/useABTest';
 import { useCurationStore } from '@pages/generate/stores/useCurationStore';
 import type {
@@ -20,7 +21,6 @@ import { useMyPageImageDetailQuery } from '@pages/mypage/apis/queries/useMyPageI
 import type {
   MyPageImageDetail,
   MyPageImageHistory,
-  MyPageUserData,
 } from '@pages/mypage/types/apis/MyPage';
 import { createImageDetailPlaceholder } from '@pages/mypage/utils/resultNavigation';
 
@@ -65,7 +65,6 @@ const toGenerateImageData = (
 /**
  * 결과(Result) 페이지
  * - 전달된 state 또는 houseId 기반으로 생성 결과를 결정
- * - 좋아요/싫어요 + factor 선택 상태를 이미지별로 관리
  * - A/B 테스트 플래그에 따라 단일/다중 결과 컴포넌트 분기
  */
 const ResultPage = () => {
@@ -74,6 +73,7 @@ const ResultPage = () => {
   const [searchParams] = useSearchParams();
   const { isMultipleImages } = useABTest();
   const [currentImgId, setCurrentImgId] = useState(0);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const setActiveImage = useCurationStore((state) => state.setActiveImage);
   const resetCuration = useCurationStore((state) => state.resetAll);
   const activeImageIdInStore = useCurationStore((state) => state.activeImageId);
@@ -84,12 +84,10 @@ const ResultPage = () => {
       | UnifiedGenerateImageResult
       | GenerateImageAResponse['data']
       | GenerateImageBResponse['data'];
-    userProfile?: MyPageUserData | null;
     initialHistory?: MyPageImageHistory | null;
     cachedDetection?: DetectionCacheEntry | null;
   };
   const forwardedResult = locationState?.result ?? null;
-  const forwardedUserProfile = locationState?.userProfile ?? null;
   const initialHistory = locationState?.initialHistory ?? null;
   const forwardedDetection = locationState?.cachedDetection ?? null;
   const initialImageId = initialHistory?.imageId ?? null;
@@ -102,11 +100,11 @@ const ResultPage = () => {
       [initialImageId]: forwardedDetection,
     };
   }, [forwardedDetection, initialImageId]);
+
   // 2차: query parameter에서 houseId 가져와서 API 호출 (직접 접근 시)
   const rawHouseId = searchParams.get('houseId');
   const from = searchParams.get('from');
   const isFromMypage = from === 'mypage';
-  // houseId 파싱 및 검증: 양의 정수 문자열만 허용
   const trimmedHouseId = rawHouseId?.trim() ?? null;
   const parsedHouseId =
     trimmedHouseId !== null &&
@@ -187,10 +185,17 @@ const ResultPage = () => {
   ]);
   const result = resolvedResult;
 
-  // currentImgId가 변경될 때마다 로그 출력
-  // useEffect(() => {
-  //   console.log('currentImgId 변경됨:', currentImgId);
-  // }, [currentImgId]);
+  const resultImageCount =
+    result &&
+    'imageInfoResponses' in result &&
+    Array.isArray(result.imageInfoResponses)
+      ? result.imageInfoResponses.length
+      : 0;
+  const totalSlideCount = resultImageCount > 0 ? resultImageCount + 1 : 0;
+  const isLockedSlide =
+    isMultipleImages &&
+    totalSlideCount > 0 &&
+    currentSlideIndex === totalSlideCount - 1;
 
   useEffect(() => {
     // 유효한 이미지 id일 때만 큐레이션 활성화 상태 갱신
@@ -210,6 +215,10 @@ const ResultPage = () => {
       resetCuration();
     };
   }, [resetCuration]);
+
+  const handleSlideChange = (currentIndex: number) => {
+    setCurrentSlideIndex(currentIndex);
+  };
 
   // 뒤로가기 로직 (GeneratePage에서 이관)
   const handleBackClick = () => {
@@ -275,8 +284,9 @@ const ResultPage = () => {
             {isMultipleImages ? (
               <GeneratedImgA
                 result={result}
+                onSlideChange={handleSlideChange}
                 onCurrentImgIdChange={setCurrentImgId}
-                userProfile={forwardedUserProfile}
+                shouldInferHotspots={IS_CLIENT_DETECTION_ENABLED}
                 detectionCache={forwardedDetectionMap ?? undefined}
                 isSlideCountLoading={isSlideCountLoading}
               />
@@ -284,10 +294,19 @@ const ResultPage = () => {
               <GeneratedImgB
                 result={result}
                 onCurrentImgIdChange={setCurrentImgId}
+                shouldInferHotspots={IS_CLIENT_DETECTION_ENABLED}
                 detectionCache={forwardedDetectionMap ?? undefined}
               />
             )}
-            <CurationSheet groupId={groupId} />
+            <div
+              className={
+                isLockedSlide
+                  ? styles.curationSheetHidden
+                  : styles.curationSheetVisible
+              }
+            >
+              <CurationSheet groupId={groupId} />
+            </div>
           </section>
         </div>
       </ErrorBoundary>

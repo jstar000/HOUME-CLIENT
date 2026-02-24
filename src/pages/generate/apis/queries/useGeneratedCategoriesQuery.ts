@@ -99,11 +99,13 @@ export const useGeneratedCategoriesQuery = (
 
   useEffect(() => {
     if (groupId === null) return;
+    if (imageId === null) return;
     if (!query.data) return;
     const existing =
       useCurationCacheStore.getState().groups[groupId]?.categories ?? null;
     if (
       existing &&
+      existing.imageId === imageId &&
       existing.detectionSignature === detectionSignature &&
       existing.response === query.data
     ) {
@@ -111,12 +113,14 @@ export const useGeneratedCategoriesQuery = (
     }
     saveGroupCategories({
       groupId,
+      imageId,
       response: query.data,
       detectedObjects: normalizedDetectedObjects,
       detectionSignature,
     });
   }, [
     groupId,
+    imageId,
     query.data,
     detectionSignature,
     normalizedDetectedObjects,

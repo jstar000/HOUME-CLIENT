@@ -1,16 +1,21 @@
-import { style } from '@vanilla-extract/css';
+import { globalStyle, style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
-// import { zIndex } from '@styles/tokens/zIndex';
 import { fontStyle } from '@styles/fontStyle';
 import { animationTokens } from '@styles/tokens/animation.css';
 import { colorVars } from '@styles/tokens/color.css';
 
 export const container = style({
-  aspectRatio: '3 / 2',
+  position: 'relative',
+  display: 'flex',
+  flexDirection: 'column',
+  width: '100%',
+});
+
+export const sliderArea = style({
   position: 'relative',
   width: '100%',
-  minHeight: '26rem',
+  height: '26rem',
   overflow: 'hidden',
 });
 
@@ -21,10 +26,10 @@ export const swiperSlide = style({
 
 export const imgArea = recipe({
   base: {
-    aspectRatio: '3 / 2',
     objectFit: 'cover',
-    objectPosition: 'center', // 비율 유지하며 영역 완전히 채움
-    width: '100%', // 이미지 중앙 부분 표시
+    objectPosition: 'center center',
+    width: '100%',
+    height: '100%',
   },
   variants: {
     mirrored: {
@@ -78,54 +83,70 @@ export const slidePrevBtn = style({
   position: 'absolute',
   zIndex: 1,
   bottom: '50%',
-  left: '1.2rem',
+  left: '0.6rem',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  borderRadius: '99.9rem',
-  backgroundColor: colorVars.color.gray999_30,
+  border: 'none',
+  backgroundColor: 'transparent',
+  padding: 0,
   width: '3.6rem',
   height: '3.6rem',
-
-  ':active': {
-    backgroundColor: colorVars.color.gray999_50,
-  },
-
-  ':disabled': {
-    backgroundColor: colorVars.color.gray999_04,
-  },
 });
 
 export const slideNextBtn = style({
   position: 'absolute',
   zIndex: 1,
-  right: '1.2rem',
+  right: '0.6rem',
   bottom: '50%',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  borderRadius: '99.9rem',
-  backgroundColor: colorVars.color.gray999_30,
+  border: 'none',
+  backgroundColor: 'transparent',
+  padding: 0,
   width: '3.6rem',
   height: '3.6rem',
+});
 
-  ':active': {
-    backgroundColor: colorVars.color.gray999_50,
-  },
+export const slideNavIconFrame = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderRadius: '1.2rem',
+  backgroundColor: colorVars.color.gray999_30,
+  width: '2.4rem',
+  height: '2.4rem',
 
-  ':disabled': {
-    backgroundColor: colorVars.color.gray999_04,
+  selectors: {
+    [`${slidePrevBtn}:active &`]: {
+      backgroundColor: colorVars.color.gray999_50,
+    },
+    [`${slideNextBtn}:active &`]: {
+      backgroundColor: colorVars.color.gray999_50,
+    },
+    [`${slidePrevBtn}:disabled &`]: {
+      backgroundColor: colorVars.color.gray999_04,
+    },
+    [`${slideNextBtn}:disabled &`]: {
+      backgroundColor: colorVars.color.gray999_04,
+    },
   },
+});
+
+globalStyle(`${slideNavIconFrame} > svg`, {
+  width: '1.2rem',
+  height: '1.2rem',
 });
 
 export const imgAreaBlurred = recipe({
   base: {
-    aspectRatio: '3 / 2',
     filter: 'blur(15px)',
     backgroundColor: 'lightgray',
     objectFit: 'cover',
-    objectPosition: 'center',
+    objectPosition: 'center center',
     width: '100%',
+    height: '100%',
   },
   variants: {
     mirrored: {
@@ -142,6 +163,13 @@ export const imgAreaBlurred = recipe({
   },
 });
 
+export const lockedPreviewImg = style({
+  objectFit: 'cover',
+  objectPosition: 'center center',
+  width: '100%',
+  height: '100%',
+});
+
 export const lockWrapper = style({
   position: 'absolute',
   zIndex: 1,
@@ -151,9 +179,22 @@ export const lockWrapper = style({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: '1.6rem',
+  gap: '2rem',
   transform: 'translate(-50%, -50%)',
-  filter: 'none',
+  width: '23.2rem',
+});
+
+export const lockTextBox = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  textAlign: 'center',
+  color: colorVars.color.gray900,
+  ...fontStyle('body_m_14'),
+});
+
+globalStyle(`${lockTextBox} p`, {
+  margin: 0,
 });
 
 export const moreBtn = style({
@@ -166,4 +207,66 @@ export const moreBtn = style({
   height: '4.4rem',
   ...fontStyle('body_m_14'),
   color: colorVars.color.gray000,
+});
+
+export const feedbackSection = style({
+  marginTop: '2rem',
+  padding: '0 2rem',
+});
+
+export const feedbackBox = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '1rem',
+  borderRadius: '1.2rem',
+  backgroundColor: colorVars.color.gray100,
+  padding: '1.6rem clamp(1.6rem, 4vw, 4rem)',
+});
+
+export const feedbackTitle = style({
+  margin: 0,
+  ...fontStyle('body_m_14'),
+  color: colorVars.color.gray900,
+});
+
+export const feedbackButtonGroup = style({
+  display: 'flex',
+  gap: '0.6rem',
+});
+
+export const feedbackTagGroup = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.8rem',
+});
+
+export const feedbackTagRow = style({
+  display: 'flex',
+  gap: '0.6rem',
+});
+
+export const feedbackTagButton = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderRadius: '99.9rem',
+  backgroundColor: colorVars.color.gray000,
+  padding: '0 1.6rem',
+  ...fontStyle('body_r_14'),
+  height: '3.6rem',
+  color: colorVars.color.gray700,
+
+  ':active': {
+    backgroundColor: colorVars.color.gray300,
+  },
+
+  ':disabled': {
+    opacity: 0.6,
+    cursor: 'not-allowed',
+  },
+});
+
+export const feedbackTagButtonSelected = style({
+  backgroundColor: colorVars.color.gray000,
+  color: colorVars.color.primary,
 });
