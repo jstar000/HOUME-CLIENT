@@ -8,6 +8,7 @@ import { ROUTES } from '@routes/paths';
 
 import { OBJ365_MODEL_PATH } from '@shared/detection/constants';
 import { preloadONNXModel } from '@shared/detection/hooks/useOnnxModel';
+import { isIOSLikeDevice } from '@shared/utils/platform';
 
 const GENERATE_WARMUP_PATHS = [ROUTES.GENERATE, ROUTES.IMAGE_SETUP];
 
@@ -15,6 +16,7 @@ const useGenerateWarmupClient = () => {
   const location = useLocation();
 
   useEffect(() => {
+    if (isIOSLikeDevice()) return;
     const pathname = location.pathname;
     const shouldWarmup = GENERATE_WARMUP_PATHS.some(
       (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)
