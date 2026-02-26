@@ -1,36 +1,46 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { initialize, mswLoader } from 'msw-storybook-addon';
+
+import { handlers } from '../src/mocks/handlers';
 
 import type { Preview } from '@storybook/react-vite';
 import '@shared/styles/global.css';
 import './preview.css';
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: false,
-      staleTime: 0,
-    },
-  },
-});
+initialize();
 
 const preview: Preview = {
+  loaders: [mswLoader],
   decorators: [
-    (Story, context) => (
-      <QueryClientProvider client={queryClient}>
-        {context.viewMode === 'story' ? (
-          <div className="sb-story-wrapper">
+    (Story, context) => {
+      const queryClient = new QueryClient({
+        defaultOptions: {
+          queries: {
+            retry: false,
+            staleTime: 0,
+          },
+        },
+      });
+      return (
+        <QueryClientProvider client={queryClient}>
+          {context.viewMode === 'story' ? (
+            <div className="sb-story-wrapper">
+              <Story />
+            </div>
+          ) : (
             <Story />
-          </div>
-        ) : (
-          <Story />
-        )}
-      </QueryClientProvider>
-    ),
+          )}
+        </QueryClientProvider>
+      );
+    },
   ],
   initialGlobals: {
     viewport: { value: 'mobile375', isRotated: false },
   },
   parameters: {
+    msw: {
+      handlers,
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,

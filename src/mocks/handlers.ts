@@ -28,6 +28,50 @@ export const handlers = [
     });
   }),
 
+  // GET /api/v1/dashboard-info — 활동 옵션 (prefetchStaticData에서 호출)
+  http.get('*/api/v1/dashboard-info', () => {
+    return HttpResponse.json({
+      code: 200,
+      message: 'OK',
+      data: {
+        activities: [
+          { code: 'COOKING', label: '요리' },
+          { code: 'READING', label: '독서' },
+        ],
+        categories: [
+          {
+            categoryId: 1,
+            nameKr: '소파',
+            nameEng: 'SOFA',
+            furnitures: [{ id: 1, code: 'SOFA_2', label: '2인 소파' }],
+          },
+        ],
+      },
+    });
+  }),
+
+  // GET /api/v1/moodboard-images — 무드보드 이미지 (prefetchStaticData에서 호출)
+  http.get('*/api/v1/moodboard-images', () => {
+    return HttpResponse.json({
+      code: 200,
+      message: 'OK',
+      data: {
+        moodBoardResponseList: [
+          {
+            id: 1,
+            imageUrl: 'https://example.com/mood1.jpg',
+            fileExtension: 'jpg',
+          },
+          {
+            id: 2,
+            imageUrl: 'https://example.com/mood2.jpg',
+            fileExtension: 'jpg',
+          },
+        ],
+      },
+    });
+  }),
+
   // POST /api/v2/generated-images/generate/gemini — 단일 이미지 (B안)
   http.post('*/api/v2/generated-images/generate/gemini', () => {
     return HttpResponse.json({

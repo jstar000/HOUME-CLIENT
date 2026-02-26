@@ -90,6 +90,7 @@
     "husky": "^9.1.7",
     "jsdom": "^28.1.0",
     "msw": "^2.12.10",
+    "msw-storybook-addon": "^2.0.6",
     "playwright": "^1.53.1",
     "prettier": "3.6.2",
     "storybook": "^10.1.11",
