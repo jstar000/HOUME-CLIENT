@@ -1,20 +1,10 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
 import { describe, expect, it } from 'vitest';
 
 import { useHousingOptionsQuery } from './useHousingOptionsQuery';
 import { server } from '../../../../mocks/server';
-
-// 테스트별 격리를 위한 QueryClient 팩토리 (retry: false → 에러 케이스 즉시 실패)
-const createWrapper = () => {
-  const queryClient = new QueryClient({
-    defaultOptions: { queries: { retry: false } },
-  });
-  return ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
-};
+import { createWrapper } from '../../../../tests/utils';
 
 describe('useHousingOptionsQuery', () => {
   // MSW handlers.ts의 기본 응답(아파트/원룸/10평대)으로 검증
