@@ -10,7 +10,12 @@ const meta: Meta<typeof FloorPlan> = {
   component: FloorPlan,
   tags: ['autodocs'],
   args: {
-    context: {},
+    context: {
+      houseType: 'APARTMENT',
+      roomType: 'ONE_ROOM',
+      areaType: 'AREA_10',
+      houseId: 1,
+    },
     onNext: fn(),
   },
 };

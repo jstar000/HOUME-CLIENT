@@ -10,7 +10,14 @@ const meta: Meta<typeof ActivityInfo> = {
   component: ActivityInfo,
   tags: ['autodocs'],
   args: {
-    context: {},
+    context: {
+      houseType: 'APARTMENT',
+      roomType: 'ONE_ROOM',
+      areaType: 'AREA_10',
+      houseId: 1,
+      floorPlan: { floorPlanId: 1, isMirror: false },
+      moodBoardIds: [1, 2],
+    },
   },
   decorators: [
     (Story) => (
