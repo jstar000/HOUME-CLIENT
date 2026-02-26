@@ -75,6 +75,19 @@ export default defineConfig({
         },
       },
     ],
+    // 테스트 커버리지 확인용
+    coverage: {
+      provider: 'v8',
+      include: ['src/**/*.ts', 'src/**/*.tsx'],
+      exclude: [
+        'src/**/*.test.ts',
+        'src/**/*.test.tsx',
+        'src/**/*.css.ts',
+        'src/**/*.stories.tsx',
+      ],
+      reporter: ['text', 'html'],
+      reportsDirectory: './coverage',
+    },
   },
   resolve: {
     alias: {

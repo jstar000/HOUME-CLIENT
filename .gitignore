@@ -35,6 +35,7 @@ dist-ssr
 
 *storybook.log
 storybook-static
+coverage
 
 .pnpm-store/
 .npm-cache/

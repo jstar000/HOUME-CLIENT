@@ -15,7 +15,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build --stats-json",
     "test": "vitest run --project unit",
-    "test:watch": "vitest --project unit"
+    "test:watch": "vitest --project unit",
+    "test:coverage": "vitest run --project unit --coverage"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
