@@ -1,8 +1,8 @@
 import { MemoryRouter } from 'react-router-dom';
 
-import CurationSkeleton from '@pages/generate/pages/result/curationSheet/CurationSkeleton';
-
 import TitleNavBar from '@components/navBar/TitleNavBar';
+
+import CurationSkeleton from '@/pages/generate/pages/result/curationSection/CurationSkeleton';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
