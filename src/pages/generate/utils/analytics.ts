@@ -198,7 +198,7 @@ export const logResultImgClickCurationSectionBtnGoSite = (
 };
 
 /**
- * ResultImg 큐레이션 시트 저장 버튼 클릭 이벤트
+ * ResultImg 큐레이션 섹션 저장 버튼 클릭 이벤트
  *
  * 이벤트 코드: resultImg_click_curationSectionBtnSave
  * - Page: resultImg
@@ -217,7 +217,7 @@ export const logResultImgClickCurationSectionBtnSave = (
 };
 
 /**
- * ResultImg 큐레이션 시트 카드 클릭 이벤트
+ * ResultImg 큐레이션 섹션 카드 클릭 이벤트
  *
  * 이벤트 코드: resultImg_click_curationSectionCard
  * - Page: resultImg
