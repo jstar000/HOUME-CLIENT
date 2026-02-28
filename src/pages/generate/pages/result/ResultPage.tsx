@@ -73,7 +73,7 @@ const ResultPage = () => {
   const [searchParams] = useSearchParams();
   const { isMultipleImages } = useABTest();
   const [currentImgId, setCurrentImgId] = useState(0);
-  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const [_currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const setActiveImage = useCurationStore((state) => state.setActiveImage);
   const resetCuration = useCurationStore((state) => state.resetAll);
   const activeImageIdInStore = useCurationStore((state) => state.activeImageId);
@@ -184,18 +184,6 @@ const ResultPage = () => {
     mypageHistories,
   ]);
   const result = resolvedResult;
-
-  const resultImageCount =
-    result &&
-    'imageInfoResponses' in result &&
-    Array.isArray(result.imageInfoResponses)
-      ? result.imageInfoResponses.length
-      : 0;
-  const totalSlideCount = resultImageCount > 0 ? resultImageCount + 1 : 0;
-  const isLockedSlide =
-    isMultipleImages &&
-    totalSlideCount > 0 &&
-    currentSlideIndex === totalSlideCount - 1;
 
   useEffect(() => {
     // 유효한 이미지 id일 때만 큐레이션 활성화 상태 갱신
