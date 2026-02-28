@@ -37,7 +37,7 @@ import { getCanHistoryGoBack } from '@utils/history';
 
 import GeneratedImgA from './components/GeneratedImgA';
 import GeneratedImgB from './components/GeneratedImgB';
-import CurationSheet from './curationSheet/CurationSheet';
+import CurationSection from './curationSection/CurationSection';
 import * as styles from './ResultPage.css';
 
 // 통일된 타입 정의
@@ -298,15 +298,7 @@ const ResultPage = () => {
                 detectionCache={forwardedDetectionMap ?? undefined}
               />
             )}
-            <div
-              className={
-                isLockedSlide
-                  ? styles.curationSheetHidden
-                  : styles.curationSheetVisible
-              }
-            >
-              <CurationSheet groupId={groupId} />
-            </div>
+            <CurationSection groupId={groupId} />
           </section>
         </div>
       </ErrorBoundary>
