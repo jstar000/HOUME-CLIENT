@@ -45,6 +45,9 @@ coverage
 .claude/skills/
 .claude/commands/
 .cursor
+CLAUDE.md
+answer-guide.md
+docs/
 
 dev-debug.log
 # Dependency directories
