@@ -57,9 +57,9 @@ export const useImageFlowStore = create<ImageFlowState>((set) => ({
   reset: () => set({ entryRoute: null, resultType: null, preset: null }),
 }));
 
-// 도면 선택 이후 다음 스텝 분기 헬퍼
+// 진입 경로 기반 다음 퍼널 스텝 분기 헬퍼
 // 경로1,3: 도면→인테리어스타일, 2,4,5: 도면→이미지로딩
-export const getNextStepAfterFloorPlan = (
+export const getNextFunnelStep = (
   entryRoute: EntryRoute | null
 ): 'INTERIOR_STYLE' | 'IMAGE_LOADING' => {
   if (
