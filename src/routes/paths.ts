@@ -6,7 +6,7 @@ export const ROUTES = {
   LANDING: '/landing',
   LOGIN: '/login',
   SIGNUP: '/signup',
-  GENERATE_START: '/generate/start',
+  WELCOME: '/welcome',
   IMAGE_SETUP: '/imageSetup',
   GENERATE: '/generate',
   GENERATE_RESULT: '/generate/result',
