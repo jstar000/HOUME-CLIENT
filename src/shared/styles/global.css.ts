@@ -1,7 +1,7 @@
 import { globalStyle, createGlobalTheme } from '@vanilla-extract/css';
 
-import { colorVarsV2 } from '@styles/tokens/color.v2.css';
-import { fontVarsV2 } from '@styles/tokens/font.v2.css';
+import { colorVars } from '@styles/tokensV2/color.css';
+import { fontVars } from '@styles/tokensV2/font.css';
 import '@styles/reset.css';
 import '@styles/fontFace.css';
 
@@ -50,7 +50,7 @@ globalStyle('#root', {
  * - 스크롤바 숨김으로 모바일 앱 같은 UI 구현
  */
 globalStyle('html', {
-  backgroundColor: colorVarsV2.colorV2.gray100,
+  backgroundColor: colorVars.color.gray100,
   height: '100%', // Firefox 스크롤바 숨김
   scrollbarWidth: 'none',
 });
@@ -89,15 +89,15 @@ globalStyle('body', {
   marginRight: 'auto',
   marginLeft: 'auto',
   boxShadow: 'none',
-  backgroundColor: colorVarsV2.colorV2.gray000,
+  backgroundColor: colorVars.color.gray000,
   minWidth: layoutVars.minWidth,
   maxWidth: layoutVars.maxWidth,
   minHeight: layoutVars.height,
   overflowWrap: 'break-word',
   scrollbarWidth: 'none',
   scrollBehavior: 'smooth',
-  color: colorVarsV2.colorV2.gray999,
-  fontFamily: fontVarsV2.fontV2.family.pretendard,
+  color: colorVars.color.gray999,
+  fontFamily: fontVars.font.family.pretendard,
   WebkitFontSmoothing: 'antialiased',
   MozOsxFontSmoothing: 'grayscale',
   '@media': {
