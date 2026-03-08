@@ -18,7 +18,7 @@ export const unitVars = createGlobalTheme(':root', {
 
     // gap, padding - GAP
     gapPadding: {
-      '000': '0',
+      '000': '0rem',
       '050': '0.2rem',
       '100': '0.4rem',
       '200': '0.8rem',
@@ -34,7 +34,7 @@ export const unitVars = createGlobalTheme(':root', {
 
     // radius - CORNER_RADIUS
     radius: {
-      '000': '0',
+      '000': '0rem',
       '100': '0.4rem',
       '200': '0.8rem',
       '300': '1.2rem',
