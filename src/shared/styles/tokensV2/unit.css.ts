@@ -4,46 +4,46 @@ import { createGlobalTheme } from '@vanilla-extract/css';
  * 디자인 토큰 V2 - Unit (dimension, gap/padding, radius)
  *
  * Figma Design Token - unit 스코프
- * 값 단위: px
+ * 값 단위: rem
  */
 export const unitVars = createGlobalTheme(':root', {
   unit: {
     // dimension - WIDTH_HEIGHT
     dimension: {
-      hMax: '956px',
-      hMin: '667px',
-      wMax: '440px',
-      wMin: '375px',
+      hMax: '95.6rem',
+      hMin: '66.7rem',
+      wMax: '44rem',
+      wMin: '37.5rem',
     },
 
     // gap, padding - GAP
     gapPadding: {
       '000': '0',
-      '050': '2px',
-      '100': '4px',
-      '200': '8px',
-      '300': '12px',
-      '400': '16px',
-      '500': '20px',
-      '600': '24px',
-      '700': '32px',
-      '800': '40px',
-      '900': '56px',
-      full: '999999px',
+      '050': '0.2rem',
+      '100': '0.4rem',
+      '200': '0.8rem',
+      '300': '1.2rem',
+      '400': '1.6rem',
+      '500': '2rem',
+      '600': '2.4rem',
+      '700': '3.2rem',
+      '800': '4rem',
+      '900': '5.6rem',
+      full: '9999rem',
     },
 
     // radius - CORNER_RADIUS
     radius: {
       '000': '0',
-      '100': '4px',
-      '200': '8px',
-      '300': '12px',
-      '400': '16px',
-      '500': '20px',
-      '600': '24px',
-      '700': '32px',
-      '800': '40px',
-      full: '999999px',
+      '100': '0.4rem',
+      '200': '0.8rem',
+      '300': '1.2rem',
+      '400': '1.6rem',
+      '500': '2rem',
+      '600': '2.4rem',
+      '700': '3.2rem',
+      '800': '4rem',
+      full: '9999rem',
     },
   },
 });
