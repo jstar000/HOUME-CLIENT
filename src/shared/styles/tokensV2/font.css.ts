@@ -163,8 +163,9 @@ const semantic = createGlobalTheme(':root', {
 /** Primitives + Semantic */
 export const fontVars = {
   font: {
-    ...primitives.typoPrimitive,
     family: semantic.font.family,
+    size: primitives.typoPrimitive.size,
+    weight: primitives.typoPrimitive.weight,
     title_sb_24: semantic.font.title_sb_24,
     title_sb_20: semantic.font.title_sb_20,
     title_sb_18: semantic.font.title_sb_18,
