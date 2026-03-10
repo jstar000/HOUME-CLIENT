@@ -163,24 +163,8 @@ const semantic = createGlobalTheme(':root', {
 /** Primitives + Semantic */
 export const fontVars = {
   font: {
-    family: semantic.font.family,
+    ...semantic.font,
     size: primitives.typoPrimitive.size,
     weight: primitives.typoPrimitive.weight,
-    title_sb_24: semantic.font.title_sb_24,
-    title_sb_20: semantic.font.title_sb_20,
-    title_sb_18: semantic.font.title_sb_18,
-    title_sb_16: semantic.font.title_sb_16,
-    title_m_16: semantic.font.title_m_16,
-    title_sb_15: semantic.font.title_sb_15,
-    title_m_15: semantic.font.title_m_15,
-    title_r_15: semantic.font.title_r_15,
-    title_sb_14: semantic.font.title_sb_14,
-    body_m_14: semantic.font.body_m_14,
-    body_r_14: semantic.font.body_r_14,
-    body_m_13: semantic.font.body_m_13,
-    body_r_13: semantic.font.body_r_13,
-    caption_m_12: semantic.font.caption_m_12,
-    caption_r_12: semantic.font.caption_r_12,
-    caption_r_11: semantic.font.caption_r_11,
   },
 };
