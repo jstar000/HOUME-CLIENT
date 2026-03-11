@@ -24,7 +24,7 @@ export type CtaButtonColor = (typeof CTA_BUTTON_COLOR)[number];
 
 export const CTA_BUTTON_ICON = [
   'none',
-  'doublestar',
+  'twostar',
   'externalLink',
   'refresh',
 ] as const;

@@ -23,7 +23,7 @@ const LandingPage = () => {
             height={44}
             buttonStyle="fill"
             color="inverse"
-            icon="doublestar"
+            icon="twostar"
           >
             우리 집 바꾸러 가기
           </CtaButtonV2>

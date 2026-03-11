@@ -1,6 +1,6 @@
-import IcnDoublestar from '@assets/icons/icnDoublestar.svg?react';
 import IcnLink from '@assets/icons/icnLink.svg?react';
 import IcnRefresh from '@assets/icons/icnRefresh.svg?react';
+import IcnTwoStar from '@assets/icons/icnTwoStar.svg?react';
 
 import * as styles from './CtaButtonV2.css';
 
@@ -37,10 +37,10 @@ function ButtonIcon({ type }: { type: CtaButtonIcon }) {
     );
   }
 
-  if (type === 'doublestar') {
+  if (type === 'twostar') {
     return (
       <span className={iconClassName} aria-hidden>
-        <IcnDoublestar className={styles.iconSvg} />
+        <IcnTwoStar className={styles.iconSvg} />
       </span>
     );
   }
