@@ -1,65 +1,57 @@
 import { style } from '@vanilla-extract/css';
 
-import { fontStyle } from '@styles/fontStyle';
-import { zIndex } from '@styles/tokens/zIndex';
+import ImgLanding01 from '@assets/images/ImgLanding_01.png';
+
 import { colorVars } from '@styles/tokensV2/color.css';
+import { fontVars } from '@styles/tokensV2/font.css';
+import { unitVars } from '@styles/tokensV2/unit.css';
 
 export const page = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  background: colorVars.color.gray000,
+  background: `url(${ImgLanding01}) center / cover no-repeat`,
+  padding: `${unitVars.unit.gapPadding['300']} ${unitVars.unit.gapPadding['000']}`,
   width: '100%',
   minHeight: '100vh',
 });
 
-export const headerSection = style({
-  position: 'sticky',
-  zIndex: zIndex.navigation,
-  top: 0,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  background: colorVars.color.gray000,
-  padding: '1.6rem 2rem',
-  width: '100%',
-  maxWidth: '44rem',
-});
-
 export const mainSection = style({
   display: 'flex',
-  flex: 1,
+  flex: '1 0 0',
   flexDirection: 'column',
   alignItems: 'center',
-  justifyContent: 'center',
-  padding: '2rem',
-  width: '100%',
-  maxWidth: '44rem',
+  alignSelf: 'stretch',
+  gap: unitVars.unit.gapPadding['000'],
+  padding: `${unitVars.unit.gapPadding['400']} ${unitVars.unit.gapPadding['500']}`,
 });
 
 export const contentBlock = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  gap: '2rem',
-  width: '100%',
+  gap: unitVars.unit.gapPadding['700'],
+  padding: `${unitVars.unit.gapPadding['900']} ${unitVars.unit.gapPadding['000']}`,
+});
+
+export const textContainer = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  alignSelf: 'stretch',
+  justifyContent: 'center',
+  gap: unitVars.unit.gapPadding['300'],
+  padding: `${unitVars.unit.gapPadding['000']}`,
+});
+
+export const title = style({
+  ...fontVars.font.title_sb_24,
+  textAlign: 'center',
+  color: colorVars.color.text.inverse,
 });
 
 export const text = style({
-  ...fontStyle('body_r_14'),
+  ...fontVars.font.body_r_14,
   textAlign: 'center',
-  color: colorVars.color.gray900,
-});
-
-export const button = style({
-  ...fontStyle('body_m_14'),
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  border: 'none',
-  borderRadius: '12px',
-  background: colorVars.color.fill.brand,
-  padding: '1.2rem 2rem',
-  minWidth: '20rem',
-  color: colorVars.color.gray000,
+  color: colorVars.color.text.inverseSecondary,
 });
