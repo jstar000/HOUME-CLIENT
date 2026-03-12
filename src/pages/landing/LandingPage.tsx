@@ -8,8 +8,8 @@ import NavBar from './components/NavBar';
 import * as styles from './LandingPage.css';
 
 const LandingPage = () => {
-  const { variant } = useABTest();
-  const isPillLight = variant === 'single';
+  const { variant, isLoading } = useABTest();
+  const isPillLight = !isLoading && variant === 'single';
 
   return (
     <main className={styles.page}>
