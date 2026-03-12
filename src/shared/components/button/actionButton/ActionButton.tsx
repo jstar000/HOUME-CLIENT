@@ -23,7 +23,6 @@ const ActionButton = ({
   children,
   kind = 'cta',
   icon,
-  isActive = true,
   type = 'button',
   ...props
 }: ActionButtonProps) => {
@@ -35,12 +34,7 @@ const ActionButton = ({
     ) : null;
 
   return (
-    <button
-      type={type}
-      disabled={!isActive}
-      className={styles.button({ kind })}
-      {...props}
-    >
+    <button type={type} className={styles.button({ kind })} {...props}>
       {iconContent}
       <span className={styles.buttonLabel({ kind })}>{children}</span>
     </button>
