@@ -6,53 +6,50 @@ import { fontVars } from '@styles/tokensV2/font.css';
 
 import { unitVars } from '@/shared/styles/tokensV2/unit.css';
 
-const heightStyles: Record<
-  '56' | '44' | '40' | '32' | '26',
-  {
-    height: string;
-    padding: string;
-    font: typeof fontVars.font.title_m_16;
-    pressedScale: string;
-  }
-> = {
+const heightVariantStyles = {
   56: {
-    height: '56px',
+    ...fontVars.font.title_m_16,
     padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['500']}`,
-    font: fontVars.font.title_m_16,
-    pressedScale: '0.98',
+    minWidth: '12.1rem',
+    width: '33.5rem',
+    height: '5.6rem',
   },
   44: {
-    height: '44px',
-    padding: '0 2rem',
-    font: fontVars.font.body_m_14,
-    pressedScale: '0.95',
+    ...fontVars.font.title_sb_15,
+    padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['400']}`,
+    minWidth: '8rem',
+    width: 'auto',
+    height: '4.4rem',
   },
   40: {
-    height: '40px',
-    padding: '0 1.6rem',
-    font: fontVars.font.body_m_14,
-    pressedScale: '0.95',
+    ...fontVars.font.title_sb_14,
+    padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['300']}`,
+    minWidth: '8rem',
+    width: 'auto',
+    height: '4rem',
   },
   32: {
-    height: '32px',
-    padding: '0 1.2rem',
-    font: fontVars.font.caption_m_12,
-    pressedScale: '0.95',
+    ...fontVars.font.body_m_13,
+    padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['300']}`,
+    minWidth: '6rem',
+    width: 'auto',
+    height: '3.2rem',
   },
   26: {
-    height: '26px',
-    padding: '0 1rem',
-    font: fontVars.font.caption_r_11,
-    pressedScale: '0.95',
+    ...fontVars.font.caption_r_11,
+    padding: unitVars.unit.gapPadding['100'],
+    minWidth: '5rem',
+    width: 'auto',
+    height: '2.6rem',
   },
-};
+} as const;
 
 export const button = recipe({
   base: {
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: '0.6rem',
+    gap: unitVars.unit.gapPadding['000'],
     transformOrigin: 'center center',
     transition:
       'background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease',
@@ -70,55 +67,36 @@ export const button = recipe({
       },
     },
     style: {
-      fill: {
-        background: colorVars.color.fill.primary,
-      },
+      fill: {},
       outline: {
         border: `1px solid ${colorVars.color.border.primary}`,
-        background: colorVars.color.fill.inverse,
       },
     },
     color: {
-      primary: {},
-      inverse: {},
-    },
-    height: {
-      56: {
-        ...heightStyles['56'].font,
-        padding: heightStyles['56'].padding,
-        minWidth: '12.1rem',
-        height: heightStyles['56'].height,
+      primary: {
+        background: colorVars.color.fill.primary,
+        color: colorVars.color.text.inverse,
       },
-      44: {
-        ...heightStyles['44'].font,
-        padding: heightStyles['44'].padding,
-        minWidth: '8rem',
-        height: heightStyles['44'].height,
-      },
-      40: {
-        ...heightStyles['40'].font,
-        padding: heightStyles['40'].padding,
-        minWidth: '8rem',
-        height: heightStyles['40'].height,
-      },
-      32: {
-        ...heightStyles['32'].font,
-        padding: heightStyles['32'].padding,
-        minWidth: '6rem',
-        height: heightStyles['32'].height,
-      },
-      26: {
-        ...heightStyles['26'].font,
-        padding: heightStyles['26'].padding,
-        minWidth: '5rem',
-        height: heightStyles['26'].height,
+      inverse: {
+        background: colorVars.color.fill.inverse,
+        color: colorVars.color.text.primary,
       },
     },
+    height: heightVariantStyles,
     hasIcon: {
       true: {},
       false: {},
     },
   },
+  /**
+   * 버튼 디자인 조합 (총 6종만 사용)
+   * 1. round / fill / 56 / primary
+   * 2. round / outline / 56 / primary
+   * 3. round / fill / 44 / inverse
+   * 4. round / fill / 40 / primary
+   * 5. square / outline / 32 / inverse
+   * 6. round / fill / 26 / inverse
+   */
   compoundVariants: [
     {
       variants: { style: 'fill', color: 'primary' },
