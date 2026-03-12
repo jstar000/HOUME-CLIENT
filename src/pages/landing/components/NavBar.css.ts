@@ -10,7 +10,6 @@ export const container = style({
   padding: `${unitVars.unit.gapPadding['000']}`,
   width: '100%',
   height: '4.8rem',
-  minHeight: '5.6rem',
 });
 
 export const leftDiv = style({
