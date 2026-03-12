@@ -1,4 +1,4 @@
-import LogotypeWhite from '@assets/icons/logotypeWhite.svg?react';
+import LogotypeWhite from '@assets/icons/LogotypeWhite.svg?react';
 
 import * as styles from './NavBar.css';
 
