@@ -13,6 +13,7 @@ const heightVariantStyles = {
     minWidth: '12.1rem',
     width: '33.5rem',
     height: '5.6rem',
+    ':active': { transform: 'scale(0.98)' },
   },
   44: {
     ...fontVars.font.title_sb_15,
@@ -20,6 +21,7 @@ const heightVariantStyles = {
     minWidth: '8rem',
     width: 'auto',
     height: '4.4rem',
+    ':active': { transform: 'scale(0.95)' },
   },
   40: {
     ...fontVars.font.title_sb_14,
@@ -27,6 +29,7 @@ const heightVariantStyles = {
     minWidth: '8rem',
     width: 'auto',
     height: '4rem',
+    ':active': { transform: 'scale(0.95)' },
   },
   32: {
     ...fontVars.font.body_m_13,
@@ -34,6 +37,7 @@ const heightVariantStyles = {
     minWidth: '6rem',
     width: 'auto',
     height: '3.2rem',
+    ':active': { transform: 'scale(0.95)' },
   },
   26: {
     ...fontVars.font.caption_r_11,
@@ -41,6 +45,7 @@ const heightVariantStyles = {
     minWidth: '5rem',
     width: 'auto',
     height: '2.6rem',
+    ':active': { transform: 'scale(0.95)' },
   },
 } as const;
 
@@ -130,21 +135,9 @@ export const button = recipe({
   },
 });
 
-/** wrapper: pressed scale는 globalStyle로 자식 button에 적용 (VE는 & 자식 선택자 불가) */
 export const buttonWrapper = style({
   display: 'inline-flex',
-  transformOrigin: 'center center',
 });
-
-globalStyle(`${buttonWrapper} button[data-height="56"]:active`, {
-  transform: 'scale(0.98)',
-});
-globalStyle(
-  `${buttonWrapper} button[data-height="44"]:active, ${buttonWrapper} button[data-height="40"]:active, ${buttonWrapper} button[data-height="32"]:active, ${buttonWrapper} button[data-height="26"]:active`,
-  {
-    transform: 'scale(0.95)',
-  }
-);
 
 export const iconSlot = style({
   display: 'inline-flex',
