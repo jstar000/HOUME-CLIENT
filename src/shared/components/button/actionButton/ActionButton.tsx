@@ -2,30 +2,31 @@ import * as React from 'react';
 
 import * as styles from './ActionButton.css';
 
+type ActionButtonKind =
+  | 'cta'
+  | 'ctaOutline'
+  | 'pillLight'
+  | 'pillDark'
+  | 'labelSquare'
+  | 'labelRound'
+  | 'pillGhost';
+
 interface ActionButtonProps
   extends Omit<React.ComponentProps<'button'>, 'children'> {
   children: React.ReactNode;
-  shape?: 'round' | 'square';
-  buttonStyle?: 'fill' | 'outline';
-  height?: 56 | 44 | 40 | 32 | 26;
-  color?: 'primary' | 'inverse';
+  kind?: ActionButtonKind;
   icon?: React.ReactNode;
   isActive?: boolean;
 }
 
 const ActionButton = ({
   children,
-  shape = 'round',
-  buttonStyle = 'fill',
-  height = 56,
-  color = 'primary',
+  kind = 'cta',
   icon,
   isActive = true,
   type = 'button',
   ...props
 }: ActionButtonProps) => {
-  const hasIcon = icon != null;
-
   const iconContent =
     icon != null ? (
       <span className={styles.iconSlot} aria-hidden>
@@ -37,13 +38,7 @@ const ActionButton = ({
     <button
       type={type}
       disabled={!isActive}
-      className={styles.button({
-        shape,
-        style: buttonStyle,
-        height,
-        color,
-        hasIcon,
-      })}
+      className={styles.button({ kind })}
       {...props}
     >
       {iconContent}

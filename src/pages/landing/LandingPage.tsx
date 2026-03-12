@@ -1,4 +1,7 @@
-import CtaButtonV2 from '@/shared/components/button/ctaButton/CtaButtonV2';
+import IcnTwoStarInverse from '@assets/icons/icnTwoStarInverse.svg?react';
+import IcnTwoStarPrimary from '@assets/icons/icnTwoStarPrimary.svg?react';
+
+import ActionButton from '@/shared/components/button/actionButton/ActionButton';
 
 import NavBar from './components/NavBar';
 import * as styles from './LandingPage.css';
@@ -19,14 +22,12 @@ const LandingPage = () => {
               집 구조, 취향, 생활 방식까지 반영하는 AI 홈 스타일링
             </p>
           </div>
-          <CtaButtonV2
-            height={44}
-            buttonStyle="fill"
-            color="inverse"
-            icon="twostar"
-          >
+          <ActionButton kind="pillLight" icon={<IcnTwoStarPrimary />}>
             우리 집 바꾸러 가기
-          </CtaButtonV2>
+          </ActionButton>
+          <ActionButton kind="pillGhost" icon={<IcnTwoStarInverse />}>
+            우리 집 바꾸러 가기
+          </ActionButton>
         </div>
       </section>
     </main>
