@@ -1,53 +1,10 @@
-import { globalStyle, style } from '@vanilla-extract/css';
+import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
 
 import { unitVars } from '@/shared/styles/tokensV2/unit.css';
-
-const heightVariantStyles = {
-  56: {
-    ...fontVars.font.title_m_16,
-    padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['500']}`,
-    minWidth: '12.1rem',
-    width: '33.5rem',
-    height: '5.6rem',
-    ':active': { transform: 'scale(0.98)' },
-  },
-  44: {
-    ...fontVars.font.title_sb_15,
-    padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['400']}`,
-    minWidth: '8rem',
-    width: 'auto',
-    height: '4.4rem',
-    ':active': { transform: 'scale(0.95)' },
-  },
-  40: {
-    ...fontVars.font.title_sb_14,
-    padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['300']}`,
-    minWidth: '8rem',
-    width: 'auto',
-    height: '4rem',
-    ':active': { transform: 'scale(0.95)' },
-  },
-  32: {
-    ...fontVars.font.body_m_13,
-    padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['300']}`,
-    minWidth: '6rem',
-    width: 'auto',
-    height: '3.2rem',
-    ':active': { transform: 'scale(0.95)' },
-  },
-  26: {
-    ...fontVars.font.caption_r_11,
-    padding: unitVars.unit.gapPadding['100'],
-    minWidth: '5rem',
-    width: 'auto',
-    height: '2.6rem',
-    ':active': { transform: 'scale(0.95)' },
-  },
-} as const;
 
 export const button = recipe({
   base: {
@@ -63,75 +20,91 @@ export const button = recipe({
     whiteSpace: 'nowrap',
   },
   variants: {
-    shape: {
-      round: {
+    kind: {
+      /** 1. round / fill / 56 / primary */
+      cta: {
         borderRadius: unitVars.unit.radius['full'],
-      },
-      square: {
-        borderRadius: unitVars.unit.radius['200'],
-      },
-    },
-    style: {
-      fill: {},
-      outline: {
-        border: `1px solid ${colorVars.color.border.primary}`,
-      },
-    },
-    color: {
-      primary: {
         background: colorVars.color.fill.primary,
+        padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['500']}`,
+        width: '33.5rem',
+        height: '5.6rem',
         color: colorVars.color.text.inverse,
+        ...fontVars.font.title_m_16,
+        ':active': { transform: 'scale(0.98)' },
       },
-      inverse: {
-        background: colorVars.color.fill.inverse,
+      /** 2. round / outline / 56 / primary */
+      ctaOutline: {
+        border: `1px solid ${colorVars.color.border.primary}`,
+        borderRadius: unitVars.unit.radius['full'],
+        background: 'transparent',
+        padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['500']}`,
+        width: '33.5rem',
+        height: '5.6rem',
         color: colorVars.color.text.primary,
+        ...fontVars.font.title_m_16,
+        ':active': { transform: 'scale(0.98)' },
       },
-    },
-    height: heightVariantStyles,
-    hasIcon: {
-      true: {},
-      false: {},
+      /** 3. round / fill / 44 / inverse */
+      pillLight: {
+        borderRadius: unitVars.unit.radius['full'],
+        background: colorVars.color.fill.inverse,
+        padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['400']}`,
+        width: 'auto',
+        height: '4.4rem',
+        color: colorVars.color.text.primary,
+        ...fontVars.font.title_sb_15,
+        ':active': { transform: 'scale(0.95)' },
+      },
+      /** 4. round / fill / 40 / primary */
+      pillDark: {
+        borderRadius: unitVars.unit.radius['full'],
+        background: colorVars.color.fill.primary,
+        padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['300']}`,
+        width: 'auto',
+        height: '4rem',
+        color: colorVars.color.text.inverse,
+        ...fontVars.font.title_sb_14,
+        ':active': { transform: 'scale(0.95)' },
+      },
+      /** 5. square / outline / 32 / inverse */
+      labelSquare: {
+        border: `1px solid ${colorVars.color.border.primary}`,
+        borderRadius: unitVars.unit.radius['200'],
+        background: colorVars.color.fill.inverse,
+        padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['300']}`,
+        width: 'auto',
+        height: '3.2rem',
+        color: colorVars.color.text.primary,
+        ...fontVars.font.body_m_13,
+        ':active': { transform: 'scale(0.95)' },
+      },
+      /** 6. round / fill / 26 / inverse */
+      labelRound: {
+        borderRadius: unitVars.unit.radius['full'],
+        background: colorVars.color.fill.inverse,
+        padding: unitVars.unit.gapPadding['100'],
+        width: 'auto',
+        height: '2.6rem',
+        color: colorVars.color.text.primary,
+        ...fontVars.font.caption_r_11,
+        ':active': { transform: 'scale(0.95)' },
+      },
+      /** 7. ghost */
+      pillGhost: {
+        borderRadius: unitVars.unit.radius['full'],
+        background: 'rgba(255, 255, 255, 0.1)',
+        padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['400']}`,
+        width: 'auto',
+        height: '4.4rem',
+        textAlign: 'center',
+        color: colorVars.color.text.inverse,
+        ...fontVars.font.title_sb_15,
+        ':active': { transform: 'scale(0.95)' },
+      },
     },
   },
-  /**
-   * 버튼 디자인 조합 (총 6종만 사용)
-   * 1. round / fill / 56 / primary
-   * 2. round / outline / 56 / primary
-   * 3. round / fill / 44 / inverse
-   * 4. round / fill / 40 / primary
-   * 5. square / outline / 32 / inverse
-   * 6. round / fill / 26 / inverse
-   */
-  compoundVariants: [
-    {
-      variants: { style: 'fill', color: 'primary' },
-      style: {
-        background: colorVars.color.fill.primary,
-        color: colorVars.color.text.inverse,
-      },
-    },
-    {
-      variants: { style: 'fill', color: 'inverse' },
-      style: {
-        background: colorVars.color.fill.inverse,
-        color: colorVars.color.text.primary,
-      },
-    },
-    {
-      variants: { style: 'outline', color: 'inverse' },
-      style: {
-        border: `1px solid ${colorVars.color.border.primary}`,
-        background: colorVars.color.fill.inverse,
-        color: colorVars.color.text.primary,
-      },
-    },
-  ],
   defaultVariants: {
-    shape: 'round',
-    style: 'fill',
-    color: 'primary',
-    height: 56,
-    hasIcon: false,
+    kind: 'cta',
   },
 });
 
@@ -144,17 +117,7 @@ export const iconSlot = style({
   flexShrink: 0,
   alignItems: 'center',
   justifyContent: 'center',
-  width: '1.6rem',
-  height: '1.6rem',
+  width: '2rem',
+  height: '2rem',
   color: 'currentColor',
-});
-
-globalStyle(`${iconSlot} svg`, {
-  fill: 'currentColor',
-  stroke: 'currentColor',
-});
-
-export const iconSvg = style({
-  width: '1.4rem',
-  height: '1.4rem',
 });
