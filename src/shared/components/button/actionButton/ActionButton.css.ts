@@ -1,4 +1,3 @@
-import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 import { colorVars } from '@styles/tokensV2/color.css';
@@ -11,7 +10,6 @@ export const button = recipe({
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: unitVars.unit.gapPadding['000'],
     transformOrigin: 'center center',
     transition:
       'background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease',
@@ -34,9 +32,10 @@ export const button = recipe({
       },
       /** 2. round / outline / 56 / primary */
       ctaOutline: {
+        gap: unitVars.unit.gapPadding['050'],
         border: `1px solid ${colorVars.color.border.primary}`,
         borderRadius: unitVars.unit.radius['full'],
-        background: 'transparent',
+        background: colorVars.color.fill.inverse,
         padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['500']}`,
         width: '33.5rem',
         height: '5.6rem',
@@ -81,11 +80,11 @@ export const button = recipe({
       /** 6. round / fill / 26 / inverse */
       labelRound: {
         borderRadius: unitVars.unit.radius['full'],
-        background: colorVars.color.fill.inverse,
-        padding: unitVars.unit.gapPadding['100'],
+        background: colorVars.color.fill.inverseSecondary,
+        padding: '0.6rem',
         width: 'auto',
         height: '2.6rem',
-        color: colorVars.color.text.primary,
+        color: colorVars.color.text.secondary,
         ...fontVars.font.caption_r_11,
         ':active': { transform: 'scale(0.95)' },
       },
@@ -108,16 +107,66 @@ export const button = recipe({
   },
 });
 
-export const buttonWrapper = style({
-  display: 'inline-flex',
+export const iconSlot = recipe({
+  base: {
+    display: 'inline-flex',
+    flexShrink: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '2rem',
+    height: '2rem',
+    color: 'currentColor',
+  },
+  variants: {
+    kind: {
+      cta: {},
+      ctaOutline: {},
+      pillLight: {
+        width: '1.6rem',
+        height: '1.6rem',
+      },
+      pillDark: {
+        width: '1.6rem',
+        height: '1.6rem',
+      },
+      labelSquare: {},
+      labelRound: {
+        width: '1.4rem',
+        height: '1.4rem',
+      },
+      pillGhost: {
+        width: '1.6rem',
+        height: '1.6rem',
+      },
+    },
+  },
+  defaultVariants: {
+    kind: 'cta',
+  },
 });
 
-export const iconSlot = style({
-  display: 'inline-flex',
-  flexShrink: 0,
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '2rem',
-  height: '2rem',
-  color: 'currentColor',
+export const buttonLabel = recipe({
+  base: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: unitVars.unit.gapPadding['000'],
+    padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['100']}`,
+  },
+  variants: {
+    kind: {
+      cta: {},
+      ctaOutline: {},
+      pillLight: {},
+      pillDark: {},
+      labelSquare: {},
+      labelRound: {
+        padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['050']}`,
+      },
+      pillGhost: {},
+    },
+  },
+  defaultVariants: {
+    kind: 'cta',
+  },
 });

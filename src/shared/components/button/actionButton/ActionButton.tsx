@@ -29,7 +29,7 @@ const ActionButton = ({
 }: ActionButtonProps) => {
   const iconContent =
     icon != null ? (
-      <span className={styles.iconSlot} aria-hidden>
+      <span className={styles.iconSlot({ kind })} aria-hidden>
         {icon}
       </span>
     ) : null;
@@ -42,7 +42,7 @@ const ActionButton = ({
       {...props}
     >
       {iconContent}
-      <span>{children}</span>
+      <span className={styles.buttonLabel({ kind })}>{children}</span>
     </button>
   );
 };
