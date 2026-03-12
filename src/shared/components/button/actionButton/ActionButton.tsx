@@ -2,29 +2,29 @@ import IcnLink from '@assets/icons/icnLink.svg?react';
 import IcnRefresh from '@assets/icons/icnRefresh.svg?react';
 import IcnTwoStar from '@assets/icons/icnTwoStar.svg?react';
 
-import * as styles from './CtaButtonV2.css';
+import * as styles from './ActionButton.css';
 
 import type {
-  CtaButtonColor,
-  CtaButtonHeight,
-  CtaButtonIcon,
-  CtaButtonShape,
-  CtaButtonStyle,
-} from './CtaButtonV2.types';
+  ActionButtonColor,
+  ActionButtonHeight,
+  ActionButtonIcon,
+  ActionButtonShape,
+  ActionButtonStyle,
+} from './ActionButton.types';
 
-interface CtaButtonV2Props
+interface ActionButtonProps
   extends Omit<React.ComponentProps<'button'>, 'children'> {
   children: React.ReactNode;
-  shape?: CtaButtonShape;
+  shape?: ActionButtonShape;
   /** Figma style: fill | outline (DOM style과 구분 위해 buttonStyle) */
-  buttonStyle?: CtaButtonStyle;
-  height?: CtaButtonHeight;
-  color?: CtaButtonColor;
-  icon?: CtaButtonIcon;
+  buttonStyle?: ActionButtonStyle;
+  height?: ActionButtonHeight;
+  color?: ActionButtonColor;
+  icon?: ActionButtonIcon;
   isActive?: boolean;
 }
 
-function ButtonIcon({ type }: { type: CtaButtonIcon }) {
+function ButtonIcon({ type }: { type: ActionButtonIcon }) {
   if (type === 'none') return null;
 
   const iconClassName = styles.iconSlot;
@@ -56,7 +56,7 @@ function ButtonIcon({ type }: { type: CtaButtonIcon }) {
   return null;
 }
 
-const CtaButtonV2 = ({
+const ActionButton = ({
   children,
   shape = 'round',
   buttonStyle = 'fill',
@@ -66,7 +66,7 @@ const CtaButtonV2 = ({
   isActive = true,
   type = 'button',
   ...props
-}: CtaButtonV2Props) => {
+}: ActionButtonProps) => {
   const hasIcon = icon !== 'none';
 
   return (
@@ -92,4 +92,4 @@ const CtaButtonV2 = ({
   );
 };
 
-export default CtaButtonV2;
+export default ActionButton;
