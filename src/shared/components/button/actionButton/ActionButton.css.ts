@@ -101,42 +101,23 @@ export const button = recipe({
     {
       variants: { style: 'fill', color: 'primary' },
       style: {
-        background: colorVars.color.gray900,
-        color: colorVars.color.gray000,
-        ':active': {
-          background: colorVars.color.gray800,
-        },
+        background: colorVars.color.fill.primary,
+        color: colorVars.color.text.inverse,
       },
     },
     {
       variants: { style: 'fill', color: 'inverse' },
       style: {
-        background: colorVars.color.gray000,
-        color: colorVars.color.gray900,
-        ':active': {
-          background: colorVars.color.gray050,
-        },
-      },
-    },
-    {
-      variants: { style: 'outline', color: 'primary' },
-      style: {
-        border: `1px solid ${colorVars.color.gray900}`,
-        color: colorVars.color.gray900,
-        ':active': {
-          borderColor: colorVars.color.gray800,
-          background: colorVars.color.gray050,
-        },
+        background: colorVars.color.fill.inverse,
+        color: colorVars.color.text.primary,
       },
     },
     {
       variants: { style: 'outline', color: 'inverse' },
       style: {
-        border: `1px solid ${colorVars.color.gray300}`,
-        color: colorVars.color.gray900,
-        ':active': {
-          background: colorVars.color.gray050,
-        },
+        border: `1px solid ${colorVars.color.border.primary}`,
+        background: colorVars.color.fill.inverse,
+        color: colorVars.color.text.primary,
       },
     },
   ],
