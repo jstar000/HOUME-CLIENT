@@ -1,59 +1,16 @@
-import IcnLink from '@assets/icons/icnLink.svg?react';
-import IcnRefresh from '@assets/icons/icnRefresh.svg?react';
-import IcnTwoStar from '@assets/icons/icnTwoStar.svg?react';
+import * as React from 'react';
 
 import * as styles from './ActionButton.css';
-
-import type {
-  ActionButtonColor,
-  ActionButtonHeight,
-  ActionButtonIcon,
-  ActionButtonShape,
-  ActionButtonStyle,
-} from './ActionButton.types';
 
 interface ActionButtonProps
   extends Omit<React.ComponentProps<'button'>, 'children'> {
   children: React.ReactNode;
-  shape?: ActionButtonShape;
-  /** Figma style: fill | outline (DOM style과 구분 위해 buttonStyle) */
-  buttonStyle?: ActionButtonStyle;
-  height?: ActionButtonHeight;
-  color?: ActionButtonColor;
-  icon?: ActionButtonIcon;
+  shape?: 'round' | 'square';
+  buttonStyle?: 'fill' | 'outline';
+  height?: 56 | 44 | 40 | 32 | 26;
+  color?: 'primary' | 'inverse';
+  icon?: React.ReactNode;
   isActive?: boolean;
-}
-
-function ButtonIcon({ type }: { type: ActionButtonIcon }) {
-  if (type === 'none') return null;
-
-  const iconClassName = styles.iconSlot;
-
-  if (type === 'externalLink') {
-    return (
-      <span className={iconClassName} aria-hidden>
-        <IcnLink className={styles.iconSvg} />
-      </span>
-    );
-  }
-
-  if (type === 'twostar') {
-    return (
-      <span className={iconClassName} aria-hidden>
-        <IcnTwoStar className={styles.iconSvg} />
-      </span>
-    );
-  }
-
-  if (type === 'refresh') {
-    return (
-      <span className={iconClassName} aria-hidden>
-        <IcnRefresh className={styles.iconSvg} />
-      </span>
-    );
-  }
-
-  return null;
 }
 
 const ActionButton = ({
@@ -62,33 +19,36 @@ const ActionButton = ({
   buttonStyle = 'fill',
   height = 56,
   color = 'primary',
-  icon = 'none',
+  icon,
   isActive = true,
   type = 'button',
   ...props
 }: ActionButtonProps) => {
-  const hasIcon = icon !== 'none';
+  const hasIcon = icon != null;
+
+  const iconContent =
+    icon != null ? (
+      <span className={styles.iconSlot} aria-hidden>
+        {icon}
+      </span>
+    ) : null;
 
   return (
-    <div className={styles.buttonWrapper}>
-      <button
-        type={type}
-        disabled={!isActive}
-        aria-disabled={!isActive}
-        data-height={height}
-        className={styles.button({
-          shape,
-          style: buttonStyle,
-          height,
-          color,
-          hasIcon,
-        })}
-        {...props}
-      >
-        <ButtonIcon type={icon} />
-        <span>{children}</span>
-      </button>
-    </div>
+    <button
+      type={type}
+      disabled={!isActive}
+      className={styles.button({
+        shape,
+        style: buttonStyle,
+        height,
+        color,
+        hasIcon,
+      })}
+      {...props}
+    >
+      {iconContent}
+      <span>{children}</span>
+    </button>
   );
 };
 
