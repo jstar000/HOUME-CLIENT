@@ -1,9 +1,5 @@
-<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="vector">
-<circle id="Ellipse 49" cx="10" cy="10" r="10" fill="var(--fill-0, #D4DAE2)"/>
-<g id="Group 1171277078">
-<path id="Vector 23940" d="M12.8325 12.8306L7.17561 7.17377" stroke="var(--stroke-0, white)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="Vector 23941" d="M7.17565 12.8387L12.8325 7.18186" stroke="var(--stroke-0, white)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</g>
-</g>
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="10" cy="10" r="10" fill="#D4DAE2"/>
+<path d="M12.8325 12.8306L7.17567 7.17371" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M7.17554 12.8386L12.8324 7.18177" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
