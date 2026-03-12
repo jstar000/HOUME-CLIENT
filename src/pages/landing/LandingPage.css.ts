@@ -30,6 +30,7 @@ export const contentBlock = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
+  alignSelf: 'stretch',
   gap: unitVars.unit.gapPadding['700'],
   padding: `${unitVars.unit.gapPadding['900']} ${unitVars.unit.gapPadding['000']}`,
 });
