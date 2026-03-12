@@ -1,5 +1,5 @@
-import IcnTwoStarInverse from '@assets/icons/icnTwoStarInverse.svg?react';
-import IcnTwoStarPrimary from '@assets/icons/icnTwoStarPrimary.svg?react';
+import IcnDoubleStarInverse from '@assets/icons/icnDoubleStarInverse.svg?react';
+import IcnDoubleStarPrimary from '@assets/icons/icnDoubleStarPrimary.svg?react';
 
 import { useABTest } from '@/pages/generate/hooks/useABTest';
 import ActionButton from '@/shared/components/button/actionButton/ActionButton';
@@ -28,7 +28,9 @@ const LandingPage = () => {
           </div>
           <ActionButton
             kind={isPillLight ? 'pillLight' : 'pillGhost'}
-            icon={isPillLight ? <IcnTwoStarPrimary /> : <IcnTwoStarInverse />}
+            icon={
+              isPillLight ? <IcnDoubleStarPrimary /> : <IcnDoubleStarInverse />
+            }
           >
             우리 집 바꾸러 가기
           </ActionButton>
