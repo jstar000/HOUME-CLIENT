@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 
+import { zIndex } from '@styles/tokens/zIndex';
 import { colorVars } from '@styles/tokensV2/color.css';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
@@ -13,6 +14,7 @@ const mobileFrame = style({
 // 바텀시트 포털 전체를 viewport 하단 기준으로 정렬하는 고정 레이어
 export const viewportLayer = style({
   position: 'fixed',
+  zIndex: zIndex.sheet,
   inset: 0,
   display: 'flex',
   flexDirection: 'column',
@@ -58,6 +60,7 @@ export const panel = style({
   display: 'flex',
   flexDirection: 'column',
   gap: unitVars.unit.gapPadding['200'],
+  transition: 'height 350ms ease-in-out',
   borderTopLeftRadius: unitVars.unit.radius['700'],
   borderTopRightRadius: unitVars.unit.radius['700'],
   backgroundColor: colorVars.color.bg.primary,
@@ -139,8 +142,10 @@ export const closeIcon = style({
 export const body = style({
   display: 'flex',
   flexDirection: 'column',
+  justifyContent: 'space-between',
   gap: unitVars.unit.gapPadding['500'],
   width: '100%',
+  height: '100%',
   minHeight: 0,
 });
 

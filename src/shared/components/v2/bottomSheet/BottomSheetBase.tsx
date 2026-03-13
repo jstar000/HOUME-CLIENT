@@ -15,6 +15,9 @@ interface BottomSheetBaseProps {
   primaryButton: ReactNode;
   secondaryButton?: ReactNode;
   panelStyle?: React.CSSProperties;
+  panelRef?: React.Ref<HTMLDivElement>;
+  dimOpacity?: number;
+  disableTransition?: boolean;
   onOverlayClick?: () => void;
   onCloseClick?: () => void;
   handleSlot?: ReactNode;
@@ -28,6 +31,9 @@ const BottomSheetBase = ({
   primaryButton,
   secondaryButton,
   panelStyle,
+  panelRef,
+  dimOpacity,
+  disableTransition = false,
   onOverlayClick,
   onCloseClick,
   handleSlot,
@@ -59,6 +65,11 @@ const BottomSheetBase = ({
           <div className={styles.viewportLayer}>
             <Drawer.Overlay
               className={styles.overlay}
+              style={
+                dimOpacity !== undefined
+                  ? { backgroundColor: `rgba(0, 0, 0, ${dimOpacity * 0.5})` }
+                  : undefined
+              }
               onClick={onOverlayClick}
             />
             <Drawer.Content
@@ -68,7 +79,14 @@ const BottomSheetBase = ({
               <Drawer.Title className={styles.srOnlyTitle}>
                 {accessibleTitle}
               </Drawer.Title>
-              <div className={styles.panel} style={panelStyle}>
+              <div
+                ref={panelRef}
+                className={styles.panel}
+                style={{
+                  ...panelStyle,
+                  ...(disableTransition ? { transition: 'none' } : {}),
+                }}
+              >
                 {headerType === 'dragHandle' ? (
                   <div className={styles.dragHeader}>{handleSlot}</div>
                 ) : (
