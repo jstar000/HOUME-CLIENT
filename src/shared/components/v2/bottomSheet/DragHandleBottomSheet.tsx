@@ -6,12 +6,13 @@ import * as styles from './BottomSheetBase.css';
 
 interface DragHandleBottomSheetProps {
   open: boolean;
-  collapsedHeight: string;
+  // COLLAPSED_HEIGHT: string;
   contentSlot: ReactNode;
   primaryButton: ReactNode;
   secondaryButton?: ReactNode;
 }
 
+const COLLAPSED_HEIGHT = '24rem';
 const EXPANDED_HEIGHT = 'calc(100dvh - 10.4rem)';
 
 const parsePxFromRem = (rem: string): number => {
@@ -27,7 +28,7 @@ const resolveExpandedPx = (): number =>
 
 const DragHandleBottomSheet = ({
   open,
-  collapsedHeight,
+  // COLLAPSED_HEIGHT,
   contentSlot,
   primaryButton,
   secondaryButton,
@@ -42,22 +43,19 @@ const DragHandleBottomSheet = ({
   const collapsedPxRef = useRef(0);
   const expandedPxRef = useRef(0);
 
-  const handlePointerDown = useCallback(
-    (e: React.PointerEvent) => {
-      const panel = panelRef.current;
-      if (!panel) return;
+  const handlePointerDown = useCallback((e: React.PointerEvent) => {
+    const panel = panelRef.current;
+    if (!panel) return;
 
-      dragStartYRef.current = e.clientY;
-      startHeightRef.current = panel.offsetHeight;
-      collapsedPxRef.current = parsePxFromRem(collapsedHeight);
-      expandedPxRef.current = resolveExpandedPx();
+    dragStartYRef.current = e.clientY;
+    startHeightRef.current = panel.offsetHeight;
+    collapsedPxRef.current = parsePxFromRem(COLLAPSED_HEIGHT);
+    expandedPxRef.current = resolveExpandedPx();
 
-      setIsDragging(true);
-      setDragHeight(panel.offsetHeight);
-      (e.target as HTMLElement).setPointerCapture(e.pointerId);
-    },
-    [collapsedHeight]
-  );
+    setIsDragging(true);
+    setDragHeight(panel.offsetHeight);
+    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+  }, []);
 
   const handlePointerMove = useCallback(
     (e: React.PointerEvent) => {
@@ -101,7 +99,7 @@ const DragHandleBottomSheet = ({
   const panelStyle: React.CSSProperties =
     isDragging && dragHeight != null
       ? { height: `${dragHeight}px` }
-      : { height: expanded ? EXPANDED_HEIGHT : collapsedHeight };
+      : { height: expanded ? EXPANDED_HEIGHT : COLLAPSED_HEIGHT };
 
   return (
     <BottomSheetBase
