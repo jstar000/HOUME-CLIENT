@@ -62,10 +62,3 @@ export const title = style({
   color: colorVars.color.text.primary,
   ...fontVars.font.title_m_16,
 });
-
-export const rightSlot = style({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-end',
-  marginLeft: 'auto',
-});
