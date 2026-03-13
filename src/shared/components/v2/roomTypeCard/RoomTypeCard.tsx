@@ -108,6 +108,7 @@ const RoomTypeOptionCard = ({
 };
 
 const RoomTypePreviewCard = ({
+  type: _variant,
   className,
   imageSrc: initialImageSrc,
   imageAlt = '',

@@ -1,7 +1,5 @@
 import type { ReactNode } from 'react';
 
-import IcnChevronDown from '@assets/v2/svg/IcnChevronDown.svg?react';
-
 import * as styles from './Chip.css';
 
 interface ChipProps extends Omit<React.ComponentProps<'button'>, 'children'> {
@@ -32,12 +30,7 @@ const Chip = ({
         </span>
         {hasSuffix && (
           <span className={styles.suffix} aria-hidden="true">
-            {suffixIcon ?? (
-              <IcnChevronDown
-                className={styles.suffixIcon}
-                aria-hidden="true"
-              />
-            )}
+            {suffixIcon}
           </span>
         )}
       </span>
