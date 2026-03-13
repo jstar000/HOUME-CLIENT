@@ -16,7 +16,6 @@ export const chip = recipe({
     borderStyle: 'solid',
     borderRadius: unitVars.unit.gapPadding.full,
     background: 'transparent',
-    cursor: 'pointer',
     height: '3.4rem',
     selectors: {
       '&:active': {

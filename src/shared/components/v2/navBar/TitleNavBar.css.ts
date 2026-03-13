@@ -31,7 +31,6 @@ export const backButton = style({
   transition: 'transform 120ms ease',
   border: 0,
   background: 'transparent',
-  cursor: 'pointer',
   paddingTop: unitVars.unit.gapPadding['000'],
   paddingRight: unitVars.unit.gapPadding['100'],
   paddingBottom: unitVars.unit.gapPadding['000'],

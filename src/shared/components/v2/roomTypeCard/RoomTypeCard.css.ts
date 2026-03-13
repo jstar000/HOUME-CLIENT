@@ -14,7 +14,6 @@ export const optionCard = recipe({
     transition: 'transform 100ms ease',
     border: 0,
     borderRadius: unitVars.unit.radius['600'],
-    cursor: 'pointer',
     overflow: 'hidden',
     textAlign: 'left',
     selectors: {
@@ -197,7 +196,6 @@ export const previewNavButton = style({
   transition: 'transform 100ms ease',
   border: 0,
   background: 'transparent',
-  cursor: 'pointer',
   padding: unitVars.unit.gapPadding['200'],
   width: '3.6rem',
   height: '3.6rem',
