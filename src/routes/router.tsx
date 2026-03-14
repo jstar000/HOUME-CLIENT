@@ -20,7 +20,7 @@ import ProtectedRoute from '@routes/ProtectedRoute';
 
 import RouteErrorFallback from '@components/errorFallback/RouteErrorFallback';
 
-import { ComponentTest } from '@/pages/test';
+import { ComponentTest } from '@/pages/Test';
 
 import RootLayout from './RootLayout';
 
