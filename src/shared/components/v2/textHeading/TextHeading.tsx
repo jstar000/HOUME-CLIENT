@@ -10,8 +10,8 @@ interface TextHeadingProps {
 const TextHeading = ({
   type = 'MAIN',
   showCaption = false,
-  title = '제목을 입력하는 공간이에요.',
-  caption = '설명을 입력하는 공간이에요.',
+  title,
+  caption,
 }: TextHeadingProps) => {
   return (
     <div className={styles.wrapper({ type })}>
