@@ -16,7 +16,9 @@ const TextHeading = ({
   return (
     <div className={styles.wrapper({ type })}>
       <h2 className={styles.title({ type })}>{title}</h2>
-      {showCaption && <p className={styles.caption({ type })}>{caption}</p>}
+      {showCaption && caption && (
+        <p className={styles.caption({ type })}>{caption}</p>
+      )}
     </div>
   );
 };
