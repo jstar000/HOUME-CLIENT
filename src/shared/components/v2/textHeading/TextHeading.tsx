@@ -3,7 +3,7 @@ import * as styles from './TextHeading.css';
 interface TextHeadingProps {
   type: 'MAIN' | 'SUB' | 'POPUP/MODAL' | 'BOTTOMSHEET';
   showCaption?: boolean; // True: ON, False: OFF
-  title?: string;
+  title: string;
   caption?: string;
 }
 
