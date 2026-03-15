@@ -110,8 +110,21 @@ export const indicatorOverlay = style({
 });
 
 export const indicator = style({
+  gap: unitVars.unit.gapPadding['100'],
+  ...fontVars.font.body_m_13,
   width: '100%',
   textAlign: 'right',
-  ...fontVars.font.body_m_14,
   color: colorVars.color.gray000,
+});
+
+export const indicatorCurrent = style({
+  color: colorVars.color.text.inverse,
+});
+
+export const indicatorSeparator = style({
+  color: colorVars.color.text.inverseSecondary,
+});
+
+export const indicatorTotal = style({
+  color: colorVars.color.text.inverseSecondary,
 });

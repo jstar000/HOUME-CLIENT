@@ -95,9 +95,11 @@ const Banner = () => {
       </div>
 
       <div className={styles.indicatorOverlay} aria-hidden>
-        <span className={styles.indicator}>
-          {activeIndex + 1} | {TOTAL}
-        </span>
+        <div className={styles.indicator}>
+          <span className={styles.indicatorCurrent}>{activeIndex + 1}</span>
+          <span className={styles.indicatorSeparator}> | </span>
+          <span className={styles.indicatorTotal}>{TOTAL}</span>
+        </div>
       </div>
     </div>
   );
