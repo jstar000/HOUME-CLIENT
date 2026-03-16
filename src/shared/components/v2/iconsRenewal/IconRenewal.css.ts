@@ -18,7 +18,7 @@ export const btnIcon = recipe({
     },
     status: {
       DEFAULT: {},
-      PRESSED: { scale: 0.95 },
+      PRESSED: { transform: 'scale(0.95)' },
     },
   },
 });
