@@ -5,10 +5,10 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
 
-import imgBanner01 from '@shared/assets/images/ImgBanner_01.png';
-import imgBanner02 from '@shared/assets/images/ImgBanner_02.png';
-import imgBanner03 from '@shared/assets/images/ImgBanner_03.png';
-import imgBanner04 from '@shared/assets/images/ImgBanner_04.png';
+import imgBanner01 from '@shared/assets/v2/images/ImgBanner_01.png';
+import imgBanner02 from '@shared/assets/v2/images/ImgBanner_02.png';
+import imgBanner03 from '@shared/assets/v2/images/ImgBanner_03.png';
+import imgBanner04 from '@shared/assets/v2/images/ImgBanner_04.png';
 import IcnDoubleStar from '@shared/assets/v2/svg/IcnDoubleStar.svg?react';
 
 import * as styles from './Banner.css';
