@@ -7,8 +7,10 @@ const ExploreTab = () => {
   return (
     <div className={styles.container}>
       <BannerSection />
-      <RoomTypeSection />
-      <StyleSection />
+      <div className={styles.content}>
+        <RoomTypeSection />
+        <StyleSection />
+      </div>
     </div>
   );
 };
