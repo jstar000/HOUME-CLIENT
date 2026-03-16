@@ -9,6 +9,11 @@ export const wrapper = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
+  selectors: {
+    '&:active': {
+      transform: 'scale(0.98)',
+    },
+  },
 });
 
 export const card = recipe({
@@ -21,11 +26,6 @@ export const card = recipe({
     border: 0,
     borderRadius: unitVars.unit.radius['500'],
     overflow: 'hidden',
-    selectors: {
-      '&:active': {
-        transform: 'scale(0.98)',
-      },
-    },
   },
   variants: {
     size: {
