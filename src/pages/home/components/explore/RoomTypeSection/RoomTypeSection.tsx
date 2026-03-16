@@ -1,5 +1,6 @@
-import IcnArrowRightS from '@assets/v2/svg/IcnArrowRightS.svg?react';
+import IconArrowRight from '@assets/v2/svg/IconArrowRight.svg?react';
 
+import BtnText from '@components/v2/btnText/BtnText';
 import RoomTypeCard from '@components/v2/roomTypeCard/RoomTypeCard';
 
 import * as styles from './RoomTypeSection.css';
@@ -37,10 +38,14 @@ const RoomTypeSection = () => {
     <section className={styles.section}>
       <div className={styles.headerRow}>
         <h2 className={styles.sectionTitle}>우리 집 공간으로 시작하기</h2>
-        <button type="button" className={styles.moreButton}>
-          <span>더보기</span>
-          <IcnArrowRightS className={styles.moreButtonIcon} aria-hidden />
-        </button>
+        <BtnText
+          color="secondary"
+          size="s"
+          rightIcon={<IconArrowRight aria-hidden />}
+          onClick={() => {}}
+        >
+          더보기
+        </BtnText>
       </div>
       <div className={styles.cardScroll}>
         <div className={styles.cardList}>

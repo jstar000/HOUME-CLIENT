@@ -24,21 +24,6 @@ export const sectionTitle = style({
   color: colorVars.color.text.primary,
 });
 
-export const moreButton = style({
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: unitVars.unit.gapPadding['050'],
-  border: 0,
-  background: 'transparent',
-  cursor: 'pointer',
-  ...fontVars.font.body_r_14,
-  color: colorVars.color.text.tertiary,
-});
-
-export const moreButtonIcon = style({
-  flexShrink: 0,
-});
-
 export const cardScroll = style({
   width: '100%',
   overflowX: 'auto',
