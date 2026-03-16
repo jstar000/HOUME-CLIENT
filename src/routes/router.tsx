@@ -20,10 +20,17 @@ import ProtectedRoute from '@routes/ProtectedRoute';
 
 import RouteErrorFallback from '@components/errorFallback/RouteErrorFallback';
 
+import ComponentTest from '@/pages/test';
+
 import RootLayout from './RootLayout';
 
 // 공개 라우트 그룹 (인증 불필요)
 const publicRoutes = [
+  {
+    path: ROUTES.TEST,
+    element: <ComponentTest />,
+  },
+
   {
     // index: true 는 이 라우트 객체가 부모 경로("/")의 인덱스(기본) 경로임을 나타냅니다.
     // 별도의 path 없이 부모 경로 자신에 매칭되며, HomePage 가 루트("/") 요청에 렌더링됩니다.
