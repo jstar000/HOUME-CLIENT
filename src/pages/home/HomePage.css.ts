@@ -2,8 +2,6 @@ import { style } from '@vanilla-extract/css';
 
 import { colorVars } from '@styles/tokens/color.css';
 
-import { unitVars } from '@/shared/styles/tokensV2/unit.css';
-
 export const page = style({
   position: 'relative',
   display: 'flex',

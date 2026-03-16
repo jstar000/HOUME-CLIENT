@@ -7,8 +7,8 @@ import { unitVars } from '@styles/tokensV2/unit.css';
 
 export const root = style({
   position: 'relative',
-  width: '100%',
-  height: '100%',
+  width: '37.5rem',
+  height: '28rem',
 });
 
 export const swiperWrapper = style({
