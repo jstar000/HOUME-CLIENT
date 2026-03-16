@@ -1,13 +1,25 @@
-import Banner from '@shared/components/v2/banner/Banner';
+import imgBanner01 from '@assets/v2/images/ImgBanner_01.png';
+import imgBanner02 from '@assets/v2/images/ImgBanner_02.png';
+import imgBanner03 from '@assets/v2/images/ImgBanner_03.png';
+import imgBanner04 from '@assets/v2/images/ImgBanner_04.png';
+
+import Banner, { type BannerSlide } from '@components/v2/banner/Banner';
 
 import * as styles from './ExploreTab.css';
 import RoomTypeSection from './RoomTypeSection/RoomTypeSection';
 import StyleSection from './StyleSection/StyleSection';
 
+const BANNER_SLIDES_MOCK: BannerSlide[] = [
+  { id: 1, title: '잦은 재택근무에 딱 맞는', imageUrl: imgBanner01 },
+  { id: 2, title: '창가에서 브런치 즐기는', imageUrl: imgBanner02 },
+  { id: 3, title: '친구 초대하기 좋은', imageUrl: imgBanner03 },
+  { id: 4, title: 'OTT 감상하기 좋은', imageUrl: imgBanner04 },
+];
+
 const ExploreTab = () => {
   return (
     <div className={styles.container}>
-      <Banner />
+      <Banner slides={BANNER_SLIDES_MOCK} />
       <div className={styles.content}>
         <RoomTypeSection />
         <StyleSection />
