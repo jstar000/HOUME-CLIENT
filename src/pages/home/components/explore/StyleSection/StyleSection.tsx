@@ -1,5 +1,6 @@
-import IcnArrowRightS from '@assets/v2/svg/IcnArrowRightS.svg?react';
+import IconArrowRight from '@assets/v2/svg/IconArrowRight.svg?react';
 
+import BtnText from '@components/v2/btnText/BtnText';
 import StyleCard from '@components/v2/styleCard/StyleCard';
 
 import * as styles from './StyleSection.css';
@@ -32,10 +33,14 @@ const StyleSection = () => {
     <section className={styles.section}>
       <div className={styles.headerRow}>
         <h2 className={styles.sectionTitle}>다른 스타일로 꾸며보기</h2>
-        <button type="button" className={styles.moreButton}>
-          <span>더보기</span>
-          <IcnArrowRightS className={styles.moreButtonIcon} aria-hidden />
-        </button>
+        <BtnText
+          color="secondary"
+          size="m"
+          rightIcon={<IconArrowRight aria-hidden />}
+          onClick={() => {}}
+        >
+          더보기
+        </BtnText>
       </div>
       <div className={styles.cardGrid}>
         {STYLE_MOCK.map((style) => (
