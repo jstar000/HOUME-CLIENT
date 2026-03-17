@@ -1,8 +1,6 @@
 import * as styles from './MenuTab.css';
 
-export type HomeMenuTab = 'explore' | 'product';
-
-export interface MenuTabItem<T extends string = string> {
+interface MenuTabItem<T extends string = string> {
   value: T;
   label: string;
 }

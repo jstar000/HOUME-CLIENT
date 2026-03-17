@@ -8,7 +8,7 @@ import { ROUTES } from '@routes/paths';
 
 import { useUserStore } from '@store/useUserStore';
 
-import MenuTab, { type HomeMenuTab } from '@components/v2/menuTab/MenuTab';
+import MenuTab from '@components/v2/menuTab/MenuTab';
 import LogoNavBar from '@components/v2/navBar/LogoNavBar';
 
 import ExploreTab from './components/explore/ExploreTab';
@@ -19,6 +19,8 @@ import {
   logLandingClickBtnMypage,
   logLandingScrollDepthTreshold,
 } from './utils/analytics';
+
+export type HomeMenuTab = 'explore' | 'product';
 
 const HomePage = () => {
   const navigate = useNavigate();

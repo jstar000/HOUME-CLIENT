@@ -8,7 +8,7 @@ import { unitVars } from '@styles/tokensV2/unit.css';
 export const menuTabBar = style({
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'left',
+  justifyContent: 'flex-start',
   background: colorVars.color.fill.inverse,
   padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['500']}`,
   width: '100%',
