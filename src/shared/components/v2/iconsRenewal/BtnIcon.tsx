@@ -46,6 +46,7 @@ const BtnIcon = ({
 
   return (
     <button
+      type="button"
       className={styles.btnIcon({
         status: isPressed ? 'PRESSED' : 'DEFAULT',
         disabled,
