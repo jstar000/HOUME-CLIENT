@@ -6,14 +6,14 @@ import IconsResponsive, {
   type IconSize,
 } from './IconsResponsive';
 
+export type BtnIconSize = 'S' | 'M' | 'L' | 'XL';
+
 const BTN_ICON_SIZE: Record<BtnIconSize, IconSize> = {
   S: '20',
   M: '24',
   L: '32',
   XL: '40',
 } as const;
-
-export type BtnIconSize = 'S' | 'M' | 'L' | 'XL';
 
 export interface BtnIconProps {
   name: IconName;
