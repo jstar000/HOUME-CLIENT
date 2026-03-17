@@ -1,4 +1,3 @@
-import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 import { colorVars } from '@/shared/styles/tokensV2/color.css';
@@ -37,13 +36,13 @@ export const textField = recipe({
     width: '100%',
     ...fontVars.font.body_r_14,
     maxWidth: '27.5rem',
-    color: colorVars.color.text.tertiary,
+    caretColor: colorVars.color.fill.primary,
   },
   variants: {
     state: {
       default: {},
       pressed: {},
-      focused: {},
+      focused: { caretColor: colorVars.color.fill.primary },
       typing: {
         color: colorVars.color.text.primary,
       },
