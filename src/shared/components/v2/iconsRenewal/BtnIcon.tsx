@@ -17,7 +17,7 @@ const BTN_ICON_SIZE: Record<BtnIconSize, IconSize> = {
 
 export interface BtnIconProps {
   name: IconName;
-  size: BtnIconSize;
+  size?: BtnIconSize;
   disabled?: boolean;
   onClick?: () => void;
 }

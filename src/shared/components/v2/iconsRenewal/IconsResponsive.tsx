@@ -53,7 +53,7 @@ export type IconSize = '40' | '32' | '24' | '20' | '16' | '14' | '12';
 
 export interface IconsResponsiveProps {
   name: IconName;
-  size: IconSize;
+  size?: IconSize;
 }
 
 const IconsResponsive = ({ name, size = '24' }: IconsResponsiveProps) => {
