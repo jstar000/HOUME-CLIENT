@@ -17,9 +17,16 @@ const BANNER_SLIDES_MOCK: BannerSlide[] = [
 ];
 
 const ExploreTab = () => {
+  const handleBannerSlideClick = (_slide: BannerSlide) => {
+    // TODO: 슬라이드별 디테일 페이지 이동 등 연동
+  };
+
   return (
     <div className={styles.container}>
-      <Banner slides={BANNER_SLIDES_MOCK} />
+      <Banner
+        slides={BANNER_SLIDES_MOCK}
+        onSlideClick={handleBannerSlideClick}
+      />
       <div className={styles.content}>
         <RoomTypeSection />
         <StyleSection />

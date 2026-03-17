@@ -21,9 +21,10 @@ const AUTO_PLAY_DELAY_MS = 4000;
 
 type BannerProps = {
   slides: BannerSlide[];
+  onSlideClick?: (slide: BannerSlide) => void;
 };
 
-const Banner = ({ slides }: BannerProps) => {
+const Banner = ({ slides, onSlideClick }: BannerProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const total = slides.length;
   const currentSlide = slides[activeIndex];
@@ -52,7 +53,11 @@ const Banner = ({ slides }: BannerProps) => {
           }}
         >
           {slides.map((slide) => (
-            <SwiperSlide key={slide.id} className={styles.swiperSlide}>
+            <SwiperSlide
+              key={slide.id}
+              className={styles.swiperSlide}
+              onClick={() => onSlideClick?.(slide)}
+            >
               {slide.imageUrl ? (
                 <div className={styles.wrapper}>
                   <img
