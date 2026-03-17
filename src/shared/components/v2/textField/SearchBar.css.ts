@@ -1,15 +1,15 @@
+import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 import { colorVars } from '@/shared/styles/tokensV2/color.css';
 import { fontVars } from '@/shared/styles/tokensV2/font.css';
 import { unitVars } from '@/shared/styles/tokensV2/unit.css';
 
-export const container = recipe({
+export const wrapper = recipe({
   base: {
     display: 'flex',
     alignItems: 'center',
     gap: unitVars.unit.gapPadding[200],
-    transition: 'transform 0.2s ease-in-out',
     borderRadius: unitVars.unit.radius.full,
     backgroundColor: colorVars.color.fill.tertiary,
     padding: unitVars.unit.gapPadding[200],
@@ -27,10 +27,22 @@ export const container = recipe({
   },
 });
 
+export const leftContainer = style({
+  display: 'flex',
+  flex: 1,
+  gap: unitVars.unit.gapPadding[200],
+  paddingInline: unitVars.unit.gapPadding[200],
+  width: '100%',
+});
+
+export const rightContainer = style({
+  display: 'flex',
+  flexShrink: 0,
+  justifyContent: 'flex-end',
+});
+
 export const textField = recipe({
   base: {
-    flex: 1,
-    // boxSizing: 'border-box',
     outline: 'none',
     backgroundColor: colorVars.color.fill.tertiary,
     width: '100%',

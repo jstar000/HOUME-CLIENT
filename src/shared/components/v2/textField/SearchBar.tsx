@@ -67,32 +67,37 @@ const SearchBar = ({
   const handleBlur = () => setIsFocused(false);
 
   return (
-    <div className={styles.container({ state: visualState })}>
-      <IconsResponsive name="Search" size="20" />
+    <div className={styles.wrapper({ state: visualState })}>
+      <div className={styles.leftContainer}>
+        <IconsResponsive name="Search" size="20" />
 
-      <input
-        id={id}
-        value={inputValue}
-        placeholder={placeholder}
-        onChange={handleChange}
-        onFocus={handleFocus}
-        onPointerDown={handlePointerDown}
-        onPointerUp={handlePointerUp}
-        onPointerLeave={handlePointerLeave}
-        onBlur={handleBlur}
-        className={styles.textField({
-          state: visualState,
-        })}
-        maxLength={maxLength}
-        {...props}
-      />
-      {isTyped && (
-        <BtnIcon
-          name="CloseFillGray"
-          size="S"
-          onClick={() => console.log('버튼 클릭')}
+        <input
+          id={id}
+          value={inputValue}
+          placeholder={placeholder}
+          onChange={handleChange}
+          onFocus={handleFocus}
+          onPointerDown={handlePointerDown}
+          onPointerUp={handlePointerUp}
+          onPointerLeave={handlePointerLeave}
+          onBlur={handleBlur}
+          className={styles.textField({
+            state: visualState,
+          })}
+          maxLength={maxLength}
+          {...props}
         />
-      )}
+      </div>
+
+      <div className={styles.rightContainer}>
+        {isTyped && (
+          <BtnIcon
+            name="CloseFillGray"
+            size="S"
+            onClick={() => console.log('버튼 클릭')}
+          />
+        )}
+      </div>
     </div>
   );
 };
