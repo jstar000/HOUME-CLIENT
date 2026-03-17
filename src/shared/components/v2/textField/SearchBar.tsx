@@ -6,14 +6,12 @@ import IconsResponsive from '../iconsRenewal/IconsResponsive';
 
 interface SearchBarProps
   extends Omit<React.ComponentProps<'input'>, 'value' | 'onChange'> {
-  maxLength?: number;
   value?: string;
   placeholder?: string;
   onChange?: (value: string) => void;
 }
 
 const SearchBar = ({
-  maxLength,
   value: controlledValue,
   onChange: onControlledChange,
   placeholder = '가구 유형, 브랜드, 키워드로 상품을 검색하세요.',
@@ -66,6 +64,13 @@ const SearchBar = ({
   const handleFocus = () => setIsFocused(true);
   const handleBlur = () => setIsFocused(false);
 
+  const handleClear = () => {
+    if (!isControlled) {
+      setValue('');
+    }
+    onControlledChange?.('');
+  };
+
   return (
     <div className={styles.wrapper({ state: visualState })}>
       <div className={styles.leftContainer}>
@@ -84,18 +89,13 @@ const SearchBar = ({
           className={styles.textField({
             state: visualState,
           })}
-          maxLength={maxLength}
           {...props}
         />
       </div>
 
       <div className={styles.rightContainer}>
         {isTyped && (
-          <BtnIcon
-            name="CloseFillGray"
-            size="S"
-            onClick={() => console.log('버튼 클릭')}
-          />
+          <BtnIcon name="CloseFillGray" size="S" onClick={handleClear} />
         )}
       </div>
     </div>
