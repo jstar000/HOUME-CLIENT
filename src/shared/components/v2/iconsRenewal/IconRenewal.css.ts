@@ -1,6 +1,8 @@
 import { styleVariants } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
+import { unitVars } from '@/shared/styles/tokensV2/unit.css';
+
 export const iconSize = styleVariants({
   '12': { width: '12px', height: '12px' },
   '14': { width: '14px', height: '14px' },
@@ -12,6 +14,9 @@ export const iconSize = styleVariants({
 });
 
 export const btnIcon = recipe({
+  base: {
+    padding: unitVars.unit.gapPadding[100],
+  },
   variants: {
     disabled: {
       true: { opacity: 0.2, cursor: 'not-allowed' },
@@ -19,6 +24,12 @@ export const btnIcon = recipe({
     status: {
       DEFAULT: {},
       PRESSED: { transform: 'scale(0.95)' },
+    },
+    size: {
+      S: {},
+      M: { padding: unitVars.unit.gapPadding[200] },
+      L: {},
+      XL: {},
     },
   },
 });
