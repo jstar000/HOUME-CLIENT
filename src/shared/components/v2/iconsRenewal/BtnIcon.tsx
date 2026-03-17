@@ -31,15 +31,15 @@ const BtnIcon = ({
   const [isPressed, setIsPressed] = useState(false);
 
   // onPointer > 마우스, 터치 등 모두 가능
-  const onPointerDown = () => {
+  const handlePointerDown = () => {
     if (!disabled) setIsPressed(true);
   };
 
-  const onPointerUp = () => {
+  const handlePointerUp = () => {
     if (!disabled) setIsPressed(false);
   };
 
-  const onPointerLeave = () => {
+  const handlePointerLeave = () => {
     // 터치 및 클릭 취소
     if (!disabled) setIsPressed(false);
   };
@@ -52,9 +52,9 @@ const BtnIcon = ({
       })}
       disabled={disabled}
       onClick={onClick}
-      onPointerDown={onPointerDown}
-      onPointerUp={onPointerUp}
-      onPointerLeave={onPointerLeave}
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
+      onPointerLeave={handlePointerLeave}
     >
       <IconsResponsive size={BTN_ICON_SIZE[size]} name={name} />
     </button>
