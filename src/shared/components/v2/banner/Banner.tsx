@@ -26,7 +26,7 @@ type BannerProps = {
 
 const Banner = ({ slides, onSlideClick }: BannerProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const total = slides.length;
+  const hasMultipleSlides = slides.length > 1;
   const currentSlide = slides[activeIndex];
 
   return (
@@ -36,9 +36,9 @@ const Banner = ({ slides, onSlideClick }: BannerProps) => {
           className={styles.bannerSwiper}
           modules={[Autoplay]}
           slidesPerView={1}
-          loop={slides.length > 1}
+          loop={hasMultipleSlides}
           autoplay={
-            slides.length > 1
+            hasMultipleSlides
               ? {
                   delay: AUTO_PLAY_DELAY_MS,
                   disableOnInteraction: false,
@@ -76,7 +76,7 @@ const Banner = ({ slides, onSlideClick }: BannerProps) => {
         </Swiper>
       </div>
 
-      {currentSlide && (
+      {slides.length > 0 && currentSlide && (
         <div className={styles.contentOverlay} aria-hidden>
           <div className={styles.content}>
             <h2 className={styles.title}>
@@ -89,12 +89,12 @@ const Banner = ({ slides, onSlideClick }: BannerProps) => {
         </div>
       )}
 
-      {total > 0 && (
+      {slides.length > 0 && (
         <div className={styles.indicatorOverlay} aria-hidden>
           <div className={styles.indicator}>
             <span className={styles.indicatorCurrent}>{activeIndex + 1}</span>
             <span className={styles.indicatorSeparator}> | </span>
-            <span className={styles.indicatorTotal}>{total}</span>
+            <span className={styles.indicatorTotal}>{slides.length}</span>
           </div>
         </div>
       )}

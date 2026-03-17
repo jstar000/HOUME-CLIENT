@@ -56,8 +56,6 @@ export const gradientOverlay = style({
   inset: 0,
   background:
     'var(--grad-banner, linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 56%, rgba(0, 0, 0, 0) 100%))',
-  width: '100%',
-  height: '100%',
 });
 
 export const contentOverlay = style({
@@ -114,7 +112,6 @@ export const indicator = style({
   ...fontVars.font.body_m_13,
   width: '100%',
   textAlign: 'right',
-  color: colorVars.color.gray000,
 });
 
 export const indicatorCurrent = style({
