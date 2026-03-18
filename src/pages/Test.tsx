@@ -18,11 +18,6 @@ const ComponentTest = () => {
     >
       {/* large */}
       <div>
-        <p
-          style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '16px' }}
-        >
-          size=large
-        </p>
         <div
           style={{
             display: 'grid',
@@ -40,9 +35,8 @@ const ComponentTest = () => {
             originalPrice={1000000}
             discountRate={0}
             discountPrice={1000000}
-            colorHexes={['#ccc', '#999', '#666', '#333']}
+            colorHexes={['#fff', '#999', '#666', '#333']}
             saveCount={1000}
-            enableWholeCardLink={true}
           />
           <CardProduct
             title="상품명은 최대 두 줄까지 쓸 수 있어요. 상품명은 최대 두 줄..."

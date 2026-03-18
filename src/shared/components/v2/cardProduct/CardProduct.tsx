@@ -127,6 +127,7 @@ const CardProduct = ({
           onKeyDown={(event) => event.stopPropagation()}
           role="presentation"
         >
+          {/* 버튼 반영 필요 */}
           {linkHref && (
             <LinkButton
               href={linkHref}
@@ -170,32 +171,34 @@ const CardProduct = ({
           </div>
         )}
 
-        {/* 브랜드, 상품 이름 */}
-        <div className={styles.productInfo} data-click-area="title">
-          {!!brand && <p className={styles.brandTextLarge}>{brand}</p>}
-          <p className={styles.productTextLarge}>{title}</p>
-        </div>
-
-        {/* 가격 정보 */}
-        {(originalPriceText || discountPriceText) && (
-          <div className={styles.priceSection}>
-            {originalPriceText && (
-              <p className={styles.originalPriceText}>{originalPriceText}</p>
-            )}
-            {discountPriceText && (
-              <div className={styles.discountRow}>
-                {discountRateText && (
-                  <span className={styles.discountRateText}>
-                    {discountRateText}
-                  </span>
-                )}
-                <span className={styles.discountPriceText}>
-                  {discountPriceText}
-                </span>
-              </div>
-            )}
+        <div className={styles.middleInfoSection}>
+          {/* 브랜드, 상품 이름 */}
+          <div className={styles.productInfo} data-click-area="title">
+            {!!brand && <p className={styles.brandTextLarge}>{brand}</p>}
+            <p className={styles.productTextLarge}>{title}</p>
           </div>
-        )}
+
+          {/* 가격 정보 */}
+          {(originalPriceText || discountPriceText) && (
+            <div className={styles.priceSection}>
+              {originalPriceText && (
+                <p className={styles.originalPriceText}>{originalPriceText}</p>
+              )}
+              {discountPriceText && (
+                <div className={styles.discountRow}>
+                  {discountRateText && (
+                    <span className={styles.discountRateText}>
+                      {discountRateText}
+                    </span>
+                  )}
+                  <span className={styles.discountPriceText}>
+                    {discountPriceText}
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
 
         {/* 저장(하트) 정보 */}
         {typeof saveCount === 'number' && Number.isFinite(saveCount) && (
