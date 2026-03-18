@@ -52,7 +52,18 @@ const ComponentTest = () => {
           <CardProduct
             cardType="shopping"
             title="상품명은 최대 두 줄까지 쓸 수 있어요. 상품명은 최대 두 줄..."
-            brand="브랜드명은 최대 한 줄 까지 쓸 수..."
+            isSaved={isSaved1}
+            onToggleSave={() => setIsSaved1((prev) => !prev)}
+            linkHref="https://example.com"
+            linkLabel="사이트"
+            discountRate={0}
+            discountPrice={1000000}
+            colorHexes={['#fff', '#999', '#666', '#333']}
+            saveCount={1000}
+          />
+          <CardProduct
+            cardType="shopping"
+            title="상품명은 최대 두 줄까지 쓸 수 있어요. 상품명은 최대 두 줄..."
             isSaved={isSaved2}
             onToggleSave={() => setIsSaved2((prev) => !prev)}
             linkHref="https://example.com"
