@@ -36,8 +36,8 @@ export const imgSection = recipe({
   base: {
     aspectRatio: '1 / 1', // 내부 absolute(링크 버튼)의 기준
     position: 'relative', // 모서리 밖으로 이미지 안 튀어나오게
-    border: `1px solid ${colorVars.color.gray200}`,
-    borderRadius: '0.8rem',
+    border: `1px solid ${colorVars.color.border.secondary}`,
+    borderRadius: unitVars.unit.radius['300'],
     background: 'transparent', // 이미지 영역만 정사각형
     width: '100%',
     overflow: 'hidden',
@@ -89,24 +89,7 @@ export const saveBtnOverlay = style({
   right: '0.6rem',
 });
 
-export const bottomSection = style({
-  display: 'flex',
-  justifyContent: 'space-between',
-  gap: '0.4rem',
-  padding: '0.6rem 0 2rem 0',
-  width: '100%',
-});
-
-export const textContainer = style({
-  display: 'flex',
-  flex: '1 1 auto',
-  flexDirection: 'column',
-  gap: '0.6rem',
-  padding: '0.2rem',
-  width: '100%',
-  minWidth: '8rem', // 남은 공간 텍스트가 차기
-});
-
+// 버튼 아이콘 반영 필요
 export const saveBtnContainer = style({
   flex: '0 0 auto', // 하트 아이콘 찌그러짐 방지
 });
@@ -115,8 +98,8 @@ export const infoSection = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '0.8rem',
-  paddingTop: '1.2rem',
-  paddingBottom: '2rem',
+  paddingTop: unitVars.unit.gapPadding['300'],
+  paddingBottom: unitVars.unit.gapPadding['600'],
 });
 
 export const colorRow = style({
@@ -138,11 +121,17 @@ export const colorChipCount = style({
   color: colorVars.color.text.tertiary,
 });
 
+export const middleInfoSection = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: unitVars.unit.gapPadding['200'],
+  padding: unitVars.unit.gapPadding['050'],
+});
+
 export const productInfo = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '0.4rem',
-  padding: '0.2rem',
+  gap: unitVars.unit.gapPadding['100'],
 });
 
 export const brandTextLarge = style({
@@ -166,19 +155,19 @@ export const productTextLarge = style({
 export const priceSection = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '0.4rem',
+  gap: unitVars.unit.gapPadding['100'],
 });
 
 export const originalPriceText = style({
-  ...fontVars.font.caption_r_12,
+  ...fontVars.font.caption_r_11,
   textDecoration: 'line-through',
-  color: colorVars.color.gray500,
+  color: colorVars.color.text.tertiary,
 });
 
 export const discountRow = style({
   display: 'flex',
   alignItems: 'center',
-  gap: unitVars.unit.gapPadding['100'],
+  gap: '0.1rem',
 });
 
 export const discountRateText = style({
@@ -197,6 +186,7 @@ export const saveCountRow = style({
   gap: unitVars.unit.gapPadding['050'],
 });
 
+// 아이콘 리뉴얼 반영 해야 함.
 export const saveCountIcon = style({
   display: 'flex',
   alignItems: 'center',
