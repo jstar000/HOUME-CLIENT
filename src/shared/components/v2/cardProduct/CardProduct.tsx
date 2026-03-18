@@ -8,9 +8,11 @@ import SaveButton from '@components/button/saveButton/SaveButton';
 
 import * as styles from './CardProduct.css';
 
+type CardType = 'default' | 'shopping';
 type CardClickArea = 'card' | 'image' | 'title';
 
 interface CardProductProps {
+  cardType?: CardType;
   title: string;
   brand?: string;
   imageUrl?: string;
@@ -30,6 +32,7 @@ interface CardProductProps {
 }
 
 const CardProduct = ({
+  cardType = 'default',
   title,
   brand,
   imageUrl,
@@ -47,7 +50,7 @@ const CardProduct = ({
   colorHexes,
   saveCount,
 }: CardProductProps) => {
-  // const isLarge = size === 'large';
+  const isDefault = cardType === 'default';
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -128,7 +131,7 @@ const CardProduct = ({
           role="presentation"
         >
           {/* 버튼 반영 필요 */}
-          {linkHref && (
+          {isDefault && linkHref && (
             <LinkButton
               href={linkHref}
               // typeVariant={isLarge ? 'withText' : 'onlyIcon'}
@@ -153,9 +156,10 @@ const CardProduct = ({
           />
         </div>
       </section>
-      {/* 색상 정보 */}
+
       <section className={styles.infoSection}>
-        {(visibleColors.length > 0 || extraColorCount > 0) && (
+        {/* 색상 정보 */}
+        {(visibleColors.length > 0 || extraColorCount > 0) && isDefault && (
           <div className={styles.colorRow}>
             {visibleColors.map((hex, index) => (
               <span
@@ -201,15 +205,20 @@ const CardProduct = ({
         </div>
 
         {/* 저장(하트) 정보 */}
-        {typeof saveCount === 'number' && Number.isFinite(saveCount) && (
-          <div className={styles.saveCountRow}>
-            <span className={styles.saveCountIcon} aria-hidden>
-              <HeartGrayXSIcon />
-            </span>
-            <span className={styles.saveCountText}>
-              {saveCount.toLocaleString('ko-KR')}
-            </span>
-          </div>
+        {isDefault ? (
+          typeof saveCount === 'number' &&
+          Number.isFinite(saveCount) && (
+            <div className={styles.saveCountRow}>
+              <span className={styles.saveCountIcon} aria-hidden>
+                <HeartGrayXSIcon />
+              </span>
+              <span className={styles.saveCountText}>
+                {saveCount.toLocaleString('ko-KR')}
+              </span>
+            </div>
+          )
+        ) : (
+          <button>선택</button>
         )}
       </section>
     </div>
