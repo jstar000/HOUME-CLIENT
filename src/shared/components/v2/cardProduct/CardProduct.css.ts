@@ -1,7 +1,6 @@
 import { globalStyle, style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
-import { fontStyle } from '@styles/fontStyle';
 import {
   SKELETON_GRADIENT,
   animationTokens,
@@ -17,20 +16,16 @@ export const wrapper = recipe({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-  },
-  variants: {
-    size: {
-      large: { minWidth: '16.4rem' },
-      small: { minWidth: '10.8rem' },
-    },
+    minWidth: '16.4rem',
   },
 });
 
+// 이게 피그마에서 무슨 스타일인지 모르겠음
 export const clickable = style({
   cursor: 'pointer',
   selectors: {
     '&:focus-visible': {
-      outline: `2px solid ${colorVars.color.primary}`,
+      outline: `2px solid ${colorVars.color.text.brand}`,
       outlineOffset: '2px',
       borderRadius: '0.8rem',
     },
@@ -42,15 +37,10 @@ export const imgSection = recipe({
     aspectRatio: '1 / 1', // 내부 absolute(링크 버튼)의 기준
     position: 'relative', // 모서리 밖으로 이미지 안 튀어나오게
     border: `1px solid ${colorVars.color.gray200}`,
-    background: 'transparent',
-    width: '100%', // 이미지 영역만 정사각형
+    borderRadius: '0.8rem',
+    background: 'transparent', // 이미지 영역만 정사각형
+    width: '100%',
     overflow: 'hidden',
-  },
-  variants: {
-    size: {
-      large: { borderRadius: '0.8rem' },
-      small: { borderRadius: '1.2rem' },
-    },
   },
 });
 
@@ -87,12 +77,8 @@ export const linkBtnContainer = recipe({
   base: {
     position: 'absolute',
     zIndex: zIndex.button,
-  },
-  variants: {
-    size: {
-      large: { bottom: '0.6rem', left: '0.6rem' },
-      small: { bottom: '0.8rem', left: '0.8rem' },
-    },
+    bottom: '0.6rem',
+    left: '0.6rem',
   },
 });
 
@@ -123,22 +109,6 @@ export const textContainer = style({
 
 export const saveBtnContainer = style({
   flex: '0 0 auto', // 하트 아이콘 찌그러짐 방지
-});
-
-export const productText = style({
-  ...fontStyle('body_r_13'),
-  display: '-webkit-box',
-  maxHeight: '3.6rem',
-
-  overflow: 'hidden',
-  color: colorVars.color.gray999, // 최대 2줄
-  WebkitLineClamp: 2,
-  WebkitBoxOrient: 'vertical',
-});
-
-export const brandText = style({
-  ...fontStyle('caption_r_11'),
-  color: colorVars.color.gray700,
 });
 
 export const infoSection = style({
@@ -176,19 +146,19 @@ export const productInfo = style({
 });
 
 export const brandTextLarge = style({
-  ...fontStyle('caption_r_11'),
+  ...fontVars.font.caption_r_12,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
-  color: colorVars.color.gray500,
+  color: colorVars.color.text.tertiary,
 });
 
 export const productTextLarge = style({
-  ...fontStyle('body_r_13'),
+  ...fontVars.font.body_r_14,
   display: '-webkit-box',
-  maxHeight: '3.6rem',
+  maxHeight: '4.1rem',
   overflow: 'hidden',
-  color: colorVars.color.gray900,
+  color: colorVars.color.text.primary,
   WebkitLineClamp: 2,
   WebkitBoxOrient: 'vertical',
 });
@@ -200,7 +170,7 @@ export const priceSection = style({
 });
 
 export const originalPriceText = style({
-  ...fontStyle('caption_r_11'),
+  ...fontVars.font.caption_r_12,
   textDecoration: 'line-through',
   color: colorVars.color.gray500,
 });
@@ -208,23 +178,23 @@ export const originalPriceText = style({
 export const discountRow = style({
   display: 'flex',
   alignItems: 'center',
-  gap: '0.1rem',
+  gap: unitVars.unit.gapPadding['100'],
 });
 
 export const discountRateText = style({
-  ...fontStyle('title_sb_15'),
+  ...fontVars.font.title_sb_15,
   color: colorVars.color.text.brand,
 });
 
 export const discountPriceText = style({
-  ...fontStyle('title_sb_15'),
-  color: colorVars.color.gray900,
+  ...fontVars.font.title_sb_15,
+  color: colorVars.color.text.primary,
 });
 
 export const saveCountRow = style({
   display: 'flex',
   alignItems: 'center',
-  gap: '0.2rem',
+  gap: unitVars.unit.gapPadding['050'],
 });
 
 export const saveCountIcon = style({
@@ -245,6 +215,6 @@ globalStyle(`${saveCountIcon} path`, {
 });
 
 export const saveCountText = style({
-  ...fontStyle('caption_r_11'),
+  ...fontVars.font.caption_r_11,
   color: colorVars.color.gray400,
 });
