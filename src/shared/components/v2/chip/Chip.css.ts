@@ -17,11 +17,6 @@ export const chip = recipe({
     borderRadius: unitVars.unit.gapPadding.full,
     background: 'transparent',
     height: '3.4rem',
-    selectors: {
-      '&:active': {
-        transform: 'scale(0.9)',
-      },
-    },
   },
   variants: {
     selected: {
@@ -35,6 +30,19 @@ export const chip = recipe({
         backgroundColor: colorVars.color.fill.strong,
         color: colorVars.color.text.inverse,
       },
+    },
+  },
+});
+
+export const mainButton = style({
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  transition: 'transform 100ms ease',
+  color: 'inherit',
+  selectors: {
+    '&:active': {
+      transform: 'scale(0.95)',
     },
   },
 });
@@ -89,4 +97,21 @@ export const suffixIcon = style({
   flexShrink: 0,
   width: '1.2rem',
   height: '1.2rem',
+});
+
+export const suffixButton = style({
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  transition: 'transform 100ms ease',
+  paddingTop: unitVars.unit.gapPadding['200'],
+  paddingRight: unitVars.unit.gapPadding['300'],
+  paddingBottom: unitVars.unit.gapPadding['200'],
+  paddingLeft: unitVars.unit.gapPadding['000'],
+  color: 'inherit',
+  selectors: {
+    '&:active': {
+      transform: 'scale(0.95)',
+    },
+  },
 });

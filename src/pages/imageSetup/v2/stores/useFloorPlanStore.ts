@@ -35,8 +35,9 @@ interface FloorPlanStoreState {
   clearFloorPlan: () => void;
   setViewIndex: (idx: number) => void;
   toggleMirror: () => void;
-  // FilterSheet 안에서 칩 클릭 시 클릭한 필터값 저장 (그리드에 실제 반영 X)
+  // FilterSheet 안에서 칩 클릭 시 다중 선택 토글 (그리드에 실제 반영 X)
   setPendingFilter: (key: keyof FloorPlanFilters, value: string) => void;
+  clearAppliedFilter: (key: keyof FloorPlanFilters) => void;
   // '필터 적용하기' 클릭 시 pendingFilter를 appliedFilter로 복사
   applyFilters: () => void;
   resetFilters: () => void;
@@ -73,7 +74,24 @@ export const useFloorPlanStore = create<FloorPlanStoreState>((set) => ({
 
   setPendingFilter: (key, value) =>
     set((state) => ({
-      pendingFilters: { ...state.pendingFilters, [key]: value },
+      pendingFilters: {
+        ...state.pendingFilters,
+        [key]:
+          value === 'ALL'
+            ? []
+            : state.pendingFilters[key].includes(value)
+              ? state.pendingFilters[key].filter(
+                  (selectedValue) => selectedValue !== value
+                )
+              : [...state.pendingFilters[key], value],
+      },
+    })),
+  clearAppliedFilter: (key) =>
+    set((state) => ({
+      appliedFilters: {
+        ...state.appliedFilters,
+        [key]: [],
+      },
     })),
   applyFilters: () =>
     set((state) => ({ appliedFilters: { ...state.pendingFilters } })),
