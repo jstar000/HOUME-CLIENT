@@ -25,6 +25,7 @@ export const optionCard = recipe({
   variants: {
     kind: {
       default: {
+        flexDirection: 'column',
         backgroundColor: colorVars.color.fill.strong,
       },
       more: {
@@ -35,20 +36,23 @@ export const optionCard = recipe({
     },
     size: {
       s: {
+        aspectRatio: '1 / 1',
         padding: unitVars.unit.gapPadding['300'],
-        width: '16rem',
-        height: '16rem',
+        width: '100%',
+        minWidth: '16rem',
       },
       m: {
+        aspectRatio: '1 / 1',
         padding: unitVars.unit.gapPadding['300'],
-        width: '16.4rem',
-        height: '16.4rem',
+        width: '100%',
+        minWidth: '16.4rem',
       },
     },
   },
 });
 
 export const previewCard = style({
+  aspectRatio: '1 / 1',
   position: 'relative',
   display: 'flex',
   flexShrink: 0,
@@ -57,8 +61,8 @@ export const previewCard = style({
   borderRadius: unitVars.unit.radius['600'],
   backgroundColor: colorVars.color.fill.tertiary,
   padding: unitVars.unit.gapPadding['100'],
-  width: '33.9rem',
-  height: '33.9rem',
+  width: '100%',
+  minWidth: '33.9rem',
   overflow: 'hidden',
 });
 
@@ -108,10 +112,7 @@ export const optionTitleIcon = recipe({
   variants: {
     size: {
       s: {},
-      m: {
-        paddingTop: unitVars.unit.gapPadding['050'],
-        paddingBottom: unitVars.unit.gapPadding['050'],
-      },
+      m: {},
     },
   },
 });

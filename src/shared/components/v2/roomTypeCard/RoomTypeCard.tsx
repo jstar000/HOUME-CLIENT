@@ -92,6 +92,7 @@ const RoomTypeOptionCard = ({
       />
       <div className={styles.gradient} aria-hidden="true" />
       <div className={styles.optionInfoRow({ size })}>
+        {/* TODO: IcnDoubleStar 컴포넌트 변경 및 아이콘 잘리지 않도록 css 수정 필요 */}
         <IcnDoubleStar
           className={styles.optionTitleIcon({ size })}
           aria-hidden="true"
