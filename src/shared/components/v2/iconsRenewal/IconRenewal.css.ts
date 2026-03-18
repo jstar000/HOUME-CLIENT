@@ -30,7 +30,7 @@ export const btnIcon = recipe({
     },
     size: {
       S: {},
-      M: { padding: unitVars.unit.gapPadding[200] },
+      M: { padding: unitVars.unit.gapPadding['200'] },
       L: {},
       XL: {},
     },
