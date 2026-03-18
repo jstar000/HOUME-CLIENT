@@ -16,6 +16,7 @@ import type {
 import type {
   FloorPlanData,
   FloorPlanDetailView,
+  FloorPlanFilters,
   RecentFloorPlanData,
 } from '../types/floorPlan';
 
@@ -42,9 +43,28 @@ export const useFloorPlanSelect = (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const matchesFilter = (
+    selectedValues: string[],
+    planValue: string
+  ): boolean => {
+    return selectedValues.length === 0 || selectedValues.includes(planValue);
+  };
+
   // 필터링된 도면 리스트
-  // TODO: API 연동 시 서버사이드 필터링으로 교체 (query param: residenceType, layoutType, areaSize)
-  const filteredFloorPlans = useMemo(() => allFloorPlans, [allFloorPlans]);
+  // TODO: API 연동 시 서버사이드 필터링으로 교체 (query param: residenceType, layoutType, areaSize[])
+  const filteredFloorPlans = useMemo(
+    () =>
+      allFloorPlans.filter((plan) => {
+        const filters: FloorPlanFilters = store.appliedFilters;
+
+        return (
+          matchesFilter(filters.residenceType, plan.residenceType) &&
+          matchesFilter(filters.layoutType, plan.layoutType) &&
+          matchesFilter(filters.areaSize, plan.areaSize)
+        );
+      }),
+    [allFloorPlans, store.appliedFilters]
+  );
 
   // 선택된 도면 데이터
   const selectedFloorPlan: FloorPlanData | null = useMemo(

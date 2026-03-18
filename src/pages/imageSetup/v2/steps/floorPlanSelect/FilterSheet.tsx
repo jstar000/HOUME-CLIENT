@@ -35,7 +35,7 @@ const FilterSheet = ({
         // content: 버튼 제외 필터칩 영역
         <div className={styles.content}>
           {filterCategories.map((category) => {
-            const currentValue =
+            const currentValues =
               pendingFilters[category.id as keyof FloorPlanFilters];
 
             return (
@@ -45,7 +45,11 @@ const FilterSheet = ({
                   {category.options.map((option) => (
                     <Chip
                       key={option.id}
-                      selected={currentValue === option.id}
+                      selected={
+                        option.id === 'ALL'
+                          ? currentValues.length === 0
+                          : currentValues.includes(option.id)
+                      }
                       onClick={() =>
                         onFilterChange(
                           category.id as keyof FloorPlanFilters,
