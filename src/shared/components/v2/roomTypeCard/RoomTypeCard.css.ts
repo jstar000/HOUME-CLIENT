@@ -62,7 +62,7 @@ export const previewCard = style({
   backgroundColor: colorVars.color.fill.tertiary,
   padding: unitVars.unit.gapPadding['100'],
   width: '100%',
-  minWidth: '33.9rem',
+  minWidth: '32.7rem',
   overflow: 'hidden',
 });
 
