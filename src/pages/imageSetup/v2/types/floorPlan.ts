@@ -1,11 +1,10 @@
-// --- API 응답 타입 ---
+// --- 도면 목록 API 응답 타입 ---
 
-// 도면 카드 하나의 데이터
-// imageUrls: 도면 뷰 이미지 배열. [0]이 대표 이미지(그리드 썸네일), 나머지는 상세 시트에서 전환
+// 도면 카드 하나의 데이터 (목록 조회)
 export interface FloorPlanData {
   id: number;
   name: string;
-  imageUrls: string[]; // 임시구현
+  imageUrl: string;
   isLatest: boolean;
 }
 
@@ -15,16 +14,26 @@ export interface FloorPlanListResponse {
   floorPlans: FloorPlanData[];
 }
 
-// --- 최근 생성 도면 API 응답 타입 ---
+// --- 도면 상세 API 응답 타입 ---
 
-// 최근 생성에 사용된 도면 데이터
-export interface RecentFloorPlanData {
+// 도면 상세 뷰 하나의 데이터 (상세 조회 시 배열로 반환)
+export interface FloorPlanDetailView {
   id: number;
   name: string;
   imageUrl: string;
-  equilibrium: string; // 아직 Enum값 미정
-  view: string; // 아직 Enum값 미정
+  equilibrium: string; // Enum — 평형 (값 미정)
+  view: string; // Enum — 뷰 (값 미정)
 }
+
+// API 응답 래퍼
+export interface FloorPlanDetailResponse {
+  floorPlan: FloorPlanDetailView[];
+}
+
+// --- 최근 생성 도면 API 응답 타입 ---
+
+// 최근 생성에 사용된 도면 데이터 (FloorPlanDetailView와 동일 구조)
+export type RecentFloorPlanData = FloorPlanDetailView;
 
 // API 응답 래퍼
 export interface RecentFloorPlanResponse {

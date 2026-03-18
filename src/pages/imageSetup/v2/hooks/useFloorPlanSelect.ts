@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { useFunnelStore } from '../../stores/useFunnelStore';
 import {
   DUMMY_FILTER_CATEGORIES,
+  DUMMY_FLOOR_PLAN_DETAILS,
   DUMMY_FLOOR_PLANS,
   DUMMY_RECENT_FLOOR_PLAN,
 } from '../constants/floorPlanDummy';
@@ -12,7 +13,11 @@ import type {
   CompletedFloorPlan,
   ImageSetupSteps,
 } from '../../types/funnel/steps';
-import type { FloorPlanData, RecentFloorPlanData } from '../types/floorPlan';
+import type {
+  FloorPlanData,
+  FloorPlanDetailView,
+  RecentFloorPlanData,
+} from '../types/floorPlan';
 
 export const useFloorPlanSelect = (
   context: ImageSetupSteps['FloorPlan'],
@@ -49,6 +54,15 @@ export const useFloorPlanSelect = (
           null)
         : null,
     [allFloorPlans, store.selectedFloorPlanId]
+  );
+
+  // 선택된 도면의 상세 뷰 (추후 상세 API 호출로 교체)
+  const selectedDetailViews: FloorPlanDetailView[] = useMemo(
+    () =>
+      store.selectedFloorPlanId
+        ? (DUMMY_FLOOR_PLAN_DETAILS[store.selectedFloorPlanId] ?? [])
+        : [],
+    [store.selectedFloorPlanId]
   );
 
   // 카드 클릭 → 도면 바텀시트 오픈
@@ -109,6 +123,7 @@ export const useFloorPlanSelect = (
     filterCategories,
     filteredFloorPlans,
     selectedFloorPlan,
+    selectedDetailViews,
     recentFloorPlan,
     hasRecentFloorPlan: recentFloorPlan !== null,
     handleCardClick,
