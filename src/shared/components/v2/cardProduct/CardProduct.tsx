@@ -178,7 +178,9 @@ const CardProduct = ({
         <div className={styles.middleInfoSection}>
           {/* 브랜드, 상품 이름 */}
           <div className={styles.productInfo} data-click-area="title">
-            {!!brand && <p className={styles.brandTextLarge}>{brand}</p>}
+            {isDefault && !!brand && (
+              <p className={styles.brandTextLarge}>{brand}</p>
+            )}
             <p className={styles.productTextLarge}>{title}</p>
           </div>
 
@@ -218,7 +220,7 @@ const CardProduct = ({
             </div>
           )
         ) : (
-          <button>선택</button>
+          <button className={styles.selectButton}>선택</button>
         )}
       </section>
     </div>
