@@ -1,4 +1,4 @@
-import BtnIcon from '@components/v2/iconsRenewal/BtnIcon';
+import BtnIcon from '@components/v2/button/IconButton';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
