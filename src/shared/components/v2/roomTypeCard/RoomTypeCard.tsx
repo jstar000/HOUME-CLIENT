@@ -137,22 +137,29 @@ const RoomTypePreviewCard = ({
         draggable={false}
         onError={() => setImageSrc(fallbackImage)}
       />
-      <button
-        type="button"
-        aria-label={prevButtonLabel}
-        className={styles.previewNavButton}
-        onClick={onPrevClick}
-      >
-        <IcnArrowLeftS className={styles.previewNavIcon} aria-hidden="true" />
-      </button>
-      <button
-        type="button"
-        aria-label={nextButtonLabel}
-        className={styles.previewNavButton}
-        onClick={onNextClick}
-      >
-        <IcnArrowRightS className={styles.previewNavIcon} aria-hidden="true" />
-      </button>
+      {onPrevClick && (
+        <button
+          type="button"
+          aria-label={prevButtonLabel}
+          className={styles.previewNavButton}
+          onClick={onPrevClick}
+        >
+          <IcnArrowLeftS className={styles.previewNavIcon} aria-hidden="true" />
+        </button>
+      )}
+      {onNextClick && (
+        <button
+          type="button"
+          aria-label={nextButtonLabel}
+          className={styles.previewNavButton}
+          onClick={onNextClick}
+        >
+          <IcnArrowRightS
+            className={styles.previewNavIcon}
+            aria-hidden="true"
+          />
+        </button>
+      )}
     </div>
   );
 };
