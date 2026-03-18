@@ -10,6 +10,7 @@ import { zIndex } from '@styles/tokens/zIndex';
 
 import { colorVars } from '@/shared/styles/tokensV2/color.css';
 import { fontVars } from '@/shared/styles/tokensV2/font.css';
+import { unitVars } from '@/shared/styles/tokensV2/unit.css';
 
 export const wrapper = recipe({
   base: {
@@ -151,7 +152,7 @@ export const infoSection = style({
 export const colorRow = style({
   display: 'flex',
   alignItems: 'center',
-  gap: '0.2rem',
+  gap: unitVars.unit.gapPadding['050'],
 });
 
 export const colorChip = style({
@@ -163,7 +164,7 @@ export const colorChip = style({
 });
 
 export const colorChipCount = style({
-  ...fontVars.font.caption_r_11,
+  ...fontVars.font.caption_r_12,
   color: colorVars.color.text.tertiary,
 });
 

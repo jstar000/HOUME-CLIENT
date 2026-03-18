@@ -159,6 +159,7 @@ const CardProduct = ({
         )}
       </section>
 
+      {/* 색상 정보 */}
       {isLarge ? (
         <section className={styles.infoSection}>
           {(visibleColors.length > 0 || extraColorCount > 0) && (
@@ -179,11 +180,13 @@ const CardProduct = ({
             </div>
           )}
 
+          {/* 브랜드, 상품 이름 */}
           <div className={styles.productInfo} data-click-area="title">
             {!!brand && <p className={styles.brandTextLarge}>{brand}</p>}
             <p className={styles.productTextLarge}>{title}</p>
           </div>
 
+          {/* 가격 정보 */}
           {(originalPriceText || discountPriceText) && (
             <div className={styles.priceSection}>
               {originalPriceText && (
@@ -204,6 +207,7 @@ const CardProduct = ({
             </div>
           )}
 
+          {/* 저장(하트) 정보 */}
           {typeof saveCount === 'number' && Number.isFinite(saveCount) && (
             <div className={styles.saveCountRow}>
               <span className={styles.saveCountIcon} aria-hidden>
