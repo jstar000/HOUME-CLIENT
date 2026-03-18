@@ -47,6 +47,7 @@ interface FloorPlanStoreState {
   openFloorPlanSheet: () => void;
   // 도면선택 sheet 닫을 때 선택 상태도 함께 초기화
   closeFloorPlanSheet: () => void;
+  // 최근 선택한 도면이 있을 경우 RecentSheet open
   openRecentSheet: () => void;
   closeRecentSheet: () => void;
   // 페이지 이탈 시 모든 상태 초기화
@@ -67,11 +68,14 @@ export const useFloorPlanStore = create<FloorPlanStoreState>((set) => ({
 
   selectFloorPlan: (id) =>
     set({ selectedFloorPlanId: id, selectedViewIndex: 0, isMirror: false }),
+  // FloorPlanSheet 닫을 때 데이터 clear
   clearFloorPlan: () =>
     set({ selectedFloorPlanId: null, selectedViewIndex: 0, isMirror: false }),
+  // 도면이 여러 장일 경우 선택된 도면 view index 세팅
   setViewIndex: (idx) => set({ selectedViewIndex: idx }),
   toggleMirror: () => set((state) => ({ isMirror: !state.isMirror })),
 
+  // FilterSheet의 Filter가 바뀔 때 pending필터값 저장
   setPendingFilter: (key, value) =>
     set((state) => ({
       pendingFilters: {
@@ -86,6 +90,7 @@ export const useFloorPlanStore = create<FloorPlanStoreState>((set) => ({
               : [...state.pendingFilters[key], value],
       },
     })),
+  // FilterChip의 X버튼 클릭 시 해당 카테고리의 필터 clear
   clearAppliedFilter: (key) =>
     set((state) => ({
       appliedFilters: {
