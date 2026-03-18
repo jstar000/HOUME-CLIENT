@@ -5,38 +5,36 @@ import { useCallback, useMemo } from 'react';
 
 import { useFloorPlanStore } from '../stores/useFloorPlanStore';
 
-import type { FloorPlanData } from '../types/floorPlan';
-
-export const useFloorPlanSheet = (floorPlan: FloorPlanData | null) => {
+export const useFloorPlanSheet = (imageUrls: string[]) => {
   const { selectedViewIndex, setViewIndex, isMirror, toggleMirror } =
     useFloorPlanStore();
 
-  const views = floorPlan?.views ?? [];
-  const isSingleView = views.length === 1;
-  const isMultiView = views.length > 1;
+  const isSingleView = imageUrls.length <= 1;
+  const isMultiView = imageUrls.length > 1;
 
-  const currentView = useMemo(
-    () => views[selectedViewIndex] ?? null,
-    [views, selectedViewIndex]
+  const currentImageUrl = useMemo(
+    () => imageUrls[selectedViewIndex] ?? imageUrls[0] ?? null,
+    [imageUrls, selectedViewIndex]
   );
 
   const handlePrev = useCallback(() => {
-    if (views.length === 0) return;
-    setViewIndex((selectedViewIndex - 1 + views.length) % views.length);
-  }, [views.length, selectedViewIndex, setViewIndex]);
+    if (imageUrls.length === 0) return;
+    setViewIndex((selectedViewIndex - 1 + imageUrls.length) % imageUrls.length);
+  }, [imageUrls.length, selectedViewIndex, setViewIndex]);
 
   const handleNext = useCallback(() => {
-    if (views.length === 0) return;
-    setViewIndex((selectedViewIndex + 1) % views.length);
-  }, [views.length, selectedViewIndex, setViewIndex]);
+    if (imageUrls.length === 0) return;
+    setViewIndex((selectedViewIndex + 1) % imageUrls.length);
+  }, [imageUrls.length, selectedViewIndex, setViewIndex]);
 
   return {
-    currentView, // 지금 보고 있는 view (이미지 URL + 라벨)
-    isSingleView, // view가 1개면 true, prev/next 버튼 안보여줌
-    isMultiView, // view가 2개 이상, prev/next 버튼 보여줌
+    currentImageUrl, // 현재 보고 있는 이미지 URL
+    selectedViewIndex, // 현재 뷰 인덱스
+    isSingleView, // 이미지 1개 → prev/next 버튼 숨김
+    isMultiView, // 이미지 2개 이상 → prev/next 버튼 표시
     isMirror, // 좌우반전 상태
     toggleMirror, // 좌우반전 토글
-    handlePrev, // 이전 뷰 (순환: 처음에서 prev 시 마지막으로)
-    handleNext, // 다음 뷰 (순환: 마지막에서 next 시 첫번째로)
+    handlePrev, // 이전 뷰 (순환)
+    handleNext, // 다음 뷰 (순환)
   };
 };

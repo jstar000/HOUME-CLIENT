@@ -12,7 +12,7 @@ import type {
   CompletedFloorPlan,
   ImageSetupSteps,
 } from '../../types/funnel/steps';
-import type { FloorPlanData } from '../types/floorPlan';
+import type { FloorPlanData, RecentFloorPlanData } from '../types/floorPlan';
 
 export const useFloorPlanSelect = (
   context: ImageSetupSteps['FloorPlan'],
@@ -21,10 +21,12 @@ export const useFloorPlanSelect = (
   const store = useFloorPlanStore();
   const savedHouseInfo = useFunnelStore((state) => state.houseInfo);
 
-  // 더미 데이터 (추후 useFloorPlanQuery로 교체)
+  // 더미 데이터 (추후 useFloorPlanQuery / useRecentFloorPlanQuery로 교체)
   const filterCategories = DUMMY_FILTER_CATEGORIES;
   const allFloorPlans = DUMMY_FLOOR_PLANS;
-  const recentFloorPlan = DUMMY_RECENT_FLOOR_PLAN;
+
+  // 최근 생성 도면 (별도 API 응답)
+  const recentFloorPlan: RecentFloorPlanData | null = DUMMY_RECENT_FLOOR_PLAN;
 
   // 최근 생성 공간이 있으면 초기 시트 표시
   useEffect(() => {
@@ -36,20 +38,10 @@ export const useFloorPlanSelect = (
   }, []);
 
   // 필터링된 도면 리스트
-  // appliedFilters 기준으로 filteredFloorPlans 반환
-  const filteredFloorPlans = useMemo(() => {
-    const { houseType, structure, areaType } = store.appliedFilters;
+  // TODO: API 연동 시 서버사이드 필터링으로 교체 (query param: residenceType, layoutType, areaSize)
+  const filteredFloorPlans = useMemo(() => allFloorPlans, [allFloorPlans]);
 
-    return allFloorPlans.filter((plan) => {
-      if (houseType !== 'ALL' && plan.houseType.id !== houseType) return false;
-      if (structure !== 'ALL' && plan.structure.id !== structure) return false;
-      if (areaType !== 'ALL' && plan.areaType.id !== areaType) return false;
-      return true;
-    });
-  }, [allFloorPlans, store.appliedFilters]);
-
-  // 선택된 공간 데이터
-  // selectedFloorPlanId로 해당 객체 찾아서 반환
+  // 선택된 도면 데이터
   const selectedFloorPlan: FloorPlanData | null = useMemo(
     () =>
       store.selectedFloorPlanId
@@ -68,22 +60,15 @@ export const useFloorPlanSelect = (
     [store]
   );
 
-  // TODO: 바텀시트 use-overlay 적용
-  // TODO: 바텀시트 dismiss 시 처리할 로직 확인(상태 초기화 등)
-
   // 도면 선택 후 "공간 선택하기" CTA
   const handleConfirmFloorPlan = useCallback(() => {
     if (!selectedFloorPlan) return;
 
-    const currentView = selectedFloorPlan.views[store.selectedViewIndex];
-
     const floorPlanData = {
       floorPlanId: selectedFloorPlan.id,
       isMirror: store.isMirror,
-      viewId: currentView?.viewId ?? null,
     };
 
-    // TODO: useFunnelStore 수정(각 스텝 별 필요한 데이터 달라짐)
     useFunnelStore.getState().setFloorPlan(floorPlanData);
 
     const payload: CompletedFloorPlan = {
@@ -95,25 +80,15 @@ export const useFloorPlanSelect = (
     };
 
     onNext(payload);
-  }, [
-    selectedFloorPlan,
-    store.selectedViewIndex,
-    store.isMirror,
-    savedHouseInfo,
-    context,
-    onNext,
-  ]);
+  }, [selectedFloorPlan, store.isMirror, savedHouseInfo, context, onNext]);
 
-  // 저장된 내 공간 바텀시트 "선택 완료하기" CTA
+  // 최근 생성 공간 바텀시트 "선택 완료" CTA
   const handleConfirmRecentFloorPlan = useCallback(() => {
     if (!recentFloorPlan) return;
 
-    const firstView = recentFloorPlan.views[0];
-
     const floorPlanData = {
-      floorPlanId: recentFloorPlan.floorPlanId,
+      floorPlanId: recentFloorPlan.id,
       isMirror: false,
-      viewId: firstView?.viewId ?? null,
     };
 
     useFunnelStore.getState().setFloorPlan(floorPlanData);
