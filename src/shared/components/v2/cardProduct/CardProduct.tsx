@@ -130,7 +130,7 @@ const CardProduct = ({
           onKeyDown={(event) => event.stopPropagation()}
           role="presentation"
         >
-          {/* btnIcon 반영 필요 */}
+          {/* btn 반영 필요 */}
           {isDefault && linkHref && (
             <LinkButton
               href={linkHref}
@@ -143,6 +143,7 @@ const CardProduct = ({
           )}
         </div>
 
+        {/* 버튼아이콘 반영 필요 */}
         <div
           className={styles.saveBtnOverlay}
           onClick={(event) => event.stopPropagation()}
