@@ -9,10 +9,10 @@ export const wrapper = recipe({
   base: {
     display: 'flex',
     alignItems: 'center',
-    gap: unitVars.unit.gapPadding[200],
+    gap: unitVars.unit.gapPadding['200'],
     borderRadius: unitVars.unit.radius.full,
     backgroundColor: colorVars.color.fill.tertiary,
-    padding: unitVars.unit.gapPadding[200],
+    padding: unitVars.unit.gapPadding['200'],
     width: '100%',
     height: '4.4rem',
   },
@@ -30,8 +30,8 @@ export const wrapper = recipe({
 export const leftContainer = style({
   display: 'flex',
   flex: 1,
-  gap: unitVars.unit.gapPadding[200],
-  paddingInline: unitVars.unit.gapPadding[200],
+  gap: unitVars.unit.gapPadding['200'],
+  paddingInline: unitVars.unit.gapPadding['200'],
   width: '100%',
 });
 
