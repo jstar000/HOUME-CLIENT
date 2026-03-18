@@ -4,13 +4,13 @@ import { recipe } from '@vanilla-extract/recipes';
 import { unitVars } from '@/shared/styles/tokensV2/unit.css';
 
 export const iconSize = styleVariants({
-  '12': { width: '12px', height: '12px' },
-  '14': { width: '14px', height: '14px' },
-  '16': { width: '16px', height: '16px' },
-  '20': { width: '20px', height: '20px' },
-  '24': { width: '24px', height: '24px' },
-  '32': { width: '32px', height: '32px' },
-  '40': { width: '40px', height: '40px' },
+  '12': { width: '1.2rem', height: '1.2rem' },
+  '14': { width: '1.4rem', height: '1.4rem' },
+  '16': { width: '1.6rem', height: '1.6rem' },
+  '20': { width: '2rem', height: '2rem' },
+  '24': { width: '2.4rem', height: '2.4rem' },
+  '32': { width: '3.2rem', height: '3.2rem' },
+  '40': { width: '4rem', height: '4rem' },
 });
 
 export const btnIcon = recipe({
