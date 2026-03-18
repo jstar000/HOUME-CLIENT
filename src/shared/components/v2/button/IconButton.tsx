@@ -1,35 +1,32 @@
-import * as styles from './IconRenewal.css';
-import IconsResponsive, {
-  type IconName,
-  type IconSize,
-} from './IconsResponsive';
+import IconsResponsive, { type IconName, type IconSize } from '../icon/Icon';
+import * as styles from '../icon/Icon.css';
 
-export type BtnIconSize = 'S' | 'M' | 'L' | 'XL';
+export type IconButtonSize = 'S' | 'M' | 'L' | 'XL';
 
-const BTN_ICON_SIZE: Record<BtnIconSize, IconSize> = {
+const BTN_ICON_SIZE: Record<IconButtonSize, IconSize> = {
   S: '20',
   M: '24',
   L: '32',
   XL: '40',
 } as const;
 
-export interface BtnIconProps {
+export interface IconButtonProps {
   name: IconName;
-  size?: BtnIconSize;
+  size?: IconButtonSize;
   disabled?: boolean;
   onClick?: () => void;
 }
 
-const BtnIcon = ({
+const IconButton = ({
   name,
   size = 'S',
   disabled = false,
   onClick,
-}: BtnIconProps) => {
+}: IconButtonProps) => {
   return (
     <button
       type="button"
-      className={styles.btnIcon({
+      className={styles.iconButton({
         size,
         disabled,
       })}
@@ -41,4 +38,4 @@ const BtnIcon = ({
   );
 };
 
-export default BtnIcon;
+export default IconButton;

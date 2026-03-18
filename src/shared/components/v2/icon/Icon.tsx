@@ -21,7 +21,7 @@ import Refresh from '@assets/v2/svg/Refresh.svg?url';
 import Search from '@assets/v2/svg/Search.svg?url';
 import ViewDetail from '@assets/v2/svg/ViewDetail.svg?url';
 
-import * as styles from './IconRenewal.css';
+import * as styles from './Icon.css';
 
 const IconsName = {
   ArrowLeft,
@@ -51,15 +51,15 @@ const IconsName = {
 export type IconName = keyof typeof IconsName;
 export type IconSize = '40' | '32' | '24' | '20' | '16' | '14' | '12';
 
-export interface IconsResponsiveProps {
+export interface IconProps {
   name: IconName;
   size?: IconSize;
 }
 
-const IconsResponsive = ({ name, size = '24' }: IconsResponsiveProps) => {
+const Icon = ({ name, size = '24' }: IconProps) => {
   return (
     <img className={styles.iconSize[size]} src={IconsName[name]} alt={name} />
   );
 };
 
-export default IconsResponsive;
+export default Icon;

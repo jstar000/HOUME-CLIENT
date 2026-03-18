@@ -13,7 +13,7 @@ export const iconSize = styleVariants({
   '40': { width: '4rem', height: '4rem' },
 });
 
-export const btnIcon = recipe({
+export const iconButton = recipe({
   base: {
     padding: unitVars.unit.gapPadding[100],
 
