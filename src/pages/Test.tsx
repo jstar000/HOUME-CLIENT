@@ -1,0 +1,100 @@
+// ComponentTest.tsx
+import { useState } from 'react';
+
+import CardProduct from '@components/v2/cardProduct/CardProduct';
+
+const ComponentTest = () => {
+  const [isSaved1, setIsSaved1] = useState(false);
+  const [isSaved2, setIsSaved2] = useState(false);
+  const [isSaved3, setIsSaved3] = useState(false);
+  const [isSaved4, setIsSaved4] = useState(false);
+
+  return (
+    <div
+      style={{
+        padding: '10px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '48px',
+      }}
+    >
+      {/* large */}
+      <div>
+        <p
+          style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '16px' }}
+        >
+          size=large
+        </p>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '16px',
+          }}
+        >
+          <CardProduct
+            size="large"
+            title="상품명은 최대 두 줄까지 쓸 수 있어요. 상품명은 최대 두 줄..."
+            brand="브랜드명은 최대 한 줄 까지 쓸 수..."
+            isSaved={isSaved1}
+            onToggleSave={() => setIsSaved1((prev) => !prev)}
+            linkHref="https://example.com"
+            linkLabel="사이트"
+            originalPrice={1000000}
+            discountRate={0}
+            discountPrice={1000000}
+            colorHexes={['#ccc', '#999', '#666', '#333']}
+            saveCount={1000}
+          />
+          <CardProduct
+            size="large"
+            title="상품명은 최대 두 줄까지 쓸 수 있어요. 상품명은 최대 두 줄..."
+            brand="브랜드명은 최대 한 줄 까지 쓸 수..."
+            isSaved={isSaved2}
+            onToggleSave={() => setIsSaved2((prev) => !prev)}
+            linkHref="https://example.com"
+            linkLabel="사이트"
+            discountPrice={1000000}
+            colorHexes={['#ccc', '#999', '#666']}
+          />
+        </div>
+      </div>
+
+      {/* small */}
+      <div>
+        <p
+          style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '16px' }}
+        >
+          size=small
+        </p>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '16px',
+          }}
+        >
+          <CardProduct
+            size="small"
+            title="상품명은 최대 두 줄까지 쓸 수 있어요. 상품명은 최대 두 줄..."
+            isSaved={isSaved3}
+            onToggleSave={() => setIsSaved3((prev) => !prev)}
+            discountRate={0}
+            discountPrice={1000000}
+            linkHref="https://example.com"
+          />
+          <CardProduct
+            size="small"
+            title="상품명은 최대 두 줄까지 쓸 수 있어요. 상품명은 최대 두 줄..."
+            isSaved={isSaved4}
+            onToggleSave={() => setIsSaved4((prev) => !prev)}
+            discountPrice={1000000}
+            linkHref="https://example.com"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ComponentTest;

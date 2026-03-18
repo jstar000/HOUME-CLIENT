@@ -1,7 +1,7 @@
 import { recipe } from '@vanilla-extract/recipes';
 
-import { colorVars } from '@/shared/styles/tokensV2/color.css';
-import { fontVars } from '@/shared/styles/tokensV2/font.css';
+import { fontStyle } from '@styles/fontStyle';
+import { colorVars } from '@styles/tokens/color.css';
 
 export const linkButton = recipe({
   base: {
@@ -9,6 +9,7 @@ export const linkButton = recipe({
     alignItems: 'center',
     justifyContent: 'center',
     transition: 'all 0.2s ease-in-out',
+    border: `1px solid ${colorVars.color.gray300}`,
     borderRadius: '999px',
 
     backgroundColor: colorVars.color.gray000,
@@ -25,8 +26,8 @@ export const linkButton = recipe({
         gap: '0.2rem',
         width: 'fit-content',
         whiteSpace: 'nowrap',
-        ...fontVars.font.caption_r_11,
-        color: colorVars.color.text.primary,
+        ...fontStyle('caption_r_11'),
+        color: colorVars.color.gray700,
       },
       onlyIcon: {
         width: '2.6rem',
