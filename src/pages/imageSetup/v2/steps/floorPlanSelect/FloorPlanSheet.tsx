@@ -28,7 +28,6 @@ const FloorPlanSheet = ({
 }: FloorPlanSheetProps) => {
   const {
     currentView,
-    selectedViewIndex,
     isMultiView,
     isMirror,
     toggleMirror,
