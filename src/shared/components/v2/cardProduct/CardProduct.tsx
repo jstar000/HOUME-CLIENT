@@ -130,7 +130,7 @@ const CardProduct = ({
           onKeyDown={(event) => event.stopPropagation()}
           role="presentation"
         >
-          {/* 버튼 반영 필요 */}
+          {/* btnIcon 반영 필요 */}
           {isDefault && linkHref && (
             <LinkButton
               href={linkHref}
