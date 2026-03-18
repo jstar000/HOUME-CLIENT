@@ -6,8 +6,6 @@ import CardProduct from '@components/v2/cardProduct/CardProduct';
 const ComponentTest = () => {
   const [isSaved1, setIsSaved1] = useState(false);
   const [isSaved2, setIsSaved2] = useState(false);
-  const [isSaved3, setIsSaved3] = useState(false);
-  const [isSaved4, setIsSaved4] = useState(false);
 
   return (
     <div
@@ -33,7 +31,6 @@ const ComponentTest = () => {
           }}
         >
           <CardProduct
-            size="large"
             title="상품명은 최대 두 줄까지 쓸 수 있어요. 상품명은 최대 두 줄..."
             brand="브랜드명은 최대 한 줄 까지 쓸 수..."
             isSaved={isSaved1}
@@ -45,9 +42,9 @@ const ComponentTest = () => {
             discountPrice={1000000}
             colorHexes={['#ccc', '#999', '#666', '#333']}
             saveCount={1000}
+            enableWholeCardLink={true}
           />
           <CardProduct
-            size="large"
             title="상품명은 최대 두 줄까지 쓸 수 있어요. 상품명은 최대 두 줄..."
             brand="브랜드명은 최대 한 줄 까지 쓸 수..."
             isSaved={isSaved2}
@@ -56,40 +53,6 @@ const ComponentTest = () => {
             linkLabel="사이트"
             discountPrice={1000000}
             colorHexes={['#ccc', '#999', '#666']}
-          />
-        </div>
-      </div>
-
-      {/* small */}
-      <div>
-        <p
-          style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '16px' }}
-        >
-          size=small
-        </p>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '16px',
-          }}
-        >
-          <CardProduct
-            size="small"
-            title="상품명은 최대 두 줄까지 쓸 수 있어요. 상품명은 최대 두 줄..."
-            isSaved={isSaved3}
-            onToggleSave={() => setIsSaved3((prev) => !prev)}
-            discountRate={0}
-            discountPrice={1000000}
-            linkHref="https://example.com"
-          />
-          <CardProduct
-            size="small"
-            title="상품명은 최대 두 줄까지 쓸 수 있어요. 상품명은 최대 두 줄..."
-            isSaved={isSaved4}
-            onToggleSave={() => setIsSaved4((prev) => !prev)}
-            discountPrice={1000000}
-            linkHref="https://example.com"
           />
         </div>
       </div>

@@ -8,12 +8,9 @@ import SaveButton from '@components/button/saveButton/SaveButton';
 
 import * as styles from './CardProduct.css';
 
-type CardSize = 'small' | 'large';
-
 type CardClickArea = 'card' | 'image' | 'title';
 
 interface CardProductProps {
-  size: CardSize;
   title: string;
   brand?: string;
   imageUrl?: string;
@@ -33,7 +30,6 @@ interface CardProductProps {
 }
 
 const CardProduct = ({
-  size,
   title,
   brand,
   imageUrl,
@@ -51,7 +47,7 @@ const CardProduct = ({
   colorHexes,
   saveCount,
 }: CardProductProps) => {
-  const isLarge = size === 'large';
+  // const isLarge = size === 'large';
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -107,7 +103,7 @@ const CardProduct = ({
 
   return (
     <div
-      className={`${styles.wrapper({ size })} ${
+      className={`${styles.wrapper} ${
         enableWholeCardLink ? styles.clickable : ''
       }`}
       onClick={handleWrapperClick}
@@ -116,7 +112,7 @@ const CardProduct = ({
       tabIndex={enableWholeCardLink && linkHref ? 0 : undefined}
       aria-label={enableWholeCardLink ? `${title} 상품 링크로 이동` : undefined}
     >
-      <section className={styles.imgSection({ size })} data-click-area="image">
+      <section className={styles.imgSection()} data-click-area="image">
         {!isLoaded && <div className={styles.skeleton} />}
         <img
           className={styles.cardImage({ loaded: isLoaded })}
@@ -126,7 +122,7 @@ const CardProduct = ({
         />
 
         <div
-          className={styles.linkBtnContainer({ size })}
+          className={styles.linkBtnContainer()}
           onClick={(event) => event.stopPropagation()}
           onKeyDown={(event) => event.stopPropagation()}
           role="presentation"
@@ -134,112 +130,85 @@ const CardProduct = ({
           {linkHref && (
             <LinkButton
               href={linkHref}
-              typeVariant={isLarge ? 'withText' : 'onlyIcon'}
-              aria-label={isLarge ? undefined : '공식 사이트로 이동'}
+              // typeVariant={isLarge ? 'withText' : 'onlyIcon'}
+              aria-label={'공식 사이트로 이동'}
               onClick={onLinkClick}
             >
-              {isLarge && linkLabel}
+              {linkLabel}
             </LinkButton>
           )}
         </div>
 
-        {isLarge && (
-          <div
-            className={styles.saveBtnOverlay}
-            onClick={(event) => event.stopPropagation()}
-            onKeyDown={(event) => event.stopPropagation()}
-            role="presentation"
-          >
-            <SaveButton
-              disabled={disabled}
-              isSelected={isSaved}
-              onClick={onToggleSave}
-            />
+        <div
+          className={styles.saveBtnOverlay}
+          onClick={(event) => event.stopPropagation()}
+          onKeyDown={(event) => event.stopPropagation()}
+          role="presentation"
+        >
+          <SaveButton
+            disabled={disabled}
+            isSelected={isSaved}
+            onClick={onToggleSave}
+          />
+        </div>
+      </section>
+      {/* 색상 정보 */}
+      <section className={styles.infoSection}>
+        {(visibleColors.length > 0 || extraColorCount > 0) && (
+          <div className={styles.colorRow}>
+            {visibleColors.map((hex, index) => (
+              <span
+                key={`${hex}-${index}`}
+                className={styles.colorChip}
+                style={{ backgroundColor: hex }}
+                aria-hidden
+              />
+            ))}
+            {extraColorCount > 0 && (
+              <span className={styles.colorChipCount}>+{extraColorCount}</span>
+            )}
+          </div>
+        )}
+
+        {/* 브랜드, 상품 이름 */}
+        <div className={styles.productInfo} data-click-area="title">
+          {!!brand && <p className={styles.brandTextLarge}>{brand}</p>}
+          <p className={styles.productTextLarge}>{title}</p>
+        </div>
+
+        {/* 가격 정보 */}
+        {(originalPriceText || discountPriceText) && (
+          <div className={styles.priceSection}>
+            {originalPriceText && (
+              <p className={styles.originalPriceText}>{originalPriceText}</p>
+            )}
+            {discountPriceText && (
+              <div className={styles.discountRow}>
+                {discountRateText && (
+                  <span className={styles.discountRateText}>
+                    {discountRateText}
+                  </span>
+                )}
+                <span className={styles.discountPriceText}>
+                  {discountPriceText}
+                </span>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* 저장(하트) 정보 */}
+        {typeof saveCount === 'number' && Number.isFinite(saveCount) && (
+          <div className={styles.saveCountRow}>
+            <span className={styles.saveCountIcon} aria-hidden>
+              <HeartGrayXSIcon />
+            </span>
+            <span className={styles.saveCountText}>
+              {saveCount.toLocaleString('ko-KR')}
+            </span>
           </div>
         )}
       </section>
-
-      {/* 색상 정보 */}
-      {isLarge ? (
-        <section className={styles.infoSection}>
-          {(visibleColors.length > 0 || extraColorCount > 0) && (
-            <div className={styles.colorRow}>
-              {visibleColors.map((hex, index) => (
-                <span
-                  key={`${hex}-${index}`}
-                  className={styles.colorChip}
-                  style={{ backgroundColor: hex }}
-                  aria-hidden
-                />
-              ))}
-              {extraColorCount > 0 && (
-                <span className={styles.colorChipCount}>
-                  +{extraColorCount}
-                </span>
-              )}
-            </div>
-          )}
-
-          {/* 브랜드, 상품 이름 */}
-          <div className={styles.productInfo} data-click-area="title">
-            {!!brand && <p className={styles.brandTextLarge}>{brand}</p>}
-            <p className={styles.productTextLarge}>{title}</p>
-          </div>
-
-          {/* 가격 정보 */}
-          {(originalPriceText || discountPriceText) && (
-            <div className={styles.priceSection}>
-              {originalPriceText && (
-                <p className={styles.originalPriceText}>{originalPriceText}</p>
-              )}
-              {discountPriceText && (
-                <div className={styles.discountRow}>
-                  {discountRateText && (
-                    <span className={styles.discountRateText}>
-                      {discountRateText}
-                    </span>
-                  )}
-                  <span className={styles.discountPriceText}>
-                    {discountPriceText}
-                  </span>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* 저장(하트) 정보 */}
-          {typeof saveCount === 'number' && Number.isFinite(saveCount) && (
-            <div className={styles.saveCountRow}>
-              <span className={styles.saveCountIcon} aria-hidden>
-                <HeartGrayXSIcon />
-              </span>
-              <span className={styles.saveCountText}>
-                {saveCount.toLocaleString('ko-KR')}
-              </span>
-            </div>
-          )}
-        </section>
-      ) : (
-        <section className={styles.bottomSection}>
-          <div className={styles.textContainer}>
-            <p className={styles.productText}>{title}</p>
-            {!!brand && <p className={styles.brandText}>{brand}</p>}
-          </div>
-          <div className={styles.saveBtnContainer}>
-            <div
-              onClick={(event) => event.stopPropagation()}
-              onKeyDown={(event) => event.stopPropagation()}
-              role="presentation"
-            >
-              <SaveButton
-                disabled={disabled}
-                isSelected={isSaved}
-                onClick={onToggleSave}
-              />
-            </div>
-          </div>
-        </section>
-      )}
     </div>
   );
 };
