@@ -18,6 +18,16 @@ export const chipBar = style({
   flexShrink: 0,
   gap: unitVars.unit.gapPadding['200'],
   padding: `${unitVars.unit.gapPadding['200']} ${unitVars.unit.gapPadding['500']}`,
+  overflowX: 'auto',
+  overflowY: 'hidden',
+  scrollbarWidth: 'none',
+  whiteSpace: 'nowrap',
+  msOverflowStyle: 'none',
+  selectors: {
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
+  },
 });
 
 export const gridScroll = style({
