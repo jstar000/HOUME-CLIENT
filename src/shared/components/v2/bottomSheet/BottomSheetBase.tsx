@@ -11,6 +11,7 @@ interface BottomSheetBaseProps {
   open: boolean;
   headerType: 'dragHandle' | 'close';
   titleSlot?: ReactNode;
+  titleAlign?: 'left' | 'center';
   contentSlot: ReactNode;
   primaryButton: ReactNode;
   secondaryButton?: ReactNode;
@@ -27,6 +28,7 @@ const BottomSheetBase = ({
   open,
   headerType,
   titleSlot,
+  titleAlign = 'center',
   contentSlot,
   primaryButton,
   secondaryButton,
@@ -91,7 +93,9 @@ const BottomSheetBase = ({
                   <div className={styles.dragHeader}>{handleSlot}</div>
                 ) : (
                   <div className={styles.closeHeader}>
-                    <div className={styles.titleSlot}>{titleSlot}</div>
+                    <div className={styles.titleSlot({ align: titleAlign })}>
+                      {titleSlot}
+                    </div>
                     <button
                       type="button"
                       aria-label="닫기"

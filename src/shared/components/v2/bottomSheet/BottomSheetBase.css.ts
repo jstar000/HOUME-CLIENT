@@ -1,4 +1,5 @@
 import { style } from '@vanilla-extract/css';
+import { recipe } from '@vanilla-extract/recipes';
 
 import { zIndex } from '@styles/tokens/zIndex';
 import { colorVars } from '@styles/tokensV2/color.css';
@@ -103,14 +104,28 @@ export const closeHeader = style({
   height: '4.8rem',
 });
 
-// close 타입 제목을 헤더 중앙에 고정하는 슬롯
-export const titleSlot = style({
-  position: 'absolute',
-  inset: 0,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  pointerEvents: 'none',
+// close 타입 제목을 헤더 왼쪽(FilterSheet)/중앙(FloorPlanSheet)에 고정하는 슬롯
+export const titleSlot = recipe({
+  base: {
+    display: 'flex',
+    alignItems: 'center',
+    minWidth: 0,
+  },
+  variants: {
+    align: {
+      center: {
+        position: 'absolute',
+        inset: 0,
+        justifyContent: 'center',
+        pointerEvents: 'none',
+      },
+      left: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        paddingLeft: unitVars.unit.gapPadding['400'],
+      },
+    },
+  },
 });
 
 // 우측 상단 닫기 액션 버튼

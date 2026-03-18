@@ -45,9 +45,9 @@ const FloorPlanSheet = ({
       titleSlot={
         <div className={styles.titleRow}>
           <IcnDoubleStar className={styles.titleIcon} aria-hidden="true" />
-          <p className={styles.titleText}>
-            {floorPlanName} · {currentView.equilibrium}
-          </p>
+          <span className={styles.titleMain}>{floorPlanName}</span>
+          <span className={styles.titleMeta}>·</span>
+          <span className={styles.titleMeta}>{currentView.equilibrium}</span>
         </div>
       }
       contentSlot={

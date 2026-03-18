@@ -39,9 +39,14 @@ export const titleIcon = style({
   height: '1.6rem',
 });
 
-export const titleText = style({
-  margin: 0,
+export const titleMain = style({
   whiteSpace: 'nowrap',
   color: colorVars.color.text.primary,
   ...fontVars.font.title_m_16,
+});
+
+export const titleMeta = style({
+  whiteSpace: 'nowrap',
+  color: colorVars.color.text.tertiary,
+  ...fontVars.font.title_r_15,
 });
