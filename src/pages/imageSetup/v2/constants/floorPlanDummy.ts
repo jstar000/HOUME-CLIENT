@@ -1,7 +1,7 @@
 import type {
   FilterCategory,
   FloorPlanData,
-  RecentSpaceData,
+  RecentFloorPlanData,
 } from '../types/floorPlan';
 
 export const DUMMY_FILTER_CATEGORIES: FilterCategory[] = [
@@ -46,7 +46,7 @@ export const DUMMY_FILTER_CATEGORIES: FilterCategory[] = [
 export const DUMMY_FLOOR_PLANS: FloorPlanData[] = [
   {
     id: 1,
-    spaceName: 'A타입 · 8평',
+    name: 'A타입 · 8평',
     houseType: { id: 'OFFICETEL', label: '오피스텔' },
     structure: { id: 'OPEN_ONE_ROOM', label: '오픈형 원룸' },
     areaType: { id: 'FROM_5_TO_10', label: '5-10평' },
@@ -61,7 +61,7 @@ export const DUMMY_FLOOR_PLANS: FloorPlanData[] = [
   },
   {
     id: 2,
-    spaceName: 'B타입 · 12평',
+    name: 'B타입 · 12평',
     houseType: { id: 'OFFICETEL', label: '오피스텔' },
     structure: { id: 'SEPARATE_ONE_ROOM', label: '분리형 원룸' },
     areaType: { id: 'TENS', label: '10평대' },
@@ -81,7 +81,7 @@ export const DUMMY_FLOOR_PLANS: FloorPlanData[] = [
   },
   {
     id: 3,
-    spaceName: 'C타입 · 15평',
+    name: 'C타입 · 15평',
     houseType: { id: 'VILLA', label: '빌라/다세대' },
     structure: { id: 'TWO_ROOM', label: '투룸' },
     areaType: { id: 'TENS', label: '10평대' },
@@ -96,7 +96,7 @@ export const DUMMY_FLOOR_PLANS: FloorPlanData[] = [
   },
   {
     id: 4,
-    spaceName: 'D타입 · 22평',
+    name: 'D타입 · 22평',
     houseType: { id: 'APARTMENT', label: '아파트' },
     structure: { id: 'THREE_ROOM_PLUS', label: '쓰리룸 이상' },
     areaType: { id: 'TWENTIES', label: '20평대' },
@@ -121,7 +121,7 @@ export const DUMMY_FLOOR_PLANS: FloorPlanData[] = [
   },
   {
     id: 5,
-    spaceName: 'E타입 · 6평',
+    name: 'E타입 · 6평',
     houseType: { id: 'OFFICETEL', label: '오피스텔' },
     structure: { id: 'OPEN_ONE_ROOM', label: '오픈형 원룸' },
     areaType: { id: 'FROM_5_TO_10', label: '5-10평' },
@@ -136,7 +136,7 @@ export const DUMMY_FLOOR_PLANS: FloorPlanData[] = [
   },
   {
     id: 6,
-    spaceName: 'F타입 · 3평',
+    name: 'F타입 · 3평',
     houseType: { id: 'ETC', label: '그 외' },
     structure: { id: 'OPEN_ONE_ROOM', label: '오픈형 원룸' },
     areaType: { id: 'UNDER_4', label: '4평 이하' },
@@ -151,7 +151,7 @@ export const DUMMY_FLOOR_PLANS: FloorPlanData[] = [
   },
   {
     id: 7,
-    spaceName: 'G타입 · 18평',
+    name: 'G타입 · 18평',
     houseType: { id: 'VILLA', label: '빌라/다세대' },
     structure: { id: 'DUPLEX', label: '복층형' },
     areaType: { id: 'TENS', label: '10평대' },
@@ -171,7 +171,7 @@ export const DUMMY_FLOOR_PLANS: FloorPlanData[] = [
   },
   {
     id: 8,
-    spaceName: 'H타입 · 35평',
+    name: 'H타입 · 35평',
     houseType: { id: 'APARTMENT', label: '아파트' },
     structure: { id: 'THREE_ROOM_PLUS', label: '쓰리룸 이상' },
     areaType: { id: 'OVER_30', label: '30평 이상' },
@@ -187,4 +187,4 @@ export const DUMMY_FLOOR_PLANS: FloorPlanData[] = [
 ];
 
 // null로 시작 — 테스트 시 값 넣어서 확인
-export const DUMMY_RECENT_SPACE: RecentSpaceData | null = null;
+export const DUMMY_RECENT_FLOOR_PLAN: RecentFloorPlanData | null = null;
