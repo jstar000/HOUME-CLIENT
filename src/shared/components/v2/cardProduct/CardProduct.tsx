@@ -4,9 +4,9 @@ import HeartGrayXSIcon from '@assets/icons/icnHeartGrayXS.svg?react';
 import CardImage from '@assets/images/cardExImg.svg?url';
 
 import LinkButton from '@components/button/linkButton/LinkButton';
-import SaveButton from '@components/button/saveButton/SaveButton';
 
 import * as styles from './CardProduct.css';
+import IconButton from '../button/IconButton';
 
 type CardType = 'default' | 'shopping';
 type CardClickArea = 'card' | 'image' | 'title';
@@ -143,18 +143,22 @@ const CardProduct = ({
           )}
         </div>
 
-        {/* 버튼아이콘 반영 필요 */}
         <div
           className={styles.saveBtnOverlay}
           onClick={(event) => event.stopPropagation()}
           onKeyDown={(event) => event.stopPropagation()}
           role="presentation"
         >
-          <SaveButton
-            disabled={disabled}
-            isSelected={isSaved}
-            onClick={onToggleSave}
-          />
+          {isDefault ? (
+            <IconButton
+              name={isSaved ? 'HeartFillColor' : 'HeartStrokeWhite'}
+              size="S"
+              disabled={disabled}
+              onClick={onToggleSave}
+            />
+          ) : (
+            <IconButton name="ViewDetail" size="S" disabled={disabled} />
+          )}
         </div>
       </section>
 

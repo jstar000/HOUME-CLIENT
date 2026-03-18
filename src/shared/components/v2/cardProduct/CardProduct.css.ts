@@ -89,11 +89,6 @@ export const saveBtnOverlay = style({
   right: '0.6rem',
 });
 
-// 버튼 아이콘 반영 필요
-export const saveBtnContainer = style({
-  flex: '0 0 auto', // 하트 아이콘 찌그러짐 방지
-});
-
 export const infoSection = style({
   display: 'flex',
   flexDirection: 'column',
