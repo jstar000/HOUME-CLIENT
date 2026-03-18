@@ -16,14 +16,17 @@ export const iconSize = styleVariants({
 export const btnIcon = recipe({
   base: {
     padding: unitVars.unit.gapPadding[100],
+
+    selectors: {
+      // 비활성화 상태가 아닐 때만 active 효과 적용
+      '&:not(:disabled):active': {
+        transform: 'scale(0.95)',
+      },
+    },
   },
   variants: {
     disabled: {
       true: { opacity: 0.2, cursor: 'not-allowed' },
-    },
-    status: {
-      DEFAULT: {},
-      PRESSED: { transform: 'scale(0.95)' },
     },
     size: {
       S: {},
