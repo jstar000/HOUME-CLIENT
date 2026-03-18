@@ -15,12 +15,22 @@ interface FloorPlanSelectGridProps {
   appliedFilters: FloorPlanFilters;
   onCardClick: (floorPlanId: number) => void;
   onFilterChipClick: () => void;
+  onFilterChipClear: (key: keyof FloorPlanFilters) => void;
 }
 
-const getChipLabel = (category: FilterCategory, filterValue: string) => {
-  if (filterValue === 'ALL') return category.label;
-  const option = category.options.find((o) => o.id === filterValue);
-  return option?.label ?? category.label;
+const getChipLabel = (category: FilterCategory, filterValues: string[]) => {
+  if (filterValues.length === 0) return category.label;
+
+  const selectedOptions = filterValues
+    .map((filterValue) => category.options.find((o) => o.id === filterValue))
+    .filter(
+      (option): option is NonNullable<typeof option> => option !== undefined
+    );
+
+  if (selectedOptions.length === 0) return category.label;
+  if (selectedOptions.length === 1) return selectedOptions[0].label;
+
+  return `${selectedOptions[0].label} 외 ${selectedOptions.length - 1}개`;
 };
 
 const FloorPlanSelectGrid = ({
@@ -29,15 +39,16 @@ const FloorPlanSelectGrid = ({
   appliedFilters,
   onCardClick,
   onFilterChipClick,
+  onFilterChipClear,
 }: FloorPlanSelectGridProps) => {
   return (
     <div className={styles.container}>
       {/* 필터칩 영역 */}
       <div className={styles.chipBar}>
         {filterCategories.map((category) => {
-          const filterValue =
+          const filterValues =
             appliedFilters[category.id as keyof FloorPlanFilters];
-          const isFiltered = filterValue !== 'ALL';
+          const isFiltered = filterValues.length > 0;
 
           return (
             <Chip
@@ -49,9 +60,18 @@ const FloorPlanSelectGrid = ({
                   {isFiltered ? '✕' : '▾'}
                 </span>
               }
+              suffixAriaLabel={
+                isFiltered ? `${category.label} 필터 초기화` : undefined
+              }
               onClick={onFilterChipClick}
+              onSuffixClick={
+                isFiltered
+                  ? () =>
+                      onFilterChipClear(category.id as keyof FloorPlanFilters)
+                  : undefined
+              }
             >
-              {getChipLabel(category, filterValue)}
+              {getChipLabel(category, filterValues)}
             </Chip>
           );
         })}

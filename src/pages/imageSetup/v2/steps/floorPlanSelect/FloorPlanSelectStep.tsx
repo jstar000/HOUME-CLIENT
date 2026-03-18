@@ -46,6 +46,7 @@ const FloorPlanSelectStep = ({ context, onNext }: FloorPlanSelectStepProps) => {
         appliedFilters={store.appliedFilters}
         onCardClick={handleCardClick}
         onFilterChipClick={store.openFilterSheet}
+        onFilterChipClear={store.clearAppliedFilter}
       />
 
       <FilterSheet
