@@ -6,6 +6,9 @@ export interface FloorPlanData {
   name: string;
   imageUrl: string;
   isLatest: boolean;
+  residenceType: string;
+  layoutType: string;
+  areaSize: string;
 }
 
 // API 응답 래퍼
@@ -58,14 +61,14 @@ export interface FilterCategory {
 
 // 현재 적용된 필터 상태 (API query param 이름과 통일)
 export interface FloorPlanFilters {
-  residenceType: string;
-  layoutType: string;
-  areaSize: string;
+  residenceType: string[];
+  layoutType: string[];
+  areaSize: string[];
 }
 
 // 필터 초기값
 export const DEFAULT_FILTERS: FloorPlanFilters = {
-  residenceType: 'ALL',
-  layoutType: 'ALL',
-  areaSize: 'ALL',
+  residenceType: [],
+  layoutType: [],
+  areaSize: [],
 };
