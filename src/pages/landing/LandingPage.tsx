@@ -2,7 +2,7 @@ import IcnDoubleStarInverse from '@assets/icons/icnDoubleStarInverse.svg?react';
 import IcnDoubleStarPrimary from '@assets/icons/icnDoubleStarPrimary.svg?react';
 
 import { useABTest } from '@/pages/generate/hooks/useABTest';
-import ActionButton from '@/shared/components/button/actionButton/ActionButton';
+import ActionButton from '@/shared/components/v2/button/actionButton/ActionButton';
 import LogoNavBar from '@/shared/components/v2/navBar/LogoNavBar';
 
 import * as styles from './LandingPage.css';
