@@ -1,10 +1,25 @@
 import * as React from 'react';
 
+import Icon, {
+  type IconName,
+  type IconSize,
+} from '@/shared/components/v2/icon/Icon';
+
 import * as styles from './ActionButton.css';
 
 export type ActionButtonStyle = 'solid' | 'outlined';
 export type ActionButtonColor = 'primary' | 'inverse';
 export type ActionButtonSize = 'XS' | 'S' | 'M' | 'L' | 'XL' | '2XL';
+
+const BUTTON_SIZE_TO_ICON_SIZE: Record<ActionButtonSize, IconSize> = {
+  // 각 버튼 size에 맞는 아이콘 size 맵핑
+  XS: '14',
+  S: '14',
+  M: '16',
+  L: '16',
+  XL: '16',
+  '2XL': '16',
+};
 
 export interface ActionButtonProps
   extends Omit<React.ComponentProps<'button'>, 'children' | 'style'> {
@@ -12,8 +27,8 @@ export interface ActionButtonProps
   style?: ActionButtonStyle;
   color?: ActionButtonColor;
   size?: ActionButtonSize;
-  leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
+  leftIcon?: IconName;
+  rightIcon?: IconName;
 }
 
 const ActionButton = ({
@@ -28,6 +43,7 @@ const ActionButton = ({
   ...props
 }: ActionButtonProps) => {
   const isDisabled = disabled === true;
+  const iconSize = BUTTON_SIZE_TO_ICON_SIZE[size];
 
   return (
     <span className={styles.buttonWrapper}>
@@ -41,17 +57,9 @@ const ActionButton = ({
         })}
         {...props}
       >
-        {leftIcon != null ? (
-          <span className={styles.iconSlot} aria-hidden>
-            {leftIcon}
-          </span>
-        ) : null}
+        {leftIcon != null ? <Icon name={leftIcon} size={iconSize} /> : null}
         {children}
-        {rightIcon != null ? (
-          <span className={styles.iconSlot} aria-hidden>
-            {rightIcon}
-          </span>
-        ) : null}
+        {rightIcon != null ? <Icon name={rightIcon} size={iconSize} /> : null}
       </button>
     </span>
   );
