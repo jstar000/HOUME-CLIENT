@@ -3,8 +3,8 @@ import IcnDoubleStarPrimary from '@assets/icons/icnDoubleStarPrimary.svg?react';
 
 import { useABTest } from '@/pages/generate/hooks/useABTest';
 import ActionButton from '@/shared/components/button/actionButton/ActionButton';
+import LogoNavBar from '@/shared/components/v2/navBar/LogoNavBar';
 
-import NavBar from './components/NavBar';
 import * as styles from './LandingPage.css';
 
 const LandingPage = () => {
@@ -13,7 +13,7 @@ const LandingPage = () => {
 
   return (
     <main className={styles.page}>
-      <NavBar />
+      <LogoNavBar page="landing" />
       <section className={styles.mainSection}>
         <div className={styles.contentBlock}>
           <div className={styles.textContainer}>
