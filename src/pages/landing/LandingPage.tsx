@@ -5,7 +5,10 @@ import LogoNavBar from '@/shared/components/v2/navBar/LogoNavBar';
 import * as styles from './LandingPage.css';
 
 const LandingPage = () => {
-  useABTest();
+  const { variant, isLoading } = useABTest();
+
+  /** A/B: single → solid inverse CTA, multiple → ghost + 아이콘 CTA */
+  const isGhostCta = !isLoading && variant === 'multiple';
 
   return (
     <main className={styles.page}>
@@ -22,9 +25,20 @@ const LandingPage = () => {
               집 구조, 취향, 생활 방식까지 반영하는 AI 홈 스타일링
             </p>
           </div>
-          <ActionButton style="solid" color="inverse" size="L">
-            우리 집 바꾸러 가기
-          </ActionButton>
+          {isGhostCta ? (
+            <ActionButton
+              style="ghost"
+              color="primary"
+              size="L"
+              leftIcon="DoubleStar"
+            >
+              우리 집 바꾸러 가기
+            </ActionButton>
+          ) : (
+            <ActionButton style="solid" color="inverse" size="L">
+              우리 집 바꾸러 가기
+            </ActionButton>
+          )}
         </div>
       </section>
     </main>
