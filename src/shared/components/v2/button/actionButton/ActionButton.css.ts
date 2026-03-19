@@ -76,6 +76,7 @@ export const button = recipe({
       outlined: {
         border: `1px solid ${colorVars.color.border.primary}`,
       },
+      ghost: {},
     },
     color: {
       primary: {
@@ -88,7 +89,6 @@ export const button = recipe({
       },
     },
     size: {
-      gap: unitVars.unit.gapPadding['100'],
       ...sizeVariantStyles,
     },
     disabled: {
@@ -115,6 +115,13 @@ export const button = recipe({
         color: colorVars.color.text.tertiary,
       },
     },
+    {
+      variants: { style: 'ghost' },
+      style: {
+        background: `rgba(255, 255, 255, 0.10)`,
+        color: colorVars.color.text.inverse,
+      },
+    },
   ],
   defaultVariants: {
     style: 'solid',
@@ -126,4 +133,10 @@ export const button = recipe({
 
 export const buttonWrapper = style({
   display: 'inline-flex',
+});
+
+export const btnlabel = style({
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['100']}`,
 });

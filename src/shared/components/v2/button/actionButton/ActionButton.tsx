@@ -7,7 +7,7 @@ import Icon, {
 
 import * as styles from './ActionButton.css';
 
-export type ActionButtonStyle = 'solid' | 'outlined';
+export type ActionButtonStyle = 'solid' | 'outlined' | 'ghost';
 export type ActionButtonColor = 'primary' | 'inverse';
 export type ActionButtonSize = 'XS' | 'S' | 'M' | 'L' | 'XL' | '2XL';
 
@@ -58,7 +58,7 @@ const ActionButton = ({
         {...props}
       >
         {leftIcon != null ? <Icon name={leftIcon} size={iconSize} /> : null}
-        {children}
+        <span className={styles.btnlabel}>{children}</span>
         {rightIcon != null ? <Icon name={rightIcon} size={iconSize} /> : null}
       </button>
     </span>
