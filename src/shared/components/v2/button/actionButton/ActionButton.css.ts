@@ -1,4 +1,4 @@
-import { globalStyle, style } from '@vanilla-extract/css';
+import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 import { colorVars } from '@styles/tokensV2/color.css';
@@ -9,7 +9,7 @@ import { unitVars } from '@/shared/styles/tokensV2/unit.css';
 const sizeVariantStyles = {
   XS: {
     ...fontVars.font.caption_r_11,
-    padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['100']}+${unitVars.unit.gapPadding['050']}`,
+    padding: `${unitVars.unit.gapPadding['000']} calc(${unitVars.unit.gapPadding['100']} + ${unitVars.unit.gapPadding['050']})`,
     minWidth: '4rem',
     width: 'auto',
     height: '2.6rem',
@@ -17,7 +17,7 @@ const sizeVariantStyles = {
   },
   S: {
     ...fontVars.font.body_m_13,
-    padding: `${unitVars.unit.gapPadding['100']} ${unitVars.unit.gapPadding['200']}+${unitVars.unit.gapPadding['050']}`,
+    padding: `${unitVars.unit.gapPadding['100']} calc(${unitVars.unit.gapPadding['200']} + ${unitVars.unit.gapPadding['050']})`,
     minWidth: '4rem',
     width: 'auto',
     height: '3.2rem',
@@ -126,24 +126,4 @@ export const button = recipe({
 
 export const buttonWrapper = style({
   display: 'inline-flex',
-});
-
-export const iconSlot = style({
-  display: 'inline-flex',
-  flexShrink: 0,
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '1.6rem',
-  height: '1.6rem',
-  color: 'currentColor',
-});
-
-globalStyle(`${iconSlot} svg`, {
-  fill: 'currentColor',
-  stroke: 'currentColor',
-});
-
-export const iconSvg = style({
-  width: '1.4rem',
-  height: '1.4rem',
 });
