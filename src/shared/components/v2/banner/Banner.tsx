@@ -61,7 +61,7 @@ const Banner = ({ slides, onSlideClick }: BannerProps) => {
                 <div className={styles.wrapper}>
                   <img
                     src={slide.imageUrl}
-                    alt=""
+                    alt={slide.title}
                     className={styles.image}
                     draggable={false}
                     loading={index === 0 ? 'eager' : 'lazy'}
@@ -78,7 +78,7 @@ const Banner = ({ slides, onSlideClick }: BannerProps) => {
       </div>
 
       {slides.length > 0 && currentSlide && (
-        <div className={styles.contentOverlay} aria-hidden>
+        <div className={styles.contentOverlay}>
           <div className={styles.content}>
             <h2 className={styles.title}>
               {currentSlide.title} <br /> 우리 집 스타일링하기
@@ -91,7 +91,7 @@ const Banner = ({ slides, onSlideClick }: BannerProps) => {
       )}
 
       {slides.length > 0 && (
-        <div className={styles.indicatorOverlay} aria-hidden>
+        <div className={styles.indicatorOverlay}>
           <div className={styles.indicator}>
             <span className={styles.indicatorCurrent}>{activeIndex + 1}</span>
             <span className={styles.indicatorSeparator}> | </span>

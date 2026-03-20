@@ -1,5 +1,5 @@
 import type { ComponentProps } from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 
 import clsx from 'clsx';
 
@@ -32,6 +32,8 @@ const StyleCard = ({
   ...rest
 }: StyleCardProps) => {
   const [imageSrc, setImageSrc] = useState(initialImageSrc);
+  const titleId = useId();
+  const hasTitle = title != null && title !== '';
 
   useEffect(() => {
     setImageSrc(initialImageSrc);
@@ -43,6 +45,8 @@ const StyleCard = ({
         type="button"
         className={clsx(styles.card({ size }), className)}
         onClick={onClick}
+        aria-labelledby={hasTitle ? titleId : undefined}
+        aria-label={hasTitle ? undefined : '스타일 카드 선택'}
         {...rest}
       >
         <img
@@ -60,8 +64,10 @@ const StyleCard = ({
           <Icon name="DoubleStar" size="16" />
         </div>
       </button>
-      {title != null && title !== '' ? (
-        <p className={styles.title({ size })}>{title}</p>
+      {hasTitle ? (
+        <p id={titleId} className={styles.title({ size })}>
+          {title}
+        </p>
       ) : null}
     </div>
   );
