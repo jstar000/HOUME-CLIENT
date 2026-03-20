@@ -27,7 +27,7 @@ type BannerProps = {
 const Banner = ({ slides, onSlideClick }: BannerProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const hasMultipleSlides = slides.length > 1;
-  const currentSlide = slides[activeIndex];
+  const currentSlide = slides[activeIndex] ?? slides[0];
 
   return (
     <div className={styles.root}>
