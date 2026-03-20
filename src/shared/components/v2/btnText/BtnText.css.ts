@@ -11,9 +11,6 @@ export const button = recipe({
     justifyContent: 'center',
     gap: unitVars.unit.gapPadding['000'],
     transition: 'transform 100ms ease',
-    border: 'none',
-    background: 'transparent',
-    cursor: 'pointer',
     selectors: {
       '&:active': {
         transform: 'scale(0.95)',
