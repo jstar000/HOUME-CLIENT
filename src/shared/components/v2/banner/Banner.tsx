@@ -52,7 +52,7 @@ const Banner = ({ slides, onSlideClick }: BannerProps) => {
             setActiveIndex(swiper.realIndex);
           }}
         >
-          {slides.map((slide) => (
+          {slides.map((slide, index) => (
             <SwiperSlide
               key={slide.id}
               className={styles.swiperSlide}
@@ -65,6 +65,8 @@ const Banner = ({ slides, onSlideClick }: BannerProps) => {
                     alt=""
                     className={styles.image}
                     draggable={false}
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                    decoding="async"
                   />
                   <div className={styles.gradientOverlay} />
                 </div>
