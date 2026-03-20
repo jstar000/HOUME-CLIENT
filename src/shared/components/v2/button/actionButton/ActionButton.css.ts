@@ -61,6 +61,7 @@ export const button = recipe({
     border: 'none',
     borderRadius: unitVars.unit.radius['full'],
     cursor: 'pointer',
+    width: 'auto',
     whiteSpace: 'nowrap',
   },
   variants: {
@@ -82,7 +83,6 @@ export const button = recipe({
       },
     },
     size: {
-      width: 'auto',
       ...sizeVariantStyles,
     },
     disabled: {
