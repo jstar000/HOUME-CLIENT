@@ -5,8 +5,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
 
-import DoubleStar from '@assets/v2/svg/DoubleStar.svg?react';
-
 import * as styles from './Banner.css';
 import Icon from '../icon/Icon';
 
