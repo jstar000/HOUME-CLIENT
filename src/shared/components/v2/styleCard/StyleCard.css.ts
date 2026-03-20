@@ -46,7 +46,7 @@ export const gradient = style({
   position: 'absolute',
   inset: 0,
   background:
-    'var(--grad-cardRoomType, linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 39.71%, rgba(0, 0, 0, 0) 100%))',
+    'linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 39.71%, rgba(0, 0, 0, 0) 100%)',
 });
 
 export const image = style({
