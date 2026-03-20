@@ -1,6 +1,7 @@
-import { useABTest } from '@/pages/generate/hooks/useABTest';
-import ActionButton from '@/shared/components/v2/button/actionButton/ActionButton';
-import LogoNavBar from '@/shared/components/v2/navBar/LogoNavBar';
+import { useABTest } from '@pages/generate/hooks/useABTest';
+
+import ActionButton from '@shared/components/v2/button/actionButton/ActionButton';
+import LogoNavBar from '@shared/components/v2/navBar/LogoNavBar';
 
 import * as styles from './LandingPage.css';
 
