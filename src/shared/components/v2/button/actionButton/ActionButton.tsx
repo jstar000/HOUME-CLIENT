@@ -55,6 +55,7 @@ const ActionButton = ({
           size,
           ...(isDisabled ? { disabled: true } : {}),
         })}
+        disabled={isDisabled}
         {...props}
       >
         {leftIcon != null ? <Icon name={leftIcon} size={iconSize} /> : null}
