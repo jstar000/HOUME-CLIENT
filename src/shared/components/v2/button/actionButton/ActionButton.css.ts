@@ -130,6 +130,7 @@ export const buttonWrapper = style({
 });
 
 export const btnlabel = style({
+  display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['100']}`,

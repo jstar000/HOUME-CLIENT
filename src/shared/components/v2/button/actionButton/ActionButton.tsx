@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import clsx from 'clsx';
+
 import Icon, {
   type IconName,
   type IconSize,
@@ -40,6 +42,7 @@ const ActionButton = ({
   rightIcon,
   type = 'button',
   disabled,
+  className,
   ...props
 }: ActionButtonProps) => {
   const isDisabled = disabled === true;
@@ -49,12 +52,15 @@ const ActionButton = ({
     <span className={styles.buttonWrapper}>
       <button
         type={type}
-        className={styles.button({
-          style: visualStyle,
-          color,
-          size,
-          ...(isDisabled ? { disabled: true } : {}),
-        })}
+        className={clsx(
+          styles.button({
+            style: visualStyle,
+            color,
+            size,
+            ...(isDisabled ? { disabled: true } : {}),
+          }),
+          className
+        )}
         disabled={isDisabled}
         {...props}
       >
