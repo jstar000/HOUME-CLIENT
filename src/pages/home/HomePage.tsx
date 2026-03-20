@@ -98,15 +98,20 @@ const HomePage = () => {
     navigate(ROUTES.MYPAGE);
   };
 
+  const handleLogin = () => {
+    navigate(ROUTES.LOGIN);
+  };
+
   return (
     <main className={styles.page}>
       <div>
         <LogoNavBar
           page="home"
           showGenerateButton
-          authSlot="profile"
+          authSlot={isLoggedIn ? 'profile' : 'login'}
           onGenerateClick={handleGenerate}
-          onProfileClick={handleProfile}
+          onProfileClick={isLoggedIn ? handleProfile : undefined}
+          onLoginClick={!isLoggedIn ? handleLogin : undefined}
         />
         <MenuTab
           tabs={[
