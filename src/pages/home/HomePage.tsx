@@ -110,8 +110,8 @@ const HomePage = () => {
           showGenerateButton
           authSlot={isLoggedIn ? 'profile' : 'login'}
           onGenerateClick={handleGenerate}
-          onProfileClick={isLoggedIn ? handleProfile : undefined}
-          onLoginClick={!isLoggedIn ? handleLogin : undefined}
+          onProfileClick={handleProfile}
+          onLoginClick={handleLogin}
         />
         <MenuTab
           tabs={[
