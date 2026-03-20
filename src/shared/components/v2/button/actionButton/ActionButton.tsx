@@ -3,7 +3,7 @@ import * as React from 'react';
 import Icon, {
   type IconName,
   type IconSize,
-} from '@/shared/components/v2/icon/Icon';
+} from '@shared/components/v2/icon/Icon';
 
 import * as styles from './ActionButton.css';
 
