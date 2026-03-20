@@ -1,7 +1,7 @@
-import IconArrowRight from '@assets/v2/svg/IconArrowRight.svg?react';
-
 import BtnText from '@components/v2/btnText/BtnText';
 import StyleCard from '@components/v2/styleCard/StyleCard';
+
+import Icon from '@/shared/components/v2/icon/Icon';
 
 import * as styles from './StyleSection.css';
 
@@ -36,7 +36,7 @@ const StyleSection = () => {
         <BtnText
           color="secondary"
           size="m"
-          rightIcon={<IconArrowRight aria-hidden />}
+          rightIcon={<Icon name="ArrowRight" size="16" />}
           onClick={() => {}}
         >
           더보기

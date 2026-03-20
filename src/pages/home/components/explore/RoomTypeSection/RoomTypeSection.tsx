@@ -1,7 +1,7 @@
-import IconArrowRight from '@assets/v2/svg/IconArrowRight.svg?react';
-
 import BtnText from '@components/v2/btnText/BtnText';
 import RoomTypeCard from '@components/v2/roomTypeCard/RoomTypeCard';
+
+import Icon from '@/shared/components/v2/icon/Icon';
 
 import * as styles from './RoomTypeSection.css';
 
@@ -41,7 +41,7 @@ const RoomTypeSection = () => {
         <BtnText
           color="secondary"
           size="s"
-          rightIcon={<IconArrowRight aria-hidden />}
+          rightIcon={<Icon name="ArrowRight" size="16" />}
           onClick={() => {}}
         >
           더보기

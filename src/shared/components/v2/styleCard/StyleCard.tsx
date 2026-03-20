@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react';
 
 import clsx from 'clsx';
 
+import Icon from '@shared/components/v2/icon/Icon';
+
 import fallbackImage from '@assets/v2/images/CardRoomTypeFallback.svg';
-import IcnDoubleStar from '@assets/v2/svg/IcnDoubleStar.svg?react';
 
 import * as styles from './StyleCard.css';
 
@@ -55,7 +56,9 @@ const StyleCard = ({
           onError={() => setImageSrc(fallbackImage)}
         />
         <div className={styles.gradient} aria-hidden />
-        <IcnDoubleStar className={styles.starIcon({ size })} />
+        <div className={styles.starIcon({ size })} aria-hidden>
+          <Icon name="DoubleStar" size="16" />
+        </div>
       </button>
       {title != null && title !== '' ? (
         <p className={styles.title({ size })}>{title}</p>

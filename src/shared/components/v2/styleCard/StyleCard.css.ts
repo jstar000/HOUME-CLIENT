@@ -44,6 +44,7 @@ export const card = recipe({
 
 export const gradient = style({
   position: 'absolute',
+  zIndex: 0,
   inset: 0,
   background:
     'linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 39.71%, rgba(0, 0, 0, 0) 100%)',
@@ -51,6 +52,7 @@ export const gradient = style({
 
 export const image = style({
   position: 'absolute',
+  zIndex: 0,
   inset: 0,
   objectFit: 'cover',
   width: '100%',
@@ -60,6 +62,7 @@ export const image = style({
 export const starIcon = recipe({
   base: {
     position: 'relative',
+    zIndex: 1,
     flexShrink: 0,
   },
   variants: {

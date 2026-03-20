@@ -5,9 +5,10 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
 
-import IcnDoubleStar from '@assets/v2/svg/IcnDoubleStar.svg?react';
+import DoubleStar from '@assets/v2/svg/DoubleStar.svg?react';
 
 import * as styles from './Banner.css';
+import Icon from '../icon/Icon';
 
 import type { Swiper as SwiperType } from 'swiper';
 
@@ -85,7 +86,7 @@ const Banner = ({ slides, onSlideClick }: BannerProps) => {
               {currentSlide.title} <br /> 우리 집 스타일링하기
             </h2>
             <p className={styles.cta}>
-              <IcnDoubleStar aria-hidden /> 지금 바로 적용해보기
+              <Icon name="DoubleStar" size="16" /> 지금 바로 적용해보기
             </p>
           </div>
         </div>
