@@ -104,7 +104,7 @@ const HomePage = () => {
 
   return (
     <main className={styles.page}>
-      <div>
+      <>
         <LogoNavBar
           page="home"
           showGenerateButton
@@ -121,7 +121,7 @@ const HomePage = () => {
           activeTab={activeMenuTab}
           onTabChange={setActiveMenuTab}
         />
-      </div>
+      </>
       {activeMenuTab === 'explore' && <ExploreTab />}
       {activeMenuTab === 'product' && <ProductTab />}
     </main>

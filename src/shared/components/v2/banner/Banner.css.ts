@@ -7,7 +7,7 @@ import { unitVars } from '@styles/tokensV2/unit.css';
 
 export const root = style({
   position: 'relative',
-  width: '37.5rem',
+  width: unitVars.unit.dimension.wMin,
   height: '28rem',
 });
 

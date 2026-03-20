@@ -12,7 +12,7 @@ const STYLE_MOCK = [
     title: '미니멀한 개발자의 집',
   },
   {
-    id: 'kistch',
+    id: 'kitsch',
     imageSrc: ' ',
     title: '키치한 무드의 집',
   },
