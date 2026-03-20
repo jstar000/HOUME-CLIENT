@@ -49,6 +49,7 @@ const StyleSection = () => {
             imageSrc={style.imageSrc}
             title={style.title}
             onClick={() => {}}
+            imageLoading="eager"
           />
         ))}
       </div>
