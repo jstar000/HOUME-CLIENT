@@ -90,7 +90,7 @@ const RoomTypeOptionCard = ({
       />
       <div className={styles.gradient} aria-hidden="true" />
       <div className={styles.optionInfoRow({ size })}>
-        <Icon name="DoubleStar" size="16" aria-hidden="true" />
+        <Icon name="DoubleStar" size="16" />
         <p className={styles.optionTitle({ size })}>{label}</p>
       </div>
       {size === 'm' && showRecentBadge && (
@@ -137,7 +137,7 @@ const RoomTypePreviewCard = ({
         className={styles.previewNavButton}
         onClick={onPrevClick}
       >
-        <IconButton name="ArrowLeft" size="M" aria-hidden="true" />
+        <IconButton name="ArrowLeft" size="M" />
       </button>
       <button
         type="button"
@@ -145,7 +145,7 @@ const RoomTypePreviewCard = ({
         className={styles.previewNavButton}
         onClick={onNextClick}
       >
-        <IconButton name="ArrowRight" size="M" aria-hidden="true" />
+        <IconButton name="ArrowRight" size="M" />
       </button>
     </div>
   );

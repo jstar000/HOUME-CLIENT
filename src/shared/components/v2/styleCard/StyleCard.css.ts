@@ -82,6 +82,7 @@ export const title = recipe({
   base: {
     width: '100%',
     overflow: 'hidden',
+    textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
     color: colorVars.color.text.secondary,
   },
