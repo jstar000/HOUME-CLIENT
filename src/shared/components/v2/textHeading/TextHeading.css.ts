@@ -1,9 +1,8 @@
 import { recipe } from '@vanilla-extract/recipes';
 
+import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
-
-import { colorVars } from '@/shared/styles/tokensV2/color.css';
-import { unitVars } from '@/shared/styles/tokensV2/unit.css';
+import { unitVars } from '@styles/tokensV2/unit.css';
 
 export const wrapper = recipe({
   base: {
@@ -15,13 +14,16 @@ export const wrapper = recipe({
   },
   variants: {
     type: {
-      MAIN: { gap: unitVars.unit.gapPadding['200'] },
-      SUB: { gap: unitVars.unit.gapPadding['050'] },
-      'POPUP/MODAL': {
+      main: { gap: unitVars.unit.gapPadding['200'] },
+      sub: {
+        gap: unitVars.unit.gapPadding['050'],
+        padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['100']}`,
+      },
+      popupModal: {
         alignItems: 'center',
         gap: unitVars.unit.gapPadding['200'],
       },
-      BOTTOMSHEET: { gap: unitVars.unit.gapPadding['100'] },
+      bottomSheet: { gap: unitVars.unit.gapPadding['100'] },
     },
   },
 });
@@ -32,13 +34,13 @@ export const title = recipe({
   },
   variants: {
     type: {
-      MAIN: { ...fontVars.font.title_sb_20 },
-      SUB: {
+      main: { ...fontVars.font.title_sb_20 },
+      sub: {
         ...fontVars.font.title_sb_16,
         color: colorVars.color.text.secondary,
       },
-      'POPUP/MODAL': { ...fontVars.font.title_sb_18 },
-      BOTTOMSHEET: { ...fontVars.font.title_sb_18 },
+      popupModal: { ...fontVars.font.title_sb_18 },
+      bottomSheet: { ...fontVars.font.title_sb_18 },
     },
   },
 });
@@ -48,16 +50,15 @@ export const caption = recipe({
     ...fontVars.font.body_r_14,
     color: colorVars.color.text.secondary,
   },
-
   variants: {
     type: {
-      MAIN: {},
-      SUB: {
+      main: {},
+      sub: {
         ...fontVars.font.body_r_13,
         color: colorVars.color.text.tertiary,
       },
-      'POPUP/MODAL': {},
-      BOTTOMSHEET: {},
+      popupModal: {},
+      bottomSheet: {},
     },
   },
 });
