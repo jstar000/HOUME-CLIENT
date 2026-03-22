@@ -1,6 +1,6 @@
-import BtnText from '@components/v2/btnText/BtnText';
 import StyleCard from '@components/v2/styleCard/StyleCard';
 
+import TextButton from '@/shared/components/v2/btnText/TextButton';
 import Icon from '@/shared/components/v2/icon/Icon';
 
 import * as styles from './StyleSection.css';
@@ -33,14 +33,14 @@ const StyleSection = () => {
     <section className={styles.section}>
       <div className={styles.headerRow}>
         <h2 className={styles.sectionTitle}>다른 스타일로 꾸며보기</h2>
-        <BtnText
+        <TextButton
           color="secondary"
           size="m"
           rightIcon={<Icon name="ArrowRight" size="16" />}
           onClick={() => {}}
         >
           더보기
-        </BtnText>
+        </TextButton>
       </div>
       <div className={styles.cardGrid}>
         {STYLE_MOCK.map((style) => (

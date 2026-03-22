@@ -1,6 +1,6 @@
-import BtnText from '@components/v2/btnText/BtnText';
 import RoomTypeCard from '@components/v2/roomTypeCard/RoomTypeCard';
 
+import TextButton from '@/shared/components/v2/btnText/TextButton';
 import Icon from '@/shared/components/v2/icon/Icon';
 
 import * as styles from './RoomTypeSection.css';
@@ -38,14 +38,14 @@ const RoomTypeSection = () => {
     <section className={styles.section}>
       <div className={styles.headerRow}>
         <h2 className={styles.sectionTitle}>우리 집 공간으로 시작하기</h2>
-        <BtnText
+        <TextButton
           color="secondary"
           size="s"
           rightIcon={<Icon name="ArrowRight" size="16" />}
           onClick={() => {}}
         >
           더보기
-        </BtnText>
+        </TextButton>
       </div>
       <div className={styles.cardScroll}>
         <div className={styles.cardList}>

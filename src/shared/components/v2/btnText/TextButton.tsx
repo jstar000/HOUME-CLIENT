@@ -2,20 +2,23 @@ import type { ComponentProps, ReactNode } from 'react';
 
 import clsx from 'clsx';
 
-import * as styles from './BtnText.css';
+import * as styles from './TextButton.css';
 
-export type BtnTextColor = 'primary' | 'secondary' | 'inverse';
-export type BtnTextSize = 's' | 'm';
+export type TextButtonColor = 'primary' | 'secondary' | 'inverse';
+export type TextButtonSize = 's' | 'm';
 
-type BtnTextProps = Omit<ComponentProps<'button'>, 'children' | 'type'> & {
-  color?: BtnTextColor;
-  size?: BtnTextSize;
+export type TextButtonProps = Omit<
+  ComponentProps<'button'>,
+  'children' | 'type'
+> & {
+  color?: TextButtonColor;
+  size?: TextButtonSize;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
   children: ReactNode;
 };
 
-const BtnText = ({
+const TextButton = ({
   className,
   color = 'primary',
   size = 'm',
@@ -23,7 +26,7 @@ const BtnText = ({
   rightIcon,
   children,
   ...rest
-}: BtnTextProps) => {
+}: TextButtonProps) => {
   return (
     <button
       type="button"
@@ -45,4 +48,4 @@ const BtnText = ({
   );
 };
 
-export default BtnText;
+export default TextButton;
