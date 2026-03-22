@@ -49,7 +49,7 @@ const ActionButton = ({
   const iconSize = BUTTON_SIZE_TO_ICON_SIZE[size];
 
   return (
-    <span className={styles.buttonWrapper}>
+    <span>
       <button
         type={type}
         className={clsx(

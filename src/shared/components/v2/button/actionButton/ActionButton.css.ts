@@ -124,10 +124,6 @@ export const button = recipe({
   },
 });
 
-export const buttonWrapper = style({
-  display: 'inline-flex',
-});
-
 export const btnlabel = style({
   display: 'flex',
   alignItems: 'center',
