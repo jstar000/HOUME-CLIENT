@@ -104,24 +104,22 @@ const HomePage = () => {
 
   return (
     <main className={styles.page}>
-      <>
-        <LogoNavBar
-          page="home"
-          showGenerateButton
-          authSlot={isLoggedIn ? 'profile' : 'login'}
-          onGenerateClick={handleGenerate}
-          onProfileClick={handleProfile}
-          onLoginClick={handleLogin}
-        />
-        <MenuTab
-          tabs={[
-            { value: 'explore', label: '탐색' },
-            { value: 'product', label: '상품' },
-          ]}
-          activeTab={activeMenuTab}
-          onTabChange={setActiveMenuTab}
-        />
-      </>
+      <LogoNavBar
+        page="home"
+        showGenerateButton
+        authSlot={isLoggedIn ? 'profile' : 'login'}
+        onGenerateClick={handleGenerate}
+        onProfileClick={handleProfile}
+        onLoginClick={handleLogin}
+      />
+      <MenuTab
+        tabs={[
+          { value: 'explore', label: '탐색' },
+          { value: 'product', label: '상품' },
+        ]}
+        activeTab={activeMenuTab}
+        onTabChange={setActiveMenuTab}
+      />
       {activeMenuTab === 'explore' && <ExploreTab />}
       {activeMenuTab === 'product' && <ProductTab />}
     </main>
