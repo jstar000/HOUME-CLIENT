@@ -65,7 +65,7 @@ const ActionButton = ({
         {...props}
       >
         {leftIcon != null ? <Icon name={leftIcon} size={iconSize} /> : null}
-        <span className={styles.btnlabel}>{children}</span>
+        <span className={styles.btnLabel}>{children}</span>
         {rightIcon != null ? <Icon name={rightIcon} size={iconSize} /> : null}
       </button>
     </span>

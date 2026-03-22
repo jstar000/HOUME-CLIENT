@@ -124,7 +124,7 @@ export const button = recipe({
   },
 });
 
-export const btnlabel = style({
+export const btnLabel = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
