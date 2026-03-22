@@ -65,7 +65,7 @@ export const button = recipe({
     whiteSpace: 'nowrap',
   },
   variants: {
-    style: {
+    variant: {
       solid: {},
       outlined: {
         border: `1px solid ${colorVars.color.border.primary}`,
@@ -110,7 +110,7 @@ export const button = recipe({
       },
     },
     {
-      variants: { style: 'ghost' },
+      variants: { variant: 'ghost' },
       style: {
         background: `rgba(255, 255, 255, 0.10)`,
         color: colorVars.color.text.inverse,
@@ -118,7 +118,7 @@ export const button = recipe({
     },
   ],
   defaultVariants: {
-    style: 'solid',
+    variant: 'solid',
     color: 'primary',
     size: '2XL',
     disabled: false,

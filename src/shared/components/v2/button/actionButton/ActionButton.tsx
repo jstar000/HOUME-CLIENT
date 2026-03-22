@@ -9,7 +9,7 @@ import Icon, {
 
 import * as styles from './ActionButton.css';
 
-export type ActionButtonStyle = 'solid' | 'outlined' | 'ghost';
+export type ActionButtonVariant = 'solid' | 'outlined' | 'ghost';
 export type ActionButtonColor = 'primary' | 'inverse';
 export type ActionButtonSize = 'XS' | 'S' | 'M' | 'L' | 'XL' | '2XL';
 
@@ -24,9 +24,9 @@ const BUTTON_SIZE_TO_ICON_SIZE: Record<ActionButtonSize, IconSize> = {
 };
 
 export interface ActionButtonProps
-  extends Omit<React.ComponentProps<'button'>, 'children' | 'style'> {
+  extends Omit<React.ComponentProps<'button'>, 'children'> {
   children: React.ReactNode;
-  style?: ActionButtonStyle;
+  variant?: ActionButtonVariant;
   color?: ActionButtonColor;
   size?: ActionButtonSize;
   leftIcon?: IconName;
@@ -35,7 +35,7 @@ export interface ActionButtonProps
 
 const ActionButton = ({
   children,
-  style: visualStyle = 'solid',
+  variant = 'solid',
   color = 'primary',
   size = '2XL',
   leftIcon,
@@ -54,7 +54,7 @@ const ActionButton = ({
         type={type}
         className={clsx(
           styles.button({
-            style: visualStyle,
+            variant,
             color,
             size,
             ...(isDisabled ? { disabled: true } : {}),

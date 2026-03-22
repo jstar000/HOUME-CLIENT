@@ -32,7 +32,7 @@ const LandingPage = () => {
           </div>
           {isGhostCta ? (
             <ActionButton
-              style="ghost"
+              variant="ghost"
               color="primary"
               size="L"
               leftIcon="DoubleStar"
@@ -40,7 +40,7 @@ const LandingPage = () => {
               우리 집 바꾸러 가기
             </ActionButton>
           ) : (
-            <ActionButton style="solid" color="inverse" size="L">
+            <ActionButton variant="solid" color="inverse" size="L">
               우리 집 바꾸러 가기
             </ActionButton>
           )}
