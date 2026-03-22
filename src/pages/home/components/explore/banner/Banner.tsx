@@ -5,8 +5,9 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
 
+import Icon from '@shared/components/v2/icon/Icon';
+
 import * as styles from './Banner.css';
-import Icon from '../icon/Icon';
 
 import type { Swiper as SwiperType } from 'swiper';
 

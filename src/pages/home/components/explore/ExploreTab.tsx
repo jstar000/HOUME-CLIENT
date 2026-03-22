@@ -1,9 +1,11 @@
+import Banner, {
+  type BannerSlide,
+} from '@pages/home/components/explore/banner/Banner';
+
 import imgBanner01 from '@assets/v2/images/ImgBanner_01.png';
 import imgBanner02 from '@assets/v2/images/ImgBanner_02.png';
 import imgBanner03 from '@assets/v2/images/ImgBanner_03.png';
 import imgBanner04 from '@assets/v2/images/ImgBanner_04.png';
-
-import Banner, { type BannerSlide } from '@components/v2/banner/Banner';
 
 import * as styles from './ExploreTab.css';
 import RoomTypeSection from './RoomTypeSection/RoomTypeSection';
