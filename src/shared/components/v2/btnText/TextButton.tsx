@@ -30,7 +30,7 @@ const TextButton = ({
   return (
     <button
       type="button"
-      className={clsx(styles.button({ color }), className)}
+      className={clsx(styles.button({ color, size }), className)}
       {...rest}
     >
       {leftIcon != null ? (
@@ -38,7 +38,7 @@ const TextButton = ({
           {leftIcon}
         </span>
       ) : null}
-      <span className={styles.text({ size })}>{children}</span>
+      {children}
       {rightIcon != null ? (
         <span className={styles.iconSlot({ size })} aria-hidden>
           {rightIcon}

@@ -30,31 +30,14 @@ export const button = recipe({
         color: colorVars.color.text.inverse,
       },
     },
+    size: {
+      s: { ...fontVars.font.body_r_14 },
+      m: { ...fontVars.font.title_r_15 },
+    },
   },
   defaultVariants: {
     color: 'primary',
-  },
-});
-
-export const text = recipe({
-  base: {
-    padding: `${unitVars.unit.gapPadding['000']} 0.38rem`,
-    textAlign: 'center',
-    lineHeight: '150%',
-    letterSpacing: '-0.0266rem',
-    fontFamily: fontVars.font.family.pretendard,
-    fontWeight: 400,
-    fontStyle: 'normal',
-  },
-  variants: {
-    size: {
-      s: {
-        fontSize: '1.33rem',
-      },
-      m: {
-        fontSize: '1.425rem',
-      },
-    },
+    size: 'm',
   },
 });
 
@@ -67,8 +50,8 @@ export const iconSlot = recipe({
   },
   variants: {
     size: {
-      s: { width: '1.52rem', height: '1.52rem' },
-      m: { width: '1.9rem', height: '1.9rem' },
+      s: { width: '1.6rem', height: '1.6rem' },
+      m: { width: '2rem', height: '2rem' },
     },
   },
 });
