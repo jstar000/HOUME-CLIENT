@@ -1,11 +1,15 @@
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
+import { zIndex } from '@styles/tokens/zIndex';
 import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
 export const menuTabBar = style({
+  position: 'sticky',
+  zIndex: zIndex.sticky,
+  top: 0,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'flex-start',
