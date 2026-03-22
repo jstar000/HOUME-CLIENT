@@ -6,9 +6,14 @@ import { fontVars } from '@styles/tokensV2/font.css';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
 export const root = style({
+  boxSizing: 'border-box',
+  aspectRatio: '375 / 280',
   position: 'relative',
-  width: unitVars.unit.dimension.wMin,
-  height: '28rem',
+  alignSelf: 'stretch',
+  width: '100%',
+  minWidth: unitVars.unit.dimension.wMin,
+  maxWidth: unitVars.unit.dimension.wMax,
+  height: 'auto',
 });
 
 export const swiperWrapper = style({
