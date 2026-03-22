@@ -17,11 +17,13 @@ const MenuTab = <T extends string>({
   onTabChange,
 }: MenuTabProps<T>) => {
   return (
-    <div className={styles.menuTabBar}>
+    <div className={styles.menuTabBar} role="tablist">
       {tabs.map(({ value, label }) => (
         <button
           key={value}
           type="button"
+          role="tab"
+          aria-selected={activeTab === value}
           className={styles.tabButton({
             state: activeTab === value ? 'active' : 'inactive',
           })}
