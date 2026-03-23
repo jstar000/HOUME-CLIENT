@@ -135,7 +135,6 @@ const CardProduct = ({
               size="XS"
               leftIcon="Link"
               aria-label={'공식 사이트로 이동'}
-              className={styles.linkBtn}
               onClick={onLinkClick}
             >
               사이트

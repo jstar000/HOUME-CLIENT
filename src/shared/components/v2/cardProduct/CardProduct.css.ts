@@ -189,10 +189,3 @@ export const saveCountText = style({
 export const fullWidthBtn = style({
   width: '100%',
 });
-
-// actionButton 수정 필요?
-export const linkBtn = style({});
-
-globalStyle(`${linkBtn} span`, {
-  padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['050']}`,
-});
