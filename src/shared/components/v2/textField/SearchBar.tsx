@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
 import * as styles from './SearchBar.css';
-import BtnIcon from '../button/IconButton';
-import IconsResponsive from '../icon/Icon';
+import IconButton from '../button/IconButton';
+import Icon from '../icon/Icon';
 
 interface SearchBarProps
   extends Omit<React.ComponentProps<'input'>, 'value' | 'onChange'> {
@@ -74,7 +74,7 @@ const SearchBar = ({
   return (
     <div className={styles.wrapper({ state: visualState })}>
       <div className={styles.leftContainer}>
-        <IconsResponsive name="Search" size="20" />
+        <Icon name="Search" size="20" />
 
         <input
           id={id}
@@ -94,8 +94,8 @@ const SearchBar = ({
       </div>
 
       <div className={styles.rightContainer}>
-        {isTyped && (
-          <BtnIcon name="CloseFillGray" size="S" onClick={handleClear} />
+        {(isTyping || isTyped) && (
+          <IconButton name="CloseFillGray" size="S" onClick={handleClear} />
         )}
       </div>
     </div>
