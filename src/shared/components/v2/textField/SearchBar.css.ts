@@ -60,7 +60,7 @@ export const textField = recipe({
     state: {
       default: {},
       pressed: {},
-      focused: { caretColor: colorVars.color.fill.primary },
+      focused: {},
       typing: {
         color: colorVars.color.text.primary,
       },
