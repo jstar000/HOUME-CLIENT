@@ -25,7 +25,8 @@ export const sectionTitle = style({
 });
 
 export const cardScroll = style({
-  width: '100%',
+  margin: `0 calc(${unitVars.unit.gapPadding['500']} * -1)`,
+  width: `calc(100% + ${unitVars.unit.gapPadding['500']} * 2)`,
   overflowX: 'auto',
   overflowY: 'hidden',
   selectors: {
@@ -39,5 +40,6 @@ export const cardList = style({
   display: 'flex',
   flexWrap: 'nowrap',
   gap: unitVars.unit.gapPadding['200'],
+  padding: `0 ${unitVars.unit.gapPadding['500']}`,
   width: 'max-content',
 });
