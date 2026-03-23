@@ -47,7 +47,6 @@ export const textField = recipe({
     backgroundColor: colorVars.color.fill.tertiary,
     width: '100%',
     ...fontVars.font.body_r_14,
-    maxWidth: '27.5rem',
     caretColor: colorVars.color.fill.primary,
 
     selectors: {
