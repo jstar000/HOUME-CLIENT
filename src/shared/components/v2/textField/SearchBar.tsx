@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import * as styles from './SearchBar.css';
 import IconButton from '../button/IconButton';
@@ -19,6 +19,7 @@ const SearchBar = ({
   ...props
 }: SearchBarProps) => {
   const [value, setValue] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
   const [isPressed, setIsPressed] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -65,10 +66,9 @@ const SearchBar = ({
   const handleBlur = () => setIsFocused(false);
 
   const handleClear = () => {
-    if (!isControlled) {
-      setValue('');
-    }
+    if (!isControlled) setValue('');
     onControlledChange?.('');
+    inputRef.current?.focus();
   };
 
   return (
@@ -89,6 +89,7 @@ const SearchBar = ({
           className={styles.textField({
             state: visualState,
           })}
+          ref={inputRef}
           {...props}
         />
       </div>
