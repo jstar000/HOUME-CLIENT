@@ -7,6 +7,7 @@ import LinkButton from '@components/button/linkButton/LinkButton';
 
 import * as styles from './CardProduct.css';
 import IconButton from '../button/IconButton';
+import Icon from '../icon/Icon';
 
 type CardType = 'default' | 'shopping';
 type CardClickArea = 'card' | 'image' | 'title';
@@ -216,9 +217,8 @@ const CardProduct = ({
           typeof saveCount === 'number' &&
           Number.isFinite(saveCount) && (
             <div className={styles.saveCountRow}>
-              <span className={styles.saveCountIcon} aria-hidden>
-                <HeartGrayXSIcon />
-              </span>
+              <Icon name="HeartFillGray" size="14" />
+
               <span className={styles.saveCountText}>
                 {saveCount.toLocaleString('ko-KR')}
               </span>

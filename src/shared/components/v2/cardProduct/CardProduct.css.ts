@@ -181,24 +181,6 @@ export const saveCountRow = style({
   gap: unitVars.unit.gapPadding['050'],
 });
 
-// 아이콘 리뉴얼 반영 해야 함.
-export const saveCountIcon = style({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '1.4rem',
-  height: '1.4rem',
-});
-
-globalStyle(`${saveCountIcon} svg`, {
-  width: '100%',
-  height: '100%',
-});
-
-globalStyle(`${saveCountIcon} path`, {
-  fill: colorVars.color.gray400,
-});
-
 export const saveCountText = style({
   ...fontVars.font.caption_r_11,
   color: colorVars.color.gray400,
