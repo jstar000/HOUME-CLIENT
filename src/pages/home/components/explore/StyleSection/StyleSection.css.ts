@@ -28,7 +28,6 @@ export const sectionTitle = style({
 export const cardGrid = style({
   display: 'grid',
   gridTemplateColumns: 'repeat(2, 1fr)',
-  justifyItems: 'center',
   gap: unitVars.unit.gapPadding['200'],
   width: '100%',
 });

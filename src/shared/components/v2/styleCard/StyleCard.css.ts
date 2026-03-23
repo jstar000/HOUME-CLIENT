@@ -9,6 +9,7 @@ export const wrapper = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
+  width: '100%',
   selectors: {
     '&:active': {
       transform: 'scale(0.98)',
@@ -30,9 +31,9 @@ export const card = recipe({
   variants: {
     size: {
       s: {
+        aspectRatio: '164 / 111',
         padding: unitVars.unit.gapPadding['300'],
-        width: '16.4rem',
-        height: '11.1rem',
+        width: '100%',
       },
       // 추후 m, l 등 사이즈 추가 시 확장
     },
