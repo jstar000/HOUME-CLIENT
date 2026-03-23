@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
 import * as styles from './SearchBar.css';
-import BtnIcon from '../iconsRenewal/BtnIcon';
-import IconsResponsive from '../iconsRenewal/IconsResponsive';
+import BtnIcon from '../button/IconButton';
+import IconsResponsive from '../icon/Icon';
 
 interface SearchBarProps
   extends Omit<React.ComponentProps<'input'>, 'value' | 'onChange'> {
