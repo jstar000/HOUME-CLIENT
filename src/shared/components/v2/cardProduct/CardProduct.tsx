@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
 
-import HeartGrayXSIcon from '@assets/icons/icnHeartGrayXS.svg?react';
 import CardImage from '@assets/images/cardExImg.svg?url';
 
-import LinkButton from '@components/button/linkButton/LinkButton';
-
 import * as styles from './CardProduct.css';
+import ActionButton from '../button/actionButton/ActionButton';
 import IconButton from '../button/IconButton';
 import Icon from '../icon/Icon';
 
@@ -40,7 +38,6 @@ const CardProduct = ({
   isSaved,
   onToggleSave,
   linkHref,
-  linkLabel = '사이트',
   disabled = false,
   onLinkClick,
   onCardClick,
@@ -131,16 +128,18 @@ const CardProduct = ({
           onKeyDown={(event) => event.stopPropagation()}
           role="presentation"
         >
-          {/* btn 반영 필요 */}
           {isDefault && linkHref && (
-            <LinkButton
-              href={linkHref}
-              // typeVariant={isLarge ? 'withText' : 'onlyIcon'}
+            <ActionButton
+              variant="solid"
+              color="inverse"
+              size="XS"
+              leftIcon="Link"
               aria-label={'공식 사이트로 이동'}
+              className={styles.linkBtn}
               onClick={onLinkClick}
             >
-              {linkLabel}
-            </LinkButton>
+              사이트
+            </ActionButton>
           )}
         </div>
 
@@ -225,7 +224,14 @@ const CardProduct = ({
             </div>
           )
         ) : (
-          <button className={styles.selectButton}>선택</button>
+          <ActionButton
+            variant="outlined"
+            color="inverse"
+            size="S"
+            className={styles.fullWidthBtn}
+          >
+            선택
+          </ActionButton>
         )}
       </section>
     </div>

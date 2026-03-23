@@ -186,14 +186,13 @@ export const saveCountText = style({
   color: colorVars.color.gray400,
 });
 
-// 임시 선택 버튼
-export const selectButton = style({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  ...fontVars.font.body_m_13,
-  border: `1px solid ${colorVars.color.border.primary}`,
-  borderRadius: unitVars.unit.radius.full,
-  padding: '0.4rem 0.8rem',
-  color: colorVars.color.text.primary,
+export const fullWidthBtn = style({
+  width: '100%',
+});
+
+// actionButton 수정 필요?
+export const linkBtn = style({});
+
+globalStyle(`${linkBtn} span`, {
+  padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['050']}`,
 });
