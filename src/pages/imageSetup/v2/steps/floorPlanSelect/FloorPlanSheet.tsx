@@ -1,11 +1,10 @@
 import clsx from 'clsx';
 
-import IcnDoubleStar from '@assets/v2/svg/IcnDoubleStar.svg?react';
-
 import CloseBottomSheet from '@components/v2/bottomSheet/CloseBottomSheet';
+import ActionButton from '@components/v2/button/actionButton/ActionButton';
+import Icon from '@components/v2/icon/Icon';
 import RoomTypeCard from '@components/v2/roomTypeCard/RoomTypeCard';
 
-import * as buttonStyles from './ActionButton.css';
 import * as styles from './FloorPlanSheet.css';
 import { useFloorPlanSheet } from '../../hooks/useFloorPlanSheet';
 
@@ -43,7 +42,7 @@ const FloorPlanSheet = ({
       onClose={onClose}
       titleSlot={
         <div className={styles.titleRow}>
-          <IcnDoubleStar className={styles.titleIcon} aria-hidden="true" />
+          <Icon name="DoubleStar" size="16" />
           <span className={styles.titleMain}>{floorPlanName}</span>
           <span className={styles.titleMeta}>·</span>
           <span className={styles.titleMeta}>{currentView.equilibrium}</span>
@@ -67,23 +66,19 @@ const FloorPlanSheet = ({
         </div>
       }
       primaryButton={
-        <button
-          type="button"
-          className={buttonStyles.primary}
-          onClick={onConfirm}
-        >
+        <ActionButton size="2XL" fullWidth onClick={onConfirm}>
           공간 선택하기
-        </button>
+        </ActionButton>
       }
       secondaryButton={
-        <button
-          type="button"
-          className={buttonStyles.secondary}
+        <ActionButton
+          color="inverse"
+          size="2XL"
+          leftIcon="FlipHorizontal"
           onClick={toggleMirror}
         >
-          {/* TODO: v2 아이콘 반영 — IcnFlipHorizontal 좌우반전 아이콘 */}⇆
           좌우반전
-        </button>
+        </ActionButton>
       }
     />
   );
