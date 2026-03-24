@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo } from 'react';
 
+import { useToast } from '@components/toast/useToast';
+
 import { useFunnelStore } from '../../stores/useFunnelStore';
 import {
   DUMMY_FILTER_CATEGORIES,
@@ -26,6 +28,7 @@ export const useFloorPlanSelect = (
 ) => {
   const store = useFloorPlanStore();
   const savedHouseInfo = useFunnelStore((state) => state.houseInfo);
+  const { notify } = useToast();
 
   // 더미 데이터 (추후 useFloorPlanQuery / useRecentFloorPlanQuery로 교체)
   const filterCategories = DUMMY_FILTER_CATEGORIES;
@@ -34,10 +37,11 @@ export const useFloorPlanSelect = (
   // 최근 생성 도면 (별도 API 응답)
   const recentFloorPlan: RecentFloorPlanData | null = DUMMY_RECENT_FLOOR_PLAN;
 
-  // 최근 생성 공간이 있으면 초기 시트 표시
+  // 최근 생성 공간이 있으면 초기 시트 표시 + 토스트 알림
   useEffect(() => {
     if (recentFloorPlan) {
       store.openRecentSheet();
+      notify({ text: '저장된 내 공간을 불러왔어요.' });
     }
     // 마운트 시 1회만 실행
     // eslint-disable-next-line react-hooks/exhaustive-deps
