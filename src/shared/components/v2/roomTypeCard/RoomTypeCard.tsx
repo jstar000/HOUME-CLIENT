@@ -6,7 +6,6 @@ import clsx from 'clsx';
 import fallbackImage from '@assets/v2/images/CardRoomTypeFallback.svg';
 
 import * as styles from './RoomTypeCard.css';
-import IconButton from '../button/IconButton';
 import Icon from '../icon/Icon';
 
 type ButtonProps = Omit<
@@ -138,7 +137,7 @@ const RoomTypePreviewCard = ({
           className={styles.previewNavButton}
           onClick={onPrevClick}
         >
-          <IconButton name="ArrowLeft" size="M" />
+          <Icon name="ArrowLeftFill" size="24" />
         </button>
       )}
       {onNextClick && (
@@ -148,7 +147,7 @@ const RoomTypePreviewCard = ({
           className={styles.previewNavButton}
           onClick={onNextClick}
         >
-          <IconButton name="ArrowRight" size="M" />
+          <Icon name="ArrowRightFill" size="24" />
         </button>
       )}
     </div>
