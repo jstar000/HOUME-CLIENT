@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 import { Drawer } from 'vaul';
 
-import Icon from '@components/v2/icon/Icon';
+import IconButton from '@components/v2/button/IconButton';
 
 import * as styles from './BottomSheetBase.css';
 
@@ -65,7 +65,8 @@ const BottomSheetBase = ({
       <Drawer.Portal>
         {open && (
           <div className={styles.viewportLayer}>
-            <Drawer.Overlay
+            {/* Drawer.Overlay(radix Dialog의 overlay) 사용 시 데스크탑 뒷배경 레이아웃 깨짐 현상 발생 -> 커스텀 dim overlay 적용 */}
+            <div
               className={styles.overlay}
               style={
                 dimOpacity !== undefined
@@ -73,6 +74,7 @@ const BottomSheetBase = ({
                   : undefined
               }
               onClick={onOverlayClick}
+              aria-hidden="true"
             />
             <Drawer.Content
               className={styles.content}
@@ -96,14 +98,13 @@ const BottomSheetBase = ({
                     <div className={styles.titleSlot({ align: titleAlign })}>
                       {titleSlot}
                     </div>
-                    <button
-                      type="button"
+                    <IconButton
+                      name="Close"
+                      size="M"
                       aria-label="닫기"
                       className={styles.closeButton}
                       onClick={onCloseClick}
-                    >
-                      <Icon name="Close" size="24" />
-                    </button>
+                    />
                   </div>
                 )}
                 <div className={styles.body}>

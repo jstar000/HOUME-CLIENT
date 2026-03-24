@@ -31,6 +31,7 @@ export const overlay = style([
     top: 0,
     bottom: 0,
     backgroundColor: colorVars.color.fill.dim,
+    pointerEvents: 'auto',
   },
 ]);
 
