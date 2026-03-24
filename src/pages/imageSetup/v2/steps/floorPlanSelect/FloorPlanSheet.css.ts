@@ -50,3 +50,36 @@ export const titleMeta = style({
   color: colorVars.color.text.tertiary,
   ...fontVars.font.title_r_15,
 });
+
+export const swiperContainer = style({
+  aspectRatio: '1 / 1',
+  position: 'relative',
+  borderRadius: unitVars.unit.radius['600'],
+  width: '100%',
+  overflow: 'hidden',
+});
+
+export const slideImage = style({
+  objectFit: 'cover',
+  width: '100%',
+  height: '100%',
+});
+
+const navButtonBase = style({
+  position: 'absolute',
+  zIndex: 1,
+  top: 0,
+  bottom: 0,
+  display: 'flex',
+  alignItems: 'center',
+});
+
+export const navButtonPrev = style([
+  navButtonBase,
+  { left: unitVars.unit.gapPadding['200'] },
+]);
+
+export const navButtonNext = style([
+  navButtonBase,
+  { right: unitVars.unit.gapPadding['200'] },
+]);

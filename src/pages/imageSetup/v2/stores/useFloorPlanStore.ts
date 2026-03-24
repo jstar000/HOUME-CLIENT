@@ -72,6 +72,7 @@ export const useFloorPlanStore = create<FloorPlanStoreState>((set) => ({
   clearFloorPlan: () =>
     set({ selectedFloorPlanId: null, selectedViewIndex: 0, isMirror: false }),
   // 도면이 여러 장일 경우 선택된 도면 view index 세팅
+  // TODO: 바텀시트를 퍼널 스텝으로 등록하면, 뒤로가기로 돌아왔을 때 이전에 보고 있던 뷰 인덱스를 복원해야 함
   setViewIndex: (idx) => set({ selectedViewIndex: idx }),
   toggleMirror: () => set((state) => ({ isMirror: !state.isMirror })),
 

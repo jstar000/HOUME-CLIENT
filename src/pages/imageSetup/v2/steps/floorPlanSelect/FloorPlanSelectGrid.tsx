@@ -83,7 +83,6 @@ const FloorPlanSelectGrid = ({
 
       {/* 카드 그리드 영역 */}
       <div className={styles.gridScroll}>
-        {/* TODO: 필터 결과 없을 때 화면 추가 */}
         {floorPlans.length === 0 ? (
           <>
             {/* 상단 이미지 + 공간없음 텍스트 */}

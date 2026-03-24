@@ -1,14 +1,21 @@
+import { useRef } from 'react';
+
 import clsx from 'clsx';
+import { Navigation } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+import 'swiper/css';
 
 import CloseBottomSheet from '@components/v2/bottomSheet/CloseBottomSheet';
 import ActionButton from '@components/v2/button/actionButton/ActionButton';
+import IconButton from '@components/v2/button/IconButton';
 import Icon from '@components/v2/icon/Icon';
-import RoomTypeCard from '@components/v2/roomTypeCard/RoomTypeCard';
 
 import * as styles from './FloorPlanSheet.css';
 import { useFloorPlanSheet } from '../../hooks/useFloorPlanSheet';
 
 import type { FloorPlanDetailView } from '../../types/floorPlan';
+import type { Swiper as SwiperType } from 'swiper';
 
 interface FloorPlanSheetProps {
   open: boolean;
@@ -25,13 +32,14 @@ const FloorPlanSheet = ({
   detailViews,
   onConfirm,
 }: FloorPlanSheetProps) => {
+  const swiperRef = useRef<SwiperType | null>(null);
   const {
     currentView,
     isMultiView,
     isMirror,
     toggleMirror,
-    handlePrev,
-    handleNext,
+    selectedViewIndex,
+    setViewIndex,
   } = useFloorPlanSheet(detailViews);
 
   if (!currentView) return null;
@@ -53,14 +61,52 @@ const FloorPlanSheet = ({
           <div
             className={clsx(styles.mirrorWrapper, isMirror && styles.mirrored)}
           >
-            <RoomTypeCard
-              type="default"
-              size="l"
-              imageSrc={currentView.imageUrl}
-              imageAlt={`${floorPlanName} ${currentView.view}`}
-              onPrevClick={isMultiView ? handlePrev : undefined}
-              onNextClick={isMultiView ? handleNext : undefined}
-            />
+            <div className={styles.swiperContainer}>
+              <Swiper
+                modules={[Navigation]}
+                slidesPerView={1}
+                loop={isMultiView}
+                initialSlide={selectedViewIndex}
+                onSwiper={(swiper) => {
+                  swiperRef.current = swiper;
+                }}
+                // swiper.realIndex로 Swiper가 index를 알려주면
+                // setViewIndex로 store 업데이트 -> currentView가 바뀌어 도면 뷰 라벨 갱신
+                onSlideChange={(swiper) => {
+                  setViewIndex(swiper.realIndex);
+                }}
+              >
+                {detailViews.map((view, index) => (
+                  <SwiperSlide key={`${view.id}-${index}`}>
+                    <img
+                      src={view.imageUrl}
+                      alt={`${floorPlanName} ${view.view}`}
+                      className={styles.slideImage}
+                      draggable={false}
+                      decoding="async"
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+              {isMultiView && (
+                <>
+                  <IconButton
+                    name="ArrowLeftFill"
+                    size="M"
+                    aria-label="이전"
+                    className={styles.navButtonPrev}
+                    onClick={() => swiperRef.current?.slidePrev()}
+                  />
+                  <IconButton
+                    name="ArrowRightFill"
+                    size="M"
+                    aria-label="다음"
+                    className={styles.navButtonNext}
+                    onClick={() => swiperRef.current?.slideNext()}
+                  />
+                </>
+              )}
+            </div>
           </div>
           <p className={styles.viewLabel}>{currentView.view}</p>
         </div>
