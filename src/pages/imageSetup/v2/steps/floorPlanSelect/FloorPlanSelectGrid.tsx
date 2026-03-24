@@ -1,4 +1,5 @@
 import Chip from '@components/v2/chip/Chip';
+import Icon from '@components/v2/icon/Icon';
 import RoomTypeCard from '@components/v2/roomTypeCard/RoomTypeCard';
 
 import * as styles from './FloorPlanSelectGrid.css';
@@ -54,11 +55,12 @@ const FloorPlanSelectGrid = ({
             <Chip
               key={category.id}
               selected={isFiltered}
-              // TODO: v2 아이콘 반영 미적용
               suffixIcon={
-                <span className={styles.chipIcon}>
-                  {isFiltered ? '✕' : '▾'}
-                </span>
+                isFiltered ? (
+                  <Icon name="CloseFillGray" size="12" />
+                ) : (
+                  <Icon name="ChevronDown" size="12" />
+                )
               }
               suffixAriaLabel={
                 isFiltered ? `${category.label} 필터 초기화` : undefined
