@@ -1,7 +1,7 @@
 import CloseBottomSheet from '@components/v2/bottomSheet/CloseBottomSheet';
+import ActionButton from '@components/v2/button/actionButton/ActionButton';
 import Chip from '@components/v2/chip/Chip';
 
-import * as buttonStyles from './ActionButton.css';
 import * as styles from './FilterSheet.css';
 
 import type { FilterCategory, FloorPlanFilters } from '../../types/floorPlan';
@@ -67,22 +67,20 @@ const FilterSheet = ({
         </div>
       }
       primaryButton={
-        <button
-          type="button"
-          className={buttonStyles.primary}
-          onClick={onApply}
-        >
+        <ActionButton size="2XL" fullWidth onClick={onApply}>
           필터 적용하기
-        </button>
+        </ActionButton>
       }
       secondaryButton={
-        <button
-          type="button"
-          className={buttonStyles.secondary}
+        <ActionButton
+          variant="outlined"
+          color="inverse"
+          size="2XL"
+          leftIcon="Refresh"
           onClick={onReset}
         >
-          {/* TODO: v2 아이콘 반영 — IcnRefresh 초기화 아이콘 */}↻ 초기화
-        </button>
+          초기화
+        </ActionButton>
       }
     />
   );
