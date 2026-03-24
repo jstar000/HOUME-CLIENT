@@ -31,6 +31,7 @@ export interface ActionButtonProps
   size?: ActionButtonSize;
   leftIcon?: IconName;
   rightIcon?: IconName;
+  fullWidth?: boolean;
 }
 
 const ActionButton = ({
@@ -40,6 +41,7 @@ const ActionButton = ({
   size = '2XL',
   leftIcon,
   rightIcon,
+  fullWidth = false,
   type = 'button',
   disabled,
   className,
@@ -57,6 +59,7 @@ const ActionButton = ({
             variant,
             color,
             size,
+            fullWidth,
             ...(isDisabled ? { disabled: true } : {}),
           }),
           className
