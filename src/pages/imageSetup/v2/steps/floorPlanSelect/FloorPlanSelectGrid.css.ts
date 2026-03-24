@@ -36,6 +36,13 @@ export const gridScroll = style({
   overflow: 'auto',
 });
 
+export const divider = style({
+  margin: `${unitVars.unit.gapPadding[800]} calc(${unitVars.unit.gapPadding['500']} * -1)`,
+  backgroundColor: colorVars.color.border.secondary,
+  width: `calc(100% + ${unitVars.unit.gapPadding['500']} * 2)`,
+  height: '0.8rem',
+});
+
 export const grid = style({
   display: 'grid',
   gridTemplateColumns: 'repeat(2, 1fr)',
@@ -55,20 +62,21 @@ export const emptyContainer = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  gap: unitVars.unit.gapPadding['300'],
-  padding: `${unitVars.unit.gapPadding['600']} ${unitVars.unit.gapPadding['400']}`,
+  gap: unitVars.unit.gapPadding['200'],
+  padding: `${unitVars.unit.gapPadding['200']} ${unitVars.unit.gapPadding['100']}`,
 });
 
 export const emptyTitle = style({
   margin: 0,
   textAlign: 'center',
-  color: colorVars.color.text.primary,
+  color: colorVars.color.text.secondary,
   ...fontVars.font.title_m_16,
 });
 
 export const emptyDescription = style({
   margin: 0,
   textAlign: 'center',
+  whiteSpace: 'pre-line',
   color: colorVars.color.text.tertiary,
   ...fontVars.font.body_r_13,
 });
@@ -84,6 +92,7 @@ export const similarSection = style({
 
 export const similarTitle = style({
   margin: 0,
+  padding: `0 ${unitVars.unit.gapPadding['100']}`,
+  ...fontVars.font.title_sb_16,
   color: colorVars.color.text.primary,
-  ...fontVars.font.title_m_16,
 });

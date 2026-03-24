@@ -1,3 +1,5 @@
+import emptyImage from '@assets/v2/images/ImgEmpty.png';
+
 import Chip from '@components/v2/chip/Chip';
 import Icon from '@components/v2/icon/Icon';
 import RoomTypeCard from '@components/v2/roomTypeCard/RoomTypeCard';
@@ -84,8 +86,9 @@ const FloorPlanSelectGrid = ({
         {/* TODO: 필터 결과 없을 때 화면 추가 */}
         {floorPlans.length === 0 ? (
           <>
+            {/* 상단 이미지 + 공간없음 텍스트 */}
+            <img src={emptyImage} alt="필터 결과 없음" />
             <div className={styles.emptyContainer}>
-              {/* TODO: v2 아이콘 반영 */}
               <p className={styles.emptyTitle}>
                 선택한 필터에 맞는 공간이 없어요.
               </p>
@@ -95,6 +98,10 @@ const FloorPlanSelectGrid = ({
                 }
               </p>
             </div>
+
+            {/* Divider */}
+            <div className={styles.divider}></div>
+
             {/* TODO: API isExact: false일 때 유사 공간 카드 렌더 */}
             <div className={styles.similarSection}>
               <p className={styles.similarTitle}>선택한 필터와 유사한 공간</p>
