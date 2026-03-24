@@ -3,7 +3,6 @@ import PageLayout from '@components/pageLayout/PageLayout';
 import FilterSheet from './FilterSheet';
 import FloorPlanSelectGrid from './FloorPlanSelectGrid';
 import FloorPlanSheet from './FloorPlanSheet';
-import RecentFloorPlanSheet from './RecentFloorPlanSheet';
 import { useFloorPlanSelect } from '../../hooks/useFloorPlanSelect';
 import { useFloorPlanStore } from '../../stores/useFloorPlanStore';
 
@@ -72,12 +71,12 @@ const FloorPlanSelectStep = ({ context, onNext }: FloorPlanSelectStepProps) => {
       />
 
       {hasRecentFloorPlan && recentFloorPlan && (
-        <RecentFloorPlanSheet
+        <FloorPlanSheet
           open={store.isRecentSheetOpen}
           onClose={store.closeRecentSheet}
-          recentFloorPlan={recentFloorPlan}
+          floorPlanName={recentFloorPlan.name}
+          detailViews={[recentFloorPlan]}
           onConfirm={handleConfirmRecentFloorPlan}
-          onSelectOther={store.closeRecentSheet}
         />
       )}
     </PageLayout>
