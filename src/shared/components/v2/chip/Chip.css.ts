@@ -10,6 +10,7 @@ export const chip = recipe({
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
+    gap: unitVars.unit.gapPadding['050'],
     transition:
       'transform 100ms ease, background-color 100ms ease, color 100ms ease',
     borderWidth: '0.1rem',
@@ -17,6 +18,11 @@ export const chip = recipe({
     borderRadius: unitVars.unit.gapPadding.full,
     background: 'transparent',
     height: '3.4rem',
+    selectors: {
+      '&:active': {
+        transform: 'scale(0.9)',
+      },
+    },
   },
   variants: {
     selected: {
@@ -34,26 +40,6 @@ export const chip = recipe({
   },
 });
 
-export const mainButton = style({
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  transition: 'transform 100ms ease',
-  color: 'inherit',
-  selectors: {
-    '&:active': {
-      transform: 'scale(0.95)',
-    },
-  },
-});
-
-export const content = style({
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: unitVars.unit.gapPadding['050'],
-});
-
 export const label = recipe({
   base: {
     display: 'inline-flex',
@@ -61,15 +47,16 @@ export const label = recipe({
     justifyContent: 'center',
     paddingLeft: unitVars.unit.gapPadding['300'],
     whiteSpace: 'nowrap',
-    ...fontVars.font.body_r_13,
   },
   variants: {
     selected: {
       false: {
         color: colorVars.color.text.tertiary,
+        ...fontVars.font.body_r_13,
       },
       true: {
         color: colorVars.color.text.inverse,
+        ...fontVars.font.body_m_13,
       },
     },
     hasSuffix: {
@@ -93,12 +80,6 @@ export const suffix = style({
   paddingLeft: unitVars.unit.gapPadding['000'],
 });
 
-export const suffixIcon = style({
-  flexShrink: 0,
-  width: '1.2rem',
-  height: '1.2rem',
-});
-
 export const suffixButton = style({
   display: 'inline-flex',
   alignItems: 'center',
@@ -111,7 +92,7 @@ export const suffixButton = style({
   color: 'inherit',
   selectors: {
     '&:active': {
-      transform: 'scale(0.95)',
+      transform: 'scale(0.9)',
     },
   },
 });

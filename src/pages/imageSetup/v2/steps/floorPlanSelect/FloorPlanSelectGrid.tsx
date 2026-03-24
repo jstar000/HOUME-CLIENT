@@ -57,7 +57,7 @@ const FloorPlanSelectGrid = ({
               selected={isFiltered}
               suffixIcon={
                 isFiltered ? (
-                  <Icon name="CloseFillGray" size="12" />
+                  <Icon name="Close" size="12" />
                 ) : (
                   <Icon name="ChevronDown" size="12" />
                 )

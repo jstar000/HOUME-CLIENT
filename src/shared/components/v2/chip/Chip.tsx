@@ -24,34 +24,6 @@ const Chip = ({
   const hasSuffix = suffixIcon !== undefined;
   const chipClassName = `${styles.chip({ selected })}${className ? ` ${className}` : ''}`;
 
-  if (hasSuffix && onSuffixClick) {
-    return (
-      <div className={chipClassName}>
-        <button
-          type={type}
-          className={styles.mainButton}
-          aria-pressed={selected}
-          onClick={onClick}
-          {...props}
-        >
-          <span className={styles.label({ selected, hasSuffix: true })}>
-            {children}
-          </span>
-        </button>
-        <button
-          type="button"
-          className={styles.suffixButton}
-          aria-label={suffixAriaLabel}
-          onClick={onSuffixClick}
-        >
-          <span className={styles.suffixIcon} aria-hidden="true">
-            {suffixIcon}
-          </span>
-        </button>
-      </div>
-    );
-  }
-
   return (
     <button
       type={type}
@@ -60,17 +32,25 @@ const Chip = ({
       onClick={onClick}
       {...props}
     >
-      <span className={styles.content}>
-        <span className={styles.label({ selected, hasSuffix })}>
-          {children}
+      <span className={styles.label({ selected, hasSuffix })}>{children}</span>
+      {hasSuffix && (
+        <span
+          role={onSuffixClick ? 'button' : undefined}
+          tabIndex={onSuffixClick ? 0 : undefined}
+          aria-label={suffixAriaLabel}
+          className={onSuffixClick ? styles.suffixButton : styles.suffix}
+          onClick={
+            onSuffixClick
+              ? (e) => {
+                  e.stopPropagation();
+                  onSuffixClick();
+                }
+              : undefined
+          }
+        >
+          <span aria-hidden="true">{suffixIcon}</span>
         </span>
-        {hasSuffix && (
-          // TODO: 아이콘
-          <span className={styles.suffix} aria-hidden="true">
-            {suffixIcon}
-          </span>
-        )}
-      </span>
+      )}
     </button>
   );
 };
