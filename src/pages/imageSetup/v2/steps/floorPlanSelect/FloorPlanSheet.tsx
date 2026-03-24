@@ -72,6 +72,7 @@ const FloorPlanSheet = ({
       }
       secondaryButton={
         <ActionButton
+          variant="outlined"
           color="inverse"
           size="2XL"
           leftIcon="FlipHorizontal"

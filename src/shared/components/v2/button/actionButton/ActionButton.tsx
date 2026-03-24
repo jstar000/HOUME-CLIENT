@@ -51,27 +51,25 @@ const ActionButton = ({
   const iconSize = BUTTON_SIZE_TO_ICON_SIZE[size];
 
   return (
-    <span>
-      <button
-        type={type}
-        className={clsx(
-          styles.button({
-            variant,
-            color,
-            size,
-            fullWidth,
-            ...(isDisabled ? { disabled: true } : {}),
-          }),
-          className
-        )}
-        disabled={isDisabled}
-        {...props}
-      >
-        {leftIcon != null ? <Icon name={leftIcon} size={iconSize} /> : null}
-        <span className={styles.btnLabel}>{children}</span>
-        {rightIcon != null ? <Icon name={rightIcon} size={iconSize} /> : null}
-      </button>
-    </span>
+    <button
+      type={type}
+      className={clsx(
+        styles.button({
+          variant,
+          color,
+          size,
+          fullWidth,
+          ...(isDisabled ? { disabled: true } : {}),
+        }),
+        className
+      )}
+      disabled={isDisabled}
+      {...props}
+    >
+      {leftIcon != null ? <Icon name={leftIcon} size={iconSize} /> : null}
+      <span className={styles.btnLabel}>{children}</span>
+      {rightIcon != null ? <Icon name={rightIcon} size={iconSize} /> : null}
+    </button>
   );
 };
 
