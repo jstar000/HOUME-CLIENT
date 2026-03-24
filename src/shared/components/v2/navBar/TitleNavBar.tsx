@@ -26,8 +26,8 @@ const TitleNavBar = ({
           className={styles.backButton}
           onClick={onBackClick}
         >
-          <Icon name="ArrowLeft" size="24" />
-          {backLabel}
+          <Icon name="ArrowLeft" size="16" />
+          <span className={styles.label}>{backLabel}</span>
         </button>
       </div>
       <h1 className={styles.title}>{title}</h1>

@@ -147,13 +147,6 @@ export const closeButton = style({
   },
 });
 
-// 닫기 버튼 내부 X 아이콘의 고정 크기
-export const closeIcon = style({
-  flexShrink: 0,
-  width: '2.4rem',
-  height: '2.4rem',
-});
-
 // 본문 콘텐츠와 하단 버튼 감싸는 column 래퍼
 export const body = style({
   display: 'flex',

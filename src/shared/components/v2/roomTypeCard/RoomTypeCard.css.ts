@@ -103,20 +103,6 @@ export const optionInfoRow = recipe({
   },
 });
 
-export const optionTitleIcon = recipe({
-  base: {
-    flexShrink: 0,
-    width: '1.6rem',
-    height: '1.6rem',
-  },
-  variants: {
-    size: {
-      s: {},
-      m: {},
-    },
-  },
-});
-
 export const optionTitle = recipe({
   base: {
     margin: 0,
@@ -205,12 +191,4 @@ export const previewNavButton = style({
       transform: 'scale(0.95)',
     },
   },
-});
-
-export const previewNavIcon = style({
-  flexShrink: 0,
-  borderRadius: unitVars.unit.radius.full,
-  backgroundColor: colorVars.color.fill.inverse,
-  width: '2rem',
-  height: '2rem',
 });
