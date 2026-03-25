@@ -37,7 +37,7 @@ export const gridScroll = style({
 });
 
 export const divider = style({
-  margin: `${unitVars.unit.gapPadding[800]} calc(${unitVars.unit.gapPadding['500']} * -1)`,
+  margin: `${unitVars.unit.gapPadding['800']} calc(${unitVars.unit.gapPadding['500']} * -1)`,
   backgroundColor: colorVars.color.border.secondary,
   width: `calc(100% + ${unitVars.unit.gapPadding['500']} * 2)`,
   height: '0.8rem',
