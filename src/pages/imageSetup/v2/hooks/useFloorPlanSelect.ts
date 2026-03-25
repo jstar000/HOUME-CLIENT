@@ -104,6 +104,8 @@ export const useFloorPlanSelect = (
     confirmFloorPlan({ floorPlanId: recentFloorPlan.id, isMirror: false });
   };
 
+  // Step 컴포넌트에서 store를 직접 구독하면 이중 구독이 되므로,
+  // 시트별로 필요한 상태/액션을 묶어서 반환
   return {
     filterCategories,
     filteredFloorPlans,
@@ -113,5 +115,37 @@ export const useFloorPlanSelect = (
     handleCardClick,
     handleConfirmFloorPlan,
     handleConfirmRecentFloorPlan,
+
+    // 필터 그리드에서 사용하는 상태/액션
+    grid: {
+      appliedFilters: store.appliedFilters,
+      onFilterChipClick: store.openFilterSheet,
+      onFilterChipClear: store.clearAppliedFilter,
+    },
+
+    // FilterSheet props
+    filterSheet: {
+      open: store.isFilterSheetOpen,
+      onClose: store.closeFilterSheet,
+      pendingFilters: store.pendingFilters,
+      onFilterChange: store.setPendingFilter,
+      onApply: () => {
+        store.applyFilters();
+        store.closeFilterSheet();
+      },
+      onReset: store.resetFilters,
+    },
+
+    // FloorPlanSheet (도면 상세) props
+    floorPlanSheet: {
+      open: store.isFloorPlanSheetOpen,
+      onClose: store.closeFloorPlanSheet,
+    },
+
+    // FloorPlanSheet (최근 공간) props
+    recentSheet: {
+      open: store.isRecentSheetOpen,
+      onClose: store.closeRecentSheet,
+    },
   };
 };

@@ -4,7 +4,6 @@ import FilterSheet from './FilterSheet';
 import FloorPlanSelectGrid from './FloorPlanSelectGrid';
 import FloorPlanSheet from './FloorPlanSheet';
 import { useFloorPlanSelect } from '../../hooks/useFloorPlanSelect';
-import { useFloorPlanStore } from '../../stores/useFloorPlanStore';
 
 import type {
   CompletedFloorPlan,
@@ -23,13 +22,14 @@ const FloorPlanSelectStep = ({ context, onNext }: FloorPlanSelectStepProps) => {
     selectedFloorPlan,
     selectedDetailViews,
     recentFloorPlan,
-    hasRecentFloorPlan,
     handleCardClick,
     handleConfirmFloorPlan,
     handleConfirmRecentFloorPlan,
+    grid,
+    filterSheet,
+    floorPlanSheet,
+    recentSheet,
   } = useFloorPlanSelect(context, onNext);
-
-  const store = useFloorPlanStore();
 
   return (
     <PageLayout
@@ -40,40 +40,37 @@ const FloorPlanSelectStep = ({ context, onNext }: FloorPlanSelectStepProps) => {
       }}
     >
       <FloorPlanSelectGrid
-        filterCategories={filterCategories} // 더미데이터
-        floorPlans={filteredFloorPlans} // 더미데이터
-        appliedFilters={store.appliedFilters}
+        filterCategories={filterCategories}
+        floorPlans={filteredFloorPlans}
+        appliedFilters={grid.appliedFilters}
         onCardClick={handleCardClick}
-        onFilterChipClick={store.openFilterSheet}
-        onFilterChipClear={store.clearAppliedFilter}
+        onFilterChipClick={grid.onFilterChipClick}
+        onFilterChipClear={grid.onFilterChipClear}
       />
 
       <FilterSheet
-        open={store.isFilterSheetOpen}
-        onClose={store.closeFilterSheet}
+        open={filterSheet.open}
+        onClose={filterSheet.onClose}
         filterCategories={filterCategories}
-        pendingFilters={store.pendingFilters}
-        onFilterChange={store.setPendingFilter}
-        onApply={() => {
-          store.applyFilters();
-          store.closeFilterSheet();
-        }}
-        onReset={store.resetFilters}
+        pendingFilters={filterSheet.pendingFilters}
+        onFilterChange={filterSheet.onFilterChange}
+        onApply={filterSheet.onApply}
+        onReset={filterSheet.onReset}
       />
 
       {/* TODO: overlay-kit에 상태관리 위임, use-funnel에 등록 */}
       <FloorPlanSheet
-        open={store.isFloorPlanSheetOpen}
-        onClose={store.closeFloorPlanSheet}
+        open={floorPlanSheet.open}
+        onClose={floorPlanSheet.onClose}
         floorPlanName={selectedFloorPlan?.name ?? ''}
         detailViews={selectedDetailViews}
         onConfirm={handleConfirmFloorPlan}
       />
 
-      {hasRecentFloorPlan && recentFloorPlan && (
+      {recentFloorPlan && (
         <FloorPlanSheet
-          open={store.isRecentSheetOpen}
-          onClose={store.closeRecentSheet}
+          open={recentSheet.open}
+          onClose={recentSheet.onClose}
           floorPlanName={recentFloorPlan.name}
           detailViews={[recentFloorPlan]}
           onConfirm={handleConfirmRecentFloorPlan}
