@@ -53,8 +53,9 @@ export interface FilterOption {
 }
 
 // ex: 주거 형태, 구조, 평형
+// id를 FloorPlanFilters의 key로 타입을 좁혀서, 사용처에서 `as keyof FloorPlanFilters` 타입 단언 없이 안전하게 접근
 export interface FilterCategory {
-  id: string;
+  id: keyof FloorPlanFilters;
   label: string;
   options: FilterOption[];
 }

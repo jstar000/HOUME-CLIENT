@@ -49,8 +49,7 @@ const FloorPlanSelectGrid = ({
       {/* 필터칩 영역 */}
       <div className={styles.chipBar}>
         {filterCategories.map((category) => {
-          const filterValues =
-            appliedFilters[category.id as keyof FloorPlanFilters];
+          const filterValues = appliedFilters[category.id];
           const isFiltered = filterValues.length > 0;
 
           return (
@@ -69,10 +68,7 @@ const FloorPlanSelectGrid = ({
               }
               onClick={onFilterChipClick}
               onSuffixClick={
-                isFiltered
-                  ? () =>
-                      onFilterChipClear(category.id as keyof FloorPlanFilters)
-                  : undefined
+                isFiltered ? () => onFilterChipClear(category.id) : undefined
               }
             >
               {getChipLabel(category, filterValues)}
