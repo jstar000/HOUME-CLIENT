@@ -17,10 +17,6 @@
 
 import { useState } from 'react';
 
-import DragHandleBottomSheet from '@shared/components/v2/bottomSheet/DragHandleBottomSheet';
-
-import ActionButton from '@components/v2/button/actionButton/ActionButton';
-
 import FloorPlanSelectStep from './steps/floorPlanSelect/FloorPlanSelectStep';
 
 import type { CompletedFloorPlan } from '../types/funnel/steps';
