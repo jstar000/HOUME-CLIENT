@@ -104,8 +104,7 @@ export const useFloorPlanSelect = (
     confirmFloorPlan({ floorPlanId: recentFloorPlan.id, isMirror: false });
   };
 
-  // Step 컴포넌트에서 store를 직접 구독하면 이중 구독이 되므로,
-  // 시트별로 필요한 상태/액션을 묶어서 반환
+  // 컴포넌트별로 필요한 상태/액션을 묶어서 반환
   return {
     filterCategories,
     filteredFloorPlans,

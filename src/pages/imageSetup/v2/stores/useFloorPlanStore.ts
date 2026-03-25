@@ -12,10 +12,17 @@
  *    - isRecentSheetOpen: 최근 선택 도면 sheet 상태
  */
 
-// 4개 컴포넌트(도면 그리드, 필터 3개)가 동일 상태를 읽고 써야함 + prop drilling 방지
+// zustand 사용: 4개 컴포넌트(도면 그리드, 필터 3개)가 동일 상태를 읽고 써야함 + prop drilling 방지
 import { create } from 'zustand';
 
 import { DEFAULT_FILTERS, type FloorPlanFilters } from '../types/floorPlan';
+
+// 도면 선택 상태 초기값 — selectFloorPlan, clearFloorPlan, closeFloorPlanSheet, reset에서 반복 사용
+const INITIAL_SELECTION = {
+  selectedFloorPlanId: null as number | null,
+  selectedViewIndex: 0,
+  isMirror: false,
+};
 
 interface FloorPlanStoreState {
   selectedFloorPlanId: number | null;
@@ -67,10 +74,8 @@ export const useFloorPlanStore = create<FloorPlanStoreState>((set) => ({
   isRecentSheetOpen: false,
 
   selectFloorPlan: (id) =>
-    set({ selectedFloorPlanId: id, selectedViewIndex: 0, isMirror: false }),
-  // FloorPlanSheet 닫을 때 데이터 clear
-  clearFloorPlan: () =>
-    set({ selectedFloorPlanId: null, selectedViewIndex: 0, isMirror: false }),
+    set({ ...INITIAL_SELECTION, selectedFloorPlanId: id }),
+  clearFloorPlan: () => set(INITIAL_SELECTION),
   // 도면이 여러 장일 경우 선택된 도면 view index 세팅
   // TODO: 바텀시트를 퍼널 스텝으로 등록하면, 뒤로가기로 돌아왔을 때 이전에 보고 있던 뷰 인덱스를 복원해야 함
   setViewIndex: (idx) => set({ selectedViewIndex: idx }),
@@ -114,20 +119,13 @@ export const useFloorPlanStore = create<FloorPlanStoreState>((set) => ({
   closeFilterSheet: () => set({ isFilterSheetOpen: false }),
   openFloorPlanSheet: () => set({ isFloorPlanSheetOpen: true }),
   closeFloorPlanSheet: () =>
-    set({
-      isFloorPlanSheetOpen: false,
-      selectedFloorPlanId: null,
-      selectedViewIndex: 0,
-      isMirror: false,
-    }),
+    set({ ...INITIAL_SELECTION, isFloorPlanSheetOpen: false }),
   openRecentSheet: () => set({ isRecentSheetOpen: true }),
   closeRecentSheet: () => set({ isRecentSheetOpen: false }),
 
   reset: () =>
     set({
-      selectedFloorPlanId: null,
-      selectedViewIndex: 0,
-      isMirror: false,
+      ...INITIAL_SELECTION,
       appliedFilters: { ...DEFAULT_FILTERS },
       pendingFilters: { ...DEFAULT_FILTERS },
       isFilterSheetOpen: false,
