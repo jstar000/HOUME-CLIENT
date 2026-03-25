@@ -101,7 +101,10 @@ export const useFloorPlanSelect = (
   const handleConfirmRecentFloorPlan = () => {
     if (!recentFloorPlan) return;
     store.closeRecentSheet();
-    confirmFloorPlan({ floorPlanId: recentFloorPlan.id, isMirror: false });
+    confirmFloorPlan({
+      floorPlanId: recentFloorPlan.id,
+      isMirror: store.isMirror,
+    });
   };
 
   // 컴포넌트별로 필요한 상태/액션을 묶어서 반환

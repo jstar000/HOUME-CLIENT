@@ -58,9 +58,7 @@ const FloorPlanSheet = ({
       }
       contentSlot={
         <div className={styles.content}>
-          <div
-            className={clsx(styles.mirrorWrapper, isMirror && styles.mirrored)}
-          >
+          <div className={styles.mirrorWrapper}>
             <div className={styles.swiperContainer}>
               <Swiper
                 modules={[Navigation]}
@@ -81,7 +79,10 @@ const FloorPlanSheet = ({
                     <img
                       src={view.imageUrl}
                       alt={`${floorPlanName} ${view.view}`}
-                      className={styles.slideImage}
+                      className={clsx(
+                        styles.slideImage,
+                        isMirror && styles.mirrored
+                      )}
                       draggable={false}
                       decoding="async"
                     />
