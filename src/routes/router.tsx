@@ -68,14 +68,31 @@ const publicRoutes = [
       return { Component: PrivacyPolicyPage };
     },
   },
-  // TODO: 확인 완료 후 삭제
   {
-    path: '/test/floor-plan',
+    path: ROUTES.STYLE_LIST,
     lazy: async () => {
-      const { default: FloorPlanSelectTest } = await import(
-        '@pages/imageSetup/v2/FloorPlanSelectTest'
+      const { default: StyleListPage } = await import(
+        '@pages/style/StyleListPage'
       );
-      return { Component: FloorPlanSelectTest };
+      return { Component: StyleListPage };
+    },
+  },
+  {
+    path: ROUTES.STYLE_DETAIL,
+    lazy: async () => {
+      const { default: StyleDetailPage } = await import(
+        '@pages/style/StyleDetailPage'
+      );
+      return { Component: StyleDetailPage };
+    },
+  },
+  {
+    path: ROUTES.BANNER_DETAIL,
+    lazy: async () => {
+      const { default: BannerDetailPage } = await import(
+        '@pages/banner/BannerDetailPage'
+      );
+      return { Component: BannerDetailPage };
     },
   },
 ];

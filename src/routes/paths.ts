@@ -15,6 +15,9 @@ export const ROUTES = {
   SETTING_SERVICE: '/mypage/setting/service',
   SETTING_PRIVACY: '/mypage/setting/privacy',
   OAUTH: '/oauth/kakao/callback',
+  STYLE_LIST: '/styles',
+  STYLE_DETAIL: '/styles/:styleId',
+  BANNER_DETAIL: '/banner/:bannerId',
   TEST: '/test',
 } as const;
 
