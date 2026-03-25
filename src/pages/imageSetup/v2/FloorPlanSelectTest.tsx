@@ -15,8 +15,6 @@
  * TODO: 검증 완료 후 이 파일 + router.tsx 테스트 경로 삭제
  */
 
-import { useState } from 'react';
-
 import FloorPlanSelectStep from './steps/floorPlanSelect/FloorPlanSelectStep';
 
 import type { CompletedFloorPlan } from '../types/funnel/steps';
@@ -33,29 +31,7 @@ const handleNext = (data: CompletedFloorPlan) => {
 };
 
 const FloorPlanSelectTest = () => {
-  const [isDragSheetOpen, setIsDragSheetOpen] = useState(true);
-
-  return (
-    <>
-      <FloorPlanSelectStep context={MOCK_CONTEXT} onNext={handleNext} />
-      {/* 
-      <DragHandleBottomSheet
-        open={isDragSheetOpen}
-        contentSlot={
-          <p style={{ padding: '1.6rem' }}>DragHandle 테스트 콘텐츠</p>
-        }
-        primaryButton={
-          <ActionButton
-            size="2XL"
-            fullWidth
-            onClick={() => setIsDragSheetOpen(false)}
-          >
-            확인
-          </ActionButton>
-        }
-      /> */}
-    </>
-  );
+  return <FloorPlanSelectStep context={MOCK_CONTEXT} onNext={handleNext} />;
 };
 
 export default FloorPlanSelectTest;
