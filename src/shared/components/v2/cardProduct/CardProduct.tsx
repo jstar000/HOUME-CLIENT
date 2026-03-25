@@ -183,9 +183,9 @@ const CardProduct = ({
           {/* 브랜드, 상품 이름 */}
           <div className={styles.productInfo} data-click-area="title">
             {isDefault && !!brand && (
-              <p className={styles.brandTextLarge}>{brand}</p>
+              <p className={styles.brandText}>{brand}</p>
             )}
-            <p className={styles.productTextLarge}>{title}</p>
+            <p className={styles.productText}>{title}</p>
           </div>
 
           {/* 가격 정보 */}

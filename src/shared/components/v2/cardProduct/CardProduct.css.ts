@@ -129,7 +129,7 @@ export const productInfo = style({
   gap: unitVars.unit.gapPadding['100'],
 });
 
-export const brandTextLarge = style({
+export const brandText = style({
   ...fontVars.font.caption_r_12,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
@@ -137,7 +137,7 @@ export const brandTextLarge = style({
   color: colorVars.color.text.tertiary,
 });
 
-export const productTextLarge = style({
+export const productText = style({
   ...fontVars.font.body_r_14,
   display: '-webkit-box',
   maxHeight: '4.1rem',
