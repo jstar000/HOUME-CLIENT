@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 
 import { useToast } from '@components/toast/useToast';
 
@@ -15,12 +15,7 @@ import type {
   CompletedFloorPlan,
   ImageSetupSteps,
 } from '../../types/funnel/steps';
-import type {
-  FloorPlanData,
-  FloorPlanDetailView,
-  FloorPlanFilters,
-  RecentFloorPlanData,
-} from '../types/floorPlan';
+import type { FloorPlanFilters, RecentFloorPlanData } from '../types/floorPlan';
 
 export const useFloorPlanSelect = (
   context: ImageSetupSteps['FloorPlan'],
@@ -33,7 +28,6 @@ export const useFloorPlanSelect = (
   // 더미 데이터 (추후 useFloorPlanQuery / useRecentFloorPlanQuery로 교체)
   const filterCategories = DUMMY_FILTER_CATEGORIES;
   const allFloorPlans = DUMMY_FLOOR_PLANS;
-
   // 최근 생성 도면 (별도 API 응답)
   const recentFloorPlan: RecentFloorPlanData | null = DUMMY_RECENT_FLOOR_PLAN;
 
@@ -41,107 +35,74 @@ export const useFloorPlanSelect = (
   useEffect(() => {
     if (recentFloorPlan) {
       store.openRecentSheet();
+      // TODO: 토스트 높이 수정하기
       notify({ text: '저장된 내 공간을 불러왔어요.' });
     }
     // 마운트 시 1회만 실행
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const matchesFilter = (
-    selectedValues: string[],
-    planValue: string
-  ): boolean => {
-    return selectedValues.length === 0 || selectedValues.includes(planValue);
+  // TODO: API 연동 후에는 불필요한 함수
+  const matchesFilter = (selected: string[], value: string): boolean =>
+    selected.length === 0 || selected.includes(value);
+
+  // TODO: API 연동 후 서버 필터링으로 전환 (API 연동 후에는 불필요한 함수)
+  const filteredFloorPlans = allFloorPlans.filter((plan) => {
+    const f: FloorPlanFilters = store.appliedFilters;
+    return (
+      matchesFilter(f.residenceType, plan.residenceType) &&
+      matchesFilter(f.layoutType, plan.layoutType) &&
+      matchesFilter(f.areaSize, plan.areaSize)
+    );
+  });
+
+  // TODO: API 연동 시 도면 상세 조회 API(GET /explore/house-templates/{id})로 교체
+  // selectedFloorPlan, selectedDetailViews 모두 하나의 API 응답에서 추출
+  const selectedFloorPlan =
+    allFloorPlans.find((p) => p.id === store.selectedFloorPlanId) ?? null;
+
+  const selectedDetailViews = store.selectedFloorPlanId
+    ? (DUMMY_FLOOR_PLAN_DETAILS[store.selectedFloorPlanId] ?? [])
+    : [];
+
+  /**
+   * handleConfirmFloorPlan / handleConfirmRecentFloorPlan에서
+   * payload 생성 + funnelStore 저장 로직이 동일하므로 헬퍼로 추출
+   * savedHouseInfo가 있으면 우선 사용하고, 없으면 context(퍼널 진입 시 전달받은 값)로 폴백.
+   * TODO: 전체 플로우 skeleton 설계 시 퍼널 관련 로직 점검 필요
+   */
+  const confirmFloorPlan = (floorPlanData: CompletedFloorPlan['floorPlan']) => {
+    useFunnelStore.getState().setFloorPlan(floorPlanData);
+
+    onNext({
+      houseType: savedHouseInfo?.houseType ?? context.houseType,
+      roomType: savedHouseInfo?.roomType ?? context.roomType,
+      areaType: savedHouseInfo?.areaType ?? context.areaType,
+      houseId: savedHouseInfo?.houseId ?? context.houseId,
+      floorPlan: floorPlanData,
+    });
   };
 
-  // 필터링된 도면 리스트
-  // TODO: API 연동 시 서버사이드 필터링으로 교체 (query param: residenceType, layoutType, areaSize[])
-  const filteredFloorPlans = useMemo(
-    () =>
-      allFloorPlans.filter((plan) => {
-        const filters: FloorPlanFilters = store.appliedFilters;
-
-        return (
-          matchesFilter(filters.residenceType, plan.residenceType) &&
-          matchesFilter(filters.layoutType, plan.layoutType) &&
-          matchesFilter(filters.areaSize, plan.areaSize)
-        );
-      }),
-    [allFloorPlans, store.appliedFilters]
-  );
-
-  // 선택된 도면 데이터
-  const selectedFloorPlan: FloorPlanData | null = useMemo(
-    () =>
-      store.selectedFloorPlanId
-        ? (allFloorPlans.find((p) => p.id === store.selectedFloorPlanId) ??
-          null)
-        : null,
-    [allFloorPlans, store.selectedFloorPlanId]
-  );
-
-  // 선택된 도면의 상세 뷰 (추후 상세 API 호출로 교체)
-  const selectedDetailViews: FloorPlanDetailView[] = useMemo(
-    () =>
-      store.selectedFloorPlanId
-        ? (DUMMY_FLOOR_PLAN_DETAILS[store.selectedFloorPlanId] ?? [])
-        : [],
-    [store.selectedFloorPlanId]
-  );
-
-  // 카드 클릭 → 도면 바텀시트 오픈
-  const handleCardClick = useCallback(
-    (floorPlanId: number) => {
-      store.selectFloorPlan(floorPlanId);
-      store.openFloorPlanSheet();
-    },
-    [store]
-  );
+  const handleCardClick = (floorPlanId: number) => {
+    store.selectFloorPlan(floorPlanId);
+    store.openFloorPlanSheet();
+  };
 
   // 도면 선택 후 "공간 선택하기" CTA
-  const handleConfirmFloorPlan = useCallback(() => {
+  const handleConfirmFloorPlan = () => {
     if (!selectedFloorPlan) return;
-
-    const floorPlanData = {
+    confirmFloorPlan({
       floorPlanId: selectedFloorPlan.id,
       isMirror: store.isMirror,
-    };
-
-    useFunnelStore.getState().setFloorPlan(floorPlanData);
-
-    const payload: CompletedFloorPlan = {
-      houseType: savedHouseInfo?.houseType ?? context.houseType,
-      roomType: savedHouseInfo?.roomType ?? context.roomType,
-      areaType: savedHouseInfo?.areaType ?? context.areaType,
-      houseId: savedHouseInfo?.houseId ?? context.houseId,
-      floorPlan: floorPlanData,
-    };
-
-    onNext(payload);
-  }, [selectedFloorPlan, store.isMirror, savedHouseInfo, context, onNext]);
+    });
+  };
 
   // 최근 생성 공간 바텀시트 "선택 완료" CTA
-  const handleConfirmRecentFloorPlan = useCallback(() => {
+  const handleConfirmRecentFloorPlan = () => {
     if (!recentFloorPlan) return;
-
-    const floorPlanData = {
-      floorPlanId: recentFloorPlan.id,
-      isMirror: false,
-    };
-
-    useFunnelStore.getState().setFloorPlan(floorPlanData);
-
-    const payload: CompletedFloorPlan = {
-      houseType: savedHouseInfo?.houseType ?? context.houseType,
-      roomType: savedHouseInfo?.roomType ?? context.roomType,
-      areaType: savedHouseInfo?.areaType ?? context.areaType,
-      houseId: savedHouseInfo?.houseId ?? context.houseId,
-      floorPlan: floorPlanData,
-    };
-
     store.closeRecentSheet();
-    onNext(payload);
-  }, [recentFloorPlan, savedHouseInfo, context, store, onNext]);
+    confirmFloorPlan({ floorPlanId: recentFloorPlan.id, isMirror: false });
+  };
 
   return {
     filterCategories,
@@ -149,7 +110,6 @@ export const useFloorPlanSelect = (
     selectedFloorPlan,
     selectedDetailViews,
     recentFloorPlan,
-    hasRecentFloorPlan: recentFloorPlan !== null,
     handleCardClick,
     handleConfirmFloorPlan,
     handleConfirmRecentFloorPlan,
