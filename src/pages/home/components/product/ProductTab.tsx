@@ -5,8 +5,8 @@ import SearchSection from './SearchSection/SearchSection';
 const ProductTab = () => {
   return (
     <div className={styles.container}>
-      <SearchSection />
       <IntroSection />
+      <SearchSection />
     </div>
   );
 };
