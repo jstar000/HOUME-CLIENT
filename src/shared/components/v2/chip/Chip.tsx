@@ -1,11 +1,12 @@
 import type { ReactNode } from 'react';
 
 import * as styles from './Chip.css';
+import Icon, { type IconName } from '../icon/Icon';
 
 interface ChipProps extends Omit<React.ComponentProps<'button'>, 'children'> {
   children: ReactNode;
   selected?: boolean;
-  suffixIcon?: ReactNode;
+  suffixIcon?: IconName;
 }
 
 const Chip = ({
@@ -28,9 +29,11 @@ const Chip = ({
         <span className={styles.label({ selected, hasSuffix })}>
           {children}
         </span>
-        {hasSuffix && (
+        {suffixIcon && (
           <span className={styles.suffix} aria-hidden="true">
-            {suffixIcon}
+            <span className={styles.suffixIcon}>
+              <Icon name={suffixIcon} size="12" />
+            </span>
           </span>
         )}
       </span>
