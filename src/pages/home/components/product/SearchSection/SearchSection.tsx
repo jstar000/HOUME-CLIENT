@@ -55,6 +55,7 @@ const SearchSection = () => {
         </div>
       </div>
       <div className={styles.productList}>
+        {/* TODO: V2 공컴으로 변경 */}
         <CardProduct
           size="large"
           title="title"
