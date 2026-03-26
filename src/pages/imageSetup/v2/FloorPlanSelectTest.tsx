@@ -12,21 +12,16 @@
  *   - 최근 생성 시트 (DUMMY_RECENT_FLOOR_PLAN에 값 넣어서 확인)
  *   - "공간 선택하기" → console.log 출력
  *
- * TODO: 검증 완료 후 이 파일 + router.tsx 테스트 경로 삭제
+ * TODO: 검증 완료 후 이 파일 삭제
  */
 
 import FloorPlanSelectStep from './steps/floorPlanSelect/FloorPlanSelectStep';
 
-import type { CompletedFloorPlan } from '../types/funnel/steps';
+import type { CompletedFloorPlanSelect } from '../types/funnel/steps';
 
-const MOCK_CONTEXT = {
-  houseType: 'OFFICETEL',
-  roomType: 'ONE_ROOM',
-  areaType: 'TENS',
-  houseId: 1,
-};
+const MOCK_CONTEXT = {};
 
-const handleNext = (data: CompletedFloorPlan) => {
+const handleNext = (data: CompletedFloorPlanSelect) => {
   console.log('[FloorPlanSelectTest] onNext 호출됨:', data);
 };
 

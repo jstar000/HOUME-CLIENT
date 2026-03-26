@@ -6,13 +6,13 @@ import FloorPlanSheet from './FloorPlanSheet';
 import { useFloorPlanSelect } from '../../hooks/useFloorPlanSelect';
 
 import type {
-  CompletedFloorPlan,
+  CompletedFloorPlanSelect,
   ImageSetupSteps,
 } from '../../../types/funnel/steps';
 
 interface FloorPlanSelectStepProps {
-  context: ImageSetupSteps['FloorPlan'];
-  onNext: (data: CompletedFloorPlan) => void;
+  context: ImageSetupSteps['FloorPlanSelect'];
+  onNext: (data: CompletedFloorPlanSelect) => void;
 }
 
 const FloorPlanSelectStep = ({ context, onNext }: FloorPlanSelectStepProps) => {

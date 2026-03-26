@@ -12,17 +12,16 @@ import {
 import { useFloorPlanStore } from '../stores/useFloorPlanStore';
 
 import type {
-  CompletedFloorPlan,
+  CompletedFloorPlanSelect,
   ImageSetupSteps,
 } from '../../types/funnel/steps';
 import type { FloorPlanFilters, RecentFloorPlanData } from '../types/floorPlan';
 
 export const useFloorPlanSelect = (
-  context: ImageSetupSteps['FloorPlan'],
-  onNext: (data: CompletedFloorPlan) => void
+  _context: ImageSetupSteps['FloorPlanSelect'],
+  onNext: (data: CompletedFloorPlanSelect) => void
 ) => {
   const store = useFloorPlanStore();
-  const savedHouseInfo = useFunnelStore((state) => state.houseInfo);
   const { notify } = useToast();
 
   // 더미 데이터 (추후 useFloorPlanQuery / useRecentFloorPlanQuery로 교체)
@@ -68,19 +67,12 @@ export const useFloorPlanSelect = (
   /**
    * handleConfirmFloorPlan / handleConfirmRecentFloorPlan에서
    * payload 생성 + funnelStore 저장 로직이 동일하므로 헬퍼로 추출
-   * savedHouseInfo가 있으면 우선 사용하고, 없으면 context(퍼널 진입 시 전달받은 값)로 폴백.
-   * TODO: 전체 플로우 skeleton 설계 시 퍼널 관련 로직 점검 필요
    */
-  const confirmFloorPlan = (floorPlanData: CompletedFloorPlan['floorPlan']) => {
+  const confirmFloorPlan = (
+    floorPlanData: CompletedFloorPlanSelect['floorPlan']
+  ) => {
     useFunnelStore.getState().setFloorPlan(floorPlanData);
-
-    onNext({
-      houseType: savedHouseInfo?.houseType ?? context.houseType,
-      roomType: savedHouseInfo?.roomType ?? context.roomType,
-      areaType: savedHouseInfo?.areaType ?? context.areaType,
-      houseId: savedHouseInfo?.houseId ?? context.houseId,
-      floorPlan: floorPlanData,
-    });
+    onNext({ floorPlan: floorPlanData });
   };
 
   const handleCardClick = (floorPlanId: number) => {
