@@ -20,7 +20,6 @@ export const wrapper = recipe({
   },
 });
 
-// 이게 피그마에서 무슨 스타일인지 모르겠음
 export const clickable = style({
   cursor: 'pointer',
   selectors: {
