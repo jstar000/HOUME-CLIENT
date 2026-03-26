@@ -37,7 +37,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    currentStep: 'FloorPlan',
+    currentStep: 'FloorPlanSelect',
     children: (
       <div style={{ padding: 16 }}>
         <div
