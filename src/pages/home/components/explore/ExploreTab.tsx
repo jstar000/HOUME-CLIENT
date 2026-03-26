@@ -27,6 +27,7 @@ const ExploreTab = () => {
 
   const handleBannerSlideClick = (slide: BannerSlide) => {
     navigate(
+      // React Router generatePath 기반 동적 라우팅 적용
       generatePath(ROUTES.BANNER_DETAIL, { bannerId: String(slide.id) })
     );
   };
