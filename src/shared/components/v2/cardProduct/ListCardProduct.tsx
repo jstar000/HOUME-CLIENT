@@ -42,16 +42,9 @@ const ListCardProduct = ({
   discountPrice,
   colorHexes,
 }: ListCardProductProps) => {
-  // const isDefault = cardType === 'default';
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    if (!imageUrl) {
-      // imageUrl이 없으면 기본 이미지로 간주하고 바로 로드 상태로 전환 (임시)
-      setIsLoaded(true);
-      return;
-    }
-
     setIsLoaded(false);
   }, [imageUrl]);
 
