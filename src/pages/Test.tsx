@@ -3,6 +3,8 @@ import { useState } from 'react';
 
 import CardProduct from '@components/v2/cardProduct/CardProduct';
 
+import ListCardProduct from '@/shared/components/v2/cardProduct/ListCardProduct';
+
 const ComponentTest = () => {
   const [isSaved1, setIsSaved1] = useState(false);
   const [isSaved2, setIsSaved2] = useState(false);
@@ -72,6 +74,56 @@ const ComponentTest = () => {
             colorHexes={['#ccc', '#999', '#666']}
           />
         </div>
+      </div>
+
+      {/* List */}
+
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '16px',
+          marginBottom: '100px',
+        }}
+      >
+        <h3>ListCardProduct</h3>
+        <ListCardProduct
+          cardSize="s"
+          title="리스트 상품명은 최대 한 줄까지 쓸 수 있어요."
+          isSaved={isSaved1}
+          onToggleSave={() => setIsSaved1((prev) => !prev)}
+          linkHref="https://example.com"
+          originalPrice={1000000}
+        />
+        <ListCardProduct
+          cardSize="s"
+          title="리스트 상품명은 최대 한 줄까지 쓸 수 있어요."
+          isSaved={isSaved1}
+          onToggleSave={() => setIsSaved1((prev) => !prev)}
+          linkHref="https://example.com"
+          discountRate={0}
+          discountPrice={1000000}
+        />
+
+        <ListCardProduct
+          cardSize="m"
+          title="리스트 상품명은 최대 한 줄까지 쓸 수 있어요리스트 상품명은 최대 한 줄까지 쓸 수 있어요리스트 상품명은 최대 한 줄까지 쓸 수 있어요리스트 상품명은 최대 한 줄까지 쓸 수 있어요"
+          isSaved={isSaved2}
+          onToggleSave={() => setIsSaved2((prev) => !prev)}
+          linkHref="https://example.com"
+          originalPrice={1000000}
+          colorHexes={['#fff', '#999', '#666', '#333']}
+        />
+        <ListCardProduct
+          cardSize="m"
+          title="리스트 상품명은 최대 한 줄까지 쓸 수 있어요."
+          isSaved={isSaved2}
+          onToggleSave={() => setIsSaved2((prev) => !prev)}
+          linkHref="https://example.com"
+          discountRate={0}
+          discountPrice={1000000}
+          colorHexes={['#ccc', '#999', '#666']}
+        />
       </div>
     </div>
   );
