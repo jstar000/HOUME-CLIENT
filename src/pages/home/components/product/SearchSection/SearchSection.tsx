@@ -80,6 +80,55 @@ const SearchSection = () => {
           isSaved={false}
           onToggleSave={() => {}}
         />
+        <CardProduct
+          size="large"
+          title="title"
+          isSaved={false}
+          onToggleSave={() => {}}
+        />
+        <CardProduct
+          size="large"
+          title="title"
+          isSaved={false}
+          onToggleSave={() => {}}
+        />
+        <CardProduct
+          size="large"
+          title="title"
+          isSaved={false}
+          onToggleSave={() => {}}
+        />
+        <CardProduct
+          size="large"
+          title="title"
+          isSaved={false}
+          onToggleSave={() => {}}
+        />
+        <CardProduct
+          size="large"
+          title="title"
+          isSaved={false}
+          onToggleSave={() => {}}
+        />
+
+        <CardProduct
+          size="large"
+          title="title"
+          isSaved={false}
+          onToggleSave={() => {}}
+        />
+        <CardProduct
+          size="large"
+          title="title"
+          isSaved={false}
+          onToggleSave={() => {}}
+        />
+        <CardProduct
+          size="large"
+          title="title"
+          isSaved={false}
+          onToggleSave={() => {}}
+        />
       </div>
     </section>
   );

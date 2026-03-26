@@ -1,5 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
+import { zIndex } from '@styles/tokens/zIndex';
+import { colorVars } from '@styles/tokensV2/color.css';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
 export const section = style({
@@ -11,9 +13,14 @@ export const section = style({
 });
 
 export const searchHeader = style({
+  boxSizing: 'border-box',
+  position: 'sticky',
+  zIndex: zIndex.sticky - 1,
+  top: 0,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'flex-start',
+  background: colorVars.color.bg.primary,
   padding: `${unitVars.unit.gapPadding['100']} ${unitVars.unit.gapPadding['000']}`,
   width: '100%',
 });
