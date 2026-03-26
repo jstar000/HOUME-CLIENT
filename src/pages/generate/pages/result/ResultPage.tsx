@@ -287,6 +287,15 @@ const ResultPage = () => {
               />
             )}
             <CurationSection groupId={groupId} />
+            {/* TODO: resultType === LIST일 때만 표시. 상품 탭 UI(B-9) 완성 후 상세 구현 */}
+            <button
+              onClick={() => {
+                console.log('[ResultPage] 상품 다시 선택하기 클릭');
+                navigate(ROUTES.HOME);
+              }}
+            >
+              상품 다시 선택하기
+            </button>
           </section>
         </div>
       </ErrorBoundary>
