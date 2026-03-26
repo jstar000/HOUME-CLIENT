@@ -18,13 +18,12 @@ export const RESULT_TYPE = {
 
 export type ResultType = (typeof RESULT_TYPE)[keyof typeof RESULT_TYPE];
 
-// 경로별 프리셋 (optional 필드 — API 미확정이라 추후 수정 예정)
-// 퍼널 진입 시점에 setFlow()로 저장 -> 퍼널 중간 / 최종 이미지 생성 API 호출 시 사용
-export interface PresetData {
-  bannerId?: number; // 경로2: 어떤 배너를 클릭했는지
-  styleId?: number; // 경로4: 어떤 스타일 선택했는지
-  productIds?: number[]; // 경로5: 담은 상품 목록
-}
+// 경로별 프리셋 (경로에 따라 preset이 달라짐을 나타내고, 경로별 타입 안정성을 위해 discriminated union 적용)
+// 퍼널 진입 시점에 setFlow()로 저장 → 최종 이미지 생성 API 호출 시 사용
+export type PresetData =
+  | { type: 'banner'; bannerId: number; answerId: number } // 경로2
+  | { type: 'style'; styleId: number } // 경로4
+  | { type: 'product'; productIds: number[] }; // 경로5
 
 interface ImageFlowState {
   entryRoute: EntryRoute | null;
