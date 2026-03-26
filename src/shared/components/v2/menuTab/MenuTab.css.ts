@@ -6,17 +6,31 @@ import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
-export const menuTabBar = style({
-  position: 'sticky',
-  zIndex: zIndex.sticky,
-  top: 0,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-start',
-  background: colorVars.color.fill.inverse,
-  padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['500']}`,
-  width: '100%',
-  height: '4.2rem',
+export const menuTabBar = recipe({
+  base: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    background: colorVars.color.fill.inverse,
+    padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['500']}`,
+    width: '100%',
+    height: '4.2rem',
+  },
+  variants: {
+    sticky: {
+      true: {
+        position: 'sticky',
+        zIndex: zIndex.sticky,
+        top: 0,
+      },
+      false: {
+        position: 'static',
+      },
+    },
+  },
+  defaultVariants: {
+    sticky: true,
+  },
 });
 
 export const tabButton = recipe({

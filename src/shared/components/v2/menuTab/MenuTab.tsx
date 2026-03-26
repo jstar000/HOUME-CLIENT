@@ -9,15 +9,17 @@ interface MenuTabProps<T extends string> {
   tabs: MenuTabItem<T>[];
   activeTab: T;
   onTabChange: (tab: T) => void;
+  sticky?: boolean;
 }
 
 const MenuTab = <T extends string>({
   tabs,
   activeTab,
   onTabChange,
+  sticky = true,
 }: MenuTabProps<T>) => {
   return (
-    <div className={styles.menuTabBar} role="tablist">
+    <div className={styles.menuTabBar({ sticky })} role="tablist">
       {tabs.map(({ value, label }) => (
         <button
           key={value}
