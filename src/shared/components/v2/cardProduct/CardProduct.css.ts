@@ -103,12 +103,21 @@ export const colorRow = style({
   gap: unitVars.unit.gapPadding['050'],
 });
 
+export const colorChipContainer = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '0.1rem',
+  width: '1.4rem',
+  height: '1.4rem',
+});
+
 export const colorChip = style({
   boxSizing: 'border-box',
   border: `0.5px solid ${colorVars.color.border.tertiary}`,
-  borderRadius: '50%',
-  width: '1.4rem',
-  height: '1.4rem',
+  borderRadius: unitVars.unit.radius.full,
+  width: '1.2rem',
+  height: '1.2rem',
 });
 
 export const colorChipCount = style({

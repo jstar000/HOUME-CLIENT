@@ -166,12 +166,14 @@ const CardProduct = ({
         {(visibleColors.length > 0 || extraColorCount > 0) && isDefault && (
           <div className={styles.colorRow}>
             {visibleColors.map((hex, index) => (
-              <span
-                key={`${hex}-${index}`}
-                className={styles.colorChip}
-                style={{ backgroundColor: hex }}
-                aria-hidden
-              />
+              <div className={styles.colorChipContainer} key={index}>
+                <span
+                  key={`${hex}-${index}`}
+                  className={styles.colorChip}
+                  style={{ backgroundColor: hex }}
+                  aria-hidden
+                />
+              </div>
             ))}
             {extraColorCount > 0 && (
               <span className={styles.colorChipCount}>+{extraColorCount}</span>
