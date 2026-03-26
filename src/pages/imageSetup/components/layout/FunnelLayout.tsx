@@ -43,6 +43,7 @@ const FunnelLayout = ({ children, currentStep }: FunnelLayoutProps) => {
   return (
     <div className={styles.wrapper}>
       <TitleNavBar
+        // TODO: 각 스텝별 헤더 타이틀 설정하기
         title="스타일링 이미지 생성"
         isBackIcon={true}
         isLoginBtn={false}
