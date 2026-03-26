@@ -1,6 +1,10 @@
+import { generatePath, useNavigate } from 'react-router-dom';
+
 import Banner, {
   type BannerSlide,
 } from '@pages/home/components/explore/banner/Banner';
+
+import { ROUTES } from '@routes/paths';
 
 import imgBanner01 from '@assets/v2/images/ImgBanner_01.png';
 import imgBanner02 from '@assets/v2/images/ImgBanner_02.png';
@@ -19,8 +23,12 @@ const BANNER_SLIDES_MOCK: BannerSlide[] = [
 ];
 
 const ExploreTab = () => {
-  const handleBannerSlideClick = (_slide: BannerSlide) => {
-    // TODO: 슬라이드별 디테일 페이지 이동 등 연동
+  const navigate = useNavigate();
+
+  const handleBannerSlideClick = (slide: BannerSlide) => {
+    navigate(
+      generatePath(ROUTES.BANNER_DETAIL, { bannerId: String(slide.id) })
+    );
   };
 
   return (
