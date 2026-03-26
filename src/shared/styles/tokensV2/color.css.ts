@@ -42,8 +42,10 @@ const semantics = createGlobalTheme(':root', {
     },
     border: {
       primary: primitives.color.gray300,
-      secondary: primitives.color.gray100,
-      tertiary: primitives.color.gray999_a30,
+      secondary: primitives.color.gray200,
+      tertiary: primitives.color.gray100,
+      weak: primitives.color.gray999_a30,
+      strong: primitives.color.gray900,
     },
     fill: {
       brand: primitives.color.purple600,
