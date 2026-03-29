@@ -16,7 +16,7 @@ export const wrapper = recipe({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    minWidth: '16.4rem',
+    minWidth: '16.6rem',
   },
 });
 
@@ -35,9 +35,10 @@ export const imgSection = recipe({
   base: {
     aspectRatio: '1 / 1', // 내부 absolute(링크 버튼)의 기준
     position: 'relative', // 모서리 밖으로 이미지 안 튀어나오게
+    flexShrink: 0,
     border: `1px solid ${colorVars.color.border.secondary}`,
-    borderRadius: unitVars.unit.radius['300'],
-    background: 'transparent', // 이미지 영역만 정사각형
+    borderRadius: unitVars.unit.radius['300'], // 이미지 영역만 정사각형
+    background: 'transparent',
     width: '100%',
     overflow: 'hidden',
   },

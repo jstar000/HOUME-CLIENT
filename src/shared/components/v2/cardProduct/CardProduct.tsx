@@ -104,7 +104,7 @@ const CardProduct = ({
 
   return (
     <div
-      className={`${styles.wrapper} ${
+      className={`${styles.wrapper()} ${
         enableWholeCardLink ? styles.clickable : ''
       }`}
       onClick={handleWrapperClick}
