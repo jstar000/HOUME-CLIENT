@@ -48,6 +48,7 @@ const GenImgCard = () => {
         <span className={styles.headingTexxt}>
           침대 외 4개의 가구로 생성된 이미지
         </span>
+        {/* 컴포넌트 수정 필요 */}
         <TextButton
           color="secondary"
           size="s"
