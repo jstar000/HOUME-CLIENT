@@ -1,4 +1,4 @@
-import IcnArrowLeftM from '@assets/v2/svg/IcnArrowLeftM.svg?react';
+import TextButton from '@shared/components/v2/btnText/TextButton';
 
 import * as styles from './TitleNavBar.css';
 
@@ -19,16 +19,16 @@ const TitleNavBar = ({
   return (
     <nav className={styles.container} {...props}>
       <div className={styles.leftSlot}>
-        {/* TODO: 공통 컴포넌트로 수정 */}
-        <button
-          type="button"
+        <TextButton
+          color="secondary"
+          size="m"
           aria-label={backAriaLabel}
           className={styles.backButton}
+          leftIcon="ArrowLeft"
           onClick={onBackClick}
         >
-          <IcnArrowLeftM className={styles.backIcon} aria-hidden="true" />
           {backLabel}
-        </button>
+        </TextButton>
       </div>
       <h1 className={styles.title}>{title}</h1>
     </nav>
