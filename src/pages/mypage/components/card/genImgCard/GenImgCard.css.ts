@@ -48,7 +48,7 @@ export const listCardContainer = style({
   alignItems: 'center',
   justifyContent: 'flex-start',
   gap: unitVars.unit.gapPadding['200'],
-  padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['100']}`,
+  padding: `${unitVars.unit.gapPadding['100']} ${unitVars.unit.gapPadding['000']}`,
   width: '100%',
 
   overflowX: 'auto',
