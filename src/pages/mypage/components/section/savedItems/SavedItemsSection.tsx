@@ -5,7 +5,7 @@ import { logMyPageClickBtnFurnitureCard } from '@pages/mypage/utils/analytics';
 
 import { useJjymMutation } from '@apis/mutations/useJjymMutation';
 
-import CardProduct from '@components/card/cardProduct/CardProduct';
+import CardProduct from '@components/v2/cardProduct/CardProduct';
 
 import { SESSION_STORAGE_KEYS } from '@constants/bottomSheet';
 
@@ -63,15 +63,22 @@ const SavedItemsSection = () => {
             <div
               key={item.furnitureProductId}
               ref={isTargetItem ? itemFocusRef : null}
+              className={styles.cardWrapper}
             >
               <CardProduct
-                size="small"
                 title={item.furnitureProductName}
+                brand={item.furnitureProductBrand}
                 imageUrl={item.furnitureProductImageUrl}
-                linkHref={item.furnitureProductSiteUrl}
                 isSaved={true}
                 onToggleSave={() => handleToggleSave(item.id)}
+                linkHref={item.furnitureProductSiteUrl}
                 onLinkClick={logMyPageClickBtnFurnitureCard}
+                linkLabel="사이트"
+                originalPrice={item.furnitureProductOriginalPrice}
+                discountRate={item.furnitureProductDiscountRate}
+                discountPrice={item.furnitureProductDiscountPrice}
+                colorHexes={item.furnitureProductColors}
+                saveCount={item.jjymCount}
               />
             </div>
           );
