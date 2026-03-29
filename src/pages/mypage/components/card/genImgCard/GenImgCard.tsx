@@ -70,6 +70,7 @@ const GenImgCard = ({
 
       {isListType && (
         <section className={styles.listCardContainer}>
+          {/* 찜 부분 수정 필요 */}
           {listCardMockData.map((item) => (
             <ListCardProduct
               key={item.id}
