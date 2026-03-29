@@ -38,16 +38,22 @@ const listCardMockData = [
   },
 ];
 
-interface GenImgCardProps {}
+interface GenImgCardProps {
+  cardType?: 'list' | 'curation';
+  productSummaryText?: string;
+}
 
-const GenImgCard = () => {
+const GenImgCard = ({
+  cardType = 'list',
+  productSummaryText,
+}: GenImgCardProps) => {
   const [isSaved1, setIsSaved1] = useState(false);
+  const isListType = cardType === 'list';
+
   return (
     <div className={styles.wrapper}>
       <section className={styles.textContainer}>
-        <span className={styles.headingTexxt}>
-          침대 외 4개의 가구로 생성된 이미지
-        </span>
+        <span className={styles.headingTexxt}>{productSummaryText}</span>
         {/* 컴포넌트 수정 필요 */}
         <TextButton
           color="secondary"
@@ -61,20 +67,23 @@ const GenImgCard = () => {
       <section className={styles.imgContainer}>
         <img src={TestImage} alt="" className={styles.cardImg} />
       </section>
-      <section className={styles.listCardContainer}>
-        {listCardMockData.map((item) => (
-          <ListCardProduct
-            key={item.id}
-            cardSize="s"
-            title={item.title}
-            isSaved={isSaved1}
-            onToggleSave={() => setIsSaved1((prev) => !prev)}
-            linkHref={item.linkHref}
-            discountRate={item.discountRate}
-            discountPrice={item.discountPrice}
-          />
-        ))}
-      </section>
+
+      {isListType && (
+        <section className={styles.listCardContainer}>
+          {listCardMockData.map((item) => (
+            <ListCardProduct
+              key={item.id}
+              cardSize="s"
+              title={item.title}
+              isSaved={isSaved1}
+              onToggleSave={() => setIsSaved1((prev) => !prev)}
+              linkHref={item.linkHref}
+              discountRate={item.discountRate}
+              discountPrice={item.discountPrice}
+            />
+          ))}
+        </section>
+      )}
     </div>
   );
 };
