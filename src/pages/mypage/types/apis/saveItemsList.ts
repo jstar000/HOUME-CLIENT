@@ -9,4 +9,10 @@ export interface FurnitureItem {
   furnitureProductSiteUrl: string;
   furnitureProductName: string;
   furnitureProductId: number;
+  furnitureProductBrand: string;
+  furnitureProductColors: string[];
+  furnitureProductOriginalPrice: number;
+  furnitureProductDiscountRate: number;
+  furnitureProductDiscountPrice: number;
+  jjymCount: number;
 }
