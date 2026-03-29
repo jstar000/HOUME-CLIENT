@@ -1,7 +1,6 @@
 import RoomTypeCard from '@components/v2/roomTypeCard/RoomTypeCard';
 
 import TextButton from '@/shared/components/v2/btnText/TextButton';
-import Icon from '@/shared/components/v2/icon/Icon';
 
 import * as styles from './RoomTypeSection.css';
 
@@ -41,7 +40,7 @@ const RoomTypeSection = () => {
         <TextButton
           color="secondary"
           size="s"
-          rightIcon={<Icon name="ArrowRight" size="16" />}
+          rightIcon="ArrowRight"
           onClick={() => {}}
         >
           더보기

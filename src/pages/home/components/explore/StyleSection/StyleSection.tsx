@@ -1,7 +1,6 @@
 import StyleCard from '@components/v2/styleCard/StyleCard';
 
 import TextButton from '@/shared/components/v2/btnText/TextButton';
-import Icon from '@/shared/components/v2/icon/Icon';
 
 import * as styles from './StyleSection.css';
 
@@ -36,7 +35,7 @@ const StyleSection = () => {
         <TextButton
           color="secondary"
           size="m"
-          rightIcon={<Icon name="ArrowRight" size="16" />}
+          rightIcon="ArrowRight"
           onClick={() => {}}
         >
           더보기
