@@ -14,6 +14,7 @@ export const wrapper = recipe({
   base: {
     position: 'relative',
     display: 'flex',
+    flexShrink: 0,
     alignItems: 'center',
     width: '100%',
   },
