@@ -100,9 +100,21 @@ const ImageSetupPage = () => {
 
                   history.push('InteriorStyle', data);
                 } else {
-                  // 숏퍼널 (경로 2, 4, 5): 퍼널 탈출 → 이미지 생성
-                  // TODO: 생성 데이터 조립 후 sessionStorage 저장
-                  console.log('[ImageSetupPage] 숏퍼널 → Loading', data);
+                  // 숏퍼널(경로 2, 4, 5): 퍼널 탈출 → 이미지 생성
+                  // 숏퍼널은 마지막 스텝이 FloorPlanSelect → 퍼널 탈출 시점에 데이터 조합 및 API 요청. 이 위치에서 처리하는게 자연스러움
+                  // TODO: 경로별 이미지 생성 API 확정 후 요청 데이터 재설계 필요
+                  const generateRequest = {
+                    houseId: 0,
+                    equilibrium: '',
+                    floorPlan: data.floorPlan,
+                    moodBoardIds: [],
+                    activity: '',
+                    selectiveIds: [],
+                  };
+                  sessionStorage.setItem(
+                    'generate_image_request',
+                    JSON.stringify(generateRequest)
+                  );
                   navigate(ROUTES.GENERATE);
                 }
               },
