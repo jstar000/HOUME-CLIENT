@@ -1,20 +1,31 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 
 import { ROUTES } from '@routes/paths';
 
 import { ENTRY_ROUTE, useImageFlowStore } from '@store/useImageFlowStore';
+import { useUserStore } from '@store/useUserStore';
+
+import { setLoginRedirect } from '@utils/loginRedirect';
 
 const StyleDetailPage = () => {
   const { styleId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const isLoggedIn = !!useUserStore((state) => state.accessToken);
 
-  // 스타일 상세 CTA: setFlow(STYLE_RESTYLE) → /imageSetup (ProtectedRoute가 로그인 게이트 처리)
+  // 스타일 상세 CTA: setFlow(STYLE_RESTYLE) → 로그인 체크 → 스타일 상세로 복귀
   const handleCta = () => {
     useImageFlowStore.getState().setFlow({
       entryRoute: ENTRY_ROUTE.STYLE_RESTYLE,
       preset: { type: 'style', styleId: Number(styleId) },
     });
-    navigate(ROUTES.IMAGE_SETUP);
+
+    if (isLoggedIn) {
+      navigate(ROUTES.IMAGE_SETUP);
+    } else {
+      setLoginRedirect(location.pathname);
+      navigate(ROUTES.LOGIN);
+    }
   };
 
   return (

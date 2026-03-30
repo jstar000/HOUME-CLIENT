@@ -1,21 +1,32 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { ROUTES } from '@routes/paths';
 
 import { ENTRY_ROUTE, useImageFlowStore } from '@store/useImageFlowStore';
+import { useUserStore } from '@store/useUserStore';
+
+import { setLoginRedirect } from '@utils/loginRedirect';
 
 const BannerDetailPage = () => {
   const { bannerId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const isLoggedIn = !!useUserStore((state) => state.accessToken);
 
-  // 배너 상세 CTA: setFlow(HOME_BANNER) → /imageSetup (ProtectedRoute가 로그인 게이트 처리)
+  // 배너 상세 CTA: setFlow(HOME_BANNER) → 로그인 체크 → 배너 상세로 복귀
   const handleCta = () => {
     useImageFlowStore.getState().setFlow({
       entryRoute: ENTRY_ROUTE.HOME_BANNER,
       // TODO: answerId는 배너 상세 UI 구현 후 실제 칩 선택값으로 교체
       preset: { type: 'banner', bannerId: Number(bannerId), answerId: 0 },
     });
-    navigate(ROUTES.IMAGE_SETUP);
+
+    if (isLoggedIn) {
+      navigate(ROUTES.IMAGE_SETUP);
+    } else {
+      setLoginRedirect(location.pathname);
+      navigate(ROUTES.LOGIN);
+    }
   };
 
   return (

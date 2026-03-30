@@ -95,14 +95,15 @@ const publicRoutes = [
       return { Component: BannerDetailPage };
     },
   },
-];
-
-// 보호된 라우트 그룹 (인증 필요)
-const protectedRoutes = [
+  // 경로 1,3에서 비로그인도 도면 선택까지 허용. 로그인 게이트는 "공간 선택하기" CTA에서 실행
   {
     path: ROUTES.IMAGE_SETUP,
     element: <ImageSetupPage />,
   },
+];
+
+// 보호된 라우트 그룹 (인증 필요)
+const protectedRoutes = [
   {
     path: ROUTES.GENERATE,
     lazy: async () => {
