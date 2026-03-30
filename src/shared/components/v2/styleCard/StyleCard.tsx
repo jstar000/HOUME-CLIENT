@@ -9,13 +9,14 @@ import fallbackImage from '@assets/v2/images/CardRoomTypeFallback.svg';
 
 import * as styles from './StyleCard.css';
 
-export type StyleCardSize = 's'; // 추후 사이즈 추가 시 확장
+export type StyleCardSize = 's' | 'L';
 
 type StyleCardProps = Omit<
   ComponentProps<'button'>,
   'children' | 'onClick' | 'type'
 > & {
   size?: StyleCardSize;
+  scaleOnPress?: boolean;
   imageSrc: string;
   title?: string;
   onClick?: () => void;
@@ -25,6 +26,7 @@ type StyleCardProps = Omit<
 const StyleCard = ({
   className,
   size = 's',
+  scaleOnPress = true,
   imageSrc: initialImageSrc,
   title,
   onClick,
@@ -34,6 +36,8 @@ const StyleCard = ({
   const [imageSrc, setImageSrc] = useState(initialImageSrc);
   const titleId = useId();
   const hasTitle = title != null && title !== '';
+  const isLarge = size === 'L';
+  const starIconSize = isLarge ? '20' : '16';
 
   useEffect(() => {
     setImageSrc(initialImageSrc);
@@ -43,7 +47,7 @@ const StyleCard = ({
     <div className={styles.wrapper}>
       <button
         type="button"
-        className={clsx(styles.card({ size }), className)}
+        className={clsx(styles.card({ size, scaleOnPress }), className)}
         onClick={onClick}
         aria-labelledby={hasTitle ? titleId : undefined}
         aria-label={hasTitle ? undefined : '스타일 카드 선택'}
@@ -59,13 +63,18 @@ const StyleCard = ({
           draggable={false}
           onError={() => setImageSrc(fallbackImage)}
         />
-        <div className={styles.gradient} aria-hidden />
+        <div className={styles.gradient({ size })} aria-hidden />
         <div className={styles.starIcon({ size })} aria-hidden>
-          <Icon name="DoubleStar" size="16" />
+          <Icon name="DoubleStar" size={starIconSize} />
         </div>
+        {isLarge && hasTitle ? (
+          <p id={titleId} className={styles.titleOverlay}>
+            {title}
+          </p>
+        ) : null}
       </button>
-      {hasTitle ? (
-        <p id={titleId} className={styles.title({ size })}>
+      {!isLarge && hasTitle ? (
+        <p id={titleId} className={styles.title({ size: 's' })}>
           {title}
         </p>
       ) : null}
