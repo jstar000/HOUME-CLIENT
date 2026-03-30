@@ -32,11 +32,21 @@ export const useFloorPlanSelect = (
 
   // 최근 생성 공간이 있으면 초기 시트 표시 + 토스트 알림
   useEffect(() => {
+    // 1순위: useFunnelStore에 저장된 도면이 있는 경우 (case: 경로 3 홈 도면 클릭 / 로그인 게이트에서 복귀)
+    const savedFloorPlan = useFunnelStore.getState().floorPlan;
+    if (savedFloorPlan) {
+      store.selectFloorPlan(savedFloorPlan.floorPlanId);
+      store.openFloorPlanSheet();
+      return;
+    }
+
+    // 2순위: 최근 생성 공간이 있는 경우 (case: API 응답에 최근 생성 공간 O)
+    // TODO: 최근 생성 공간 API 연동 시 RecentSheet에 해당 도면을 띄우도록 데이터 전달해야 함
     if (recentFloorPlan) {
       store.openRecentSheet();
-      // TODO: 토스트 높이 수정하기
       notify({ text: '저장된 내 공간을 불러왔어요.' });
     }
+
     // 마운트 시 1회만 실행
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -47,8 +47,14 @@ const ImageSetupPage = () => {
 
   // 퍼널 전체가 unmount될 때 (퍼널 벗어날 때) 데이터 초기화
   useEffect(() => {
+    // 클린업 함수 -- 컴포넌트가 언마운트될 때 실행
     return () => {
-      useFunnelStore.getState().reset();
+      const loginRedirect = sessionStorage.getItem('loginRedirect');
+      // loginRedirect는 로그인 게이트 시작 시 setLoginRedirect()로 저장, 완료 시 consumeLoginRedirect()로 삭제됨
+      // 로그인 후 복귀 시 도면 선택값을 복원해야하므로, 로그인 게이트 진행 중(loginRedirect 존재하는 경우)에는 reset 스킵
+      if (!loginRedirect) {
+        useFunnelStore.getState().reset();
+      }
     };
   }, []);
 

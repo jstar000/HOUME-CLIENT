@@ -107,7 +107,7 @@ export const useKakaoLoginMutation = () => {
       // 카카오 로그인 실패 시 시작점 복귀 + 토스트
       navigate(consumeLoginRedirect() ?? ROUTES.HOME);
       notify({
-        text: '로그인 처리 중 오류가 발생했습니다.',
+        text: '로그인 처리 중 오류가 발생했어요',
         type: TOAST_TYPE.WARNING,
       });
     },
