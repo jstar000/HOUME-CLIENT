@@ -140,7 +140,9 @@ export const title = recipe({
     size: {
       s: {
         ...fontVars.font.body_r_14,
+        marginTop: unitVars.unit.gapPadding['050'],
         padding: unitVars.unit.gapPadding['100'],
+        width: '16.4rem',
       },
     },
   },
