@@ -85,6 +85,7 @@ const BannerDetailPage = () => {
           color="primary"
           size="2XL"
           width="fill"
+          disabled={selectedIndex === null}
           onClick={() => {}}
         >
           이 스타일로 우리 집 꾸미기
