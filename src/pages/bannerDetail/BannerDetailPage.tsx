@@ -1,6 +1,6 @@
 import { useId, useState } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import ActionButton from '@shared/components/v2/button/actionButton/ActionButton';
 import Icon from '@shared/components/v2/icon/Icon';
@@ -24,11 +24,12 @@ const OPTION_MOCK = [
 
 const BannerDetailPage = () => {
   const navigate = useNavigate();
+  const { bannerId = '' } = useParams<{ bannerId: string }>();
   const questionId = useId();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   return (
-    <div className={styles.page}>
+    <div className={styles.page} key={bannerId}>
       <TitleNavBar
         title="원하는 공간 선택하기"
         backLabel="이전"
