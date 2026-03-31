@@ -1,6 +1,9 @@
+import { useId, useState } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 
 import ActionButton from '@shared/components/v2/button/actionButton/ActionButton';
+import Icon from '@shared/components/v2/icon/Icon';
 import TitleNavBar from '@shared/components/v2/navBar/TitleNavBar';
 
 import StyleCard from '@/shared/components/v2/styleCard/StyleCard';
@@ -9,7 +12,7 @@ import * as styles from './BannerDetailPage.css';
 
 const BANNER_TAGLINE_MOCK = '잦은 재택근무하기 좋은 우리 집';
 
-/** 스켈레톤용 복수 선택 문항 (추후 API·상태 연동) */
+/** 추후 API 연동 */
 const QUESTION_MOCK = '브런치로 어떤 음식을 주로 드시나요?';
 
 const OPTION_MOCK = [
@@ -21,6 +24,8 @@ const OPTION_MOCK = [
 
 const BannerDetailPage = () => {
   const navigate = useNavigate();
+  const questionId = useId();
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   return (
     <div className={styles.page}>
@@ -30,7 +35,7 @@ const BannerDetailPage = () => {
         onBackClick={() => navigate(-1)}
       />
       <main className={styles.body}>
-        <div className={styles.bannerCard}>
+        <div className={styles.bannerContainer}>
           <StyleCard
             size="L"
             scaleOnPress={false}
@@ -40,14 +45,36 @@ const BannerDetailPage = () => {
         </div>
 
         <div className={styles.questionContainer}>
-          <h2 className={styles.question}>{QUESTION_MOCK}</h2>
-          <ul className={styles.optionList}>
-            {OPTION_MOCK.map((label) => (
-              <li key={label} className={styles.optionRow}>
-                <span className={styles.optionRadio} aria-hidden />
-                <span className={styles.optionLabel}>{label}</span>
-              </li>
-            ))}
+          <h2 className={styles.question} id={questionId}>
+            {QUESTION_MOCK}
+          </h2>
+          <ul
+            className={styles.optionList}
+            role="radiogroup"
+            aria-labelledby={questionId}
+          >
+            {OPTION_MOCK.map((label, index) => {
+              const selected = selectedIndex === index;
+              return (
+                <li key={label}>
+                  <button
+                    type="button"
+                    role="radio"
+                    aria-checked={selected}
+                    className={styles.optionRow}
+                    onClick={() => setSelectedIndex(index)}
+                  >
+                    <span className={styles.optionIcon} aria-hidden>
+                      <Icon
+                        name={selected ? 'RadioSelected' : 'RadioDefault'}
+                        size="20"
+                      />
+                    </span>
+                    <span className={styles.optionLabel}>{label}</span>
+                  </button>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </main>
@@ -57,6 +84,7 @@ const BannerDetailPage = () => {
           variant="solid"
           color="primary"
           size="2XL"
+          width="fill"
           onClick={() => {}}
         >
           이 스타일로 우리 집 꾸미기

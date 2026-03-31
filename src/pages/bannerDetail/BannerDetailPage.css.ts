@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 
+import { zIndex } from '@styles/tokens/zIndex';
 import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
 import { unitVars } from '@styles/tokensV2/unit.css';
@@ -18,7 +19,12 @@ export const body = style({
   padding: `${unitVars.unit.gapPadding['300']} ${unitVars.unit.gapPadding['500']} ${unitVars.unit.gapPadding['400']} ${unitVars.unit.gapPadding['500']}`,
 });
 
-export const bannerCard = style({});
+export const bannerContainer = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '100%',
+});
 
 export const questionContainer = style({
   display: 'flex',
@@ -44,17 +50,17 @@ export const optionRow = style({
   display: 'flex',
   alignItems: 'center',
   gap: unitVars.unit.gapPadding['100'],
+  cursor: 'pointer',
   padding: `${unitVars.unit.gapPadding['200']} ${unitVars.unit.gapPadding['400']}`,
+  width: '100%',
+  textAlign: 'left',
 });
 
-export const optionRadio = style({
-  boxSizing: 'border-box',
+export const optionIcon = style({
+  display: 'flex',
   flexShrink: 0,
-  border: `1px solid ${colorVars.color.border.primary}`,
-  borderRadius: unitVars.unit.radius['full'],
-  backgroundColor: colorVars.color.bg.primary,
-  width: '2rem',
-  height: '2rem',
+  alignItems: 'center',
+  lineHeight: 0,
 });
 
 export const optionLabel = style({
@@ -64,11 +70,10 @@ export const optionLabel = style({
 });
 
 export const ctaBar = style({
-  flexShrink: 0,
-  boxShadow: `0 -0.4rem 1.6rem ${colorVars.color.shadow.primary}`,
-  backgroundColor: colorVars.color.bg.primary,
-  paddingTop: unitVars.unit.gapPadding['200'],
-  paddingRight: unitVars.unit.gapPadding['500'],
-  paddingBottom: `calc(${unitVars.unit.gapPadding['300']} + env(safe-area-inset-bottom, 0px))`,
-  paddingLeft: unitVars.unit.gapPadding['500'],
+  position: 'fixed',
+  zIndex: zIndex.sticky,
+  bottom: 0,
+  padding: unitVars.unit.gapPadding['500'],
+  width: '100%',
+  maxWidth: unitVars.unit.dimension.wMax,
 });
