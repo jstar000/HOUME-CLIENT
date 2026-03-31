@@ -6,10 +6,10 @@ import { fontVars } from '@styles/tokensV2/font.css';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
 export const wrapper = style({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  width: '100%',
+  // display: 'flex',
+  // flexDirection: 'column',
+  // width: 'auto',
+  // height: 'auto',
 });
 
 export const card = recipe({
@@ -29,13 +29,13 @@ export const card = recipe({
         aspectRatio: '164 / 111',
         borderRadius: unitVars.unit.radius['500'],
         padding: unitVars.unit.gapPadding['300'],
-        width: '100%',
+        width: '16.4rem',
       },
       L: {
-        aspectRatio: '4 / 3',
-        borderRadius: unitVars.unit.radius['300'],
-        padding: unitVars.unit.gapPadding['400'],
-        width: '100%',
+        aspectRatio: '335 / 223',
+        borderRadius: unitVars.unit.radius['600'],
+        padding: unitVars.unit.gapPadding['500'],
+        width: '33.5rem',
       },
     },
     scaleOnPress: {
@@ -69,7 +69,7 @@ export const gradient = recipe({
       },
       L: {
         background:
-          'linear-gradient(180deg, rgba(0, 0, 0, 0.38) 0%, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.62) 100%)',
+          'var(--grad-banner, linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 56%, rgba(0, 0, 0, 0) 100%))',
       },
     },
   },
@@ -85,6 +85,20 @@ export const image = style({
   objectFit: 'cover',
   width: '100%',
   height: '100%',
+});
+
+/** L 전용: 아이콘 + 카드 제목(한 줄) */
+export const largeHeader = style({
+  position: 'relative',
+  zIndex: 1,
+  display: 'flex',
+  gap: unitVars.unit.gapPadding['100'],
+});
+
+export const largeInlineTitle = style({
+  whiteSpace: 'nowrap',
+  color: colorVars.color.text.inverse,
+  ...fontVars.font.title_m_15,
 });
 
 export const starIcon = recipe({
@@ -114,25 +128,6 @@ export const starIcon = recipe({
   },
 });
 
-/** 카드 하단에 두 줄까지 (L 전용) */
-export const titleOverlay = style({
-  position: 'absolute',
-  zIndex: 2,
-  right: unitVars.unit.gapPadding['400'],
-  bottom: unitVars.unit.gapPadding['400'],
-  left: unitVars.unit.gapPadding['400'],
-  display: '-webkit-box',
-  margin: 0,
-  overflow: 'hidden',
-  textAlign: 'left',
-  textShadow: `0 0.1rem 0.4rem ${colorVars.color.gray999_a50}`,
-  textOverflow: 'ellipsis',
-  color: colorVars.color.text.inverse,
-  WebkitBoxOrient: 'vertical',
-  WebkitLineClamp: 2,
-  ...fontVars.font.title_m_16,
-});
-
 export const title = recipe({
   base: {
     width: '100%',
@@ -152,4 +147,29 @@ export const title = recipe({
   defaultVariants: {
     size: 's',
   },
+});
+
+/** size=L & largeContnets 사용 시 */
+export const largeFooter = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: unitVars.unit.gapPadding['050'],
+  marginTop: unitVars.unit.gapPadding['400'],
+  padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['100']}`,
+  width: '33.5rem',
+});
+
+export const largeFooterHeading = style({
+  width: '100%',
+  color: colorVars.color.text.primary,
+  ...fontVars.font.title_sb_16,
+});
+
+export const largeFooterDescription = style({
+  margin: 0,
+  height: ' 6rem',
+  overflow: 'hidden',
+  whiteSpace: 'pre-wrap',
+  ...fontVars.font.body_r_13,
+  color: colorVars.color.text.secondary,
 });

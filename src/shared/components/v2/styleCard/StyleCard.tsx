@@ -11,6 +11,12 @@ import * as styles from './StyleCard.css';
 
 export type StyleCardSize = 's' | 'L';
 
+/** size=L 전용 카드 하단 제목·설명 블록 */
+export type StyleCardLargeContents = {
+  title: string;
+  description: string;
+};
+
 type StyleCardProps = Omit<
   ComponentProps<'button'>,
   'children' | 'onClick' | 'type'
@@ -21,6 +27,7 @@ type StyleCardProps = Omit<
   title?: string;
   onClick?: () => void;
   imageLoading?: 'eager' | 'lazy';
+  largeContents?: StyleCardLargeContents; // size=L 전용 (카드 하단 스타일 이름·설명 영역)
 };
 
 const StyleCard = ({
@@ -31,6 +38,7 @@ const StyleCard = ({
   title,
   onClick,
   imageLoading = 'lazy',
+  largeContents,
   ...rest
 }: StyleCardProps) => {
   const [imageSrc, setImageSrc] = useState(initialImageSrc);
@@ -38,6 +46,7 @@ const StyleCard = ({
   const hasTitle = title != null && title !== '';
   const isLarge = size === 'L';
   const starIconSize = isLarge ? '20' : '16';
+  const showLargeContents = isLarge && largeContents != null;
 
   useEffect(() => {
     setImageSrc(initialImageSrc);
@@ -64,19 +73,35 @@ const StyleCard = ({
           onError={() => setImageSrc(fallbackImage)}
         />
         <div className={styles.gradient({ size })} aria-hidden />
-        <div className={styles.starIcon({ size })} aria-hidden>
-          <Icon name="DoubleStar" size={starIconSize} />
-        </div>
-        {isLarge && hasTitle ? (
-          <p id={titleId} className={styles.titleOverlay}>
-            {title}
-          </p>
-        ) : null}
+        {isLarge ? (
+          <div className={styles.largeHeader}>
+            <div className={styles.starIcon({ size: 'L' })} aria-hidden>
+              <Icon name="DoubleStar" size={starIconSize} />
+            </div>
+            {hasTitle ? (
+              <p id={titleId} className={styles.largeInlineTitle}>
+                {title}
+              </p>
+            ) : null}
+          </div>
+        ) : (
+          <div className={styles.starIcon({ size: 's' })} aria-hidden>
+            <Icon name="DoubleStar" size={starIconSize} />
+          </div>
+        )}
       </button>
       {!isLarge && hasTitle ? (
         <p id={titleId} className={styles.title({ size: 's' })}>
           {title}
         </p>
+      ) : null}
+      {showLargeContents ? (
+        <div className={styles.largeFooter}>
+          <p className={styles.largeFooterHeading}>{largeContents.title}</p>
+          <p className={styles.largeFooterDescription}>
+            {largeContents.description}
+          </p>
+        </div>
       ) : null}
     </div>
   );
