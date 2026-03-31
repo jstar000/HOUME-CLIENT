@@ -13,7 +13,7 @@ import FeatureErrorFallback from '@components/errorFallback/FeatureErrorFallback
 import { setLoginRedirect } from '@utils/loginRedirect';
 
 import FunnelLayout from './components/layout/FunnelLayout';
-import { useImageSetup } from './hooks/useImageGeneration';
+import { useImageSetup } from './hooks/useImageSetup';
 import ActivityInfo from './steps/activityInfo/ActivityInfo';
 import InteriorStyle from './steps/interiorStyle/InteriorStyle';
 import { useFunnelStore } from './stores/useFunnelStore';
@@ -54,6 +54,7 @@ const ImageSetupPage = () => {
       // 로그인 후 복귀 시 도면 선택값을 복원해야하므로, 로그인 게이트 진행 중(loginRedirect 존재하는 경우)에는 reset 스킵
       if (!loginRedirect) {
         useFunnelStore.getState().reset();
+        useImageFlowStore.setState({ entryRoute: null });
       }
     };
   }, []);
@@ -63,8 +64,13 @@ const ImageSetupPage = () => {
   // sessionStorage 수동 삭제 <- 이까지는 일반적인 사용자 플로우 X
   // => URL로 직접 접근하는 경우에 대한 예외처리만 적용하면 될 듯함
   const entryRoute = useImageFlowStore.getState().entryRoute;
+  useEffect(() => {
+    if (!entryRoute) {
+      navigate(ROUTES.HOME);
+    }
+  }, []);
+
   if (!entryRoute) {
-    navigate(ROUTES.HOME);
     return null;
   }
 
@@ -98,6 +104,7 @@ const ImageSetupPage = () => {
                     return;
                   }
 
+                  // 퍼널 내에서 다음 스텝(InteriorStyle)으로 이동
                   history.push('InteriorStyle', data);
                 } else {
                   // 숏퍼널(경로 2, 4, 5): 퍼널 탈출 → 이미지 생성

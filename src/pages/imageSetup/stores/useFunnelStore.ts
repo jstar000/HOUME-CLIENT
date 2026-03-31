@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
 // TODO: steps.ts(ImageSetupSteps)와 FunnelStore가 동일한 데이터 타입을 중복 정의 중.
-// 타입 정의를 한 곳에서 관리하고 참조하도록 통합 검토 (API 확정 후 타입 안정화 시점에 검토해보기)
+// 타입 정의를 한 곳에서 관리하고 참조하도록 통합 고려 (API 명세와 타입이 확정된 이후 검토해보기)
 interface FunnelStore {
   // 각 스텝 데이터(각 스텝 별 요구되는 데이터만 저장)
   floorPlan: {
