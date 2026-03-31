@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
 import ActionButton from '@shared/components/v2/button/actionButton/ActionButton';
-import Icon from '@shared/components/v2/icon/Icon';
 import TitleNavBar from '@shared/components/v2/navBar/TitleNavBar';
 
 import StyleCard from '@/shared/components/v2/styleCard/StyleCard';
@@ -32,7 +31,12 @@ const BannerDetailPage = () => {
       />
       <main className={styles.body}>
         <div className={styles.hero}>
-          <StyleCard imageSrc=" " />
+          <StyleCard
+            size="L"
+            scaleOnPress={false}
+            imageSrc=" "
+            title={BANNER_TAGLINE_MOCK}
+          />
         </div>
 
         <h2 className={styles.question}>{QUESTION_MOCK}</h2>
