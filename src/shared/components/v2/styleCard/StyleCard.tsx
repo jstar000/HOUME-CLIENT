@@ -53,10 +53,10 @@ const StyleCard = ({
   }, [initialImageSrc]);
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper({ scaleOnPress })}>
       <button
         type="button"
-        className={clsx(styles.card({ size, scaleOnPress }), className)}
+        className={clsx(styles.card({ size }), className)}
         onClick={onClick}
         aria-labelledby={hasTitle ? titleId : undefined}
         aria-label={hasTitle ? undefined : '스타일 카드 선택'}

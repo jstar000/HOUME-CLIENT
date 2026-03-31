@@ -5,11 +5,29 @@ import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
-export const wrapper = style({
-  // display: 'flex',
-  // flexDirection: 'column',
-  // width: 'auto',
-  // height: 'auto',
+export const wrapper = recipe({
+  base: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    height: 'auto',
+  },
+  variants: {
+    scaleOnPress: {
+      true: {
+        transition: 'transform 100ms ease',
+        selectors: {
+          '&:has(button:active)': {
+            transform: 'scale(0.98)',
+          },
+        },
+      },
+      false: {},
+    },
+  },
+  defaultVariants: {
+    scaleOnPress: true,
+  },
 });
 
 export const card = recipe({
@@ -18,7 +36,6 @@ export const card = recipe({
     display: 'flex',
     flexShrink: 0,
     alignItems: 'flex-start',
-    transition: 'transform 100ms ease',
     border: 0,
     cursor: 'pointer',
     overflow: 'hidden',
@@ -29,29 +46,20 @@ export const card = recipe({
         aspectRatio: '164 / 111',
         borderRadius: unitVars.unit.radius['500'],
         padding: unitVars.unit.gapPadding['300'],
-        width: '16.4rem',
+        width: '100%',
+        minWidth: '16.4rem',
       },
       L: {
         aspectRatio: '335 / 223',
         borderRadius: unitVars.unit.radius['600'],
         padding: unitVars.unit.gapPadding['500'],
-        width: '33.5rem',
+        width: '100%',
+        minWidth: '33.5rem',
       },
-    },
-    scaleOnPress: {
-      true: {
-        selectors: {
-          '&:active': {
-            transform: 'scale(0.98)',
-          },
-        },
-      },
-      false: {},
     },
   },
   defaultVariants: {
     size: 's',
-    scaleOnPress: true,
   },
 });
 
@@ -69,7 +77,7 @@ export const gradient = recipe({
       },
       L: {
         background:
-          'var(--grad-banner, linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 56%, rgba(0, 0, 0, 0) 100%))',
+          'linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 56%, rgba(0, 0, 0, 0) 100%)',
       },
     },
   },
@@ -168,7 +176,6 @@ export const largeFooterHeading = style({
 });
 
 export const largeFooterDescription = style({
-  margin: 0,
   height: ' 6rem',
   overflow: 'hidden',
   whiteSpace: 'pre-wrap',
