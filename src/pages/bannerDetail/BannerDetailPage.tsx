@@ -30,7 +30,7 @@ const BannerDetailPage = () => {
         onBackClick={() => navigate(-1)}
       />
       <main className={styles.body}>
-        <div className={styles.hero}>
+        <div className={styles.bannerCard}>
           <StyleCard
             size="L"
             scaleOnPress={false}
@@ -39,15 +39,17 @@ const BannerDetailPage = () => {
           />
         </div>
 
-        <h2 className={styles.question}>{QUESTION_MOCK}</h2>
-        <ul className={styles.optionList}>
-          {OPTION_MOCK.map((label) => (
-            <li key={label} className={styles.optionRow}>
-              <span className={styles.optionRadio} aria-hidden />
-              <span className={styles.optionLabel}>{label}</span>
-            </li>
-          ))}
-        </ul>
+        <div className={styles.questionContainer}>
+          <h2 className={styles.question}>{QUESTION_MOCK}</h2>
+          <ul className={styles.optionList}>
+            {OPTION_MOCK.map((label) => (
+              <li key={label} className={styles.optionRow}>
+                <span className={styles.optionRadio} aria-hidden />
+                <span className={styles.optionLabel}>{label}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </main>
 
       <div className={styles.ctaBar}>
