@@ -12,6 +12,7 @@ import * as styles from './ActionButton.css';
 export type ActionButtonVariant = 'solid' | 'outlined' | 'ghost';
 export type ActionButtonColor = 'primary' | 'inverse';
 export type ActionButtonSize = 'XS' | 'S' | 'M' | 'L' | 'XL' | '2XL';
+export type ActionButtonWidth = 'hug' | 'fill';
 
 const BUTTON_SIZE_TO_ICON_SIZE: Record<ActionButtonSize, IconSize> = {
   // 각 버튼 size에 맞는 아이콘 size 맵핑
@@ -24,11 +25,12 @@ const BUTTON_SIZE_TO_ICON_SIZE: Record<ActionButtonSize, IconSize> = {
 };
 
 export interface ActionButtonProps
-  extends Omit<React.ComponentProps<'button'>, 'children'> {
+  extends Omit<React.ComponentProps<'button'>, 'children' | 'width'> {
   children: React.ReactNode;
   variant?: ActionButtonVariant;
   color?: ActionButtonColor;
   size?: ActionButtonSize;
+  width?: ActionButtonWidth;
   leftIcon?: IconName;
   rightIcon?: IconName;
 }
@@ -38,6 +40,7 @@ const ActionButton = ({
   variant = 'solid',
   color = 'primary',
   size = '2XL',
+  width = 'hug',
   leftIcon,
   rightIcon,
   type = 'button',
@@ -49,26 +52,25 @@ const ActionButton = ({
   const iconSize = BUTTON_SIZE_TO_ICON_SIZE[size];
 
   return (
-    <span>
-      <button
-        type={type}
-        className={clsx(
-          styles.button({
-            variant,
-            color,
-            size,
-            ...(isDisabled ? { disabled: true } : {}),
-          }),
-          className
-        )}
-        disabled={isDisabled}
-        {...props}
-      >
-        {leftIcon != null ? <Icon name={leftIcon} size={iconSize} /> : null}
-        <span className={styles.btnLabel}>{children}</span>
-        {rightIcon != null ? <Icon name={rightIcon} size={iconSize} /> : null}
-      </button>
-    </span>
+    <button
+      type={type}
+      className={clsx(
+        styles.button({
+          variant,
+          color,
+          size,
+          width,
+          ...(isDisabled ? { disabled: true } : {}),
+        }),
+        className
+      )}
+      disabled={isDisabled}
+      {...props}
+    >
+      {leftIcon != null ? <Icon name={leftIcon} size={iconSize} /> : null}
+      <span className={styles.btnLabel}>{children}</span>
+      {rightIcon != null ? <Icon name={rightIcon} size={iconSize} /> : null}
+    </button>
   );
 };
 

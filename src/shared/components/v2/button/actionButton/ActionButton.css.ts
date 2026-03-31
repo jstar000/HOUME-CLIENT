@@ -61,10 +61,17 @@ export const button = recipe({
     border: 'none',
     borderRadius: unitVars.unit.radius['full'],
     cursor: 'pointer',
-    width: 'auto',
     whiteSpace: 'nowrap',
   },
   variants: {
+    width: {
+      hug: {
+        width: 'auto',
+      },
+      fill: {
+        width: '100%',
+      },
+    },
     variant: {
       solid: {},
       outlined: {
@@ -120,6 +127,7 @@ export const button = recipe({
     variant: 'solid',
     color: 'primary',
     size: '2XL',
+    width: 'hug',
     disabled: false,
   },
 });
