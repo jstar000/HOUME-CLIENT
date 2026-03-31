@@ -166,7 +166,8 @@ export const largeFooter = style({
   gap: unitVars.unit.gapPadding['050'],
   marginTop: unitVars.unit.gapPadding['400'],
   padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['100']}`,
-  width: '33.5rem',
+  width: '100%',
+  minWidth: '33.5rem',
 });
 
 export const largeFooterHeading = style({
