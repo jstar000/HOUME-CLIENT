@@ -45,7 +45,7 @@ const StyleCard = ({
   const titleId = useId();
   const hasTitle = title != null && title !== '';
   const isLarge = size === 'L';
-  const starIconSize = isLarge ? '20' : '16';
+  const starIconSize = isLarge ? '24' : '16';
   const showLargeContents = isLarge && largeContents != null;
 
   useEffect(() => {
