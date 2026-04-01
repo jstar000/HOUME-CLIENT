@@ -15,6 +15,7 @@ const listCardMockData = [
     linkHref: 'https://example.com',
     discountRate: 10,
     discountPrice: 1000000,
+    originalPrice: 375000,
   },
   {
     id: 2,
@@ -22,12 +23,15 @@ const listCardMockData = [
     linkHref: 'https://example.com',
     discountRate: 0,
     discountPrice: 500000,
+    originalPrice: 500000,
   },
   {
     id: 3,
     title: '리스트 상품명은 최대 한 줄까지 쓸 수 있어요.',
     linkHref: 'https://example.com',
+    discountRate: 0,
     discountPrice: 800000,
+    originalPrice: 800000,
   },
   {
     id: 4,
@@ -35,6 +39,7 @@ const listCardMockData = [
     linkHref: 'https://example.com',
     discountRate: 20,
     discountPrice: 300000,
+    originalPrice: 375000,
   },
 ];
 
@@ -79,6 +84,7 @@ const GenImgCard = ({
               isSaved={isSaved1}
               onToggleSave={() => setIsSaved1((prev) => !prev)}
               linkHref={item.linkHref}
+              originalPrice={item.originalPrice}
               discountRate={item.discountRate}
               discountPrice={item.discountPrice}
             />
