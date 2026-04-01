@@ -18,7 +18,7 @@ const meta = {
   argTypes: {
     currentStep: {
       control: { type: 'radio' },
-      options: ['HouseInfo', 'FloorPlan', 'InteriorStyle', 'ActivityInfo'],
+      options: ['FloorPlanSelect', 'InteriorStyle', 'ActivityInfo'],
     },
     children: { control: false },
   },
