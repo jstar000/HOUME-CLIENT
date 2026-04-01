@@ -151,6 +151,7 @@ export const productText = style({
   display: '-webkit-box',
   maxHeight: '4.1rem',
   overflow: 'hidden',
+  wordBreak: 'break-all',
   color: colorVars.color.text.primary,
   WebkitLineClamp: 2,
   WebkitBoxOrient: 'vertical',
