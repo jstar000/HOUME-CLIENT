@@ -50,7 +50,7 @@ const ListCardProduct = ({
 
   const formatKrw = (value?: number) => {
     if (typeof value !== 'number' || !Number.isFinite(value)) return null;
-    return `${value.toLocaleString('ko-KR')}원`;
+    return `${value.toLocaleString('ko-KR')}`;
   };
 
   const originalPriceText = formatKrw(originalPrice);
