@@ -15,9 +15,12 @@ const StyleDetailPage = () => {
 
   // 스타일 상세 CTA: setFlow(STYLE_RESTYLE) → 로그인 체크 → 스타일 상세로 복귀
   const handleCta = () => {
+    const parsedId = Number(styleId);
+    if (Number.isNaN(parsedId)) return;
+
     useImageFlowStore.getState().setFlow({
       entryRoute: ENTRY_ROUTE.STYLE_RESTYLE,
-      preset: { type: 'style', styleId: Number(styleId) },
+      preset: { type: 'style', styleId: parsedId },
     });
 
     if (isLoggedIn) {

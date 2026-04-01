@@ -30,6 +30,7 @@ interface ImageFlowState {
   resultType: ResultType | null;
   preset: PresetData | null;
   // 퍼널 진입 시 호출, 진입경로 + 프리셋 세팅 및 resultType 자동 매핑
+  // TODO: API 명세 나오면 entryRoute와 preset 조합을 타입으로 강제 (ex: STYLE_RESTYLE + banner preset 방지)
   setFlow: (params: { entryRoute: EntryRoute; preset?: PresetData }) => void;
   // 퍼널 완료/이탈 시 호출
   reset: () => void;

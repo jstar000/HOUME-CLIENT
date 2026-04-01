@@ -15,10 +15,13 @@ const BannerDetailPage = () => {
 
   // 배너 상세 CTA: setFlow(HOME_BANNER) → 로그인 체크 → 배너 상세로 복귀
   const handleCta = () => {
+    const parsedId = Number(bannerId);
+    if (Number.isNaN(parsedId)) return;
+
     useImageFlowStore.getState().setFlow({
       entryRoute: ENTRY_ROUTE.HOME_BANNER,
       // TODO: answerId는 배너 상세 UI 구현 후 실제 칩 선택값으로 교체
-      preset: { type: 'banner', bannerId: Number(bannerId), answerId: 0 },
+      preset: { type: 'banner', bannerId: parsedId, answerId: 0 },
     });
 
     if (isLoggedIn) {
