@@ -35,7 +35,10 @@ export const useFloorPlanSelect = (
     // 1순위: useFunnelStore에 저장된 도면이 있는 경우 (case: 경로 3 홈 도면 클릭 / 로그인 게이트에서 복귀)
     const savedFloorPlan = useFunnelStore.getState().floorPlan;
     if (savedFloorPlan) {
-      store.selectFloorPlan(savedFloorPlan.floorPlanId);
+      store.restoreFloorPlan(
+        savedFloorPlan.floorPlanId,
+        savedFloorPlan.isMirror
+      );
       store.openFloorPlanSheet();
       return;
     }
@@ -86,7 +89,7 @@ export const useFloorPlanSelect = (
   };
 
   const handleCardClick = (floorPlanId: number) => {
-    store.selectFloorPlan(floorPlanId);
+    store.selectNewFloorPlan(floorPlanId);
     store.openFloorPlanSheet();
   };
 
