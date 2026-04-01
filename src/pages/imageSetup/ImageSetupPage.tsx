@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { ErrorBoundary } from 'react-error-boundary';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 import { ROUTES } from '@routes/paths';
 
@@ -64,14 +64,10 @@ const ImageSetupPage = () => {
   // sessionStorage 수동 삭제 <- 이까지는 일반적인 사용자 플로우 X
   // => URL로 직접 접근하는 경우에 대한 예외처리만 적용하면 될 듯함
   const entryRoute = useImageFlowStore.getState().entryRoute;
-  useEffect(() => {
-    if (!entryRoute) {
-      navigate(ROUTES.HOME);
-    }
-  }, []);
-
   if (!entryRoute) {
-    return null;
+    // Navigate: 렌더되면 해당 경로로 이동시키는 React Router 컴포넌트
+    // useEffect + navigate()보다 더 선언적, React스러움
+    return <Navigate to={ROUTES.HOME} replace />;
   }
 
   return (
