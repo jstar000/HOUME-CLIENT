@@ -17,7 +17,7 @@ export const postJjym = async (
 ): Promise<SaveItemsResponse> => {
   return request<SaveItemsResponse>({
     method: HTTPMethod.POST,
-    url: API_ENDPOINT.GENERATE.JJYM(jjymData.recommendFurnitureId),
+    url: API_ENDPOINT.GENERATE.JJYM_V2(jjymData.rawProductId),
   });
 };
 
@@ -26,27 +26,27 @@ export const useJjymMutation = () => {
 
   return useMutation<SaveItemsResponse, AxiosError, number>({
     mutationKey: ['jjym'],
-    mutationFn: (recommendFurnitureId) => postJjym({ recommendFurnitureId }),
+    mutationFn: (rawProductId) => postJjym({ rawProductId }),
 
-    onMutate: async (recommendFurnitureId) => {
-      toggleSaveProduct(recommendFurnitureId);
-      return { recommendFurnitureId };
+    onMutate: async (rawProductId) => {
+      toggleSaveProduct(rawProductId);
+      return { rawProductId };
     },
 
-    onSuccess: (data, recommendFurnitureId) => {
+    onSuccess: (data, rawProductId) => {
       const isSavedNow = useSavedItemsStore
         .getState()
-        .savedProductIds.has(recommendFurnitureId);
+        .savedProductIds.has(rawProductId);
 
       if (isSavedNow !== data.favorited) {
-        toggleSaveProduct(recommendFurnitureId);
+        toggleSaveProduct(rawProductId);
       }
 
       queryClient.invalidateQueries({ queryKey: queryKeys.jjym.list() });
     },
 
-    onError: (error, recommendFurnitureId) => {
-      toggleSaveProduct(recommendFurnitureId);
+    onError: (error, rawProductId) => {
+      toggleSaveProduct(rawProductId);
       if (import.meta.env.DEV)
         console.log('찜하기 토글 변경 중 에러 발생', error);
     },
