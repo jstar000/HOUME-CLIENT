@@ -10,7 +10,7 @@ import { useUserStore } from '@store/useUserStore';
 
 import FeatureErrorFallback from '@components/errorFallback/FeatureErrorFallback';
 
-import { setLoginRedirect } from '@utils/loginRedirect';
+import { getLoginRedirect, setLoginRedirect } from '@utils/loginRedirect';
 
 import FunnelLayout from './components/layout/FunnelLayout';
 import { useImageSetup } from './hooks/useImageSetup';
@@ -47,9 +47,8 @@ const ImageSetupPage = () => {
 
   // 퍼널 전체가 unmount될 때 (퍼널 벗어날 때) 데이터 초기화
   useEffect(() => {
-    // 클린업 함수 -- 컴포넌트가 언마운트될 때 실행
     return () => {
-      const loginRedirect = sessionStorage.getItem('loginRedirect');
+      const loginRedirect = getLoginRedirect();
       // loginRedirect는 로그인 게이트 시작 시 setLoginRedirect()로 저장, 완료 시 consumeLoginRedirect()로 삭제됨
       // 로그인 후 복귀 시 도면 선택값을 복원해야하므로, 로그인 게이트 진행 중(loginRedirect 존재하는 경우)에는 reset 스킵
       if (!loginRedirect) {
@@ -86,8 +85,8 @@ const ImageSetupPage = () => {
                 { history }
               ) => {
                 const entryRoute = useImageFlowStore.getState().entryRoute;
-                // ImageSetupPage 진입 시점에 entryRoute null 체크 진행하므로 이벤트 핸들러 시점에서 entryRoute는 반드시 존재
-                const nextStep = getNextFunnelStep(entryRoute!);
+                if (!entryRoute) return;
+                const nextStep = getNextFunnelStep(entryRoute);
 
                 if (nextStep === 'INTERIOR_STYLE') {
                   // 풀퍼널 (경로 1, 3): 로그인 체크 후 다음 스텝으로 이동
