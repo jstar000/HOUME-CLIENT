@@ -6,20 +6,68 @@ import ActionButton from '@shared/components/v2/button/actionButton/ActionButton
 import Icon from '@shared/components/v2/icon/Icon';
 import TitleNavBar from '@shared/components/v2/navBar/TitleNavBar';
 
+import imgBanner01 from '@assets/v2/images/ImgBanner_01.png';
+import imgBanner02 from '@assets/v2/images/ImgBanner_02.png';
+import imgBanner03 from '@assets/v2/images/ImgBanner_03.png';
+import imgBanner04 from '@assets/v2/images/ImgBanner_04.png';
+
 import StyleCard from '@/shared/components/v2/styleCard/StyleCard';
 
 import * as styles from './BannerDetailPage.css';
 
-const BANNER_TAGLINE_MOCK = '잦은 재택근무하기 좋은 우리 집';
+type BannerDetailMock = {
+  bannerId: string;
+  bannerTitle: string;
+  imageSrc: string;
+  question: string;
+  options: readonly string[];
+};
 
-/** 추후 API 연동 */
-const QUESTION_MOCK = '브런치로 어떤 음식을 주로 드시나요?';
-
-const OPTION_MOCK = [
-  '간단한 커피와 디저트',
-  '파스타 같은 양식',
-  '밥과 국이 있는 한식',
-  '편리한 배달음식',
+// TODO: API 연동 후 제거
+const BANNER_DETAIL_MOCK: readonly BannerDetailMock[] = [
+  {
+    bannerId: '1',
+    bannerTitle: '잦은 재택근무하기 좋은 우리 집',
+    imageSrc: imgBanner01,
+    question: '업무 시 어떤 책상을 선호하시나요?',
+    options: [
+      '모니터 받침대가 결합된 책상',
+      '데스크테리어 가능한 깔끔한 책상',
+      '식사도 해결할 수 있는 식탁 겸용 테이블',
+      '자유로운 활용이 가능한 접이식 테이블',
+    ] as const,
+  },
+  {
+    bannerId: '2',
+    bannerTitle: '브런치 즐기기 좋은 우리 집',
+    imageSrc: imgBanner02,
+    question: '브런치로 어떤 음식을 주로 드시나요?',
+    options: [
+      '간단한 커피와 디저트',
+      '파스타 같은 양식',
+      '밥과 국이 있는 한식',
+      '편리한 배달음식',
+    ] as const,
+  },
+  {
+    bannerId: '3',
+    bannerTitle: '친구 초대하기 좋은 우리 집',
+    imageSrc: imgBanner03,
+    question: '우리 집에 누구를 자주 초대하시나요?',
+    options: ['연인', '3명 이하 친구들', '4명 이상 단체'] as const,
+  },
+  {
+    bannerId: '4',
+    bannerTitle: 'OTT 감상하기 좋은 우리 집',
+    imageSrc: imgBanner04,
+    question: '어떤 기기로 OTT를 시청하시나요?',
+    options: [
+      '빔 프로젝터',
+      '스탠딩 모니터',
+      '아이패드/휴대폰',
+      '벽걸이 TV',
+    ] as const,
+  },
 ] as const;
 
 const BannerDetailPage = () => {
@@ -27,6 +75,10 @@ const BannerDetailPage = () => {
   const { bannerId = '' } = useParams<{ bannerId: string }>();
   const questionId = useId();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+
+  const bannerDetail =
+    BANNER_DETAIL_MOCK.find((item) => item.bannerId === bannerId) ??
+    BANNER_DETAIL_MOCK[0];
 
   return (
     <div className={styles.page} key={bannerId}>
@@ -40,21 +92,21 @@ const BannerDetailPage = () => {
           <StyleCard
             size="L"
             scaleOnPress={false}
-            imageSrc=" "
-            title={BANNER_TAGLINE_MOCK}
+            imageSrc={bannerDetail.imageSrc}
+            title={bannerDetail.bannerTitle}
           />
         </div>
 
         <div className={styles.questionContainer}>
           <h2 className={styles.question} id={questionId}>
-            {QUESTION_MOCK}
+            {bannerDetail.question}
           </h2>
           <ul
             className={styles.optionList}
             role="radiogroup"
             aria-labelledby={questionId}
           >
-            {OPTION_MOCK.map((label, index) => {
+            {bannerDetail.options.map((label, index) => {
               const selected = selectedIndex === index;
               return (
                 <li key={label}>
