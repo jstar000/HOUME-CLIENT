@@ -144,20 +144,29 @@ const ListCardProduct = ({
         {/* 가격 정보 */}
         {(originalPriceText || discountPriceText) && (
           <div className={styles.priceSection}>
-            {originalPriceText && (
-              <p className={styles.originalPriceText}>{originalPriceText}</p>
-            )}
-            {discountPriceText && (
-              <div className={styles.discountRow}>
-                {discountRateText && (
-                  <span className={styles.discountRateText}>
-                    {discountRateText}
-                  </span>
+            {discountRate ? (
+              // 할인 있을 때
+              <>
+                {discountPriceText && (
+                  <div className={styles.discountRow}>
+                    {discountRateText && (
+                      <span className={styles.discountRateText}>
+                        {discountRateText}
+                      </span>
+                    )}
+                    <span className={styles.discountPriceText}>
+                      {discountPriceText}
+                    </span>
+                  </div>
                 )}
+              </>
+            ) : (
+              // 할인 없을 때
+              originalPriceText && (
                 <span className={styles.discountPriceText}>
-                  {discountPriceText}
+                  {originalPriceText}
                 </span>
-              </div>
+              )
             )}
           </div>
         )}
