@@ -53,6 +53,11 @@ const ImageSetupPage = () => {
       // 로그인 후 복귀 시 도면 선택값을 복원해야하므로, 로그인 게이트 진행 중(loginRedirect 존재하는 경우)에는 reset 스킵
       if (!loginRedirect) {
         useFunnelStore.getState().reset();
+        // 의도적 퍼널 이탈 혹은 퍼널 완료 시 퍼널을 탈출함. 이때 useImageFlowStore 전체를 reset하면
+        // 1. Result 페이지에서 추천형/목록형 분기에 resultType을 사용할 수 없고,
+        // 2. Loading 페이지에서 이미지 생성 API 호출 시 preset을 사용할 수 없다
+        // 따라서 entryRoute만 null로 초기화, 나머지 ImageFlow 값들은 유지
+        // +) 퍼널 진입 시 모든 진입점에서 setFlow()로 entryRoute, resultType, preset을 초기화하므로 문제 X
         useImageFlowStore.setState({ entryRoute: null });
       }
     };
