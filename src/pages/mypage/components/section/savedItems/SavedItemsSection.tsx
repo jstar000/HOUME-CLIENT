@@ -57,27 +57,28 @@ const SavedItemsSection = () => {
     <section className={styles.container}>
       <div className={styles.gridContainer}>
         {savedItems.map((item) => {
-          const isTargetItem = String(item.id) === String(focusItemId);
+          const isTargetItem =
+            String(item.rawProductId) === String(focusItemId);
 
           return (
             <div
-              key={item.furnitureProductId}
+              key={item.rawProductId}
               ref={isTargetItem ? itemFocusRef : null}
               className={styles.cardWrapper}
             >
               <CardProduct
-                title={item.furnitureProductName}
-                brand={item.furnitureProductBrand}
-                imageUrl={item.furnitureProductImageUrl}
+                title={item.productName}
+                brand={item.brandName}
+                imageUrl={item.productImageUrl}
                 isSaved={true}
-                onToggleSave={() => handleToggleSave(item.id)}
-                linkHref={item.furnitureProductSiteUrl}
+                onToggleSave={() => handleToggleSave(item.rawProductId)}
+                linkHref={item.productSiteUrl}
                 onLinkClick={logMyPageClickBtnFurnitureCard}
                 linkLabel="사이트"
-                originalPrice={item.furnitureProductOriginalPrice}
-                discountRate={item.furnitureProductDiscountRate}
-                discountPrice={item.furnitureProductDiscountPrice}
-                colorHexes={item.furnitureProductColors}
+                originalPrice={item.listPrice}
+                discountRate={item.discountRate}
+                discountPrice={item.discountPrice}
+                colorHexes={item.colors}
                 saveCount={item.jjymCount}
               />
             </div>
