@@ -24,7 +24,8 @@ const BannerDetailPage = () => {
     if (isLoggedIn) {
       navigate(ROUTES.IMAGE_SETUP);
     } else {
-      setLoginRedirect(location.pathname);
+      // pathname과 쿼리 파라미터 모두 저장
+      setLoginRedirect(location.pathname + location.search);
       navigate(ROUTES.LOGIN);
     }
   };
