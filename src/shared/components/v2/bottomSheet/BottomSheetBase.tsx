@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 import { Drawer } from 'vaul';
 
-import IcnX from '@assets/v2/svg/IcnX.svg?react';
+import Icon from '@shared/components/v2/icon/Icon';
 
 import * as styles from './BottomSheetBase.css';
 
@@ -98,7 +98,9 @@ const BottomSheetBase = ({
                       className={styles.closeButton}
                       onClick={onCloseClick}
                     >
-                      <IcnX className={styles.closeIcon} aria-hidden="true" />
+                      <span className={styles.closeIcon} aria-hidden="true">
+                        <Icon name="Close" size="24" />
+                      </span>
                     </button>
                   </div>
                 )}
