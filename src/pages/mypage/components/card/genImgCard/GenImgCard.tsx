@@ -3,6 +3,7 @@
 import TestImage from '@assets/v2/images/testImg.png';
 import ArrowRight from '@assets/v2/svg/ArrowRight.svg?react';
 
+import { logMyPageClickBtnFurnitureCard } from '@/pages/mypage/utils/analytics';
 import { useJjymMutation } from '@/shared/apis/mutations/useJjymMutation';
 import TextButton from '@/shared/components/v2/btnText/TextButton';
 import ListProductCard from '@/shared/components/v2/productCard/ListProductCard';
@@ -67,6 +68,7 @@ const GenImgCard = ({
               isSaved={item.isJjym}
               onToggleSave={() => handleToggleSave(item.rawProductId)}
               linkHref={item.productSiteUrl}
+              onLinkClick={logMyPageClickBtnFurnitureCard}
               originalPrice={item.listPrice}
               discountRate={item.discountRate}
               discountPrice={item.discountPrice}
