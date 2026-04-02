@@ -1,7 +1,8 @@
 import { style, globalStyle } from '@vanilla-extract/css';
 
-import { fontStyle } from '@styles/fontStyle';
-import { colorVars } from '@styles/tokens/color.css';
+import { colorVars } from '@/shared/styles/tokensV2/color.css';
+import { fontVars } from '@/shared/styles/tokensV2/font.css';
+import { unitVars } from '@/shared/styles/tokensV2/unit.css';
 
 export const container = style({
   width: '100%',
@@ -9,26 +10,27 @@ export const container = style({
 });
 
 export const content = style({
-  padding: '1.2rem 2rem',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: unitVars.unit.gapPadding['400'],
+  padding: unitVars.unit.gapPadding['500'],
 });
 
 export const dateText = style({
-  ...fontStyle('caption_r_12'),
-  marginBottom: '1.2rem',
-  textAlign: 'right',
-  color: colorVars.color.gray600,
+  ...fontVars.font.body_r_13,
+  color: colorVars.color.text.tertiary,
 });
 
 export const policyText = style({
-  ...fontStyle('caption_r_12'),
+  ...fontVars.font.body_r_13,
   lineHeight: '1.6',
   wordBreak: 'keep-all',
-  color: colorVars.color.gray600,
+  color: colorVars.color.text.tertiary,
 });
 
 // 제목 스타일
 globalStyle(`${policyText} h1`, {
-  marginTop: '1.2rem',
+  marginTop: '1.5rem',
   marginBottom: '0.8rem',
   color: colorVars.color.gray999,
   fontSize: '1.6rem',
@@ -97,7 +99,7 @@ globalStyle(`${policyText} td`, {
 // 링크 스타일
 globalStyle(`${policyText} a`, {
   textDecoration: 'none',
-  color: colorVars.color.primary,
+  color: colorVars.color.text.brand,
 });
 
 globalStyle(`${policyText} a:hover`, {

@@ -106,7 +106,7 @@ const SettingPage = () => {
           <ul aria-label="프로필 설정 목록">
             <li className={styles.buttonItem}>
               <TextButton
-                color="secondary"
+                color="primary"
                 size="s"
                 // onClick={() => navigate(ROUTES.PROFILE_EDIT)}
                 aria-label="프로필 수정"
@@ -123,7 +123,7 @@ const SettingPage = () => {
           <ul aria-label="약관 및 정책 목록">
             <li className={styles.buttonItem}>
               <TextButton
-                color="secondary"
+                color="primary"
                 size="s"
                 onClick={handleServicePolicy}
                 aria-label="서비스 이용 약관"
@@ -133,7 +133,7 @@ const SettingPage = () => {
             </li>
             <li className={styles.buttonItem}>
               <TextButton
-                color="secondary"
+                color="primary"
                 size="s"
                 onClick={handlePrivacyPolicy}
                 aria-label="개인정보 처리방침"
@@ -150,7 +150,7 @@ const SettingPage = () => {
           <ul aria-label="계정 설정 목록">
             <li className={styles.buttonItem}>
               <TextButton
-                color="secondary"
+                color="primary"
                 size="s"
                 onClick={handleLogout}
                 aria-label="로그아웃"
@@ -160,7 +160,7 @@ const SettingPage = () => {
             </li>
             <li className={styles.buttonItem}>
               <TextButton
-                color="secondary"
+                color="primary"
                 size="s"
                 onClick={handleWithdraw}
                 aria-label="계정탈퇴"

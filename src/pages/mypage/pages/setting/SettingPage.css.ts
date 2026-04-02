@@ -10,6 +10,7 @@ export const container = style({
   gap: unitVars.unit.gapPadding['800'],
   padding: unitVars.unit.gapPadding['500'],
   width: '100%',
+  minHeight: '100vh',
 });
 
 export const section = style({

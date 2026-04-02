@@ -12,7 +12,7 @@ const PrivacyPolicyPage = () => {
       <TitleNavBar title="개인정보 처리방침" />
 
       <div className={styles.content}>
-        <div className={styles.dateText}>25.11.12 시행 </div>
+        <div className={styles.dateText}>25.11.12 개정안</div>
 
         <div className={styles.policyText}>
           <ReactMarkdown remarkPlugins={[remarkGfm]}>
