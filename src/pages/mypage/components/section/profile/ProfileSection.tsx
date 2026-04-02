@@ -1,6 +1,6 @@
 import ProfileImage from '@assets/images/profileImg.svg?react';
 
-import CreditChip from '@components/creditChip/CreditChip';
+import CreditBox from '@/shared/components/v2/creditBox/CreditBox';
 
 import * as styles from './ProfileSection.css';
 
@@ -21,7 +21,7 @@ const ProfileSection = ({
         <ProfileImage className={styles.profileImage} />
         <p className={styles.userName}>{userName}님</p>
       </div>
-      <CreditChip creditCount={credit} maxCredit={maxCredit} />
+      <CreditBox creditCount={credit} maxCredit={maxCredit} />
     </section>
   );
 };
