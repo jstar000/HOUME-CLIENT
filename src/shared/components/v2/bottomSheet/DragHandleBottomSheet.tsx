@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import BottomSheetBase from './BottomSheetBase';
 import * as styles from './BottomSheetBase.css';
@@ -10,6 +10,7 @@ interface DragHandleBottomSheetProps {
   contentSlot: ReactNode;
   primaryButton: ReactNode;
   secondaryButton?: ReactNode;
+  onExpandedChange?: (expanded: boolean) => void;
 }
 
 const COLLAPSED_HEIGHT = '24rem';
@@ -32,6 +33,7 @@ const DragHandleBottomSheet = ({
   contentSlot,
   primaryButton,
   secondaryButton,
+  onExpandedChange,
 }: DragHandleBottomSheetProps) => {
   const [expanded, setExpanded] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -42,6 +44,10 @@ const DragHandleBottomSheet = ({
   const startHeightRef = useRef(0);
   const collapsedPxRef = useRef(0);
   const expandedPxRef = useRef(0);
+
+  useEffect(() => {
+    onExpandedChange?.(expanded);
+  }, [expanded, onExpandedChange]);
 
   const handlePointerDown = useCallback((e: React.PointerEvent) => {
     const panel = panelRef.current;
