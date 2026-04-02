@@ -104,7 +104,8 @@ const MyPage = () => {
             />
           </div>
           {activeMenuTab === 'generatedImages' && (
-            <GeneratedImagesSection userProfile={userData} />
+            // <GeneratedImagesSection userProfile={userData} />
+            <GeneratedImagesSection />
           )}
           {activeMenuTab === 'savedItems' && <SavedItemsSection />}
         </ErrorBoundary>
