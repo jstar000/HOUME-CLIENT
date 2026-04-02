@@ -50,10 +50,16 @@ export const optionRow = style({
   display: 'flex',
   alignItems: 'center',
   gap: unitVars.unit.gapPadding['100'],
+  borderRadius: unitVars.unit.radius.full,
   cursor: 'pointer',
   padding: `${unitVars.unit.gapPadding['200']} ${unitVars.unit.gapPadding['400']}`,
   width: '100%',
   textAlign: 'left',
+  selectors: {
+    '&[aria-checked="true"]': {
+      backgroundColor: colorVars.color.fill.weak,
+    },
+  },
 });
 
 export const optionIcon = style({
