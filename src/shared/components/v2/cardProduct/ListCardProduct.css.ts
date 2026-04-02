@@ -50,7 +50,7 @@ export const imgSection = recipe({
     aspectRatio: '1 / 1', // 내부 absolute(링크 버튼)의 기준
     position: 'relative', // 모서리 밖으로 이미지 안 튀어나오게
     flexShrink: 0,
-    border: `1px solid ${colorVars.color.border.secondary}`,
+    border: `1px solid ${colorVars.color.border.tertiary}`,
     background: 'transparent',
     overflow: 'hidden',
   },
