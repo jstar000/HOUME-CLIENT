@@ -106,7 +106,10 @@ const ListCardProduct = ({
       tabIndex={enableWholeCardLink && linkHref ? 0 : undefined}
       aria-label={enableWholeCardLink ? `${title} 상품 링크로 이동` : undefined}
     >
-      <section className={styles.imgSection()} data-click-area="image">
+      <section
+        className={styles.imgSection({ size: cardSize })}
+        data-click-area="image"
+      >
         {!isLoaded && <div className={styles.skeleton} />}
         <img
           className={styles.cardImage({ loaded: isLoaded, size: cardSize })}

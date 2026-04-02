@@ -51,9 +51,14 @@ export const imgSection = recipe({
     position: 'relative', // 모서리 밖으로 이미지 안 튀어나오게
     flexShrink: 0,
     border: `1px solid ${colorVars.color.border.secondary}`,
-    borderRadius: unitVars.unit.radius['300'], // 이미지 영역만 정사각형
     background: 'transparent',
     overflow: 'hidden',
+  },
+  variants: {
+    size: {
+      s: { borderRadius: unitVars.unit.radius['200'] },
+      m: { borderRadius: unitVars.unit.radius['300'] },
+    },
   },
 });
 
