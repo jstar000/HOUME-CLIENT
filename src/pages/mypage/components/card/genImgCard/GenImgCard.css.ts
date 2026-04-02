@@ -8,7 +8,7 @@ export const wrapper = style({
   display: 'flex',
   flexDirection: 'column',
   gap: unitVars.unit.gapPadding['200'],
-  padding: unitVars.unit.gapPadding['000'],
+  padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['500']}`,
   width: '100%',
 });
 
@@ -55,11 +55,14 @@ export const listCardContainer = style({
   alignItems: 'center',
   justifyContent: 'flex-start',
   gap: unitVars.unit.gapPadding['200'],
-  padding: `${unitVars.unit.gapPadding['100']} ${unitVars.unit.gapPadding['000']}`,
-  width: '100%',
+  marginRight: `calc(-1 * ${unitVars.unit.gapPadding['500']})`, // 스크롤시
+  marginLeft: `calc(-1 * ${unitVars.unit.gapPadding['500']})`,
 
+  padding: `${unitVars.unit.gapPadding['100']} ${unitVars.unit.gapPadding['500']}`,
+  width: `calc(100% + 2 * ${unitVars.unit.gapPadding['500']})`,
   overflowX: 'auto',
   scrollbarWidth: 'none',
+
   whiteSpace: 'nowrap',
   msOverflowStyle: 'none',
 

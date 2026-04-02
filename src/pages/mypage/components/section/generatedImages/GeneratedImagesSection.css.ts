@@ -19,11 +19,11 @@ export const groupContainer = style({
   display: 'flex',
   flexDirection: 'column',
   gap: unitVars.unit.gapPadding['400'],
-  padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['500']}`,
 });
 
 export const date = style({
   ...fontVars.font.body_r_14,
+  padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['500']}`,
   color: colorVars.color.text.tertiary,
 });
 
