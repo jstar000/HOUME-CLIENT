@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import CardImage from '@assets/images/cardExImg.svg?url';
 
-import * as styles from './CardProduct.css';
+import * as styles from './ProductCard.css';
 import ActionButton from '../button/actionButton/ActionButton';
 import IconButton from '../button/IconButton';
 import Icon from '../icon/Icon';
@@ -10,7 +10,7 @@ import Icon from '../icon/Icon';
 type CardType = 'default' | 'shopping';
 type CardClickArea = 'card' | 'image' | 'title';
 
-interface CardProductProps {
+interface ProductCardProps {
   cardType?: CardType;
   title: string;
   brand?: string;
@@ -30,7 +30,7 @@ interface CardProductProps {
   saveCount?: number;
 }
 
-const CardProduct = ({
+const ProductCard = ({
   cardType = 'default',
   title,
   brand,
@@ -47,7 +47,7 @@ const CardProduct = ({
   discountPrice,
   colorHexes,
   saveCount,
-}: CardProductProps) => {
+}: ProductCardProps) => {
   const isDefault = cardType === 'default';
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -252,4 +252,4 @@ const CardProduct = ({
     </div>
   );
 };
-export default CardProduct;
+export default ProductCard;

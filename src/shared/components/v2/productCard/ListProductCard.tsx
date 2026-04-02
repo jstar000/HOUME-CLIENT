@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 
 import CardImage from '@assets/images/cardExImg.svg?url';
 
-import * as styles from './ListCardProduct.css';
+import * as styles from './ListProductCard.css';
 import IconButton from '../button/IconButton';
 
 type CardClickArea = 'card' | 'image' | 'title';
 type CardSize = 's' | 'm';
 
-interface ListCardProductProps {
+interface ListProductCardProps {
   cardSize?: CardSize;
   title: string;
   brand?: string;
@@ -26,7 +26,7 @@ interface ListCardProductProps {
   colorHexes?: string[];
 }
 
-const ListCardProduct = ({
+const ListProductCard = ({
   cardSize = 'm',
   title,
   imageUrl,
@@ -41,7 +41,7 @@ const ListCardProduct = ({
   discountRate,
   discountPrice,
   colorHexes,
-}: ListCardProductProps) => {
+}: ListProductCardProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -199,4 +199,4 @@ const ListCardProduct = ({
     </div>
   );
 };
-export default ListCardProduct;
+export default ListProductCard;

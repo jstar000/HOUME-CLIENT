@@ -5,7 +5,7 @@ import ArrowRight from '@assets/v2/svg/ArrowRight.svg?react';
 
 import { useJjymMutation } from '@/shared/apis/mutations/useJjymMutation';
 import TextButton from '@/shared/components/v2/btnText/TextButton';
-import ListCardProduct from '@/shared/components/v2/cardProduct/ListCardProduct';
+import ListProductCard from '@/shared/components/v2/productCard/ListProductCard';
 
 import * as styles from './GenImgCard.css';
 
@@ -59,7 +59,7 @@ const GenImgCard = ({
         <section className={styles.listCardContainer}>
           {/* 찜 부분 수정 필요 */}
           {usedProducts.map((item) => (
-            <ListCardProduct
+            <ListProductCard
               key={item.rawProductId}
               cardSize="s"
               imageUrl={item.productImageUrl}

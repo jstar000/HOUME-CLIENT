@@ -6,9 +6,9 @@ import { logMyPageClickBtnFurnitureCard } from '@pages/mypage/utils/analytics';
 
 import { useJjymMutation } from '@apis/mutations/useJjymMutation';
 
-import CardProduct from '@components/v2/cardProduct/CardProduct';
-
 import { SESSION_STORAGE_KEYS } from '@constants/bottomSheet';
+
+import ProductCard from '@/shared/components/v2/productCard/ProductCard';
 
 import * as styles from './SavedItemsSection.css';
 import EmptyStateSection from '../emptyState/EmptyStateSection';
@@ -67,7 +67,7 @@ const SavedItemsSection = () => {
               ref={isTargetItem ? itemFocusRef : null}
               className={styles.cardWrapper}
             >
-              <CardProduct
+              <ProductCard
                 title={item.productName}
                 brand={item.brandName}
                 imageUrl={item.productImageUrl}
