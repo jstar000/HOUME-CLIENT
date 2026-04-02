@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
+import { normalizeColorHexes } from '@pages/generate/pages/result/curationSection/curationProducts';
 import { useGetJjymListQuery } from '@pages/mypage/apis/queries/useGetJjymListQuery';
 import { logMyPageClickBtnFurnitureCard } from '@pages/mypage/utils/analytics';
 
@@ -78,7 +79,7 @@ const SavedItemsSection = () => {
                 originalPrice={item.listPrice}
                 discountRate={item.discountRate}
                 discountPrice={item.discountPrice}
-                colorHexes={item.colors}
+                colorHexes={normalizeColorHexes(item.colors)}
                 saveCount={item.jjymCount}
               />
             </div>
