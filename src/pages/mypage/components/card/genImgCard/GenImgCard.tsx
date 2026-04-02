@@ -3,88 +3,71 @@ import { useState } from 'react';
 import TestImage from '@assets/v2/images/testImg.png';
 import ArrowRight from '@assets/v2/svg/ArrowRight.svg?react';
 
+import { useJjymMutation } from '@/shared/apis/mutations/useJjymMutation';
 import TextButton from '@/shared/components/v2/btnText/TextButton';
 import ListCardProduct from '@/shared/components/v2/cardProduct/ListCardProduct';
 
 import * as styles from './GenImgCard.css';
 
-const listCardMockData = [
-  {
-    id: 1,
-    title: '리스트 상품명은 최대 한 줄까지 쓸 수 있어요.',
-    linkHref: 'https://example.com',
-    discountRate: 10,
-    discountPrice: 1000000,
-    originalPrice: 375000,
-  },
-  {
-    id: 2,
-    title: '리스트 상품명은 최대 한 줄까지 쓸 수 있어요.',
-    linkHref: 'https://example.com',
-    discountRate: 0,
-    discountPrice: 500000,
-    originalPrice: 500000,
-  },
-  {
-    id: 3,
-    title: '리스트 상품명은 최대 한 줄까지 쓸 수 있어요.',
-    linkHref: 'https://example.com',
-    discountRate: 0,
-    discountPrice: 800000,
-    originalPrice: 800000,
-  },
-  {
-    id: 4,
-    title: '리스트 상품명은 최대 한 줄까지 쓸 수 있어요.',
-    linkHref: 'https://example.com',
-    discountRate: 20,
-    discountPrice: 300000,
-    originalPrice: 375000,
-  },
-];
+import type { UsedProduct } from '@/pages/mypage/types/apis/generateList';
+
+// type CardClickArea = 'card' | 'image' | 'title';
 
 interface GenImgCardProps {
   cardType?: 'list' | 'curation';
   productSummaryText?: string;
+  imageUrl?: string;
+  usedProducts?: UsedProduct[];
+  onCurationClick?: () => void;
 }
 
 const GenImgCard = ({
   cardType = 'list',
   productSummaryText,
+  imageUrl,
+  usedProducts = [],
+  onCurationClick,
 }: GenImgCardProps) => {
-  const [isSaved1, setIsSaved1] = useState(false);
   const isListType = cardType === 'list';
+
+  // 찜 토글
+  const { mutate: toggleJjym } = useJjymMutation();
+
+  const handleToggleSave = (id: number) => {
+    toggleJjym(id);
+  };
 
   return (
     <div className={styles.wrapper}>
-      <section className={styles.textContainer}>
+      <section className={styles.textContainer} onClick={onCurationClick}>
         <span className={styles.headingTexxt}>{productSummaryText}</span>
         {/* 컴포넌트 수정 필요 */}
         <TextButton
           color="secondary"
           size="s"
           rightIcon={<ArrowRight aria-hidden />}
-          onClick={() => {}}
+          onClick={onCurationClick}
         >
           더보기
         </TextButton>
       </section>
       <section className={styles.imgContainer}>
-        <img src={TestImage} alt="" className={styles.cardImg} />
+        <img src={imageUrl || TestImage} alt="" className={styles.cardImg} />
       </section>
 
       {isListType && (
         <section className={styles.listCardContainer}>
           {/* 찜 부분 수정 필요 */}
-          {listCardMockData.map((item) => (
+          {usedProducts.map((item) => (
             <ListCardProduct
-              key={item.id}
+              key={item.rawProductId}
               cardSize="s"
-              title={item.title}
-              isSaved={isSaved1}
-              onToggleSave={() => setIsSaved1((prev) => !prev)}
-              linkHref={item.linkHref}
-              originalPrice={item.originalPrice}
+              imageUrl={item.productImageUrl}
+              title={item.productName}
+              isSaved={item.isJjym}
+              onToggleSave={() => handleToggleSave(item.rawProductId)}
+              linkHref={item.productSiteUrl}
+              originalPrice={item.listPrice}
               discountRate={item.discountRate}
               discountPrice={item.discountPrice}
             />

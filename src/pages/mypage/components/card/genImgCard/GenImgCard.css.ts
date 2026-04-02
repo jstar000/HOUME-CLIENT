@@ -15,12 +15,19 @@ export const wrapper = style({
 export const textContainer = style({
   display: 'flex',
   justifyContent: 'space-between',
+  gap: unitVars.unit.gapPadding['200'],
+  width: '100%',
 });
 
 export const headingTexxt = style({
-  display: 'flex',
+  display: 'block',
   ...fontVars.font.title_sb_15,
+  flex: 1,
   padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['100']}`,
+  minWidth: 0,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
   color: colorVars.color.text.primary,
 });
 
