@@ -81,6 +81,7 @@ const SavedItemsSection = () => {
                 discountPrice={item.discountPrice}
                 colorHexes={normalizeColorHexes(item.colors)}
                 saveCount={item.jjymCount}
+                enableWholeCardLink={true}
               />
             </div>
           );

@@ -70,6 +70,7 @@ const GenImgCard = ({
               originalPrice={item.listPrice}
               discountRate={item.discountRate}
               discountPrice={item.discountPrice}
+              enableWholeCardLink={true}
             />
           ))}
         </section>

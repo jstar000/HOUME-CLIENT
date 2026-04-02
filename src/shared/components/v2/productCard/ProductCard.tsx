@@ -102,6 +102,11 @@ const ProductCard = ({
     window.open(linkHref, '_blank', 'noopener,noreferrer');
   };
 
+  const handleLinkClick = () => {
+    onLinkClick?.();
+    if (linkHref) window.open(linkHref, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <div
       className={`${styles.wrapper()} ${
@@ -135,7 +140,7 @@ const ProductCard = ({
               size="XS"
               leftIcon="Link"
               aria-label={'공식 사이트로 이동'}
-              onClick={onLinkClick}
+              onClick={handleLinkClick}
             >
               사이트
             </ActionButton>
