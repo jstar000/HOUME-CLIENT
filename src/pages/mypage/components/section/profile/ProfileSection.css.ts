@@ -28,7 +28,7 @@ export const profileImage = style({
 });
 
 export const userName = style({
-  ...fontVars.font.title_sb_18,
+  ...fontVars.font.title_sb_16,
   flex: '0 0 auto',
   whiteSpace: 'nowrap',
 });
