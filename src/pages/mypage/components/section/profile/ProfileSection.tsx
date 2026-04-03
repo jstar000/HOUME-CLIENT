@@ -1,4 +1,4 @@
-import ProfileImage from '@assets/images/profileImg.svg?react';
+import ProfileImage from '@assets/v2/svg/ProfileImage.svg?react';
 
 import CreditBox from '@/shared/components/v2/creditBox/CreditBox';
 
