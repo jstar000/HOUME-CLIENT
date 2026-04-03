@@ -10,13 +10,11 @@ export const container = style({
 });
 
 export const content = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: unitVars.unit.gapPadding['400'],
-  padding: unitVars.unit.gapPadding['500'],
+  padding: '1.2rem 2rem',
 });
 
 export const dateText = style({
+  textAlign: 'right',
   ...fontVars.font.body_r_13,
   color: colorVars.color.text.tertiary,
 });
