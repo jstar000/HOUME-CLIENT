@@ -1,7 +1,4 @@
-// import { useState } from 'react';
-
 import TestImage from '@assets/v2/images/testImg.png';
-import ArrowRight from '@assets/v2/svg/ArrowRight.svg?react';
 
 import { logMyPageClickBtnFurnitureCard } from '@/pages/mypage/utils/analytics';
 import { useJjymMutation } from '@/shared/apis/mutations/useJjymMutation';
@@ -46,7 +43,7 @@ const GenImgCard = ({
         <TextButton
           color="secondary"
           size="s"
-          rightIcon={<ArrowRight aria-hidden />}
+          rightIcon={'ArrowRight'}
           onClick={onCurationClick}
         >
           더보기
