@@ -10,7 +10,7 @@ import { useUserStore } from '@store/useUserStore';
 import FeatureErrorFallback from '@components/errorFallback/FeatureErrorFallback';
 import InlineError from '@components/inlineError/InlineError';
 import Loading from '@components/loading/Loading';
-import TitleNavBar from '@components/navBar/TitleNavBar';
+import TitleNavBar from '@components/v2/navBar/TitleNavBar';
 
 import MenuTab from '@/shared/components/v2/menuTab/MenuTab';
 
@@ -76,10 +76,9 @@ const MyPage = () => {
     <div className={styles.contentWrapper}>
       <TitleNavBar
         title="마이페이지"
-        isBackIcon
-        isSettingBtn
-        isLoginBtn={false}
-        onBackClick={() => navigate(ROUTES.HOME)}
+        backLabel="이전"
+        isSettingBtn={true}
+        onBackClick={() => navigate(-1)}
       />
 
       {isUserError ? (

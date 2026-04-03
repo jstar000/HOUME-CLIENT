@@ -16,9 +16,9 @@ import { ROUTES } from '@routes/paths';
 
 import { TOAST_TYPE } from '@shared/types/toast';
 
-import TitleNavBar from '@components/navBar/TitleNavBar';
 import GeneralModal from '@components/overlay/modal/GeneralModal';
 import { useToast } from '@components/toast/useToast';
+import TitleNavBar from '@components/v2/navBar/TitleNavBar';
 
 import TextButton from '@/shared/components/v2/btnText/TextButton';
 
@@ -95,8 +95,7 @@ const SettingPage = () => {
     <>
       <TitleNavBar
         title="설정"
-        isBackIcon
-        isLoginBtn={false}
+        backLabel="이전"
         onBackClick={() => navigate(-1)}
       />
       <div className={styles.container}>
