@@ -24,6 +24,8 @@ interface BottomSheetBaseProps {
   handleSlot?: ReactNode;
   /** true일 때 overlay/viewportLayer의 터치 이벤트를 통과시켜 뒷배경 터치 가능하게 함 */
   backgroundInteractable?: boolean;
+  /** true일 때 body overflow를 hidden으로 설정하여 뒷배경 스크롤을 막음 (기본: true) */
+  preventScroll?: boolean;
 }
 
 const BottomSheetBase = ({
@@ -42,10 +44,11 @@ const BottomSheetBase = ({
   onCloseClick,
   handleSlot,
   backgroundInteractable = false,
+  preventScroll = true,
 }: BottomSheetBaseProps) => {
-  // 뒷배경 스크롤 방지용
+  // expanded 상태에서만 스크롤을 막고, collapsed 상태(preventScroll=false)에서는 뒷배경 스크롤 허용
   useEffect(() => {
-    if (!open) return undefined;
+    if (!open || !preventScroll) return undefined;
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -53,7 +56,7 @@ const BottomSheetBase = ({
     return () => {
       document.body.style.overflow = previousOverflow;
     };
-  }, [open]);
+  }, [open, preventScroll]);
 
   // 접근성용 title
   const accessibleTitle =
