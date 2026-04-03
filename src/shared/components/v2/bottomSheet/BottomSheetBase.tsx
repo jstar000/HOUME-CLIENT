@@ -67,12 +67,7 @@ const BottomSheetBase = ({
         : '드래그 핸들 바텀시트';
 
   return (
-    // backgroundInteractable일 때 modal=false로 전환: modal Drawer는 Radix Dialog 포커스 트랩이 외부 요소 클릭을 차단함
-    <Drawer.Root
-      open={open}
-      modal={!backgroundInteractable}
-      dismissible={false}
-    >
+    <Drawer.Root open={open} modal={false} dismissible={false}>
       <Drawer.Portal>
         {open && (
           <div
@@ -82,7 +77,6 @@ const BottomSheetBase = ({
               backgroundInteractable ? { pointerEvents: 'none' } : undefined
             }
           >
-            {/* Drawer.Overlay(radix Dialog의 overlay) 사용 시 데스크탑 뒷배경 레이아웃 깨짐 현상 발생 -> 커스텀 dim overlay 적용 */}
             {/* backgroundInteractable=true일 때 overlay도 터치를 통과시킴 */}
             <div
               className={styles.overlay}
