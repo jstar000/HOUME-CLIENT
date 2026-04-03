@@ -1,5 +1,6 @@
+import Icon from '@components/v2/icon/Icon';
+
 import * as style from './CreditBox.css';
-import Icon from '../icon/Icon';
 
 interface CreditBoxProps {
   creditCount: number;

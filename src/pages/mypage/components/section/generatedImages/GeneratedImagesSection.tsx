@@ -14,7 +14,7 @@
 
 // import Loading from '@components/loading/Loading';
 
-import { mockGeneratedImageList } from '@/pages/mypage/utils/generateListMock';
+import { mockGeneratedImageList } from '@/mocks/generateListMock';
 
 import * as styles from './GeneratedImagesSection.css';
 import GenImgCard from '../../card/genImgCard/GenImgCard';
