@@ -22,6 +22,8 @@ interface BottomSheetBaseProps {
   onOverlayClick?: () => void;
   onCloseClick?: () => void;
   handleSlot?: ReactNode;
+  /** true일 때 overlay/viewportLayer의 터치 이벤트를 통과시켜 뒷배경 터치 가능하게 함 */
+  backgroundInteractable?: boolean;
 }
 
 const BottomSheetBase = ({
@@ -39,6 +41,7 @@ const BottomSheetBase = ({
   onOverlayClick,
   onCloseClick,
   handleSlot,
+  backgroundInteractable = false,
 }: BottomSheetBaseProps) => {
   // 뒷배경 스크롤 방지용
   useEffect(() => {
@@ -61,21 +64,38 @@ const BottomSheetBase = ({
         : '드래그 핸들 바텀시트';
 
   return (
-    <Drawer.Root open={open} modal dismissible={false}>
+    // backgroundInteractable일 때 modal=false로 전환: modal Drawer는 Radix Dialog 포커스 트랩이 외부 요소 클릭을 차단함
+    <Drawer.Root
+      open={open}
+      modal={!backgroundInteractable}
+      dismissible={false}
+    >
       <Drawer.Portal>
         {open && (
-          <div className={styles.viewportLayer}>
+          <div
+            className={styles.viewportLayer}
+            // backgroundInteractable=true일 때 viewportLayer의 터치를 통과시켜 뒷배경과 상호작용 가능하게 함
+            style={
+              backgroundInteractable ? { pointerEvents: 'none' } : undefined
+            }
+          >
             {/* Drawer.Overlay(radix Dialog의 overlay) 사용 시 데스크탑 뒷배경 레이아웃 깨짐 현상 발생 -> 커스텀 dim overlay 적용 */}
+            {/* backgroundInteractable=true일 때 overlay도 터치를 통과시킴 */}
             <div
               className={styles.overlay}
-              style={
-                dimOpacity !== undefined ? { opacity: dimOpacity } : undefined
-              }
+              style={{
+                ...(dimOpacity !== undefined ? { opacity: dimOpacity } : {}),
+                pointerEvents: backgroundInteractable ? 'none' : 'auto',
+              }}
               onClick={onOverlayClick}
               aria-hidden="true"
             />
+            {/* backgroundInteractable이어도 바텀시트 자체는 항상 터치 가능해야 함 */}
             <Drawer.Content
               className={styles.content}
+              style={
+                backgroundInteractable ? { pointerEvents: 'auto' } : undefined
+              }
               aria-describedby={undefined}
             >
               <Drawer.Title className={styles.srOnlyTitle}>
