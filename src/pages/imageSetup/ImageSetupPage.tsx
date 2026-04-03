@@ -18,6 +18,7 @@ import ActivityInfo from './steps/activityInfo/ActivityInfo';
 import InteriorStyle from './steps/interiorStyle/InteriorStyle';
 import { useFunnelStore } from './stores/useFunnelStore';
 import FloorPlanSelectStep from './v2/steps/floorPlanSelect/FloorPlanSelectStep';
+import { useFloorPlanStore } from './v2/stores/useFloorPlanStore';
 
 import type {
   CompletedFloorPlanSelect,
@@ -47,12 +48,15 @@ const ImageSetupPage = () => {
 
   // 퍼널 전체가 unmount될 때 (퍼널 벗어날 때) 데이터 초기화
   useEffect(() => {
+    // cleanup
     return () => {
       const loginRedirect = getLoginRedirect();
       // loginRedirect는 로그인 게이트 시작 시 setLoginRedirect()로 저장, 완료 시 consumeLoginRedirect()로 삭제됨
       // 로그인 후 복귀 시 도면 선택값을 복원해야하므로, 로그인 게이트 진행 중(loginRedirect 존재하는 경우)에는 reset 스킵
       if (!loginRedirect) {
+        // 로그인 게이트로 퍼널을 탈출하는게 아닌 경우에는 퍼널 store, 도면 store값 초기화
         useFunnelStore.getState().reset();
+        useFloorPlanStore.getState().reset();
         // 의도적 퍼널 이탈 혹은 퍼널 완료 시 퍼널을 탈출함. 이때 useImageFlowStore 전체를 reset하면
         // 1. Result 페이지에서 추천형/목록형 분기에 resultType을 사용할 수 없고,
         // 2. Loading 페이지에서 이미지 생성 API 호출 시 preset을 사용할 수 없다
