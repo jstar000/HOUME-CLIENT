@@ -5,7 +5,8 @@ import { fontVars } from '@styles/tokensV2/font.css';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
 export const container = style({
-  position: 'relative',
+  position: 'sticky',
+  top: 0,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
