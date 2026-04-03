@@ -67,7 +67,12 @@ const BottomSheetBase = ({
         : '드래그 핸들 바텀시트';
 
   return (
-    <Drawer.Root open={open} modal={false} dismissible={false}>
+    // backgroundInteractable일 때만 modal=false
+    <Drawer.Root
+      open={open}
+      modal={!backgroundInteractable}
+      dismissible={false}
+    >
       <Drawer.Portal>
         {open && (
           <div
