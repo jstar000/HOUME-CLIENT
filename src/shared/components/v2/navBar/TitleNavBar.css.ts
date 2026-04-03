@@ -8,6 +8,7 @@ export const container = style({
   position: 'relative',
   display: 'flex',
   alignItems: 'center',
+  justifyContent: 'space-between',
   backgroundColor: colorVars.color.bg.primary,
   paddingRight: unitVars.unit.gapPadding['400'],
   paddingLeft: unitVars.unit.gapPadding['400'],
@@ -22,22 +23,15 @@ export const leftSlot = style({
   flexShrink: 0,
   alignItems: 'center',
   justifyContent: 'flex-start',
+  paddingRight: unitVars.unit.gapPadding['300'],
 });
 
-export const backButton = style({
-  display: 'inline-flex',
+export const rightSlot = style({
+  display: 'flex',
+  flexShrink: 0,
   alignItems: 'center',
-  justifyContent: 'center',
-  transition: 'transform 120ms ease',
-  border: 0,
-  background: 'transparent',
-  color: colorVars.color.text.tertiary,
-  ...fontVars.font.title_r_15,
-  selectors: {
-    '&:active': {
-      transform: 'scale(0.95)',
-    },
-  },
+  justifyContent: 'flex-end',
+  paddingLeft: unitVars.unit.gapPadding['400'],
 });
 
 export const label = style({
