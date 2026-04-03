@@ -69,9 +69,7 @@ const BottomSheetBase = ({
             <div
               className={styles.overlay}
               style={
-                dimOpacity !== undefined
-                  ? { backgroundColor: `rgba(0, 0, 0, ${dimOpacity * 0.5})` }
-                  : undefined
+                dimOpacity !== undefined ? { opacity: dimOpacity } : undefined
               }
               onClick={onOverlayClick}
               aria-hidden="true"
