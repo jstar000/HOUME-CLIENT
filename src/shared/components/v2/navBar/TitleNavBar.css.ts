@@ -15,7 +15,7 @@ export const container = style({
   justifyContent: 'space-between',
   backgroundColor: colorVars.color.bg.primary,
   paddingRight: unitVars.unit.gapPadding['400'],
-  paddingLeft: unitVars.unit.gapPadding['400'],
+  paddingLeft: unitVars.unit.gapPadding['300'],
   width: '100%',
   minWidth: unitVars.unit.dimension.wMin,
   maxWidth: unitVars.unit.dimension.wMax,
