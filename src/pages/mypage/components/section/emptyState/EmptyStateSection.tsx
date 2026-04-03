@@ -24,7 +24,7 @@ const EmptyStateSection = ({ type }: EmptyStateSectionProps) => {
   };
 
   const handleGoRoomTypeClick = () => {
-    navigate(ROUTES.GENERATE_START); // 임시 라우터
+    navigate(ROUTES.GENERATE); // 임시 라우터
   };
 
   const content = {
