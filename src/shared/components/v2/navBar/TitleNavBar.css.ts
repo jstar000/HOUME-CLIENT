@@ -4,8 +4,11 @@ import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
+import { zIndex } from '@/shared/styles/tokens/zIndex';
+
 export const container = style({
   position: 'sticky',
+  zIndex: zIndex.navBar,
   top: 0,
   display: 'flex',
   alignItems: 'center',
