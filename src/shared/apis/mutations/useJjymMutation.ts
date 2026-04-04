@@ -46,6 +46,9 @@ export const useJjymMutation = () => {
         toggleSaveProduct(rawProductId);
       }
 
+      {
+        /* TODO: TOAST 리얼 적용 */
+      }
       notify({
         text: data.favorited
           ? '상품을 찜했어요! 찜한 상품으로 이동할까요?'
