@@ -9,6 +9,7 @@ import SearchSection from './SearchSection/SearchSection';
 import SelectedFurnitureSheet from './SelectedFurnitureSheet/SelectedFurnitureSheet';
 
 const ProductTab = () => {
+  const open = true;
   const [sheetExpanded, setSheetExpanded] = useState(false);
 
   return (
@@ -17,12 +18,17 @@ const ProductTab = () => {
       <SearchSection />
 
       <DragHandleBottomSheet
-        open
+        open={open}
+        collapsedHeight="24rem"
         onExpandedChange={setSheetExpanded}
         contentSlot={<SelectedFurnitureSheet expanded={sheetExpanded} />}
         primaryButton={
-          // TODO: 이 가구들로 우리 집 꾸미기 버튼 Action Button 업데이트 시 width-full 옵션 추가
-          <ActionButton size="2XL" leftIcon="DoubleStar" onClick={() => {}}>
+          <ActionButton
+            size="2XL"
+            fullWidth
+            leftIcon="DoubleStar"
+            onClick={() => {}}
+          >
             이 가구들로 우리 집 꾸미기
           </ActionButton>
         }
