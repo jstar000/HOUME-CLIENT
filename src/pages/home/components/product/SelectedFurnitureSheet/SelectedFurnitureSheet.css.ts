@@ -42,7 +42,7 @@ export const compactRow = style({
 
 export const compactSlot = style({
   aspectRatio: '1 / 1',
-  border: `1px solid ${colorVars.color.border.secondary}`,
+  border: `1px solid ${colorVars.color.border.tertiary}`,
   borderRadius: unitVars.unit.radius['300'],
   backgroundColor: colorVars.color.bg.primary,
 });
@@ -60,7 +60,7 @@ export const addCard = style({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  border: `1px solid ${colorVars.color.border.secondary}`,
+  border: `1px solid ${colorVars.color.border.tertiary}`,
   borderRadius: unitVars.unit.radius['300'],
   backgroundColor: colorVars.color.bg.primary,
 });
