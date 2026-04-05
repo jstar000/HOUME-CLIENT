@@ -1,4 +1,4 @@
-import Icon from '@shared/components/v2/icon/Icon';
+import Icon from '@components/v2/icon/Icon';
 
 import * as styles from './TitleNavBar.css';
 
@@ -26,10 +26,8 @@ const TitleNavBar = ({
           className={styles.backButton}
           onClick={onBackClick}
         >
-          <span className={styles.backIcon} aria-hidden="true">
-            <Icon name="ArrowLeft" size="24" />
-          </span>
-          {backLabel}
+          <Icon name="ArrowLeft" size="20" />
+          <span className={styles.label}>{backLabel}</span>
         </button>
       </div>
       <h1 className={styles.title}>{title}</h1>

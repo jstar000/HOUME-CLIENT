@@ -68,14 +68,42 @@ const publicRoutes = [
       return { Component: PrivacyPolicyPage };
     },
   },
-];
-
-// 보호된 라우트 그룹 (인증 필요)
-const protectedRoutes = [
+  {
+    path: ROUTES.STYLE_LIST,
+    lazy: async () => {
+      const { default: StyleListPage } = await import(
+        '@pages/style/StyleListPage'
+      );
+      return { Component: StyleListPage };
+    },
+  },
+  {
+    path: ROUTES.STYLE_DETAIL,
+    lazy: async () => {
+      const { default: StyleDetailPage } = await import(
+        '@pages/style/StyleDetailPage'
+      );
+      return { Component: StyleDetailPage };
+    },
+  },
+  {
+    path: ROUTES.BANNER_DETAIL,
+    lazy: async () => {
+      const { default: BannerDetailPage } = await import(
+        '@pages/banner/BannerDetailPage'
+      );
+      return { Component: BannerDetailPage };
+    },
+  },
+  // 경로 1,3에서 비로그인도 도면 선택까지 허용. 로그인 게이트는 "공간 선택하기" CTA에서 실행
   {
     path: ROUTES.IMAGE_SETUP,
     element: <ImageSetupPage />,
   },
+];
+
+// 보호된 라우트 그룹 (인증 필요)
+const protectedRoutes = [
   {
     path: ROUTES.GENERATE,
     lazy: async () => {
@@ -111,12 +139,12 @@ const protectedRoutes = [
     },
   },
   {
-    path: ROUTES.GENERATE_START,
+    path: ROUTES.WELCOME,
     lazy: async () => {
-      const { default: StartPage } = await import(
-        '@pages/generate/pages/start/StartPage'
+      const { default: WelcomePage } = await import(
+        '@pages/generate/pages/welcome/WelcomePage'
       );
-      return { Component: StartPage };
+      return { Component: WelcomePage };
     },
   },
 ];
