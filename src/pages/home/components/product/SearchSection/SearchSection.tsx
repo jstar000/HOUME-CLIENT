@@ -5,6 +5,8 @@ import SearchBar from '@shared/components/v2/textField/SearchBar';
 
 import Chip from '@components/v2/chip/Chip';
 
+import Icon from '@/shared/components/v2/icon/Icon';
+
 import * as styles from './SearchSection.css';
 
 const SearchSection = () => {
@@ -89,21 +91,21 @@ const SearchSection = () => {
           <Chip
             selected={isFurnitureTypeSelected}
             onClick={handleFurnitureTypeChipClick}
-            suffixIcon="ChevronDown"
+            suffixIcon={<Icon name="ChevronDown" size="12" />}
           >
             가구 유형
           </Chip>
           <Chip
             selected={isPriceRangeSelected}
             onClick={handlePriceRangeChipClick}
-            suffixIcon="ChevronDown"
+            suffixIcon={<Icon name="ChevronDown" size="12" />}
           >
             가격대
           </Chip>
           <Chip
             selected={isColorSelected}
             onClick={handleColorChipClick}
-            suffixIcon="ChevronDown"
+            suffixIcon={<Icon name="ChevronDown" size="12" />}
           >
             색상
           </Chip>
