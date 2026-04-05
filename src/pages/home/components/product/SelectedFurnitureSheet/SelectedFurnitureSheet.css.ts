@@ -76,5 +76,5 @@ export const addCardContent = style({
 export const addLabel = style({
   margin: 0,
   ...fontVars.font.caption_r_12,
-  // color: colorVars.color.text.disabled, 토큰 업데이트 시 활성화
+  color: colorVars.color.text.disabled,
 });
