@@ -1,5 +1,3 @@
-import { useCallback, useState } from 'react';
-
 import CardProduct from '@shared/components/card/cardProduct/CardProduct';
 import SearchBar from '@shared/components/v2/textField/SearchBar';
 
@@ -9,11 +7,17 @@ import Icon from '@/shared/components/v2/icon/Icon';
 
 import * as styles from './SearchSection.css';
 
-const SearchSection = () => {
-  const [isFurnitureTypeSelected, setFurnitureTypeSelected] = useState(false);
-  const [isPriceRangeSelected, setPriceRangeSelected] = useState(false);
-  const [isColorSelected, setColorSelected] = useState(false);
+export type ProductFilterChipCategory = 'furniture' | 'price' | 'color';
 
+interface SearchSectionProps {
+  chipSelected: Record<ProductFilterChipCategory, boolean>;
+  onFilterChipClick: (category: ProductFilterChipCategory) => void;
+}
+
+const SearchSection = ({
+  chipSelected,
+  onFilterChipClick,
+}: SearchSectionProps) => {
   const mockProducts = [
     {
       id: 'p1',
@@ -69,18 +73,6 @@ const SearchSection = () => {
     },
   ];
 
-  const handleFurnitureTypeChipClick = useCallback(() => {
-    setFurnitureTypeSelected((prev) => !prev);
-  }, []);
-
-  const handlePriceRangeChipClick = useCallback(() => {
-    setPriceRangeSelected((prev) => !prev);
-  }, []);
-
-  const handleColorChipClick = useCallback(() => {
-    setColorSelected((prev) => !prev);
-  }, []);
-
   return (
     <section className={styles.section}>
       <div className={styles.searchHeader}>
@@ -89,22 +81,22 @@ const SearchSection = () => {
         </div>
         <div className={styles.filterList}>
           <Chip
-            selected={isFurnitureTypeSelected}
-            onClick={handleFurnitureTypeChipClick}
+            selected={chipSelected.furniture}
+            onClick={() => onFilterChipClick('furniture')}
             suffixIcon={<Icon name="ChevronDown" size="12" />}
           >
             가구 유형
           </Chip>
           <Chip
-            selected={isPriceRangeSelected}
-            onClick={handlePriceRangeChipClick}
+            selected={chipSelected.price}
+            onClick={() => onFilterChipClick('price')}
             suffixIcon={<Icon name="ChevronDown" size="12" />}
           >
             가격대
           </Chip>
           <Chip
-            selected={isColorSelected}
-            onClick={handleColorChipClick}
+            selected={chipSelected.color}
+            onClick={() => onFilterChipClick('color')}
             suffixIcon={<Icon name="ChevronDown" size="12" />}
           >
             색상
