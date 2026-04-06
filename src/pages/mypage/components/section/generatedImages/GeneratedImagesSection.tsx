@@ -184,7 +184,7 @@ const GeneratedImagesSection = () => {
               {group.items.map((item) => (
                 <GenImgCard
                   key={item.imageId}
-                  cardType={item.viewType === 'curation' ? 'curation' : 'list'}
+                  cardType={item.viewType === 'CURATION' ? 'curation' : 'list'}
                   productSummaryText={item.productSummaryText}
                   imageUrl={item.generatedImageUrl}
                   usedProducts={item.usedProducts}
