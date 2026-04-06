@@ -1,104 +1,63 @@
 import { useEffect, useState } from 'react';
 
+import type {
+  ProductInfo,
+  PriceInfo,
+  SaveInfo,
+  LinkInfo,
+} from '@shared/types/productCard';
+
 import CardImage from '@assets/images/cardExImg.svg?url';
 
-import * as styles from './ListProductCard.css';
+import {
+  createCardClickHandler,
+  getColorChips,
+  getPriceTexts,
+  type CardClickArea,
+} from '@utils/productCardUtils';
+
+import * as styles from './ListCardProduct.css';
 import IconButton from '../button/IconButton';
 
-type CardClickArea = 'card' | 'image' | 'title';
 type CardSize = 's' | 'm';
 
 interface ListProductCardProps {
   cardSize?: CardSize;
-  title: string;
-  brand?: string;
-  imageUrl?: string;
-  isSaved: boolean;
-  onToggleSave: () => void;
-  linkHref?: string;
+  product: ProductInfo;
+  price?: PriceInfo;
+  save: SaveInfo;
+  link?: LinkInfo;
   disabled?: boolean;
-  onLinkClick?: () => void;
   onCardClick?: (area?: CardClickArea) => void;
   enableWholeCardLink?: boolean;
-  originalPrice?: number;
-  discountRate?: number;
-  discountPrice?: number;
-  colorHexes?: string[];
 }
 
 const ListProductCard = ({
   cardSize = 'm',
-  title,
-  imageUrl,
-  isSaved,
-  onToggleSave,
-  linkHref,
+  product,
+  price,
+  save,
+  link,
   disabled = false,
-  onLinkClick,
   onCardClick,
   enableWholeCardLink = false,
-  originalPrice,
-  discountRate,
-  discountPrice,
-  colorHexes,
-}: ListProductCardProps) => {
+}: ListCardProductProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const linkHref = link?.href;
 
   useEffect(() => {
     setIsLoaded(false);
-  }, [imageUrl]);
+  }, [product.imageUrl]);
 
-  const formatKrw = (value?: number) => {
-    if (typeof value !== 'number' || !Number.isFinite(value)) return null;
-    return `${value.toLocaleString('ko-KR')}`;
-  };
+  const { visibleColors, extraColorCount } = getColorChips(product.colorHexes);
+  const { originalPriceText, discountPriceText, discountRateText } =
+    getPriceTexts(price?.original, price?.discount, price?.discountRate);
 
-  const originalPriceText = formatKrw(originalPrice);
-  const discountPriceText = formatKrw(discountPrice);
-  const discountRateText =
-    typeof discountRate === 'number' && Number.isFinite(discountRate)
-      ? `${discountRate}%`
-      : null;
-
-  const visibleColors = Array.isArray(colorHexes)
-    ? colorHexes.filter(Boolean).slice(0, 3)
-    : [];
-  const extraColorCount =
-    Array.isArray(colorHexes) && colorHexes.length > 3
-      ? colorHexes.length - 3
-      : 0;
-
-  const handleWrapperClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    const target = event.target as HTMLElement | null;
-    const areaElement = target?.closest?.('[data-click-area]') as HTMLElement;
-    const area = areaElement?.dataset?.clickArea as CardClickArea | undefined;
-    const resolvedArea: CardClickArea =
-      area === 'image' || area === 'title' ? area : 'card';
-
-    onCardClick?.(resolvedArea);
-
-    if (!enableWholeCardLink) return;
-    if (!linkHref) return;
-    if (typeof window === 'undefined') return;
-
-    window.open(linkHref, '_blank', 'noopener,noreferrer');
-  };
-
-  const handleWrapperKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (!enableWholeCardLink) return;
-    if (!linkHref) return;
-    if (typeof window === 'undefined') return;
-    if (event.key !== 'Enter' && event.key !== ' ') return;
-
-    event.preventDefault();
-    onCardClick?.('card');
-    window.open(linkHref, '_blank', 'noopener,noreferrer');
-  };
-
-  const handleLinkClick = () => {
-    onLinkClick?.();
-    if (linkHref) window.open(linkHref, '_blank', 'noopener,noreferrer');
-  };
+  const { handleWrapperClick, handleWrapperKeyDown } = createCardClickHandler({
+    onCardClick,
+    enableWholeCardLink,
+    linkHref,
+  });
 
   return (
     <div
@@ -109,7 +68,9 @@ const ListProductCard = ({
       onKeyDown={handleWrapperKeyDown}
       role={enableWholeCardLink && linkHref ? 'link' : undefined}
       tabIndex={enableWholeCardLink && linkHref ? 0 : undefined}
-      aria-label={enableWholeCardLink ? `${title} 상품 링크로 이동` : undefined}
+      aria-label={
+        enableWholeCardLink ? `${product.title} 상품 링크로 이동` : undefined
+      }
     >
       <section
         className={styles.imgSection({ size: cardSize })}
@@ -118,7 +79,7 @@ const ListProductCard = ({
         {!isLoaded && <div className={styles.skeleton} />}
         <img
           className={styles.cardImage({ loaded: isLoaded, size: cardSize })}
-          src={imageUrl || CardImage}
+          src={product.imageUrl || CardImage}
           alt="카드 이미지"
           onLoad={() => setIsLoaded(true)}
         />
@@ -146,7 +107,7 @@ const ListProductCard = ({
 
         {/* 브랜드, 상품 이름 */}
         <div className={styles.productInfo} data-click-area="title">
-          <p className={styles.productText}>{title}</p>
+          <p className={styles.productText}>{product.title}</p>
         </div>
 
         {/* 가격 정보 */}
@@ -191,14 +152,14 @@ const ListProductCard = ({
           name="Link"
           size="S"
           disabled={disabled}
-          onClick={handleLinkClick}
+          onClick={link?.onClick}
           aria-label={'상품 링크로 이동'}
         />
         <IconButton
-          name={isSaved ? 'HeartFillColor' : 'HeartStrokeGray'}
+          name={save.isSaved ? 'HeartFillColor' : 'HeartStrokeGray'}
           size="S"
           disabled={disabled}
-          onClick={onToggleSave}
+          onClick={save.onToggle}
         />
       </div>
     </div>
