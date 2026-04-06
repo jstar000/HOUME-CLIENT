@@ -2,13 +2,19 @@ import { useEffect, useState } from 'react';
 
 import CardImage from '@assets/images/cardExImg.svg?url';
 
+import {
+  createCardClickHandler,
+  getColorChips,
+  getPriceTexts,
+  type CardClickArea,
+} from '@utils/productCardUtils';
+
 import * as styles from './CardProduct.css';
 import ActionButton from '../button/actionButton/ActionButton';
 import IconButton from '../button/IconButton';
 import Icon from '../icon/Icon';
 
 type CardType = 'default' | 'shopping';
-type CardClickArea = 'card' | 'image' | 'title';
 
 interface CardProductProps {
   cardType?: CardType;
@@ -55,52 +61,15 @@ const CardProduct = ({
     setIsLoaded(false);
   }, [imageUrl]);
 
-  const formatKrw = (value?: number) => {
-    if (typeof value !== 'number' || !Number.isFinite(value)) return null;
-    return `${value.toLocaleString('ko-KR')}원`;
-  };
+  const { visibleColors, extraColorCount } = getColorChips(colorHexes);
+  const { originalPriceText, discountPriceText, discountRateText } =
+    getPriceTexts(originalPrice, discountPrice, discountRate);
 
-  const originalPriceText = formatKrw(originalPrice);
-  const discountPriceText = formatKrw(discountPrice);
-  const discountRateText =
-    typeof discountRate === 'number' && Number.isFinite(discountRate)
-      ? `${discountRate}%`
-      : null;
-
-  const visibleColors = Array.isArray(colorHexes)
-    ? colorHexes.filter(Boolean).slice(0, 3)
-    : [];
-  const extraColorCount =
-    Array.isArray(colorHexes) && colorHexes.length > 3
-      ? colorHexes.length - 3
-      : 0;
-
-  const handleWrapperClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    const target = event.target as HTMLElement | null;
-    const areaElement = target?.closest?.('[data-click-area]') as HTMLElement;
-    const area = areaElement?.dataset?.clickArea as CardClickArea | undefined;
-    const resolvedArea: CardClickArea =
-      area === 'image' || area === 'title' ? area : 'card';
-
-    onCardClick?.(resolvedArea);
-
-    if (!enableWholeCardLink) return;
-    if (!linkHref) return;
-    if (typeof window === 'undefined') return;
-
-    window.open(linkHref, '_blank', 'noopener,noreferrer');
-  };
-
-  const handleWrapperKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (!enableWholeCardLink) return;
-    if (!linkHref) return;
-    if (typeof window === 'undefined') return;
-    if (event.key !== 'Enter' && event.key !== ' ') return;
-
-    event.preventDefault();
-    onCardClick?.('card');
-    window.open(linkHref, '_blank', 'noopener,noreferrer');
-  };
+  const { handleWrapperClick, handleWrapperKeyDown } = createCardClickHandler({
+    onCardClick,
+    enableWholeCardLink,
+    linkHref,
+  });
 
   return (
     <div
