@@ -1,8 +1,10 @@
+// 원 계산
 export const formatKrw = (value?: number) => {
   if (typeof value !== 'number' || !Number.isFinite(value)) return null;
-  return `${value.toLocaleString('ko-KR')}원`;
+  return `${value.toLocaleString('ko-KR')}`;
 };
 
+// 컬러칩
 export const getColorChips = (colorHexes?: string[]) => {
   const visibleColors = Array.isArray(colorHexes)
     ? colorHexes.filter(Boolean).slice(0, 3)
@@ -14,6 +16,7 @@ export const getColorChips = (colorHexes?: string[]) => {
   return { visibleColors: visibleColors, extraColorCount: extraColorCount };
 };
 
+// 가격 텍스트
 export const getPriceTexts = (
   originalPrice?: number,
   discountPrice?: number,
@@ -29,6 +32,7 @@ export const getPriceTexts = (
   };
 };
 
+// 카드 클릭 핸들러
 export type CardClickArea = 'card' | 'image' | 'title';
 
 export const createCardClickHandler = ({
