@@ -2,6 +2,12 @@ import { useEffect, useState } from 'react';
 
 import CardImage from '@assets/images/cardExImg.svg?url';
 
+import type {
+  LinkInfo,
+  PriceInfo,
+  ProductInfo,
+  SaveInfo,
+} from '@utils/productCardProps';
 import {
   createCardClickHandler,
   getColorChips,
@@ -18,52 +24,36 @@ type CardType = 'default' | 'shopping';
 
 interface CardProductProps {
   cardType?: CardType;
-  title: string;
-  brand?: string;
-  imageUrl?: string;
-  isSaved: boolean;
-  onToggleSave: () => void;
-  linkHref?: string;
-  linkLabel?: string;
+  product: ProductInfo;
+  price?: PriceInfo;
+  save: SaveInfo;
+  link?: LinkInfo;
   disabled?: boolean;
-  onLinkClick?: () => void;
   onCardClick?: (area?: CardClickArea) => void;
   enableWholeCardLink?: boolean;
-  originalPrice?: number;
-  discountRate?: number;
-  discountPrice?: number;
-  colorHexes?: string[];
-  saveCount?: number;
 }
 
 const CardProduct = ({
   cardType = 'default',
-  title,
-  brand,
-  imageUrl,
-  isSaved,
-  onToggleSave,
-  linkHref,
+  product,
+  price,
+  save,
+  link,
   disabled = false,
-  onLinkClick,
   onCardClick,
   enableWholeCardLink = false,
-  originalPrice,
-  discountRate,
-  discountPrice,
-  colorHexes,
-  saveCount,
 }: CardProductProps) => {
   const isDefault = cardType === 'default';
   const [isLoaded, setIsLoaded] = useState(false);
+  const linkHref = link?.href;
 
   useEffect(() => {
     setIsLoaded(false);
-  }, [imageUrl]);
+  }, [product.imageUrl]);
 
-  const { visibleColors, extraColorCount } = getColorChips(colorHexes);
+  const { visibleColors, extraColorCount } = getColorChips(product.colorHexes);
   const { originalPriceText, discountPriceText, discountRateText } =
-    getPriceTexts(originalPrice, discountPrice, discountRate);
+    getPriceTexts(price?.original, price?.discount, price?.discountRate);
 
   const { handleWrapperClick, handleWrapperKeyDown } = createCardClickHandler({
     onCardClick,
@@ -80,13 +70,15 @@ const CardProduct = ({
       onKeyDown={handleWrapperKeyDown}
       role={enableWholeCardLink && linkHref ? 'link' : undefined}
       tabIndex={enableWholeCardLink && linkHref ? 0 : undefined}
-      aria-label={enableWholeCardLink ? `${title} 상품 링크로 이동` : undefined}
+      aria-label={
+        enableWholeCardLink ? `${product.title} 상품 링크로 이동` : undefined
+      }
     >
       <section className={styles.imgSection()} data-click-area="image">
         {!isLoaded && <div className={styles.skeleton} />}
         <img
           className={styles.cardImage({ loaded: isLoaded })}
-          src={imageUrl || CardImage}
+          src={product.imageUrl || CardImage}
           alt="카드 이미지"
           onLoad={() => setIsLoaded(true)}
         />
@@ -104,7 +96,7 @@ const CardProduct = ({
               size="XS"
               leftIcon="Link"
               aria-label={'공식 사이트로 이동'}
-              onClick={onLinkClick}
+              onClick={link?.onClick}
             >
               사이트
             </ActionButton>
@@ -119,10 +111,10 @@ const CardProduct = ({
         >
           {isDefault ? (
             <IconButton
-              name={isSaved ? 'HeartFillColor' : 'HeartStrokeWhite'}
+              name={save.isSaved ? 'HeartFillColor' : 'HeartStrokeWhite'}
               size="S"
               disabled={disabled}
-              onClick={onToggleSave}
+              onClick={save.onToggle}
             />
           ) : (
             <IconButton name="ViewDetail" size="S" disabled={disabled} />
@@ -153,10 +145,10 @@ const CardProduct = ({
         <div className={styles.middleInfoSection}>
           {/* 브랜드, 상품 이름 */}
           <div className={styles.productInfo} data-click-area="title">
-            {isDefault && !!brand && (
-              <p className={styles.brandText}>{brand}</p>
+            {isDefault && !!product.brand && (
+              <p className={styles.brandText}>{product.brand}</p>
             )}
-            <p className={styles.productText}>{title}</p>
+            <p className={styles.productText}>{product.title}</p>
           </div>
 
           {/* 가격 정보 */}
@@ -183,13 +175,13 @@ const CardProduct = ({
 
         {/* 저장(하트) 정보 */}
         {isDefault ? (
-          typeof saveCount === 'number' &&
-          Number.isFinite(saveCount) && (
+          typeof save.count === 'number' &&
+          Number.isFinite(save.count) && (
             <div className={styles.saveCountRow}>
               <Icon name="HeartFillGray" size="14" />
 
               <span className={styles.saveCountText}>
-                {saveCount.toLocaleString('ko-KR')}
+                {save.count.toLocaleString('ko-KR')}
               </span>
             </div>
           )

@@ -2,6 +2,12 @@ import { useEffect, useState } from 'react';
 
 import CardImage from '@assets/images/cardExImg.svg?url';
 
+import type {
+  ProductInfo,
+  PriceInfo,
+  SaveInfo,
+  LinkInfo,
+} from '@utils/productCardProps';
 import {
   createCardClickHandler,
   getColorChips,
@@ -16,47 +22,35 @@ type CardSize = 's' | 'm';
 
 interface ListCardProductProps {
   cardSize?: CardSize;
-  title: string;
-  brand?: string;
-  imageUrl?: string;
-  isSaved: boolean;
-  onToggleSave: () => void;
-  linkHref?: string;
+  product: ProductInfo;
+  price?: PriceInfo;
+  save: SaveInfo;
+  link?: LinkInfo;
   disabled?: boolean;
-  onLinkClick?: () => void;
   onCardClick?: (area?: CardClickArea) => void;
   enableWholeCardLink?: boolean;
-  originalPrice?: number;
-  discountRate?: number;
-  discountPrice?: number;
-  colorHexes?: string[];
 }
 
 const ListCardProduct = ({
   cardSize = 'm',
-  title,
-  imageUrl,
-  isSaved,
-  onToggleSave,
-  linkHref,
+  product,
+  price,
+  save,
+  link,
   disabled = false,
-  onLinkClick,
   onCardClick,
   enableWholeCardLink = false,
-  originalPrice,
-  discountRate,
-  discountPrice,
-  colorHexes,
 }: ListCardProductProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const linkHref = link?.href;
 
   useEffect(() => {
     setIsLoaded(false);
-  }, [imageUrl]);
+  }, [product.imageUrl]);
 
-  const { visibleColors, extraColorCount } = getColorChips(colorHexes);
+  const { visibleColors, extraColorCount } = getColorChips(product.colorHexes);
   const { originalPriceText, discountPriceText, discountRateText } =
-    getPriceTexts(originalPrice, discountPrice, discountRate);
+    getPriceTexts(price?.original, price?.discount, price?.discountRate);
 
   const { handleWrapperClick, handleWrapperKeyDown } = createCardClickHandler({
     onCardClick,
@@ -73,13 +67,15 @@ const ListCardProduct = ({
       onKeyDown={handleWrapperKeyDown}
       role={enableWholeCardLink && linkHref ? 'link' : undefined}
       tabIndex={enableWholeCardLink && linkHref ? 0 : undefined}
-      aria-label={enableWholeCardLink ? `${title} 상품 링크로 이동` : undefined}
+      aria-label={
+        enableWholeCardLink ? `${product.title} 상품 링크로 이동` : undefined
+      }
     >
       <section className={styles.imgSection()} data-click-area="image">
         {!isLoaded && <div className={styles.skeleton} />}
         <img
           className={styles.cardImage({ loaded: isLoaded, size: cardSize })}
-          src={imageUrl || CardImage}
+          src={product.imageUrl || CardImage}
           alt="카드 이미지"
           onLoad={() => setIsLoaded(true)}
         />
@@ -107,7 +103,7 @@ const ListCardProduct = ({
 
         {/* 브랜드, 상품 이름 */}
         <div className={styles.productInfo} data-click-area="title">
-          <p className={styles.productText}>{title}</p>
+          <p className={styles.productText}>{product.title}</p>
         </div>
 
         {/* 가격 정보 */}
@@ -143,14 +139,14 @@ const ListCardProduct = ({
           name="Link"
           size="S"
           disabled={disabled}
-          onClick={onLinkClick}
+          onClick={link?.onClick}
           aria-label={'상품 링크로 이동'}
         />
         <IconButton
-          name={isSaved ? 'HeartFillColor' : 'HeartStrokeGray'}
+          name={save.isSaved ? 'HeartFillColor' : 'HeartStrokeGray'}
           size="S"
           disabled={disabled}
-          onClick={onToggleSave}
+          onClick={save.onToggle}
         />
       </div>
     </div>
