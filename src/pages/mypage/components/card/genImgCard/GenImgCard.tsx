@@ -60,15 +60,23 @@ const GenImgCard = ({
             <ListProductCard
               key={item.rawProductId}
               cardSize="s"
-              imageUrl={item.productImageUrl}
-              title={item.productName}
-              isSaved={item.isJjym}
-              onToggleSave={() => handleToggleSave(item.rawProductId)}
-              linkHref={item.productSiteUrl}
-              onLinkClick={logMyPageClickBtnFurnitureCard}
-              originalPrice={item.listPrice}
-              discountRate={item.discountRate}
-              discountPrice={item.discountPrice}
+              product={{
+                title: item.productName,
+                imageUrl: item.productImageUrl,
+              }}
+              price={{
+                original: item.listPrice,
+                discount: item.discountPrice,
+                discountRate: item.discountRate,
+              }}
+              save={{
+                isSaved: item.isJjym,
+                onToggle: () => handleToggleSave(item.rawProductId),
+              }}
+              link={{
+                href: item.productSiteUrl,
+                onClick: logMyPageClickBtnFurnitureCard,
+              }}
               enableWholeCardLink={true}
             />
           ))}

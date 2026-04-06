@@ -15,7 +15,7 @@ import EmptyStateSection from '../emptyState/EmptyStateSection';
 
 const SavedItemsSection = () => {
   // 스크롤 포커스 id 가져오기
-  const [focusItemId, setFocusItemId] = useState<string | null>(null);
+  const [focusItemId, setFocusItemId] = useState<string | null>('null');
 
   // 찜한 목록 조회
   const { data: savedItems = [], isFetched } = useGetJjymListQuery();
@@ -68,19 +68,27 @@ const SavedItemsSection = () => {
               className={styles.cardWrapper}
             >
               <ProductCard
-                title={item.productName}
-                brand={item.brandName}
-                imageUrl={item.productImageUrl}
-                isSaved={true}
-                onToggleSave={() => handleToggleSave(item.rawProductId)}
-                linkHref={item.productSiteUrl}
-                onLinkClick={logMyPageClickBtnFurnitureCard}
-                linkLabel="사이트"
-                originalPrice={item.listPrice}
-                discountRate={item.discountRate}
-                discountPrice={item.discountPrice}
-                colorHexes={normalizeColorHexes(item.colors)}
-                saveCount={item.jjymCount}
+                product={{
+                  title: item.productName,
+                  brand: item.brandName,
+                  imageUrl: item.productImageUrl,
+                  colorHexes: normalizeColorHexes(item.colors),
+                }}
+                price={{
+                  original: item.listPrice,
+                  discount: item.discountPrice,
+                  discountRate: item.discountRate,
+                }}
+                save={{
+                  isSaved: true,
+                  onToggle: () => handleToggleSave(item.rawProductId),
+                  count: item.jjymCount,
+                }}
+                link={{
+                  href: item.productSiteUrl,
+                  onClick: logMyPageClickBtnFurnitureCard,
+                  label: '사이트',
+                }}
                 enableWholeCardLink={true}
               />
             </div>

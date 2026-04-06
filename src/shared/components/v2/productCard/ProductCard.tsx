@@ -16,7 +16,7 @@ import {
   type CardClickArea,
 } from '@utils/productCardUtils';
 
-import * as styles from './CardProduct.css';
+import * as styles from './ProductCard.css';
 import ActionButton from '../button/actionButton/ActionButton';
 import IconButton from '../button/IconButton';
 import Icon from '../icon/Icon';
@@ -43,7 +43,7 @@ const ProductCard = ({
   disabled = false,
   onCardClick,
   enableWholeCardLink = false,
-}: CardProductProps) => {
+}: ProductCardProps) => {
   const isDefault = cardType === 'default';
   const [isLoaded, setIsLoaded] = useState(false);
   const linkHref = link?.href;
@@ -99,7 +99,7 @@ const ProductCard = ({
               aria-label={'공식 사이트로 이동'}
               onClick={link?.onClick}
             >
-              사이트
+              {link.label}
             </ActionButton>
           )}
         </div>
@@ -155,7 +155,7 @@ const ProductCard = ({
           {/* 가격 정보 */}
           {(originalPriceText || discountPriceText) && (
             <div className={styles.priceSection}>
-              {discountRate ? (
+              {discountRateText ? (
                 // 할인 있을 때
                 <>
                   {originalPriceText && (
