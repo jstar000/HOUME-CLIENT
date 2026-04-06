@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 
-import CardImage from '@assets/images/cardExImg.svg?url';
-
 import type {
   LinkInfo,
   PriceInfo,
   ProductInfo,
   SaveInfo,
-} from '@utils/productCardProps';
+} from '@shared/types/productCard';
+
+import CardImage from '@assets/images/cardExImg.svg?url';
+
 import {
   createCardClickHandler,
   getColorChips,
