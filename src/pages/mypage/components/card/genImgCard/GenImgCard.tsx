@@ -9,8 +9,6 @@ import * as styles from './GenImgCard.css';
 
 import type { UsedProduct } from '@/pages/mypage/types/apis/generateList';
 
-// type CardClickArea = 'card' | 'image' | 'title';
-
 interface GenImgCardProps {
   cardType?: 'list' | 'curation';
   productSummaryText?: string;
@@ -53,7 +51,11 @@ const GenImgCard = ({
         </TextButton>
       </section>
       <section className={styles.imgContainer}>
-        <img src={imageUrl || TestImage} alt="" className={styles.cardImg} />
+        <img
+          src={imageUrl || TestImage}
+          alt={productSummaryText ?? '생성 이미지'}
+          className={styles.cardImg}
+        />
       </section>
 
       {isListType && (

@@ -35,17 +35,22 @@ export interface MyPageImageDetailData {
 
 export type MyPageImageDetailResponse = BaseResponse<MyPageImageDetailData>;
 
-export interface GeneratedImageListResponse {
+export interface GeneratedImageListResponseData {
   groups: GeneratedImageListData[];
 }
+
+export type GeneratedImageListResponse =
+  BaseResponse<GeneratedImageListResponseData>;
 
 export interface GeneratedImageListData {
   date: string;
   items: GeneratedImageListItem[];
 }
+
+type ViewType = 'LIST' | 'CURATION';
 export interface GeneratedImageListItem {
   imageId: number;
-  viewType: string;
+  viewType: ViewType;
   generatedImageUrl: string;
   generatedAt: string;
   bannerTitle: string;
