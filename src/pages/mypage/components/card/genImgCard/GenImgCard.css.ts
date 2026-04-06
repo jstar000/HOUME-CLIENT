@@ -19,7 +19,7 @@ export const textContainer = style({
   width: '100%',
 });
 
-export const headingTexxt = style({
+export const headingText = style({
   display: 'block',
   ...fontVars.font.title_sb_15,
   flex: 1,
@@ -40,7 +40,6 @@ export const imgContainer = style({
   border: 0,
   borderRadius: unitVars.unit.radius['300'],
   width: '100%',
-  height: '22.4rem',
   overflow: 'hidden',
 });
 

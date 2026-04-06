@@ -77,7 +77,10 @@ const EmptyStateSection = ({ type }: EmptyStateSectionProps) => {
           <TextButton
             color="secondary"
             size="s"
-            onClick={onSecondaryClick}
+            onClick={(e) => {
+              e.stopPropagation();
+              onSecondaryClick?.();
+            }}
             className={styles.lineButton}
           >
             {lineBtnText}

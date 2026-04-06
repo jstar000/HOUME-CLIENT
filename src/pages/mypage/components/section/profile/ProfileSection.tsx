@@ -1,7 +1,8 @@
+import CreditBox from '@pages/mypage/components/creditBox/CreditBox';
+
 import ProfileImage from '@assets/v2/svg/ProfileImage.svg?react';
 
 import * as styles from './ProfileSection.css';
-import CreditBox from '../../creditBox/CreditBox';
 
 interface ProfileSectionProps {
   userName: string;

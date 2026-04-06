@@ -41,9 +41,9 @@ export interface GeneratedImageListResponse {
 
 export interface GeneratedImageListData {
   date: string;
-  items: GeneratedImageListItems[];
+  items: GeneratedImageListItem[];
 }
-export interface GeneratedImageListItems {
+export interface GeneratedImageListItem {
   imageId: number;
   viewType: string;
   generatedImageUrl: string;

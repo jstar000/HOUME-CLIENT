@@ -15,7 +15,7 @@ import EmptyStateSection from '../emptyState/EmptyStateSection';
 
 const SavedItemsSection = () => {
   // 스크롤 포커스 id 가져오기
-  const [focusItemId, setFocusItemId] = useState<string | null>('null');
+  const [focusItemId, setFocusItemId] = useState<string | null>(null);
 
   // 찜한 목록 조회
   const { data: savedItems = [], isFetched } = useGetJjymListQuery();

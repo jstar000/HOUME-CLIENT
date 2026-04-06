@@ -38,13 +38,16 @@ const GenImgCard = ({
   return (
     <div className={styles.wrapper}>
       <section className={styles.textContainer} onClick={onCurationClick}>
-        <span className={styles.headingTexxt}>{productSummaryText}</span>
+        <span className={styles.headingText}>{productSummaryText}</span>
         {/* 컴포넌트 수정 필요 */}
         <TextButton
           color="secondary"
           size="s"
           rightIcon={'ArrowRight'}
-          onClick={onCurationClick}
+          onClick={(e) => {
+            e.stopPropagation();
+            onCurationClick?.();
+          }}
         >
           더보기
         </TextButton>

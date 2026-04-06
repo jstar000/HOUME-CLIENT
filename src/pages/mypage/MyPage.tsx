@@ -27,7 +27,7 @@ const MyPage = () => {
   const location = useLocation();
 
   const [activeMenuTab, setActiveMenuTab] = useState<MypageMenuTab>(
-    location.state?.activeTab ?? 'generatedImages' // 결과 페이지에서 수정 필요
+    location.state?.activeTab ?? 'generatedImages' // TODO: 결과 페이지에서 수정 필요
   );
 
   // 탭 상태 관리 (찜 토스트로 들어온 경우 찜 탭으로 이동을 위해 추가했었음.)

@@ -44,7 +44,6 @@ export const tabButton = recipe({
         color: colorVars.color.text.primary,
       },
       inactive: {
-        // borderBottomColor: colorVars.color.border.tertiary,
         color: colorVars.color.text.tertiary,
       },
     },

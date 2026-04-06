@@ -99,7 +99,7 @@ const ProductCard = ({
               aria-label={'공식 사이트로 이동'}
               onClick={link?.onClick}
             >
-              {link.label}
+              {link?.label || '사이트'}
             </ActionButton>
           )}
         </div>
