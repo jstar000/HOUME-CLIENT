@@ -1,4 +1,4 @@
-import TestImage from '@assets/v2/images/testImg.png';
+import TestImage from '@assets/v2/images/TestImg.png';
 
 import { logMyPageClickBtnFurnitureCard } from '@/pages/mypage/utils/analytics';
 import { useJjymMutation } from '@/shared/apis/mutations/useJjymMutation';
