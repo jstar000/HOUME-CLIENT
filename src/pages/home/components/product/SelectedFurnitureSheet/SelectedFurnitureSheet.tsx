@@ -17,7 +17,7 @@ const SelectedFurnitureSheet = ({
     <div className={styles.container}>
       <div className={styles.headerRow}>
         <Icon name={expanded ? 'ChevronUp' : 'ChevronDown'} size="16" />
-        <p className={styles.title}>선택한 가구</p>
+        <p className={styles.title}>선택한 상품</p>
         <span className={styles.count}>
           (<span className={styles.selectedCount}>{selectedCount}</span>/
           {maxCount})
