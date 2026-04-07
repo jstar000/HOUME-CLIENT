@@ -1,21 +1,18 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 import CloseBottomSheet from '@shared/components/v2/bottomSheet/CloseBottomSheet';
 import DragHandleBottomSheet from '@shared/components/v2/bottomSheet/DragHandleBottomSheet';
 import ActionButton from '@shared/components/v2/button/actionButton/ActionButton';
 
 import IntroSection from './IntroSection/IntroSection';
+import ProductFilterSheet, {
+  type ProductFilterSheetRef,
+} from './ProductFilterSheet/ProductFilterSheet';
 import * as styles from './ProductTab.css';
 import SearchSection, {
   type ProductFilterChipCategory,
 } from './SearchSection/SearchSection';
 import SelectedFurnitureSheet from './SelectedFurnitureSheet/SelectedFurnitureSheet';
-
-const FILTER_SHEET_TITLES: Record<ProductFilterChipCategory, string> = {
-  furniture: '가구 유형',
-  price: '가격대',
-  color: '색상',
-};
 
 const INITIAL_CHIP_SELECTED: Record<ProductFilterChipCategory, boolean> = {
   furniture: false,
@@ -26,11 +23,10 @@ const INITIAL_CHIP_SELECTED: Record<ProductFilterChipCategory, boolean> = {
 const ProductTab = () => {
   const [sheetExpanded, setSheetExpanded] = useState(false);
   const [filterSheetOpen, setFilterSheetOpen] = useState(false);
-  const [activeFilter, setActiveFilter] =
-    useState<ProductFilterChipCategory | null>(null);
   const [chipSelected, setChipSelected] = useState<
     Record<ProductFilterChipCategory, boolean>
   >(INITIAL_CHIP_SELECTED);
+  const productFilterSheetRef = useRef<ProductFilterSheetRef>(null);
 
   const handleFilterChipClick = useCallback(
     (category: ProductFilterChipCategory) => {
@@ -38,13 +34,11 @@ const ProductTab = () => {
         if (prev[category]) {
           queueMicrotask(() => {
             setFilterSheetOpen(false);
-            setActiveFilter(null);
           });
           return { ...INITIAL_CHIP_SELECTED };
         }
 
         queueMicrotask(() => {
-          setActiveFilter(category);
           setFilterSheetOpen(true);
         });
         return {
@@ -59,9 +53,17 @@ const ProductTab = () => {
 
   const handleFilterSheetClose = useCallback(() => {
     setFilterSheetOpen(false);
-    setActiveFilter(null);
     setChipSelected({ ...INITIAL_CHIP_SELECTED });
   }, []);
+
+  const handleFilterApply = useCallback(() => {
+    const values = productFilterSheetRef.current?.getValues();
+    if (values) {
+      // TODO: 상품 목록 API/상태와 연동
+      void values;
+    }
+    handleFilterSheetClose();
+  }, [handleFilterSheetClose]);
 
   return (
     <div className={styles.container}>
@@ -83,7 +85,7 @@ const ProductTab = () => {
             leftIcon="DoubleStar"
             onClick={() => {}}
           >
-            이 가구들로 우리 집 꾸미기
+            이 상품들로 우리 집 꾸미기
           </ActionButton>
         }
       />
@@ -92,21 +94,22 @@ const ProductTab = () => {
         open={filterSheetOpen}
         onClose={handleFilterSheetClose}
         titleAlign="left"
-        titleSlot={
-          activeFilter ? (
-            <p className={styles.filterSheetTitle}>
-              {FILTER_SHEET_TITLES[activeFilter]}
-            </p>
-          ) : null
-        }
-        contentSlot={
-          <div className={styles.filterSheetContent}>
-            필터 옵션은 추후 연결 예정입니다.
-          </div>
+        titleSlot={<p className={styles.filterSheetTitle}>필터</p>}
+        contentSlot={<ProductFilterSheet ref={productFilterSheetRef} />}
+        secondaryButton={
+          <ActionButton
+            variant="outlined"
+            color="inverse"
+            size="2XL"
+            leftIcon="Refresh"
+            onClick={() => productFilterSheetRef.current?.reset()}
+          >
+            초기화
+          </ActionButton>
         }
         primaryButton={
-          <ActionButton size="2XL" fullWidth onClick={handleFilterSheetClose}>
-            확인
+          <ActionButton size="2XL" fullWidth onClick={handleFilterApply}>
+            필터 적용하기
           </ActionButton>
         }
       />
