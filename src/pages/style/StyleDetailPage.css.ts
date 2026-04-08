@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 
+import { zIndex } from '@/shared/styles/tokens/zIndex';
 import { fontVars } from '@/shared/styles/tokensV2/font.css';
 import { unitVars } from '@/shared/styles/tokensV2/unit.css';
 
@@ -25,4 +26,12 @@ export const productList = style({
 
 export const sectionTitle = style({
   ...fontVars.font.title_sb_16,
+});
+
+export const ctaBtn = style({
+  position: 'fixed',
+  zIndex: zIndex.button,
+  right: 0,
+  bottom: unitVars.unit.gapPadding['500'],
+  left: 0,
 });
