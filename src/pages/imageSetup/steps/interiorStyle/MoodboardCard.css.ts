@@ -18,8 +18,10 @@ export const card = recipe({
     borderRadius: unitVars.unit.radius['600'],
     backgroundColor: 'transparent',
     cursor: 'pointer',
+    padding: 0,
     width: '100%',
     overflow: 'hidden',
+    font: 'inherit',
     selectors: {
       '&:active': {
         transform: 'scale(0.95)',

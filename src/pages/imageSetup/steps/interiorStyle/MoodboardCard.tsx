@@ -1,11 +1,10 @@
 import * as styles from './MoodboardCard.css';
 
-interface MoodboardCardProps extends React.ComponentProps<'div'> {
+interface MoodboardCardProps
+  extends Omit<React.ComponentPropsWithoutRef<'button'>, 'children' | 'type'> {
   src: string;
   alt: string;
   selectOrder?: number;
-  disabled?: boolean;
-  onClick?: () => void;
 }
 
 const MoodboardCard = ({
@@ -13,36 +12,33 @@ const MoodboardCard = ({
   alt,
   selectOrder = 0,
   disabled = false,
-  onClick,
+  className,
+  ...rest
 }: MoodboardCardProps) => {
   const isSelected = selectOrder > 0;
 
-  // 상태 결정 우선순위: disabled > selected > default
-  // pressed 인터랙션은 CSS :active 셀렉터로 처리 (v2 컨벤션)
-  const visualState = disabled
-    ? 'default' // disabled는 별도 variant
-    : isSelected
-      ? 'selected'
-      : 'default';
-
-  const cardState = disabled ? 'disabled' : visualState;
-
-  const handleClick = () => {
-    if (disabled) return;
-    onClick?.();
-  };
+  // 카드 컨테이너 스타일 상태 (disabled가 우선)
+  const cardState = disabled ? 'disabled' : isSelected ? 'selected' : 'default';
+  // 체크박스(index 동그라미) 스타일 상태 (선택 여부만 반영)
+  const checkState = isSelected ? 'selected' : 'default';
 
   return (
-    <div className={styles.card({ state: cardState })} onClick={handleClick}>
+    <button
+      type="button"
+      disabled={disabled}
+      aria-pressed={isSelected}
+      className={`${styles.card({ state: cardState })}${className ? ` ${className}` : ''}`}
+      {...rest}
+    >
       <img src={src} alt={alt} className={styles.image} draggable={false} />
       {!disabled && (
-        <div className={styles.checkbox({ state: visualState })}>
-          <span className={styles.circle({ state: visualState })}>
+        <span className={styles.checkbox({ state: checkState })}>
+          <span className={styles.circle({ state: checkState })}>
             {isSelected ? selectOrder : ''}
           </span>
-        </div>
+        </span>
       )}
-    </div>
+    </button>
   );
 };
 
