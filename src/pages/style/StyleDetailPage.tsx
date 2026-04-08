@@ -13,6 +13,8 @@ import StyleCard from '@components/v2/styleCard/StyleCard';
 
 import { setLoginRedirect } from '@utils/loginRedirect';
 
+import ActionButton from '@/shared/components/v2/button/actionButton/ActionButton';
+
 import { STYLE_DETAIL_MOCK } from './mocks/styleDetail';
 import * as styles from './StyleDetailPage.css';
 import { normalizeColorHexes } from '../generate/pages/result/curationSection/curationProducts';
@@ -50,7 +52,7 @@ const StyleDetailPage = () => {
   };
 
   return (
-    <section className={styles.wrapper}>
+    <div className={styles.wrapper}>
       {/* TODO: 컴포넌트 수정 반영 필요 */}
       <TitleNavBar title="스타일 상세 보기" />
       <div className={styles.container}>
@@ -89,7 +91,10 @@ const StyleDetailPage = () => {
           ))}
         </section>
       </div>
-    </section>
+      <ActionButton className={styles.ctaBtn}>
+        이 스타일로 우리 집 꾸미기
+      </ActionButton>
+    </div>
   );
 };
 
