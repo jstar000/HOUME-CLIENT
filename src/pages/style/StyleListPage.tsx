@@ -15,6 +15,7 @@ const StyleListPage = () => {
 
   return (
     <section className={styles.wrapper}>
+      {/* TODO: 컴포넌트 수정 반영 필요 */}
       <TitleNavBar title="스타일 전체 보기" />
       <div className={styles.cardList}>
         {/* TODO: 컴포넌트 수정 반영 필요 */}
