@@ -1,0 +1,28 @@
+import { style } from '@vanilla-extract/css';
+
+import { fontVars } from '@/shared/styles/tokensV2/font.css';
+import { unitVars } from '@/shared/styles/tokensV2/unit.css';
+
+export const wrapper = style({
+  display: 'flex',
+  flexDirection: 'column',
+});
+
+export const container = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: unitVars.unit.gapPadding['700'],
+  padding: `${unitVars.unit.gapPadding['300']} ${unitVars.unit.gapPadding['500']}`,
+});
+
+export const styleCardInfo = style({});
+
+export const productList = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: unitVars.unit.gapPadding['400'],
+});
+
+export const sectionTitle = style({
+  ...fontVars.font.title_sb_16,
+});

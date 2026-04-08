@@ -5,13 +5,30 @@ import { ROUTES } from '@routes/paths';
 import { ENTRY_ROUTE, useImageFlowStore } from '@store/useImageFlowStore';
 import { useUserStore } from '@store/useUserStore';
 
+import { useJjymMutation } from '@apis/mutations/useJjymMutation';
+
+import TitleNavBar from '@components/navBar/TitleNavBar';
+import ListCardProduct from '@components/v2/cardProduct/ListCardProduct';
+import StyleCard from '@components/v2/styleCard/StyleCard';
+
 import { setLoginRedirect } from '@utils/loginRedirect';
+
+import { STYLE_DETAIL_MOCK } from './mocks/styleDetail';
+import * as styles from './StyleDetailPage.css';
+import { normalizeColorHexes } from '../generate/pages/result/curationSection/curationProducts';
 
 const StyleDetailPage = () => {
   const { styleId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const isLoggedIn = !!useUserStore((state) => state.accessToken);
+
+  // 찜 해제 토글
+  const { mutate: toggleJjym } = useJjymMutation();
+
+  const handleToggleSave = (id: number) => {
+    toggleJjym(id);
+  };
 
   // 스타일 상세 CTA: setFlow(STYLE_RESTYLE) → 로그인 체크 → 스타일 상세로 복귀
   const handleCta = () => {
@@ -33,10 +50,46 @@ const StyleDetailPage = () => {
   };
 
   return (
-    <div>
-      <div>스타일 상세 페이지 / styleId: {styleId}</div>
-      <button onClick={handleCta}>이 스타일로 우리 집 꾸미기</button>
-    </div>
+    <section className={styles.wrapper}>
+      {/* TODO: 컴포넌트 수정 반영 필요 */}
+      <TitleNavBar title="스타일 상세 보기" />
+      <div className={styles.container}>
+        <section className={styles.styleCardInfo}>
+          <StyleCard
+            imageSrc={STYLE_DETAIL_MOCK.data.styleImageUrl}
+            title={STYLE_DETAIL_MOCK.data.styleName}
+            imageLoading="eager"
+          />
+        </section>
+        <section className={styles.productList}>
+          <span className={styles.sectionTitle}>사용된 가구</span>
+          {STYLE_DETAIL_MOCK.data.products.map((item) => (
+            <ListCardProduct
+              key={item.id}
+              product={{
+                title: item.name,
+                imageUrl: item.imageUrl,
+                colorHexes: normalizeColorHexes(item.colors.name),
+              }}
+              price={{
+                original: item.originalPrice,
+                discount: item.finalPrice,
+                discountRate: item.discountRate,
+              }}
+              save={{
+                isSaved: item.isLiked,
+                onToggle: () => handleToggleSave(item.id),
+              }}
+              link={{
+                href: item.linkUrl,
+                // onClick: logMyPageClickBtnFurnitureCard,
+              }}
+              enableWholeCardLink={true}
+            />
+          ))}
+        </section>
+      </div>
+    </section>
   );
 };
 
