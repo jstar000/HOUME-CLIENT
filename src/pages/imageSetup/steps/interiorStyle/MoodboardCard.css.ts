@@ -54,6 +54,7 @@ export const image = style({
   objectPosition: 'center',
   width: '100%',
   height: '100%',
+  userSelect: 'none',
 });
 
 // 체크박스 — 우상단에 패딩 16px 영역 안에 위치
@@ -93,14 +94,14 @@ export const circle = recipe({
   variants: {
     state: {
       default: {
-        border: `1.5px solid ${colorVars.color.text.inverse}`,
-        backgroundColor: 'transparent',
-        width: '2rem',
-        height: '2rem',
+        border: `1px solid ${colorVars.color.border.secondary}`,
+        backgroundColor: `${colorVars.color.fill.inverseSecondary}`,
+        width: '2.4rem',
+        height: '2.4rem',
       },
       selected: {
         border: 'none',
-        backgroundColor: colorVars.color.fill.primary,
+        backgroundColor: colorVars.color.fill.strong,
         width: '2.4rem',
         height: '2.4rem',
         color: colorVars.color.text.inverse,

@@ -34,7 +34,7 @@ const MoodboardCard = ({
 
   return (
     <div className={styles.card({ state: cardState })} onClick={handleClick}>
-      <img src={src} alt={alt} className={styles.image} />
+      <img src={src} alt={alt} className={styles.image} draggable={false} />
       {!disabled && (
         <div className={styles.checkbox({ state: visualState })}>
           <span className={styles.circle({ state: visualState })}>
