@@ -28,7 +28,7 @@ export const wrapper = recipe({
       m: {
         gap: unitVars.unit.gapPadding['200'],
         padding: unitVars.unit.gapPadding['000'],
-        minWidth: '33.5rem',
+        // minWidth: '33.5rem',
       },
     },
   },
@@ -107,7 +107,10 @@ export const infoSection = recipe({
   variants: {
     size: {
       s: { gap: unitVars.unit.gapPadding['050'], minWidth: '22rem' },
-      m: { gap: unitVars.unit.gapPadding['100'], minWidth: '26.1rem' },
+      m: {
+        gap: unitVars.unit.gapPadding['100'],
+        minWidth: '24.7rem',
+      },
     },
   },
 });
