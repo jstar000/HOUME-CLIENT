@@ -1,18 +1,28 @@
 import Icon from '@shared/components/v2/icon/Icon';
 
-import * as styles from './SelectedProductSheet.css.ts';
+import * as styles from './SelectedProductSheet.css';
+
+interface SelectedProductItem {
+  id: string;
+  title: string;
+  imageUrl?: string;
+}
 
 interface SelectedProductSheetProps {
   expanded: boolean;
-  selectedCount?: number;
+  selectedProducts: SelectedProductItem[];
   maxCount?: number;
 }
 
 const SelectedProductSheet = ({
   expanded,
-  selectedCount = 0,
+  selectedProducts,
   maxCount = 6,
 }: SelectedProductSheetProps) => {
+  const selectedCount = selectedProducts.length;
+  const emptyCount = Math.max(maxCount - selectedCount, 0);
+  const visibleProducts = selectedProducts.slice(0, maxCount);
+
   return (
     <div className={styles.container}>
       <div className={styles.headerRow}>
@@ -26,8 +36,24 @@ const SelectedProductSheet = ({
 
       {expanded ? (
         <div className={styles.expandedGrid}>
-          {Array.from({ length: maxCount }).map((_, index) => (
-            <div key={index} className={styles.addCard}>
+          {visibleProducts.map((product) => (
+            <div key={product.id} className={styles.selectedCard}>
+              {product.imageUrl ? (
+                <img
+                  className={styles.selectedImage}
+                  src={product.imageUrl}
+                  alt={product.title}
+                />
+              ) : (
+                <div className={styles.selectedImageFallback} aria-hidden>
+                  <Icon name="PlusFill" size="20" />
+                </div>
+              )}
+              <p className={styles.selectedTitle}>{product.title}</p>
+            </div>
+          ))}
+          {Array.from({ length: emptyCount }).map((_, index) => (
+            <div key={`empty-${index}`} className={styles.addCard}>
               <span className={styles.addCardContent} aria-hidden>
                 <Icon name="PlusFill" size="20" />
                 <p className={styles.addLabel}>상품 추가하기</p>
@@ -37,8 +63,23 @@ const SelectedProductSheet = ({
         </div>
       ) : (
         <div className={styles.compactRow} aria-label="선택한 상품 미리보기">
-          {Array.from({ length: maxCount }).map((_, index) => (
-            <div key={index} className={styles.compactSlot} />
+          {visibleProducts.map((product) => (
+            <div key={product.id} className={styles.compactSlotFilled}>
+              {product.imageUrl ? (
+                <img
+                  className={styles.compactImage}
+                  src={product.imageUrl}
+                  alt={product.title}
+                />
+              ) : (
+                <div className={styles.compactImageFallback} aria-hidden>
+                  <Icon name="PlusFill" size="14" />
+                </div>
+              )}
+            </div>
+          ))}
+          {Array.from({ length: emptyCount }).map((_, index) => (
+            <div key={`empty-${index}`} className={styles.compactSlot} />
           ))}
         </div>
       )}

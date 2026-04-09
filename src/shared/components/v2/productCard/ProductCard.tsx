@@ -32,6 +32,11 @@ interface ProductCardProps {
   disabled?: boolean;
   onCardClick?: (area?: CardClickArea) => void;
   enableWholeCardLink?: boolean;
+  shoppingAction?: {
+    label?: string;
+    onClick: () => void;
+    disabled?: boolean;
+  };
 }
 
 const ProductCard = ({
@@ -43,6 +48,7 @@ const ProductCard = ({
   disabled = false,
   onCardClick,
   enableWholeCardLink = false,
+  shoppingAction,
 }: ProductCardProps) => {
   const isDefault = cardType === 'default';
   const [isLoaded, setIsLoaded] = useState(false);
@@ -201,8 +207,15 @@ const ProductCard = ({
             </div>
           )
         ) : (
-          <ActionButton variant="outlined" color="inverse" size="S" fullWidth>
-            선택
+          <ActionButton
+            variant="outlined"
+            color="inverse"
+            size="S"
+            fullWidth
+            disabled={shoppingAction?.disabled}
+            onClick={shoppingAction?.onClick}
+          >
+            {shoppingAction?.label ?? '선택'}
           </ActionButton>
         )}
       </section>

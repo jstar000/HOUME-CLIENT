@@ -13,6 +13,7 @@ import * as styles from './ProductTab.css';
 import SearchSection, {
   type AppliedFilterChip,
   type ProductFilterChipCategory,
+  type SelectedProduct,
 } from './SearchSection/SearchSection';
 import SelectedProductSheet from './SelectedProductSheet/SelectedProductSheet';
 
@@ -71,6 +72,7 @@ const INITIAL_FILTER_VALUES: ProductFilterValues = {
   priceRangeIds: [ALL],
   colorIds: [ALL],
 };
+const MAX_SELECTED_PRODUCTS = 6;
 
 const buildSummaryLabel = (
   ids: string[],
@@ -131,6 +133,9 @@ const ProductTab = () => {
   const [appliedFilterChips, setAppliedFilterChips] = useState<
     AppliedFilterChip[]
   >([]);
+  const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>(
+    []
+  );
   const productFilterSheetRef = useRef<ProductFilterSheetRef>(null);
 
   const handleFilterChipClick = useCallback(
@@ -196,6 +201,14 @@ const ProductTab = () => {
     [appliedFilterValues]
   );
 
+  const handleSelectProduct = useCallback((product: SelectedProduct) => {
+    setSelectedProducts((prev) => {
+      if (prev.some((item) => item.id === product.id)) return prev;
+      if (prev.length >= MAX_SELECTED_PRODUCTS) return prev;
+      return [...prev, product];
+    });
+  }, []);
+
   return (
     <div className={styles.container}>
       <IntroSection />
@@ -204,13 +217,21 @@ const ProductTab = () => {
         onFilterChipClick={handleFilterChipClick}
         appliedFilterChips={appliedFilterChips}
         onAppliedFilterChipRemove={handleRemoveAppliedChip}
+        selectedProductIds={selectedProducts.map((product) => product.id)}
+        onSelectProduct={handleSelectProduct}
       />
 
       <DragHandleBottomSheet
         open={!filterSheetOpen}
         collapsedHeight="24rem"
         onExpandedChange={setSheetExpanded}
-        contentSlot={<SelectedProductSheet expanded={sheetExpanded} />}
+        contentSlot={
+          <SelectedProductSheet
+            expanded={sheetExpanded}
+            selectedProducts={selectedProducts}
+            maxCount={MAX_SELECTED_PRODUCTS}
+          />
+        }
         primaryButton={
           <ActionButton
             size="2XL"
