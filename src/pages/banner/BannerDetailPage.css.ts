@@ -29,7 +29,7 @@ export const bannerContainer = style({
 export const questionContainer = style({
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'left',
+  alignItems: 'flex-start',
   gap: unitVars.unit.gapPadding['400'],
   width: '100%',
 });
