@@ -1,7 +1,5 @@
 import { style } from '@vanilla-extract/css';
 
-import { zIndex } from '@styles/tokens/zIndex';
-import { colorVars } from '@styles/tokensV2/color.css';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
 export const section = style({
@@ -13,14 +11,9 @@ export const section = style({
 });
 
 export const searchHeader = style({
-  boxSizing: 'border-box',
-  position: 'sticky',
-  zIndex: zIndex.sticky - 1,
-  top: 0,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'flex-start',
-  background: colorVars.color.bg.primary,
   padding: `${unitVars.unit.gapPadding['100']} ${unitVars.unit.gapPadding['000']}`,
   width: '100%',
 });
@@ -32,12 +25,37 @@ export const searchBarContainer = style({
 });
 
 export const filterList = style({
+  boxSizing: 'border-box',
+  position: 'relative',
   display: 'flex',
-  flexDirection: 'row',
+  alignItems: 'center',
+  width: '100%',
+  overflow: 'hidden',
+});
+
+export const filterScroll = style({
+  boxSizing: 'border-box',
+  display: 'flex',
   alignItems: 'center',
   gap: unitVars.unit.gapPadding['100'],
   padding: `${unitVars.unit.gapPadding['200']} ${unitVars.unit.gapPadding['500']}`,
   width: '100%',
+  minWidth: 0,
+  maxWidth: '100%',
+  overflowX: 'auto',
+  overflowY: 'hidden',
+  overscrollBehaviorX: 'contain',
+  scrollbarWidth: 'none',
+  whiteSpace: 'nowrap',
+  msOverflowStyle: 'none',
+  selectors: {
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
+    '& > *': {
+      flexShrink: 0,
+    },
+  },
 });
 
 export const productList = style({

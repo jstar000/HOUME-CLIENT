@@ -9,14 +9,27 @@ import * as styles from './SearchSection.css';
 
 export type ProductFilterChipCategory = 'furniture' | 'price' | 'color';
 
+export interface AppliedFilterChip {
+  category: ProductFilterChipCategory;
+  id: string;
+  label: string;
+}
+
 interface SearchSectionProps {
   chipSelected: Record<ProductFilterChipCategory, boolean>;
   onFilterChipClick: (category: ProductFilterChipCategory) => void;
+  appliedFilterChips: AppliedFilterChip[];
+  onAppliedFilterChipRemove: (
+    category: ProductFilterChipCategory,
+    id: string
+  ) => void;
 }
 
 const SearchSection = ({
   chipSelected,
   onFilterChipClick,
+  appliedFilterChips,
+  onAppliedFilterChipRemove,
 }: SearchSectionProps) => {
   const mockProducts = [
     {
@@ -148,27 +161,46 @@ const SearchSection = ({
           <SearchBar />
         </div>
         <div className={styles.filterList}>
-          <Chip
-            selected={chipSelected.furniture}
-            onClick={() => onFilterChipClick('furniture')}
-            suffixIcon={<Icon name="ChevronDown" size="12" />}
-          >
-            카테고리
-          </Chip>
-          <Chip
-            selected={chipSelected.price}
-            onClick={() => onFilterChipClick('price')}
-            suffixIcon={<Icon name="ChevronDown" size="12" />}
-          >
-            가격대
-          </Chip>
-          <Chip
-            selected={chipSelected.color}
-            onClick={() => onFilterChipClick('color')}
-            suffixIcon={<Icon name="ChevronDown" size="12" />}
-          >
-            색상
-          </Chip>
+          <div className={styles.filterScroll}>
+            {appliedFilterChips.length > 0 ? (
+              appliedFilterChips.map(({ category, id, label }) => (
+                <Chip
+                  key={`${category}-${id}`}
+                  selected
+                  onClick={() => onFilterChipClick(category)}
+                  suffixIcon={<Icon name="Close" size="12" />}
+                  suffixAriaLabel={`${label} 필터 해제`}
+                  onSuffixClick={() => onAppliedFilterChipRemove(category, id)}
+                >
+                  {label}
+                </Chip>
+              ))
+            ) : (
+              <>
+                <Chip
+                  selected={chipSelected.furniture}
+                  onClick={() => onFilterChipClick('furniture')}
+                  suffixIcon={<Icon name="ChevronDown" size="12" />}
+                >
+                  카테고리
+                </Chip>
+                <Chip
+                  selected={chipSelected.price}
+                  onClick={() => onFilterChipClick('price')}
+                  suffixIcon={<Icon name="ChevronDown" size="12" />}
+                >
+                  가격대
+                </Chip>
+                <Chip
+                  selected={chipSelected.color}
+                  onClick={() => onFilterChipClick('color')}
+                  suffixIcon={<Icon name="ChevronDown" size="12" />}
+                >
+                  색상
+                </Chip>
+              </>
+            )}
+          </div>
         </div>
       </div>
       <div className={styles.productList}>

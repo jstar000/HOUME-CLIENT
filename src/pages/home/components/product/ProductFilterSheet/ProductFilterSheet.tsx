@@ -73,6 +73,7 @@ export interface ProductFilterValues {
 export interface ProductFilterSheetRef {
   reset: () => void;
   getValues: () => ProductFilterValues;
+  setValues: (values: ProductFilterValues) => void;
 }
 
 const ProductFilterSheet = forwardRef<ProductFilterSheetRef>(
@@ -97,13 +98,32 @@ const ProductFilterSheet = forwardRef<ProductFilterSheetRef>(
       };
     }, [furnitureTypeIds, priceRangeIds, colorIds]);
 
+    const setValues = useCallback((values: ProductFilterValues) => {
+      setFurnitureTypeIds(
+        values.furnitureTypeIds.length > 0
+          ? [...values.furnitureTypeIds]
+          : [...INITIAL_SELECTION]
+      );
+      setPriceRangeIds(
+        values.priceRangeIds.length > 0
+          ? [...values.priceRangeIds]
+          : [...INITIAL_SELECTION]
+      );
+      setColorIds(
+        values.colorIds.length > 0
+          ? [...values.colorIds]
+          : [...INITIAL_SELECTION]
+      );
+    }, []);
+
     useImperativeHandle(
       ref,
       () => ({
         reset,
         getValues,
+        setValues,
       }),
-      [reset, getValues]
+      [reset, getValues, setValues]
     );
 
     return (
