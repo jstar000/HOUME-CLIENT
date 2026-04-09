@@ -7,6 +7,7 @@ import { unitVars } from '@/shared/styles/tokensV2/unit.css';
 export const wrapper = style({
   display: 'flex',
   flexDirection: 'column',
+  paddingBottom: '9.6rem',
 });
 
 export const container = style({

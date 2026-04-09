@@ -3,17 +3,17 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { ROUTES } from '@routes/paths';
 
 import { ENTRY_ROUTE, useImageFlowStore } from '@store/useImageFlowStore';
+import { useSavedItemsStore } from '@store/useSavedItemsStore';
 import { useUserStore } from '@store/useUserStore';
 
 import { useJjymMutation } from '@apis/mutations/useJjymMutation';
 
+import ActionButton from '@components/v2/button/actionButton/ActionButton';
 import TitleNavBar from '@components/v2/navBar/TitleNavBar';
 import ListCardProduct from '@components/v2/productCard/ListProductCard';
 import StyleCard from '@components/v2/styleCard/StyleCard';
 
 import { setLoginRedirect } from '@utils/loginRedirect';
-
-import ActionButton from '@/shared/components/v2/button/actionButton/ActionButton';
 
 import { STYLE_DETAIL_MOCK } from './mocks/styleDetail';
 import * as styles from './StyleDetailPage.css';
@@ -24,6 +24,8 @@ const StyleDetailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const isLoggedIn = !!useUserStore((state) => state.accessToken);
+
+  const savedProductIds = useSavedItemsStore((state) => state.savedProductIds);
 
   // 찜 해제 토글
   const { mutate: toggleJjym } = useJjymMutation();
@@ -88,7 +90,7 @@ const StyleDetailPage = () => {
                   discountRate: item.discountRate,
                 }}
                 save={{
-                  isSaved: item.isLiked,
+                  isSaved: savedProductIds.has(item.id),
                   onToggle: () => handleToggleSave(item.id),
                 }}
                 link={{
