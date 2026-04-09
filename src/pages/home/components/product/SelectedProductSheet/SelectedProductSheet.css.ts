@@ -37,6 +37,7 @@ export const compactRow = style({
   display: 'grid',
   gridTemplateColumns: 'repeat(6, 1fr)',
   gap: unitVars.unit.gapPadding['050'],
+  padding: `0 ${unitVars.unit.gapPadding['050']}`,
   width: '100%',
 });
 
@@ -86,6 +87,7 @@ export const expandedGrid = style({
   display: 'grid',
   gridTemplateColumns: 'repeat(3, 1fr)',
   gap: unitVars.unit.gapPadding['200'],
+  padding: `0 ${unitVars.unit.gapPadding['100']}`,
   width: '100%',
 });
 
@@ -168,18 +170,14 @@ export const closeButtonExpanded = style([
   {
     top: '-0.3rem',
     right: '-0.3rem',
-    // width: '2rem',
-    // height: '2rem',
   },
 ]);
 
 export const closeButtonCompact = style([
   closeButtonBase,
   {
-    top: '-0.25rem',
-    right: '-0.25rem',
-    // width: '1.6rem',
-    // height: '1.6rem',
+    top: '-0.2rem',
+    right: '-0.2rem',
   },
 ]);
 

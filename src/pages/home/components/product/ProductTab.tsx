@@ -209,6 +209,12 @@ const ProductTab = () => {
     });
   }, []);
 
+  const handleRemoveSelectedProduct = useCallback((productId: string) => {
+    setSelectedProducts((prev) =>
+      prev.filter((product) => product.id !== productId)
+    );
+  }, []);
+
   return (
     <div className={styles.container}>
       <IntroSection />
@@ -229,6 +235,7 @@ const ProductTab = () => {
           <SelectedProductSheet
             expanded={sheetExpanded}
             selectedProducts={selectedProducts}
+            onRemoveProduct={handleRemoveSelectedProduct}
             maxCount={MAX_SELECTED_PRODUCTS}
           />
         }

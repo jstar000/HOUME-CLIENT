@@ -12,12 +12,14 @@ interface SelectedProductItem {
 interface SelectedProductSheetProps {
   expanded: boolean;
   selectedProducts: SelectedProductItem[];
+  onRemoveProduct: (productId: string) => void;
   maxCount?: number;
 }
 
 const SelectedProductSheet = ({
   expanded,
   selectedProducts,
+  onRemoveProduct,
   maxCount = 6,
 }: SelectedProductSheetProps) => {
   const selectedCount = selectedProducts.length;
@@ -59,6 +61,7 @@ const SelectedProductSheet = ({
                 size="M"
                 className={styles.closeButtonExpanded}
                 aria-label={`${product.title} 선택 해제`}
+                onClick={() => onRemoveProduct(product.id)}
               />
             </div>
           ))}
@@ -95,6 +98,7 @@ const SelectedProductSheet = ({
                 size="S"
                 className={styles.closeButtonCompact}
                 aria-label={`${product.title} 선택 해제`}
+                onClick={() => onRemoveProduct(product.id)}
               />
             </div>
           ))}
