@@ -22,6 +22,7 @@ import HeartFillGray from '@assets/v2/svg/HeartFillGray.svg?url';
 import HeartStrokeGray from '@assets/v2/svg/HeartStrokeGray.svg?url';
 import HeartStrokeWhite from '@assets/v2/svg/HeartStrokeWhite.svg?url';
 import Link from '@assets/v2/svg/Link.svg?url';
+import Lock from '@assets/v2/svg/Lock.svg?url';
 import MouseBlack from '@assets/v2/svg/MouseBlack.svg?url';
 import MouseGray from '@assets/v2/svg/MouseGray.svg?url';
 import PlusFill from '@assets/v2/svg/PlusFill.svg?url';
@@ -57,6 +58,7 @@ const IconsName = {
   HeartStrokeGray,
   HeartStrokeWhite,
   Link,
+  Lock,
   MouseBlack,
   MouseGray,
   PlusFill,
