@@ -125,11 +125,21 @@ export const colorChipCount = style({
   color: colorVars.color.text.tertiary,
 });
 
-export const middleInfoSection = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: unitVars.unit.gapPadding['200'],
-  padding: unitVars.unit.gapPadding['050'],
+export const middleInfoSection = recipe({
+  base: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: unitVars.unit.gapPadding['200'],
+    padding: unitVars.unit.gapPadding['050'],
+  },
+  variants: {
+    cardType: {
+      default: {},
+      shopping: {
+        height: '7.2rem',
+      },
+    },
+  },
 });
 
 export const productInfo = style({
