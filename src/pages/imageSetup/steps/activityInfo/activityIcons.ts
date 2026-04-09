@@ -1,34 +1,22 @@
-// 주요활동 code → 아이콘 SVG 매핑
+// 주요활동 code → v2 Icon name 매핑
 // 서버가 아이콘을 내려주지 않으므로, 클라이언트에서 code 기반으로 매핑
-import type { ComponentType, SVGProps } from 'react';
+import type { IconName } from '@components/v2/icon/Icon';
 
-import BookBlack from '@assets/v2/svg/BookBlack.svg?react';
-import BookGray from '@assets/v2/svg/BookGray.svg?react';
-import CupBlack from '@assets/v2/svg/CupBlack.svg?react';
-import CupGray from '@assets/v2/svg/CupGray.svg?react';
-import DeskBlack from '@assets/v2/svg/DeskBlack.svg?react';
-import DeskGray from '@assets/v2/svg/DeskGray.svg?react';
-import MouseBlack from '@assets/v2/svg/MouseBlack.svg?react';
-import MouseGray from '@assets/v2/svg/MouseGray.svg?react';
-
-type SvgIcon = ComponentType<SVGProps<SVGSVGElement>>;
-
-interface ActivityIcons {
-  gray: SvgIcon;
-  black: SvgIcon;
+interface ActivityIconNames {
+  gray: IconName;
+  black: IconName;
 }
 
-// 활동 code → 아이콘 매핑 (gray: 미선택, black: 선택)
-const ACTIVITY_ICON_MAP: Record<string, ActivityIcons> = {
-  REMOTE_WORK: { gray: MouseGray, black: MouseBlack },
-  READING: { gray: BookGray, black: BookBlack },
-  FLOOR_LIVING: { gray: DeskGray, black: DeskBlack },
-  HOME_CAFE: { gray: CupGray, black: CupBlack },
+const ACTIVITY_ICON_MAP: Record<string, ActivityIconNames> = {
+  REMOTE_WORK: { gray: 'MouseGray', black: 'MouseBlack' },
+  READING: { gray: 'BookGray', black: 'BookBlack' },
+  FLOOR_LIVING: { gray: 'DeskGray', black: 'DeskBlack' },
+  HOME_CAFE: { gray: 'CupGray', black: 'CupBlack' },
 };
 
-export const getActivityIcon = (
+export const getActivityIconName = (
   activityCode: string,
-  variant: 'gray' | 'black' = 'gray'
-): SvgIcon | null => {
+  variant: 'gray' | 'black' = 'black'
+): IconName | null => {
   return ACTIVITY_ICON_MAP[activityCode]?.[variant] ?? null;
 };

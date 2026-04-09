@@ -1,6 +1,6 @@
-import ChevronDown from '@assets/v2/svg/ChevronDown.svg?react';
+import Icon from '@components/v2/icon/Icon';
 
-import { getActivityIcon } from './activityIcons';
+import { getActivityIconName } from './activityIcons';
 import * as styles from './SelectTrigger.css';
 
 import type { ActivityItem } from '../../types/apis/activityInfo';
@@ -11,16 +11,17 @@ interface SelectTriggerProps {
 }
 
 const SelectTrigger = ({ selectedActivity, onClick }: SelectTriggerProps) => {
+  // 선택한 주요활동이 없으면 기본 placeholder 표시(활동 형태를 선택해주세요)
   const isSelected = !!selectedActivity;
-  const ActivityIcon = selectedActivity
-    ? getActivityIcon(selectedActivity.code, 'black')
+  const activityIconName = selectedActivity
+    ? getActivityIconName(selectedActivity.code, 'black')
     : null;
   const requiredFurnitureLabel = selectedActivity?.furnitures[0]?.label;
 
   return (
     <button type="button" className={styles.trigger} onClick={onClick}>
       <div className={styles.leftContainer}>
-        {ActivityIcon && <ActivityIcon width={20} height={20} />}
+        {activityIconName && <Icon name={activityIconName} size="20" />}
         {isSelected ? (
           <div className={styles.labelContainer}>
             <span className={styles.selectedLabel}>
@@ -41,7 +42,7 @@ const SelectTrigger = ({ selectedActivity, onClick }: SelectTriggerProps) => {
           </span>
         )}
       </div>
-      <ChevronDown className={styles.chevron} />
+      <Icon name="ChevronDownFill" size="20" />
     </button>
   );
 };

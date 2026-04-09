@@ -52,14 +52,9 @@ export const requiredLabel = style({
 });
 
 export const divider = style({
+  margin: '0.15rem',
   borderRadius: '50%',
-  backgroundColor: colorVars.color.text.tertiary,
-  width: '0.2rem',
-  height: '0.2rem',
-});
-
-export const chevron = style({
-  flexShrink: 0,
-  width: '2rem',
-  height: '2rem',
+  backgroundColor: colorVars.color.text.secondary,
+  width: '0.3rem',
+  height: '0.3rem',
 });

@@ -1,4 +1,5 @@
 import { style } from '@vanilla-extract/css';
+import { recipe } from '@vanilla-extract/recipes';
 
 import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
@@ -18,28 +19,35 @@ export const radioList = style({
   width: '100%',
 });
 
-export const radioItem = style({
-  display: 'flex',
-  alignItems: 'center',
-  transition: 'transform 120ms ease',
-  border: 'none',
-  borderRadius: unitVars.unit.radius.full,
-  backgroundColor: colorVars.color.fill.inverse,
-  cursor: 'pointer',
-  padding: `${unitVars.unit.gapPadding['200']} ${unitVars.unit.gapPadding['400']}`,
-  width: '100%',
-  minWidth: '6.4rem',
-  height: '4.4rem',
-  font: 'inherit',
-  selectors: {
-    '&:active': {
-      transform: 'scale(0.95)',
+export const radioItem = recipe({
+  base: {
+    display: 'flex',
+    alignItems: 'center',
+    transition: 'transform 120ms ease, background-color 120ms ease',
+    border: 'none',
+    borderRadius: unitVars.unit.radius.full,
+    cursor: 'pointer',
+    padding: `${unitVars.unit.gapPadding['200']} ${unitVars.unit.gapPadding['400']}`,
+    width: '100%',
+    minWidth: '6.4rem',
+    height: '4.4rem',
+    font: 'inherit',
+    selectors: {
+      '&:active': {
+        transform: 'scale(0.95)',
+      },
     },
   },
-});
-
-export const radioItemSelected = style({
-  backgroundColor: colorVars.color.fill.weak,
+  variants: {
+    selected: {
+      false: {
+        backgroundColor: colorVars.color.fill.inverse,
+      },
+      true: {
+        backgroundColor: colorVars.color.fill.weak,
+      },
+    },
+  },
 });
 
 export const radioContents = style({
@@ -53,14 +61,36 @@ export const radioLabel = style({
   color: colorVars.color.text.primary,
 });
 
-export const divider = style({
-  borderRadius: '50%',
-  backgroundColor: colorVars.color.text.tertiary,
-  width: '0.6rem',
-  height: '0.6rem',
+export const divider = recipe({
+  base: {
+    borderRadius: '50%',
+    width: '0.3rem',
+    height: '0.3rem',
+  },
+  variants: {
+    selected: {
+      false: {
+        backgroundColor: colorVars.color.text.tertiary,
+      },
+      true: {
+        backgroundColor: colorVars.color.text.secondary,
+      },
+    },
+  },
 });
 
-export const requiredLabel = style({
-  ...fontVars.font.body_r_14,
-  color: colorVars.color.text.tertiary,
+export const requiredLabel = recipe({
+  base: {
+    ...fontVars.font.body_r_14,
+  },
+  variants: {
+    selected: {
+      false: {
+        color: colorVars.color.text.tertiary,
+      },
+      true: {
+        color: colorVars.color.text.secondary,
+      },
+    },
+  },
 });

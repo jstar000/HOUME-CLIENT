@@ -2,9 +2,10 @@ import { useState } from 'react';
 
 import DragHandleBottomSheet from '@components/v2/bottomSheet/DragHandleBottomSheet';
 import ActionButton from '@components/v2/button/actionButton/ActionButton';
+import Icon from '@components/v2/icon/Icon';
 import TextHeading from '@components/v2/textHeading/TextHeading';
 
-import { getActivityIcon } from './activityIcons';
+import { getActivityIconName } from './activityIcons';
 import * as styles from './ActivityTypeSheet.css';
 
 import type { ActivityItem } from '../../types/apis/activityInfo';
@@ -48,7 +49,7 @@ const ActivityTypeSheet = ({
           <div className={styles.radioList}>
             {activities.map((activity) => {
               const isSelected = localSelected === activity.code;
-              const Icon = getActivityIcon(
+              const iconName = getActivityIconName(
                 activity.code,
                 isSelected ? 'black' : 'gray'
               );
@@ -58,16 +59,22 @@ const ActivityTypeSheet = ({
                 <button
                   key={activity.code}
                   type="button"
-                  className={`${styles.radioItem}${isSelected ? ` ${styles.radioItemSelected}` : ''}`}
+                  className={styles.radioItem({ selected: isSelected })}
                   onClick={() => setLocalSelected(activity.code)}
                 >
                   <div className={styles.radioContents}>
-                    {Icon && <Icon width={20} height={20} />}
+                    {iconName && <Icon name={iconName} size="20" />}
                     <span className={styles.radioLabel}>{activity.label}</span>
                     {requiredFurnitureLabel && (
                       <>
-                        <span className={styles.divider} />
-                        <span className={styles.requiredLabel}>
+                        <span
+                          className={styles.divider({ selected: isSelected })}
+                        />
+                        <span
+                          className={styles.requiredLabel({
+                            selected: isSelected,
+                          })}
+                        >
                           {requiredFurnitureLabel}
                         </span>
                       </>

@@ -228,7 +228,11 @@ export const useActivityInfo = (context: ImageSetupSteps['ActivityInfo']) => {
     selectedActivityLabel,
     getRequiredFurnitureLabels: activitySelection.getRequiredFurnitureLabels,
 
-    // 가구 카테고리 선택
+    // 활동 목록 (바텀시트용)
+    activities: activitiesData?.activities ?? [],
+
+    // 가구 카테고리 데이터, 선택 상태
+    categories: categoriesData?.categories ?? [],
     categorySelections,
 
     // 전역 제약조건
