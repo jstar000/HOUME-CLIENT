@@ -1,7 +1,5 @@
 import TextButton from '@shared/components/v2/btnText/TextButton';
 
-import Icon from '@components/v2/icon/Icon';
-
 import * as styles from './TitleNavBar.css';
 
 interface TitleNavBarProps extends React.ComponentProps<'nav'> {

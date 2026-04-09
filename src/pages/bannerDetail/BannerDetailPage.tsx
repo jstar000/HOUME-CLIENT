@@ -137,7 +137,7 @@ const BannerDetailPage = () => {
           variant="solid"
           color="primary"
           size="2XL"
-          width="fill"
+          fullWidth
           disabled={selectedIndex === null}
           onClick={() => {}}
         >
