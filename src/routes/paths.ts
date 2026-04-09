@@ -17,7 +17,6 @@ export const ROUTES = {
   OAUTH: '/oauth/kakao/callback',
   STYLE_LIST: '/styles',
   STYLE_DETAIL: '/styles/:styleId',
-  BANNER: '/banner',
   BANNER_DETAIL: '/banner/:bannerId',
   TEST: '/test',
 } as const;
