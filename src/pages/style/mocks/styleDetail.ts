@@ -56,10 +56,12 @@ export const STYLE_DETAIL_MOCK = {
         finalPrice: 27990,
         linkUrl: '@assets/v2/images/Imgbanner_01.png',
         isLiked: false,
-        colors: {
-          name: '블루',
-          value: '#0000FF',
-        },
+        colors: [
+          {
+            name: '블루',
+            value: '#0000FF',
+          },
+        ],
       },
       {
         id: 2,
@@ -70,10 +72,12 @@ export const STYLE_DETAIL_MOCK = {
         finalPrice: 27990,
         linkUrl: '@assets/v2/images/Imgbanner_01.png',
         isLiked: true,
-        colors: {
-          name: '브라운',
-          value: '#8B4513',
-        },
+        colors: [
+          {
+            name: '브라운',
+            value: '#8B4513',
+          },
+        ],
       },
       {
         id: 3,
@@ -84,10 +88,12 @@ export const STYLE_DETAIL_MOCK = {
         finalPrice: 27990,
         linkUrl: '@assets/v2/images/Imgbanner_01.png',
         isLiked: true,
-        colors: {
-          name: '브라운',
-          value: '#8B4513',
-        },
+        colors: [
+          {
+            name: '브라운',
+            value: '#8B4513',
+          },
+        ],
       },
       {
         id: 4,
@@ -98,10 +104,12 @@ export const STYLE_DETAIL_MOCK = {
         finalPrice: 27990,
         linkUrl: '@assets/v2/images/Imgbanner_01.png',
         isLiked: true,
-        colors: {
-          name: '브라운',
-          value: '#8B4513',
-        },
+        colors: [
+          {
+            name: '브라운',
+            value: '#8B4513',
+          },
+        ],
       },
     ],
   },
