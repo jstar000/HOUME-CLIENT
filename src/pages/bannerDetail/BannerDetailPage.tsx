@@ -76,9 +76,13 @@ const BannerDetailPage = () => {
   const questionId = useId();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
-  const bannerDetail =
-    BANNER_DETAIL_MOCK.find((item) => item.bannerId === bannerId) ??
-    BANNER_DETAIL_MOCK[0];
+  const bannerDetail = BANNER_DETAIL_MOCK.find(
+    (item) => item.bannerId === bannerId
+  );
+
+  if (!bannerDetail) {
+    throw new Response('Banner not found', { status: 404 });
+  }
 
   return (
     <div className={styles.page} key={bannerId}>
