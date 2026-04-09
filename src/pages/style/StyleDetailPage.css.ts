@@ -34,4 +34,7 @@ export const ctaBtn = style({
   right: 0,
   bottom: unitVars.unit.gapPadding['500'],
   left: 0,
+  margin: '0 auto',
+  width: `calc(100% - ${unitVars.unit.gapPadding['500']} * 2)`,
+  maxWidth: `calc(${unitVars.unit.dimension.wMax} - ${unitVars.unit.gapPadding['500']} * 2)`,
 });
