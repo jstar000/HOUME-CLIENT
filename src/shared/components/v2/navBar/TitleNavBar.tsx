@@ -40,7 +40,7 @@ const TitleNavBar = ({
       <div className={styles.rightSlot}>
         {isSettingBtn && (
           <TextButton
-            size="s"
+            size="m"
             onClick={() => navigate(ROUTES.SETTING)}
             aria-label="설정으로 이동"
           >
