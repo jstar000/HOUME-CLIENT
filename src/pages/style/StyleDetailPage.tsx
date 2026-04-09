@@ -73,30 +73,32 @@ const StyleDetailPage = () => {
         </section>
         <section className={styles.productList}>
           <span className={styles.sectionTitle}>사용된 가구</span>
-          {STYLE_DETAIL_MOCK.data.products.map((item) => (
-            <ListCardProduct
-              key={item.id}
-              product={{
-                title: item.name,
-                imageUrl: item.imageUrl,
-                colorHexes: normalizeColorHexes(item.colors.name),
-              }}
-              price={{
-                original: item.originalPrice,
-                discount: item.finalPrice,
-                discountRate: item.discountRate,
-              }}
-              save={{
-                isSaved: item.isLiked,
-                onToggle: () => handleToggleSave(item.id),
-              }}
-              link={{
-                href: item.linkUrl,
-                // onClick: logMyPageClickBtnFurnitureCard,
-              }}
-              enableWholeCardLink={true}
-            />
-          ))}
+          <div className={styles.products}>
+            {STYLE_DETAIL_MOCK.data.products.map((item) => (
+              <ListCardProduct
+                key={item.id}
+                product={{
+                  title: item.name,
+                  imageUrl: item.imageUrl,
+                  colorHexes: normalizeColorHexes(item.colors),
+                }}
+                price={{
+                  original: item.originalPrice,
+                  discount: item.finalPrice,
+                  discountRate: item.discountRate,
+                }}
+                save={{
+                  isSaved: item.isLiked,
+                  onToggle: () => handleToggleSave(item.id),
+                }}
+                link={{
+                  href: item.linkUrl,
+                  // onClick: logMyPageClickBtnFurnitureCard,
+                }}
+                enableWholeCardLink={true}
+              />
+            ))}
+          </div>
         </section>
       </div>
       <ActionButton className={styles.ctaBtn}>

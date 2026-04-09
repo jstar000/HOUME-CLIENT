@@ -21,11 +21,18 @@ export const styleCardInfo = style({});
 export const productList = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: unitVars.unit.gapPadding['400'],
 });
 
 export const sectionTitle = style({
   ...fontVars.font.title_sb_16,
+  marginBottom: unitVars.unit.gapPadding['400'],
+});
+
+export const products = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: unitVars.unit.gapPadding['200'],
+  width: '100%',
 });
 
 export const ctaBtn = style({
