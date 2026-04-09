@@ -18,21 +18,28 @@ const Chip = ({
   onSuffixClick,
   type = 'button',
   className,
+  disabled,
   onClick,
   ...props
 }: ChipProps) => {
+  const isDisabled = disabled === true;
   const hasSuffix = suffixIcon !== undefined;
-  const chipClassName = `${styles.chip({ selected })}${className ? ` ${className}` : ''}`;
+  const chipClassName = `${styles.chip({ selected, disabled: isDisabled })}${className ? ` ${className}` : ''}`;
 
   return (
     <button
       type={type}
       className={chipClassName}
       aria-pressed={selected}
+      disabled={isDisabled}
       onClick={onClick}
       {...props}
     >
-      <span className={styles.label({ selected, hasSuffix })}>{children}</span>
+      <span
+        className={styles.label({ selected, disabled: isDisabled, hasSuffix })}
+      >
+        {children}
+      </span>
       {hasSuffix && (
         <span
           role={onSuffixClick ? 'button' : undefined}

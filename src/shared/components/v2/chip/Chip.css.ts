@@ -12,7 +12,7 @@ export const chip = recipe({
     justifyContent: 'center',
     gap: unitVars.unit.gapPadding['050'],
     transition:
-      'transform 100ms ease, background-color 100ms ease, color 100ms ease',
+      'transform 120ms ease, background-color 120ms ease, color 120ms ease, border-color 120ms ease',
     borderWidth: '1px',
     borderStyle: 'solid',
     borderRadius: unitVars.unit.gapPadding.full,
@@ -37,6 +37,17 @@ export const chip = recipe({
         color: colorVars.color.text.inverse,
       },
     },
+    disabled: {
+      true: {
+        borderColor: colorVars.color.border.tertiary,
+        cursor: 'default',
+        selectors: {
+          '&:active': {
+            transform: 'none',
+          },
+        },
+      },
+    },
   },
 });
 
@@ -57,6 +68,11 @@ export const label = recipe({
       true: {
         color: colorVars.color.text.inverse,
         ...fontVars.font.body_m_13,
+      },
+    },
+    disabled: {
+      true: {
+        color: colorVars.color.text.disabled,
       },
     },
     hasSuffix: {

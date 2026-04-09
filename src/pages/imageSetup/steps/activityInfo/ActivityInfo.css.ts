@@ -8,6 +8,7 @@ export const container = style({
   display: 'flex',
   flex: 1,
   flexDirection: 'column',
+  gap: unitVars.unit.gapPadding['800'],
   backgroundColor: colorVars.color.bg.primary,
   width: '100%',
 });
