@@ -54,6 +54,18 @@ export const compactSlotFilled = style([
   },
 ]);
 
+export const compactSlotContainer = style({
+  aspectRatio: '1 / 1',
+  position: 'relative',
+  width: '100%',
+});
+
+export const compactImageWrap = style({
+  position: 'relative',
+  width: '100%',
+  height: '100%',
+});
+
 export const compactImage = style({
   display: 'block',
   objectFit: 'cover',
@@ -109,7 +121,13 @@ export const selectedCard = style({
   border: `1px solid ${colorVars.color.border.tertiary}`,
   borderRadius: unitVars.unit.radius['300'],
   backgroundColor: colorVars.color.bg.primary,
+  width: '100%',
   overflow: 'hidden',
+});
+
+export const selectedCardContainer = style({
+  position: 'relative',
+  width: '100%',
 });
 
 export const selectedImage = style({
@@ -117,6 +135,11 @@ export const selectedImage = style({
   objectFit: 'cover',
   width: '100%',
   minHeight: 0,
+});
+
+export const selectedImageWrap = style({
+  position: 'relative',
+  flex: 1,
 });
 
 export const selectedImageFallback = style({
@@ -127,6 +150,38 @@ export const selectedImageFallback = style({
   width: '100%',
   color: colorVars.color.text.disabled,
 });
+
+const closeButtonBase = style({
+  position: 'absolute',
+  zIndex: 2,
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  border: 0,
+  borderRadius: unitVars.unit.radius.full,
+  background: 'transparent',
+  padding: 0,
+});
+
+export const closeButtonExpanded = style([
+  closeButtonBase,
+  {
+    top: '-0.3rem',
+    right: '-0.3rem',
+    // width: '2rem',
+    // height: '2rem',
+  },
+]);
+
+export const closeButtonCompact = style([
+  closeButtonBase,
+  {
+    top: '-0.25rem',
+    right: '-0.25rem',
+    // width: '1.6rem',
+    // height: '1.6rem',
+  },
+]);
 
 export const selectedTitle = style({
   margin: 0,

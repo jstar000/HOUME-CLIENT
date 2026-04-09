@@ -1,3 +1,4 @@
+import IconButton from '@shared/components/v2/button/IconButton';
 import Icon from '@shared/components/v2/icon/Icon';
 
 import * as styles from './SelectedProductSheet.css';
@@ -37,19 +38,28 @@ const SelectedProductSheet = ({
       {expanded ? (
         <div className={styles.expandedGrid}>
           {visibleProducts.map((product) => (
-            <div key={product.id} className={styles.selectedCard}>
-              {product.imageUrl ? (
-                <img
-                  className={styles.selectedImage}
-                  src={product.imageUrl}
-                  alt={product.title}
-                />
-              ) : (
-                <div className={styles.selectedImageFallback} aria-hidden>
-                  <Icon name="PlusFill" size="20" />
+            <div key={product.id} className={styles.selectedCardContainer}>
+              <div className={styles.selectedCard}>
+                <div className={styles.selectedImageWrap}>
+                  {product.imageUrl ? (
+                    <img
+                      className={styles.selectedImage}
+                      src={product.imageUrl}
+                      alt={product.title}
+                    />
+                  ) : (
+                    <div className={styles.selectedImageFallback} aria-hidden>
+                      <Icon name="PlusFill" size="20" />
+                    </div>
+                  )}
                 </div>
-              )}
-              <p className={styles.selectedTitle}>{product.title}</p>
+              </div>
+              <IconButton
+                name="CloseFillBlack"
+                size="M"
+                className={styles.closeButtonExpanded}
+                aria-label={`${product.title} 선택 해제`}
+              />
             </div>
           ))}
           {Array.from({ length: emptyCount }).map((_, index) => (
@@ -64,18 +74,28 @@ const SelectedProductSheet = ({
       ) : (
         <div className={styles.compactRow} aria-label="선택한 상품 미리보기">
           {visibleProducts.map((product) => (
-            <div key={product.id} className={styles.compactSlotFilled}>
-              {product.imageUrl ? (
-                <img
-                  className={styles.compactImage}
-                  src={product.imageUrl}
-                  alt={product.title}
-                />
-              ) : (
-                <div className={styles.compactImageFallback} aria-hidden>
-                  <Icon name="PlusFill" size="14" />
+            <div key={product.id} className={styles.compactSlotContainer}>
+              <div className={styles.compactSlotFilled}>
+                <div className={styles.compactImageWrap}>
+                  {product.imageUrl ? (
+                    <img
+                      className={styles.compactImage}
+                      src={product.imageUrl}
+                      alt={product.title}
+                    />
+                  ) : (
+                    <div className={styles.compactImageFallback} aria-hidden>
+                      <Icon name="PlusFill" size="14" />
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
+              <IconButton
+                name="CloseFillBlack"
+                size="S"
+                className={styles.closeButtonCompact}
+                aria-label={`${product.title} 선택 해제`}
+              />
             </div>
           ))}
           {Array.from({ length: emptyCount }).map((_, index) => (
