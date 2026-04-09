@@ -90,7 +90,7 @@ const publicRoutes = [
     path: ROUTES.BANNER_DETAIL,
     lazy: async () => {
       const { default: BannerDetailPage } = await import(
-        '@pages/bannerDetail/BannerDetailPage'
+        '@pages/banner/BannerDetailPage'
       );
       return { Component: BannerDetailPage };
     },
