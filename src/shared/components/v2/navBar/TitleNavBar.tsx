@@ -30,7 +30,6 @@ const TitleNavBar = ({
           color="secondary"
           size="m"
           aria-label={backAriaLabel}
-          className={styles.backButton}
           leftIcon="ArrowLeft"
           onClick={onBackClick}
         >

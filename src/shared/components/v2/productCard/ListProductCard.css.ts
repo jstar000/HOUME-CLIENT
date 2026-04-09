@@ -191,7 +191,3 @@ export const btnContainer = recipe({
     padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['050']}`,
   },
 });
-
-export const fullWidthBtn = style({
-  width: '100%',
-});

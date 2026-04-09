@@ -195,7 +195,3 @@ export const saveCountText = style({
   ...fontVars.font.caption_r_11,
   color: colorVars.color.gray400,
 });
-
-export const fullWidthBtn = style({
-  width: '100%',
-});
