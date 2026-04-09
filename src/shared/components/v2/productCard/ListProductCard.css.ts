@@ -28,7 +28,7 @@ export const wrapper = recipe({
       m: {
         gap: unitVars.unit.gapPadding['200'],
         padding: unitVars.unit.gapPadding['000'],
-        // minWidth: '33.5rem',
+        minWidth: '33.5rem',
       },
     },
   },
