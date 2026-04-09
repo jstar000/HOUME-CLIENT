@@ -11,8 +11,6 @@ interface SelectTriggerProps {
 }
 
 const SelectTrigger = ({ selectedActivity, onClick }: SelectTriggerProps) => {
-  // 선택한 주요활동이 없으면 기본 placeholder 표시(활동 형태를 선택해주세요)
-  const isSelected = !!selectedActivity;
   const activityIconName = selectedActivity
     ? getActivityIconName(selectedActivity.code, 'black')
     : null;
@@ -22,7 +20,7 @@ const SelectTrigger = ({ selectedActivity, onClick }: SelectTriggerProps) => {
     <button type="button" className={styles.trigger} onClick={onClick}>
       <div className={styles.leftContainer}>
         {activityIconName && <Icon name={activityIconName} size="20" />}
-        {isSelected ? (
+        {selectedActivity ? (
           <div className={styles.labelContainer}>
             <span className={styles.selectedLabel}>
               {selectedActivity.label}

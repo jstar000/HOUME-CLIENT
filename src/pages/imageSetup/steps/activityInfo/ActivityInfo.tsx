@@ -53,8 +53,13 @@ const ActivityInfo = ({ context }: ActivityInfoProps) => {
   if (isError) return <InlineError onRetry={refetch} />;
   if (isPending || !categorySelections) return <Loading />;
 
-  const { bed, sofa, table, selective } = categorySelections;
-  const selectionByIndex = [bed, sofa, table, selective];
+  // nameEng → selection 매핑
+  const selectionByNameEng: Record<string, typeof categorySelections.bed> = {
+    BED: categorySelections.bed,
+    SOFA: categorySelections.sofa,
+    TABLE: categorySelections.table,
+    SELECTIVE: categorySelections.selective,
+  };
 
   return (
     <div className={styles.container}>
@@ -87,8 +92,8 @@ const ActivityInfo = ({ context }: ActivityInfoProps) => {
             />
             <div className={styles.furList}>
               {/* TODO: 추후 Chip 최신화하기 (아이콘 포함 Chip 반영) */}
-              {categories.map((category, index) => {
-                const selection = selectionByIndex[index];
+              {categories.map((category) => {
+                const selection = selectionByNameEng[category.nameEng];
                 if (!selection) return null;
 
                 return (
