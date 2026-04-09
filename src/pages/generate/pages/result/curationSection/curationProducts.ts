@@ -78,7 +78,13 @@ export const normalizeColorHexes = (value: unknown) => {
     .map((color) => {
       // { name, value } 형태
       if (typeof color === 'object' && color !== null && 'value' in color) {
-        return (color as { value: string }).value;
+        const rawValue = (color as { value?: unknown }).value;
+        if (typeof rawValue !== 'string') return null;
+        const trimmed = rawValue.trim();
+        if (/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(trimmed)) {
+          return trimmed;
+        }
+        return COLOR_NAME_TO_HEX_MAP[trimmed] ?? null;
       }
       // string 형태 → 한글 이름이면 매핑
       if (typeof color === 'string') {
