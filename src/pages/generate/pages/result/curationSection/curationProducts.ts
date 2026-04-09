@@ -2,7 +2,7 @@ import type { FurnitureProductInfo } from '@pages/generate/types/furniture';
 
 const COLOR_NAME_TO_HEX_MAP: Record<string, string> = {
   화이트: '#FFFFFF',
-  브라운: '#A52A2A',
+  브라운: '#8B4513',
   블루: '#0000FF',
   블랙: '#000000',
   베이지: '#F5F5DC',
@@ -14,7 +14,7 @@ const COLOR_NAME_TO_HEX_MAP: Record<string, string> = {
   그레이: '#808080',
   실버: '#C0C0C0',
   오렌지: '#FFA500',
-  바이올렛: '#EE82EE',
+  바이올렛: '#8F00FF',
   네이비: '#000080',
 };
 
