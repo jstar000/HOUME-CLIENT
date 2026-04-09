@@ -30,7 +30,7 @@ const SelectedFurnitureSheet = ({
             <div key={index} className={styles.addCard}>
               <span className={styles.addCardContent} aria-hidden>
                 <Icon name="PlusFill" size="20" />
-                <p className={styles.addLabel}>가구 추가하기</p>
+                <p className={styles.addLabel}>상품 추가하기</p>
               </span>
             </div>
           ))}

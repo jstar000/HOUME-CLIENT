@@ -85,7 +85,7 @@ const SearchSection = ({
             onClick={() => onFilterChipClick('furniture')}
             suffixIcon={<Icon name="ChevronDown" size="12" />}
           >
-            가구 유형
+            카테고리
           </Chip>
           <Chip
             selected={chipSelected.price}

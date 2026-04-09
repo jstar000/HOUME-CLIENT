@@ -113,9 +113,9 @@ const ProductFilterSheet = forwardRef<ProductFilterSheetRef>(
           aria-labelledby="filter-furniture-heading"
         >
           <h2 id="filter-furniture-heading" className={styles.sectionTitle}>
-            가구 유형
+            카테고리
           </h2>
-          <div className={styles.chipGroup} role="group" aria-label="가구 유형">
+          <div className={styles.chipGroup} role="group" aria-label="카테고리">
             {FURNITURE_OPTIONS.map(({ id, label }) => (
               <Chip
                 key={id}
