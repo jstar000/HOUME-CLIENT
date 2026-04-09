@@ -13,7 +13,7 @@ export const chip = recipe({
     gap: unitVars.unit.gapPadding['050'],
     transition:
       'transform 100ms ease, background-color 100ms ease, color 100ms ease',
-    borderWidth: '0.1rem',
+    borderWidth: '1px',
     borderStyle: 'solid',
     borderRadius: unitVars.unit.gapPadding.full,
     background: 'transparent',
