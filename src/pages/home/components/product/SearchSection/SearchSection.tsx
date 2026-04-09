@@ -1,4 +1,4 @@
-import CardProduct from '@shared/components/card/cardProduct/CardProduct';
+import ProductCard from '@shared/components/v2/productCard/ProductCard';
 import SearchBar from '@shared/components/v2/textField/SearchBar';
 
 import Chip from '@components/v2/chip/Chip';
@@ -22,54 +22,122 @@ const SearchSection = ({
     {
       id: 'p1',
       title: '모듈 패브릭 소파 3인',
+      brand: 'HOUME',
       discountRate: 25,
+      originalPrice: 532000,
       discountPrice: 399000,
+      colorHexes: ['#E7EAEF', '#31373F', '#D4C4B0'],
+      saveCount: 123,
     },
     {
       id: 'p2',
       title: '원목 라운드 테이블 1200',
+      brand: 'TABLE LAB',
       discountRate: 15,
+      originalPrice: 340000,
       discountPrice: 289000,
+      colorHexes: ['#D4C4B0', '#5C4033'],
+      saveCount: 76,
     },
     {
       id: 'p3',
       title: '메탈 프레임 책상 1400',
+      brand: 'WORKFIT',
       discountRate: 30,
+      originalPrice: 255000,
       discountPrice: 179000,
+      colorHexes: ['#8E959E', '#1B1E22'],
+      saveCount: 211,
     },
     {
       id: 'p4',
       title: '패브릭 암체어',
+      brand: 'LIVING STUDIO',
       discountRate: 10,
+      originalPrice: 143000,
       discountPrice: 129000,
+      colorHexes: ['#FFFFFF', '#D4C4B0'],
+      saveCount: 58,
     },
     {
       id: 'p5',
       title: '수납형 침대 프레임 Q',
+      brand: 'SLEEPY',
       discountRate: 20,
+      originalPrice: 624000,
       discountPrice: 499000,
+      colorHexes: ['#F3F4F7', '#5C4033'],
+      saveCount: 95,
     },
     {
       id: 'p6',
       title: '심플 거실장 1800',
+      brand: 'MODERN CASA',
       discountRate: 35,
+      originalPrice: 245000,
       discountPrice: 159000,
+      colorHexes: ['#FFFFFF', '#8E959E', '#1B1E22'],
+      saveCount: 142,
     },
-    { id: 'p7', title: '스탠드 조명', discountRate: 5, discountPrice: 89000 },
-    { id: 'p8', title: '러그 150x200', discountRate: 40, discountPrice: 59000 },
-    { id: 'p9', title: '벽선반 2단', discountRate: 18, discountPrice: 39000 },
-    { id: 'p10', title: '데스크 체어', discountRate: 22, discountPrice: 99000 },
+    {
+      id: 'p7',
+      title: '스탠드 조명',
+      brand: 'LIGHTER',
+      discountRate: 5,
+      originalPrice: 94000,
+      discountPrice: 89000,
+      colorHexes: ['#D4AF37', '#1B1E22'],
+      saveCount: 34,
+    },
+    {
+      id: 'p8',
+      title: '러그 150x200',
+      brand: 'RUGROOM',
+      discountRate: 40,
+      originalPrice: 99000,
+      discountPrice: 59000,
+      colorHexes: ['#D4C4B0', '#8E959E', '#7E57C2'],
+      saveCount: 188,
+    },
+    {
+      id: 'p9',
+      title: '벽선반 2단',
+      brand: 'WALLSET',
+      discountRate: 18,
+      originalPrice: 47000,
+      discountPrice: 39000,
+      colorHexes: ['#FFFFFF', '#5C4033'],
+      saveCount: 12,
+    },
+    {
+      id: 'p10',
+      title: '데스크 체어',
+      brand: 'SEATON',
+      discountRate: 22,
+      originalPrice: 127000,
+      discountPrice: 99000,
+      colorHexes: ['#31373F', '#8E959E'],
+      saveCount: 67,
+    },
     {
       id: 'p11',
       title: '침구 세트 (SS)',
+      brand: 'BEDDING LAB',
       discountRate: 12,
+      originalPrice: 90000,
       discountPrice: 79000,
+      colorHexes: ['#FFFFFF', '#D4C4B0', '#EC407A'],
+      saveCount: 51,
     },
     {
       id: 'p12',
       title: '수납 바스켓 세트',
+      brand: 'BASKETRY',
       discountRate: 28,
+      originalPrice: 68000,
       discountPrice: 49000,
+      colorHexes: ['#D4C4B0', '#5C4033'],
+      saveCount: 29,
     },
   ];
 
@@ -105,17 +173,41 @@ const SearchSection = ({
       </div>
       <div className={styles.productList}>
         {/* TODO: V2 공컴으로 변경 */}
-        {mockProducts.map(({ id, title, discountRate, discountPrice }) => (
-          <CardProduct
-            key={id}
-            size="large"
-            title={title}
-            discountRate={discountRate}
-            discountPrice={discountPrice}
-            isSaved={false}
-            onToggleSave={() => {}}
-          />
-        ))}
+        {mockProducts.map(
+          ({
+            id,
+            title,
+            brand,
+            discountRate,
+            originalPrice,
+            discountPrice,
+            colorHexes,
+            saveCount,
+          }) => (
+            <ProductCard
+              key={id}
+              cardType="shopping"
+              product={{
+                title,
+                brand,
+                colorHexes,
+              }}
+              price={{
+                original: originalPrice,
+                discountRate,
+                discount: discountPrice,
+              }}
+              save={{
+                isSaved: false,
+                onToggle: () => {},
+                count: saveCount,
+              }}
+              link={{
+                href: 'https://example.com',
+              }}
+            />
+          )
+        )}
       </div>
     </section>
   );
