@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { overlay } from 'overlay-kit';
 
 import { useActivityInfo } from '@pages/imageSetup/hooks/activityInfo/useActivityInfo';
 
@@ -17,13 +17,9 @@ import type { ImageSetupSteps } from '../../types/funnel/steps';
 
 interface ActivityInfoProps {
   context: ImageSetupSteps['ActivityInfo'];
-  // TODO: Phase G에서 overlay 스텝 전환 시 onActivityTriggerClick prop으로 교체
 }
 
 const ActivityInfo = ({ context }: ActivityInfoProps) => {
-  // TODO: Phase G에서 overlay 스텝으로 교체 — 이 로컬 state는 제거 예정
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
-
   const {
     isPending,
     isError,
@@ -39,10 +35,19 @@ const ActivityInfo = ({ context }: ActivityInfoProps) => {
     handleSubmit,
   } = useActivityInfo(context);
 
-  // TODO: Phase G에서 overlay 스텝 전환 시 제거
-  const handleActivityConfirm = (activityCode: string) => {
-    setFormData((prev) => ({ ...prev, activity: activityCode }));
-    setIsSheetOpen(false);
+  const handleActivityTriggerClick = () => {
+    overlay.open(({ unmount }) => (
+      <ActivityTypeSheet
+        open
+        activities={activities}
+        selectedActivityCode={activitySelection.selectedActivityItem?.code}
+        onConfirm={(activityCode) => {
+          setFormData((prev) => ({ ...prev, activity: activityCode }));
+          unmount();
+        }}
+        onClose={unmount}
+      />
+    ));
   };
 
   if (isError) return <InlineError onRetry={refetch} />;
@@ -69,7 +74,7 @@ const ActivityInfo = ({ context }: ActivityInfoProps) => {
           />
           <SelectTrigger
             selectedActivity={activitySelection.selectedActivityItem}
-            onClick={() => setIsSheetOpen(true)}
+            onClick={handleActivityTriggerClick}
           />
         </div>
 
@@ -143,14 +148,6 @@ const ActivityInfo = ({ context }: ActivityInfoProps) => {
           </ActionButton>
         </div>
       )}
-      {/* TODO: Phase G에서 overlay 스텝으로 교체 — 이 로컬 바텀시트는 제거 예정 */}
-      <ActivityTypeSheet
-        open={isSheetOpen}
-        activities={activities}
-        selectedActivityCode={activitySelection.selectedActivityItem?.code}
-        onConfirm={handleActivityConfirm}
-        onClose={() => setIsSheetOpen(false)}
-      />
     </div>
   );
 };
