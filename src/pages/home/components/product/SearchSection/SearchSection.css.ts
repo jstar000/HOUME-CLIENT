@@ -7,6 +7,7 @@ export const section = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'stretch',
+  paddingBottom: '22rem', // 하단 바 높이만큼 패딩
   width: '100%',
 });
 
@@ -51,9 +52,6 @@ export const filterScroll = style({
   selectors: {
     '&::-webkit-scrollbar': {
       display: 'none',
-    },
-    '& > *': {
-      flexShrink: 0,
     },
   },
 });
