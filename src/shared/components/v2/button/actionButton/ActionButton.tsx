@@ -24,7 +24,7 @@ const BUTTON_SIZE_TO_ICON_SIZE: Record<ActionButtonSize, IconSize> = {
 };
 
 export interface ActionButtonProps
-  extends Omit<React.ComponentProps<'button'>, 'children'> {
+  extends Omit<React.ComponentProps<'button'>, 'children' | 'width'> {
   children: React.ReactNode;
   variant?: ActionButtonVariant;
   color?: ActionButtonColor;
@@ -67,7 +67,7 @@ const ActionButton = ({
       {...props}
     >
       {leftIcon != null ? <Icon name={leftIcon} size={iconSize} /> : null}
-      <span className={styles.btnLabel}>{children}</span>
+      <span className={styles.btnLabel({ size })}>{children}</span>
       {rightIcon != null ? <Icon name={rightIcon} size={iconSize} /> : null}
     </button>
   );
