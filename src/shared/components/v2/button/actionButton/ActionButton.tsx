@@ -12,7 +12,6 @@ import * as styles from './ActionButton.css';
 export type ActionButtonVariant = 'solid' | 'outlined' | 'ghost';
 export type ActionButtonColor = 'primary' | 'inverse';
 export type ActionButtonSize = 'XS' | 'S' | 'M' | 'L' | 'XL' | '2XL';
-export type ActionButtonWidth = 'hug' | 'fill';
 
 const BUTTON_SIZE_TO_ICON_SIZE: Record<ActionButtonSize, IconSize> = {
   // 각 버튼 size에 맞는 아이콘 size 맵핑

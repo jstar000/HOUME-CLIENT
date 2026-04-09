@@ -63,14 +63,6 @@ export const button = recipe({
     whiteSpace: 'nowrap',
   },
   variants: {
-    width: {
-      hug: {
-        width: 'auto',
-      },
-      fill: {
-        width: '100%',
-      },
-    },
     variant: {
       solid: {},
       outlined: {
@@ -130,7 +122,6 @@ export const button = recipe({
     variant: 'solid',
     color: 'primary',
     size: '2XL',
-    width: 'hug',
     disabled: false,
     fullWidth: false,
   },
