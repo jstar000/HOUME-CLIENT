@@ -20,6 +20,9 @@ export interface SelectedProduct {
   title: string;
   brand: string;
   imageUrl?: string;
+  originalPrice: number;
+  discountPrice: number;
+  discountRate: number;
 }
 
 interface SearchSectionProps {
@@ -285,6 +288,9 @@ const SearchSection = ({
                       title,
                       brand,
                       imageUrl,
+                      originalPrice,
+                      discountPrice,
+                      discountRate,
                     }),
                 }}
               />

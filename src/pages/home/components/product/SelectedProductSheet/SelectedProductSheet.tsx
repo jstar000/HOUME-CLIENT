@@ -7,6 +7,9 @@ interface SelectedProductItem {
   id: string;
   title: string;
   imageUrl?: string;
+  originalPrice: number;
+  discountPrice: number;
+  discountRate: number;
 }
 
 interface SelectedProductSheetProps {
@@ -23,8 +26,10 @@ const SelectedProductSheet = ({
   maxCount = 6,
 }: SelectedProductSheetProps) => {
   const selectedCount = selectedProducts.length;
+  const hasSelectedProduct = selectedCount > 0;
   const emptyCount = Math.max(maxCount - selectedCount, 0);
   const visibleProducts = selectedProducts.slice(0, maxCount);
+  const formatPrice = (price: number) => price.toLocaleString('ko-KR');
 
   return (
     <div className={styles.container}>
@@ -55,6 +60,19 @@ const SelectedProductSheet = ({
                     </div>
                   )}
                 </div>
+                <div className={styles.selectedInfoSection}>
+                  <p className={styles.selectedTitle}>{product.title}</p>
+                  <div className={styles.selectedPriceRow}>
+                    {product.discountRate > 0 && (
+                      <span className={styles.selectedDiscountRate}>
+                        {product.discountRate}%
+                      </span>
+                    )}
+                    <span className={styles.selectedPrice}>
+                      {formatPrice(product.discountPrice)}
+                    </span>
+                  </div>
+                </div>
               </div>
               <IconButton
                 name="CloseFillBlack"
@@ -67,10 +85,25 @@ const SelectedProductSheet = ({
           ))}
           {Array.from({ length: emptyCount }).map((_, index) => (
             <div key={`empty-${index}`} className={styles.addCard}>
-              <span className={styles.addCardContent} aria-hidden>
-                <Icon name="PlusFill" size="20" />
-                <p className={styles.addLabel}>상품 추가하기</p>
-              </span>
+              {hasSelectedProduct ? (
+                <>
+                  <div className={styles.addImageWrap}>
+                    <span className={styles.addCardContent} aria-hidden>
+                      <Icon name="PlusFill" size="20" />
+                    </span>
+                  </div>
+                  <div className={styles.addInfoPlaceholder}>
+                    <p className={styles.addLabel}>상품 추가하기</p>
+                  </div>
+                </>
+              ) : (
+                <div className={styles.addCardSquare}>
+                  <span className={styles.addCardContent} aria-hidden>
+                    <Icon name="PlusFill" size="20" />
+                    <p className={styles.addLabel}>상품 추가하기</p>
+                  </span>
+                </div>
+              )}
             </div>
           ))}
         </div>

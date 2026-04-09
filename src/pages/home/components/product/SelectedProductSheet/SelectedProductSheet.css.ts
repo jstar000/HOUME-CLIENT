@@ -92,14 +92,32 @@ export const expandedGrid = style({
 });
 
 export const addCard = style({
-  aspectRatio: '1 / 1',
   display: 'flex',
   flexDirection: 'column',
+  gap: unitVars.unit.gapPadding['200'],
+  width: '100%',
+});
+
+export const addImageWrap = style({
+  aspectRatio: '1 / 1',
+  display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   border: `1px solid ${colorVars.color.border.tertiary}`,
   borderRadius: unitVars.unit.radius['300'],
   backgroundColor: colorVars.color.bg.primary,
+  width: '100%',
+});
+
+export const addCardSquare = style({
+  aspectRatio: '1 / 1',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  border: `1px solid ${colorVars.color.border.tertiary}`,
+  borderRadius: unitVars.unit.radius['300'],
+  backgroundColor: colorVars.color.bg.primary,
+  width: '100%',
 });
 
 export const addCardContent = style({
@@ -112,36 +130,39 @@ export const addCardContent = style({
 
 export const addLabel = style({
   margin: 0,
+  textAlign: 'left',
   ...fontVars.font.caption_r_12,
   color: colorVars.color.text.disabled,
 });
 
 export const selectedCard = style({
-  aspectRatio: '1 / 1',
   display: 'flex',
   flexDirection: 'column',
-  border: `1px solid ${colorVars.color.border.tertiary}`,
-  borderRadius: unitVars.unit.radius['300'],
-  backgroundColor: colorVars.color.bg.primary,
+  gap: unitVars.unit.gapPadding['200'],
   width: '100%',
-  overflow: 'hidden',
 });
 
 export const selectedCardContainer = style({
   position: 'relative',
   width: '100%',
+  minWidth: 0,
 });
 
 export const selectedImage = style({
-  flex: 1,
+  display: 'block',
   objectFit: 'cover',
   width: '100%',
-  minHeight: 0,
+  height: '100%',
 });
 
 export const selectedImageWrap = style({
+  aspectRatio: '1 / 1',
   position: 'relative',
-  flex: 1,
+  border: `1px solid ${colorVars.color.border.tertiary}`,
+  borderRadius: unitVars.unit.radius['300'],
+  backgroundColor: colorVars.color.bg.primary,
+  width: '100%',
+  overflow: 'hidden',
 });
 
 export const selectedImageFallback = style({
@@ -182,11 +203,47 @@ export const closeButtonCompact = style([
 ]);
 
 export const selectedTitle = style({
+  display: '-webkit-box',
   margin: 0,
-  padding: unitVars.unit.gapPadding['100'],
   overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
+  wordBreak: 'break-all',
+  color: colorVars.color.text.primary,
+  WebkitLineClamp: 2,
+  WebkitBoxOrient: 'vertical',
   ...fontVars.font.caption_r_12,
+});
+
+export const selectedInfoSection = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: unitVars.unit.gapPadding['100'],
+  padding: `0 ${unitVars.unit.gapPadding['100']} ${unitVars.unit.gapPadding['100']}`,
+  width: '100%',
+  minWidth: 0,
+  minHeight: '7.2rem',
+});
+
+export const addInfoPlaceholder = style({
+  display: 'flex',
+  alignItems: 'flex-start',
+  justifyContent: 'flex-start',
+  padding: `0 ${unitVars.unit.gapPadding['100']} ${unitVars.unit.gapPadding['100']}`,
+  width: '100%',
+  minHeight: '7.2rem',
+});
+
+export const selectedPriceRow = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.1rem',
+});
+
+export const selectedDiscountRate = style({
+  ...fontVars.font.body_m_13,
+  color: colorVars.color.text.brand,
+});
+
+export const selectedPrice = style({
+  ...fontVars.font.body_m_13,
   color: colorVars.color.text.primary,
 });
