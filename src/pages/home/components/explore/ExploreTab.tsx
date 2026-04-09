@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { generatePath, useNavigate } from 'react-router-dom';
 
 import Banner, {
   type BannerSlide,
@@ -26,7 +26,10 @@ const ExploreTab = () => {
   const navigate = useNavigate();
 
   const handleBannerSlideClick = (slide: BannerSlide) => {
-    navigate(`${ROUTES.BANNER}/${slide.id}`);
+    navigate(
+      // React Router generatePath 기반 동적 라우팅 적용
+      generatePath(ROUTES.BANNER_DETAIL, { bannerId: String(slide.id) })
+    );
   };
 
   return (

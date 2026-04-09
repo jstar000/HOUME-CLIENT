@@ -30,9 +30,9 @@ export interface ActionButtonProps
   variant?: ActionButtonVariant;
   color?: ActionButtonColor;
   size?: ActionButtonSize;
-  width?: ActionButtonWidth;
   leftIcon?: IconName;
   rightIcon?: IconName;
+  fullWidth?: boolean;
 }
 
 const ActionButton = ({
@@ -40,9 +40,9 @@ const ActionButton = ({
   variant = 'solid',
   color = 'primary',
   size = '2XL',
-  width = 'hug',
   leftIcon,
   rightIcon,
+  fullWidth = false,
   type = 'button',
   disabled,
   className,
@@ -59,7 +59,7 @@ const ActionButton = ({
           variant,
           color,
           size,
-          width,
+          fullWidth,
           ...(isDisabled ? { disabled: true } : {}),
         }),
         className
@@ -68,7 +68,7 @@ const ActionButton = ({
       {...props}
     >
       {leftIcon != null ? <Icon name={leftIcon} size={iconSize} /> : null}
-      <span className={styles.btnLabel}>{children}</span>
+      <span className={styles.btnLabel({ size })}>{children}</span>
       {rightIcon != null ? <Icon name={rightIcon} size={iconSize} /> : null}
     </button>
   );

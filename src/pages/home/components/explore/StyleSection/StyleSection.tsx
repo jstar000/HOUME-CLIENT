@@ -1,3 +1,7 @@
+import { generatePath, useNavigate } from 'react-router-dom';
+
+import { ROUTES } from '@routes/paths';
+
 import StyleCard from '@components/v2/styleCard/StyleCard';
 
 import TextButton from '@/shared/components/v2/btnText/TextButton';
@@ -28,6 +32,16 @@ const STYLE_MOCK = [
 ] as const;
 
 const StyleSection = () => {
+  const navigate = useNavigate();
+
+  const handleStyleClick = (styleId: string) => {
+    navigate(generatePath(ROUTES.STYLE_DETAIL, { styleId }));
+  };
+
+  const handleMoreClick = () => {
+    navigate(ROUTES.STYLE_LIST);
+  };
+
   return (
     <section className={styles.section}>
       <div className={styles.headerRow}>
@@ -36,7 +50,7 @@ const StyleSection = () => {
           color="secondary"
           size="m"
           rightIcon="ArrowRight"
-          onClick={() => {}}
+          onClick={handleMoreClick}
         >
           더보기
         </TextButton>
@@ -47,7 +61,7 @@ const StyleSection = () => {
             key={style.id}
             imageSrc={style.imageSrc}
             title={style.title}
-            onClick={() => {}}
+            onClick={() => handleStyleClick(style.id)}
             imageLoading="eager"
           />
         ))}

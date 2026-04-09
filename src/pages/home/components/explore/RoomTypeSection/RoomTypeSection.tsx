@@ -1,3 +1,9 @@
+import { useNavigate } from 'react-router-dom';
+
+import { ROUTES } from '@routes/paths';
+
+import { ENTRY_ROUTE, useImageFlowStore } from '@store/useImageFlowStore';
+
 import RoomTypeCard from '@components/v2/roomTypeCard/RoomTypeCard';
 
 import TextButton from '@/shared/components/v2/btnText/TextButton';
@@ -33,6 +39,15 @@ const ROOM_TYPE_MOCK = [
 ] as const;
 
 const RoomTypeSection = () => {
+  const navigate = useNavigate();
+
+  const handleRoomTypeClick = () => {
+    useImageFlowStore
+      .getState()
+      .setFlow({ entryRoute: ENTRY_ROUTE.FLOOR_PLAN });
+    navigate(ROUTES.IMAGE_SETUP);
+  };
+
   return (
     <section className={styles.section}>
       <div className={styles.headerRow}>
@@ -49,16 +64,21 @@ const RoomTypeSection = () => {
       <div className={styles.cardScroll}>
         <div className={styles.cardList}>
           {ROOM_TYPE_MOCK.map((room) => (
-            <RoomTypeCard
-              key={room.id}
-              type="default"
-              size="s"
-              label={room.label}
-              imageSrc={room.imageSrc}
-              onClick={() => {}}
-            />
+            // cardList가 가로 스크롤 가능한 컴포넌트(width: max-content + flex-wrap:nowrap) + RoomTypeCard는 반응형 대응 가능(width: 100%)
+            // => cardItem으로 명시적으로 너비를 설정해야 RoomTypeCard의 너비가 무한히 커지지 않음
+            <div key={room.id} className={styles.cardItem}>
+              <RoomTypeCard
+                type="default"
+                size="s"
+                label={room.label}
+                imageSrc={room.imageSrc}
+                onClick={handleRoomTypeClick}
+              />
+            </div>
           ))}
-          <RoomTypeCard type="more" size="s" onClick={() => {}} />
+          <div className={styles.cardItem}>
+            <RoomTypeCard type="more" size="s" onClick={() => {}} />
+          </div>
         </div>
       </div>
     </section>
