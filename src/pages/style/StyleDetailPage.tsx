@@ -7,8 +7,8 @@ import { useUserStore } from '@store/useUserStore';
 
 import { useJjymMutation } from '@apis/mutations/useJjymMutation';
 
-import TitleNavBar from '@components/navBar/TitleNavBar';
-import ListCardProduct from '@components/v2/cardProduct/ListCardProduct';
+import TitleNavBar from '@components/v2/navBar/TitleNavBar';
+import ListCardProduct from '@components/v2/productCard/ListProductCard';
 import StyleCard from '@components/v2/styleCard/StyleCard';
 
 import { setLoginRedirect } from '@utils/loginRedirect';
@@ -53,13 +53,21 @@ const StyleDetailPage = () => {
 
   return (
     <div className={styles.wrapper}>
-      {/* TODO: 컴포넌트 수정 반영 필요 */}
-      <TitleNavBar title="스타일 상세 보기" />
+      <TitleNavBar
+        title="스타일 상세 보기"
+        backLabel="이전"
+        onBackClick={() => navigate(-1)}
+      />
       <div className={styles.container}>
         <section className={styles.styleCardInfo}>
           <StyleCard
-            imageSrc={STYLE_DETAIL_MOCK.data.styleImageUrl}
+            size="L"
             title={STYLE_DETAIL_MOCK.data.styleName}
+            largeContents={{
+              title: STYLE_DETAIL_MOCK.data.styleName,
+              description: STYLE_DETAIL_MOCK.data.styleDescription,
+            }}
+            imageSrc={STYLE_DETAIL_MOCK.data.styleImageUrl}
             imageLoading="eager"
           />
         </section>
