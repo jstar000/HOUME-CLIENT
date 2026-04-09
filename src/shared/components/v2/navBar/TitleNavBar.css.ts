@@ -38,6 +38,23 @@ export const rightSlot = style({
   paddingLeft: unitVars.unit.gapPadding['400'],
 });
 
+/** TextButton 레이아웃만 보정 (타이포·컬러·인터랙션은 TextButton 기본) */
+export const backButton = style({
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  transition: 'transform 120ms ease',
+  border: 0,
+  background: 'transparent',
+  color: colorVars.color.text.tertiary,
+  ...fontVars.font.title_r_15,
+  selectors: {
+    '&:active': {
+      transform: 'scale(0.95)',
+    },
+  },
+});
+
 export const label = style({
   padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['100']}`,
 });

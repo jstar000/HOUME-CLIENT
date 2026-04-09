@@ -55,7 +55,7 @@ const RoomTypeSection = () => {
         <TextButton
           color="secondary"
           size="s"
-          rightIcon={'ArrowRight'}
+          rightIcon="ArrowRight"
           onClick={() => {}}
         >
           더보기

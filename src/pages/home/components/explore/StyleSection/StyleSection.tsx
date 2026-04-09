@@ -49,7 +49,7 @@ const StyleSection = () => {
         <TextButton
           color="secondary"
           size="m"
-          rightIcon={'ArrowRight'}
+          rightIcon="ArrowRight"
           onClick={handleMoreClick}
         >
           더보기

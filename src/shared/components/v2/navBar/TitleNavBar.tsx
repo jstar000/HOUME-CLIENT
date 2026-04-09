@@ -27,11 +27,12 @@ const TitleNavBar = ({
     <nav className={styles.container} {...props}>
       <div className={styles.leftSlot}>
         <TextButton
-          size="m"
           color="secondary"
-          leftIcon={'ArrowLeft'}
-          onClick={onBackClick}
+          size="m"
           aria-label={backAriaLabel}
+          className={styles.backButton}
+          leftIcon="ArrowLeft"
+          onClick={onBackClick}
         >
           {backLabel}
         </TextButton>
