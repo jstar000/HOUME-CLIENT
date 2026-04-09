@@ -14,7 +14,7 @@ import SearchSection, {
   type AppliedFilterChip,
   type ProductFilterChipCategory,
 } from './SearchSection/SearchSection';
-import SelectedFurnitureSheet from './SelectedFurnitureSheet/SelectedFurnitureSheet';
+import SelectedProductSheet from './SelectedProductSheet/SelectedProductSheet';
 
 const INITIAL_CHIP_SELECTED: Record<ProductFilterChipCategory, boolean> = {
   furniture: false,
@@ -210,7 +210,7 @@ const ProductTab = () => {
         open={!filterSheetOpen}
         collapsedHeight="24rem"
         onExpandedChange={setSheetExpanded}
-        contentSlot={<SelectedFurnitureSheet expanded={sheetExpanded} />}
+        contentSlot={<SelectedProductSheet expanded={sheetExpanded} />}
         primaryButton={
           <ActionButton
             size="2XL"

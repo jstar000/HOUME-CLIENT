@@ -1,18 +1,18 @@
 import Icon from '@shared/components/v2/icon/Icon';
 
-import * as styles from './SelectedFurnitureSheet.css';
+import * as styles from './SelectedProductSheet.css.ts';
 
-interface SelectedFurnitureSheetProps {
+interface SelectedProductSheetProps {
   expanded: boolean;
   selectedCount?: number;
   maxCount?: number;
 }
 
-const SelectedFurnitureSheet = ({
+const SelectedProductSheet = ({
   expanded,
   selectedCount = 0,
   maxCount = 6,
-}: SelectedFurnitureSheetProps) => {
+}: SelectedProductSheetProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.headerRow}>
@@ -36,7 +36,7 @@ const SelectedFurnitureSheet = ({
           ))}
         </div>
       ) : (
-        <div className={styles.compactRow} aria-label="선택한 가구 미리보기">
+        <div className={styles.compactRow} aria-label="선택한 상품 미리보기">
           {Array.from({ length: maxCount }).map((_, index) => (
             <div key={index} className={styles.compactSlot} />
           ))}
@@ -46,4 +46,4 @@ const SelectedFurnitureSheet = ({
   );
 };
 
-export default SelectedFurnitureSheet;
+export default SelectedProductSheet;
