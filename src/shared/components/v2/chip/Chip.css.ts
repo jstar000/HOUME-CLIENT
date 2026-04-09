@@ -37,6 +37,10 @@ export const chip = recipe({
         color: colorVars.color.text.inverse,
       },
     },
+    color: {
+      strong: {},
+      weak: {},
+    },
     disabled: {
       true: {
         borderColor: colorVars.color.border.tertiary,
@@ -49,6 +53,16 @@ export const chip = recipe({
       },
     },
   },
+  compoundVariants: [
+    {
+      variants: { color: 'weak', selected: true },
+      style: {
+        borderColor: 'transparent',
+        backgroundColor: colorVars.color.fill.weak,
+        color: colorVars.color.text.primary,
+      },
+    },
+  ],
 });
 
 export const label = recipe({
@@ -75,6 +89,10 @@ export const label = recipe({
         color: colorVars.color.text.disabled,
       },
     },
+    color: {
+      strong: {},
+      weak: {},
+    },
     hasSuffix: {
       false: {
         paddingRight: unitVars.unit.gapPadding['300'],
@@ -84,6 +102,14 @@ export const label = recipe({
       },
     },
   },
+  compoundVariants: [
+    {
+      variants: { color: 'weak', selected: true },
+      style: {
+        color: colorVars.color.text.primary,
+      },
+    },
+  ],
 });
 
 export const suffix = style({

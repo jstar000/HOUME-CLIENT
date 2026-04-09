@@ -2,9 +2,13 @@ import type { ReactNode } from 'react';
 
 import * as styles from './Chip.css';
 
-interface ChipProps extends Omit<React.ComponentProps<'button'>, 'children'> {
+export type ChipColor = 'strong' | 'weak';
+
+interface ChipProps
+  extends Omit<React.ComponentProps<'button'>, 'children' | 'color'> {
   children: ReactNode;
   selected?: boolean;
+  color?: ChipColor;
   suffixIcon?: ReactNode;
   suffixAriaLabel?: string;
   onSuffixClick?: () => void;
@@ -13,6 +17,7 @@ interface ChipProps extends Omit<React.ComponentProps<'button'>, 'children'> {
 const Chip = ({
   children,
   selected = false,
+  color = 'strong',
   suffixIcon,
   suffixAriaLabel,
   onSuffixClick,
@@ -24,7 +29,7 @@ const Chip = ({
 }: ChipProps) => {
   const isDisabled = disabled === true;
   const hasSuffix = suffixIcon !== undefined;
-  const chipClassName = `${styles.chip({ selected, disabled: isDisabled })}${className ? ` ${className}` : ''}`;
+  const chipClassName = `${styles.chip({ selected, color, disabled: isDisabled })}${className ? ` ${className}` : ''}`;
 
   return (
     <button
@@ -36,7 +41,12 @@ const Chip = ({
       {...props}
     >
       <span
-        className={styles.label({ selected, disabled: isDisabled, hasSuffix })}
+        className={styles.label({
+          selected,
+          color,
+          disabled: isDisabled,
+          hasSuffix,
+        })}
       >
         {children}
       </span>

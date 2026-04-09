@@ -6,6 +6,7 @@ import InlineError from '@components/inlineError/InlineError';
 import Loading from '@components/loading/Loading';
 import ActionButton from '@components/v2/button/actionButton/ActionButton';
 import Chip from '@components/v2/chip/Chip';
+import Icon from '@components/v2/icon/Icon';
 import TextHeading from '@components/v2/textHeading/TextHeading';
 
 import * as styles from './ActivityInfo.css';
@@ -34,6 +35,7 @@ const ActivityInfo = ({ context }: ActivityInfoProps) => {
     activities,
     categories,
     categorySelections,
+    globalConstraints,
     handleSubmit,
   } = useActivityInfo(context);
 
@@ -98,12 +100,20 @@ const ActivityInfo = ({ context }: ActivityInfoProps) => {
                         const status = selection.furnitureStatus.find(
                           (s) => s.id === furniture.id
                         );
+                        const isRequired =
+                          globalConstraints.isRequiredFurniture(furniture.id);
 
                         return (
                           <Chip
                             key={furniture.id}
                             selected={isSelected}
+                            color="weak"
                             disabled={!status?.isActive && !isSelected}
+                            suffixIcon={
+                              isRequired ? (
+                                <Icon name="Lock" size="16" />
+                              ) : undefined
+                            }
                             onClick={() =>
                               selection.toggleFurniture(furniture.id)
                             }
