@@ -25,6 +25,52 @@ const INITIAL_CHIP_SELECTED: Record<ProductFilterChipCategory, boolean> = {
 
 const ALL = 'ALL';
 
+/** ProductFilterSheet 옵션 나열 순서와 동일 (요약 라벨의 대표값 기준) */
+const FURNITURE_OPTION_ORDER: string[] = [
+  ALL,
+  'bed',
+  'desk',
+  'dining',
+  'floorTable',
+  'wardrobe',
+  'storage',
+  'sofa',
+  'chair',
+  'vanity',
+  'light',
+  'other',
+];
+
+const PRICE_OPTION_ORDER: string[] = [
+  ALL,
+  'under50k',
+  '50to100k',
+  '10man',
+  '20man',
+  '30man',
+  '40man',
+  'over50man',
+];
+
+const COLOR_OPTION_ORDER: string[] = [
+  ALL,
+  'white',
+  'gray',
+  'black',
+  'silver',
+  'gold',
+  'beige',
+  'brown',
+  'red',
+  'orange',
+  'yellow',
+  'green',
+  'blue',
+  'navy',
+  'violet',
+  'pink',
+];
+
 const FURNITURE_LABELS: Record<string, string> = {
   bed: '침대/프레임',
   desk: '업무용 책상',
@@ -76,50 +122,67 @@ const MAX_SELECTED_PRODUCTS = 6;
 
 const buildSummaryLabel = (
   ids: string[],
-  labels: Record<string, string>
+  labels: Record<string, string>,
+  orderedOptionIds: string[]
 ): string | null => {
   const selected = ids.filter((id) => id !== ALL);
   if (selected.length === 0) return null;
-  const first = labels[selected[0]] ?? selected[0];
+
+  const selectedSet = new Set(selected);
+  let firstId: string | undefined;
+  for (const id of orderedOptionIds) {
+    if (id !== ALL && selectedSet.has(id)) {
+      firstId = id;
+      break;
+    }
+  }
+  if (firstId === undefined) {
+    firstId = selected[0];
+  }
+
+  const first = labels[firstId] ?? firstId;
   return selected.length === 1 ? first : `${first} 외 ${selected.length - 1}개`;
 };
 
 const buildAppliedFilterChips = (
   values: ProductFilterValues
 ): AppliedFilterChip[] => {
-  const chips: AppliedFilterChip[] = [];
-
   const furnitureLabel = buildSummaryLabel(
     values.furnitureTypeIds,
-    FURNITURE_LABELS
+    FURNITURE_LABELS,
+    FURNITURE_OPTION_ORDER
   );
-  if (furnitureLabel) {
-    chips.push({
+  const priceLabel = buildSummaryLabel(
+    values.priceRangeIds,
+    PRICE_LABELS,
+    PRICE_OPTION_ORDER
+  );
+  const colorLabel = buildSummaryLabel(
+    values.colorIds,
+    COLOR_LABELS,
+    COLOR_OPTION_ORDER
+  );
+
+  return [
+    {
       category: 'furniture',
-      id: 'furniture-summary',
-      label: furnitureLabel,
-    });
-  }
-
-  const priceLabel = buildSummaryLabel(values.priceRangeIds, PRICE_LABELS);
-  if (priceLabel) {
-    chips.push({
+      id: furnitureLabel ? 'furniture-summary' : 'furniture-placeholder',
+      label: furnitureLabel ?? '카테고리',
+      applied: furnitureLabel !== null,
+    },
+    {
       category: 'price',
-      id: 'price-summary',
-      label: priceLabel,
-    });
-  }
-
-  const colorLabel = buildSummaryLabel(values.colorIds, COLOR_LABELS);
-  if (colorLabel) {
-    chips.push({
+      id: priceLabel ? 'price-summary' : 'price-placeholder',
+      label: priceLabel ?? '가격대',
+      applied: priceLabel !== null,
+    },
+    {
       category: 'color',
-      id: 'color-summary',
-      label: colorLabel,
-    });
-  }
-
-  return chips;
+      id: colorLabel ? 'color-summary' : 'color-placeholder',
+      label: colorLabel ?? '색상',
+      applied: colorLabel !== null,
+    },
+  ];
 };
 
 const ProductTab = () => {
@@ -132,7 +195,7 @@ const ProductTab = () => {
     useState<ProductFilterValues>(INITIAL_FILTER_VALUES);
   const [appliedFilterChips, setAppliedFilterChips] = useState<
     AppliedFilterChip[]
-  >([]);
+  >(() => buildAppliedFilterChips(INITIAL_FILTER_VALUES));
   const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>(
     []
   );
