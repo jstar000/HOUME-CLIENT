@@ -136,7 +136,7 @@ export const middleInfoSection = recipe({
     cardType: {
       default: {},
       shopping: {
-        height: '7.2rem',
+        minHeight: '7.2rem',
       },
     },
   },
@@ -159,7 +159,7 @@ export const brandText = style({
 export const productText = style({
   ...fontVars.font.body_r_14,
   display: '-webkit-box',
-  maxHeight: '4.1rem',
+  minHeight: '4.1rem',
   overflow: 'hidden',
   wordBreak: 'break-all',
   color: colorVars.color.text.primary,
