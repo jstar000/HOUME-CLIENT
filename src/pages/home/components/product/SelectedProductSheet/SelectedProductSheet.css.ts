@@ -138,7 +138,6 @@ export const addLabel = style({
 export const selectedCard = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: unitVars.unit.gapPadding['200'],
   width: '100%',
 });
 
@@ -158,7 +157,7 @@ export const selectedImage = style({
 export const selectedImageWrap = style({
   aspectRatio: '1 / 1',
   position: 'relative',
-  border: `1px solid ${colorVars.color.border.tertiary}`,
+  outline: `1px solid ${colorVars.color.border.tertiary}`,
   borderRadius: unitVars.unit.radius['300'],
   backgroundColor: colorVars.color.bg.primary,
   width: '100%',
@@ -189,38 +188,34 @@ const closeButtonBase = style({
 export const closeButtonExpanded = style([
   closeButtonBase,
   {
-    top: '-0.3rem',
-    right: '-0.3rem',
+    top: '-0.4rem',
+    right: '-0.4rem',
   },
 ]);
 
 export const closeButtonCompact = style([
   closeButtonBase,
   {
-    top: '-0.2rem',
-    right: '-0.2rem',
+    top: '-0.25rem',
+    right: '-0.25rem',
   },
 ]);
-
-export const selectedTitle = style({
-  display: '-webkit-box',
-  margin: 0,
-  overflow: 'hidden',
-  wordBreak: 'break-all',
-  color: colorVars.color.text.primary,
-  WebkitLineClamp: 2,
-  WebkitBoxOrient: 'vertical',
-  ...fontVars.font.caption_r_12,
-});
 
 export const selectedInfoSection = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: unitVars.unit.gapPadding['100'],
-  padding: `0 ${unitVars.unit.gapPadding['100']} ${unitVars.unit.gapPadding['100']}`,
+  gap: unitVars.unit.gapPadding['050'],
+  padding: `calc(${unitVars.unit.gapPadding['200']} + ${unitVars.unit.gapPadding['050']}) ${unitVars.unit.gapPadding['050']}`,
   width: '100%',
   minWidth: 0,
   minHeight: '7.2rem',
+});
+
+export const selectedTitle = style({
+  overflow: 'hidden',
+  wordBreak: 'break-all',
+  color: colorVars.color.text.primary,
+  ...fontVars.font.caption_r_12,
 });
 
 export const addInfoPlaceholder = style({
