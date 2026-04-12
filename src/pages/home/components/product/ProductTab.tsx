@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 
 import CloseBottomSheet from '@shared/components/v2/bottomSheet/CloseBottomSheet';
 import DragHandleBottomSheet from '@shared/components/v2/bottomSheet/DragHandleBottomSheet';
@@ -200,6 +200,16 @@ const ProductTab = () => {
     []
   );
   const productFilterSheetRef = useRef<ProductFilterSheetRef>(null);
+
+  /** 바텀시트가 닫힐 때 필터 시트가 언마운트되므로, 열릴 때마다 마지막 적용값으로 복원 */
+  useLayoutEffect(() => {
+    if (!filterSheetOpen) return;
+    productFilterSheetRef.current?.setValues({
+      furnitureTypeIds: [...appliedFilterValues.furnitureTypeIds],
+      priceRangeIds: [...appliedFilterValues.priceRangeIds],
+      colorIds: [...appliedFilterValues.colorIds],
+    });
+  }, [filterSheetOpen, appliedFilterValues]);
 
   const handleFilterChipClick = useCallback(
     (category: ProductFilterChipCategory) => {
