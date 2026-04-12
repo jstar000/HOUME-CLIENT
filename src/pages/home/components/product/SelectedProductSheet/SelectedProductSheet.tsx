@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 import IconButton from '@shared/components/v2/button/IconButton';
 import Icon from '@shared/components/v2/icon/Icon';
 
@@ -30,6 +32,13 @@ const SelectedProductSheet = ({
   const emptyCount = Math.max(maxCount - selectedCount, 0);
   const visibleProducts = selectedProducts.slice(0, maxCount);
   const formatPrice = (price: number) => price.toLocaleString('ko-KR');
+
+  const handleRemoveProductClick = useCallback(
+    (productId: string) => {
+      onRemoveProduct(productId);
+    },
+    [onRemoveProduct]
+  );
 
   return (
     <div className={styles.container}>
@@ -79,7 +88,7 @@ const SelectedProductSheet = ({
                 size="M"
                 className={styles.closeButtonExpanded}
                 aria-label={`${product.title} 선택 해제`}
-                onClick={() => onRemoveProduct(product.id)}
+                onClick={() => handleRemoveProductClick(product.id)}
               />
             </div>
           ))}
@@ -131,7 +140,7 @@ const SelectedProductSheet = ({
                 size="S"
                 className={styles.closeButtonCompact}
                 aria-label={`${product.title} 선택 해제`}
-                onClick={() => onRemoveProduct(product.id)}
+                onClick={() => handleRemoveProductClick(product.id)}
               />
             </div>
           ))}

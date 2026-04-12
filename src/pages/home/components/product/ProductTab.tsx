@@ -288,6 +288,12 @@ const ProductTab = () => {
     );
   }, []);
 
+  const handleDecorateWithProductsClick = useCallback(() => {}, []);
+
+  const handleFilterResetClick = useCallback(() => {
+    productFilterSheetRef.current?.reset();
+  }, []);
+
   return (
     <div className={styles.container}>
       <IntroSection />
@@ -317,7 +323,7 @@ const ProductTab = () => {
             size="2XL"
             fullWidth
             leftIcon="DoubleStar"
-            onClick={() => {}}
+            onClick={handleDecorateWithProductsClick}
           >
             이 상품들로 우리 집 꾸미기
           </ActionButton>
@@ -336,7 +342,7 @@ const ProductTab = () => {
             color="inverse"
             size="2XL"
             leftIcon="Refresh"
-            onClick={() => productFilterSheetRef.current?.reset()}
+            onClick={handleFilterResetClick}
           >
             초기화
           </ActionButton>

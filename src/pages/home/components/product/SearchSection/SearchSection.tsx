@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 import ProductCard from '@shared/components/v2/productCard/ProductCard';
 import SearchBar from '@shared/components/v2/textField/SearchBar';
 
@@ -194,6 +196,29 @@ const SearchSection = ({
     },
   ];
 
+  const handleFilterChipCategoryClick = useCallback(
+    (category: ProductFilterChipCategory) => {
+      onFilterChipClick(category);
+    },
+    [onFilterChipClick]
+  );
+
+  const handleAppliedFilterChipRemoveClick = useCallback(
+    (category: ProductFilterChipCategory, id: string) => {
+      onAppliedFilterChipRemove(category, id);
+    },
+    [onAppliedFilterChipRemove]
+  );
+
+  const handleMockSaveToggle = useCallback(() => {}, []);
+
+  const handleSelectMockProduct = useCallback(
+    (product: SelectedProduct) => {
+      onSelectProduct(product);
+    },
+    [onSelectProduct]
+  );
+
   return (
     <section className={styles.section}>
       <div className={styles.searchHeader}>
@@ -207,10 +232,12 @@ const SearchSection = ({
                 <Chip
                   key={`${category}-${id}`}
                   selected
-                  onClick={() => onFilterChipClick(category)}
+                  onClick={() => handleFilterChipCategoryClick(category)}
                   suffixIcon={<Icon name="Close" size="12" />}
                   suffixAriaLabel={`${label} 필터 해제`}
-                  onSuffixClick={() => onAppliedFilterChipRemove(category, id)}
+                  onSuffixClick={() =>
+                    handleAppliedFilterChipRemoveClick(category, id)
+                  }
                 >
                   {label}
                 </Chip>
@@ -218,7 +245,7 @@ const SearchSection = ({
                 <Chip
                   key={`${category}-${id}`}
                   selected={chipSelected[category]}
-                  onClick={() => onFilterChipClick(category)}
+                  onClick={() => handleFilterChipCategoryClick(category)}
                   suffixIcon={<Icon name="ChevronDown" size="12" />}
                 >
                   {label}
@@ -260,7 +287,7 @@ const SearchSection = ({
                 }}
                 save={{
                   isSaved: false,
-                  onToggle: () => {},
+                  onToggle: handleMockSaveToggle,
                   count: saveCount,
                 }}
                 link={{
@@ -270,7 +297,7 @@ const SearchSection = ({
                   label: isSelected ? '선택' : '선택',
                   disabled: isSelected,
                   onClick: () =>
-                    onSelectProduct({
+                    handleSelectMockProduct({
                       id,
                       title,
                       brand,

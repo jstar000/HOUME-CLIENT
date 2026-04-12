@@ -20,6 +20,10 @@ const IntroSection = ({ bannerUrl, alt = '상품 배너' }: IntroSectionProps) =
   // 부모가 새 mediaUrl을 내려주면 그 값으로 다시 동기화 (RoomTypeCard와 동일 패턴)
   const [imageSrc, setImageSrc] = useState(initialImageSrc);
 
+  const handleImageError = () => {
+    setImageSrc(bannerFallback);
+  };
+
   useEffect(() => {
     setImageSrc(resolveInitialSrc(bannerUrl));
   }, [bannerUrl]);
@@ -33,7 +37,7 @@ const IntroSection = ({ bannerUrl, alt = '상품 배너' }: IntroSectionProps) =
         draggable={false}
         loading="eager"
         decoding="async"
-        onError={() => setImageSrc(bannerFallback)}
+        onError={handleImageError}
       />
     </section>
   );

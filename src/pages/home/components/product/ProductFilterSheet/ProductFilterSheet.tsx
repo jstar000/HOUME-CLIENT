@@ -126,6 +126,18 @@ const ProductFilterSheet = forwardRef<ProductFilterSheetRef>(
       [reset, getValues, setValues]
     );
 
+    const handleFurnitureChipClick = useCallback((id: string) => {
+      setFurnitureTypeIds((prev) => toggleSectionSelection(prev, id));
+    }, []);
+
+    const handlePriceChipClick = useCallback((id: string) => {
+      setPriceRangeIds((prev) => toggleSectionSelection(prev, id));
+    }, []);
+
+    const handleColorChipClick = useCallback((id: string) => {
+      setColorIds((prev) => toggleSectionSelection(prev, id));
+    }, []);
+
     return (
       <div className={styles.root}>
         <section
@@ -140,11 +152,7 @@ const ProductFilterSheet = forwardRef<ProductFilterSheetRef>(
               <Chip
                 key={id}
                 selected={furnitureTypeIds.includes(id)}
-                onClick={() =>
-                  setFurnitureTypeIds((prev) =>
-                    toggleSectionSelection(prev, id)
-                  )
-                }
+                onClick={() => handleFurnitureChipClick(id)}
               >
                 {label}
               </Chip>
@@ -164,9 +172,7 @@ const ProductFilterSheet = forwardRef<ProductFilterSheetRef>(
               <Chip
                 key={id}
                 selected={priceRangeIds.includes(id)}
-                onClick={() =>
-                  setPriceRangeIds((prev) => toggleSectionSelection(prev, id))
-                }
+                onClick={() => handlePriceChipClick(id)}
               >
                 {label}
               </Chip>
@@ -186,9 +192,7 @@ const ProductFilterSheet = forwardRef<ProductFilterSheetRef>(
               <Chip
                 key={id}
                 selected={colorIds.includes(id)}
-                onClick={() =>
-                  setColorIds((prev) => toggleSectionSelection(prev, id))
-                }
+                onClick={() => handleColorChipClick(id)}
               >
                 {dot ? (
                   <span className={styles.colorChipInner}>
