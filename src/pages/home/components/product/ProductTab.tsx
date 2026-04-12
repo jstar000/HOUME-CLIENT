@@ -4,6 +4,8 @@ import CloseBottomSheet from '@shared/components/v2/bottomSheet/CloseBottomSheet
 import DragHandleBottomSheet from '@shared/components/v2/bottomSheet/DragHandleBottomSheet';
 import ActionButton from '@shared/components/v2/button/actionButton/ActionButton';
 
+import { useToast } from '@components/toast/useToast';
+
 import IntroSection from './IntroSection/IntroSection';
 import ProductFilterSheet, {
   type ProductFilterValues,
@@ -200,6 +202,7 @@ const ProductTab = () => {
     []
   );
   const productFilterSheetRef = useRef<ProductFilterSheetRef>(null);
+  const { notify } = useToast();
 
   /** 바텀시트가 닫힐 때 필터 시트가 언마운트되므로, 열릴 때마다 마지막 적용값으로 복원 */
   useLayoutEffect(() => {
@@ -274,13 +277,25 @@ const ProductTab = () => {
     [appliedFilterValues]
   );
 
-  const handleSelectProduct = useCallback((product: SelectedProduct) => {
-    setSelectedProducts((prev) => {
-      if (prev.some((item) => item.id === product.id)) return prev;
-      if (prev.length >= MAX_SELECTED_PRODUCTS) return prev;
-      return [...prev, product];
-    });
-  }, []);
+  const handleSelectProduct = useCallback(
+    (product: SelectedProduct) => {
+      let attemptedOverMax = false;
+      setSelectedProducts((prev) => {
+        if (prev.some((item) => item.id === product.id)) return prev;
+        if (prev.length >= MAX_SELECTED_PRODUCTS) {
+          attemptedOverMax = true;
+          return prev;
+        }
+        return [...prev, product];
+      });
+      if (attemptedOverMax) {
+        notify({
+          text: `상품은 최대 ${MAX_SELECTED_PRODUCTS}개까지만 선택할 수 있어요`,
+        });
+      }
+    },
+    [notify]
+  );
 
   const handleRemoveSelectedProduct = useCallback((productId: string) => {
     setSelectedProducts((prev) =>
@@ -288,7 +303,12 @@ const ProductTab = () => {
     );
   }, []);
 
-  const handleDecorateWithProductsClick = useCallback(() => {}, []);
+  const handleDecorateWithProductsClick = useCallback(() => {
+    if (selectedProducts.length === 0) {
+      notify({ text: '상품을 1개 이상 선택해주세요' });
+      return;
+    }
+  }, [notify, selectedProducts.length]);
 
   const handleFilterResetClick = useCallback(() => {
     productFilterSheetRef.current?.reset();
@@ -323,6 +343,7 @@ const ProductTab = () => {
             size="2XL"
             fullWidth
             leftIcon="DoubleStar"
+            visualDisabled={selectedProducts.length === 0}
             onClick={handleDecorateWithProductsClick}
           >
             이 상품들로 우리 집 꾸미기
