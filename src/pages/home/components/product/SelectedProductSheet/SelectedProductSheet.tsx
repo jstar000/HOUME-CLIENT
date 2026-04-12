@@ -86,7 +86,7 @@ const SelectedProductSheet = ({
               <IconButton
                 name="CloseFillBlack"
                 size="M"
-                className={styles.closeButtonExpanded}
+                className={styles.closeButton({ layout: 'expanded' })}
                 aria-label={`${product.title} 선택 해제`}
                 onClick={() => handleRemoveProductClick(product.id)}
               />
@@ -138,7 +138,7 @@ const SelectedProductSheet = ({
               <IconButton
                 name="CloseFillBlack"
                 size="S"
-                className={styles.closeButtonCompact}
+                className={styles.closeButton({ layout: 'compact' })}
                 aria-label={`${product.title} 선택 해제`}
                 onClick={() => handleRemoveProductClick(product.id)}
               />

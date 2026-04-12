@@ -1,4 +1,5 @@
 import { style } from '@vanilla-extract/css';
+import { recipe } from '@vanilla-extract/recipes';
 
 import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
@@ -173,33 +174,28 @@ export const selectedImageFallback = style({
   color: colorVars.color.text.disabled,
 });
 
-const closeButtonBase = style({
-  position: 'absolute',
-  zIndex: 2,
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  border: 0,
-  borderRadius: unitVars.unit.radius.full,
-  background: 'transparent',
-  padding: 0,
+export const closeButton = recipe({
+  base: {
+    position: 'absolute',
+    zIndex: 2,
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: unitVars.unit.radius.full,
+  },
+  variants: {
+    layout: {
+      expanded: {
+        top: '-0.4rem',
+        right: '-0.4rem',
+      },
+      compact: {
+        top: '-0.25rem',
+        right: '-0.25rem',
+      },
+    },
+  },
 });
-
-export const closeButtonExpanded = style([
-  closeButtonBase,
-  {
-    top: '-0.4rem',
-    right: '-0.4rem',
-  },
-]);
-
-export const closeButtonCompact = style([
-  closeButtonBase,
-  {
-    top: '-0.25rem',
-    right: '-0.25rem',
-  },
-]);
 
 export const selectedInfoSection = style({
   display: 'flex',
