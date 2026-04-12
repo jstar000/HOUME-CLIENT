@@ -182,6 +182,7 @@ export const closeButton = recipe({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: unitVars.unit.radius.full,
+    padding: 0,
   },
   variants: {
     layout: {
