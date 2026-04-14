@@ -124,7 +124,12 @@ const ProductCard = ({
               onClick={save.onToggle}
             />
           ) : (
-            <IconButton name="ViewDetail" size="S" disabled={disabled} />
+            <IconButton
+              name="ViewDetail"
+              size="S"
+              disabled={disabled}
+              onClick={save.onToggle}
+            />
           )}
         </div>
       </section>
