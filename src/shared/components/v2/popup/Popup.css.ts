@@ -14,7 +14,7 @@ const fadeIn = keyframes({
 
 export const backdrop = style({
   position: 'fixed',
-  zIndex: zIndex.backdrop,
+  zIndex: zIndex.navBar, // zIndex 토큰 정비 필요
   inset: 0,
   background: 'rgba(0, 0, 0, 0.2)',
   animation: `${fadeIn} 0.45s cubic-bezier(0.22, 1, 0.36, 1)`,
@@ -22,12 +22,12 @@ export const backdrop = style({
 
 export const container = style({
   position: 'fixed',
-  zIndex: zIndex.modal,
+  zIndex: zIndex.navBar + 1, // zIndex 토큰 정비 필요
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   willChange: 'opacity',
-  borderRadius: '20px',
+  borderRadius: unitVars.unit.radius['700'],
   backgroundColor: colorVars.color.gray000,
   width: '28.8rem',
   animation: `${fadeIn} 0.45s cubic-bezier(0.22, 1, 0.36, 1)`,
