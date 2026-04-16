@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+
+import { overlay } from 'overlay-kit';
 
 import type {
   LinkInfo,
@@ -20,6 +22,7 @@ import * as styles from './ProductCard.css';
 import ActionButton from '../button/actionButton/ActionButton';
 import IconButton from '../button/IconButton';
 import Icon from '../icon/Icon';
+import Popup from '../popup/Popup';
 
 type CardType = 'default' | 'shopping';
 
@@ -67,6 +70,107 @@ const ProductCard = ({
     enableWholeCardLink,
     linkHref,
   });
+
+  const handleShoppingViewDetailClick = useCallback(() => {
+    overlay.open(({ unmount }) => (
+      <Popup
+        btnStyle="solid"
+        btnText={shoppingAction?.label ?? '선택'}
+        onClose={unmount}
+        onCancel={save.onToggle}
+        onConfirm={() => {
+          shoppingAction?.onClick();
+          unmount();
+        }}
+        showCloseButton
+        sideIconName={save.isSaved ? 'HeartFillGray' : 'HeartStrokeGray'}
+        content={
+          <div className={styles.popupPreviewCard}>
+            <div className={styles.popupPreviewImageWrap}>
+              <img
+                className={styles.popupPreviewImage}
+                src={product.imageUrl || CardImage}
+                alt={product.title}
+              />
+            </div>
+            <div className={styles.popupPreviewInfo}>
+              {visibleColors.length > 0 ||
+              extraColorCount > 0 ||
+              (typeof save.count === 'number' &&
+                Number.isFinite(save.count)) ? (
+                <div className={styles.popupPreviewMetaRow}>
+                  <div className={styles.colorRow}>
+                    {visibleColors.map((hex, index) => (
+                      <div className={styles.colorChipContainer} key={index}>
+                        <span
+                          key={`${hex}-${index}`}
+                          className={styles.colorChip}
+                          style={{ backgroundColor: hex }}
+                          aria-hidden
+                        />
+                      </div>
+                    ))}
+                    {extraColorCount > 0 ? (
+                      <span className={styles.colorChipCount}>
+                        +{extraColorCount}
+                      </span>
+                    ) : null}
+                  </div>
+                  {typeof save.count === 'number' &&
+                  Number.isFinite(save.count) ? (
+                    <div className={styles.popupPreviewLikeRow}>
+                      <Icon name="HeartFillGray" size="14" />
+                      <span className={styles.popupPreviewLikeCount}>
+                        {save.count.toLocaleString('ko-KR')}
+                      </span>
+                    </div>
+                  ) : null}
+                </div>
+              ) : null}
+              {!!product.brand && (
+                <p className={styles.popupPreviewBrand}>{product.brand}</p>
+              )}
+              <p className={styles.popupPreviewTitle}>{product.title}</p>
+              {(originalPriceText || discountPriceText) && (
+                <div className={styles.popupPreviewPriceSection}>
+                  {originalPriceText && (
+                    <p className={styles.popupPreviewOriginalPrice}>
+                      {originalPriceText}
+                    </p>
+                  )}
+                  <div className={styles.popupPreviewDiscountRow}>
+                    {discountRateText && (
+                      <span className={styles.popupPreviewDiscountRate}>
+                        {discountRateText}
+                      </span>
+                    )}
+                    {discountPriceText && (
+                      <span className={styles.popupPreviewDiscountPrice}>
+                        {discountPriceText}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        }
+      />
+    ));
+  }, [
+    discountPriceText,
+    discountRateText,
+    extraColorCount,
+    originalPriceText,
+    product.brand,
+    product.imageUrl,
+    product.title,
+    save.count,
+    save.isSaved,
+    save.onToggle,
+    shoppingAction,
+    visibleColors,
+  ]);
 
   return (
     <div
@@ -128,7 +232,7 @@ const ProductCard = ({
               name="ViewDetail"
               size="S"
               disabled={disabled}
-              onClick={save.onToggle}
+              onClick={handleShoppingViewDetailClick}
             />
           )}
         </div>
