@@ -92,6 +92,31 @@ const ProductCard = ({
                 src={product.imageUrl || CardImage}
                 alt={product.title}
               />
+              {linkHref ? (
+                <div
+                  className={styles.linkBtnContainer()}
+                  onClick={(event) => event.stopPropagation()}
+                  onKeyDown={(event) => event.stopPropagation()}
+                  role="presentation"
+                >
+                  <ActionButton
+                    variant="solid"
+                    color="inverse"
+                    size="XS"
+                    leftIcon="Link"
+                    aria-label="공식 사이트로 이동"
+                    onClick={() => {
+                      if (link?.onClick) {
+                        link.onClick();
+                        return;
+                      }
+                      window.open(linkHref, '_blank', 'noopener,noreferrer');
+                    }}
+                  >
+                    {link?.label || '사이트'}
+                  </ActionButton>
+                </div>
+              ) : null}
             </div>
             <div className={styles.popupPreviewInfo}>
               {visibleColors.length > 0 ||
@@ -165,6 +190,8 @@ const ProductCard = ({
     product.brand,
     product.imageUrl,
     product.title,
+    link,
+    linkHref,
     save.count,
     save.isSaved,
     save.onToggle,
