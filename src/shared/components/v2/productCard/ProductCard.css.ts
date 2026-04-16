@@ -214,6 +214,7 @@ export const popupPreviewCard = style({
 
 export const popupPreviewImageWrap = style({
   aspectRatio: '1 / 1',
+  position: 'relative',
   border: `1px solid ${colorVars.color.border.tertiary}`,
   borderRadius: unitVars.unit.radius['300'],
   width: '100%',

@@ -35,6 +35,7 @@ export const container = style({
 
 export const closeButton = style({
   position: 'absolute',
+  zIndex: zIndex.sticky,
   top: '1.2rem',
   right: '1.2rem',
   display: 'inline-flex',

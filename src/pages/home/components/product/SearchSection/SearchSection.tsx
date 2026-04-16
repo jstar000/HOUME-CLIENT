@@ -15,7 +15,6 @@ export interface AppliedFilterChip {
   category: ProductFilterChipCategory;
   id: string;
   label: string;
-  /** true: 선택된 필터 요약 + 닫기, false: 기본 칩(카테고리/가격대/색상 + 쉐브론) */
   applied: boolean;
 }
 
@@ -52,7 +51,8 @@ const SearchSection = ({
   const mockProducts = [
     {
       id: 'p1',
-      title: '상품명은 최대 두 줄까지 쓸 수 있어요',
+      title:
+        '상품명은 최대 두 줄까지 쓸 수 있어요 상품명은 최대 두 줄까지 쓸 수 있어요',
       brand: 'HOUME',
       imageUrl:
         'https://i.pinimg.com/736x/a9/62/30/a9623026cd4d93af383b4c5f59d5a86a.jpg',
@@ -64,7 +64,7 @@ const SearchSection = ({
     },
     {
       id: 'p2',
-      title: '상품명은 최대 두 줄까지 쓸 수 있어요',
+      title: '상품명은 최대 두 줄까지',
       brand: 'TABLE LAB',
       imageUrl:
         'https://i.pinimg.com/1200x/65/cf/44/65cf44b71f3d3092b68fb034ad24fb90.jpg',
@@ -256,7 +256,6 @@ const SearchSection = ({
         </div>
       </div>
       <div className={styles.productList}>
-        {/* TODO: V2 공컴으로 변경 */}
         {mockProducts.map(
           ({
             id,
