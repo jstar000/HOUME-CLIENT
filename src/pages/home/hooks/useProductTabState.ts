@@ -228,7 +228,6 @@ export const useProductTabState = () => {
 
         queueMicrotask(() => {
           setFilterSheetOpen(true);
-          // 오픈 직후 한 번 더 복원해, ref 마운트 타이밍에 따른 누락을 방지한다.
           queueMicrotask(() => {
             syncFilterSheetValues();
           });
