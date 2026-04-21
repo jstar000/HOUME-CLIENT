@@ -281,10 +281,12 @@ export const useProductTabState = () => {
 
       setAppliedFilterValues(normalizedValues);
       setAppliedFilterChips(buildAppliedFilterChips(normalizedValues));
-      // 시트가 열려있는 상태에서도 해제 결과가 즉시 반영되도록 동기화한다.
-      productFilterSheetRef.current?.setValues(normalizedValues);
+      if (filterSheetOpen) {
+        // 시트가 열린 상태에서만 즉시 동기화하고, 닫힌 상태는 오픈 시 effect에 위임
+        productFilterSheetRef.current?.setValues(normalizedValues);
+      }
     },
-    [appliedFilterValues]
+    [appliedFilterValues, filterSheetOpen]
   );
 
   // handleSelectProduct: 상품 선택 추가(중복 방지, 최대 개수 제한, 초과 시 토스트)
