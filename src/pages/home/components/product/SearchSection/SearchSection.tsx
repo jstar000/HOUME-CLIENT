@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import ProductCard from '@shared/components/v2/productCard/ProductCard';
 import SearchBar from '@shared/components/v2/textField/SearchBar';
@@ -52,6 +52,12 @@ const SearchSection = ({
   selectedProductIds,
   onSelectProduct,
 }: SearchSectionProps) => {
+  const searchBarRef = useRef<HTMLDivElement>(null);
+  const filterListRef = useRef<HTMLDivElement>(null);
+  const lastScrollYRef = useRef(0);
+  const [isFilterSticky, setIsFilterSticky] = useState(false);
+  const [showStickySearchBar, setShowStickySearchBar] = useState(false);
+
   const mockProducts = toSearchSectionProducts(
     getMockProductMainResponse({
       size: 20,
@@ -81,40 +87,92 @@ const SearchSection = ({
     [onSelectProduct]
   );
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!searchBarRef.current || !filterListRef.current) return;
+
+      const currentY = window.scrollY || window.pageYOffset;
+      const isScrollUp = currentY < lastScrollYRef.current;
+      lastScrollYRef.current = currentY;
+
+      const filterTop = filterListRef.current.getBoundingClientRect().top;
+      const searchBarTop = searchBarRef.current.getBoundingClientRect().top;
+
+      if (!isFilterSticky && filterTop <= 0) {
+        setIsFilterSticky(true);
+      }
+
+      if (isFilterSticky) {
+        if (isScrollUp && searchBarTop >= 0) {
+          setIsFilterSticky(false);
+          setShowStickySearchBar(false);
+          return;
+        }
+        setShowStickySearchBar(isScrollUp);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isFilterSticky]);
+
+  const filterChips = useMemo(
+    () =>
+      appliedFilterChips.map(({ category, id, label, applied }) =>
+        applied ? (
+          <Chip
+            key={`${category}-${id}`}
+            selected
+            onClick={() => handleFilterChipCategoryClick(category)}
+            suffixIcon={<Icon name="Close" size="12" />}
+            suffixAriaLabel={`${label} 필터 해제`}
+            onSuffixClick={() =>
+              handleAppliedFilterChipRemoveClick(category, id)
+            }
+          >
+            {label}
+          </Chip>
+        ) : (
+          <Chip
+            key={`${category}-${id}`}
+            selected={chipSelected[category]}
+            onClick={() => handleFilterChipCategoryClick(category)}
+            suffixIcon={<Icon name="ChevronDown" size="12" />}
+          >
+            {label}
+          </Chip>
+        )
+      ),
+    [
+      appliedFilterChips,
+      chipSelected,
+      handleAppliedFilterChipRemoveClick,
+      handleFilterChipCategoryClick,
+    ]
+  );
+
   return (
     <section className={styles.section}>
+      {isFilterSticky ? (
+        <div className={styles.stickyHeader}>
+          {showStickySearchBar ? (
+            <div className={styles.searchBarContainer}>
+              <SearchBar />
+            </div>
+          ) : null}
+          <div className={styles.filterList}>
+            <div className={styles.filterScroll}>{filterChips}</div>
+          </div>
+        </div>
+      ) : null}
       <div className={styles.searchHeader}>
-        <div className={styles.searchBarContainer}>
+        <div ref={searchBarRef} className={styles.searchBarContainer}>
           <SearchBar />
         </div>
-        <div className={styles.filterList}>
-          <div className={styles.filterScroll}>
-            {appliedFilterChips.map(({ category, id, label, applied }) =>
-              applied ? (
-                <Chip
-                  key={`${category}-${id}`}
-                  selected
-                  onClick={() => handleFilterChipCategoryClick(category)}
-                  suffixIcon={<Icon name="Close" size="12" />}
-                  suffixAriaLabel={`${label} 필터 해제`}
-                  onSuffixClick={() =>
-                    handleAppliedFilterChipRemoveClick(category, id)
-                  }
-                >
-                  {label}
-                </Chip>
-              ) : (
-                <Chip
-                  key={`${category}-${id}`}
-                  selected={chipSelected[category]}
-                  onClick={() => handleFilterChipCategoryClick(category)}
-                  suffixIcon={<Icon name="ChevronDown" size="12" />}
-                >
-                  {label}
-                </Chip>
-              )
-            )}
-          </div>
+        <div ref={filterListRef} className={styles.filterList}>
+          <div className={styles.filterScroll}>{filterChips}</div>
         </div>
       </div>
       <div className={styles.productList}>

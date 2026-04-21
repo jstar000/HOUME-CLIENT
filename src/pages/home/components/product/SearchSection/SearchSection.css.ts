@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 
+import { zIndex } from '@styles/tokens/zIndex';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
 export const section = style({
@@ -16,6 +17,15 @@ export const searchHeader = style({
   flexDirection: 'column',
   justifyContent: 'flex-start',
   padding: `${unitVars.unit.gapPadding['100']} ${unitVars.unit.gapPadding['000']}`,
+  width: '100%',
+});
+
+export const stickyHeader = style({
+  position: 'fixed',
+  zIndex: zIndex.navigation,
+  top: 0,
+  left: 0,
+  background: '#fff',
   width: '100%',
 });
 
