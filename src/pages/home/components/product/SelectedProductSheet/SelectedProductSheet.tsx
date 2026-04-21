@@ -107,10 +107,10 @@ const SelectedProductSheet = ({
                 </>
               ) : (
                 <div className={styles.addCardSquare}>
-                  <span className={styles.addCardContent} aria-hidden>
+                  <div className={styles.addCardContent} aria-hidden>
                     <Icon name="PlusFill" size="20" />
                     <p className={styles.addLabel}>상품 추가하기</p>
-                  </span>
+                  </div>
                 </div>
               )}
             </div>
