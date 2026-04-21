@@ -40,6 +40,7 @@ interface ProductMainItem {
   finalPrice: number;
   mallName: string | null;
   linkUrl: string;
+  colorHexes: string[];
 }
 
 /**
@@ -105,7 +106,7 @@ const COLOR_META: Record<number, { label: string; hex: string }> = {
  * - typeId/colorIds는 필터 계산용 내부 속성이다.
  * - imageUrl은 기존 SearchSection에서 사용하던 목 이미지들을 재사용한다.
  */
-const PRODUCTS: InternalProduct[] = [
+const PRODUCTS: Omit<InternalProduct, 'colorHexes'>[] = [
   {
     id: 630,
     productId: 370,
@@ -438,9 +439,10 @@ export const getMockProductMainResponse = (
     code: 200,
     msg: '응답 성공',
     data: {
-      products: page.map(
-        ({ typeId: _typeId, colorIds: _colorIds, ...rest }) => rest
-      ),
+      products: page.map(({ typeId: _typeId, colorIds, ...rest }) => ({
+        ...rest,
+        colorHexes: getColorHexes(colorIds),
+      })),
       meta: {
         nextCursor,
         hasNext,
@@ -459,20 +461,15 @@ export const toSearchSectionProducts = (
    * - finalPrice -> discountPrice로 전달
    * - colorHexes는 내부 원본(PRODUCTS)에서 역조회해 채운다
    */
-  response.data.products.map((product) => {
-    const internal = PRODUCTS.find((item) => item.id === product.id);
-    const colorHexes = internal ? getColorHexes(internal.colorIds) : [];
-
-    return {
-      id: String(product.id),
-      title: product.name,
-      brand: product.brand ?? '',
-      imageUrl: product.imageUrl,
-      discountRate: product.discountRate,
-      originalPrice: product.originalPrice,
-      discountPrice: product.finalPrice,
-      colorHexes,
-      saveCount: 0,
-      linkUrl: product.linkUrl,
-    };
-  });
+  response.data.products.map((product) => ({
+    id: String(product.id),
+    title: product.name,
+    brand: product.brand ?? '',
+    imageUrl: product.imageUrl,
+    discountRate: product.discountRate,
+    originalPrice: product.originalPrice,
+    discountPrice: product.finalPrice,
+    colorHexes: product.colorHexes,
+    saveCount: 0,
+    linkUrl: product.linkUrl,
+  }));
