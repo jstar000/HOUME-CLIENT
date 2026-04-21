@@ -19,6 +19,7 @@ interface PopupProps {
   btnIcon?: IconName;
   showCloseButton?: boolean;
   sideIconName?: IconName;
+  ariaLabel?: string;
 }
 
 const Popup = ({
@@ -32,6 +33,7 @@ const Popup = ({
   btnIcon,
   showCloseButton = false,
   sideIconName,
+  ariaLabel,
 }: PopupProps) => {
   const hasWeak = weakBtnText != null && weakBtnText !== '';
 
@@ -82,6 +84,7 @@ const Popup = ({
         className={styles.container}
         role="dialog"
         aria-modal="true"
+        aria-label={ariaLabel ?? '안내 팝업'}
         onClick={(e) => e.stopPropagation()}
       >
         {showCloseButton ? (

@@ -67,7 +67,7 @@ const ActionButton = ({
         className
       )}
       disabled={isDomDisabled}
-      aria-disabled={isVisuallyDisabled || undefined}
+      aria-disabled={isDomDisabled || undefined}
       {...props}
     >
       {leftIcon != null ? <Icon name={leftIcon} size={iconSize} /> : null}
