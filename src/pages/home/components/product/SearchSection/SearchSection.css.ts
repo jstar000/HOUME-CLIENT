@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
 import { zIndex } from '@styles/tokens/zIndex';
+import { colorVars } from '@styles/tokensV2/color.css';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
 export const section = style({
@@ -25,7 +26,7 @@ export const stickyHeader = style({
   zIndex: zIndex.navigation,
   top: 0,
   left: 0,
-  background: '#fff',
+  background: colorVars.color.bg.primary,
   width: '100%',
 });
 
