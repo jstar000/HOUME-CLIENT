@@ -200,15 +200,19 @@ export const useProductTabState = () => {
   const productFilterSheetRef = useRef<ProductFilterSheetRef>(null);
   const { notify } = useToast();
 
-  // 필터 시트가 다시 열릴 때 마지막 적용값으로 내부 선택 상태 복원
-  useLayoutEffect(() => {
-    if (!filterSheetOpen) return;
+  const syncFilterSheetValues = useCallback(() => {
     productFilterSheetRef.current?.setValues({
       furnitureTypeIds: [...appliedFilterValues.furnitureTypeIds],
       priceRangeIds: [...appliedFilterValues.priceRangeIds],
       colorIds: [...appliedFilterValues.colorIds],
     });
-  }, [filterSheetOpen, appliedFilterValues]);
+  }, [appliedFilterValues]);
+
+  // 필터 시트가 다시 열릴 때 마지막 적용값으로 내부 선택 상태 복원
+  useLayoutEffect(() => {
+    if (!filterSheetOpen) return;
+    syncFilterSheetValues();
+  }, [filterSheetOpen, syncFilterSheetValues]);
 
   // handleFilterChipClick: 상단 필터 칩 클릭 시 활성 카테고리 전환 및 필터 시트 열림/닫힘 처리
   const handleFilterChipClick = useCallback(
@@ -224,6 +228,10 @@ export const useProductTabState = () => {
 
         queueMicrotask(() => {
           setFilterSheetOpen(true);
+          // 오픈 직후 한 번 더 복원해, ref 마운트 타이밍에 따른 누락을 방지한다.
+          queueMicrotask(() => {
+            syncFilterSheetValues();
+          });
         });
         // 하나의 카테고리 칩만 활성 상태로 유지
         return {
@@ -233,7 +241,7 @@ export const useProductTabState = () => {
         };
       });
     },
-    []
+    [syncFilterSheetValues]
   );
 
   // handleFilterSheetClose: 필터 시트를 닫고 칩 활성 상태를 초기화
