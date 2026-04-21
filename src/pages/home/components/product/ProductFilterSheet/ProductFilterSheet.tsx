@@ -4,52 +4,77 @@ import Chip from '@components/v2/chip/Chip';
 
 import * as styles from './ProductFilterSheet.css';
 
+const ALL = 'ALL';
+const PRODUCT_FILTERS_MOCK_RESPONSE = {
+  code: 200,
+  msg: '응답 성공',
+  data: {
+    furnitureTypes: [
+      { id: 1, nameKr: '침대/프레임', nameEng: 'BED' },
+      { id: 2, nameKr: '업무용 책상', nameEng: 'DESK' },
+      { id: 3, nameKr: '식탁', nameEng: 'DINING' },
+      { id: 4, nameKr: '좌식 테이블', nameEng: 'FLOOR_TABLE' },
+      { id: 5, nameKr: '옷장', nameEng: 'WARDROBE' },
+      { id: 6, nameKr: '수납/장식장', nameEng: 'STORAGE' },
+      { id: 7, nameKr: '소파', nameEng: 'SOFA' },
+      { id: 8, nameKr: '의자/스툴', nameEng: 'CHAIR' },
+      { id: 9, nameKr: '화장대/협탁', nameEng: 'VANITY' },
+      { id: 10, nameKr: '조명', nameEng: 'LIGHT' },
+      { id: 11, nameKr: '그 외', nameEng: 'OTHER' },
+    ],
+    priceRanges: [
+      { id: 'P1', label: '5만원 이하', min: 0, max: 50000 },
+      { id: 'P2', label: '5-10만원', min: 50000, max: 100000 },
+      { id: 'P3', label: '10만원대', min: 100000, max: 199999 },
+      { id: 'P4', label: '20만원대', min: 200000, max: 299999 },
+      { id: 'P5', label: '30만원대', min: 300000, max: 399999 },
+      { id: 'P6', label: '40만원대', min: 400000, max: 499999 },
+      { id: 'P7', label: '50만원 이상', min: 500000, max: null },
+    ],
+    colors: [
+      { id: 1, label: '블랙', value: '#000000' },
+      { id: 2, label: '화이트', value: '#FFFFFF' },
+      { id: 3, label: '그레이', value: '#8E959E' },
+      { id: 4, label: '베이지', value: '#D4C4B0' },
+      { id: 5, label: '실버', value: '#C8CDD2' },
+      { id: 6, label: '골드', value: '#D4AF37' },
+      { id: 7, label: '브라운', value: '#5C4033' },
+      { id: 8, label: '레드', value: '#E53935' },
+      { id: 9, label: '오렌지', value: '#FB8C00' },
+      { id: 10, label: '옐로우', value: '#FDD835' },
+      { id: 11, label: '그린', value: '#43A047' },
+      { id: 12, label: '블루', value: '#1E88E5' },
+      { id: 13, label: '네이비', value: '#1A237E' },
+      { id: 14, label: '바이올렛', value: '#7E57C2' },
+      { id: 15, label: '핑크', value: '#EC407A' },
+    ],
+  },
+} as const;
+
 const FURNITURE_OPTIONS: { id: string; label: string }[] = [
-  { id: 'ALL', label: '전체' },
-  { id: 'bed', label: '침대/프레임' },
-  { id: 'desk', label: '업무용 책상' },
-  { id: 'dining', label: '식탁' },
-  { id: 'floorTable', label: '좌식 테이블' },
-  { id: 'wardrobe', label: '옷장' },
-  { id: 'storage', label: '수납/장식장' },
-  { id: 'sofa', label: '소파' },
-  { id: 'chair', label: '의자/스툴' },
-  { id: 'vanity', label: '화장대/협탁' },
-  { id: 'light', label: '조명' },
-  { id: 'other', label: '그 외' },
+  { id: ALL, label: '전체' },
+  ...PRODUCT_FILTERS_MOCK_RESPONSE.data.furnitureTypes.map((type) => ({
+    id: String(type.id),
+    label: type.nameKr,
+  })),
 ];
 
 const PRICE_OPTIONS: { id: string; label: string }[] = [
-  { id: 'ALL', label: '전체' },
-  { id: 'under50k', label: '5만 원 이하' },
-  { id: '50to100k', label: '5-10만 원' },
-  { id: '10man', label: '10만 원대' },
-  { id: '20man', label: '20만 원대' },
-  { id: '30man', label: '30만 원대' },
-  { id: '40man', label: '40만 원대' },
-  { id: 'over50man', label: '50만 원 이상' },
+  { id: ALL, label: '전체' },
+  ...PRODUCT_FILTERS_MOCK_RESPONSE.data.priceRanges.map((range) => ({
+    id: range.id,
+    label: range.label,
+  })),
 ];
 
-const COLOR_OPTIONS: { id: string; label: string; dot?: string }[] = [
-  { id: 'ALL', label: '전체' },
-  { id: 'white', label: '화이트', dot: '#FFFFFF' },
-  { id: 'gray', label: '그레이', dot: '#8E959E' },
-  { id: 'black', label: '블랙', dot: '#1B1E22' },
-  { id: 'silver', label: '실버', dot: '#C8CDD2' },
-  { id: 'gold', label: '골드', dot: '#D4AF37' },
-  { id: 'beige', label: '베이지', dot: '#D4C4B0' },
-  { id: 'brown', label: '브라운', dot: '#5C4033' },
-  { id: 'red', label: '레드', dot: '#E53935' },
-  { id: 'orange', label: '오렌지', dot: '#FB8C00' },
-  { id: 'yellow', label: '옐로우', dot: '#FDD835' },
-  { id: 'green', label: '그린', dot: '#43A047' },
-  { id: 'blue', label: '블루', dot: '#1E88E5' },
-  { id: 'navy', label: '네이비', dot: '#1A237E' },
-  { id: 'violet', label: '바이올렛', dot: '#7E57C2' },
-  { id: 'pink', label: '핑크', dot: '#EC407A' },
+const COLOR_OPTIONS: { id: string; label: string; value?: string }[] = [
+  { id: ALL, label: '전체' },
+  ...PRODUCT_FILTERS_MOCK_RESPONSE.data.colors.map((color) => ({
+    id: String(color.id),
+    label: color.label,
+    value: color.value,
+  })),
 ];
-
-const ALL = 'ALL';
 
 const INITIAL_SELECTION: string[] = [ALL];
 
@@ -188,18 +213,18 @@ const ProductFilterSheet = forwardRef<ProductFilterSheetRef>(
             색상
           </h2>
           <div className={styles.chipGroup} role="group" aria-label="색상">
-            {COLOR_OPTIONS.map(({ id, label, dot }) => (
+            {COLOR_OPTIONS.map(({ id, label, value }) => (
               <Chip
                 key={id}
                 selected={colorIds.includes(id)}
                 onClick={() => handleColorChipClick(id)}
               >
-                {dot ? (
+                {value ? (
                   <span className={styles.colorChipInner}>
                     <span
                       className={styles.colorDot}
                       style={{
-                        backgroundColor: dot,
+                        backgroundColor: value,
                       }}
                     />
                     {label}
