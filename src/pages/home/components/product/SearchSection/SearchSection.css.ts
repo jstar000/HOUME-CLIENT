@@ -29,6 +29,20 @@ export const stickyHeader = style({
   width: '100%',
 });
 
+export const stickySearchBarWrap = style({
+  transform: 'translateY(-0.8rem)',
+  transition: 'max-height 360ms ease, opacity 360ms ease, transform 360ms ease',
+  opacity: 0,
+  maxHeight: 0,
+  overflow: 'hidden',
+});
+
+export const stickySearchBarWrapVisible = style({
+  transform: 'translateY(0)',
+  opacity: 1,
+  maxHeight: '6.4rem',
+});
+
 export const searchBarContainer = style({
   boxSizing: 'border-box',
   padding: `${unitVars.unit.gapPadding['200']} ${unitVars.unit.gapPadding['500']}`,
