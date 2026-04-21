@@ -78,7 +78,7 @@ const COLOR_OPTIONS: { id: string; label: string; value?: string }[] = [
 
 const INITIAL_SELECTION: string[] = [ALL];
 
-/** 섹션 내 다중 선택: ALL만 있으면 ‘전체’, 그 외는 선택된 id 목록 */
+// 섹션 내 다중 선택 - ALL만 있으면 ‘전체’, 그 외는 선택된 id 목록
 function toggleSectionSelection(current: string[], id: string): string[] {
   if (id === ALL) {
     return [ALL];
@@ -240,5 +240,7 @@ const ProductFilterSheet = forwardRef<ProductFilterSheetRef>(
     );
   }
 );
+
+ProductFilterSheet.displayName = 'ProductFilterSheet';
 
 export default ProductFilterSheet;
