@@ -20,6 +20,7 @@ interface PopupProps {
   showCloseButton?: boolean;
   sideIconName?: IconName;
   ariaLabel?: string;
+  confirmDisabled?: boolean;
 }
 
 const Popup = ({
@@ -34,6 +35,7 @@ const Popup = ({
   showCloseButton = false,
   sideIconName,
   ariaLabel,
+  confirmDisabled = false,
 }: PopupProps) => {
   const hasWeak = weakBtnText != null && weakBtnText !== '';
 
@@ -55,6 +57,8 @@ const Popup = ({
             role: 'strong',
             layout: hasWeak ? 'paired' : 'single',
           })}
+          disabled={confirmDisabled}
+          aria-disabled={confirmDisabled || undefined}
           onClick={onConfirm}
         >
           {btnText}
@@ -71,6 +75,7 @@ const Popup = ({
           size="L"
           leftIcon={btnIcon}
           fullWidth={!hasWeak}
+          disabled={confirmDisabled}
           onClick={onConfirm}
         >
           {btnText}

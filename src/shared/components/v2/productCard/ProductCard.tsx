@@ -76,6 +76,7 @@ const ProductCard = ({
       <Popup
         btnStyle="solid"
         btnText={shoppingAction?.label ?? '선택'}
+        confirmDisabled={shoppingAction?.disabled}
         onClose={unmount}
         onCancel={save.onToggle}
         onConfirm={() => {
