@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 
 import ProductCard from '@shared/components/v2/productCard/ProductCard';
 import SearchBar from '@shared/components/v2/textField/SearchBar';
@@ -9,6 +9,7 @@ import {
   getMockProductMainResponse,
   toSearchSectionProducts,
 } from '@/pages/home/apis/queries/useProductMainQuery';
+import { useProductStickyHeader } from '@/pages/home/hooks/useProductStickyHeader';
 import Icon from '@/shared/components/v2/icon/Icon';
 
 import * as styles from './SearchSection.css';
@@ -54,9 +55,10 @@ const SearchSection = ({
 }: SearchSectionProps) => {
   const searchBarRef = useRef<HTMLDivElement>(null);
   const filterListRef = useRef<HTMLDivElement>(null);
-  const lastScrollYRef = useRef(0);
-  const [isFilterSticky, setIsFilterSticky] = useState(false);
-  const [showStickySearchBar, setShowStickySearchBar] = useState(false);
+  const { isFilterSticky, showStickySearchBar } = useProductStickyHeader({
+    searchBarRef,
+    filterListRef,
+  });
 
   const mockProducts = toSearchSectionProducts(
     getMockProductMainResponse({
@@ -86,37 +88,6 @@ const SearchSection = ({
     },
     [onSelectProduct]
   );
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!searchBarRef.current || !filterListRef.current) return;
-
-      const currentY = window.scrollY || window.pageYOffset;
-      const isScrollUp = currentY < lastScrollYRef.current;
-      lastScrollYRef.current = currentY;
-
-      const filterTop = filterListRef.current.getBoundingClientRect().top;
-      const searchBarTop = searchBarRef.current.getBoundingClientRect().top;
-
-      if (!isFilterSticky && filterTop <= 0) {
-        setIsFilterSticky(true);
-      }
-
-      if (isFilterSticky) {
-        if (isScrollUp && searchBarTop >= 0) {
-          setIsFilterSticky(false);
-          setShowStickySearchBar(false);
-          return;
-        }
-        setShowStickySearchBar(isScrollUp);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [isFilterSticky]);
 
   const filterChips = useMemo(
     () =>
@@ -157,11 +128,13 @@ const SearchSection = ({
     <section className={styles.section}>
       {isFilterSticky ? (
         <div className={styles.stickyHeader}>
-          {showStickySearchBar ? (
+          <div
+            className={`${styles.stickySearchBarWrap} ${showStickySearchBar ? styles.stickySearchBarWrapVisible : ''}`}
+          >
             <div className={styles.searchBarContainer}>
               <SearchBar />
             </div>
-          ) : null}
+          </div>
           <div className={styles.filterList}>
             <div className={styles.filterScroll}>{filterChips}</div>
           </div>
