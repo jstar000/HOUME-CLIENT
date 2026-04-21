@@ -129,7 +129,9 @@ const SearchSection = ({
       {isFilterSticky ? (
         <div className={styles.stickyHeader}>
           <div
-            className={`${styles.stickySearchBarWrap} ${showStickySearchBar ? styles.stickySearchBarWrapVisible : ''}`}
+            className={`${styles.stickySearchBarWrap} ${
+              showStickySearchBar ? styles.stickySearchBarWrapVisible : ''
+            }`}
           >
             <div className={styles.searchBarContainer}>
               <SearchBar />
