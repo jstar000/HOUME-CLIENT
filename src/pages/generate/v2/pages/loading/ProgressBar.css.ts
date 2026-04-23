@@ -16,8 +16,8 @@ export const progressBarBox = style({
 export const progressTrack = style({
   display: 'grid',
   alignItems: 'center',
-  marginRight: '-2rem',
-  marginLeft: '-2rem',
+  marginRight: '-2rem', // 오른쪽 여백 제거
+  marginLeft: '-2rem', // 왼쪽 여백 제거
 });
 
 export const progressBack = style({
