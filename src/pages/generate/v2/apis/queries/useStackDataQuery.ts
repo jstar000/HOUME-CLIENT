@@ -5,7 +5,7 @@ import { HTTPMethod, request } from '@apis/config/request';
 import { API_ENDPOINT } from '@constants/apiEndpoints';
 import { queryKeys } from '@constants/queryKey';
 
-import type { CarouselItem, ImageStackResponse } from '../../types/loading';
+import type { CarouselItem, ImageStackResponse } from '../../types/generate';
 
 export const getStackData = async (page: number): Promise<CarouselItem[]> => {
   const res = await request<ImageStackResponse>({

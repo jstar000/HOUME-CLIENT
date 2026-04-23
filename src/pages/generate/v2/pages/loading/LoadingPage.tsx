@@ -3,11 +3,11 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Navigate, useNavigate } from 'react-router-dom';
 
-import { usePostCarouselLikeMutation } from '@pages/generate/apis/mutations/useCarouselLikeMutation';
 import { useFallbackImageQuery } from '@pages/generate/apis/queries/useFallbackImageQuery';
-import { useStackDataQuery } from '@pages/generate/apis/queries/useStackDataQuery';
-import { useGenerateStore } from '@pages/generate/stores/useGenerateStore';
-import type { GenerateImageRequest } from '@pages/generate/types/generate';
+import { usePostCarouselLikeMutation } from '@pages/generate/v2/apis/mutations/useCarouselLikeMutation';
+import { useStackDataQuery } from '@pages/generate/v2/apis/queries/useStackDataQuery';
+import { useGenerateStore } from '@pages/generate/v2/stores/useGenerateStore';
+import type { GenerateImageRequest } from '@pages/generate/v2/types/generate';
 
 import { ROUTES } from '@routes/paths';
 
@@ -215,7 +215,7 @@ const LoadingPage = () => {
 
     if (isLike) {
       // API 호출: 좋아요 전송
-      likeMutation.mutate(currentImage.carouselId, {
+      likeMutation.mutate(currentImage.rawProductId, {
         onSuccess: () => {
           goToNext();
         },
@@ -298,14 +298,14 @@ const LoadingPage = () => {
                   <>
                     {nextImage && (
                       <div
-                        key={`next-${currentPage + 1}-${nextImage.carouselId}`}
+                        key={`next-${currentPage + 1}-${nextImage.rawProductId}`}
                         className={`${styles.nextImageArea} ${
                           animating ? styles.nextImageAreaActive : ''
                         }`}
                       >
                         <img
                           src={nextImage.url}
-                          alt={`다음 가구 이미지 ${nextImage.carouselId}`}
+                          alt={`다음 가구 이미지 ${nextImage.rawProductId}`}
                           className={styles.imageStyle}
                         />
                       </div>
@@ -313,14 +313,14 @@ const LoadingPage = () => {
 
                     {currentImage && (
                       <div
-                        key={`current-${currentPage}-${currentImage.carouselId}`}
+                        key={`current-${currentPage}-${currentImage.rawProductId}`}
                         className={`${styles.currentImageArea} ${
                           animating ? styles.currentImageAreaOut : ''
                         }`}
                       >
                         <img
                           src={currentImage.url}
-                          alt={`현재 가구 이미지 ${currentImage.carouselId}`}
+                          alt={`현재 가구 이미지 ${currentImage.rawProductId}`}
                           className={styles.imageStyle}
                         />
                       </div>
