@@ -23,9 +23,5 @@ export const likeButton = recipe({
       like: { backgroundColor: colorVars.color.fill.primary },
       dislike: { backgroundColor: colorVars.color.fill.dimSecondary },
     },
-    disabled: {
-      true: {},
-      false: {},
-    },
   },
 });

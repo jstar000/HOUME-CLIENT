@@ -18,7 +18,7 @@ const LikeButton = ({
   return (
     <button
       type={type}
-      className={styles.likeButton({ name, disabled })}
+      className={styles.likeButton({ name })}
       disabled={disabled}
       {...props}
     >
