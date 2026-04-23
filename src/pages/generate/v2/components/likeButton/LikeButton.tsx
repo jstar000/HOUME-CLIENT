@@ -20,6 +20,7 @@ const LikeButton = ({
       type={type}
       className={styles.likeButton({ name })}
       disabled={disabled}
+      aria-label={isLike ? '찜하기' : '넘기기'}
       {...props}
     >
       {isLike ? (
