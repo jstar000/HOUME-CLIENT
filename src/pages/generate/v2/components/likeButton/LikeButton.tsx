@@ -9,7 +9,7 @@ export interface LikeButtonProps
 }
 
 const LikeButton = ({
-  name,
+  name = 'like',
   type = 'button',
   disabled = false,
   ...props
