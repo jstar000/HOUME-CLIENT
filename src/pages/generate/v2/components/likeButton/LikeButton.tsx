@@ -5,7 +5,7 @@ import * as styles from './LikeButton.css';
 
 export interface LikeButtonProps
   extends Omit<React.ComponentProps<'button'>, 'children'> {
-  name: 'like' | 'dislike';
+  name?: 'like' | 'dislike';
 }
 
 const LikeButton = ({
