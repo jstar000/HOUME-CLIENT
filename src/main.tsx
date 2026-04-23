@@ -21,13 +21,6 @@ import '@styles/global.css';
 
 import App from './App';
 
-// TODO: UI 테스트용 MSW 활성화 — API 배포 후 제거
-async function enableMocking() {
-  if (!import.meta.env.DEV) return;
-  const { worker } = await import('./mocks/browser');
-  return worker.start({ onUnhandledRequest: 'bypass' });
-}
-
 initSentry();
 initClarity();
 
@@ -50,22 +43,18 @@ if (!rootElement) {
   throw new Error('Root element not found');
 }
 
-enableMocking().then(() => {
-  createRoot(rootElement, getSentryReactErrorHandlerOptions()).render(
-    // <StrictMode>
-    <ErrorBoundary FallbackComponent={AppErrorFallback}>
-      <HelmetProvider>
-        <QueryClientProvider client={queryClient}>
-          <OverlayProvider>
-            <App />
-            <ToastContainer {...toastConfig} />
-            {import.meta.env.DEV && (
-              <ReactQueryDevtools initialIsOpen={false} />
-            )}
-          </OverlayProvider>
-        </QueryClientProvider>
-      </HelmetProvider>
-    </ErrorBoundary>
-    // </StrictMode>
-  );
-});
+createRoot(rootElement, getSentryReactErrorHandlerOptions()).render(
+  // <StrictMode>
+  <ErrorBoundary FallbackComponent={AppErrorFallback}>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <OverlayProvider>
+          <App />
+          <ToastContainer {...toastConfig} />
+          {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />}
+        </OverlayProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
+  </ErrorBoundary>
+  // </StrictMode>
+);
