@@ -18,7 +18,7 @@ export const wrapper = style({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'space-between',
-  padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['500']} ${unitVars.unit.gapPadding['800']} ${unitVars.unit.gapPadding['500']} `,
+  padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['500']} ${unitVars.unit.gapPadding['800']}`,
   animation: animationTokens.fadeInUpFast,
 });
 
