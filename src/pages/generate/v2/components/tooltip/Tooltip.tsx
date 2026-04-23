@@ -13,12 +13,7 @@ interface TooltipProps {
   onClose?: () => void;
 }
 
-export const Tooltip = ({
-  content,
-  children,
-  isOpen,
-  onClose,
-}: TooltipProps) => {
+const Tooltip = ({ content, children, isOpen, onClose }: TooltipProps) => {
   return (
     <div className={styles.wrapper}>
       {isOpen && (
@@ -41,3 +36,5 @@ export const Tooltip = ({
     </div>
   );
 };
+
+export default Tooltip;
