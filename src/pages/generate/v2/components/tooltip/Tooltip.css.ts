@@ -15,7 +15,7 @@ export const wrapper = style({
 export const tooltip = style({
   position: 'absolute',
   zIndex: zIndex.button,
-  bottom: 'calc(100% + 15.6px)',
+  bottom: 'calc(100% + 1.56rem)',
   left: '50%',
   transform: 'translateX(-50%)',
 });
@@ -47,7 +47,7 @@ export const message = style({
 
 export const arrow = style({
   position: 'absolute',
-  bottom: '-7.8px',
+  bottom: '-0.78rem',
   left: '50%',
   transform: 'translateX(-50%)',
   color: colorVars.color.fill.secondary,
