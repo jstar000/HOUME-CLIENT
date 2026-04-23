@@ -330,7 +330,7 @@ const LoadingPage = () => {
               </div>
             </section>
 
-            {hasError && (
+            {!hasError && currentImage && (
               <div className={styles.buttonGroup}>
                 <LikeButton
                   name="dislike"
