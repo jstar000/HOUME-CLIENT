@@ -21,6 +21,8 @@ const ProgressLoadingBar = ({ onComplete }: ProgressLoadingBarProps) => {
   const [isDone, setIsDone] = useState(false);
   const [messageIndex, setMessageIndex] = useState(0);
   const { isApiCompleted } = useGenerateStore();
+  const doneRef = useRef(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // 90%까지 천천히 증가
   useEffect(() => {
@@ -37,9 +39,6 @@ const ProgressLoadingBar = ({ onComplete }: ProgressLoadingBarProps) => {
 
     return () => clearInterval(interval);
   }, [isDone]);
-
-  const doneRef = useRef(false);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // 90%→100% 빠르게 증가
   useEffect(() => {
