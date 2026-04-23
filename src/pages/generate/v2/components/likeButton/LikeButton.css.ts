@@ -11,6 +11,12 @@ export const likeButton = recipe({
     border: 'none',
     borderRadius: unitVars.unit.radius.full,
     padding: unitVars.unit.gapPadding['300'],
+
+    selectors: {
+      '&:active': {
+        transform: 'scale(0.95)',
+      },
+    },
   },
   variants: {
     name: {
