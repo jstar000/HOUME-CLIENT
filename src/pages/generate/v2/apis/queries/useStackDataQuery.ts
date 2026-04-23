@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import { useQuery } from '@tanstack/react-query';
 
 import { HTTPMethod, request } from '@apis/config/request';
@@ -33,18 +31,6 @@ export const useStackDataQuery = (
     retry: 2,
     enabled: options.enabled,
   });
-
-  useEffect(() => {
-    if (query.isSuccess && query.data) {
-      options.onSuccess?.(query.data);
-    }
-  }, [query.isSuccess, query.data]);
-
-  useEffect(() => {
-    if (query.isError) {
-      options.onError?.(query.error);
-    }
-  }, [query.isError, query.error]);
 
   return query;
 };
