@@ -23,6 +23,12 @@ const ProgressLoadingBar = ({ onComplete }: ProgressLoadingBarProps) => {
   const { isApiCompleted } = useGenerateStore();
   const doneRef = useRef(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const onCompleteRef = useRef(onComplete);
+
+  // onComplete이 변경될 때마다 ref 업데이트
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
 
   // 90%까지 천천히 증가
   useEffect(() => {
@@ -53,7 +59,7 @@ const ProgressLoadingBar = ({ onComplete }: ProgressLoadingBarProps) => {
 
             // 100% 완료 시 약간의 지연 후 onComplete 콜백 호출
             timeoutRef.current = setTimeout(() => {
-              onComplete?.();
+              onCompleteRef.current?.();
             }, PROGRESS_CONFIG.DELAY_BEFORE_COMPLETE_MS);
           }
 
