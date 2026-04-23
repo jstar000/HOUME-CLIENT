@@ -4,20 +4,23 @@ interface MenuTabItem<T extends string = string> {
   value: T;
   label: string;
 }
-
 interface MenuTabProps<T extends string> {
+  menuType?: 'default' | 'mypage';
   tabs: MenuTabItem<T>[];
   activeTab: T;
   onTabChange: (tab: T) => void;
+  sticky?: boolean;
 }
 
 const MenuTab = <T extends string>({
+  menuType = 'default',
   tabs,
   activeTab,
   onTabChange,
+  sticky = true,
 }: MenuTabProps<T>) => {
   return (
-    <div className={styles.menuTabBar} role="tablist">
+    <div className={styles.menuTabBar({ sticky })} role="tablist">
       {tabs.map(({ value, label }) => (
         <button
           key={value}
@@ -26,6 +29,7 @@ const MenuTab = <T extends string>({
           aria-selected={activeTab === value}
           className={styles.tabButton({
             state: activeTab === value ? 'active' : 'inactive',
+            menuType,
           })}
           onClick={() => onTabChange(value)}
         >

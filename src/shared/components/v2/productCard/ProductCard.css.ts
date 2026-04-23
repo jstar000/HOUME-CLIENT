@@ -16,7 +16,7 @@ export const wrapper = recipe({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    minWidth: '16.4rem',
+    minWidth: '16.6rem',
   },
 });
 
@@ -35,9 +35,10 @@ export const imgSection = recipe({
   base: {
     aspectRatio: '1 / 1', // 내부 absolute(링크 버튼)의 기준
     position: 'relative', // 모서리 밖으로 이미지 안 튀어나오게
-    border: `1px solid ${colorVars.color.border.secondary}`,
-    borderRadius: unitVars.unit.radius['300'],
-    background: 'transparent', // 이미지 영역만 정사각형
+    flexShrink: 0,
+    border: `1px solid ${colorVars.color.border.tertiary}`,
+    borderRadius: unitVars.unit.radius['300'], // 이미지 영역만 정사각형
+    background: 'transparent',
     width: '100%',
     overflow: 'hidden',
   },
@@ -124,11 +125,21 @@ export const colorChipCount = style({
   color: colorVars.color.text.tertiary,
 });
 
-export const middleInfoSection = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: unitVars.unit.gapPadding['200'],
-  padding: unitVars.unit.gapPadding['050'],
+export const middleInfoSection = recipe({
+  base: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: unitVars.unit.gapPadding['200'],
+    padding: unitVars.unit.gapPadding['050'],
+  },
+  variants: {
+    cardType: {
+      default: {},
+      shopping: {
+        minHeight: '9.6rem',
+      },
+    },
+  },
 });
 
 export const productInfo = style({
@@ -148,8 +159,9 @@ export const brandText = style({
 export const productText = style({
   ...fontVars.font.body_r_14,
   display: '-webkit-box',
-  maxHeight: '4.1rem',
+  minHeight: 'auto',
   overflow: 'hidden',
+  wordBreak: 'break-all',
   color: colorVars.color.text.primary,
   WebkitLineClamp: 2,
   WebkitBoxOrient: 'vertical',
@@ -194,6 +206,96 @@ export const saveCountText = style({
   color: colorVars.color.gray400,
 });
 
-export const fullWidthBtn = style({
+export const popupPreviewCard = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: unitVars.unit.gapPadding['400'],
+});
+
+export const popupPreviewImageWrap = style({
+  aspectRatio: '1 / 1',
+  position: 'relative',
+  border: `1px solid ${colorVars.color.border.tertiary}`,
+  borderRadius: unitVars.unit.radius['300'],
   width: '100%',
+  overflow: 'hidden',
+});
+
+export const popupPreviewImage = style({
+  display: 'block',
+  objectFit: 'cover',
+  width: '100%',
+  height: '100%',
+});
+
+export const popupPreviewInfo = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: unitVars.unit.gapPadding['200'],
+  textAlign: 'left',
+});
+
+export const popupPreviewMetaRow = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  width: '100%',
+});
+
+export const popupPreviewLikeRow = style({
+  display: 'flex',
+  flexShrink: 0,
+  alignItems: 'center',
+  gap: unitVars.unit.gapPadding['050'],
+});
+
+export const popupPreviewLikeCount = style({
+  ...fontVars.font.caption_r_11,
+  color: colorVars.color.text.tertiary,
+});
+
+export const popupPreviewBrand = style({
+  ...fontVars.font.caption_r_12,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  color: colorVars.color.text.tertiary,
+});
+
+export const popupPreviewTitle = style({
+  ...fontVars.font.body_r_14,
+  display: '-webkit-box',
+  overflow: 'hidden',
+  wordBreak: 'break-all',
+  color: colorVars.color.text.primary,
+  WebkitLineClamp: 2,
+  WebkitBoxOrient: 'vertical',
+});
+
+export const popupPreviewPriceSection = style({
+  display: 'flex',
+  flexDirection: 'column',
+  paddingTop: unitVars.unit.gapPadding['100'],
+});
+
+export const popupPreviewOriginalPrice = style({
+  ...fontVars.font.caption_r_11,
+  textDecoration: 'line-through',
+  color: colorVars.color.text.tertiary,
+});
+
+export const popupPreviewDiscountRow = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.1rem',
+});
+
+export const popupPreviewDiscountRate = style({
+  ...fontVars.font.title_sb_15,
+  color: colorVars.color.text.brand,
+});
+
+export const popupPreviewDiscountPrice = style({
+  ...fontVars.font.title_sb_15,
+  color: colorVars.color.text.primary,
 });

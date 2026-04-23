@@ -14,6 +14,7 @@ export const wrapper = recipe({
   base: {
     position: 'relative',
     display: 'flex',
+    flexShrink: 0,
     alignItems: 'center',
     width: '100%',
   },
@@ -49,10 +50,15 @@ export const imgSection = recipe({
     aspectRatio: '1 / 1', // 내부 absolute(링크 버튼)의 기준
     position: 'relative', // 모서리 밖으로 이미지 안 튀어나오게
     flexShrink: 0,
-    border: `1px solid ${colorVars.color.border.secondary}`,
-    borderRadius: unitVars.unit.radius['300'], // 이미지 영역만 정사각형
+    border: `1px solid ${colorVars.color.border.tertiary}`,
     background: 'transparent',
     overflow: 'hidden',
+  },
+  variants: {
+    size: {
+      s: { borderRadius: unitVars.unit.radius['200'] },
+      m: { borderRadius: unitVars.unit.radius['300'] },
+    },
   },
 });
 
@@ -101,7 +107,10 @@ export const infoSection = recipe({
   variants: {
     size: {
       s: { gap: unitVars.unit.gapPadding['050'], minWidth: '22rem' },
-      m: { gap: unitVars.unit.gapPadding['100'], minWidth: '26.1rem' },
+      m: {
+        gap: unitVars.unit.gapPadding['100'],
+        minWidth: '24.7rem',
+      },
     },
   },
 });
@@ -184,8 +193,4 @@ export const btnContainer = recipe({
     display: 'flex',
     padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['050']}`,
   },
-});
-
-export const fullWidthBtn = style({
-  width: '100%',
 });
