@@ -2,6 +2,8 @@ import { generatePath, useNavigate } from 'react-router-dom';
 
 import { useGetStyleListQuery } from '@apis/queries/useGetStyleQuery';
 
+import FallbackImage from '@assets/v2/images/bannerFallback.svg';
+
 import InlineError from '@components/inlineError/InlineError';
 import Loading from '@components/loading/Loading';
 import TitleNavBar from '@components/v2/navBar/TitleNavBar';
@@ -47,7 +49,7 @@ const StyleListPage = () => {
               <StyleCard
                 size="L"
                 key={style.id}
-                imageSrc={style.imageUrl || ''}
+                imageSrc={style.imageUrl || FallbackImage}
                 title={style.name}
                 onClick={() => {
                   if (typeof style.id === 'number') {
