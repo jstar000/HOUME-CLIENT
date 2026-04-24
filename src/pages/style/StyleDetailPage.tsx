@@ -112,7 +112,8 @@ const StyleDetailPage = () => {
                     save={{
                       isSaved:
                         item.id !== undefined
-                          ? savedProductIds.has(item.id)
+                          ? savedProductIds.has(item.id) ||
+                            item.isLiked === true
                           : false,
                       onToggle: () => {
                         if (item.id !== undefined) {
