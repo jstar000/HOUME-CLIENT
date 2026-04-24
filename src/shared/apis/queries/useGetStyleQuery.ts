@@ -1,11 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 
+import type { OtherStyleListResponse } from '@apis/__generated__/data-contracts';
 import { HTTPMethod, request } from '@apis/config/request';
 
 import { API_ENDPOINT } from '@constants/apiEndpoints';
 import { queryKeys } from '@constants/queryKey';
-
-import type { OtherStyleListResponse } from '../__generated__/data-contracts';
 
 export const getStyleList = async (
   size?: number
