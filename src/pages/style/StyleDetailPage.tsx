@@ -33,7 +33,7 @@ const StyleDetailPage = () => {
 
   const {
     data: styleDetailData,
-    isPending,
+    isFetching,
     isError,
     refetch,
   } = useGetStyleDetailQuery(Number(styleId));
@@ -72,13 +72,13 @@ const StyleDetailPage = () => {
         onBackClick={() => navigate(-1)}
       />
       <div className={styles.container}>
-        {isError ? (
+        {isFetching ? (
+          <Loading />
+        ) : isError ? (
           <InlineError
             onRetry={refetch}
             message="다른 스타일을 불러올 수 없습니다"
           />
-        ) : isPending ? (
-          <Loading />
         ) : (
           <>
             <section className={styles.styleCardInfo}>

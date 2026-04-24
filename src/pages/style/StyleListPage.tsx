@@ -21,8 +21,8 @@ const StyleListPage = () => {
   };
 
   const {
-    data: stylesData,
-    isPending,
+    data: stylesData = [],
+    isFetching,
     isError,
     refetch,
   } = useGetStyleListQuery();
@@ -36,13 +36,13 @@ const StyleListPage = () => {
       />
 
       <div className={styles.cardList}>
-        {isError ? (
+        {isFetching ? (
+          <Loading />
+        ) : isError ? (
           <InlineError
             onRetry={refetch}
             message="스타일 전체 보기를 불러올 수 없습니다"
           />
-        ) : isPending ? (
-          <Loading />
         ) : (
           <>
             {stylesData.map((style) => (

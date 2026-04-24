@@ -29,8 +29,8 @@ const StyleSection = () => {
   };
 
   const {
-    data: stylesData,
-    isPending,
+    data: stylesData = [],
+    isFetching,
     isError,
     refetch,
   } = useGetStyleListQuery(EXPLORE_STYLE_GRID_SIZE);
@@ -50,13 +50,13 @@ const StyleSection = () => {
       </div>
 
       <div className={styles.cardGrid}>
-        {isError ? (
+        {isFetching ? (
+          <Loading />
+        ) : isError ? (
           <InlineError
             onRetry={refetch}
             message="다른 스타일을 불러올 수 없습니다"
           />
-        ) : isPending ? (
-          <Loading />
         ) : (
           <>
             {stylesData.map((style) => (
