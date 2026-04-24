@@ -13,6 +13,8 @@ import { useGetStyleListQuery } from '@/shared/apis/queries/useGetStyleQuery';
 
 import * as styles from './StyleSection.css';
 
+const EXPLORE_STYLE_GRID_SIZE = 4;
+
 const StyleSection = () => {
   const navigate = useNavigate();
 
@@ -31,7 +33,7 @@ const StyleSection = () => {
     isPending,
     isError,
     refetch,
-  } = useGetStyleListQuery(4);
+  } = useGetStyleListQuery(EXPLORE_STYLE_GRID_SIZE);
 
   return (
     <section className={styles.section}>
