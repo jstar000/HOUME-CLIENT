@@ -31,8 +31,6 @@ const StyleSection = () => {
     refetch,
   } = useGetStyleListQuery(4);
 
-  console.log('stylesData:', stylesData);
-
   return (
     <section className={styles.section}>
       <div className={styles.headerRow}>
