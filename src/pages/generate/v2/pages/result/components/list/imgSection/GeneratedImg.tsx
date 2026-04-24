@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import type { GenerateImageData } from '@pages/generate/types/generate';
 
 import * as styles from './GeneratedImg.css';
@@ -7,24 +5,12 @@ import * as styles from './GeneratedImg.css';
 export interface GeneratedImgListProps {
   /** 단일 생성 이미지 */
   image: GenerateImageData;
-  onCurrentImgIdChange?: (currentImgId: number) => void;
 }
 
 /**
- * v2 리스트 결과 — 단일 이미지 (DetectionHotspots 없이 표시만)
+ * 목록형 결과
  */
-const GeneratedImg = ({
-  image,
-  onCurrentImgIdChange,
-}: GeneratedImgListProps) => {
-  const imageId = image.imageId ?? 0;
-
-  useEffect(() => {
-    if (imageId > 0) {
-      onCurrentImgIdChange?.(imageId);
-    }
-  }, [imageId, onCurrentImgIdChange]);
-
+const GeneratedImg = ({ image }: GeneratedImgListProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.listImageFrame}>
