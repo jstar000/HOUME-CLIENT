@@ -103,9 +103,11 @@ const StyleDetailPage = () => {
           </div>
         </section>
       </div>
-      <ActionButton onClick={handleCta} className={styles.ctaBtn}>
-        이 스타일로 우리 집 꾸미기
-      </ActionButton>
+      <div className={styles.btnWrapper}>
+        <ActionButton onClick={handleCta} fullWidth>
+          이 스타일로 우리 집 꾸미기
+        </ActionButton>
+      </div>
     </div>
   );
 };
