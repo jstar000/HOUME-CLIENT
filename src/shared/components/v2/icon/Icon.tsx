@@ -34,6 +34,7 @@ import RadioSelected from '@assets/v2/svg/RadioSelected.svg?url';
 import Refresh from '@assets/v2/svg/Refresh.svg?url';
 import Search from '@assets/v2/svg/Search.svg?url';
 import ViewDetail from '@assets/v2/svg/ViewDetail.svg?url';
+import WarningFillDanger from '@assets/v2/svg/WarningFillDanger.svg?url';
 
 import * as styles from './Icon.css';
 
@@ -74,6 +75,7 @@ const IconsName = {
   ViewDetail,
   Credit,
   Kakao,
+  WarningFillDanger,
 } as const;
 
 export type IconName = keyof typeof IconsName;
