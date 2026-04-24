@@ -97,6 +97,14 @@ export const queryKeys = {
     list: () => [...queryKeys.jjym.all, 'list'] as const,
   },
 
+  // 스타일
+  styles: {
+    all: ['styles'] as const,
+    list: (size?: number) => [...queryKeys.styles.all, 'list', size] as const,
+    detail: (styleId: number) =>
+      [...queryKeys.styles.all, 'detail', styleId] as const,
+  },
+
   // 랜덤 닉네임
   signup: {
     all: ['signup'] as const,
