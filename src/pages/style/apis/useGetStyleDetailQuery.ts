@@ -19,5 +19,6 @@ export const useGetStyleDetailQuery = (styleId: number) => {
   return useQuery({
     queryKey: queryKeys.styles.detail(styleId),
     queryFn: () => getStyleDetail(styleId),
+    enabled: Number.isFinite(styleId),
   });
 };
