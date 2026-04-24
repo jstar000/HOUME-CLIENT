@@ -64,11 +64,7 @@ const StyleSection = () => {
                 key={style.id}
                 imageSrc={style.imageUrl || FallbackImage}
                 title={style.name}
-                onClick={() => {
-                  if (typeof style.id === 'number') {
-                    handleStyleClick(style.id);
-                  }
-                }}
+                onClick={() => handleStyleClick(style.id)}
                 imageLoading="eager"
               />
             ))}
