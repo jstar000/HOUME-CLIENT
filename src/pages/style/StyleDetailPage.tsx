@@ -38,8 +38,6 @@ const StyleDetailPage = () => {
     refetch,
   } = useGetStyleDetailQuery(Number(styleId));
 
-  console.log('styleDetailData:', styleDetailData);
-
   // 찜 해제 토글
   const { mutate: toggleJjym } = useJjymMutation();
 
