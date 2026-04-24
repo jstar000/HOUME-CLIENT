@@ -2,6 +2,8 @@ import { generatePath, useNavigate } from 'react-router-dom';
 
 import { ROUTES } from '@routes/paths';
 
+import FallbackImage from '@assets/v2/images/bannerFallback.svg';
+
 import InlineError from '@components/inlineError/InlineError';
 import Loading from '@components/loading/Loading';
 import TextButton from '@components/v2/btnText/TextButton';
@@ -58,7 +60,7 @@ const StyleSection = () => {
             {stylesData.map((style) => (
               <StyleCard
                 key={style.id}
-                imageSrc={style.imageUrl || ''}
+                imageSrc={style.imageUrl || FallbackImage}
                 title={style.name}
                 onClick={() => {
                   if (typeof style.id === 'number') {
