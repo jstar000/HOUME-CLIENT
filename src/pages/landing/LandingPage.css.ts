@@ -1,10 +1,11 @@
-import { style } from '@vanilla-extract/css';
+import { keyframes, style } from '@vanilla-extract/css';
 
 import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
 export const page = style({
+  position: 'relative',
   display: 'flex',
   flexDirection: 'column',
   padding: `${unitVars.unit.gapPadding['300']} ${unitVars.unit.gapPadding['000']}`,
@@ -15,11 +16,24 @@ export const page = style({
 
 export const backgroundImage = style({
   position: 'absolute',
-  zIndex: 0,
   inset: 0,
   objectFit: 'cover',
   width: '100%',
   height: '100%',
+});
+
+const dissolveFadeIn = keyframes({
+  from: { opacity: 0 },
+  to: { opacity: 1 },
+});
+
+export const backgroundImagePrevious = style({
+  zIndex: 0,
+});
+
+export const backgroundImageCurrent = style({
+  zIndex: 1,
+  animation: `${dissolveFadeIn} 300ms ease`,
 });
 
 export const mainSection = style({

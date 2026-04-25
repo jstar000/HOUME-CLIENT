@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 
 import { useABTest } from '@pages/generate/hooks/useABTest';
 import { useLandingQuery } from '@pages/landing/apis/queries/useLandingQuery';
+import { useDissolveAnimation } from '@pages/landing/hooks/useDissolveAnimation';
 
 import ActionButton from '@shared/components/v2/button/actionButton/ActionButton';
 import LogoNavBar from '@shared/components/v2/navBar/LogoNavBar';
@@ -12,10 +13,19 @@ const LANDING_CONTENT_MOCK = {
   titleLine: "'재택근무가 필요한'",
 } as const;
 
+const DISSOLVE_INTERVAL_MS = 4000;
+const DISSOLVE_DURATION_MS = 300;
+
 const LandingPage = () => {
   const { variant, isLoading } = useABTest();
   const { data: landingData } = useLandingQuery();
-  const selectedLanding = landingData?.landings?.[0];
+  const landingItems = landingData?.landings ?? [];
+  const { currentIndex, previousIndex } = useDissolveAnimation({
+    itemCount: landingItems.length,
+    intervalMs: DISSOLVE_INTERVAL_MS,
+    durationMs: DISSOLVE_DURATION_MS,
+  });
+  const selectedLanding = landingItems[currentIndex] ?? landingItems[0];
 
   useEffect(() => {
     if (!landingData) return;
@@ -27,12 +37,20 @@ const LandingPage = () => {
 
   return (
     <main className={styles.page}>
+      {previousIndex !== null && landingItems[previousIndex]?.imageUrl ? (
+        <img
+          src={landingItems[previousIndex].imageUrl}
+          alt="랜딩 배경 이미지"
+          aria-hidden
+          className={`${styles.backgroundImage} ${styles.backgroundImagePrevious}`}
+        />
+      ) : null}
       {selectedLanding?.imageUrl ? (
         <img
           src={selectedLanding.imageUrl}
           alt="랜딩 배너 이미지"
           aria-hidden
-          className={styles.backgroundImage}
+          className={`${styles.backgroundImage} ${styles.backgroundImageCurrent}`}
         />
       ) : null}
       <LogoNavBar page="landing" />
