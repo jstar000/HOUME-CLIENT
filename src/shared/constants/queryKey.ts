@@ -22,6 +22,12 @@ export const queryKeys = {
     history: () => [...queryKeys.landing.all, 'history'] as const,
   },
 
+  // 상품
+  product: {
+    all: ['product'] as const,
+    productFilters: () => [...queryKeys.product.all, 'productFilters'] as const,
+  },
+
   // 이미지 설정 (온보딩 퍼널)
   imageSetup: {
     all: ['imageSetup'] as const,
