@@ -1,92 +1,48 @@
-import { forwardRef, useCallback, useImperativeHandle, useState } from 'react';
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useState,
+} from 'react';
+
+import { useFilterListQuery } from '@pages/home/apis/queries/useFilterListQuery';
 
 import Chip from '@components/v2/chip/Chip';
 
 import * as styles from './ProductFilterSheet.css';
 
-const ALL = 'ALL';
-const PRODUCT_FILTERS_MOCK_RESPONSE = {
-  code: 200,
-  msg: '응답 성공',
-  data: {
-    furnitureTypes: [
-      { id: 1, nameKr: '침대/프레임', nameEng: 'BED' },
-      { id: 2, nameKr: '업무용 책상', nameEng: 'DESK' },
-      { id: 3, nameKr: '식탁', nameEng: 'DINING' },
-      { id: 4, nameKr: '좌식 테이블', nameEng: 'FLOOR_TABLE' },
-      { id: 5, nameKr: '옷장', nameEng: 'WARDROBE' },
-      { id: 6, nameKr: '수납/장식장', nameEng: 'STORAGE' },
-      { id: 7, nameKr: '소파', nameEng: 'SOFA' },
-      { id: 8, nameKr: '의자/스툴', nameEng: 'CHAIR' },
-      { id: 9, nameKr: '화장대/협탁', nameEng: 'VANITY' },
-      { id: 10, nameKr: '조명', nameEng: 'LIGHT' },
-      { id: 11, nameKr: '그 외', nameEng: 'OTHER' },
-    ],
-    priceRanges: [
-      { id: 'P1', label: '5만원 이하', min: 0, max: 50000 },
-      { id: 'P2', label: '5-10만원', min: 50000, max: 100000 },
-      { id: 'P3', label: '10만원대', min: 100000, max: 199999 },
-      { id: 'P4', label: '20만원대', min: 200000, max: 299999 },
-      { id: 'P5', label: '30만원대', min: 300000, max: 399999 },
-      { id: 'P6', label: '40만원대', min: 400000, max: 499999 },
-      { id: 'P7', label: '50만원 이상', min: 500000, max: null },
-    ],
-    colors: [
-      { id: 1, label: '블랙', value: '#000000' },
-      { id: 2, label: '화이트', value: '#FFFFFF' },
-      { id: 3, label: '그레이', value: '#8E959E' },
-      { id: 4, label: '베이지', value: '#D4C4B0' },
-      { id: 5, label: '실버', value: '#C8CDD2' },
-      { id: 6, label: '골드', value: '#D4AF37' },
-      { id: 7, label: '브라운', value: '#5C4033' },
-      { id: 8, label: '레드', value: '#E53935' },
-      { id: 9, label: '오렌지', value: '#FB8C00' },
-      { id: 10, label: '옐로우', value: '#FDD835' },
-      { id: 11, label: '그린', value: '#43A047' },
-      { id: 12, label: '블루', value: '#1E88E5' },
-      { id: 13, label: '네이비', value: '#1A237E' },
-      { id: 14, label: '바이올렛', value: '#7E57C2' },
-      { id: 15, label: '핑크', value: '#EC407A' },
-    ],
-  },
-} as const;
+type FilterOption = { id: string; label: string };
+type ColorFilterOption = FilterOption & { value?: string };
 
-const FURNITURE_OPTIONS: { id: string; label: string }[] = [
-  { id: ALL, label: '전체' },
-  ...PRODUCT_FILTERS_MOCK_RESPONSE.data.furnitureTypes.map((type) => ({
-    id: String(type.id),
-    label: type.nameKr,
-  })),
-];
+const INITIAL_SELECTION: string[] = [];
 
-const PRICE_OPTIONS: { id: string; label: string }[] = [
-  { id: ALL, label: '전체' },
-  ...PRODUCT_FILTERS_MOCK_RESPONSE.data.priceRanges.map((range) => ({
-    id: range.id,
-    label: range.label,
-  })),
-];
-
-const COLOR_OPTIONS: { id: string; label: string; value?: string }[] = [
-  { id: ALL, label: '전체' },
-  ...PRODUCT_FILTERS_MOCK_RESPONSE.data.colors.map((color) => ({
-    id: String(color.id),
-    label: color.label,
-    value: color.value,
-  })),
-];
-
-const INITIAL_SELECTION: string[] = [ALL];
-
-// 섹션 내 다중 선택 - ALL만 있으면 ‘전체’, 그 외는 선택된 id 목록
-function toggleSectionSelection(current: string[], id: string): string[] {
-  if (id === ALL) {
-    return [ALL];
+// 섹션 내 다중 선택 - allId만 있으면 ‘전체’, 그 외는 선택된 id 목록
+function toggleSectionSelection(
+  current: string[],
+  id: string,
+  allId?: string
+): string[] {
+  if (!allId) {
+    const has = current.includes(id);
+    return has ? current.filter((x) => x !== id) : [...current, id];
   }
-  const withoutAll = current.filter((x) => x !== ALL);
+
+  if (id === allId) {
+    return [allId];
+  }
+
+  const withoutAll = current.filter((x) => x !== allId);
   const has = withoutAll.includes(id);
   const next = has ? withoutAll.filter((x) => x !== id) : [...withoutAll, id];
-  return next.length === 0 ? [ALL] : next;
+  return next.length === 0 ? [allId] : next;
+}
+
+function getAllOptionId<T extends FilterOption>(
+  options: T[]
+): string | undefined {
+  return options.find((option) => option.label === '전체')?.id;
 }
 
 export interface ProductFilterValues {
@@ -103,17 +59,96 @@ export interface ProductFilterSheetRef {
 
 const ProductFilterSheet = forwardRef<ProductFilterSheetRef>(
   function ProductFilterSheet(_props, ref) {
+    const { data } = useFilterListQuery();
     const [furnitureTypeIds, setFurnitureTypeIds] =
       useState<string[]>(INITIAL_SELECTION);
     const [priceRangeIds, setPriceRangeIds] =
       useState<string[]>(INITIAL_SELECTION);
     const [colorIds, setColorIds] = useState<string[]>(INITIAL_SELECTION);
 
+    const furnitureOptions = useMemo<FilterOption[]>(
+      () =>
+        (data?.furnitureTypes ?? [])
+          .filter((type) => type.id != null && !!type.nameKr)
+          .map((type) => ({
+            id: String(type.id),
+            label: type.nameKr as string,
+          })),
+      [data?.furnitureTypes]
+    );
+
+    const priceOptions = useMemo<FilterOption[]>(
+      () =>
+        (data?.priceRanges ?? [])
+          .filter((range) => !!range.id && !!range.label)
+          .map((range) => ({
+            id: range.id as string,
+            label: range.label as string,
+          })),
+      [data?.priceRanges]
+    );
+
+    const colorOptions = useMemo<ColorFilterOption[]>(
+      () =>
+        (data?.colors ?? [])
+          .filter((color) => color.id != null && !!color.label)
+          .map((color) => ({
+            id: String(color.id),
+            label: color.label as string,
+            value: color.value ?? undefined,
+          })),
+      [data?.colors]
+    );
+
+    const furnitureAllId = useMemo(
+      () => getAllOptionId(furnitureOptions),
+      [furnitureOptions]
+    );
+    const priceAllId = useMemo(
+      () => getAllOptionId(priceOptions),
+      [priceOptions]
+    );
+    const colorAllId = useMemo(
+      () => getAllOptionId(colorOptions),
+      [colorOptions]
+    );
+
+    useEffect(() => {
+      console.log(
+        '[ProductFilterSheet] GET /api/v1/curations/products/filters',
+        {
+          raw: data,
+          furnitureOptions,
+          priceOptions,
+          colorOptions,
+        }
+      );
+    }, [colorOptions, data, furnitureOptions, priceOptions]);
+
+    useEffect(() => {
+      if (!furnitureAllId) return;
+      setFurnitureTypeIds((prev) =>
+        prev.length > 0 ? prev : [furnitureAllId]
+      );
+    }, [furnitureAllId]);
+
+    useEffect(() => {
+      if (!priceAllId) return;
+      setPriceRangeIds((prev) => (prev.length > 0 ? prev : [priceAllId]));
+    }, [priceAllId]);
+
+    useEffect(() => {
+      if (!colorAllId) return;
+      setColorIds((prev) => (prev.length > 0 ? prev : [colorAllId]));
+    }, [colorAllId]);
+
     const reset = useCallback(() => {
-      setFurnitureTypeIds([...INITIAL_SELECTION]);
-      setPriceRangeIds([...INITIAL_SELECTION]);
-      setColorIds([...INITIAL_SELECTION]);
-    }, []);
+      setFurnitureTypeIds(
+        furnitureAllId ? [furnitureAllId] : [...INITIAL_SELECTION]
+      );
+      setPriceRangeIds(priceAllId ? [priceAllId] : [...INITIAL_SELECTION]);
+      setColorIds(colorAllId ? [colorAllId] : [...INITIAL_SELECTION]);
+    }, [colorAllId, furnitureAllId, priceAllId]);
 
     const getValues = useCallback((): ProductFilterValues => {
       return {
@@ -123,23 +158,32 @@ const ProductFilterSheet = forwardRef<ProductFilterSheetRef>(
       };
     }, [furnitureTypeIds, priceRangeIds, colorIds]);
 
-    const setValues = useCallback((values: ProductFilterValues) => {
-      setFurnitureTypeIds(
-        values.furnitureTypeIds.length > 0
-          ? [...values.furnitureTypeIds]
-          : [...INITIAL_SELECTION]
-      );
-      setPriceRangeIds(
-        values.priceRangeIds.length > 0
-          ? [...values.priceRangeIds]
-          : [...INITIAL_SELECTION]
-      );
-      setColorIds(
-        values.colorIds.length > 0
-          ? [...values.colorIds]
-          : [...INITIAL_SELECTION]
-      );
-    }, []);
+    const setValues = useCallback(
+      (values: ProductFilterValues) => {
+        setFurnitureTypeIds(
+          values.furnitureTypeIds.length > 0
+            ? [...values.furnitureTypeIds]
+            : furnitureAllId
+              ? [furnitureAllId]
+              : [...INITIAL_SELECTION]
+        );
+        setPriceRangeIds(
+          values.priceRangeIds.length > 0
+            ? [...values.priceRangeIds]
+            : priceAllId
+              ? [priceAllId]
+              : [...INITIAL_SELECTION]
+        );
+        setColorIds(
+          values.colorIds.length > 0
+            ? [...values.colorIds]
+            : colorAllId
+              ? [colorAllId]
+              : [...INITIAL_SELECTION]
+        );
+      },
+      [colorAllId, furnitureAllId, priceAllId]
+    );
 
     useImperativeHandle(
       ref,
@@ -151,17 +195,30 @@ const ProductFilterSheet = forwardRef<ProductFilterSheetRef>(
       [reset, getValues, setValues]
     );
 
-    const handleFurnitureChipClick = useCallback((id: string) => {
-      setFurnitureTypeIds((prev) => toggleSectionSelection(prev, id));
-    }, []);
+    const handleFurnitureChipClick = useCallback(
+      (id: string) => {
+        setFurnitureTypeIds((prev) =>
+          toggleSectionSelection(prev, id, furnitureAllId)
+        );
+      },
+      [furnitureAllId]
+    );
 
-    const handlePriceChipClick = useCallback((id: string) => {
-      setPriceRangeIds((prev) => toggleSectionSelection(prev, id));
-    }, []);
+    const handlePriceChipClick = useCallback(
+      (id: string) => {
+        setPriceRangeIds((prev) =>
+          toggleSectionSelection(prev, id, priceAllId)
+        );
+      },
+      [priceAllId]
+    );
 
-    const handleColorChipClick = useCallback((id: string) => {
-      setColorIds((prev) => toggleSectionSelection(prev, id));
-    }, []);
+    const handleColorChipClick = useCallback(
+      (id: string) => {
+        setColorIds((prev) => toggleSectionSelection(prev, id, colorAllId));
+      },
+      [colorAllId]
+    );
 
     return (
       <div className={styles.root}>
@@ -173,9 +230,9 @@ const ProductFilterSheet = forwardRef<ProductFilterSheetRef>(
             카테고리
           </h2>
           <div className={styles.chipGroup} role="group" aria-label="카테고리">
-            {FURNITURE_OPTIONS.map(({ id, label }) => (
+            {furnitureOptions.map(({ id, label }, index) => (
               <Chip
-                key={id}
+                key={`furniture-${id}-${label}-${index}`}
                 selected={furnitureTypeIds.includes(id)}
                 onClick={() => handleFurnitureChipClick(id)}
               >
@@ -193,9 +250,9 @@ const ProductFilterSheet = forwardRef<ProductFilterSheetRef>(
             가격대
           </h2>
           <div className={styles.chipGroup} role="group" aria-label="가격대">
-            {PRICE_OPTIONS.map(({ id, label }) => (
+            {priceOptions.map(({ id, label }, index) => (
               <Chip
-                key={id}
+                key={`price-${id}-${label}-${index}`}
                 selected={priceRangeIds.includes(id)}
                 onClick={() => handlePriceChipClick(id)}
               >
@@ -213,9 +270,9 @@ const ProductFilterSheet = forwardRef<ProductFilterSheetRef>(
             색상
           </h2>
           <div className={styles.chipGroup} role="group" aria-label="색상">
-            {COLOR_OPTIONS.map(({ id, label, value }) => (
+            {colorOptions.map(({ id, label, value }, index) => (
               <Chip
-                key={id}
+                key={`color-${id}-${label}-${index}`}
                 selected={colorIds.includes(id)}
                 onClick={() => handleColorChipClick(id)}
               >
