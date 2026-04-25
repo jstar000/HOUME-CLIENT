@@ -16,7 +16,7 @@ export const API_ENDPOINT = {
   },
   BANNER: {
     LANDING: '/api/v1/landings',
-    BANNER: (bannerId: number) => `/api/v1/banners/${bannerId}`,
+    BANNER_EXPLORE: (bannerId: number) => `/api/v1/banners/${bannerId}`,
     BANNER_DETAIL: (bannerId: number) => `/api/v1/banners/${bannerId}/detail`,
   },
   IMAGE_SETUP: {
