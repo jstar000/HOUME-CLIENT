@@ -33,6 +33,8 @@ import RadioDefault from '@assets/v2/svg/RadioDefault.svg?url';
 import RadioSelected from '@assets/v2/svg/RadioSelected.svg?url';
 import Refresh from '@assets/v2/svg/Refresh.svg?url';
 import Search from '@assets/v2/svg/Search.svg?url';
+import StepActive from '@assets/v2/svg/StepActive.svg?url';
+import StepDefault from '@assets/v2/svg/StepDefault.svg?url';
 import ViewDetail from '@assets/v2/svg/ViewDetail.svg?url';
 import WarningFillDanger from '@assets/v2/svg/WarningFillDanger.svg?url';
 
@@ -76,6 +78,8 @@ const IconsName = {
   Credit,
   Kakao,
   WarningFillDanger,
+  StepActive,
+  StepDefault,
 } as const;
 
 export type IconName = keyof typeof IconsName;
