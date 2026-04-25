@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 
+import { overlay } from 'overlay-kit';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ROUTES } from '@routes/paths';
@@ -7,13 +8,16 @@ import { ROUTES } from '@routes/paths';
 import ActionButton from '@components/v2/button/actionButton/ActionButton';
 import Chip from '@components/v2/chip/Chip';
 import Icon from '@components/v2/icon/Icon';
+import Popup from '@components/v2/popup/Popup';
 
 import { ERROR_MESSAGES } from '@constants/clientErrorMessage';
 
 import { usePostSignupMutation } from './apis/mutations/usePostSignupMutation';
 import { useGetRandomNicknameQuery } from './apis/queries/useGetNickname';
+import SignupExitPopupContent from './components/exitPopupContent/SignupExitPopupContent';
 import DateField from './components/textField/DateField';
 import TextField from './components/textField/TextField';
+import { useSignupExitConfirm } from './hooks/useSignupExitConfirm';
 import useSignupForm from './hooks/useSignupForm';
 import * as styles from './SignupPage.css';
 import {
@@ -41,6 +45,33 @@ const isSignupLocationState = (
 const SignupPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
+  // 이탈 방지 팝업
+  const { popupClosed } = useSignupExitConfirm({
+    onBackAttempt: () => {
+      overlay.open(({ unmount }) => {
+        const closePopup = () => {
+          popupClosed();
+          unmount();
+        };
+
+        return (
+          <Popup
+            btnStyle="text"
+            btnText="계속하기"
+            weakBtnText="그만두기"
+            onClose={closePopup}
+            onConfirm={closePopup}
+            onCancel={() => {
+              closePopup();
+              navigate(ROUTES.LOGIN, { replace: true });
+            }}
+            content={<SignupExitPopupContent />}
+          />
+        );
+      });
+    },
+  });
 
   const routeSignupToken = isSignupLocationState(location.state)
     ? (location.state.signupToken ?? null)
