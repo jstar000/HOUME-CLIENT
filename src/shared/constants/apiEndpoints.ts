@@ -47,6 +47,9 @@ export const API_ENDPOINT = {
     MYPAGE_JJYM_LIST: '/api/v1/jjyms', // 찜한 가구 조회
     MYPAGE_JJYM_LIST_V2: '/api/v2/jjyms',
   },
+  PRODUCT: {
+    FILTERS: '/api/v1/curations/products/filters',
+  },
   ANALYTICS: {
     FURNITURE_LOGS: '/api/v1/furnitures/logs',
     CREDIT_LOGS: '/api/v1/credits/logs',
