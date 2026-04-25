@@ -1,5 +1,3 @@
-// hooks/useSignupExitConfirm.ts
-
 import { useEffect, useRef } from 'react';
 
 interface UseSignupExitConfirmProps {
