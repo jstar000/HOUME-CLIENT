@@ -16,6 +16,8 @@ import { getLoginRedirect, consumeLoginRedirect } from '@utils/loginRedirect';
 
 import * as styles from './WelcomePage.css';
 
+const TOKEN_COUNT = 5;
+
 const WelcomePage = () => {
   // zustand에서 userName 가져오기
   const userName = useUserStore((state) => state.userName);
@@ -54,7 +56,7 @@ const WelcomePage = () => {
           </h1>
           <p className={styles.content}>
             24시간 동안 무료로 이미지를 생성할 수 있는 <br />
-            토큰 N개를 선물로 드렸어요.
+            토큰 {TOKEN_COUNT}개를 선물로 드렸어요.
           </p>
         </div>
       </div>
