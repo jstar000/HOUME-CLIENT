@@ -1,5 +1,6 @@
-import { useCallback, useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
+import { useFilterListQuery } from '@pages/home/apis/queries/useFilterListQuery';
 import type {
   ProductFilterValues,
   ProductFilterSheetRef,
@@ -20,97 +21,16 @@ const INITIAL_CHIP_SELECTED: Record<ProductFilterChipCategory, boolean> = {
 
 const ALL = 'ALL';
 
-const FURNITURE_OPTION_ORDER: string[] = [
-  ALL,
-  '1',
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  '10',
-  '11',
-];
-
-const PRICE_OPTION_ORDER: string[] = [
-  ALL,
-  'P1',
-  'P2',
-  'P3',
-  'P4',
-  'P5',
-  'P6',
-  'P7',
-];
-
-const COLOR_OPTION_ORDER: string[] = [
-  ALL,
-  '1',
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  '10',
-  '11',
-  '12',
-  '13',
-  '14',
-  '15',
-];
-
-const FURNITURE_LABELS: Record<string, string> = {
-  '1': '침대/프레임',
-  '2': '업무용 책상',
-  '3': '식탁',
-  '4': '좌식 테이블',
-  '5': '옷장',
-  '6': '수납/장식장',
-  '7': '소파',
-  '8': '의자/스툴',
-  '9': '화장대/협탁',
-  '10': '조명',
-  '11': '그 외',
-};
-
-const PRICE_LABELS: Record<string, string> = {
-  P1: '5만원 이하',
-  P2: '5-10만원',
-  P3: '10만원대',
-  P4: '20만원대',
-  P5: '30만원대',
-  P6: '40만원대',
-  P7: '50만원 이상',
-};
-
-const COLOR_LABELS: Record<string, string> = {
-  '1': '블랙',
-  '2': '화이트',
-  '3': '그레이',
-  '4': '베이지',
-  '5': '실버',
-  '6': '골드',
-  '7': '브라운',
-  '8': '레드',
-  '9': '오렌지',
-  '10': '옐로우',
-  '11': '그린',
-  '12': '블루',
-  '13': '네이비',
-  '14': '바이올렛',
-  '15': '핑크',
-};
-
 const INITIAL_FILTER_VALUES: ProductFilterValues = {
   furnitureTypeIds: [ALL],
   priceRangeIds: [ALL],
   colorIds: [ALL],
+};
+
+type FilterSummaryMeta = {
+  labels: Record<string, string>;
+  orderedOptionIds: string[];
+  allId?: string;
 };
 
 // 바텀시트에 담을 수 있는 최대 선택 상품 수
@@ -119,16 +39,15 @@ export const MAX_SELECTED_PRODUCTS = 6;
 // 선택값 배열에서 "대표 라벨 + 외 N개" 형태의 필터 라벨 생성
 const buildSummaryLabel = (
   ids: string[],
-  labels: Record<string, string>,
-  orderedOptionIds: string[]
+  meta: FilterSummaryMeta
 ): string | null => {
-  const selected = ids.filter((id) => id !== ALL);
+  const selected = ids.filter((id) => id !== ALL && id !== meta.allId);
   if (selected.length === 0) return null;
 
   const selectedSet = new Set(selected);
   let firstId: string | undefined;
-  for (const id of orderedOptionIds) {
-    if (id !== ALL && selectedSet.has(id)) {
+  for (const id of meta.orderedOptionIds) {
+    if (id !== ALL && id !== meta.allId && selectedSet.has(id)) {
       firstId = id;
       break;
     }
@@ -137,29 +56,23 @@ const buildSummaryLabel = (
     firstId = selected[0];
   }
 
-  const first = labels[firstId] ?? firstId;
+  const first = meta.labels[firstId] ?? firstId;
   return selected.length === 1 ? first : `${first} 외 ${selected.length - 1}개`;
 };
 
 // 현재 선택 상태를 SearchSection 상단 칩(카테고리/가격대/색상) 데이터로 변환
 const buildAppliedFilterChips = (
-  values: ProductFilterValues
+  values: ProductFilterValues,
+  furnitureMeta: FilterSummaryMeta,
+  priceMeta: FilterSummaryMeta,
+  colorMeta: FilterSummaryMeta
 ): AppliedFilterChip[] => {
   const furnitureLabel = buildSummaryLabel(
     values.furnitureTypeIds,
-    FURNITURE_LABELS,
-    FURNITURE_OPTION_ORDER
+    furnitureMeta
   );
-  const priceLabel = buildSummaryLabel(
-    values.priceRangeIds,
-    PRICE_LABELS,
-    PRICE_OPTION_ORDER
-  );
-  const colorLabel = buildSummaryLabel(
-    values.colorIds,
-    COLOR_LABELS,
-    COLOR_OPTION_ORDER
-  );
+  const priceLabel = buildSummaryLabel(values.priceRangeIds, priceMeta);
+  const colorLabel = buildSummaryLabel(values.colorIds, colorMeta);
 
   return [
     {
@@ -184,6 +97,60 @@ const buildAppliedFilterChips = (
 };
 
 export const useProductTabState = () => {
+  const { data: filterData } = useFilterListQuery();
+  const furnitureMeta = useMemo<FilterSummaryMeta>(() => {
+    const options = filterData?.furnitureTypes ?? [];
+    const labels = Object.fromEntries(
+      options
+        .filter((item) => item.id != null && !!item.nameKr)
+        .map((item) => [String(item.id), item.nameKr as string])
+    );
+    const orderedOptionIds = options
+      .filter((item) => item.id != null)
+      .map((item) => String(item.id));
+    const allId = options.find((item) => item.nameKr === '전체')?.id;
+
+    return {
+      labels,
+      orderedOptionIds,
+      allId: allId != null ? String(allId) : undefined,
+    };
+  }, [filterData?.furnitureTypes]);
+
+  const priceMeta = useMemo<FilterSummaryMeta>(() => {
+    const options = filterData?.priceRanges ?? [];
+    const labels = Object.fromEntries(
+      options
+        .filter((item) => !!item.id && !!item.label)
+        .map((item) => [item.id as string, item.label as string])
+    );
+    const orderedOptionIds = options
+      .filter((item) => !!item.id)
+      .map((item) => item.id as string);
+    const allId = options.find((item) => item.label === '전체')?.id;
+
+    return { labels, orderedOptionIds, allId: allId as string | undefined };
+  }, [filterData?.priceRanges]);
+
+  const colorMeta = useMemo<FilterSummaryMeta>(() => {
+    const options = filterData?.colors ?? [];
+    const labels = Object.fromEntries(
+      options
+        .filter((item) => item.id != null && !!item.label)
+        .map((item) => [String(item.id), item.label as string])
+    );
+    const orderedOptionIds = options
+      .filter((item) => item.id != null)
+      .map((item) => String(item.id));
+    const allId = options.find((item) => item.label === '전체')?.id;
+
+    return {
+      labels,
+      orderedOptionIds,
+      allId: allId != null ? String(allId) : undefined,
+    };
+  }, [filterData?.colors]);
+
   const [sheetExpanded, setSheetExpanded] = useState(false);
   const [filterSheetOpen, setFilterSheetOpen] = useState(false);
   const [chipSelected, setChipSelected] = useState<
@@ -193,7 +160,14 @@ export const useProductTabState = () => {
     useState<ProductFilterValues>(INITIAL_FILTER_VALUES);
   const [appliedFilterChips, setAppliedFilterChips] = useState<
     AppliedFilterChip[]
-  >(() => buildAppliedFilterChips(INITIAL_FILTER_VALUES));
+  >(() =>
+    buildAppliedFilterChips(
+      INITIAL_FILTER_VALUES,
+      furnitureMeta,
+      priceMeta,
+      colorMeta
+    )
+  );
   const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>(
     []
   );
@@ -259,11 +233,17 @@ export const useProductTabState = () => {
         colorIds: [...values.colorIds],
       };
 
+      console.log('[ProductTab] apply filters:', {
+        selectedValues: nextValues,
+      });
+
       setAppliedFilterValues(nextValues);
-      setAppliedFilterChips(buildAppliedFilterChips(nextValues));
+      setAppliedFilterChips(
+        buildAppliedFilterChips(nextValues, furnitureMeta, priceMeta, colorMeta)
+      );
     }
     handleFilterSheetClose();
-  }, [handleFilterSheetClose]);
+  }, [colorMeta, furnitureMeta, handleFilterSheetClose, priceMeta]);
 
   // handleRemoveAppliedChip: 상단 적용 칩 제거 시 해당 카테고리를 ALL 상태로 복원
   const handleRemoveAppliedChip = useCallback(
@@ -280,14 +260,32 @@ export const useProductTabState = () => {
       };
 
       setAppliedFilterValues(normalizedValues);
-      setAppliedFilterChips(buildAppliedFilterChips(normalizedValues));
+      setAppliedFilterChips(
+        buildAppliedFilterChips(
+          normalizedValues,
+          furnitureMeta,
+          priceMeta,
+          colorMeta
+        )
+      );
       if (filterSheetOpen) {
         // 시트가 열린 상태에서만 즉시 동기화하고, 닫힌 상태는 오픈 시 effect에 위임
         productFilterSheetRef.current?.setValues(normalizedValues);
       }
     },
-    [appliedFilterValues, filterSheetOpen]
+    [appliedFilterValues, colorMeta, filterSheetOpen, furnitureMeta, priceMeta]
   );
+
+  useLayoutEffect(() => {
+    setAppliedFilterChips(
+      buildAppliedFilterChips(
+        appliedFilterValues,
+        furnitureMeta,
+        priceMeta,
+        colorMeta
+      )
+    );
+  }, [appliedFilterValues, colorMeta, furnitureMeta, priceMeta]);
 
   // handleSelectProduct: 상품 선택 추가(중복 방지, 최대 개수 제한, 초과 시 토스트)
   const handleSelectProduct = useCallback(

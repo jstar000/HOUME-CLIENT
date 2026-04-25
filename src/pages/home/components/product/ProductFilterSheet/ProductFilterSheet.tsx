@@ -15,8 +15,9 @@ import * as styles from './ProductFilterSheet.css';
 
 type FilterOption = { id: string; label: string };
 type ColorFilterOption = FilterOption & { value?: string };
+const ALL = 'ALL';
 
-const INITIAL_SELECTION: string[] = [];
+const INITIAL_SELECTION: string[] = [ALL];
 
 // 섹션 내 다중 선택 - allId만 있으면 ‘전체’, 그 외는 선택된 id 목록
 function toggleSectionSelection(
@@ -24,16 +25,20 @@ function toggleSectionSelection(
   id: string,
   allId?: string
 ): string[] {
+  const normalizedCurrent = current.filter((x) => x !== ALL);
+
   if (!allId) {
-    const has = current.includes(id);
-    return has ? current.filter((x) => x !== id) : [...current, id];
+    const has = normalizedCurrent.includes(id);
+    return has
+      ? normalizedCurrent.filter((x) => x !== id)
+      : [...normalizedCurrent, id];
   }
 
   if (id === allId) {
     return [allId];
   }
 
-  const withoutAll = current.filter((x) => x !== allId);
+  const withoutAll = normalizedCurrent.filter((x) => x !== allId);
   const has = withoutAll.includes(id);
   const next = has ? withoutAll.filter((x) => x !== id) : [...withoutAll, id];
   return next.length === 0 ? [allId] : next;
@@ -43,6 +48,24 @@ function getAllOptionId<T extends FilterOption>(
   options: T[]
 ): string | undefined {
   return options.find((option) => option.label === '전체')?.id;
+}
+
+function normalizeInternalSelection(ids: string[], allId?: string): string[] {
+  if (!allId) return ids.filter((id) => id !== ALL);
+  if (ids.length === 0) return [allId];
+  if (ids.length === 1 && ids[0] === ALL) return [allId];
+
+  const sanitized = ids.filter((id) => id !== ALL);
+  return sanitized.length === 0 ? [allId] : sanitized;
+}
+
+function isSelectedForRender(
+  ids: string[],
+  chipId: string,
+  allId?: string
+): boolean {
+  if (ids.includes(chipId)) return true;
+  return !!allId && chipId === allId && ids.includes(ALL);
 }
 
 export interface ProductFilterValues {
@@ -128,18 +151,18 @@ const ProductFilterSheet = forwardRef<ProductFilterSheetRef>(
     useEffect(() => {
       if (!furnitureAllId) return;
       setFurnitureTypeIds((prev) =>
-        prev.length > 0 ? prev : [furnitureAllId]
+        normalizeInternalSelection(prev, furnitureAllId)
       );
     }, [furnitureAllId]);
 
     useEffect(() => {
       if (!priceAllId) return;
-      setPriceRangeIds((prev) => (prev.length > 0 ? prev : [priceAllId]));
+      setPriceRangeIds((prev) => normalizeInternalSelection(prev, priceAllId));
     }, [priceAllId]);
 
     useEffect(() => {
       if (!colorAllId) return;
-      setColorIds((prev) => (prev.length > 0 ? prev : [colorAllId]));
+      setColorIds((prev) => normalizeInternalSelection(prev, colorAllId));
     }, [colorAllId]);
 
     const reset = useCallback(() => {
@@ -151,32 +174,49 @@ const ProductFilterSheet = forwardRef<ProductFilterSheetRef>(
     }, [colorAllId, furnitureAllId, priceAllId]);
 
     const getValues = useCallback((): ProductFilterValues => {
-      return {
-        furnitureTypeIds: [...furnitureTypeIds],
-        priceRangeIds: [...priceRangeIds],
-        colorIds: [...colorIds],
+      const normalizeValues = (ids: string[], allId?: string): string[] => {
+        if (allId && ids.length === 1 && (ids[0] === allId || ids[0] === ALL)) {
+          return [ALL];
+        }
+        return ids.filter((id) => id !== ALL);
       };
-    }, [furnitureTypeIds, priceRangeIds, colorIds]);
+
+      return {
+        furnitureTypeIds: normalizeValues(furnitureTypeIds, furnitureAllId),
+        priceRangeIds: normalizeValues(priceRangeIds, priceAllId),
+        colorIds: normalizeValues(colorIds, colorAllId),
+      };
+    }, [
+      colorAllId,
+      colorIds,
+      furnitureAllId,
+      furnitureTypeIds,
+      priceAllId,
+      priceRangeIds,
+    ]);
 
     const setValues = useCallback(
       (values: ProductFilterValues) => {
         setFurnitureTypeIds(
           values.furnitureTypeIds.length > 0
-            ? [...values.furnitureTypeIds]
+            ? normalizeInternalSelection(
+                values.furnitureTypeIds,
+                furnitureAllId
+              )
             : furnitureAllId
               ? [furnitureAllId]
               : [...INITIAL_SELECTION]
         );
         setPriceRangeIds(
           values.priceRangeIds.length > 0
-            ? [...values.priceRangeIds]
+            ? normalizeInternalSelection(values.priceRangeIds, priceAllId)
             : priceAllId
               ? [priceAllId]
               : [...INITIAL_SELECTION]
         );
         setColorIds(
           values.colorIds.length > 0
-            ? [...values.colorIds]
+            ? normalizeInternalSelection(values.colorIds, colorAllId)
             : colorAllId
               ? [colorAllId]
               : [...INITIAL_SELECTION]
@@ -233,7 +273,11 @@ const ProductFilterSheet = forwardRef<ProductFilterSheetRef>(
             {furnitureOptions.map(({ id, label }, index) => (
               <Chip
                 key={`furniture-${id}-${label}-${index}`}
-                selected={furnitureTypeIds.includes(id)}
+                selected={isSelectedForRender(
+                  furnitureTypeIds,
+                  id,
+                  furnitureAllId
+                )}
                 onClick={() => handleFurnitureChipClick(id)}
               >
                 {label}
@@ -253,7 +297,7 @@ const ProductFilterSheet = forwardRef<ProductFilterSheetRef>(
             {priceOptions.map(({ id, label }, index) => (
               <Chip
                 key={`price-${id}-${label}-${index}`}
-                selected={priceRangeIds.includes(id)}
+                selected={isSelectedForRender(priceRangeIds, id, priceAllId)}
                 onClick={() => handlePriceChipClick(id)}
               >
                 {label}
@@ -273,7 +317,7 @@ const ProductFilterSheet = forwardRef<ProductFilterSheetRef>(
             {colorOptions.map(({ id, label, value }, index) => (
               <Chip
                 key={`color-${id}-${label}-${index}`}
-                selected={colorIds.includes(id)}
+                selected={isSelectedForRender(colorIds, id, colorAllId)}
                 onClick={() => handleColorChipClick(id)}
               >
                 {value ? (
