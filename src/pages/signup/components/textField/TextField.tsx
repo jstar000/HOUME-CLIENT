@@ -12,6 +12,7 @@ interface TextFieldProps
   isError?: boolean;
   errorMessage?: string;
   maxLength?: number;
+  onRefresh?: () => void;
 }
 
 const TextField = ({
@@ -20,6 +21,7 @@ const TextField = ({
   isError = false,
   errorMessage,
   maxLength,
+  onRefresh,
   ...props
 }: TextFieldProps) => {
   const [internalValue, setInternalValue] = useState('');
@@ -45,29 +47,40 @@ const TextField = ({
   };
 
   return (
-    <TextFieldContainer
-      isFocused={isFocused}
-      isFilled={isFilled}
-      isError={isError}
-      errorMessage={errorMessage}
-    >
-      <input
-        {...props}
-        type="text"
-        value={value}
-        onChange={handleChange}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-        maxLength={maxLength}
-        className={styles.input({
-          isErrorText: isError,
-        })}
-      />
+    <div className={styles.wrapper}>
+      <TextFieldContainer
+        isFocused={isFocused}
+        isFilled={isFilled}
+        isError={isError}
+        errorMessage={errorMessage}
+      >
+        <input
+          {...props}
+          type="text"
+          value={value}
+          onChange={handleChange}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          maxLength={maxLength}
+          className={styles.input({
+            isErrorText: isError,
+          })}
+        />
 
-      {value ? (
-        <IconButton name="CloseFillGray" size="S" onClick={handleClear} />
-      ) : null}
-    </TextFieldContainer>
+        {value ? (
+          <IconButton name="CloseFillGray" size="S" onClick={handleClear} />
+        ) : null}
+      </TextFieldContainer>
+      <div className={styles.refreshBtnContainer}>
+        <IconButton
+          name="Refresh"
+          onClick={(e) => {
+            e.preventDefault();
+            onRefresh?.();
+          }}
+        />
+      </div>
+    </div>
   );
 };
 

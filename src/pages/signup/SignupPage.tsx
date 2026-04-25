@@ -175,9 +175,6 @@ const SignupPage = () => {
               errorMessage={nameErrorMessage}
               maxLength={18}
             />
-            <div className={styles.refreshBtnContainer}>
-              <IconButton name="Refresh" onClick={() => handleNameChange('')} />
-            </div>
           </div>
         </div>
 

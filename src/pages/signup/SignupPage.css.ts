@@ -64,18 +64,6 @@ export const flexbox = style({
   width: '100%',
 });
 
-export const refreshBtnContainer = style({
-  display: 'flex',
-  flexShrink: 0,
-  alignItems: 'center',
-  justifyContent: 'center',
-  border: `1px solid ${colorVars.color.border.primary}`,
-  borderRadius: unitVars.unit.radius['300'],
-  backgroundColor: colorVars.color.fill.inverse,
-  width: '4.4rem',
-  height: '4.4rem',
-});
-
 export const btnarea = style({
   position: 'fixed',
   bottom: '0',

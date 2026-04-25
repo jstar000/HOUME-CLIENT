@@ -1,8 +1,15 @@
+import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
 import { unitVars } from '@styles/tokensV2/unit.css';
+
+export const wrapper = style({
+  display: 'flex',
+  gap: unitVars.unit.gapPadding['200'],
+  width: '100%',
+});
 
 export const input = recipe({
   base: {
@@ -27,4 +34,16 @@ export const input = recipe({
       },
     },
   },
+});
+
+export const refreshBtnContainer = style({
+  display: 'flex',
+  flexShrink: 0,
+  alignItems: 'center',
+  justifyContent: 'center',
+  border: `1px solid ${colorVars.color.border.primary}`,
+  borderRadius: unitVars.unit.radius['300'],
+  backgroundColor: colorVars.color.fill.inverse,
+  width: '4.4rem',
+  height: '4.4rem',
 });
