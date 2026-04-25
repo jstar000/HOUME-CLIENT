@@ -117,6 +117,20 @@ const SignupPage = () => {
 
   if (!signupToken) return null;
 
+  // 닉네임 필드 유효
+  const isNameSectionValid =
+    name !== '' && !isNameFormatInvalid && !isNameLengthInvalid;
+
+  // 생년월일 필드 유효
+  const isBirthSectionValid =
+    birthYear !== '' &&
+    birthMonth !== '' &&
+    birthDay !== '' &&
+    !yearFormatError &&
+    !yearAgeError &&
+    !monthFieldError &&
+    !dayFieldError;
+
   // 닉네임 에러 메시지
   const nameErrorMessage = (() => {
     if (isNameFormatInvalid) return ERROR_MESSAGES.NAME_INVALID;
@@ -159,7 +173,7 @@ const SignupPage = () => {
               placeholder="플레이스홀더"
               isError={isNameFormatInvalid || isNameLengthInvalid}
               errorMessage={nameErrorMessage}
-              maxLength={25}
+              maxLength={18}
             />
             <div className={styles.refreshBtnContainer}>
               <IconButton name="Refresh" onClick={() => handleNameChange('')} />
@@ -168,56 +182,62 @@ const SignupPage = () => {
         </div>
 
         {/* 생년월일 입력 */}
-        <div className={styles.fieldbox}>
-          <h2 className={styles.fieldtitle}>생년월일</h2>
-          <div className={styles.flexbox}>
-            <DateField
-              value={{ year: birthYear, month: birthMonth, day: birthDay }}
-              onChange={(value) => {
-                handleBirthYearChange(value.year);
-                handleBirthMonthChange(value.month);
-                handleBirthDayChange(value.day);
-              }}
-              error={dateErrorStatus}
-              errorMessage={birthErrorMessage}
-            />
+        {isNameSectionValid && (
+          <div className={styles.fieldbox}>
+            <h2 className={styles.fieldtitle}>생년월일</h2>
+            <div className={styles.flexbox}>
+              <DateField
+                value={{ year: birthYear, month: birthMonth, day: birthDay }}
+                onChange={(value) => {
+                  handleBirthYearChange(value.year);
+                  handleBirthMonthChange(value.month);
+                  handleBirthDayChange(value.day);
+                }}
+                error={dateErrorStatus}
+                errorMessage={birthErrorMessage}
+              />
+            </div>
           </div>
-        </div>
+        )}
 
         {/* 성별 선택 */}
-        <div className={styles.fieldbox}>
-          <h2 className={styles.fieldtitle}>성별</h2>
-          <div className={styles.flexbox}>
-            <Chip
-              selected={gender?.value === 'MALE'}
-              className={gender?.value === 'MALE' ? styles.chipSelected : ''}
-              color="weak"
-              onClick={() => setGender({ value: 'MALE', label: '남성' })}
-            >
-              남성
-            </Chip>
-            <Chip
-              selected={gender?.value === 'FEMALE'}
-              className={gender?.value === 'FEMALE' ? styles.chipSelected : ''}
-              color="weak"
-              onClick={() => setGender({ value: 'FEMALE', label: '여성' })}
-            >
-              여성
-            </Chip>
-            <Chip
-              selected={gender?.value === 'NONBINARY'}
-              className={
-                gender?.value === 'NONBINARY' ? styles.chipSelected : ''
-              }
-              color="weak"
-              onClick={() =>
-                setGender({ value: 'NONBINARY', label: '밝히고 싶지 않음' })
-              }
-            >
-              밝히고 싶지 않음
-            </Chip>
+        {isNameSectionValid && isBirthSectionValid && (
+          <div className={styles.fieldbox}>
+            <h2 className={styles.fieldtitle}>성별</h2>
+            <div className={styles.flexbox}>
+              <Chip
+                selected={gender?.value === 'MALE'}
+                className={gender?.value === 'MALE' ? styles.chipSelected : ''}
+                color="weak"
+                onClick={() => setGender({ value: 'MALE', label: '남성' })}
+              >
+                남성
+              </Chip>
+              <Chip
+                selected={gender?.value === 'FEMALE'}
+                className={
+                  gender?.value === 'FEMALE' ? styles.chipSelected : ''
+                }
+                color="weak"
+                onClick={() => setGender({ value: 'FEMALE', label: '여성' })}
+              >
+                여성
+              </Chip>
+              <Chip
+                selected={gender?.value === 'NONBINARY'}
+                className={
+                  gender?.value === 'NONBINARY' ? styles.chipSelected : ''
+                }
+                color="weak"
+                onClick={() =>
+                  setGender({ value: 'NONBINARY', label: '밝히고 싶지 않음' })
+                }
+              >
+                밝히고 싶지 않음
+              </Chip>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <div className={styles.btnarea}>
