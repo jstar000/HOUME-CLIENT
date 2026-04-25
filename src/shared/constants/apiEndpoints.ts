@@ -13,6 +13,7 @@ export const API_ENDPOINT = {
     MYPAGE_IMAGE_DETAIL: (imageId: number) =>
       `/api/v1/mypage/images/${imageId}`,
     DELETE: '/api/v1/user',
+    ROTATE_NICKNAME: '/api/v2/nickname/rotate',
   },
   IMAGE_SETUP: {
     HOUSE_OPTIONS: '/api/v1/housing-options', // GET 집구조 제공(OFFICETEL, VILLA 등)
