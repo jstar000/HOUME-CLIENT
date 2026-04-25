@@ -1,4 +1,7 @@
+import { useEffect } from 'react';
+
 import { useABTest } from '@pages/generate/hooks/useABTest';
+import { useLandingQuery } from '@pages/landing/apis/queries/useLandingQuery';
 
 import ActionButton from '@shared/components/v2/button/actionButton/ActionButton';
 import LogoNavBar from '@shared/components/v2/navBar/LogoNavBar';
@@ -11,18 +14,33 @@ const LANDING_CONTENT_MOCK = {
 
 const LandingPage = () => {
   const { variant, isLoading } = useABTest();
+  const { data: landingData } = useLandingQuery();
+  const selectedLanding = landingData?.landings?.[0];
+
+  useEffect(() => {
+    if (!landingData) return;
+    console.log('landing GET response:', landingData);
+  }, [landingData]);
 
   /** A/B: single → solid inverse CTA, multiple → ghost + 아이콘 CTA */
   const isGhostCta = !isLoading && variant === 'multiple';
 
   return (
     <main className={styles.page}>
+      {selectedLanding?.imageUrl ? (
+        <img
+          src={selectedLanding.imageUrl}
+          alt="랜딩 배너 이미지"
+          aria-hidden
+          className={styles.backgroundImage}
+        />
+      ) : null}
       <LogoNavBar page="landing" />
       <section className={styles.mainSection}>
         <div className={styles.contentBlock}>
           <div className={styles.textContainer}>
             <p className={styles.title}>
-              {LANDING_CONTENT_MOCK.titleLine}
+              {selectedLanding?.name ?? LANDING_CONTENT_MOCK.titleLine}
               <br />
               나를 위한 맞춤형 인테리어는?
             </p>
