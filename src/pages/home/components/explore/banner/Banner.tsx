@@ -26,7 +26,8 @@ type BannerProps = {
   onSlideClick?: (slide: BannerSlide) => void;
 };
 
-const Banner = ({ seedBannerId = 6, onSlideClick }: BannerProps) => {
+const Banner = ({ seedBannerId = 16, onSlideClick }: BannerProps) => {
+  // 현재 seedBannerId는 기본값은 임시 아이디값
   const [activeIndex, setActiveIndex] = useState(0);
   const { data, isError, error, status, fetchStatus } =
     useBannerListQuery(seedBannerId);
