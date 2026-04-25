@@ -4,15 +4,16 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ROUTES } from '@routes/paths';
 
-import CtaButton from '@components/button/ctaButton/CtaButton';
-import ErrorMessage from '@components/button/errorMessage/ErrorMessage';
-import LargeFilledButton from '@components/button/largeFilledButton/LargeFilledButton';
-import TitleNavBar from '@components/navBar/TitleNavBar';
-import TextField from '@components/textField/TextField';
+import ActionButton from '@components/v2/button/actionButton/ActionButton';
+import IconButton from '@components/v2/button/IconButton';
+import Chip from '@components/v2/chip/Chip';
+import Icon from '@components/v2/icon/Icon';
 
 import { ERROR_MESSAGES } from '@constants/clientErrorMessage';
 
 import { usePostSignupMutation } from './apis/mutations/usePostSignupMutation';
+import DateField from './components/textField/DateField';
+import TextField from './components/textField/TextField';
 import useSignupForm from './hooks/useSignupForm';
 import * as styles from './SignupPage.css';
 import {
@@ -116,108 +117,117 @@ const SignupPage = () => {
 
   if (!signupToken) return null;
 
+  // 닉네임 에러 메시지
+  const nameErrorMessage = (() => {
+    if (isNameFormatInvalid) return ERROR_MESSAGES.NAME_INVALID;
+    if (isNameLengthInvalid) return ERROR_MESSAGES.LENGTH_INVALID;
+    return '';
+  })();
+
+  // 생년월일 에러 메시지
+  const birthErrorMessage = (() => {
+    if (yearAgeError) return ERROR_MESSAGES.AGE_INVALID;
+    if (yearFormatError || monthFieldError || dayFieldError)
+      return ERROR_MESSAGES.BIRTH_INVALID;
+    return '';
+  })();
+
+  const dateErrorStatus = {
+    year: birthYear !== '' && (yearFormatError || yearAgeError),
+    month: birthMonth !== '' && monthFieldError,
+    day: birthDay !== '' && dayFieldError,
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
-      <TitleNavBar title="회원가입" isBackIcon={false} isLoginBtn={false} />
+    <form onSubmit={handleSubmit} className={styles.wrapper}>
+      <header className={styles.header}>
+        <div className={styles.iconContainer}>
+          <Icon name="StepDefault" size="12" />
+          <Icon name="StepActive" size="12" />
+        </div>
+        <h1 className={styles.title}>완료까지 한 걸음 남았어요!</h1>
+      </header>
 
       <div className={styles.container}>
-        <h1 className={styles.title}>추가 회원가입 정보</h1>
-
-        {/* 이름 입력 */}
+        {/* 닉네임 입력 */}
         <div className={styles.fieldbox}>
-          <h2 className={styles.fieldtitle}>이름</h2>
-          <TextField
-            fieldSize="large"
-            placeholder="이름을 입력해주세요."
-            maxLength={25}
-            value={name}
-            onChange={handleNameChange}
-            isError={isNameFormatInvalid || isNameLengthInvalid}
-          />
-          {isNameFormatInvalid && (
-            <ErrorMessage message={ERROR_MESSAGES.NAME_INVALID} />
-          )}
-          {!isNameFormatInvalid && isNameLengthInvalid && (
-            <ErrorMessage message={ERROR_MESSAGES.LENGTH_INVALID} />
-          )}
+          <h2 className={styles.fieldtitle}>닉네임</h2>
+          <div className={styles.flexbox}>
+            <TextField
+              value={name}
+              onChange={handleNameChange}
+              placeholder="플레이스홀더"
+              isError={isNameFormatInvalid || isNameLengthInvalid}
+              errorMessage={nameErrorMessage}
+              maxLength={25}
+            />
+            <div className={styles.refreshBtnContainer}>
+              <IconButton name="Refresh" onClick={() => handleNameChange('')} />
+            </div>
+          </div>
         </div>
 
         {/* 생년월일 입력 */}
         <div className={styles.fieldbox}>
           <h2 className={styles.fieldtitle}>생년월일</h2>
           <div className={styles.flexbox}>
-            <TextField
-              fieldSize="small"
-              placeholder="YYYY"
-              maxLength={4}
-              value={birthYear}
-              onChange={handleBirthYearChange}
-              isError={birthYear !== '' && (yearFormatError || yearAgeError)}
-              inputMode="numeric"
-            />
-            <TextField
-              fieldSize="small"
-              placeholder="MM"
-              maxLength={2}
-              value={birthMonth}
-              onChange={handleBirthMonthChange}
-              isError={birthMonth !== '' && monthFieldError}
-              inputMode="numeric"
-            />
-            <TextField
-              fieldSize="small"
-              placeholder="DD"
-              maxLength={2}
-              value={birthDay}
-              onChange={handleBirthDayChange}
-              isError={birthDay !== '' && dayFieldError}
-              inputMode="numeric"
+            <DateField
+              value={{ year: birthYear, month: birthMonth, day: birthDay }}
+              onChange={(value) => {
+                handleBirthYearChange(value.year);
+                handleBirthMonthChange(value.month);
+                handleBirthDayChange(value.day);
+              }}
+              error={dateErrorStatus}
+              errorMessage={birthErrorMessage}
             />
           </div>
-          {(() => {
-            if (yearAgeError)
-              return <ErrorMessage message={ERROR_MESSAGES.AGE_INVALID} />;
-            if (yearFormatError || monthFieldError || dayFieldError)
-              return <ErrorMessage message={ERROR_MESSAGES.BIRTH_INVALID} />;
-            return null;
-          })()}
         </div>
 
         {/* 성별 선택 */}
         <div className={styles.fieldbox}>
           <h2 className={styles.fieldtitle}>성별</h2>
           <div className={styles.flexbox}>
-            <LargeFilledButton
-              buttonSize="small"
-              isSelected={gender?.value === 'MALE'}
+            <Chip
+              selected={gender?.value === 'MALE'}
+              className={gender?.value === 'MALE' ? styles.chipSelected : ''}
+              color="weak"
               onClick={() => setGender({ value: 'MALE', label: '남성' })}
             >
               남성
-            </LargeFilledButton>
-            <LargeFilledButton
-              buttonSize="small"
-              isSelected={gender?.value === 'FEMALE'}
+            </Chip>
+            <Chip
+              selected={gender?.value === 'FEMALE'}
+              className={gender?.value === 'FEMALE' ? styles.chipSelected : ''}
+              color="weak"
               onClick={() => setGender({ value: 'FEMALE', label: '여성' })}
             >
               여성
-            </LargeFilledButton>
-            <LargeFilledButton
-              buttonSize="small"
-              isSelected={gender?.value === 'NONBINARY'}
+            </Chip>
+            <Chip
+              selected={gender?.value === 'NONBINARY'}
+              className={
+                gender?.value === 'NONBINARY' ? styles.chipSelected : ''
+              }
+              color="weak"
               onClick={() =>
-                setGender({ value: 'NONBINARY', label: '논바이너리' })
+                setGender({ value: 'NONBINARY', label: '밝히고 싶지 않음' })
               }
             >
-              논바이너리
-            </LargeFilledButton>
+              밝히고 싶지 않음
+            </Chip>
           </div>
         </div>
       </div>
 
       <div className={styles.btnarea}>
-        <CtaButton isActive={isFormValid && !!signupToken} type="submit">
-          회원가입 완료하기
-        </CtaButton>
+        <ActionButton
+          disabled={!isFormValid || !signupToken}
+          type="submit"
+          fullWidth
+        >
+          이미지 생성 시작하기
+        </ActionButton>
       </div>
     </form>
   );
