@@ -5,13 +5,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ROUTES } from '@routes/paths';
 
 import ActionButton from '@components/v2/button/actionButton/ActionButton';
-import IconButton from '@components/v2/button/IconButton';
 import Chip from '@components/v2/chip/Chip';
 import Icon from '@components/v2/icon/Icon';
 
 import { ERROR_MESSAGES } from '@constants/clientErrorMessage';
 
 import { usePostSignupMutation } from './apis/mutations/usePostSignupMutation';
+import { useGetRandomNicknameQuery } from './apis/queries/useGetNickname';
 import DateField from './components/textField/DateField';
 import TextField from './components/textField/TextField';
 import useSignupForm from './hooks/useSignupForm';
@@ -60,12 +60,12 @@ const SignupPage = () => {
   }, [signupToken, navigate]);
 
   const {
-    name,
+    nickname,
     birthYear,
     birthMonth,
     birthDay,
     gender,
-    handleNameChange,
+    handleNicknameChange,
     handleBirthYearChange,
     handleBirthMonthChange,
     handleBirthDayChange,
@@ -81,6 +81,21 @@ const SignupPage = () => {
   } = useSignupForm();
 
   const { mutate: signUp } = usePostSignupMutation();
+
+  // 랜덤 닉네임 GET 쿼리
+  const { data: randomNickname, refetch } = useGetRandomNicknameQuery();
+
+  // 페이지 로드 시 랜덤 닉네임으로 초기값 설정
+  useEffect(() => {
+    if (randomNickname && nickname === '') {
+      handleNicknameChange(randomNickname);
+    }
+  }, [randomNickname, nickname, handleNicknameChange]);
+
+  const handleRefresh = async () => {
+    const { data } = await refetch();
+    if (data) handleNicknameChange(data);
+  };
 
   const errorSentRef = useRef(false);
 
@@ -105,11 +120,11 @@ const SignupPage = () => {
 
     const formattedBirthday = `${birthYear}-${birthMonth}-${birthDay}`;
 
-    // console.log(name, gender.value, formattedBirthday);
+    // console.log(nickname, gender.value, formattedBirthday);
 
     signUp({
       signupToken,
-      name,
+      nickname,
       gender: gender.value,
       birthday: formattedBirthday,
     });
@@ -119,7 +134,7 @@ const SignupPage = () => {
 
   // 닉네임 필드 유효
   const isNameSectionValid =
-    name !== '' && !isNameFormatInvalid && !isNameLengthInvalid;
+    nickname !== '' && !isNameFormatInvalid && !isNameLengthInvalid;
 
   // 생년월일 필드 유효
   const isBirthSectionValid =
@@ -168,12 +183,12 @@ const SignupPage = () => {
           <h2 className={styles.fieldtitle}>닉네임</h2>
           <div className={styles.flexbox}>
             <TextField
-              value={name}
-              onChange={handleNameChange}
-              placeholder="플레이스홀더"
+              value={nickname}
+              onChange={handleNicknameChange}
               isError={isNameFormatInvalid || isNameLengthInvalid}
               errorMessage={nameErrorMessage}
               maxLength={18}
+              onRefresh={handleRefresh}
             />
           </div>
         </div>
