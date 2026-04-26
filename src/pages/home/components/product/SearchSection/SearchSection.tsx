@@ -1,7 +1,10 @@
 import { useCallback, useMemo, useRef } from 'react';
 
+import { overlay } from 'overlay-kit';
+
+import ProductDetailOverlay from '@pages/home/components/product/ProductPopup/ProductDetailOverlay';
 import { useProductHeaderScroll } from '@pages/home/hooks/useProductHeaderScroll';
-import { useProductSearchQuery } from '@pages/home/hooks/useProductSearchQuery';
+import { useProductSearch } from '@pages/home/hooks/useProductSearch';
 
 import ProductCard from '@shared/components/v2/productCard/ProductCard';
 import SearchBar from '@shared/components/v2/textField/SearchBar';
@@ -63,7 +66,7 @@ const SearchSection = ({
   });
 
   const { loadMoreRef, keyword, products, handleSearchKeywordChange } =
-    useProductSearchQuery(productListQueryParams);
+    useProductSearch(productListQueryParams);
 
   const handleFilterChipCategoryClick = useCallback(
     (category: ProductFilterChipCategory) => {
@@ -79,9 +82,10 @@ const SearchSection = ({
     [onAppliedFilterChipRemove]
   );
 
-  const handleMockSaveToggle = useCallback(() => {}, []);
+  /** 상품 목록 찜 API 미연동 — ProductCard `SaveInfo`용 no-op */
+  const handleSaveToggleNoop = useCallback(() => {}, []);
 
-  const handleSelectMockProduct = useCallback(
+  const handleSelectProduct = useCallback(
     (product: SelectedProduct) => {
       onSelectProduct(product);
     },
@@ -153,6 +157,7 @@ const SearchSection = ({
         {products.map(
           ({
             id,
+            detailProductId,
             title,
             brand,
             imageUrl,
@@ -164,43 +169,66 @@ const SearchSection = ({
             linkUrl,
           }) => {
             const isSelected = selectedProductIds.includes(id);
+            const cardProduct = {
+              title,
+              brand,
+              imageUrl,
+              colorHexes,
+            };
+            const cardPrice = {
+              original: originalPrice,
+              discountRate,
+              discount: discountPrice,
+            };
+            const cardSave = {
+              isSaved: false as const,
+              onToggle: handleSaveToggleNoop,
+              count: saveCount,
+            };
+            const cardLink = { href: linkUrl };
+            const cardShoppingAction = {
+              label: '선택' as const,
+              disabled: isSelected,
+              onClick: () =>
+                handleSelectProduct({
+                  id,
+                  title,
+                  brand,
+                  imageUrl,
+                  originalPrice,
+                  discountPrice,
+                  discountRate,
+                }),
+            };
+
+            const canOpenProductDetail = Number.isFinite(detailProductId);
+
             return (
               <ProductCard
                 key={id}
                 cardType="shopping"
-                product={{
-                  title,
-                  brand,
-                  imageUrl,
-                  colorHexes,
-                }}
-                price={{
-                  original: originalPrice,
-                  discountRate,
-                  discount: discountPrice,
-                }}
-                save={{
-                  isSaved: false,
-                  onToggle: handleMockSaveToggle,
-                  count: saveCount,
-                }}
-                link={{
-                  href: linkUrl,
-                }}
-                shoppingAction={{
-                  label: isSelected ? '선택' : '선택',
-                  disabled: isSelected,
-                  onClick: () =>
-                    handleSelectMockProduct({
-                      id,
-                      title,
-                      brand,
-                      imageUrl,
-                      originalPrice,
-                      discountPrice,
-                      discountRate,
-                    }),
-                }}
+                product={cardProduct}
+                price={cardPrice}
+                save={cardSave}
+                link={cardLink}
+                shoppingAction={cardShoppingAction}
+                {...(canOpenProductDetail
+                  ? {
+                      onShoppingViewDetailClick: () => {
+                        overlay.open(({ unmount }) => (
+                          <ProductDetailOverlay
+                            unmount={unmount}
+                            detailProductId={detailProductId}
+                            link={cardLink}
+                            price={cardPrice}
+                            product={cardProduct}
+                            save={cardSave}
+                            shoppingAction={cardShoppingAction}
+                          />
+                        ));
+                      },
+                    }
+                  : {})}
               />
             );
           }
