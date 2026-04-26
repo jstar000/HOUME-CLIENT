@@ -48,6 +48,7 @@ export const API_ENDPOINT = {
   },
   PRODUCT: {
     LIST: '/api/v1/curations/products',
+    DETAIL: (productId: number) => `/api/v1/curations/products/${productId}`,
     FILTERS: '/api/v1/curations/products/filters',
   },
   ANALYTICS: {
