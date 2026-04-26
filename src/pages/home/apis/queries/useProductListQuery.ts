@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 import type { CurationProductListResponse } from '@shared/apis/__generated__/data-contracts';
 
@@ -38,15 +38,25 @@ export const getProductList = async (
 };
 
 export const useProductListQuery = (params: ProductListQueryVariables) => {
-  const normalizedParams: ProductListQueryVariables = {
+  const normalizedParams = {
     ...params,
     size: params.size ?? DEFAULT_PAGE_SIZE,
   };
 
-  return useQuery({
-    queryKey: queryKeys.product.productList(normalizedParams),
-    queryFn: () => getProductList(normalizedParams),
-    placeholderData: (previousData) => previousData,
+  const { cursor: _cursor, ...queryKeyParams } = normalizedParams;
+
+  return useInfiniteQuery({
+    queryKey: queryKeys.product.productList(queryKeyParams),
+    queryFn: ({ pageParam }) =>
+      getProductList({
+        ...queryKeyParams,
+        cursor: pageParam as number | undefined,
+      }),
+    initialPageParam: undefined as number | undefined,
+    getNextPageParam: (lastPage) => {
+      if (!lastPage.meta?.hasNext) return undefined;
+      return lastPage.meta.nextCursor;
+    },
     staleTime: Infinity,
     gcTime: 1000 * 60 * 60 * 24,
   });

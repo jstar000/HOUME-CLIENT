@@ -57,6 +57,7 @@ const SearchSection = ({
 }: SearchSectionProps) => {
   const searchBarRef = useRef<HTMLDivElement>(null);
   const filterListRef = useRef<HTMLDivElement>(null);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
   const [keyword, setKeyword] = useState('');
   const [debouncedKeyword, setDebouncedKeyword] = useState('');
   const { isFilterSticky, showStickySearchBar } = useProductStickyHeader({
@@ -80,16 +81,38 @@ const SearchSection = ({
     [debouncedKeyword, productListQueryParams]
   );
 
-  const { data: productData } = useProductListQuery(queryParams);
+  const {
+    data: productPages,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useProductListQuery(queryParams);
 
   useEffect(() => {
-    if (!productData) return;
-    console.log('[SearchSection] product list response:', productData);
-  }, [productData]);
+    if (!productPages) return;
+    console.log('[SearchSection] product list response:', productPages);
+  }, [productPages]);
+
+  useEffect(() => {
+    const target = loadMoreRef.current;
+    if (!target || !hasNextPage || isFetchingNextPage) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries[0]?.isIntersecting) return;
+        void fetchNextPage();
+      },
+      { root: null, threshold: 0.1 }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   const products = useMemo(
     () =>
-      (productData?.products ?? [])
+      (productPages?.pages ?? [])
+        .flatMap((page) => page.products ?? [])
         .filter((product) => product.id != null)
         .map((product) => ({
           id: String(product.id),
@@ -103,7 +126,7 @@ const SearchSection = ({
           saveCount: 0,
           linkUrl: product.linkUrl ?? '',
         })),
-    [productData?.products]
+    [productPages?.pages]
   );
 
   const handleFilterChipCategoryClick = useCallback(
@@ -250,6 +273,7 @@ const SearchSection = ({
             );
           }
         )}
+        <div ref={loadMoreRef} />
       </div>
     </section>
   );
