@@ -69,6 +69,7 @@ const useProductHeaderScroll = ({
   return {
     isFilterSticky,
     showStickySearchBar,
+    showScrollTopFloatingButton: showStickySearchBar,
   };
 };
 
