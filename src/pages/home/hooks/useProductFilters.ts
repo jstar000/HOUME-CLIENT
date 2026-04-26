@@ -20,6 +20,8 @@ import type {
   ProductFilterValues,
 } from '@pages/home/utils/productFilterUtils';
 
+import type { ProductListQueryVariables } from '@constants/queryKey';
+
 /**
  * 최초 적용 상태는 "전체(ALL 센티널)"로 둔다.
  * 실제 시트 렌더에서는 API의 allId로 다시 정규화된다.
@@ -215,7 +217,32 @@ const useProductFilters = () => {
     [allIds, draftValues]
   );
 
-  /** ProductTab/useProductTabState에서 소비할 공개 API */
+  /** 적용 필터를 상품 목록 API 쿼리 파라미터 형태로 변환 */
+  const productListQueryParams: ProductListQueryVariables = useMemo(() => {
+    const parseNumberIds = (ids: string[]): number[] => {
+      return ids
+        .filter((id) => id !== ALL_FILTER_SENTINEL)
+        .map((id) => Number(id))
+        .filter((id) => Number.isFinite(id));
+    };
+
+    const types = parseNumberIds(appliedValues.furnitureTypeIds);
+    const colors = parseNumberIds(appliedValues.colorIds);
+    const priceRanges = appliedValues.priceRangeIds.filter(
+      (id) => id !== ALL_FILTER_SENTINEL
+    );
+
+    return {
+      types: types.length > 0 ? types : undefined,
+      colors: colors.length > 0 ? colors : undefined,
+      priceRanges: priceRanges.length > 0 ? priceRanges : undefined,
+    };
+  }, [
+    appliedValues.colorIds,
+    appliedValues.furnitureTypeIds,
+    appliedValues.priceRangeIds,
+  ]);
+
   return {
     furnitureOptions,
     priceOptions,
@@ -228,6 +255,7 @@ const useProductFilters = () => {
     applyDraft,
     removeAppliedChip,
     isChipSelected,
+    productListQueryParams,
   };
 };
 
