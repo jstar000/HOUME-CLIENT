@@ -93,7 +93,7 @@ export const scrollTopFloatingWrap = style({
   position: 'fixed',
   zIndex: zIndex.sticky,
   right: unitVars.unit.gapPadding['500'],
-  bottom: '26rem',
+  bottom: '25rem',
   transform: 'translateY(0.8rem)',
   transition: 'opacity 240ms ease, transform 240ms ease',
   opacity: 0,
