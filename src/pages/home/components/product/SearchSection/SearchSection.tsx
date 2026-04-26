@@ -1,14 +1,14 @@
-import { useCallback, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
+
+import { useProductListQuery } from '@pages/home/apis/queries/useProductListQuery';
 
 import ProductCard from '@shared/components/v2/productCard/ProductCard';
 import SearchBar from '@shared/components/v2/textField/SearchBar';
 
 import Chip from '@components/v2/chip/Chip';
 
-import {
-  getMockProductMainResponse,
-  toSearchSectionProducts,
-} from '@/pages/home/apis/queries/useProductMainQuery';
+import type { ProductListQueryVariables } from '@constants/queryKey';
+
 import { useProductStickyHeader } from '@/pages/home/hooks/useProductStickyHeader';
 import Icon from '@/shared/components/v2/icon/Icon';
 
@@ -43,6 +43,7 @@ interface SearchSectionProps {
   ) => void;
   selectedProductIds: string[];
   onSelectProduct: (product: SelectedProduct) => void;
+  productListQueryParams: ProductListQueryVariables;
 }
 
 const SearchSection = ({
@@ -52,6 +53,7 @@ const SearchSection = ({
   onAppliedFilterChipRemove,
   selectedProductIds,
   onSelectProduct,
+  productListQueryParams,
 }: SearchSectionProps) => {
   const searchBarRef = useRef<HTMLDivElement>(null);
   const filterListRef = useRef<HTMLDivElement>(null);
@@ -60,10 +62,30 @@ const SearchSection = ({
     filterListRef,
   });
 
-  const mockProducts = toSearchSectionProducts(
-    getMockProductMainResponse({
-      size: 20,
-    })
+  const { data: productData } = useProductListQuery(productListQueryParams);
+
+  useEffect(() => {
+    if (!productData) return;
+    console.log('[SearchSection] product list response:', productData);
+  }, [productData]);
+
+  const products = useMemo(
+    () =>
+      (productData?.products ?? [])
+        .filter((product) => product.id != null)
+        .map((product) => ({
+          id: String(product.id),
+          title: product.name ?? '',
+          brand: product.brand ?? '',
+          imageUrl: product.imageUrl ?? '',
+          discountRate: product.discountRate ?? 0,
+          originalPrice: product.originalPrice ?? 0,
+          discountPrice: product.finalPrice ?? 0,
+          colorHexes: [],
+          saveCount: 0,
+          linkUrl: product.linkUrl ?? '',
+        })),
+    [productData?.products]
   );
 
   const handleFilterChipCategoryClick = useCallback(
@@ -151,7 +173,7 @@ const SearchSection = ({
         </div>
       </div>
       <div className={styles.productList}>
-        {mockProducts.map(
+        {products.map(
           ({
             id,
             title,
