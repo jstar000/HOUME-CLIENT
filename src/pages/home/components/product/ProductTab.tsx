@@ -1,8 +1,8 @@
 import ProductFilterSheet from '@pages/home/components/product/ProductFilterSheet/ProductFilterSheet';
 import {
   MAX_SELECTED_PRODUCTS,
-  useProductTabState,
-} from '@pages/home/hooks/useProductTabState';
+  useProductTabController,
+} from '@pages/home/hooks/useProductTabController';
 
 import CloseBottomSheet from '@shared/components/v2/bottomSheet/CloseBottomSheet';
 import DragHandleBottomSheet from '@shared/components/v2/bottomSheet/DragHandleBottomSheet';
@@ -31,7 +31,7 @@ const ProductTab = () => {
     handleFilterSheetClose,
     handleFilterApply,
     handleFilterResetClick,
-  } = useProductTabState();
+  } = useProductTabController();
 
   return (
     <div className={styles.container}>
