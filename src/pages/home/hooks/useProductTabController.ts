@@ -1,32 +1,37 @@
 import { useCallback, useState } from 'react';
 
-import type {
-  ProductFilterChipCategory,
-  SelectedProduct,
-} from '@pages/home/components/product/SearchSection/SearchSection';
-import { useProductFilters } from '@pages/home/hooks/useProductFilters';
+import type { ProductFilterChipCategory } from '@pages/home/components/product/SearchSection/SearchSection';
+import { useProductFilterState } from '@pages/home/hooks/useProductFilterState';
+import {
+  MAX_SELECTED_PRODUCTS,
+  useProductSelection,
+} from '@pages/home/hooks/useProductSelection';
 
-import { useToast } from '@components/toast/useToast';
-
+/**
+ * 필터 상단 칩 선택 상태 기본값
+ * - 어떤 칩도 펼쳐지지 않은 상태를 의미
+ */
 const INITIAL_CHIP_SELECTED: Record<ProductFilterChipCategory, boolean> = {
   furniture: false,
   price: false,
   color: false,
 };
 
-export const MAX_SELECTED_PRODUCTS = 6;
-
-export const useProductTabState = () => {
+/**
+ * 상품 탭 UI 오케스트레이션 훅
+ * - 필터 상태(useProductFilterState)
+ * - 상품 선택 상태(useProductSelection)
+ * 를 조합해 ProductTab이 바로 쓰는 핸들러/props 제공
+ */
+const useProductTabController = () => {
+  /** 바텀시트/칩 UI 상태 */
   const [sheetExpanded, setSheetExpanded] = useState(false);
   const [filterSheetOpen, setFilterSheetOpen] = useState(false);
   const [chipSelected, setChipSelected] = useState<
     Record<ProductFilterChipCategory, boolean>
   >(INITIAL_CHIP_SELECTED);
-  const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>(
-    []
-  );
-  const { notify } = useToast();
 
+  /** 필터 도메인 상태 */
   const {
     furnitureOptions,
     priceOptions,
@@ -39,8 +44,17 @@ export const useProductTabState = () => {
     removeAppliedChip,
     isChipSelected,
     productListQueryParams,
-  } = useProductFilters();
+  } = useProductFilterState();
 
+  /** 상품 선택 도메인 상태 */
+  const {
+    selectedProducts,
+    handleSelectProduct,
+    handleRemoveSelectedProduct,
+    handleDecorateWithProductsClick,
+  } = useProductSelection();
+
+  /** 상단 필터칩 클릭: 시트 열기/닫기 및 draft 동기화 */
   const handleFilterChipClick = useCallback(
     (category: ProductFilterChipCategory) => {
       setChipSelected((prev) => {
@@ -62,16 +76,19 @@ export const useProductTabState = () => {
     [syncDraftFromApplied]
   );
 
+  /** 필터 시트 닫기 + 칩 UI 초기화 */
   const handleFilterSheetClose = useCallback(() => {
     setFilterSheetOpen(false);
     setChipSelected({ ...INITIAL_CHIP_SELECTED });
   }, []);
 
+  /** 필터 적용 확정 */
   const handleFilterApply = useCallback(() => {
     applyDraft();
     handleFilterSheetClose();
   }, [applyDraft, handleFilterSheetClose]);
 
+  /** 상단 적용칩 제거(X) */
   const handleRemoveAppliedChip = useCallback(
     (category: ProductFilterChipCategory, _id: string) => {
       removeAppliedChip(category);
@@ -82,43 +99,12 @@ export const useProductTabState = () => {
     [filterSheetOpen, removeAppliedChip, syncDraftFromApplied]
   );
 
-  const handleSelectProduct = useCallback(
-    (product: SelectedProduct) => {
-      let attemptedOverMax = false;
-      setSelectedProducts((prev) => {
-        if (prev.some((item) => item.id === product.id)) return prev;
-        if (prev.length >= MAX_SELECTED_PRODUCTS) {
-          attemptedOverMax = true;
-          return prev;
-        }
-        return [...prev, product];
-      });
-
-      if (attemptedOverMax) {
-        notify({
-          text: `상품은 최대 ${MAX_SELECTED_PRODUCTS}개까지만 선택할 수 있어요`,
-        });
-      }
-    },
-    [notify]
-  );
-
-  const handleRemoveSelectedProduct = useCallback((productId: string) => {
-    setSelectedProducts((prev) =>
-      prev.filter((product) => product.id !== productId)
-    );
-  }, []);
-
-  const handleDecorateWithProductsClick = useCallback(() => {
-    if (selectedProducts.length === 0) {
-      notify({ text: '상품을 1개 이상 선택해주세요' });
-    }
-  }, [notify, selectedProducts.length]);
-
+  /** 필터 시트 내부 초기화 */
   const handleFilterResetClick = useCallback(() => {
     resetDraft();
   }, [resetDraft]);
 
+  /** ProductTab에서 사용할 공개 값 */
   return {
     sheetExpanded,
     setSheetExpanded,
@@ -144,3 +130,5 @@ export const useProductTabState = () => {
     handleFilterResetClick,
   };
 };
+
+export { MAX_SELECTED_PRODUCTS, useProductTabController };

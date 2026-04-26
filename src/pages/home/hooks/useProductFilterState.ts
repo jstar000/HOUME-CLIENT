@@ -23,8 +23,8 @@ import type {
 import type { ProductListQueryVariables } from '@constants/queryKey';
 
 /**
- * 최초 적용 상태는 "전체(ALL 센티널)"로 둔다.
- * 실제 시트 렌더에서는 API의 allId로 다시 정규화된다.
+ * 필터 기본 적용값
+ * - 초기 상태는 섹션별 "전체(ALL 센티널)"을 의미한다.
  */
 const INITIAL_FILTER_VALUES: ProductFilterValues = {
   furnitureTypeIds: [ALL_FILTER_SENTINEL],
@@ -33,27 +33,30 @@ const INITIAL_FILTER_VALUES: ProductFilterValues = {
 };
 
 /**
- * 필터 도메인 전용 훅
- * - 필터 옵션(API) + draft/applied 상태 + 변환 규칙 + 요약칩 계산을 한 곳에 모은다.
- * - ProductTab/useProductTabState는 UI 흐름만 담당하고, 필터 로직은 이 훅만 바라보게 하는 것이 목적.
+ * 상품 필터 상태 전용 훅
+ * - 필터 옵션(API) 로딩
+ * - draft/applied 상태 관리
+ * - 전체(ALL) 정규화/토글/적용/초기화
+ * - 상단 요약 칩/목록 조회 파라미터 생성
+ * 을 한 곳에서 관리한다.
  */
-const useProductFilters = () => {
+const useProductFilterState = () => {
   /** 필터 옵션 원본 API */
   const { data: filterData } = useFilterListQuery();
 
-  /** 실제 적용 중인 값(상단 칩/검색 조건의 기준) */
+  /** 실제 적용 중인 값(상단 칩/조회 조건 기준) */
   const [appliedValues, setAppliedValues] = useState<ProductFilterValues>(
     INITIAL_FILTER_VALUES
   );
 
-  /** 바텀시트에서 편집 중인 임시 값(적용 전) */
+  /** 바텀시트 내부에서 선택된 값(적용 전) */
   const [draftValues, setDraftValues] = useState<DraftFilterValues>({
     furniture: [ALL_FILTER_SENTINEL],
     price: [ALL_FILTER_SENTINEL],
     color: [ALL_FILTER_SENTINEL],
   });
 
-  /** 가구 섹션 렌더용 옵션 */
+  /** 가구/가격/색상 섹션 렌더용 옵션 */
   const furnitureOptions = useMemo<FilterOption[]>(
     () =>
       (filterData?.furnitureTypes ?? [])
@@ -65,7 +68,6 @@ const useProductFilters = () => {
     [filterData?.furnitureTypes]
   );
 
-  /** 가격 섹션 렌더용 옵션 */
   const priceOptions = useMemo<FilterOption[]>(
     () =>
       (filterData?.priceRanges ?? [])
@@ -77,7 +79,6 @@ const useProductFilters = () => {
     [filterData?.priceRanges]
   );
 
-  /** 색상 섹션 렌더용 옵션(컬러칩 value 포함) */
   const colorOptions = useMemo<ColorFilterOption[]>(
     () =>
       (filterData?.colors ?? [])
@@ -90,7 +91,7 @@ const useProductFilters = () => {
     [filterData?.colors]
   );
 
-  /** 가구 섹션 요약 계산 메타(라벨 맵/순서/allId) */
+  /** 상단 요약칩 계산에 사용하는 섹션별 메타(라벨/순서/allId) */
   const furnitureMeta = useMemo<FilterSummaryMeta>(() => {
     return buildFilterMeta(
       (filterData?.furnitureTypes ?? []).map((item) => ({
@@ -100,7 +101,6 @@ const useProductFilters = () => {
     );
   }, [filterData?.furnitureTypes]);
 
-  /** 가격 섹션 요약 계산 메타 */
   const priceMeta = useMemo<FilterSummaryMeta>(() => {
     return buildFilterMeta(
       (filterData?.priceRanges ?? []).map((item) => ({
@@ -110,7 +110,6 @@ const useProductFilters = () => {
     );
   }, [filterData?.priceRanges]);
 
-  /** 색상 섹션 요약 계산 메타 */
   const colorMeta = useMemo<FilterSummaryMeta>(() => {
     return buildFilterMeta(
       (filterData?.colors ?? []).map((item) => ({
@@ -120,7 +119,7 @@ const useProductFilters = () => {
     );
   }, [filterData?.colors]);
 
-  /** 섹션별 "전체" 실제 id 묶음 */
+  /** 섹션별 서버 "전체" id 묶음 */
   const allIds = useMemo(
     () => ({
       furniture: furnitureMeta.allId,
@@ -130,22 +129,19 @@ const useProductFilters = () => {
     [colorMeta.allId, furnitureMeta.allId, priceMeta.allId]
   );
 
-  /**
-   * allId가 API 응답으로 확정/변경되면 draft를 안전하게 다시 정규화한다.
-   * (예: 초기 ALL 센티널 상태 -> 실제 allId로 치환)
-   */
+  /** allId 확정/변경 시 draft를 정규화 */
   useEffect(() => {
     setDraftValues((prev) =>
       toDraftFromExternal(toExternalFromDraft(prev, allIds), allIds)
     );
   }, [allIds]);
 
-  /** 적용값(applied)을 현재 편집값(draft)으로 복사 (시트 열 때 사용) */
+  /** 적용값(applied)을 현재 편집값(draft)으로 복사 */
   const syncDraftFromApplied = useCallback(() => {
     setDraftValues(toDraftFromExternal(appliedValues, allIds));
   }, [allIds, appliedValues]);
 
-  /** 시트 내부만 초기화: 섹션별 전체 선택 상태로 복원 */
+  /** 시트 내부 값만 초기화(섹션별 전체 선택으로 복원) */
   const resetDraft = useCallback(() => {
     setDraftValues({
       furniture: allIds.furniture ? [allIds.furniture] : [ALL_FILTER_SENTINEL],
@@ -154,7 +150,7 @@ const useProductFilters = () => {
     });
   }, [allIds.color, allIds.furniture, allIds.price]);
 
-  /** 시트에서 칩 선택/해제 토글 */
+  /** 시트 칩 선택/해제 토글 */
   const toggleDraftChip = useCallback(
     (section: FilterSectionKey, id: string) => {
       setDraftValues((prev) => ({
@@ -165,11 +161,7 @@ const useProductFilters = () => {
     [allIds]
   );
 
-  /**
-   * draft -> applied 확정
-   * - 외부 계약값으로 변환 후 저장
-   * - 디버깅을 위해 최종 적용값 로그 출력
-   */
+  /** draft -> applied 확정 */
   const applyDraft = useCallback(() => {
     const nextValues = toExternalFromDraft(draftValues, allIds);
     console.log('[ProductTab] apply filters:', {
@@ -178,7 +170,7 @@ const useProductFilters = () => {
     setAppliedValues(nextValues);
   }, [allIds, draftValues]);
 
-  /** 상단 적용칩(X) 제거: 해당 카테고리만 전체(ALL)로 되돌림 */
+  /** 상단 적용칩 X 클릭 시 해당 카테고리만 전체로 복귀 */
   const removeAppliedChip = useCallback(
     (category: ProductFilterChipCategory) => {
       setAppliedValues((prev) => ({
@@ -197,7 +189,7 @@ const useProductFilters = () => {
     []
   );
 
-  /** SearchSection 상단에 보여줄 적용 칩(파생값) */
+  /** SearchSection 상단에 표시할 적용칩(파생값) */
   const appliedFilterChips = useMemo(
     () =>
       buildAppliedFilterChips(
@@ -209,7 +201,7 @@ const useProductFilters = () => {
     [appliedValues, colorMeta, furnitureMeta, priceMeta]
   );
 
-  /** 현재 draft 기준으로 특정 칩의 selected 여부 계산 */
+  /** 현재 draft 기준 칩 selected 여부 계산 */
   const isChipSelected = useCallback(
     (section: FilterSectionKey, id: string) => {
       return isSelectedForRender(draftValues[section], id, allIds[section]);
@@ -243,6 +235,7 @@ const useProductFilters = () => {
     appliedValues.priceRangeIds,
   ]);
 
+  /** ProductTabController에서 사용할 값 */
   return {
     furnitureOptions,
     priceOptions,
@@ -259,5 +252,5 @@ const useProductFilters = () => {
   };
 };
 
-export { useProductFilters };
+export { useProductFilterState };
 export type { ProductFilterValues };
