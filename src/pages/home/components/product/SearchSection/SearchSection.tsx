@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 
-import { useProductListQuery } from '@pages/home/apis/queries/useProductListQuery';
+import { useProductHeaderScroll } from '@pages/home/hooks/useProductHeaderScroll';
+import { useProductSearchQuery } from '@pages/home/hooks/useProductSearchQuery';
 
 import ProductCard from '@shared/components/v2/productCard/ProductCard';
 import SearchBar from '@shared/components/v2/textField/SearchBar';
@@ -9,7 +10,6 @@ import Chip from '@components/v2/chip/Chip';
 
 import type { ProductListQueryVariables } from '@constants/queryKey';
 
-import { useProductStickyHeader } from '@/pages/home/hooks/useProductStickyHeader';
 import Icon from '@/shared/components/v2/icon/Icon';
 
 import * as styles from './SearchSection.css';
@@ -57,77 +57,13 @@ const SearchSection = ({
 }: SearchSectionProps) => {
   const searchBarRef = useRef<HTMLDivElement>(null);
   const filterListRef = useRef<HTMLDivElement>(null);
-  const loadMoreRef = useRef<HTMLDivElement>(null);
-  const [keyword, setKeyword] = useState('');
-  const [debouncedKeyword, setDebouncedKeyword] = useState('');
-  const { isFilterSticky, showStickySearchBar } = useProductStickyHeader({
+  const { isFilterSticky, showStickySearchBar } = useProductHeaderScroll({
     searchBarRef,
     filterListRef,
   });
 
-  useEffect(() => {
-    const timeout = window.setTimeout(() => {
-      setDebouncedKeyword(keyword);
-    }, 300);
-
-    return () => window.clearTimeout(timeout);
-  }, [keyword]);
-
-  const queryParams = useMemo(
-    () => ({
-      ...productListQueryParams,
-      keyword: debouncedKeyword.trim() ? debouncedKeyword.trim() : undefined,
-    }),
-    [debouncedKeyword, productListQueryParams]
-  );
-
-  const {
-    data: productPages,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useProductListQuery(queryParams);
-
-  useEffect(() => {
-    if (!productPages) return;
-    console.log('[SearchSection] product list response:', productPages);
-  }, [productPages]);
-
-  useEffect(() => {
-    const target = loadMoreRef.current;
-    if (!target || !hasNextPage || isFetchingNextPage) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (!entries[0]?.isIntersecting) return;
-        void fetchNextPage();
-      },
-      { root: null, threshold: 0.1 }
-    );
-
-    observer.observe(target);
-    return () => observer.disconnect();
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
-
-  const products = useMemo(
-    () =>
-      (productPages?.pages ?? [])
-        .flatMap((page) => page.products ?? [])
-        .filter((product) => product.id != null)
-        .map((product) => ({
-          id: String(product.id),
-          title: product.name ?? '',
-          brand: product.brand ?? '',
-          imageUrl: product.imageUrl ?? '',
-          discountRate: product.discountRate ?? 0,
-          originalPrice: product.originalPrice ?? 0,
-          discountPrice: product.finalPrice ?? 0,
-          colorHexes: [],
-          saveCount: 0,
-          linkUrl: product.linkUrl ?? '',
-        })),
-    [productPages?.pages]
-  );
+  const { loadMoreRef, keyword, products, handleSearchKeywordChange } =
+    useProductSearchQuery(productListQueryParams);
 
   const handleFilterChipCategoryClick = useCallback(
     (category: ProductFilterChipCategory) => {
@@ -142,10 +78,6 @@ const SearchSection = ({
     },
     [onAppliedFilterChipRemove]
   );
-
-  const handleSearchKeywordChange = useCallback((value: string) => {
-    setKeyword(value);
-  }, []);
 
   const handleMockSaveToggle = useCallback(() => {}, []);
 
