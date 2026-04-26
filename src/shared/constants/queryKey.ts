@@ -37,6 +37,8 @@ export const queryKeys = {
     productFilters: () => [...queryKeys.product.all, 'productFilters'] as const,
     productList: (params: ProductListQueryVariables) =>
       [...queryKeys.product.all, 'productList', params] as const,
+    productDetail: (productId: number) =>
+      [...queryKeys.product.all, 'productDetail', productId] as const,
   },
 
   // 이미지 설정 (온보딩 퍼널)
