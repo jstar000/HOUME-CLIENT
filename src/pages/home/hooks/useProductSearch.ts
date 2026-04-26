@@ -12,6 +12,8 @@ import type { ProductListQueryVariables } from '@constants/queryKey';
  */
 type ProductSearchCardItem = {
   id: string;
+  /** `GET /api/v1/curations/products/:id` 상세 조회용 */
+  detailProductId: number;
   title: string;
   brand: string;
   imageUrl: string;
@@ -33,6 +35,7 @@ const toProductSearchCardItems = (
     .filter((product) => product.id != null)
     .map((product) => ({
       id: String(product.id),
+      detailProductId: product.id as number,
       title: product.name ?? '',
       brand: product.brand ?? '',
       imageUrl: product.imageUrl ?? '',
@@ -45,14 +48,10 @@ const toProductSearchCardItems = (
     }));
 
 /**
- * 상품 검색/조회(API) 전용 훅
- * - 키워드 상태 + 디바운스
- * - 목록 조회 쿼리 파라미터 조합
- * - 무한 스크롤(nextCursor) 트리거
- * - 카드 렌더용 데이터 변환
- * 을 한 곳에서 관리
+ * 상품 검색 섹션 상태·무한 스크롤·목록 뷰 모델
+ * - 키워드 + 디바운스, `useProductListQuery` 파라미터 조합, sentinel, 카드용 변환
  */
-const useProductSearchQuery = (baseParams: ProductListQueryVariables) => {
+const useProductSearch = (baseParams: ProductListQueryVariables) => {
   /** 하단 sentinel(ref)과 검색어 상태 */
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const [keyword, setKeyword] = useState('');
@@ -132,5 +131,5 @@ const useProductSearchQuery = (baseParams: ProductListQueryVariables) => {
   };
 };
 
-export { useProductSearchQuery };
+export { useProductSearch };
 export type { ProductSearchCardItem };
