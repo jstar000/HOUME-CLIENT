@@ -38,6 +38,7 @@ export const useProductTabState = () => {
     applyDraft,
     removeAppliedChip,
     isChipSelected,
+    productListQueryParams,
   } = useProductFilters();
 
   const handleFilterChipClick = useCallback(
@@ -132,6 +133,7 @@ export const useProductTabState = () => {
       isChipSelected,
       onChipClick: toggleDraftChip,
     },
+    productListQueryParams,
     handleFilterChipClick,
     handleRemoveAppliedChip,
     handleSelectProduct,
