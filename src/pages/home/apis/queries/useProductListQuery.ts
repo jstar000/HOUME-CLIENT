@@ -57,7 +57,7 @@ export const useProductListQuery = (params: ProductListQueryVariables) => {
       if (!lastPage.meta?.hasNext) return undefined;
       return lastPage.meta.nextCursor;
     },
-    staleTime: Infinity,
-    gcTime: 1000 * 60 * 60 * 24,
+    staleTime: 1000 * 60,
+    gcTime: 1000 * 60 * 10,
   });
 };
