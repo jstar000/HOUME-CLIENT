@@ -46,6 +46,7 @@ export const useProductListQuery = (params: ProductListQueryVariables) => {
   return useQuery({
     queryKey: queryKeys.product.productList(normalizedParams),
     queryFn: () => getProductList(normalizedParams),
+    placeholderData: (previousData) => previousData,
     staleTime: Infinity,
     gcTime: 1000 * 60 * 60 * 24,
   });

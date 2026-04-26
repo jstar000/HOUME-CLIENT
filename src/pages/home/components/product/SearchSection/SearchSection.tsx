@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useProductListQuery } from '@pages/home/apis/queries/useProductListQuery';
 
@@ -57,12 +57,30 @@ const SearchSection = ({
 }: SearchSectionProps) => {
   const searchBarRef = useRef<HTMLDivElement>(null);
   const filterListRef = useRef<HTMLDivElement>(null);
+  const [keyword, setKeyword] = useState('');
+  const [debouncedKeyword, setDebouncedKeyword] = useState('');
   const { isFilterSticky, showStickySearchBar } = useProductStickyHeader({
     searchBarRef,
     filterListRef,
   });
 
-  const { data: productData } = useProductListQuery(productListQueryParams);
+  useEffect(() => {
+    const timeout = window.setTimeout(() => {
+      setDebouncedKeyword(keyword);
+    }, 300);
+
+    return () => window.clearTimeout(timeout);
+  }, [keyword]);
+
+  const queryParams = useMemo(
+    () => ({
+      ...productListQueryParams,
+      keyword: debouncedKeyword.trim() ? debouncedKeyword.trim() : undefined,
+    }),
+    [debouncedKeyword, productListQueryParams]
+  );
+
+  const { data: productData } = useProductListQuery(queryParams);
 
   useEffect(() => {
     if (!productData) return;
@@ -101,6 +119,10 @@ const SearchSection = ({
     },
     [onAppliedFilterChipRemove]
   );
+
+  const handleSearchKeywordChange = useCallback((value: string) => {
+    setKeyword(value);
+  }, []);
 
   const handleMockSaveToggle = useCallback(() => {}, []);
 
@@ -156,7 +178,7 @@ const SearchSection = ({
             }`}
           >
             <div className={styles.searchBarContainer}>
-              <SearchBar />
+              <SearchBar value={keyword} onChange={handleSearchKeywordChange} />
             </div>
           </div>
           <div className={styles.filterList}>
@@ -166,7 +188,7 @@ const SearchSection = ({
       ) : null}
       <div className={styles.searchHeader}>
         <div ref={searchBarRef} className={styles.searchBarContainer}>
-          <SearchBar />
+          <SearchBar value={keyword} onChange={handleSearchKeywordChange} />
         </div>
         <div ref={filterListRef} className={styles.filterList}>
           <div className={styles.filterScroll}>{filterChips}</div>
