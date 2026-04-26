@@ -6,6 +6,7 @@ import ProductDetailOverlay from '@pages/home/components/product/ProductPopup/Pr
 import { useProductHeaderScroll } from '@pages/home/hooks/useProductHeaderScroll';
 import { useProductSearch } from '@pages/home/hooks/useProductSearch';
 
+import IconButton from '@shared/components/v2/button/IconButton';
 import ProductCard from '@shared/components/v2/productCard/ProductCard';
 import SearchBar from '@shared/components/v2/textField/SearchBar';
 
@@ -60,10 +61,8 @@ const SearchSection = ({
 }: SearchSectionProps) => {
   const searchBarRef = useRef<HTMLDivElement>(null);
   const filterListRef = useRef<HTMLDivElement>(null);
-  const { isFilterSticky, showStickySearchBar } = useProductHeaderScroll({
-    searchBarRef,
-    filterListRef,
-  });
+  const { isFilterSticky, showStickySearchBar, showScrollTopFloatingButton } =
+    useProductHeaderScroll({ searchBarRef, filterListRef });
 
   const { loadMoreRef, keyword, products, handleSearchKeywordChange } =
     useProductSearch(productListQueryParams);
@@ -91,6 +90,10 @@ const SearchSection = ({
     },
     [onSelectProduct]
   );
+
+  const handleScrollToTopClick = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
 
   const filterChips = useMemo(
     () =>
@@ -234,6 +237,19 @@ const SearchSection = ({
           }
         )}
         <div ref={loadMoreRef} />
+      </div>
+
+      <div
+        className={`${styles.scrollTopFloatingWrap} ${
+          showScrollTopFloatingButton ? styles.scrollTopFloatingWrapVisible : ''
+        }`}
+      >
+        <IconButton
+          name="ArrowUp"
+          size="S"
+          aria-label="페이지 상단으로 이동"
+          onClick={handleScrollToTopClick}
+        />
       </div>
     </section>
   );
