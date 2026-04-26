@@ -22,6 +22,7 @@ const ProductTab = () => {
     appliedFilterChips,
     selectedProducts,
     filterSheetProps,
+    productListQueryParams,
     handleFilterChipClick,
     handleRemoveAppliedChip,
     handleSelectProduct,
@@ -42,6 +43,7 @@ const ProductTab = () => {
         onAppliedFilterChipRemove={handleRemoveAppliedChip}
         selectedProductIds={selectedProducts.map((product) => product.id)}
         onSelectProduct={handleSelectProduct}
+        productListQueryParams={productListQueryParams}
       />
 
       <DragHandleBottomSheet
