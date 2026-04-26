@@ -14,6 +14,15 @@ export interface ProductsQueryVariables {
   categoryId: number | null;
 }
 
+export interface ProductListQueryVariables {
+  keyword?: string;
+  types?: number[];
+  priceRanges?: string[];
+  colors?: number[];
+  cursor?: number;
+  size?: number;
+}
+
 // Query Key Factory
 export const queryKeys = {
   // 랜딩
@@ -26,6 +35,8 @@ export const queryKeys = {
   product: {
     all: ['product'] as const,
     productFilters: () => [...queryKeys.product.all, 'productFilters'] as const,
+    productList: (params: ProductListQueryVariables) =>
+      [...queryKeys.product.all, 'productList', params] as const,
   },
 
   // 이미지 설정 (온보딩 퍼널)
