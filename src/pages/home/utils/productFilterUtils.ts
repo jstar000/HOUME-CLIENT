@@ -7,25 +7,31 @@ const ALL_FILTER_SENTINEL = 'ALL';
 type FilterSectionKey = 'furniture' | 'price' | 'color';
 
 /** 외부 계약값: ProductTab/useProductFilters가 다루는 적용 필터 값 */
-type ProductFilterValues = {
+interface ProductFilterValues {
   furnitureTypeIds: string[];
   priceRangeIds: string[];
   colorIds: string[];
-};
+}
 
 /** 내부 draft 상태: 시트에서 사용자가 현재 선택 중인 값(적용 전) */
 type DraftFilterValues = Record<FilterSectionKey, string[]>;
 
 /** 칩 렌더를 위한 최소 옵션 타입 */
-type FilterOption = { id: string; label: string };
-type ColorFilterOption = FilterOption & { value?: string };
+interface FilterOption {
+  id: string;
+  label: string;
+}
+
+interface ColorFilterOption extends FilterOption {
+  value?: string;
+}
 
 /** 상단 요약칩("식탁 외 N개") 계산을 위한 메타 데이터 */
-type FilterSummaryMeta = {
+interface FilterSummaryMeta {
   labels: Record<string, string>;
   orderedOptionIds: string[];
   allId?: string;
-};
+}
 
 /**
  * API 응답 옵션 배열을 요약 계산용 메타로 변환한다.
