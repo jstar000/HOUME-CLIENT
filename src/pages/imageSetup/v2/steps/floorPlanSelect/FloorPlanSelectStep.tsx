@@ -16,24 +16,22 @@ interface FloorPlanSelectStepProps {
 const FloorPlanSelectStep = ({ context, onNext }: FloorPlanSelectStepProps) => {
   const {
     filterCategories,
-    filteredFloorPlans,
-    selectedFloorPlan,
+    floorPlans,
+    selectedFloorPlanName,
+    selectedEquilibrium,
     selectedDetailViews,
-    recentFloorPlan,
     handleCardClick,
     handleConfirmFloorPlan,
-    handleConfirmRecentFloorPlan,
     grid,
     filterSheet,
     floorPlanSheet,
-    recentSheet,
   } = useFloorPlanSelect(context, onNext);
 
   return (
     <>
       <FloorPlanSelectGrid
         filterCategories={filterCategories}
-        floorPlans={filteredFloorPlans}
+        floorPlans={floorPlans}
         appliedFilters={grid.appliedFilters}
         onCardClick={handleCardClick}
         onFilterChipClick={grid.onFilterChipClick}
@@ -54,20 +52,13 @@ const FloorPlanSelectStep = ({ context, onNext }: FloorPlanSelectStepProps) => {
       <FloorPlanSheet
         open={floorPlanSheet.open}
         onClose={floorPlanSheet.onClose}
-        floorPlanName={selectedFloorPlan?.name ?? ''}
+        floorPlanName={selectedFloorPlanName}
+        equilibrium={selectedEquilibrium}
         detailViews={selectedDetailViews}
         onConfirm={handleConfirmFloorPlan}
       />
 
-      {recentFloorPlan && (
-        <FloorPlanSheet
-          open={recentSheet.open}
-          onClose={recentSheet.onClose}
-          floorPlanName={recentFloorPlan.name}
-          detailViews={[recentFloorPlan]}
-          onConfirm={handleConfirmRecentFloorPlan}
-        />
-      )}
+      {/* TODO: GET /api/v2/recent-floor-plan swagger 갱신 후 RecentSheet 데이터 바인딩 */}
     </>
   );
 };

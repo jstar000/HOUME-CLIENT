@@ -6,6 +6,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
 
+import type { ExploreHouseTemplateDetailItemResponse } from '@apis/__generated__/data-contracts';
+
 import CloseBottomSheet from '@components/v2/bottomSheet/CloseBottomSheet';
 import ActionButton from '@components/v2/button/actionButton/ActionButton';
 import IconButton from '@components/v2/button/IconButton';
@@ -14,14 +16,14 @@ import Icon from '@components/v2/icon/Icon';
 import * as styles from './FloorPlanSheet.css';
 import { useFloorPlanSheet } from '../../hooks/useFloorPlanSheet';
 
-import type { FloorPlanDetailView } from '../../types/floorPlan';
 import type { Swiper as SwiperType } from 'swiper';
 
 interface FloorPlanSheetProps {
   open: boolean;
   onClose: () => void;
   floorPlanName: string;
-  detailViews: FloorPlanDetailView[];
+  equilibrium: string;
+  detailViews: ExploreHouseTemplateDetailItemResponse[];
   onConfirm: () => void;
 }
 
@@ -29,6 +31,7 @@ const FloorPlanSheet = ({
   open,
   onClose,
   floorPlanName,
+  equilibrium,
   detailViews,
   onConfirm,
 }: FloorPlanSheetProps) => {
@@ -53,7 +56,7 @@ const FloorPlanSheet = ({
           <Icon name="DoubleStar" size="16" />
           <span className={styles.titleMain}>{floorPlanName}</span>
           <span className={styles.titleMeta}>·</span>
-          <span className={styles.titleMeta}>{currentView.equilibrium}</span>
+          <span className={styles.titleMeta}>{equilibrium}</span>
         </div>
       }
       contentSlot={
@@ -75,7 +78,7 @@ const FloorPlanSheet = ({
                 }}
               >
                 {detailViews.map((view, index) => (
-                  <SwiperSlide key={`${view.id}-${index}`}>
+                  <SwiperSlide key={`view-${index}`}>
                     <img
                       src={view.imageUrl}
                       alt={`${floorPlanName} ${view.view}`}
