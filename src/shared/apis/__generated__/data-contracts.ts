@@ -1331,6 +1331,8 @@ export interface SimilarItemResponse {
   linkUrl?: string;
   colors?: ProductColorResponse[];
   isLiked?: boolean;
+  /** @format int64 */
+  jjymCount?: number;
 }
 
 export interface SimilarItemsResponse {
