@@ -57,8 +57,10 @@ const ActivityInfo = ({ context }: ActivityInfoProps) => {
   const selectionByNameEng: Record<string, typeof categorySelections.bed> = {
     BED: categorySelections.bed,
     SOFA: categorySelections.sofa,
+    STORAGE: categorySelections.storage,
     TABLE: categorySelections.table,
     SELECTIVE: categorySelections.selective,
+    LIGHTING: categorySelections.lighting,
   };
 
   return (

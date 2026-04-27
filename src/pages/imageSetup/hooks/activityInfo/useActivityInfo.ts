@@ -93,32 +93,49 @@ export const useActivityInfo = (context: ImageSetupSteps['ActivityInfo']) => {
     !!formData.activity
   );
 
-  // 카테고리별 가구 선택 훅 (API 카테고리 순서 기준 인덱싱)
+  // 카테고리별 가구 선택 훅 (nameEng 기반 매핑 — 백엔드 응답 순서/추가에 영향 없음)
   const categories = categoriesData?.categories;
+  const findByNameEng = (name: string) =>
+    categories?.find((c) => c.nameEng === name) ?? null;
+
   const bed = useCategorySelection(
-    categories?.[0] ?? null,
+    findByNameEng('BED'),
     CATEGORY_SELECTION_MODE.BED,
     formData,
     setFormData,
     globalConstraints
   );
   const sofa = useCategorySelection(
-    categories?.[1] ?? null,
+    findByNameEng('SOFA'),
     CATEGORY_SELECTION_MODE.SOFA,
     formData,
     setFormData,
     globalConstraints
   );
+  const storage = useCategorySelection(
+    findByNameEng('STORAGE'),
+    CATEGORY_SELECTION_MODE.STORAGE,
+    formData,
+    setFormData,
+    globalConstraints
+  );
   const table = useCategorySelection(
-    categories?.[2] ?? null,
+    findByNameEng('TABLE'),
     CATEGORY_SELECTION_MODE.TABLE,
     formData,
     setFormData,
     globalConstraints
   );
   const selective = useCategorySelection(
-    categories?.[3] ?? null,
+    findByNameEng('SELECTIVE'),
     CATEGORY_SELECTION_MODE.SELECTIVE,
+    formData,
+    setFormData,
+    globalConstraints
+  );
+  const lighting = useCategorySelection(
+    findByNameEng('LIGHTING'),
+    CATEGORY_SELECTION_MODE.LIGHTING,
     formData,
     setFormData,
     globalConstraints
@@ -126,7 +143,7 @@ export const useActivityInfo = (context: ImageSetupSteps['ActivityInfo']) => {
 
   // 카테고리 선택 객체 구성
   const categorySelections = categoriesData
-    ? { bed, sofa, table, selective }
+    ? { bed, sofa, storage, table, selective, lighting }
     : null;
 
   // 선택된 주요 활동의 라벨
