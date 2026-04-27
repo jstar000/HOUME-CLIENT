@@ -94,29 +94,30 @@ export const useActivityInfo = (context: ImageSetupSteps['ActivityInfo']) => {
   );
 
   // 카테고리별 가구 선택 훅 (API 카테고리 순서 기준 인덱싱)
+  const categories = categoriesData?.categories;
   const bed = useCategorySelection(
-    categoriesData?.categories[0] ?? null,
+    categories?.[0] ?? null,
     CATEGORY_SELECTION_MODE.BED,
     formData,
     setFormData,
     globalConstraints
   );
   const sofa = useCategorySelection(
-    categoriesData?.categories[1] ?? null,
+    categories?.[1] ?? null,
     CATEGORY_SELECTION_MODE.SOFA,
     formData,
     setFormData,
     globalConstraints
   );
   const table = useCategorySelection(
-    categoriesData?.categories[2] ?? null,
+    categories?.[2] ?? null,
     CATEGORY_SELECTION_MODE.TABLE,
     formData,
     setFormData,
     globalConstraints
   );
   const selective = useCategorySelection(
-    categoriesData?.categories[3] ?? null,
+    categories?.[3] ?? null,
     CATEGORY_SELECTION_MODE.SELECTIVE,
     formData,
     setFormData,
