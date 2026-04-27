@@ -17,23 +17,14 @@ export const getProductDetail = async (
 };
 
 export const useProductDetailQuery = (
-  productId: number | null | undefined,
+  productId: number,
   options?: { enabled?: boolean }
 ) => {
-  const resolvedId =
-    productId !== undefined && productId !== null && Number.isFinite(productId)
-      ? productId
-      : null;
-
-  const enabledById = resolvedId !== null;
-  const enabled =
-    options?.enabled !== undefined
-      ? options.enabled && enabledById
-      : enabledById;
+  const enabled = options?.enabled ?? true;
 
   return useQuery({
-    queryKey: [...queryKeys.product.all, 'productDetail', resolvedId] as const,
-    queryFn: () => getProductDetail(resolvedId as number),
+    queryKey: queryKeys.product.productDetail(productId),
+    queryFn: () => getProductDetail(productId),
     enabled,
     staleTime: 1000 * 60,
     gcTime: 1000 * 60 * 10,
