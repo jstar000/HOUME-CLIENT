@@ -174,13 +174,10 @@ const useProductFilterState = () => {
         furnitureTypeIds:
           category === 'furniture'
             ? [ALL_FILTER_SENTINEL]
-            : [...prev.furnitureTypeIds],
+            : prev.furnitureTypeIds,
         priceRangeIds:
-          category === 'price'
-            ? [ALL_FILTER_SENTINEL]
-            : [...prev.priceRangeIds],
-        colorIds:
-          category === 'color' ? [ALL_FILTER_SENTINEL] : [...prev.colorIds],
+          category === 'price' ? [ALL_FILTER_SENTINEL] : prev.priceRangeIds,
+        colorIds: category === 'color' ? [ALL_FILTER_SENTINEL] : prev.colorIds,
       }));
     },
     []
