@@ -164,9 +164,6 @@ const useProductFilterState = () => {
   /** draft -> applied 확정 */
   const applyDraft = useCallback(() => {
     const nextValues = toExternalFromDraft(draftValues, allIds);
-    console.log('[ProductTab] apply filters:', {
-      selectedValues: nextValues,
-    });
     setAppliedValues(nextValues);
   }, [allIds, draftValues]);
 

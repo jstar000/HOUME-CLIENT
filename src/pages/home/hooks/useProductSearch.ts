@@ -83,12 +83,6 @@ const useProductSearch = (baseParams: ProductListQueryVariables) => {
     isFetchingNextPage,
   } = useProductListQuery(queryParams);
 
-  /** 디버깅용 응답 로그 */
-  useEffect(() => {
-    if (!productPages) return;
-    console.log('[SearchSection] product list response:', productPages);
-  }, [productPages]);
-
   /**
    * sentinel 진입 시 다음 페이지 요청
    * - hasNextPage=false이거나 이미 로딩 중이면 요청하지 않음
