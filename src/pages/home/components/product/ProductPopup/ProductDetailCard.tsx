@@ -41,12 +41,7 @@ const ProductDetailCard = ({
           alt={product.title}
         />
         {linkHref ? (
-          <div
-            className={styles.linkBtnContainer()}
-            onClick={(event) => event.stopPropagation()}
-            onKeyDown={(event) => event.stopPropagation()}
-            role="presentation"
-          >
+          <div className={styles.linkBtnContainer()}>
             <ActionButton
               variant="solid"
               color="inverse"
