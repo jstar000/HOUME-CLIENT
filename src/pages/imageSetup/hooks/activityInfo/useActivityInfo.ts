@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import type { GenerateImageRequest } from '@pages/generate/types/generate';
 import {
   logSelectFurnitureClickBtnCTA,
   logSelectFurnitureClickBtnCTACreditError,
 } from '@pages/imageSetup/utils/analytics';
 
 import { ROUTES } from '@routes/paths';
+
+import type { GenerateImageV4Request } from '@apis/__generated__/data-contracts';
 
 import { useCreditGuard } from '@hooks/useCreditGuard';
 
@@ -185,19 +186,14 @@ export const useActivityInfo = (context: ImageSetupSteps['ActivityInfo']) => {
       return;
     }
 
-    // TODO: 이미지 생성 API 명세 확정 시 selectiveIds → furnitureIds 직접 대입으로 변경
-    // (현재는 서버가 selectiveIds로 받고 있어 클라이언트 furnitureIds를 매핑)
-    const generateImageRequest: GenerateImageRequest = {
-      houseId: 0, // TODO: 경로별 API 분리 후 제거
-      equilibrium: '', // TODO: 경로별 API 분리 후 제거
-      floorPlan: {
-        floorPlanId:
-          savedFloorPlan?.floorPlanId ?? context.floorPlan.floorPlanId,
-        isMirror: savedFloorPlan?.isMirror ?? context.floorPlan.isMirror,
-      },
+    const generateImageRequest: GenerateImageV4Request = {
+      floorPlanId: savedFloorPlan?.floorPlanId ?? context.floorPlan.floorPlanId,
+      floorPlanView:
+        savedFloorPlan?.floorPlanView ?? context.floorPlan.floorPlanView,
+      isMirror: savedFloorPlan?.isMirror ?? context.floorPlan.isMirror,
       moodBoardIds: savedMoodBoardIds ?? context.moodBoardIds,
       activity: formData.activity!,
-      selectiveIds: formData.furnitureIds!,
+      furnitureIds: formData.furnitureIds!,
     };
 
     // sessionStorage에 저장
