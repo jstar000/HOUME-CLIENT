@@ -8,13 +8,13 @@ import Chip from '@components/v2/chip/Chip';
 
 import * as styles from './ProductFilterSheet.css';
 
-type ProductFilterSheetProps = {
+interface ProductFilterSheetProps {
   furnitureOptions: FilterOption[];
   priceOptions: FilterOption[];
   colorOptions: ColorFilterOption[];
   isChipSelected: (section: FilterSectionKey, id: string) => boolean;
   onChipClick: (section: FilterSectionKey, id: string) => void;
-};
+}
 
 const ProductFilterSheet = ({
   furnitureOptions,
