@@ -71,9 +71,9 @@ const useProductFilterState = () => {
   const priceOptions = useMemo<FilterOption[]>(
     () =>
       (filterData?.priceRanges ?? [])
-        .filter((range) => !!range.id && !!range.label)
+        .filter((range) => range.id != null && !!range.label)
         .map((range) => ({
-          id: range.id as string,
+          id: String(range.id),
           label: range.label as string,
         })),
     [filterData?.priceRanges]
