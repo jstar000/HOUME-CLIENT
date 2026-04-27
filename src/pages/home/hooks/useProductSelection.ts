@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import type { SelectedProduct } from '@pages/home/components/product/SearchSection/SearchSection';
 
@@ -21,7 +21,12 @@ const useProductSelection = () => {
   const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>(
     []
   );
+  const selectedProductsRef = useRef<SelectedProduct[]>([]);
   const { notify } = useToast();
+
+  useEffect(() => {
+    selectedProductsRef.current = selectedProducts;
+  }, [selectedProducts]);
 
   /**
    * 상품 선택 핸들러
@@ -30,21 +35,20 @@ const useProductSelection = () => {
    */
   const handleSelectProduct = useCallback(
     (product: SelectedProduct) => {
-      let attemptedOverMax = false;
-      setSelectedProducts((prev) => {
-        if (prev.some((item) => item.id === product.id)) return prev;
-        if (prev.length >= MAX_SELECTED_PRODUCTS) {
-          attemptedOverMax = true;
-          return prev;
-        }
-        return [...prev, product];
-      });
-
-      if (attemptedOverMax) {
+      const currentSelected = selectedProductsRef.current;
+      if (currentSelected.some((item) => item.id === product.id)) return;
+      if (currentSelected.length >= MAX_SELECTED_PRODUCTS) {
         notify({
           text: `상품은 최대 ${MAX_SELECTED_PRODUCTS}개까지만 선택할 수 있어요`,
         });
+        return;
       }
+
+      setSelectedProducts((prev) => {
+        if (prev.some((item) => item.id === product.id)) return prev;
+        if (prev.length >= MAX_SELECTED_PRODUCTS) return prev;
+        return [...prev, product];
+      });
     },
     [notify]
   );
