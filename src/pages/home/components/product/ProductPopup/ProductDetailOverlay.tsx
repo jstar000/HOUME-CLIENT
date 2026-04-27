@@ -40,14 +40,17 @@ const ProductDetailOverlay = ({
   const detail = data?.product;
 
   const merged = useMemo(() => {
+    const detailColorHexes =
+      detail?.colors
+        ?.map((colorDetail: ProductColorDetail) => colorDetail.value)
+        .filter((colorHex): colorHex is string => Boolean(colorHex)) ?? [];
+
     const product: ProductInfo = {
       title: detail?.name ?? listProduct.title,
       brand: detail?.brand ?? listProduct.brand,
       imageUrl: detail?.imageUrl ?? listProduct.imageUrl,
       colorHexes:
-        detail?.colors
-          ?.map((c: ProductColorDetail) => c.value)
-          .filter((v): v is string => Boolean(v)) ?? listProduct.colorHexes,
+        detailColorHexes.length > 0 ? detailColorHexes : listProduct.colorHexes,
     };
 
     const price: PriceInfo | undefined = detail
