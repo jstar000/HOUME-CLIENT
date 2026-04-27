@@ -66,23 +66,27 @@ const ProductDetailCard = ({
         extraColorCount > 0 ||
         (typeof saveCount === 'number' && Number.isFinite(saveCount)) ? (
           <div className={styles.popupPreviewMetaRow}>
-            <div className={styles.colorRow}>
-              {visibleColors.map((hex, index) => (
-                <div className={styles.colorChipContainer} key={index}>
-                  <span
+            {visibleColors.length > 0 || extraColorCount > 0 ? (
+              <div className={styles.colorRow}>
+                {visibleColors.map((hex, index) => (
+                  <div
+                    className={styles.colorChipContainer}
                     key={`${hex}-${index}`}
-                    className={styles.colorChip}
-                    style={{ backgroundColor: hex }}
-                    aria-hidden
-                  />
-                </div>
-              ))}
-              {extraColorCount > 0 ? (
-                <span className={styles.colorChipCount}>
-                  +{extraColorCount}
-                </span>
-              ) : null}
-            </div>
+                  >
+                    <span
+                      className={styles.colorChip}
+                      style={{ backgroundColor: hex }}
+                      aria-hidden
+                    />
+                  </div>
+                ))}
+                {extraColorCount > 0 ? (
+                  <span className={styles.colorChipCount}>
+                    +{extraColorCount}
+                  </span>
+                ) : null}
+              </div>
+            ) : null}
             {typeof saveCount === 'number' && Number.isFinite(saveCount) ? (
               <div className={styles.popupPreviewLikeRow}>
                 <Icon name="HeartFillGray" size="14" />
