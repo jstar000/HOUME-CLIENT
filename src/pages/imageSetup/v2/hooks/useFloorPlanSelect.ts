@@ -31,7 +31,7 @@ export const useFloorPlanSelect = (
   );
   const selectedFloorPlanName = detailData?.floorPlanName ?? '';
   const selectedEquilibrium = detailData?.equilibrium ?? '';
-  const selectedDetailViews = detailData?.floorPlans ?? [];
+  const selectedDetailViews = detailData?.floorPlans ?? []; // [{imageUrl, view}]
 
   // 1순위: useFunnelStore에 저장된 도면이 있는 경우 시트 복원
   // (case: 경로 3 홈 도면 클릭 / 로그인 게이트에서 복귀)
@@ -57,9 +57,15 @@ export const useFloorPlanSelect = (
   // 도면 선택 후 "공간 선택하기" CTA
   const handleConfirmFloorPlan = () => {
     if (store.selectedFloorPlanId === null) return;
+
+    // 도면 swiper에서 사용자가 선택한 view(ex: 창가뷰)를 string으로 가져옴
+    const floorPlanView =
+      selectedDetailViews[store.selectedViewIndex]?.view ?? '';
+
     const floorPlanData: CompletedFloorPlanSelect['floorPlan'] = {
       floorPlanId: store.selectedFloorPlanId,
       isMirror: store.isMirror,
+      floorPlanView,
     };
     useFunnelStore.getState().setFloorPlan(floorPlanData);
     onNext({ floorPlan: floorPlanData });
