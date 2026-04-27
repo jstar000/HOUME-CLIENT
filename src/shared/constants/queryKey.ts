@@ -35,7 +35,7 @@ export const queryKeys = {
   product: {
     all: ['product'] as const,
     productFilters: () => [...queryKeys.product.all, 'productFilters'] as const,
-    productList: (params: ProductListQueryVariables) =>
+    productList: (params: Omit<ProductListQueryVariables, 'cursor'>) =>
       [...queryKeys.product.all, 'productList', params] as const,
     productDetail: (productId: number) =>
       [...queryKeys.product.all, 'productDetail', productId] as const,
