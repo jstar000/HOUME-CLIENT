@@ -67,13 +67,13 @@ const useProductSearch = (baseParams: ProductListQueryVariables) => {
   }, [keyword]);
 
   /** 필터 기본 파라미터 + 키워드 결합 */
-  const queryParams = useMemo(
-    () => ({
+  const queryParams = useMemo(() => {
+    const trimmedKeyword = debouncedKeyword.trim();
+    return {
       ...baseParams,
-      keyword: debouncedKeyword.trim() ? debouncedKeyword.trim() : undefined,
-    }),
-    [baseParams, debouncedKeyword]
-  );
+      keyword: trimmedKeyword || undefined,
+    };
+  }, [baseParams, debouncedKeyword]);
 
   /** 커서 기반 상품 목록 조회 */
   const {
