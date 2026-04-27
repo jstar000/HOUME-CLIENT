@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useFilterListQuery } from '@pages/home/apis/queries/useFilterListQuery';
-import type { ProductFilterChipCategory } from '@pages/home/components/product/SearchSection/SearchSection';
+import type { ProductFilterChipCategory } from '@pages/home/types/productTab';
 import {
   ALL_FILTER_SENTINEL,
   buildAppliedFilterChips,

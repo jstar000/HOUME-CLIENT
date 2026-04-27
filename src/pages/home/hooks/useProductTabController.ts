@@ -1,11 +1,11 @@
 import { useCallback, useState } from 'react';
 
-import type { ProductFilterChipCategory } from '@pages/home/components/product/SearchSection/SearchSection';
 import { useProductFilterState } from '@pages/home/hooks/useProductFilterState';
 import {
   MAX_SELECTED_PRODUCTS,
   useProductSelection,
 } from '@pages/home/hooks/useProductSelection';
+import type { ProductFilterChipCategory } from '@pages/home/types/productTab';
 
 /**
  * 필터 상단 칩 선택 상태 기본값

@@ -5,6 +5,11 @@ import { overlay } from 'overlay-kit';
 import ProductDetailOverlay from '@pages/home/components/product/ProductPopup/ProductDetailOverlay';
 import { useProductHeaderScroll } from '@pages/home/hooks/useProductHeaderScroll';
 import { useProductSearch } from '@pages/home/hooks/useProductSearch';
+import type {
+  AppliedFilterChip,
+  ProductFilterChipCategory,
+  SelectedProduct,
+} from '@pages/home/types/productTab';
 
 import IconButton from '@shared/components/v2/button/IconButton';
 import ProductCard from '@shared/components/v2/productCard/ProductCard';
@@ -17,25 +22,6 @@ import type { ProductListQueryVariables } from '@constants/queryKey';
 import Icon from '@/shared/components/v2/icon/Icon';
 
 import * as styles from './SearchSection.css';
-
-export type ProductFilterChipCategory = 'furniture' | 'price' | 'color';
-
-export interface AppliedFilterChip {
-  category: ProductFilterChipCategory;
-  id: string;
-  label: string;
-  applied: boolean;
-}
-
-export interface SelectedProduct {
-  id: string;
-  title: string;
-  brand: string;
-  imageUrl?: string;
-  originalPrice: number;
-  discountPrice: number;
-  discountRate: number;
-}
 
 interface SearchSectionProps {
   chipSelected: Record<ProductFilterChipCategory, boolean>;

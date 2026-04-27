@@ -1,4 +1,4 @@
-import type { AppliedFilterChip } from '@pages/home/components/product/SearchSection/SearchSection';
+import type { AppliedFilterChip } from '@pages/home/types/productTab';
 
 /** 외부(탭 상태/요청 파라미터)와 내부(시트 선택 상태)를 연결할 때 사용하는 표준 "전체" 센티널 값 */
 const ALL_FILTER_SENTINEL = 'ALL';
