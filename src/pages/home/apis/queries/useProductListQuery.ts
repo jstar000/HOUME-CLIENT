@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, type InfiniteData } from '@tanstack/react-query';
 
 import type { CurationProductListResponse } from '@shared/apis/__generated__/data-contracts';
 
@@ -45,14 +45,20 @@ export const useProductListQuery = (params: ProductListQueryVariables) => {
 
   const { cursor: _cursor, ...queryKeyParams } = normalizedParams;
 
-  return useInfiniteQuery({
+  return useInfiniteQuery<
+    CurationProductListResponse,
+    Error,
+    InfiniteData<CurationProductListResponse, number | undefined>,
+    ReturnType<typeof queryKeys.product.productList>,
+    number | undefined
+  >({
     queryKey: queryKeys.product.productList(queryKeyParams),
     queryFn: ({ pageParam }) =>
       getProductList({
         ...queryKeyParams,
-        cursor: pageParam as number | undefined,
+        cursor: pageParam,
       }),
-    initialPageParam: undefined as number | undefined,
+    initialPageParam: undefined,
     getNextPageParam: (lastPage) => {
       if (!lastPage.meta?.hasNext) return undefined;
       return lastPage.meta.nextCursor;
