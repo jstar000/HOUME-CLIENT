@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import type { SelectedProduct } from '@pages/home/components/product/SearchSection/SearchSection';
+import type { SelectedProduct } from '@pages/home/types/productTab';
 
 import { useToast } from '@components/toast/useToast';
 
