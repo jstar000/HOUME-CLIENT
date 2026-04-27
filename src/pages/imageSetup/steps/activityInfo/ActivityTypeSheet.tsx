@@ -48,13 +48,12 @@ const ActivityTypeSheet = ({
           />
           <div className={styles.radioList}>
             {activities.map((activity) => {
-              if (!activity.code) return null;
               const isSelected = localSelected === activity.code;
               const iconName = getActivityIconName(
-                activity.code,
+                activity.code!,
                 isSelected ? 'black' : 'gray'
               );
-              const requiredFurnitureLabel = activity.furnitures?.[0]?.label;
+              const requiredFurnitureLabel = activity.furnitures![0]?.label;
 
               return (
                 <button

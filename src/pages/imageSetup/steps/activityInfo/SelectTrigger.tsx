@@ -11,10 +11,9 @@ interface SelectTriggerProps {
 }
 
 const SelectTrigger = ({ selectedActivity, onClick }: SelectTriggerProps) => {
-  const activityIconName =
-    selectedActivity && selectedActivity.code
-      ? getActivityIconName(selectedActivity.code, 'black')
-      : null;
+  const activityIconName = selectedActivity
+    ? getActivityIconName(selectedActivity.code!, 'black')
+    : null;
   const requiredFurnitureLabel = selectedActivity?.furnitures?.[0]?.label;
 
   return (

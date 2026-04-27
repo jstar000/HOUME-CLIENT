@@ -75,12 +75,11 @@ export const useCategorySelection = (
   };
 
   // 각 가구별 활성화 상태 정보 (Chip의 disabled 매핑)
-  const furnitureStatus = furnitures
-    .filter((f): f is typeof f & { id: number } => f.id !== undefined)
-    .map((furniture) => ({
-      id: furniture.id,
-      isActive: globalConstraints.canSelectFurniture(furniture.id),
-    }));
+  // swagger optional이지만 백엔드 명세상 id는 항상 옴 → non-null assertion 사용
+  const furnitureStatus = furnitures.map((furniture) => ({
+    id: furniture.id!,
+    isActive: globalConstraints.canSelectFurniture(furniture.id!),
+  }));
 
   return {
     selectedValues,

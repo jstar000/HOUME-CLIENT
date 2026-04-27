@@ -93,8 +93,7 @@ const ActivityInfo = ({ context }: ActivityInfoProps) => {
             <div className={styles.furList}>
               {/* TODO: 추후 Chip 최신화하기 (아이콘 포함 Chip 반영) */}
               {categories.map((category) => {
-                if (!category.nameEng) return null;
-                const selection = selectionByNameEng[category.nameEng];
+                const selection = selectionByNameEng[category.nameEng!];
                 if (!selection) return null;
 
                 return (
@@ -104,20 +103,19 @@ const ActivityInfo = ({ context }: ActivityInfoProps) => {
                   >
                     <span className={styles.furTitle}>{category.nameKr}</span>
                     <div className={styles.chipList}>
-                      {(category.furnitures ?? []).map((furniture) => {
-                        if (furniture.id === undefined) return null;
-                        const furnitureId = furniture.id;
-                        const isSelected =
-                          selection.selectedValues.includes(furnitureId);
+                      {category.furnitures!.map((furniture) => {
+                        const isSelected = selection.selectedValues.includes(
+                          furniture.id!
+                        );
                         const status = selection.furnitureStatus.find(
-                          (s) => s.id === furnitureId
+                          (s) => s.id === furniture.id
                         );
                         const isRequired =
-                          globalConstraints.isRequiredFurniture(furnitureId);
+                          globalConstraints.isRequiredFurniture(furniture.id!);
 
                         return (
                           <Chip
-                            key={furnitureId}
+                            key={furniture.id}
                             selected={isSelected}
                             color="weak"
                             disabled={!status?.isActive && !isSelected}
@@ -127,7 +125,7 @@ const ActivityInfo = ({ context }: ActivityInfoProps) => {
                               ) : undefined
                             }
                             onClick={() =>
-                              selection.toggleFurniture(furnitureId)
+                              selection.toggleFurniture(furniture.id!)
                             }
                           >
                             {furniture.label}
