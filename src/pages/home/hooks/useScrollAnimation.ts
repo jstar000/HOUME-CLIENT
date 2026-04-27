@@ -11,13 +11,15 @@ interface UseScrollAnimationOptions {
   triggerOnce?: boolean;
 }
 
-const useScrollAnimation = (options: UseScrollAnimationOptions = {}) => {
+const useScrollAnimation = <T extends HTMLElement = HTMLDivElement>(
+  options: UseScrollAnimationOptions = {}
+) => {
   /** IntersectionObserver 동작 옵션 기본값 */
   const { threshold = 0.2, rootMargin = '-50px', triggerOnce = true } = options;
 
   /** 외부에서 사용할 노출 상태와 관찰 대상 ref */
   const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<T>(null);
 
   /**
    * 요소 viewport 진입/이탈 감지
