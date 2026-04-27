@@ -35,7 +35,7 @@ const toProductSearchCardItems = (
     .filter((product) => product.id != null)
     .map((product) => ({
       id: String(product.id),
-      detailProductId: product.id as number,
+      detailProductId: product.productId ?? (product.id as number),
       title: product.name ?? '',
       brand: product.brand ?? '',
       imageUrl: product.imageUrl ?? '',
