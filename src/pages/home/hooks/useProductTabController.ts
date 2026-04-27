@@ -57,23 +57,21 @@ const useProductTabController = () => {
   /** 상단 필터칩 클릭: 시트 열기/닫기 및 draft 동기화 */
   const handleFilterChipClick = useCallback(
     (category: ProductFilterChipCategory) => {
-      setChipSelected((prev) => {
-        if (prev[category]) {
-          setFilterSheetOpen(false);
-          return { ...INITIAL_CHIP_SELECTED };
-        }
+      if (chipSelected[category]) {
+        setFilterSheetOpen(false);
+        setChipSelected({ ...INITIAL_CHIP_SELECTED });
+        return;
+      }
 
-        syncDraftFromApplied();
-        setFilterSheetOpen(true);
-
-        return {
-          furniture: category === 'furniture',
-          price: category === 'price',
-          color: category === 'color',
-        };
+      syncDraftFromApplied();
+      setFilterSheetOpen(true);
+      setChipSelected({
+        furniture: category === 'furniture',
+        price: category === 'price',
+        color: category === 'color',
       });
     },
-    [syncDraftFromApplied]
+    [chipSelected, syncDraftFromApplied]
   );
 
   /** 필터 시트 닫기 + 칩 UI 초기화 */
