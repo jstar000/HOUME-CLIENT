@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 
+import { useProductDetailQuery } from '@pages/home/apis/queries/useProductDetailQuery';
+
 import type { ProductColorDetail } from '@shared/apis/__generated__/data-contracts';
-import { useProductDetailQuery } from '@shared/apis/queries/useProductDetailQuery';
 import Popup from '@shared/components/v2/popup/Popup';
 import type {
   LinkInfo,
