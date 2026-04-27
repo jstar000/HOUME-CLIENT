@@ -10,7 +10,7 @@ import type { ProductListQueryVariables } from '@constants/queryKey';
  * 상품 검색 카드 렌더에 사용하는 뷰 모델 타입
  * - SearchSection ProductCard 입력 형태를 기준으로 정의한다.
  */
-type ProductSearchCardItem = {
+interface ProductSearchCardItem {
   id: string;
   /** `GET /api/v1/curations/products/:id` 상세 조회용 */
   detailProductId: number;
@@ -23,7 +23,7 @@ type ProductSearchCardItem = {
   colorHexes: string[];
   saveCount: number;
   linkUrl: string;
-};
+}
 
 /**
  * API 상품 응답 배열을 카드 렌더 모델로 정규화
