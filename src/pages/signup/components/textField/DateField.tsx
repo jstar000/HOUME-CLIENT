@@ -82,40 +82,92 @@ const DateField = ({
       errorMessage={errorMessage}
     >
       <div className={styles.dateRow}>
-        <input
-          name="year"
-          value={value.year}
-          onChange={handleChange}
-          onFocus={() => setFocusedPart('year')}
-          onBlur={() => setFocusedPart(null)}
-          placeholder="YYYY"
-          inputMode="numeric"
-          className={styles.dateInput({ isErrorText: !!error?.year })}
-        />
+        <div className={styles.inputContainer}>
+          <div className={styles.fieldBox({ size: 'year' })}>
+            {!value.year && (
+              <span
+                aria-hidden="true"
+                className={styles.fakePlaceholder({
+                  isErrorText: !!error?.year,
+                })}
+              >
+                YYYY
+              </span>
+            )}
+            <input
+              name="year"
+              value={value.year}
+              onChange={handleChange}
+              onFocus={() => setFocusedPart('year')}
+              onBlur={() => setFocusedPart(null)}
+              placeholder="YYYY"
+              inputMode="numeric"
+              className={styles.dateInput({
+                isErrorText: !!error?.year,
+                align: value.year ? 'center' : 'left',
+              })}
+            />
+          </div>
+        </div>
+
         <span className={styles.divider}>|</span>
 
-        <input
-          name="month"
-          value={value.month}
-          onChange={handleChange}
-          onFocus={() => setFocusedPart('month')}
-          onBlur={handleMonthBlur}
-          placeholder="MM"
-          inputMode="numeric"
-          className={styles.dateInput({ isErrorText: !!error?.month })}
-        />
+        <div className={styles.inputContainer}>
+          <div className={styles.fieldBox({ size: 'month' })}>
+            {!value.month && (
+              <span
+                aria-hidden="true"
+                className={styles.fakePlaceholder({
+                  isErrorText: !!error?.month,
+                })}
+              >
+                MM
+              </span>
+            )}
+            <input
+              name="month"
+              value={value.month}
+              onChange={handleChange}
+              onFocus={() => setFocusedPart('month')}
+              onBlur={handleMonthBlur}
+              placeholder="MM"
+              inputMode="numeric"
+              className={styles.dateInput({
+                isErrorText: !!error?.month,
+                align: value.month ? 'center' : 'left',
+              })}
+            />
+          </div>
+        </div>
         <span className={styles.divider}>|</span>
 
-        <input
-          name="day"
-          value={value.day}
-          onChange={handleChange}
-          onFocus={() => setFocusedPart('day')}
-          onBlur={handleDayBlur}
-          placeholder="DD"
-          inputMode="numeric"
-          className={styles.dateInput({ isErrorText: !!error?.day })}
-        />
+        <div className={styles.inputContainer}>
+          <div className={styles.fieldBox({ size: 'day' })}>
+            {!value.day && (
+              <span
+                aria-hidden="true"
+                className={styles.fakePlaceholder({
+                  isErrorText: !!error?.day,
+                })}
+              >
+                DD
+              </span>
+            )}
+            <input
+              name="day"
+              value={value.day}
+              onChange={handleChange}
+              onFocus={() => setFocusedPart('day')}
+              onBlur={handleDayBlur}
+              placeholder="DD"
+              inputMode="numeric"
+              className={styles.dateInput({
+                isErrorText: !!error?.day,
+                align: value.day ? 'center' : 'left',
+              })}
+            />
+          </div>
+        </div>
       </div>
     </TextFieldContainer>
   );
