@@ -45,6 +45,7 @@ const isSignupLocationState = (
 const SignupPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const isInitialized = useRef(false);
 
   // 이탈 방지 팝업
   const { popupClosed } = useSignupExitConfirm({
@@ -116,12 +117,12 @@ const SignupPage = () => {
   // 랜덤 닉네임 GET 쿼리
   const { data: randomNickname, refetch } = useGetRandomNicknameQuery();
 
-  // 페이지 로드 시 랜덤 닉네임으로 초기값 설정
+  // 페이지 로드 시 랜덤 닉네임으로 초기값 설정 (첫 마운트, 랜덤닉네임 존재, 초기화 전)
   useEffect(() => {
-    if (randomNickname && nickname === '') {
+    if (randomNickname && !isInitialized.current) {
       handleNicknameChange(randomNickname);
     }
-  }, [randomNickname, nickname, handleNicknameChange]);
+  }, [randomNickname, handleNicknameChange]);
 
   const handleRefresh = async () => {
     const { data } = await refetch();
