@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import IconButton from '@components/v2/button/IconButton';
 
@@ -26,6 +26,7 @@ const TextField = ({
 }: TextFieldProps) => {
   const [internalValue, setInternalValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const isControlled = controlledValue !== undefined;
   const value = isControlled ? controlledValue : internalValue;
@@ -44,6 +45,8 @@ const TextField = ({
       setInternalValue('');
     }
     onChange?.('');
+
+    inputRef.current?.focus(); // clear 클릭 시 포커스 복구
   };
 
   return (
@@ -56,6 +59,7 @@ const TextField = ({
       >
         <input
           {...props}
+          ref={inputRef}
           type="text"
           value={value}
           onChange={handleChange}
