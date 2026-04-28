@@ -121,6 +121,7 @@ const SignupPage = () => {
   useEffect(() => {
     if (randomNickname && !isInitialized.current) {
       handleNicknameChange(randomNickname);
+      isInitialized.current = true;
     }
   }, [randomNickname, handleNicknameChange]);
 
@@ -283,7 +284,7 @@ const SignupPage = () => {
           type="submit"
           fullWidth
         >
-          이미지 생성 시작하기
+          완료하기
         </ActionButton>
       </div>
     </form>
