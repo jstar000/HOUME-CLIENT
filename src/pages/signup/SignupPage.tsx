@@ -250,7 +250,6 @@ const SignupPage = () => {
             <div className={styles.flexbox}>
               <Chip
                 selected={gender?.value === 'MALE'}
-                className={gender?.value === 'MALE' ? styles.chipSelected : ''}
                 color="weak"
                 onClick={() => setGender({ value: 'MALE', label: '남성' })}
               >
@@ -258,9 +257,6 @@ const SignupPage = () => {
               </Chip>
               <Chip
                 selected={gender?.value === 'FEMALE'}
-                className={
-                  gender?.value === 'FEMALE' ? styles.chipSelected : ''
-                }
                 color="weak"
                 onClick={() => setGender({ value: 'FEMALE', label: '여성' })}
               >
@@ -268,9 +264,6 @@ const SignupPage = () => {
               </Chip>
               <Chip
                 selected={gender?.value === 'NONBINARY'}
-                className={
-                  gender?.value === 'NONBINARY' ? styles.chipSelected : ''
-                }
                 color="weak"
                 onClick={() =>
                   setGender({ value: 'NONBINARY', label: '밝히고 싶지 않음' })

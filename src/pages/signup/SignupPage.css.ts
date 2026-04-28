@@ -79,7 +79,3 @@ export const btnarea = style({
   width: '100%',
   maxWidth: unitVars.unit.dimension.wMax,
 });
-
-export const chipSelected = style({
-  backgroundColor: colorVars.color.fill.weak,
-});
