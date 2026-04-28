@@ -70,3 +70,11 @@ export function isValidDate(year: number, month: number, day: number): boolean {
     date.getDate() === day
   );
 }
+
+// 한 자리 숫자를 두 자리로 패딩
+export const padToTwoDigits = (value: string): string => {
+  if (value !== '' && value.length === 1) {
+    return value.padStart(2, '0');
+  }
+  return value;
+};

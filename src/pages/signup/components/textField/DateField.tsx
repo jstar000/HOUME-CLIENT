@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import * as styles from './DateField.css';
 import TextFieldContainer from './TextFieldContainer';
+import { padToTwoDigits } from '../../utils/validation';
 
 interface DateValue {
   year: string;
@@ -51,6 +52,28 @@ const DateField = ({
     });
   };
 
+  const handleMonthBlur = () => {
+    setFocusedPart(null);
+    const paddedMonth = padToTwoDigits(value.month);
+    if (paddedMonth !== value.month) {
+      onChange({
+        ...value,
+        month: paddedMonth,
+      });
+    }
+  };
+
+  const handleDayBlur = () => {
+    setFocusedPart(null);
+    const paddedDay = padToTwoDigits(value.day);
+    if (paddedDay !== value.day) {
+      onChange({
+        ...value,
+        day: paddedDay,
+      });
+    }
+  };
+
   return (
     <TextFieldContainer
       isFocused={isFocused}
@@ -76,7 +99,7 @@ const DateField = ({
           value={value.month}
           onChange={handleChange}
           onFocus={() => setFocusedPart('month')}
-          onBlur={() => setFocusedPart(null)}
+          onBlur={handleMonthBlur}
           placeholder="MM"
           inputMode="numeric"
           className={styles.dateInput({ isErrorText: !!error?.month })}
@@ -88,7 +111,7 @@ const DateField = ({
           value={value.day}
           onChange={handleChange}
           onFocus={() => setFocusedPart('day')}
-          onBlur={() => setFocusedPart(null)}
+          onBlur={handleDayBlur}
           placeholder="DD"
           inputMode="numeric"
           className={styles.dateInput({ isErrorText: !!error?.day })}
