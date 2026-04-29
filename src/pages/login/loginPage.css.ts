@@ -9,7 +9,7 @@ import { unitVars } from '@/shared/styles/tokensV2/unit.css';
 export const container = style({
   gap: unitVars.unit.gapPadding['200'],
   background: colorVars.color.bg.primary,
-  padding: `${unitVars.unit.gapPadding['500']} ${unitVars.unit.gapPadding['000']}`,
+  paddingTop: unitVars.unit.gapPadding['500'],
 });
 
 export const textbox = style({
@@ -18,9 +18,10 @@ export const textbox = style({
   alignItems: 'center',
   justifyContent: 'center',
   gap: unitVars.unit.gapPadding['300'],
+  marginTop: unitVars.unit.gapPadding['200'],
   padding: `${unitVars.unit.gapPadding['300']} ${unitVars.unit.gapPadding['500']}`,
-  width: '100%',
   ...fontVars.font.title_sb_20,
+  width: '100%',
   animation: animationTokens.fadeInUpFast,
   textAlign: 'center',
 });
@@ -66,7 +67,7 @@ export const btnarea = style({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: unitVars.unit.gapPadding['100'],
+  gap: unitVars.unit.gapPadding['200'],
   background: `linear-gradient(180deg, rgba(255, 255, 255, 0.00) 0%, #FFF 100%)`,
   padding: unitVars.unit.gapPadding['500'],
   width: '100%',

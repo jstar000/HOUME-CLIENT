@@ -34,9 +34,10 @@ export const textbox = style({
   alignItems: 'center',
   justifyContent: 'center',
   gap: unitVars.unit.gapPadding['300'],
+  marginTop: unitVars.unit.gapPadding['200'],
   padding: `${unitVars.unit.gapPadding['300']} ${unitVars.unit.gapPadding['500']}`,
-  width: '100%',
   ...fontVars.font.title_sb_20,
+  width: '100%',
   animation: animationTokens.fadeInUpFast,
   textAlign: 'center',
 });
