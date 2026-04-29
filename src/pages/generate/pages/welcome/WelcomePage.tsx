@@ -8,7 +8,7 @@ import { ROUTES } from '@routes/paths';
 
 import { useUserStore } from '@store/useUserStore';
 
-import KakaoLoginImg from '@assets/v2/images/ImgKakaoLogin.svg';
+import KakaoLoginImg from '@assets/v2/images/ImgKakaoLogin.png';
 
 import ActionButton from '@components/v2/button/actionButton/ActionButton';
 

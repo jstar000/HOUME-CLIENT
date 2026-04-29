@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import { ROUTES } from '@routes/paths';
 
-import KakaoLoginImg from '@assets/v2/images/ImgKakaoLogin.svg';
+import KakaoLoginImg from '@assets/v2/images/ImgKakaoLogin.png';
 
 import { API_ENDPOINT } from '@constants/apiEndpoints';
 
