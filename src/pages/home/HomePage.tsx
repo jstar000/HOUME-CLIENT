@@ -23,13 +23,19 @@ import {
 
 export type HomeMenuTab = 'explore' | 'product';
 
+export type HomeLocationState = {
+  activeTab?: HomeMenuTab;
+  exploreSeedBannerId?: number;
+};
+
 const HomePage = () => {
   const navigate = useNavigate();
   const accessToken = useUserStore((state) => state.accessToken);
   const isLoggedIn = !!accessToken;
   const location = useLocation();
+  const homeState = location.state as HomeLocationState | undefined;
   const [activeMenuTab, setActiveMenuTab] = useState<HomeMenuTab>(
-    location.state?.activeTab ?? 'explore'
+    homeState?.activeTab ?? 'explore'
   );
 
   const scrollDepth50Sent = useRef(false);
@@ -113,7 +119,9 @@ const HomePage = () => {
         sticky={activeMenuTab === 'explore'}
         onTabChange={setActiveMenuTab}
       />
-      {activeMenuTab === 'explore' && <ExploreTab />}
+      {activeMenuTab === 'explore' && (
+        <ExploreTab exploreSeedBannerId={homeState?.exploreSeedBannerId} />
+      )}
       {activeMenuTab === 'product' && <ProductTab />}
     </main>
   );
