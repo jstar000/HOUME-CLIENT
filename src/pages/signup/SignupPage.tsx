@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { overlay } from 'overlay-kit';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -46,6 +46,9 @@ const SignupPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const isInitialized = useRef(false);
+  const nicknameRef = useRef<HTMLInputElement>(null);
+  const yearRef = useRef<HTMLInputElement>(null);
+  const [isNameSubmitted, setIsNameSubmitted] = useState(false);
 
   // 이탈 방지 팝업
   const { popupClosed } = useSignupExitConfirm({
@@ -117,6 +120,10 @@ const SignupPage = () => {
   // 랜덤 닉네임 GET 쿼리
   const { data: randomNickname, refetch } = useGetRandomNicknameQuery();
 
+  // 닉네임 필드 유효
+  const isNameSectionValid =
+    nickname !== '' && !isNameFormatInvalid && !isNameLengthInvalid;
+
   // 페이지 로드 시 랜덤 닉네임으로 초기값 설정 (첫 마운트, 랜덤닉네임 존재, 초기화 전)
   useEffect(() => {
     if (randomNickname && !isInitialized.current) {
@@ -124,6 +131,12 @@ const SignupPage = () => {
       isInitialized.current = true;
     }
   }, [randomNickname, handleNicknameChange]);
+
+  useEffect(() => {
+    nicknameRef.current?.focus();
+    const len = nicknameRef.current?.value.length || 0;
+    nicknameRef.current?.setSelectionRange(len, len);
+  }, []);
 
   const handleRefresh = async () => {
     const { data } = await refetch();
@@ -142,6 +155,20 @@ const SignupPage = () => {
       errorSentRef.current = false;
     }
   }, [hasError]);
+
+  // 닉네임 Enter시
+  const handleNicknameEnter = () => {
+    if (isNameSectionValid) {
+      setIsNameSubmitted(true);
+    }
+  };
+
+  // 생년월일 필드 렌더링된 직후 감지해 포커싱
+  useEffect(() => {
+    if (isNameSubmitted && isNameSectionValid) {
+      yearRef.current?.focus();
+    }
+  }, [isNameSubmitted, isNameSectionValid]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -162,10 +189,6 @@ const SignupPage = () => {
   };
 
   if (!signupToken) return null;
-
-  // 닉네임 필드 유효
-  const isNameSectionValid =
-    nickname !== '' && !isNameFormatInvalid && !isNameLengthInvalid;
 
   // 생년월일 필드 유효
   const isBirthSectionValid =
@@ -215,21 +238,24 @@ const SignupPage = () => {
           <div className={styles.flexbox}>
             <TextField
               value={nickname}
+              ref={nicknameRef}
               onChange={handleNicknameChange}
               isError={isNameFormatInvalid || isNameLengthInvalid}
               errorMessage={nameErrorMessage}
               maxLength={18}
               onRefresh={handleRefresh}
+              onEnter={handleNicknameEnter}
             />
           </div>
         </div>
 
         {/* 생년월일 입력 */}
-        {isNameSectionValid && (
+        {isNameSectionValid && isNameSubmitted && (
           <div className={styles.fieldbox}>
             <h2 className={styles.fieldtitle}>생년월일</h2>
             <div className={styles.flexbox}>
               <DateField
+                ref={yearRef}
                 value={{ year: birthYear, month: birthMonth, day: birthDay }}
                 onChange={(value) => {
                   handleBirthYearChange(value.year);
@@ -244,7 +270,7 @@ const SignupPage = () => {
         )}
 
         {/* 성별 선택 */}
-        {isNameSectionValid && isBirthSectionValid && (
+        {isNameSectionValid && isNameSubmitted && isBirthSectionValid && (
           <div className={styles.fieldbox}>
             <h2 className={styles.fieldtitle}>성별</h2>
             <div className={styles.flexbox}>

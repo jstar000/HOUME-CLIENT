@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 
 import * as styles from './DateField.css';
 import TextFieldContainer from './TextFieldContainer';
@@ -25,108 +25,109 @@ interface DateFieldProps {
 
 const onlyNumber = (value: string) => value.replace(/\D/g, '');
 
-const DateField = ({
-  value,
-  onChange,
-  error,
-  errorMessage,
-}: DateFieldProps) => {
-  const [focusedPart, setFocusedPart] = useState<
-    'year' | 'month' | 'day' | null
-  >(null);
+const DateField = forwardRef<HTMLInputElement, DateFieldProps>(
+  ({ value, onChange, error, errorMessage }, ref) => {
+    const [focusedPart, setFocusedPart] = useState<
+      'year' | 'month' | 'day' | null
+    >(null);
 
-  const isFocused = focusedPart !== null;
-  const isFilled = !!(value.year || value.month || value.day);
-  const isError = !!(error?.year || error?.month || error?.day);
+    const isFocused = focusedPart !== null;
+    const isFilled = !!(value.year || value.month || value.day);
+    const isError = !!(error?.year || error?.month || error?.day);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value: inputValue } = e.target;
-    const key = name as keyof DateValue;
+    const yearInputRef = useRef<HTMLInputElement>(null);
+    useImperativeHandle(ref, () => yearInputRef.current!);
 
-    const maxLength = key === 'year' ? 4 : 2;
-    const sliceValue = onlyNumber(inputValue).slice(0, maxLength);
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value: inputValue } = e.target;
+      const key = name as keyof DateValue;
 
-    onChange({
-      ...value,
-      [key]: sliceValue,
-    });
-  };
+      const maxLength = key === 'year' ? 4 : 2;
+      const sliceValue = onlyNumber(inputValue).slice(0, maxLength);
 
-  const handleMonthBlur = () => {
-    setFocusedPart(null);
-    const paddedMonth = padToTwoDigits(value.month);
-    if (paddedMonth !== value.month) {
       onChange({
         ...value,
-        month: paddedMonth,
+        [key]: sliceValue,
       });
-    }
-  };
+    };
 
-  const handleDayBlur = () => {
-    setFocusedPart(null);
-    const paddedDay = padToTwoDigits(value.day);
-    if (paddedDay !== value.day) {
-      onChange({
-        ...value,
-        day: paddedDay,
-      });
-    }
-  };
+    const handleMonthBlur = () => {
+      setFocusedPart(null);
+      const paddedMonth = padToTwoDigits(value.month);
+      if (paddedMonth !== value.month) {
+        onChange({
+          ...value,
+          month: paddedMonth,
+        });
+      }
+    };
 
-  return (
-    <TextFieldContainer
-      isFocused={isFocused}
-      isFilled={isFilled}
-      isError={isError}
-      errorMessage={errorMessage}
-    >
-      <div className={styles.dateRow}>
-        <input
-          name="year"
-          value={value.year}
-          onChange={handleChange}
-          onFocus={() => setFocusedPart('year')}
-          onBlur={() => setFocusedPart(null)}
-          placeholder="YYYY"
-          inputMode="numeric"
-          className={styles.dateInput({
-            isErrorText: !!error?.year,
-          })}
-        />
+    const handleDayBlur = () => {
+      setFocusedPart(null);
+      const paddedDay = padToTwoDigits(value.day);
+      if (paddedDay !== value.day) {
+        onChange({
+          ...value,
+          day: paddedDay,
+        });
+      }
+    };
 
-        <span className={styles.divider}>|</span>
+    return (
+      <TextFieldContainer
+        isFocused={isFocused}
+        isFilled={isFilled}
+        isError={isError}
+        errorMessage={errorMessage}
+      >
+        <div className={styles.dateRow}>
+          <input
+            name="year"
+            ref={yearInputRef}
+            value={value.year}
+            onChange={handleChange}
+            onFocus={() => setFocusedPart('year')}
+            onBlur={() => setFocusedPart(null)}
+            placeholder="YYYY"
+            inputMode="numeric"
+            className={styles.dateInput({
+              isErrorText: !!error?.year,
+            })}
+          />
 
-        <input
-          name="month"
-          value={value.month}
-          onChange={handleChange}
-          onFocus={() => setFocusedPart('month')}
-          onBlur={handleMonthBlur}
-          placeholder="MM"
-          inputMode="numeric"
-          className={styles.dateInput({
-            isErrorText: !!error?.month,
-          })}
-        />
+          <span className={styles.divider}>|</span>
 
-        <span className={styles.divider}>|</span>
+          <input
+            name="month"
+            value={value.month}
+            onChange={handleChange}
+            onFocus={() => setFocusedPart('month')}
+            onBlur={handleMonthBlur}
+            placeholder="MM"
+            inputMode="numeric"
+            className={styles.dateInput({
+              isErrorText: !!error?.month,
+            })}
+          />
 
-        <input
-          name="day"
-          value={value.day}
-          onChange={handleChange}
-          onFocus={() => setFocusedPart('day')}
-          onBlur={handleDayBlur}
-          placeholder="DD"
-          inputMode="numeric"
-          className={styles.dateInput({
-            isErrorText: !!error?.day,
-          })}
-        />
-      </div>
-    </TextFieldContainer>
-  );
-};
+          <span className={styles.divider}>|</span>
+
+          <input
+            name="day"
+            value={value.day}
+            onChange={handleChange}
+            onFocus={() => setFocusedPart('day')}
+            onBlur={handleDayBlur}
+            placeholder="DD"
+            inputMode="numeric"
+            className={styles.dateInput({
+              isErrorText: !!error?.day,
+            })}
+          />
+        </div>
+      </TextFieldContainer>
+    );
+  }
+);
 
 export default DateField;

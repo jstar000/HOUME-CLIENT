@@ -2,9 +2,8 @@ import { useState, useMemo, useCallback } from 'react';
 
 import {
   VALIDATION_RULES,
-  isKoreanOnly,
   isMinLength,
-  filterKorean,
+  isValidNicknameFormat,
   isValidYearFormat,
   isValidMonthFormat,
   isValidDayFormat,
@@ -27,19 +26,16 @@ const useSignupForm = (initialName: string = '') => {
   // -------------------------
   // 이름 유효성 검사
   // -------------------------
-  // 한글만, 최소 길이 이상
-  const isNameValid =
-    isKoreanOnly(nickname) &&
-    isMinLength(nickname, VALIDATION_RULES.NAME_MIN_LENGTH);
+  // 최소 길이 이상
+  const isNameValid = isMinLength(nickname, VALIDATION_RULES.NAME_MIN_LENGTH);
 
-  // 한글이 아닌 경우 에러
-  const isNameFormatInvalid = nickname !== '' && !isKoreanOnly(nickname);
+  // 한글, 영어, 숫자 허용
+  const isNameFormatInvalid =
+    nickname !== '' && !isValidNicknameFormat(nickname);
 
-  // 한글이지만 길이 부족 에러
+  // 길이 부족 에러
   const isNameLengthInvalid =
-    nickname !== '' &&
-    isKoreanOnly(nickname) &&
-    !isMinLength(nickname, VALIDATION_RULES.NAME_MIN_LENGTH);
+    nickname !== '' && !isMinLength(nickname, VALIDATION_RULES.NAME_MIN_LENGTH);
 
   // -------------------------
   // 생년월일 숫자 변환
@@ -132,10 +128,9 @@ const useSignupForm = (initialName: string = '') => {
   // -------------------------
   // 입력 핸들러
   // -------------------------
-  // 닉네임 입력 핸들러 (한글만 필터)
+  // 닉네임 입력 핸들러
   const handleNicknameChange = useCallback((input: string) => {
-    const filtered = filterKorean(input);
-    setNickname(filtered);
+    setNickname(input);
   }, []);
 
   // 숫자만 입력받도록 처리하는 핸들러 생성 함수
