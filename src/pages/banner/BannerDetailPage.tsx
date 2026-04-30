@@ -56,10 +56,6 @@ const BannerDetailPage = () => {
     );
   }
 
-  if (isError || !bannerDetail) {
-    throw new Response('Banner detail not found', { status: 404 });
-  }
-
   if (isError) {
     return (
       <div className={styles.page}>
@@ -73,6 +69,10 @@ const BannerDetailPage = () => {
         </main>
       </div>
     );
+  }
+
+  if (!bannerDetail) {
+    throw new Response('Banner detail not found', { status: 404 });
   }
 
   // 배너 상세 CTA: setFlow(HOME_BANNER) → 로그인 체크 → 배너 상세로 복귀
