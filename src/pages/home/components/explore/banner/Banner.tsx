@@ -22,15 +22,17 @@ export type BannerSlide = {
 const AUTO_PLAY_DELAY_MS = 4000;
 
 type BannerProps = {
-  seedBannerId?: number;
+  seedBannerId: number;
   onSlideClick?: (slide: BannerSlide) => void;
 };
 
-const Banner = ({ seedBannerId = 16, onSlideClick }: BannerProps) => {
-  // 현재 seedBannerId는 기본값은 임시 아이디값
+const Banner = ({ seedBannerId, onSlideClick }: BannerProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const { data, isError, error, status, fetchStatus } =
-    useBannerListQuery(seedBannerId);
+  const { data } = useBannerListQuery(seedBannerId);
+
+  useEffect(() => {
+    setActiveIndex(0);
+  }, [seedBannerId]);
 
   const slides: BannerSlide[] = useMemo(() => {
     const banners = data?.banners ?? [];
@@ -42,18 +44,6 @@ const Banner = ({ seedBannerId = 16, onSlideClick }: BannerProps) => {
         imageUrl: b.imageUrl ?? '',
       }));
   }, [data?.banners]);
-
-  useEffect(() => {
-    console.log('[Banner] GET /api/v1/banners/:bannerId', {
-      seedBannerId,
-      status,
-      fetchStatus,
-      isError,
-      error,
-      raw: data,
-      slides,
-    });
-  }, [data, error, fetchStatus, isError, seedBannerId, slides, status]);
 
   const hasMultipleSlides = slides.length > 1;
   const currentSlide = slides[activeIndex] ?? slides[0];
