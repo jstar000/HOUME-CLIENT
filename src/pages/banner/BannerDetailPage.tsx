@@ -124,7 +124,8 @@ const BannerDetailPage = () => {
             aria-labelledby={questionId}
           >
             {(bannerDetail.answers ?? []).map((answer) => {
-              const answerId = answer.id ?? -1;
+              if (answer.id == null) return null;
+              const answerId = answer.id;
               const label = answer.text ?? '';
               const selected = selectedAnswerId === answerId;
 
