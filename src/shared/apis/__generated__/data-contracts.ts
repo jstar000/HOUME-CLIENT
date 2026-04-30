@@ -855,9 +855,18 @@ export interface ApiResponseRecentFloorPlanResponse {
   data?: RecentFloorPlanResponse;
 }
 
+export interface RecentFloorPlanItemResponse {
+  /** @format int64 */
+  id?: number;
+  name?: string;
+  imageUrl?: string;
+  equilibrium?: string;
+  view?: string;
+}
+
 export interface RecentFloorPlanResponse {
   hasRecentImage?: boolean;
-  floorPlan?: object;
+  floorPlan?: RecentFloorPlanItemResponse;
 }
 
 export interface ApiResponseMyPageGeneratedImageV2Response {
@@ -1190,6 +1199,8 @@ export interface LandingListResponse {
 export interface LandingResponse {
   /** @format int64 */
   id?: number;
+  /** @format int64 */
+  bannerId?: number;
   name?: string;
   imageUrl?: string;
 }

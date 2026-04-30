@@ -40,6 +40,8 @@ export const queryKeys = {
         'houseTemplateDetail',
         floorPlanId,
       ] as const,
+    recentFloorPlan: () =>
+      [...queryKeys.imageSetup.all, 'recentFloorPlan'] as const,
     activities: () => [...queryKeys.imageSetup.all, 'activities'] as const,
     furnitureCategories: () =>
       [...queryKeys.imageSetup.all, 'furnitureCategories'] as const,

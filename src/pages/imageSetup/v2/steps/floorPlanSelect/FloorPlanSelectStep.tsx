@@ -20,11 +20,14 @@ const FloorPlanSelectStep = ({ context, onNext }: FloorPlanSelectStepProps) => {
     selectedFloorPlanName,
     selectedEquilibrium,
     selectedDetailViews,
+    recentFloorPlan,
     handleCardClick,
     handleConfirmFloorPlan,
+    handleConfirmRecentFloorPlan,
     grid,
     filterSheet,
     floorPlanSheet,
+    recentSheet,
   } = useFloorPlanSelect(context, onNext);
 
   return (
@@ -58,7 +61,21 @@ const FloorPlanSelectStep = ({ context, onNext }: FloorPlanSelectStepProps) => {
         onConfirm={handleConfirmFloorPlan}
       />
 
-      {/* TODO: GET /api/v2/recent-floor-plan swagger 갱신 후 RecentSheet 데이터 바인딩 */}
+      {recentFloorPlan && (
+        <FloorPlanSheet
+          open={recentSheet.open}
+          onClose={recentSheet.onClose}
+          floorPlanName={recentFloorPlan.name ?? ''}
+          equilibrium={recentFloorPlan.equilibrium ?? ''}
+          detailViews={[
+            {
+              imageUrl: recentFloorPlan.imageUrl,
+              view: recentFloorPlan.view,
+            },
+          ]}
+          onConfirm={handleConfirmRecentFloorPlan}
+        />
+      )}
     </>
   );
 };

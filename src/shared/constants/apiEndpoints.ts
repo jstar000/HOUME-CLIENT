@@ -21,6 +21,7 @@ export const API_ENDPOINT = {
     HOUSE_TEMPLATES: '/api/v2/house-templates', // GET 도면 전체 조회 (필터/페이지네이션)
     HOUSE_TEMPLATE_DETAIL: (floorPlanId: number) =>
       `/api/v2/house-templates/${floorPlanId}`, // GET 도면 상세 조회 (다중 뷰)
+    RECENT_FLOOR_PLAN: '/api/v2/recent-floor-plan', // GET 최근 사용한 도면 조회 (RecentSheet용)
     POST_ADDRESS: '/api/v1/addresses', // POST 사용자 주소 입력받기
     INTERIOR_STYLE: '/api/v1/moodboard-images', // GET 무드보드 제공
     ACTIVITIES: '/api/v2/dashboard/activities', // GET 주요활동 + 활동별 필수 가구
