@@ -21,7 +21,7 @@ export const useSimilarItemsQuery = (imageId: number) => {
     queryKey: queryKeys.generate.similarItems(imageId),
     queryFn: () => getSimilarItems(imageId),
     enabled: imageId > 0,
-    staleTime: Infinity,
+    staleTime: 2 * 60 * 1000,
     gcTime: 1000 * 60 * 60 * 24,
   });
 };

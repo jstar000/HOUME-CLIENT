@@ -21,7 +21,7 @@ export const useGenerateListResultQuery = (imageId: number) => {
     queryKey: queryKeys.generate.listResultItems(imageId),
     queryFn: () => getGenerateListResultResponse(imageId),
     enabled: imageId > 0,
-    staleTime: Infinity,
+    staleTime: 2 * 60 * 1000,
     gcTime: 1000 * 60 * 60 * 24,
   });
 };

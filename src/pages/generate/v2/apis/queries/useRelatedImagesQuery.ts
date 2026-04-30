@@ -21,7 +21,7 @@ export const useRelatedImagesQuery = (imageId: number) => {
     queryKey: queryKeys.generate.relatedImages(imageId),
     queryFn: () => getRelatedImages(imageId),
     enabled: imageId > 0,
-    staleTime: Infinity,
+    staleTime: 2 * 60 * 1000,
     gcTime: 1000 * 60 * 60 * 24,
   });
 };
