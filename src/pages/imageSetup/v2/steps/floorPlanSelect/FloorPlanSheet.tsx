@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import clsx from 'clsx';
 import { Navigation } from 'swiper/modules';
@@ -44,6 +44,15 @@ const FloorPlanSheet = ({
     selectedViewIndex,
     setViewIndex,
   } = useFloorPlanSheet(detailViews);
+
+  // 도면 상세 시트 마운트 후, 로그인 게이트에서 도면 상세 시트로 복귀 시, swiper의 slideTo()로 기존에 사용자가 선택했던 view로 이동
+  useEffect(() => {
+    const swiper = swiperRef.current;
+    if (!swiper) return;
+    if (swiper.realIndex !== selectedViewIndex) {
+      swiper.slideTo(selectedViewIndex);
+    }
+  }, [selectedViewIndex]);
 
   if (!currentView) return null;
 

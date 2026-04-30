@@ -15,11 +15,18 @@ import { queryKeys } from '@constants/queryKey';
 export const postGenerateImage = async (
   requestData: GenerateImageV4Request
 ): Promise<BannerGenerateImageResponse> => {
-  return request<BannerGenerateImageResponse>({
+  const response = await request<BannerGenerateImageResponse>({
     method: HTTPMethod.POST,
     url: API_ENDPOINT.GENERATE.IMAGE_V4,
     body: requestData,
   });
+
+  // 응답은 200이지만 imageId가 오지 않는 예외 고려 (실제 발생 가능성은 낮음, 토끼 추천)
+  if (typeof response.imageId !== 'number') {
+    throw new Error('이미지 생성 응답에 imageId가 누락되었습니다');
+  }
+
+  return response;
 };
 
 export const useGenerateImageMutation = () => {

@@ -65,6 +65,17 @@ export const useFloorPlanSelect = (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [recentFloorPlan]);
 
+  // 로그인 게이트 복귀 등으로 도면 상세가 새로 fetch될 때, funnelStore에 저장된 floorPlanView와
+  // 일치하는 슬라이드 인덱스를 복원해 사용자가 이전에 보던 도면 view가 그대로 노출되도록 함
+  useEffect(() => {
+    const savedView = useFunnelStore.getState().floorPlan?.floorPlanView;
+    if (!savedView || !detailData?.floorPlans) return;
+
+    const idx = detailData.floorPlans.findIndex((p) => p.view === savedView);
+    if (idx >= 0) store.setViewIndex(idx);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [detailData]);
+
   const handleCardClick = (floorPlanId: number) => {
     store.selectNewFloorPlan(floorPlanId);
     store.openFloorPlanSheet();
