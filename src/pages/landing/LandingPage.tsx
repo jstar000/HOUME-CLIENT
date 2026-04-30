@@ -53,6 +53,7 @@ const LandingPage = () => {
       ) : null}
       {selectedLanding?.imageUrl ? (
         <img
+          key={selectedLanding.bannerId ?? currentIndex}
           src={selectedLanding.imageUrl}
           alt="랜딩 배너 이미지"
           aria-hidden
