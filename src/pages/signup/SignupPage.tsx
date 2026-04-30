@@ -124,6 +124,13 @@ const SignupPage = () => {
   const isNameSectionValid =
     nickname !== '' && !isNameFormatInvalid && !isNameLengthInvalid;
 
+  // 닉네임이 유효하지 않으면 isNameSubmitted 초기화
+  useEffect(() => {
+    if (!isNameSectionValid) {
+      setIsNameSubmitted(false);
+    }
+  }, [isNameSectionValid]);
+
   // 페이지 로드 시 랜덤 닉네임으로 초기값 설정 (첫 마운트, 랜덤닉네임 존재, 초기화 전)
   useEffect(() => {
     if (randomNickname && !isInitialized.current) {
