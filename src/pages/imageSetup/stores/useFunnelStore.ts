@@ -8,21 +8,26 @@ interface FunnelStore {
   floorPlan: {
     floorPlanId: number;
     isMirror: boolean;
+    floorPlanView: string;
   } | null;
   moodBoardIds: number[] | null;
   activityInfo: {
     // ActivityInfo 스텝은 마지막 단계이므로 '다음' 버튼 X -> formData 값 바뀔 때마다 실시간으로 값 변경 반영 필요
     // 따라서 undefined도 저장할 수 있도록 optional 프로퍼티로 선언
-    activityType?: string;
-    selectiveIds?: number[];
+    activity?: string;
+    furnitureIds?: number[];
   } | null;
 
   // 각 스텝의 데이터 저장
-  setFloorPlan: (data: { floorPlanId: number; isMirror: boolean }) => void;
+  setFloorPlan: (data: {
+    floorPlanId: number;
+    isMirror: boolean;
+    floorPlanView: string;
+  }) => void;
   setMoodBoardIds: (ids: number[]) => void;
   setActivityInfo: (data: {
-    activityType?: string;
-    selectiveIds?: number[];
+    activity?: string;
+    furnitureIds?: number[];
   }) => void;
 
   // 초기화

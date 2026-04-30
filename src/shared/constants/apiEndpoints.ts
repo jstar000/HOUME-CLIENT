@@ -14,21 +14,31 @@ export const API_ENDPOINT = {
       `/api/v1/mypage/images/${imageId}`,
     DELETE: '/api/v1/user',
   },
+  BANNER: {
+    LANDING: '/api/v1/landings',
+    BANNER_EXPLORE: (bannerId: number) => `/api/v1/banners/${bannerId}`,
+    BANNER_DETAIL: (bannerId: number) => `/api/v1/banners/${bannerId}/detail`,
+  },
   IMAGE_SETUP: {
     HOUSE_OPTIONS: '/api/v1/housing-options', // GET 집구조 제공(OFFICETEL, VILLA 등)
     HOUSE_INFO: '/api/v1/housing-selections', // POST 집구조 선택
-    FLOOR_PLAN: '/api/v1/house-templates', // GET 도면 템플릿 제공
+    FLOOR_PLAN: '/api/v1/house-templates', // @deprecated 예전 API, 사용 X
+    HOUSE_TEMPLATES: '/api/v2/house-templates', // GET 도면 전체 조회 (필터/페이지네이션)
+    HOUSE_TEMPLATE_DETAIL: (floorPlanId: number) =>
+      `/api/v2/house-templates/${floorPlanId}`, // GET 도면 상세 조회 (다중 뷰)
+    RECENT_FLOOR_PLAN: '/api/v2/recent-floor-plan', // GET 최근 사용한 도면 조회 (RecentSheet용)
     POST_ADDRESS: '/api/v1/addresses', // POST 사용자 주소 입력받기
     INTERIOR_STYLE: '/api/v1/moodboard-images', // GET 무드보드 제공
-    ACTIVITY_OPTIONS: '/api/v1/dashboard-info', // GET 주요활동, 가구 리스트 제공
+    ACTIVITIES: '/api/v2/dashboard/activities', // GET 주요활동 + 활동별 필수 가구
+    FURNITURE_CATEGORIES: '/api/v2/dashboard/categories', // GET 가구 카테고리 + 카테고리별 가구
   },
   GENERATE: {
     CAROUSELS: '/api/v1/carousels',
     CAROUSELS_LIKE: '/api/v1/carousels/like',
     CAROUSELS_HATE: '/api/v1/carousels/hate',
-    IMAGE_V2: '/api/v2/generated-images/generate/gemini',
-    IMAGE_V3: '/api/v3/generated-images/generate/gemini',
-    IMAGE_STATUS: '/api/v1/generated-images/generate',
+    CAROUSELS_V2: '/api/v2/carousels',
+    CAROUSELS_LIKE_V2: '/api/v2/carousels/like',
+    IMAGE_V4: '/api/v4/generated-images/generate', // 풀퍼널 이미지 생성
     IMAGE_PREFERENCE: '/api/v1/generated-images',
     FACTORS: '/api/v1/factors',
     FACTOR_PREFERENCE: (imageId: number, factorId: number) =>
@@ -45,10 +55,19 @@ export const API_ENDPOINT = {
     MYPAGE_JJYM_LIST: '/api/v1/jjyms', // 찜한 가구 조회
     MYPAGE_JJYM_LIST_V2: '/api/v2/jjyms',
   },
+  PRODUCT: {
+    LIST: '/api/v1/curations/products',
+    DETAIL: (productId: number) => `/api/v1/curations/products/${productId}`,
+    FILTERS: '/api/v1/curations/products/filters',
+  },
   ANALYTICS: {
     FURNITURE_LOGS: '/api/v1/furnitures/logs',
     CREDIT_LOGS: '/api/v1/credits/logs',
     CHECK_GENERATED_IMAGE: '/api/v1/check-has-generated-image',
+  },
+  STYLES: {
+    STYLE_LIST: '/api/v1/other-styles',
+    STYLE_DETAIL: (styleId: number) => `/api/v1/other-styles/${styleId}`,
   },
 } as const;
 

@@ -14,6 +14,15 @@ export interface ProductsQueryVariables {
   categoryId: number | null;
 }
 
+export interface ProductListQueryVariables {
+  keyword?: string;
+  types?: number[];
+  priceRanges?: string[];
+  colors?: number[];
+  cursor?: number;
+  size?: number;
+}
+
 // Query Key Factory
 export const queryKeys = {
   // 랜딩
@@ -22,14 +31,48 @@ export const queryKeys = {
     history: () => [...queryKeys.landing.all, 'history'] as const,
   },
 
+  // 상품
+  product: {
+    all: ['product'] as const,
+    productFilters: () => [...queryKeys.product.all, 'productFilters'] as const,
+    productList: (params: Omit<ProductListQueryVariables, 'cursor'>) =>
+      [...queryKeys.product.all, 'productList', params] as const,
+    productDetail: (productId: number) =>
+      [...queryKeys.product.all, 'productDetail', productId] as const,
+  },
+
+  // 배너
+  banner: {
+    all: ['banner'] as const,
+    list: (bannerId: number) =>
+      [...queryKeys.banner.all, 'list', bannerId] as const,
+    detail: (bannerId: number) =>
+      [...queryKeys.banner.all, 'detail', bannerId] as const,
+  },
+
   // 이미지 설정 (온보딩 퍼널)
   imageSetup: {
     all: ['imageSetup'] as const,
     housingOptions: () =>
       [...queryKeys.imageSetup.all, 'housingOptions'] as const,
     floorPlan: () => [...queryKeys.imageSetup.all, 'floorPlan'] as const,
-    activityOptions: () =>
-      [...queryKeys.imageSetup.all, 'activityOptions'] as const,
+    houseTemplates: (params: {
+      size?: number;
+      residenceType?: string[];
+      layoutType?: string[];
+      equilibrium?: string[];
+    }) => [...queryKeys.imageSetup.all, 'houseTemplates', params] as const,
+    houseTemplateDetail: (floorPlanId: number) =>
+      [
+        ...queryKeys.imageSetup.all,
+        'houseTemplateDetail',
+        floorPlanId,
+      ] as const,
+    recentFloorPlan: () =>
+      [...queryKeys.imageSetup.all, 'recentFloorPlan'] as const,
+    activities: () => [...queryKeys.imageSetup.all, 'activities'] as const,
+    furnitureCategories: () =>
+      [...queryKeys.imageSetup.all, 'furnitureCategories'] as const,
     moodBoard: (limit?: number) =>
       [...queryKeys.imageSetup.all, 'moodBoard', limit] as const,
   },
@@ -75,5 +118,13 @@ export const queryKeys = {
   jjym: {
     all: ['jjym'] as const,
     list: () => [...queryKeys.jjym.all, 'list'] as const,
+  },
+
+  // 스타일
+  styles: {
+    all: ['styles'] as const,
+    list: (size?: number) => [...queryKeys.styles.all, 'list', size] as const,
+    detail: (styleId: number) =>
+      [...queryKeys.styles.all, 'detail', styleId] as const,
   },
 } as const;

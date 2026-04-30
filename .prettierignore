@@ -5,3 +5,4 @@ build
 package.json
 /.coderabbit.yaml
 *.hbs
+src/shared/apis/__generated__/
