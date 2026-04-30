@@ -129,14 +129,15 @@ const SignupPage = () => {
     if (randomNickname && !isInitialized.current) {
       handleNicknameChange(randomNickname);
       isInitialized.current = true;
+
+      // 닉네임 들어온 뒤 포커스 처리
+      const el = nicknameRef.current;
+      if (el) {
+        el.focus();
+        el.setSelectionRange(el.value.length, el.value.length);
+      }
     }
   }, [randomNickname, handleNicknameChange]);
-
-  useEffect(() => {
-    nicknameRef.current?.focus();
-    const len = nicknameRef.current?.value.length || 0;
-    nicknameRef.current?.setSelectionRange(len, len);
-  }, []);
 
   const handleRefresh = async () => {
     const { data } = await refetch();
