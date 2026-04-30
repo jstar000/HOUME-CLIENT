@@ -11,15 +11,17 @@ import ChevronUp from '@assets/v2/svg/ChevronUp.svg?url';
 import Close from '@assets/v2/svg/Close.svg?url';
 import CloseFillBlack from '@assets/v2/svg/CloseFillBlack.svg?url';
 import CloseFillGray from '@assets/v2/svg/CloseFillGray.svg?url';
+import Credit from '@assets/v2/svg/Credit.svg?url';
 import CupBlack from '@assets/v2/svg/CupBlack.svg?url';
 import CupGray from '@assets/v2/svg/CupGray.svg?url';
 import DeskBlack from '@assets/v2/svg/DeskBlack.svg?url';
 import DeskGray from '@assets/v2/svg/DeskGray.svg?url';
-import Credit from '@assets/v2/svg/Credit.svg?url';
+import DislikeWhite from '@assets/v2/svg/DislikeWhite.svg?url';
 import DoubleStar from '@assets/v2/svg/DoubleStar.svg?url';
 import FlipHorizontal from '@assets/v2/svg/FlipHorizontal.svg?url';
 import HeartFillColor from '@assets/v2/svg/HeartFillColor.svg?url';
 import HeartFillGray from '@assets/v2/svg/HeartFillGray.svg?url';
+import HeartFillWhite from '@assets/v2/svg/HeartFillWhite.svg?url';
 import HeartStrokeGray from '@assets/v2/svg/HeartStrokeGray.svg?url';
 import HeartStrokeWhite from '@assets/v2/svg/HeartStrokeWhite.svg?url';
 import Link from '@assets/v2/svg/Link.svg?url';
@@ -72,6 +74,8 @@ const IconsName = {
   Search,
   ViewDetail,
   Credit,
+  HeartFillWhite,
+  DislikeWhite,
 } as const;
 
 export type IconName = keyof typeof IconsName;

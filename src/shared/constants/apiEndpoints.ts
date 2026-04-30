@@ -31,6 +31,8 @@ export const API_ENDPOINT = {
     CAROUSELS: '/api/v1/carousels',
     CAROUSELS_LIKE: '/api/v1/carousels/like',
     CAROUSELS_HATE: '/api/v1/carousels/hate',
+    CAROUSELS_V2: '/api/v2/carousels',
+    CAROUSELS_LIKE_V2: '/api/v2/carousels/like',
     IMAGE_V4: '/api/v4/generated-images/generate', // 풀퍼널 이미지 생성
     IMAGE_PREFERENCE: '/api/v1/generated-images',
     FACTORS: '/api/v1/factors',
@@ -48,10 +50,19 @@ export const API_ENDPOINT = {
     MYPAGE_JJYM_LIST: '/api/v1/jjyms', // 찜한 가구 조회
     MYPAGE_JJYM_LIST_V2: '/api/v2/jjyms',
   },
+  PRODUCT: {
+    LIST: '/api/v1/curations/products',
+    DETAIL: (productId: number) => `/api/v1/curations/products/${productId}`,
+    FILTERS: '/api/v1/curations/products/filters',
+  },
   ANALYTICS: {
     FURNITURE_LOGS: '/api/v1/furnitures/logs',
     CREDIT_LOGS: '/api/v1/credits/logs',
     CHECK_GENERATED_IMAGE: '/api/v1/check-has-generated-image',
+  },
+  STYLES: {
+    STYLE_LIST: '/api/v1/other-styles',
+    STYLE_DETAIL: (styleId: number) => `/api/v1/other-styles/${styleId}`,
   },
 } as const;
 
