@@ -1,4 +1,4 @@
-import { useId, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
@@ -36,6 +36,10 @@ const BannerDetailPage = () => {
     isError,
     refetch,
   } = useBannerDetailQuery(parsedBannerId);
+
+  useEffect(() => {
+    setSelectedAnswerId(null);
+  }, [parsedBannerId]);
 
   if (isPending) {
     return (
