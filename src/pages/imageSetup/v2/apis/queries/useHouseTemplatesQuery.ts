@@ -15,7 +15,9 @@ interface HouseTemplatesParams extends Partial<FloorPlanFilters> {
 export const getHouseTemplates = async (
   params: HouseTemplatesParams
 ): Promise<ExploreHouseTemplateListResponse> => {
+  // query: HTTP query string data (?residenceType=""...)
   const query: Record<string, string[] | number> = {};
+  // 빈 값(length==0) 제외하고 query 객체 생성
   if (params.size !== undefined) query.size = params.size;
   if (params.residenceType?.length) query.residenceType = params.residenceType;
   if (params.layoutType?.length) query.layoutType = params.layoutType;
@@ -32,5 +34,7 @@ export const useHouseTemplatesQuery = (params: HouseTemplatesParams) => {
   return useQuery({
     queryKey: queryKeys.imageSetup.houseTemplates(params),
     queryFn: () => getHouseTemplates(params),
+    staleTime: 1000 * 60 * 60, // 1시간 — 정적 데이터, prefetch와 동일 정책
+    gcTime: 1000 * 60 * 60 * 24,
   });
 };

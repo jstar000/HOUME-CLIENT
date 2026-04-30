@@ -26,5 +26,7 @@ export const useMoodBoardQuery = (
   return useQuery({
     queryKey: queryKeys.imageSetup.moodBoard(limit),
     queryFn: () => getMoodBoardImage(limit),
+    staleTime: 1000 * 60 * 60, // 정적 데이터, prefetch와 동일하게 1시간 설정
+    gcTime: 1000 * 60 * 60 * 24,
   });
 };

@@ -18,7 +18,7 @@ export const useActivitiesQuery = () => {
   return useQuery({
     queryKey: queryKeys.imageSetup.activities(),
     queryFn: getActivities,
-    staleTime: Infinity,
+    staleTime: 1000 * 60 * 60, // 정적 데이터, prefetch와 동일하게 1시간 설정
     gcTime: 1000 * 60 * 60 * 24,
   });
 };
