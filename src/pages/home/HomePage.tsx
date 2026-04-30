@@ -88,7 +88,6 @@ const HomePage = () => {
     navigate(ROUTES.IMAGE_SETUP);
   };
 
-  // 프로필 버튼 클릭 핸들러 (마이페이지 버튼 클릭 이벤트 전송)
   const handleProfile = () => {
     if (isLoggedIn) {
       logLandingClickBtnMypage();
