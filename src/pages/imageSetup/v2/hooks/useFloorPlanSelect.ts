@@ -67,11 +67,15 @@ export const useFloorPlanSelect = (
 
   // 로그인 게이트 복귀 등으로 도면 상세가 새로 fetch될 때, funnelStore에 저장된 floorPlanView와
   // 일치하는 슬라이드 인덱스를 복원해 사용자가 이전에 보던 도면 view가 그대로 노출되도록 함
+  // floorPlanId가 일치할 때만 복원 — 다른 도면이 같은 view 라벨을 가진 경우 의도치 않게 강제 복원되는 것을 방지
   useEffect(() => {
-    const savedView = useFunnelStore.getState().floorPlan?.floorPlanView;
-    if (!savedView || !detailData?.floorPlans) return;
+    const saved = useFunnelStore.getState().floorPlan;
+    if (!saved?.floorPlanView || !detailData?.floorPlans) return;
+    if (saved.floorPlanId !== detailData.floorPlanId) return;
 
-    const idx = detailData.floorPlans.findIndex((p) => p.view === savedView);
+    const idx = detailData.floorPlans.findIndex(
+      (p) => p.view === saved.floorPlanView
+    );
     if (idx >= 0) store.setViewIndex(idx);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [detailData]);

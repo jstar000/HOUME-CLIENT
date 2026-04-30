@@ -45,14 +45,20 @@ const FloorPlanSheet = ({
     setViewIndex,
   } = useFloorPlanSheet(detailViews);
 
-  // 도면 상세 시트 마운트 후, 로그인 게이트에서 도면 상세 시트로 복귀 시, swiper의 slideTo()로 기존에 사용자가 선택했던 view로 이동
+  // 도면 상세 시트 마운트 후, 로그인 게이트에서 도면 상세 시트로 복귀 시, swiper API로 기존에 사용자가 선택했던 view로 이동
+  // loop=true(=isMultiView)인 경우 복제된 슬라이드 때문에 activeIndex와 realIndex가 다르므로,
+  // realIndex 기준으로 관리되는 selectedViewIndex를 정확히 따라가려면 slideToLoop을 사용해야 함
   useEffect(() => {
     const swiper = swiperRef.current;
     if (!swiper) return;
-    if (swiper.realIndex !== selectedViewIndex) {
+    if (swiper.realIndex === selectedViewIndex) return;
+
+    if (isMultiView) {
+      swiper.slideToLoop(selectedViewIndex);
+    } else {
       swiper.slideTo(selectedViewIndex);
     }
-  }, [selectedViewIndex]);
+  }, [selectedViewIndex, isMultiView]);
 
   if (!currentView) return null;
 
