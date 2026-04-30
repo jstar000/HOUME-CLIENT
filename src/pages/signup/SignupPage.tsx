@@ -153,8 +153,6 @@ const SignupPage = () => {
 
     const formattedBirthday = `${birthYear}-${birthMonth}-${birthDay}`;
 
-    // console.log(nickname, gender.value, formattedBirthday);
-
     signUp({
       signupToken,
       nickname,
