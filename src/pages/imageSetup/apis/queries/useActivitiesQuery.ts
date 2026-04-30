@@ -6,6 +6,8 @@ import { HTTPMethod, request } from '@apis/config/request';
 import { API_ENDPOINT } from '@constants/apiEndpoints';
 import { queryKeys } from '@constants/queryKey';
 
+import { STATIC_DATA_QUERY_OPTIONS } from '../../constants/cache';
+
 export const getActivities =
   async (): Promise<ActivityFurnitureMappingsResponse> => {
     return request<ActivityFurnitureMappingsResponse>({
@@ -18,7 +20,6 @@ export const useActivitiesQuery = () => {
   return useQuery({
     queryKey: queryKeys.imageSetup.activities(),
     queryFn: getActivities,
-    staleTime: 1000 * 60 * 60, // 정적 데이터, prefetch와 동일하게 1시간 설정
-    gcTime: 1000 * 60 * 60 * 24,
+    ...STATIC_DATA_QUERY_OPTIONS,
   });
 };

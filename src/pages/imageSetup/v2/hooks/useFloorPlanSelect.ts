@@ -22,11 +22,9 @@ export const useFloorPlanSelect = (
   const { notify } = useToast();
 
   // 도면 전체 조회 (필터 변경 시 자동 refetch — queryKey에 appliedFilters 포함)
-  const { data: houseTemplatesData } = useHouseTemplatesQuery({
-    residenceType: store.appliedFilters.residenceType,
-    layoutType: store.appliedFilters.layoutType,
-    equilibrium: store.appliedFilters.equilibrium,
-  });
+  const { data: houseTemplatesData } = useHouseTemplatesQuery(
+    store.appliedFilters
+  );
   const floorPlans = houseTemplatesData?.floorPlans ?? [];
 
   // 도면 상세 조회 (카드 선택 -> floorPlanId가 null이 아닐 때 쿼리 enabled)

@@ -6,6 +6,8 @@ import { HTTPMethod, request } from '@apis/config/request';
 import { API_ENDPOINT } from '@constants/apiEndpoints';
 import { queryKeys } from '@constants/queryKey';
 
+import { STATIC_DATA_QUERY_OPTIONS } from '../../../constants/cache';
+
 import type { FloorPlanFilters } from '../../types/floorPlan';
 
 interface HouseTemplatesParams extends Partial<FloorPlanFilters> {
@@ -34,7 +36,6 @@ export const useHouseTemplatesQuery = (params: HouseTemplatesParams) => {
   return useQuery({
     queryKey: queryKeys.imageSetup.houseTemplates(params),
     queryFn: () => getHouseTemplates(params),
-    staleTime: 1000 * 60 * 60, // 1시간 — 정적 데이터, prefetch와 동일 정책
-    gcTime: 1000 * 60 * 60 * 24,
+    ...STATIC_DATA_QUERY_OPTIONS,
   });
 };
