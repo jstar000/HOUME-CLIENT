@@ -10,7 +10,7 @@ const SignupExitPopupContent = () => {
       <p className={styles.description}>
         지금 나가면 무료로 이미지를 만들 수 있는
         <br />
-        토론이 사라져요. 가입을 그만두시겠어요?
+        토큰 사라져요. 가입을 그만두시겠어요?
       </p>
     </div>
   );
