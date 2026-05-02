@@ -55,7 +55,7 @@ const LoginPage = () => {
           src={KakaoLoginImg}
           alt="로그인 전 이미지"
           className={styles.loginImg}
-          loading="lazy"
+          loading="eager"
         />
       </div>
       <div className={styles.textbox}>
