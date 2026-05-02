@@ -133,7 +133,7 @@ const SignupPage = () => {
 
   // 페이지 로드 시 랜덤 닉네임으로 초기값 설정 (첫 마운트, 랜덤닉네임 존재, 초기화 전)
   useEffect(() => {
-    if (randomNickname && !isInitialized.current) {
+    if (randomNickname && !isInitialized.current && nickname === '') {
       handleNicknameChange(randomNickname);
       isInitialized.current = true;
 
@@ -144,7 +144,7 @@ const SignupPage = () => {
         el.setSelectionRange(el.value.length, el.value.length);
       }
     }
-  }, [randomNickname, handleNicknameChange]);
+  }, [randomNickname, nickname, handleNicknameChange]);
 
   const handleRefresh = async () => {
     try {
