@@ -6,7 +6,7 @@ import Icon from '@/shared/components/v2/icon/Icon';
 
 import * as styles from './TextFieldContainer.css';
 
-interface FieldShellProps {
+interface TextFieldContainerProps {
   children: ReactNode;
   isFocused?: boolean;
   isFilled?: boolean;
@@ -14,13 +14,13 @@ interface FieldShellProps {
   errorMessage?: string;
 }
 
-const FieldShell = ({
+const TextFieldContainer = ({
   children,
   isFocused = false,
   isFilled = false,
   isError = false,
   errorMessage,
-}: FieldShellProps) => {
+}: TextFieldContainerProps) => {
   return (
     <div className={styles.fieldWrapper}>
       <div
@@ -44,4 +44,4 @@ const FieldShell = ({
   );
 };
 
-export default FieldShell;
+export default TextFieldContainer;
