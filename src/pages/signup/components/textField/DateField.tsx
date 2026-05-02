@@ -90,6 +90,7 @@ const DateField = forwardRef<HTMLInputElement, DateFieldProps>(
             onBlur={() => setFocusedPart(null)}
             placeholder="YYYY"
             inputMode="numeric"
+            aria-label="출생 연도"
             className={styles.dateInput({
               isErrorText: !!error?.year,
             })}
@@ -105,6 +106,7 @@ const DateField = forwardRef<HTMLInputElement, DateFieldProps>(
             onBlur={handleMonthBlur}
             placeholder="MM"
             inputMode="numeric"
+            aria-label="출생 달"
             className={styles.dateInput({
               isErrorText: !!error?.month,
             })}
@@ -120,6 +122,7 @@ const DateField = forwardRef<HTMLInputElement, DateFieldProps>(
             onBlur={handleDayBlur}
             placeholder="DD"
             inputMode="numeric"
+            aria-label="출생 일"
             className={styles.dateInput({
               isErrorText: !!error?.day,
             })}

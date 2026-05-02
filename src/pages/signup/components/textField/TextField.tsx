@@ -81,6 +81,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             onBlur={() => setIsFocused(false)}
             onKeyDown={handleKeyDown}
             maxLength={maxLength}
+            aria-label="닉네임"
             className={styles.input({
               isErrorText: isError,
             })}
@@ -93,6 +94,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         <div className={styles.refreshBtnContainer}>
           <IconButton
             name="Refresh"
+            aria-label="랜덤 닉네임 재생성"
             onClick={(e) => {
               e.preventDefault();
               onRefresh?.();
