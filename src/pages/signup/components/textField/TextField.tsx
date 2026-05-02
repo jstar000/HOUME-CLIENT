@@ -38,7 +38,6 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
 
     const isControlled = controlledValue !== undefined;
     const value = isControlled ? controlledValue : internalValue;
-    const isFilled = value.length > 0;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const nextValue = e.target.value;
@@ -67,7 +66,6 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       <div className={styles.wrapper}>
         <TextFieldContainer
           isFocused={isFocused}
-          isFilled={isFilled}
           isError={isError}
           errorMessage={errorMessage}
         >

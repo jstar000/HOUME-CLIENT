@@ -32,7 +32,6 @@ const DateField = forwardRef<HTMLInputElement, DateFieldProps>(
     >(null);
 
     const isFocused = focusedPart !== null;
-    const isFilled = !!(value.year || value.month || value.day);
     const isError = !!(error?.year || error?.month || error?.day);
 
     const yearInputRef = useRef<HTMLInputElement>(null);
@@ -76,7 +75,6 @@ const DateField = forwardRef<HTMLInputElement, DateFieldProps>(
     return (
       <TextFieldContainer
         isFocused={isFocused}
-        isFilled={isFilled}
         isError={isError}
         errorMessage={errorMessage}
       >

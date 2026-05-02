@@ -9,7 +9,6 @@ import * as styles from './TextFieldContainer.css';
 interface TextFieldContainerProps {
   children: ReactNode;
   isFocused?: boolean;
-  isFilled?: boolean;
   isError?: boolean;
   errorMessage?: string;
 }
@@ -17,19 +16,13 @@ interface TextFieldContainerProps {
 const TextFieldContainer = ({
   children,
   isFocused = false,
-  isFilled = false,
   isError = false,
   errorMessage,
 }: TextFieldContainerProps) => {
   return (
     <div className={styles.fieldWrapper}>
       <div
-        className={clsx(
-          styles.fieldBox,
-          isFocused && styles.focused,
-          isFilled,
-          isError
-        )}
+        className={clsx(styles.fieldBox, isFocused && styles.focused, isError)}
       >
         {children}
       </div>
