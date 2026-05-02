@@ -147,8 +147,12 @@ const SignupPage = () => {
   }, [randomNickname, handleNicknameChange]);
 
   const handleRefresh = async () => {
-    const { data } = await refetch();
-    if (data) handleNicknameChange(data);
+    try {
+      const { data } = await refetch();
+      if (data) handleNicknameChange(data);
+    } catch (error) {
+      console.error('[handleRefresh] 닉네임 새로고침 실패:', error);
+    }
   };
 
   const errorSentRef = useRef(false);
