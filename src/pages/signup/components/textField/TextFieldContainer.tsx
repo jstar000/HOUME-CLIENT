@@ -27,8 +27,8 @@ const FieldShell = ({
         className={clsx(
           styles.fieldBox,
           isFocused && styles.focused,
-          isFilled && styles.filled,
-          isError && styles.error
+          isFilled,
+          isError
         )}
       >
         {children}

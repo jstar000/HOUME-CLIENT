@@ -33,10 +33,6 @@ export const focused = style({
   borderColor: colorVars.color.border.strong,
 });
 
-export const filled = style({});
-
-export const error = style({});
-
 export const errorMessage = style({
   display: 'flex',
   alignItems: 'center',
