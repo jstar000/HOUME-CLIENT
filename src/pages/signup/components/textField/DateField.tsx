@@ -36,7 +36,7 @@ const DateField = forwardRef<HTMLInputElement, DateFieldProps>(
     const isError = !!(error?.year || error?.month || error?.day);
 
     const yearInputRef = useRef<HTMLInputElement>(null);
-    useImperativeHandle(ref, () => yearInputRef.current!);
+    useImperativeHandle(ref, () => yearInputRef.current! as HTMLInputElement);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value: inputValue } = e.target;

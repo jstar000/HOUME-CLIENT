@@ -34,7 +34,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     const [isFocused, setIsFocused] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
 
-    useImperativeHandle(ref, () => inputRef.current!);
+    useImperativeHandle(ref, () => inputRef.current! as HTMLInputElement);
 
     const isControlled = controlledValue !== undefined;
     const value = isControlled ? controlledValue : internalValue;
