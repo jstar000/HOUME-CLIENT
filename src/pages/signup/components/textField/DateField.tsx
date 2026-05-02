@@ -95,7 +95,7 @@ const DateField = forwardRef<HTMLInputElement, DateFieldProps>(
             })}
           />
 
-          <span className={styles.divider}>|</span>
+          <span className={styles.divider} />
 
           <input
             name="month"
@@ -110,7 +110,7 @@ const DateField = forwardRef<HTMLInputElement, DateFieldProps>(
             })}
           />
 
-          <span className={styles.divider}>|</span>
+          <span className={styles.divider} />
 
           <input
             name="day"

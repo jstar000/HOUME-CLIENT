@@ -44,7 +44,7 @@ export const dateInput = recipe({
 
 export const divider = style({
   flexShrink: 0,
+  backgroundColor: colorVars.color.border.primary,
   width: '0.1rem',
   height: '1.2rem',
-  color: colorVars.color.border.primary,
 });
