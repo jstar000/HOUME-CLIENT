@@ -95,19 +95,19 @@ const LoadingPage = () => {
       handleError(error, 'loading');
     };
 
-    // mutation 성공 시 퍼널/프리셋 데이터 즉시 정리
-    // (이전 입력값이 sessionStorage에 살아있으면 사용자가 /generate URL로 직접 재진입 시 mutation이 재실행되어 같은 요청이 불필요하게 다시 실행됨
+    // mutation 응답 시(성공/실패 모두) 퍼널/프리셋 데이터 즉시 정리
+    // (이전 입력값이 sessionStorage에 살아있으면 사용자가 /generate URL로 직접 재진입 시 mutation이 재실행되어 같은 요청이 불필요하게 다시 실행됨)
     // - useFunnelStore.reset(): 풀퍼널 분기(preset === null) 차단 — useFunnelStore 데이터 비워서 useGenerateImageRequest가 invalid 반환하도록
     // - preset null: 숏퍼널 분기(preset.type === 'banner'/'style') 차단
     // - useImageFlowStore의 entryRoute/resultType은 ResultPage에서 사용하므로 유지
-    const onMutationSuccess = () => {
+    const onMutationSettled = () => {
       useFunnelStore.getState().reset();
       useImageFlowStore.setState({ preset: null });
     };
 
     const mutateOptions = {
       onError: onMutationError,
-      onSuccess: onMutationSuccess,
+      onSettled: onMutationSettled,
     };
 
     switch (requestState.kind) {
