@@ -6,8 +6,11 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { usePostCarouselLikeMutation } from '@pages/generate/v2/apis/mutations/useCarouselLikeMutation';
 import { useStackDataQuery } from '@pages/generate/v2/apis/queries/useStackDataQuery';
 import { useGenerateStore } from '@pages/generate/v2/stores/useGenerateStore';
+import { useFunnelStore } from '@pages/imageSetup/stores/useFunnelStore';
 
 import { ROUTES } from '@routes/paths';
+
+import { useImageFlowStore } from '@store/useImageFlowStore';
 
 import { TOAST_TYPE } from '@shared/types/toast';
 
@@ -92,18 +95,33 @@ const LoadingPage = () => {
       handleError(error, 'loading');
     };
 
+    // mutation 성공 시 퍼널/프리셋 데이터 즉시 정리
+    // (이전 입력값이 sessionStorage에 살아있으면 사용자가 /generate URL로 직접 재진입 시 mutation이 재실행되어 같은 요청이 불필요하게 다시 실행됨
+    // - useFunnelStore.reset(): 풀퍼널 분기(preset === null) 차단 — useFunnelStore 데이터 비워서 useGenerateImageRequest가 invalid 반환하도록
+    // - preset null: 숏퍼널 분기(preset.type === 'banner'/'style') 차단
+    // - useImageFlowStore의 entryRoute/resultType은 ResultPage에서 사용하므로 유지
+    const onMutationSuccess = () => {
+      useFunnelStore.getState().reset();
+      useImageFlowStore.setState({ preset: null });
+    };
+
+    const mutateOptions = {
+      onError: onMutationError,
+      onSuccess: onMutationSuccess,
+    };
+
     switch (requestState.kind) {
       case 'invalid':
         console.error('invalid requestState kind');
         return;
       case 'fullFunnel':
-        requestState.mutate(requestState.payload, { onError: onMutationError });
+        requestState.mutate(requestState.payload, mutateOptions);
         return;
       case 'banner':
-        requestState.mutate(requestState.payload, { onError: onMutationError });
+        requestState.mutate(requestState.payload, mutateOptions);
         return;
       case 'otherStyle':
-        requestState.mutate(requestState.payload, { onError: onMutationError });
+        requestState.mutate(requestState.payload, mutateOptions);
         return;
     }
   }, [handleError, requestState]);
