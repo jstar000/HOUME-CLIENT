@@ -43,6 +43,26 @@ export type GenerateImageRequestResult =
     }
   | { kind: 'invalid' };
 
+// store는 zustand persist(sessionStorage)로 외부 조작/이전 버전 잔재 가능 → 요청에 필요한 각 필드의 타입이 요청 명세를 만족하는지 런타임에 검증
+const isFloorPlanValid = (
+  floorPlan: unknown
+): floorPlan is {
+  floorPlanId: number;
+  floorPlanView: string;
+  isMirror: boolean;
+} => {
+  if (!floorPlan || typeof floorPlan !== 'object') return false;
+  const f = floorPlan as Record<string, unknown>;
+  return (
+    typeof f.floorPlanId === 'number' &&
+    typeof f.floorPlanView === 'string' &&
+    typeof f.isMirror === 'boolean'
+  );
+};
+
+const isNumberArray = (arr: unknown): arr is number[] =>
+  Array.isArray(arr) && arr.every((n) => typeof n === 'number');
+
 export const useGenerateImageRequest = (): GenerateImageRequestResult => {
   // 이미지 생성 API의 mutate 메서드 가져오기
   const { mutate: mutateFullFunnel } = useGenerateFullFunnelImageMutation();
@@ -58,8 +78,8 @@ export const useGenerateImageRequest = (): GenerateImageRequestResult => {
     // 퍼널 데이터 가져오기 (step1, 2, 3 모두)
     const { floorPlan, moodBoardIds, activityInfo } = useFunnelStore.getState();
 
-    // 모든 이미지 생성 API 요청 필수 값: floorPlan
-    if (!floorPlan) return { kind: 'invalid' };
+    // 모든 이미지 생성 API 요청 필수 값: floorPlan (필드 단위 타입 검증)
+    if (!isFloorPlanValid(floorPlan)) return { kind: 'invalid' };
 
     // 풀퍼널 (preset 없음)
     if (preset === null) {
@@ -67,9 +87,9 @@ export const useGenerateImageRequest = (): GenerateImageRequestResult => {
       const furnitureIds = activityInfo?.furnitureIds;
 
       if (
-        !Array.isArray(moodBoardIds) ||
+        !isNumberArray(moodBoardIds) ||
         typeof activity !== 'string' ||
-        !Array.isArray(furnitureIds)
+        !isNumberArray(furnitureIds)
       ) {
         return { kind: 'invalid' };
       }
@@ -90,6 +110,12 @@ export const useGenerateImageRequest = (): GenerateImageRequestResult => {
 
     // 배너로 이미지 생성
     if (preset.type === 'banner') {
+      if (
+        typeof preset.bannerId !== 'number' ||
+        typeof preset.answerId !== 'number'
+      ) {
+        return { kind: 'invalid' };
+      }
       return {
         kind: 'banner',
         mutate: mutateBanner,
@@ -105,6 +131,7 @@ export const useGenerateImageRequest = (): GenerateImageRequestResult => {
 
     // 다른 스타일로 이미지 생성
     if (preset.type === 'style') {
+      if (typeof preset.styleId !== 'number') return { kind: 'invalid' };
       return {
         kind: 'otherStyle',
         mutate: mutateOtherStyle,
