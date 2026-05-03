@@ -1,5 +1,10 @@
 import { style } from '@vanilla-extract/css';
 
+import {
+  animationTokens,
+  SKELETON_GRADIENT,
+} from '@styles/tokens/animation.css';
+
 import { colorVars } from '@/shared/styles/tokensV2/color.css';
 import { fontVars } from '@/shared/styles/tokensV2/font.css';
 import { unitVars } from '@/shared/styles/tokensV2/unit.css';
@@ -70,4 +75,13 @@ export const listCardContainer = style({
       display: 'none',
     },
   },
+});
+
+export const skeleton = style({
+  position: 'absolute',
+  inset: 0,
+  borderRadius: '0.8rem',
+  background: SKELETON_GRADIENT,
+  backgroundSize: '200% 100%',
+  animation: `${animationTokens.skeletonWave} 2s linear infinite`,
 });
