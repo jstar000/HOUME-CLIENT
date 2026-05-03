@@ -21,7 +21,7 @@ export const useGetJjymListQuery = (
   options?: UseQueryOptions<JjymsResponse, unknown, FurnitureItem[]>
 ) => {
   return useQuery({
-    queryKey: queryKeys.jjym.list(),
+    queryKey: queryKeys.mypage.JjymList(),
     queryFn: getJjymList,
     select: (data) => data.items,
     ...options,
