@@ -54,14 +54,14 @@ const isFloorPlanValid = (
   if (!floorPlan || typeof floorPlan !== 'object') return false;
   const f = floorPlan as Record<string, unknown>;
   return (
-    typeof f.floorPlanId === 'number' &&
+    Number.isInteger(f.floorPlanId) &&
     typeof f.floorPlanView === 'string' &&
     typeof f.isMirror === 'boolean'
   );
 };
 
-const isNumberArray = (arr: unknown): arr is number[] =>
-  Array.isArray(arr) && arr.every((n) => typeof n === 'number');
+const isIntegerArray = (arr: unknown): arr is number[] =>
+  Array.isArray(arr) && arr.every((n) => Number.isInteger(n));
 
 export const useGenerateImageRequest = (): GenerateImageRequestResult => {
   // 이미지 생성 API의 mutate 메서드 가져오기
@@ -87,9 +87,9 @@ export const useGenerateImageRequest = (): GenerateImageRequestResult => {
       const furnitureIds = activityInfo?.furnitureIds;
 
       if (
-        !isNumberArray(moodBoardIds) ||
+        !isIntegerArray(moodBoardIds) ||
         typeof activity !== 'string' ||
-        !isNumberArray(furnitureIds)
+        !isIntegerArray(furnitureIds)
       ) {
         return { kind: 'invalid' };
       }
@@ -111,8 +111,8 @@ export const useGenerateImageRequest = (): GenerateImageRequestResult => {
     // 배너로 이미지 생성
     if (preset.type === 'banner') {
       if (
-        typeof preset.bannerId !== 'number' ||
-        typeof preset.answerId !== 'number'
+        !Number.isInteger(preset.bannerId) ||
+        !Number.isInteger(preset.answerId)
       ) {
         return { kind: 'invalid' };
       }
@@ -131,7 +131,7 @@ export const useGenerateImageRequest = (): GenerateImageRequestResult => {
 
     // 다른 스타일로 이미지 생성
     if (preset.type === 'style') {
-      if (typeof preset.styleId !== 'number') return { kind: 'invalid' };
+      if (!Number.isInteger(preset.styleId)) return { kind: 'invalid' };
       return {
         kind: 'otherStyle',
         mutate: mutateOtherStyle,
