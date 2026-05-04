@@ -4,6 +4,8 @@ import { recipe } from '@vanilla-extract/recipes';
 import { fontStyle } from '@styles/fontStyle';
 import { colorVars } from '@styles/tokensV2/color.css';
 
+import { unitVars } from '@/shared/styles/tokensV2/unit.css';
+
 export const container = style({
   position: 'relative',
   display: 'flex',
@@ -12,9 +14,11 @@ export const container = style({
 });
 
 export const sliderArea = style({
+  aspectRatio: '37.5 / 26',
   position: 'relative',
+  margin: '0 auto',
   width: '100%',
-  height: '26rem',
+  maxWidth: unitVars.unit.dimension.wMax,
   overflow: 'hidden',
 });
 
@@ -58,60 +62,16 @@ export const slidePrevBtn = style({
   position: 'absolute',
   zIndex: 1,
   bottom: '50%',
-  left: '0.6rem',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  border: 'none',
-  backgroundColor: 'transparent',
-  padding: 0,
-  width: '3.6rem',
-  height: '3.6rem',
+  left: unitVars.unit.gapPadding['100'],
+  padding: unitVars.unit.gapPadding['200'],
 });
 
 export const slideNextBtn = style({
   position: 'absolute',
   zIndex: 1,
-  right: '0.6rem',
+  right: unitVars.unit.gapPadding['100'],
   bottom: '50%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  border: 'none',
-  backgroundColor: 'transparent',
-  padding: 0,
-  width: '3.6rem',
-  height: '3.6rem',
-});
-
-export const slideNavIconFrame = style({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  borderRadius: '1.2rem',
-  backgroundColor: colorVars.color.gray999_a30,
-  width: '2.4rem',
-  height: '2.4rem',
-
-  selectors: {
-    [`${slidePrevBtn}:active &`]: {
-      backgroundColor: colorVars.color.gray999_a50,
-    },
-    [`${slideNextBtn}:active &`]: {
-      backgroundColor: colorVars.color.gray999_a50,
-    },
-    [`${slidePrevBtn}:disabled &`]: {
-      backgroundColor: colorVars.color.gray999_a04,
-    },
-    [`${slideNextBtn}:disabled &`]: {
-      backgroundColor: colorVars.color.gray999_a04,
-    },
-  },
-});
-
-globalStyle(`${slideNavIconFrame} > svg`, {
-  width: '1.2rem',
-  height: '1.2rem',
+  padding: unitVars.unit.gapPadding['200'],
 });
 
 export const lockedPreviewImg = style({
@@ -123,16 +83,15 @@ export const lockedPreviewImg = style({
 
 export const lockWrapper = style({
   position: 'absolute',
-  zIndex: 1,
   top: '50%',
   left: '50%',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: '2rem',
+  gap: unitVars.unit.gapPadding['500'],
   transform: 'translate(-50%, -50%)',
-  width: '23.2rem',
+  width: '100%',
 });
 
 export const lockTextBox = style({
@@ -140,22 +99,10 @@ export const lockTextBox = style({
   flexDirection: 'column',
   alignItems: 'center',
   textAlign: 'center',
-  color: colorVars.color.gray900,
+  color: colorVars.color.text.primary,
   ...fontStyle('body_m_14'),
 });
 
 globalStyle(`${lockTextBox} p`, {
   margin: 0,
-});
-
-export const moreBtn = style({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  borderRadius: '99.9rem',
-  backgroundColor: colorVars.color.gray999,
-  width: '11.6rem',
-  height: '4.4rem',
-  ...fontStyle('body_m_14'),
-  color: colorVars.color.gray000,
 });

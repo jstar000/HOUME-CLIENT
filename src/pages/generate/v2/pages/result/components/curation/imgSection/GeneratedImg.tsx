@@ -9,13 +9,11 @@ import 'swiper/css/pagination';
 
 import type { GenerateImageData } from '@pages/generate/types/generate';
 
-import SlideNext from '@assets/icons/nextAbled.svg?react';
-import SlideNextDisabled from '@assets/icons/nextDisabled.svg?react';
-import SlidePrev from '@assets/icons/prevAbled.svg?react';
-import SlidePrevDisabled from '@assets/icons/prevDisabled.svg?react';
 import generateResultLockedPreview from '@assets/images/generateResultLockedPreview.png';
 
 import CommunityComingSoonModal from '@components/overlay/modal/CommunityComingSoonModal';
+import ActionButton from '@components/v2/button/actionButton/ActionButton';
+import IconButton from '@components/v2/button/IconButton';
 
 import * as styles from './GeneratedImg.css';
 
@@ -82,16 +80,14 @@ const GeneratedImg = ({
           }}
           onSwiper={setSwiper}
         >
-          <button
-            type="button"
-            onClick={() => swiper?.slidePrev()}
+          <IconButton
+            name="ArrowLeftFill"
+            size="M"
             className={styles.slidePrevBtn}
             disabled={isPrevDisabled}
-          >
-            <span className={styles.slideNavIconFrame}>
-              {isPrevDisabled ? <SlidePrevDisabled /> : <SlidePrev />}
-            </span>
-          </button>
+            onClick={() => swiper?.slidePrev()}
+            aria-label="이전 이미지"
+          />
           {images.map((image, index) => (
             <SwiperSlide
               key={`${image.imageId}-${index}`}
@@ -118,26 +114,25 @@ const GeneratedImg = ({
                   <p>나와 취향이 비슷한</p>
                   <p>유저들이 만든 이미지도 궁금하신가요?</p>
                 </div>
-                <button
-                  type="button"
-                  className={styles.moreBtn}
+                <ActionButton
+                  variant="solid"
+                  color="primary"
+                  size="L"
                   onClick={handleOpenModal}
                 >
                   이미지 더보기
-                </button>
+                </ActionButton>
               </div>
             </SwiperSlide>
           )}
-          <button
-            type="button"
-            onClick={() => swiper?.slideNext()}
+          <IconButton
+            name="ArrowRightFill"
+            size="M"
             className={styles.slideNextBtn}
             disabled={isNextDisabled}
-          >
-            <span className={styles.slideNavIconFrame}>
-              {isNextDisabled ? <SlideNextDisabled /> : <SlideNext />}
-            </span>
-          </button>
+            onClick={() => swiper?.slideNext()}
+            aria-label="다음 이미지"
+          />
         </Swiper>
       </div>
     </div>
