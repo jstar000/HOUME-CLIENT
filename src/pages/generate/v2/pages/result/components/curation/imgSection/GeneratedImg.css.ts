@@ -148,30 +148,6 @@ globalStyle(`${slideNavIconFrame} > svg`, {
   height: '1.2rem',
 });
 
-export const imgAreaBlurred = recipe({
-  base: {
-    filter: 'blur(15px)',
-    backgroundColor: 'lightgray',
-    objectFit: 'cover',
-    objectPosition: 'center center',
-    width: '100%',
-    height: '100%',
-  },
-  variants: {
-    mirrored: {
-      true: {
-        transform: 'scaleX(-1) scale(1.1)',
-      },
-      false: {
-        transform: 'scale(1.1)',
-      },
-    },
-  },
-  defaultVariants: {
-    mirrored: false,
-  },
-});
-
 export const lockedPreviewImg = style({
   objectFit: 'cover',
   objectPosition: 'center center',
@@ -216,66 +192,4 @@ export const moreBtn = style({
   height: '4.4rem',
   ...fontStyle('body_m_14'),
   color: colorVars.color.gray000,
-});
-
-export const feedbackSection = style({
-  marginTop: '2rem',
-  padding: '0 2rem',
-});
-
-export const feedbackBox = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '1rem',
-  borderRadius: '1.2rem',
-  backgroundColor: colorVars.color.gray100,
-  padding: '1.6rem clamp(1.6rem, 4vw, 4rem)',
-});
-
-export const feedbackTitle = style({
-  margin: 0,
-  ...fontStyle('body_m_14'),
-  color: colorVars.color.gray900,
-});
-
-export const feedbackButtonGroup = style({
-  display: 'flex',
-  gap: '0.6rem',
-});
-
-export const feedbackTagGroup = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '0.8rem',
-});
-
-export const feedbackTagRow = style({
-  display: 'flex',
-  gap: '0.6rem',
-});
-
-export const feedbackTagButton = style({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  borderRadius: '99.9rem',
-  backgroundColor: colorVars.color.gray000,
-  padding: '0 1.6rem',
-  ...fontStyle('body_r_14'),
-  height: '3.6rem',
-  color: colorVars.color.gray700,
-
-  ':active': {
-    backgroundColor: colorVars.color.gray300,
-  },
-
-  ':disabled': {
-    opacity: 0.6,
-    cursor: 'not-allowed',
-  },
-});
-
-export const feedbackTagButtonSelected = style({
-  backgroundColor: colorVars.color.gray000,
-  color: colorVars.color.primary,
 });
