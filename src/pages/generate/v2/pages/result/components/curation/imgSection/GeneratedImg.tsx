@@ -22,22 +22,15 @@ import * as styles from './GeneratedImg.css';
 import type { Swiper as SwiperType } from 'swiper';
 
 export interface GeneratedImgCurationProps {
-  /** 다중 생성 이미지 (스와이퍼 슬라이드) */
   images: GenerateImageData[];
   onCurrentImgIdChange?: (currentImgId: number) => void;
-  /** 슬라이드 변경 시 인덱스 (잠금 슬라이드 = images.length) */
   onSlideChange?: (slideIndex: number) => void;
-  isSlideCountLoading?: boolean;
 }
 
-/**
- * v2 큐레이션 결과 상단 — 생성 이미지 스와이퍼 + 맨 뒤 잠금(이미지 더보기) 슬라이드
- */
 const GeneratedImg = ({
   images,
   onCurrentImgIdChange,
   onSlideChange,
-  isSlideCountLoading = false,
 }: GeneratedImgCurationProps) => {
   const [swiper, setSwiper] = useState<SwiperType | null>(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -89,21 +82,6 @@ const GeneratedImg = ({
           }}
           onSwiper={setSwiper}
         >
-          <div className={styles.slideNum} aria-live="polite">
-            {isSlideCountLoading ? (
-              <div
-                className={styles.slideNumSkeleton}
-                aria-hidden="true"
-                role="presentation"
-              />
-            ) : (
-              <>
-                <span>{currentSlideIndex + 1}</span>
-                <span>/</span>
-                <span>{totalSlideCount}</span>
-              </>
-            )}
-          </div>
           <button
             type="button"
             onClick={() => swiper?.slidePrev()}

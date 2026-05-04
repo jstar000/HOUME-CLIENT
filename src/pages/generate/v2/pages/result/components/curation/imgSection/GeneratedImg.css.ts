@@ -2,8 +2,7 @@ import { globalStyle, style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 import { fontStyle } from '@styles/fontStyle';
-import { animationTokens } from '@styles/tokens/animation.css';
-import { colorVars } from '@styles/tokens/color.css';
+import { colorVars } from '@styles/tokensV2/color.css';
 
 export const container = style({
   position: 'relative',
@@ -55,39 +54,6 @@ export const imgArea = recipe({
   },
 });
 
-export const slideNum = style({
-  position: 'absolute',
-  zIndex: 1,
-  top: '1.2rem',
-  right: '1.2rem',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: '0.1rem',
-  borderRadius: '99.9rem',
-  backgroundColor: colorVars.color.gray999_30,
-  width: '3.4rem',
-  height: '2rem',
-  ...fontStyle('caption_r_11'),
-  color: colorVars.color.gray000,
-});
-
-export const slideNumSkeleton = style({
-  border: `1px solid ${colorVars.color.gray200}`,
-  borderRadius: 'inherit',
-  boxShadow: `inset 0 0 0 1px ${colorVars.color.gray100}`,
-  background: `linear-gradient(
-    90deg,
-    ${colorVars.color.gray200} 0%,
-    ${colorVars.color.gray100} 50%,
-    ${colorVars.color.gray200} 100%
-  )`,
-  backgroundSize: '200% 100%',
-  width: '100%',
-  height: '100%',
-  animation: `${animationTokens.skeletonWave} 1.6s ease-in-out infinite`,
-});
-
 export const slidePrevBtn = style({
   position: 'absolute',
   zIndex: 1,
@@ -123,22 +89,22 @@ export const slideNavIconFrame = style({
   alignItems: 'center',
   justifyContent: 'center',
   borderRadius: '1.2rem',
-  backgroundColor: colorVars.color.gray999_30,
+  backgroundColor: colorVars.color.gray999_a30,
   width: '2.4rem',
   height: '2.4rem',
 
   selectors: {
     [`${slidePrevBtn}:active &`]: {
-      backgroundColor: colorVars.color.gray999_50,
+      backgroundColor: colorVars.color.gray999_a50,
     },
     [`${slideNextBtn}:active &`]: {
-      backgroundColor: colorVars.color.gray999_50,
+      backgroundColor: colorVars.color.gray999_a50,
     },
     [`${slidePrevBtn}:disabled &`]: {
-      backgroundColor: colorVars.color.gray999_04,
+      backgroundColor: colorVars.color.gray999_a04,
     },
     [`${slideNextBtn}:disabled &`]: {
-      backgroundColor: colorVars.color.gray999_04,
+      backgroundColor: colorVars.color.gray999_a04,
     },
   },
 });
