@@ -7,6 +7,7 @@ import { useFactorsQuery } from '@pages/generate/apis/queries/useFactorsQuery';
 import type { ResultPageLikeState } from '@pages/generate/types/generate';
 
 import IconButton from '@components/v2/button/IconButton';
+import Chip from '@components/v2/chip/Chip';
 
 import * as styles from './ImgFeedback.css.ts';
 
@@ -16,7 +17,7 @@ export interface ImgFeedbackProps {
 
 const ImgFeedback = memo(({ imageId }: ImgFeedbackProps) => {
   const [lockedPreference, setLockedPreference] =
-    useState<ResultPageLikeState>(null);
+    useState<ResultPageLikeState>('like');
   const [selectedFactorId, setSelectedFactorId] = useState<number | null>(null);
   const [isPreferenceSubmitting, setIsPreferenceSubmitting] = useState(false);
   const [isFactorSubmitting, setIsFactorSubmitting] = useState(false);
@@ -122,68 +123,62 @@ const ImgFeedback = memo(({ imageId }: ImgFeedbackProps) => {
   return (
     <section className={styles.section}>
       <div className={styles.box}>
-        <div className={styles.textGroup}>
-          <p className={styles.title}>생성된 이미지가 만족스러우신가요?</p>
-          <p className={styles.description}>
-            퀄리티 개선을 위해 피드백을 남겨주세요.
-          </p>
-        </div>
-        <div className={styles.buttonGroup}>
-          <IconButton
-            name={lockedPreference === 'like' ? 'LikeSelected' : 'LikeDefault'}
-            size="M"
-            disabled={isPreferenceSubmitting || isFactorSubmitting}
-            onClick={() => handleLockedPreference(true)}
-            aria-label="이미지 좋아요 버튼"
-            aria-pressed={lockedPreference === 'like'}
-          />
-          <IconButton
-            name={
-              lockedPreference === 'dislike'
-                ? 'DislikeSelected'
-                : 'DislikeDefault'
-            }
-            size="M"
-            disabled={isPreferenceSubmitting || isFactorSubmitting}
-            onClick={() => handleLockedPreference(false)}
-            aria-label="이미지 싫어요 버튼"
-            aria-pressed={lockedPreference === 'dislike'}
-          />
+        <div className={styles.contentBox}>
+          <div className={styles.textGroup}>
+            <p className={styles.title}>생성된 이미지가 만족스러우신가요?</p>
+            <p className={styles.description}>
+              퀄리티 개선을 위해 피드백을 남겨주세요.
+            </p>
+          </div>
+          <div className={styles.buttonGroup}>
+            <IconButton
+              name={
+                lockedPreference === 'like' ? 'LikeSelected' : 'LikeDefault'
+              }
+              size="M"
+              disabled={isPreferenceSubmitting || isFactorSubmitting}
+              onClick={() => handleLockedPreference(true)}
+              aria-label="이미지 좋아요 버튼"
+              aria-pressed={lockedPreference === 'like'}
+            />
+            <IconButton
+              name={
+                lockedPreference === 'dislike'
+                  ? 'DislikeSelected'
+                  : 'DislikeDefault'
+              }
+              size="M"
+              disabled={isPreferenceSubmitting || isFactorSubmitting}
+              onClick={() => handleLockedPreference(false)}
+              aria-label="이미지 싫어요 버튼"
+              aria-pressed={lockedPreference === 'dislike'}
+            />
+          </div>
         </div>
         {lockedPreference === 'like' && likeFactorsData.length > 0 && (
           <div className={styles.tagGroup}>
             <div className={styles.tagRow}>
               {likeFactorsData.slice(0, 2).map((factor) => (
-                <button
-                  type="button"
+                <Chip
                   key={factor.id}
-                  className={`${styles.tagButton} ${
-                    selectedFactorId === factor.id
-                      ? styles.tagButtonSelected
-                      : ''
-                  }`}
+                  selected={selectedFactorId === factor.id}
                   onClick={() => handleFactorClick(factor.id)}
                   disabled={isFactorSubmitting || isPreferenceSubmitting}
                 >
                   {factor.text}
-                </button>
+                </Chip>
               ))}
             </div>
             <div className={styles.tagRow}>
               {likeFactorsData.slice(2, 4).map((factor) => (
-                <button
-                  type="button"
+                <Chip
                   key={factor.id}
-                  className={`${styles.tagButton} ${
-                    selectedFactorId === factor.id
-                      ? styles.tagButtonSelected
-                      : ''
-                  }`}
+                  selected={selectedFactorId === factor.id}
                   onClick={() => handleFactorClick(factor.id)}
                   disabled={isFactorSubmitting || isPreferenceSubmitting}
                 >
                   {factor.text}
-                </button>
+                </Chip>
               ))}
             </div>
           </div>
@@ -192,36 +187,26 @@ const ImgFeedback = memo(({ imageId }: ImgFeedbackProps) => {
           <div className={styles.tagGroup}>
             <div className={styles.tagRow}>
               {dislikeFactorsData.slice(0, 2).map((factor) => (
-                <button
-                  type="button"
+                <Chip
                   key={factor.id}
-                  className={`${styles.tagButton} ${
-                    selectedFactorId === factor.id
-                      ? styles.tagButtonSelected
-                      : ''
-                  }`}
+                  selected={selectedFactorId === factor.id}
                   onClick={() => handleFactorClick(factor.id)}
                   disabled={isFactorSubmitting || isPreferenceSubmitting}
                 >
                   {factor.text}
-                </button>
+                </Chip>
               ))}
             </div>
             <div className={styles.tagRow}>
               {dislikeFactorsData.slice(2, 4).map((factor) => (
-                <button
-                  type="button"
+                <Chip
                   key={factor.id}
-                  className={`${styles.tagButton} ${
-                    selectedFactorId === factor.id
-                      ? styles.tagButtonSelected
-                      : ''
-                  }`}
+                  selected={selectedFactorId === factor.id}
                   onClick={() => handleFactorClick(factor.id)}
                   disabled={isFactorSubmitting || isPreferenceSubmitting}
                 >
                   {factor.text}
-                </button>
+                </Chip>
               ))}
             </div>
           </div>

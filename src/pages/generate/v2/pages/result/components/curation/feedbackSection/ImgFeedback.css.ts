@@ -10,12 +10,17 @@ export const section = style({
 
 export const box = style({
   display: 'flex',
-  // justifyContent: 'space-between',
-  gap: unitVars.unit.gapPadding['200'],
+  flexDirection: 'column',
+  gap: unitVars.unit.gapPadding['400'],
   border: `1px solid ${colorVars.color.border.secondary}`,
   borderRadius: unitVars.unit.radius['600'],
   backgroundColor: colorVars.color.fill.inverse,
   padding: `${unitVars.unit.gapPadding['400']} ${unitVars.unit.gapPadding['300']}`,
+});
+
+export const contentBox = style({
+  display: 'flex',
+  justifyContent: 'space-between',
 });
 
 export const textGroup = style({
@@ -42,28 +47,10 @@ export const buttonGroup = style({
 export const tagGroup = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '0.8rem',
+  gap: unitVars.unit.gapPadding['100'],
 });
 
 export const tagRow = style({
   display: 'flex',
-  gap: '0.6rem',
+  gap: unitVars.unit.gapPadding['100'],
 });
-
-export const tagButton = style({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  borderRadius: '99.9rem',
-  padding: '0 1.6rem',
-  height: '3.6rem',
-
-  ':active': {},
-
-  ':disabled': {
-    opacity: 0.6,
-    cursor: 'not-allowed',
-  },
-});
-
-export const tagButtonSelected = style({});
