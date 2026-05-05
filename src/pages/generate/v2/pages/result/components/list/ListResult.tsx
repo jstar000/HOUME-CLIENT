@@ -40,7 +40,7 @@ const ListResult = ({ image }: ListResultProps) => {
                 product={{
                   title: item.name!,
                   imageUrl: item.imageUrl!,
-                  colorHexes: item.colors!.map((color) => color.value!),
+                  colorHexes: (item.colors ?? []).map((color) => color.value!),
                 }}
                 price={{
                   original: item.originalPrice!,
@@ -72,7 +72,7 @@ const ListResult = ({ image }: ListResultProps) => {
                   brand: item.brand!,
                   title: item.name!,
                   imageUrl: item.imageUrl!,
-                  colorHexes: item.colors!.map((color) => color.value!),
+                  colorHexes: (item.colors ?? []).map((color) => color.value!),
                 }}
                 price={{
                   original: item.originalPrice!,
