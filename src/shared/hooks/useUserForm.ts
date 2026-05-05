@@ -1,5 +1,7 @@
 import { useState, useMemo, useCallback } from 'react';
 
+import type { GenderType } from '@pages/signup/types/formOptions';
+
 import {
   VALIDATION_RULES,
   isMinLength,
@@ -9,19 +11,27 @@ import {
   isValidDayFormat,
   isMinimumAge,
   isValidDate,
-} from '../utils/validation';
+} from '../utils/userFormValidation';
 
-import type { GenderOption } from '../types/formOptions';
+interface InitialFormData {
+  nickname?: string;
+  birthYear?: string;
+  birthMonth?: string;
+  birthDay?: string;
+  gender?: GenderType | null;
+}
 
-const useSignupForm = (initialName: string = '') => {
+const useSignupForm = (initialData: InitialFormData = {}) => {
   // -------------------------
   // 상태 관리
   // -------------------------
-  const [nickname, setNickname] = useState(initialName);
-  const [birthYear, setBirthYear] = useState('');
-  const [birthMonth, setBirthMonth] = useState('');
-  const [birthDay, setBirthDay] = useState('');
-  const [gender, setGender] = useState<GenderOption | null>(null);
+  const [nickname, setNickname] = useState(initialData.nickname ?? '');
+  const [birthYear, setBirthYear] = useState(initialData.birthYear ?? '');
+  const [birthMonth, setBirthMonth] = useState(initialData.birthMonth ?? '');
+  const [birthDay, setBirthDay] = useState(initialData.birthDay ?? '');
+  const [gender, setGender] = useState<GenderType | null>(
+    initialData.gender ?? null
+  );
 
   // -------------------------
   // 이름 유효성 검사
