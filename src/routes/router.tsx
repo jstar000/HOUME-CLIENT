@@ -130,12 +130,21 @@ const protectedRoutes = [
     },
   },
   {
+    path: ROUTES.SETTING_PROFILE_EDIT,
+    lazy: async () => {
+      const { default: ServicePolicyPage } = await import(
+        '@pages/mypage/pages/setting/ServicePolicyPage'
+      );
+      return { Component: ServicePolicyPage };
+    },
+  },
+  {
     path: ROUTES.SETTING,
     lazy: async () => {
-      const { default: SettingPage } = await import(
-        '@pages/mypage/pages/setting/SettingPage'
+      const { default: ProfileEditPage } = await import(
+        '@pages/mypage/pages/setting/ProfileEditPage'
       );
-      return { Component: SettingPage };
+      return { Component: ProfileEditPage };
     },
   },
   {
