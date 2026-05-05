@@ -9,16 +9,17 @@ import ActionButton from '@components/v2/button/actionButton/ActionButton';
 import Chip from '@components/v2/chip/Chip';
 import Icon from '@components/v2/icon/Icon';
 import Popup from '@components/v2/popup/Popup';
+import DateField from '@components/v2/userFormField/DateField';
+import TextField from '@components/v2/userFormField/TextField';
 
 import { ERROR_MESSAGES } from '@constants/clientErrorMessage';
+
+import useSignupForm from '@hooks/useUserForm';
 
 import { usePostSignupMutation } from './apis/mutations/usePostSignupMutation';
 import { useGetRandomNicknameQuery } from './apis/queries/useGetNickname';
 import SignupExitPopupContent from './components/exitPopupContent/SignupExitPopupContent';
-import DateField from './components/textField/DateField';
-import TextField from './components/textField/TextField';
 import { useSignupExitConfirm } from './hooks/useSignupExitConfirm';
-import useSignupForm from './hooks/useSignupForm';
 import * as styles from './SignupPage.css';
 import {
   logSignupFormClickBtnCTA,
@@ -195,7 +196,7 @@ const SignupPage = () => {
     signUp({
       signupToken,
       nickname,
-      gender: gender.value,
+      gender: gender,
       birthday: formattedBirthday,
     });
   };
@@ -287,25 +288,23 @@ const SignupPage = () => {
             <h2 className={styles.fieldtitle}>성별</h2>
             <div className={styles.flexbox}>
               <Chip
-                selected={gender?.value === 'MALE'}
+                selected={gender === 'MALE'}
                 color="weak"
-                onClick={() => setGender({ value: 'MALE', label: '남성' })}
+                onClick={() => setGender('MALE')}
               >
                 남성
               </Chip>
               <Chip
-                selected={gender?.value === 'FEMALE'}
+                selected={gender === 'FEMALE'}
                 color="weak"
-                onClick={() => setGender({ value: 'FEMALE', label: '여성' })}
+                onClick={() => setGender('FEMALE')}
               >
                 여성
               </Chip>
               <Chip
-                selected={gender?.value === 'NONBINARY'}
+                selected={gender === 'NONBINARY'}
                 color="weak"
-                onClick={() =>
-                  setGender({ value: 'NONBINARY', label: '밝히고 싶지 않음' })
-                }
+                onClick={() => setGender('NONBINARY')}
               >
                 밝히고 싶지 않음
               </Chip>
