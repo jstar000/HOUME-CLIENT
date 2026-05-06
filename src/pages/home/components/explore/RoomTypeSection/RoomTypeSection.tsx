@@ -32,7 +32,7 @@ const RoomTypeSection = () => {
           color="secondary"
           size="s"
           rightIcon="ArrowRight"
-          onClick={() => {}}
+          onClick={handleRoomTypeClick}
         >
           더보기
         </TextButton>
@@ -51,7 +51,7 @@ const RoomTypeSection = () => {
             </div>
           ))}
           <div className={styles.cardItem}>
-            <RoomTypeCard type="more" size="s" onClick={() => {}} />
+            <RoomTypeCard type="more" size="s" onClick={handleRoomTypeClick} />
           </div>
         </div>
       </div>
