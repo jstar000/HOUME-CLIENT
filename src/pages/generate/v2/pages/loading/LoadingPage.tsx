@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Navigate, useNavigate } from 'react-router-dom';
 
-import { usePostCarouselLikeMutation } from '@pages/generate/v2/apis/mutations/useCarouselLikeMutation';
 import { useStackDataQuery } from '@pages/generate/v2/apis/queries/useStackDataQuery';
 import { useGenerateStore } from '@pages/generate/v2/stores/useGenerateStore';
 import { useFunnelStore } from '@pages/imageSetup/stores/useFunnelStore';
@@ -25,6 +24,7 @@ import { useErrorHandler } from '@hooks/useErrorHandler';
 import { useGenerateImageRequest } from './hooks/useGenerateImageRequest';
 import * as styles from './LoadingPage.css';
 import ProgressBar from './ProgressBar';
+import { usePostCarouselLikeMutation } from '../../apis/mutations/useCarouselLikeMutation';
 import LikeButton from '../../components/likeButton/LikeButton';
 import Tooltip from '../../components/tooltip/Tooltip';
 
@@ -63,9 +63,6 @@ const LoadingPage = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // 스택 UI 투표 중 상태
-  const [isVoting, setIsVoting] = useState(false);
-
   // 캐러셀 애니메이션 상태 - 스택 UI
   const [animating, setAnimating] = useState(false);
 
@@ -86,7 +83,9 @@ const LoadingPage = () => {
     enabled: !!currentImages && isRequestValid,
   });
 
-  const likeMutation = usePostCarouselLikeMutation();
+  // 스택 UI 좋아요 (찜하기 연동됨)
+  const { mutate: postLike, isPending: isJjymLoading } =
+    usePostCarouselLikeMutation();
 
   // 진입경로별 mutation 호출 (풀퍼널 / banner / otherStyle 분기)
   useEffect(() => {
@@ -176,15 +175,13 @@ const LoadingPage = () => {
   // 좋아요/별로예요 버튼 클릭 핸들러
   const handleAction = (isLike: boolean) => {
     // 로딩 중 or 투표 중에는 투표(vote) 불가
-    if (isPending || isVoting) return;
+    if (isPending || isJjymLoading) return;
     if (!currentImage) return;
 
     setIsTooltipOpen(false);
-    setIsVoting(true);
 
     if (isLike) {
-      // API 호출: 좋아요 전송
-      likeMutation.mutate(currentImage.rawProductId, {
+      postLike(currentImage.carouselId, {
         onSuccess: () => {
           goToNext();
         },
@@ -193,7 +190,6 @@ const LoadingPage = () => {
             text: '잠시 오류가 발생했어요. 다시 시도해주세요.',
             type: TOAST_TYPE.WARNING,
           });
-          setIsVoting(false);
         },
       });
     } else {
@@ -227,7 +223,6 @@ const LoadingPage = () => {
       }
 
       setAnimating(false);
-      setIsVoting(false);
       transitionTimeoutRef.current = null;
     }, ANIMATION_DURATION);
   };
@@ -260,22 +255,17 @@ const LoadingPage = () => {
                     />
                   </div>
                 ) : (
-                  // 에러 상황: 에러 메시지 표시
-                  // <div className={styles.errorMessage}>
-                  //   <p>이미지를 불러올 수 없습니다</p>
-                  // </div>
-                  // 정상 상황: 이미지 캐러셀 표시
                   <>
                     {nextImage && (
                       <div
-                        key={`next-${currentPage + 1}-${nextImage.rawProductId}`}
+                        key={`next-${currentPage + 1}-${nextImage.carouselId}`}
                         className={`${styles.nextImageArea} ${
                           animating ? styles.nextImageAreaActive : ''
                         }`}
                       >
                         <img
                           src={nextImage.url}
-                          alt={`다음 가구 이미지 ${nextImage.rawProductId}`}
+                          alt={`다음 가구 이미지 ${nextImage.carouselId}`}
                           className={styles.imageStyle}
                         />
                       </div>
@@ -283,14 +273,14 @@ const LoadingPage = () => {
 
                     {currentImage && (
                       <div
-                        key={`current-${currentPage}-${currentImage.rawProductId}`}
+                        key={`current-${currentPage}-${currentImage.carouselId}`}
                         className={`${styles.currentImageArea} ${
                           animating ? styles.currentImageAreaOut : ''
                         }`}
                       >
                         <img
                           src={currentImage.url}
-                          alt={`현재 가구 이미지 ${currentImage.rawProductId}`}
+                          alt={`현재 가구 이미지 ${currentImage.carouselId}`}
                           className={styles.imageStyle}
                         />
                       </div>
