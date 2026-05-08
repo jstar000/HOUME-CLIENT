@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
+import { useMyPageProfileQuery } from '@pages/mypage/apis/queries/useEditProfileQuery';
 import * as styles from '@pages/signup/SignupPage.css';
 
 import ActionButton from '@components/v2/button/actionButton/ActionButton';
@@ -12,24 +13,11 @@ import { ERROR_MESSAGES } from '@constants/clientErrorMessage';
 
 import useUserForm from '@hooks/useUserForm';
 
-interface UserInfo {
-  nickname: string;
-  birthday: string;
-  gender: 'MALE' | 'FEMALE' | 'NONBINARY';
-}
-
-const mockUserInfo: UserInfo = {
-  nickname: '집갈래',
-  birthday: '2002-12-18',
-  gender: 'FEMALE',
-};
-
 const ProfileEditPage = () => {
-  // const { data: userInfo } = useGetUserInfo();
-  //const birthParts = userInfo?.birthday?.split('-') ?? [];
+  const { data: profile } = useMyPageProfileQuery();
+  const birthParts = profile?.birthday?.split('-') ?? [];
 
   const navigate = useNavigate();
-  const [year, month, day] = mockUserInfo.birthday.split('-');
 
   const {
     nickname,
@@ -50,11 +38,11 @@ const ProfileEditPage = () => {
     dayFieldError,
     isFormValid,
   } = useUserForm({
-    nickname: mockUserInfo.nickname,
-    birthYear: year,
-    birthMonth: month,
-    birthDay: day,
-    gender: mockUserInfo.gender,
+    nickname: profile?.nickname,
+    birthYear: birthParts[0],
+    birthMonth: birthParts[1],
+    birthDay: birthParts[2],
+    gender: profile?.gender,
   });
 
   const handleSubmit = (e: React.FormEvent) => {
