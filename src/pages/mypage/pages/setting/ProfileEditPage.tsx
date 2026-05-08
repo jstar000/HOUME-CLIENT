@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useMyPageProfileQuery } from '@pages/mypage/apis/queries/useEditProfileQuery';
 import * as styles from '@pages/signup/SignupPage.css';
 
+import Loading from '@components/loading/Loading';
 import ActionButton from '@components/v2/button/actionButton/ActionButton';
 import Chip from '@components/v2/chip/Chip';
 import TitleNavBar from '@components/v2/navBar/TitleNavBar';
@@ -11,10 +12,11 @@ import TextField from '@components/v2/userFormField/TextField';
 
 import { ERROR_MESSAGES } from '@constants/clientErrorMessage';
 
+import { useRandomNickname } from '@hooks/useGetRandomNickname';
 import useUserForm from '@hooks/useUserForm';
 
 const ProfileEditPage = () => {
-  const { data: profile } = useMyPageProfileQuery();
+  const { data: profile, isLoading } = useMyPageProfileQuery();
   const birthParts = profile?.birthday?.split('-') ?? [];
 
   const navigate = useNavigate();
@@ -45,6 +47,8 @@ const ProfileEditPage = () => {
     gender: profile?.gender,
   });
 
+  const { refresh } = useRandomNickname(handleNicknameChange);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!isFormValid) return;
@@ -69,6 +73,10 @@ const ProfileEditPage = () => {
     day: birthDay !== '' && dayFieldError,
   };
 
+  if (isLoading || !profile) {
+    return <Loading />;
+  }
+
   return (
     <>
       <TitleNavBar
@@ -87,6 +95,7 @@ const ProfileEditPage = () => {
                 isError={isNameFormatInvalid || isNameLengthInvalid}
                 errorMessage={nameErrorMessage}
                 maxLength={18}
+                onRefresh={refresh}
               />
             </div>
           </div>

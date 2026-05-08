@@ -1,0 +1,25 @@
+import { useGetRandomNicknameQuery } from '@apis/queries/useGetNickname';
+
+export const useRandomNickname = (
+  onSuccess?: (newNickname: string) => void
+) => {
+  const { data: randomNickname, refetch } = useGetRandomNicknameQuery();
+
+  const refresh = async () => {
+    try {
+      const { data, isSuccess } = await refetch();
+
+      if (isSuccess && data) {
+        onSuccess?.(data);
+        return data;
+      }
+    } catch (error) {
+      console.error('닉네임 새로고침 실패:', error);
+    }
+  };
+
+  return {
+    randomNickname,
+    refresh,
+  };
+};

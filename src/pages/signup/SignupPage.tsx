@@ -14,10 +14,10 @@ import TextField from '@components/v2/userFormField/TextField';
 
 import { ERROR_MESSAGES } from '@constants/clientErrorMessage';
 
+import { useRandomNickname } from '@hooks/useGetRandomNickname';
 import useSignupForm from '@hooks/useUserForm';
 
 import { usePostSignupMutation } from './apis/mutations/usePostSignupMutation';
-import { useGetRandomNicknameQuery } from './apis/queries/useGetNickname';
 import SignupExitPopupContent from './components/exitPopupContent/SignupExitPopupContent';
 import { useSignupExitConfirm } from './hooks/useSignupExitConfirm';
 import * as styles from './SignupPage.css';
@@ -119,7 +119,7 @@ const SignupPage = () => {
   const { mutate: signUp } = usePostSignupMutation();
 
   // 랜덤 닉네임 GET 쿼리
-  const { data: randomNickname, refetch } = useGetRandomNicknameQuery();
+  const { randomNickname, refresh } = useRandomNickname(handleNicknameChange);
 
   // 닉네임 필드 유효
   const isNameSectionValid =
@@ -146,15 +146,6 @@ const SignupPage = () => {
       }
     }
   }, [randomNickname, nickname, handleNicknameChange]);
-
-  const handleRefresh = async () => {
-    try {
-      const { data } = await refetch();
-      if (data) handleNicknameChange(data);
-    } catch (error) {
-      console.error('[handleRefresh] 닉네임 새로고침 실패:', error);
-    }
-  };
 
   const errorSentRef = useRef(false);
 
@@ -256,7 +247,7 @@ const SignupPage = () => {
               isError={isNameFormatInvalid || isNameLengthInvalid}
               errorMessage={nameErrorMessage}
               maxLength={18}
-              onRefresh={handleRefresh}
+              onRefresh={refresh}
               onEnter={handleNicknameEnter}
             />
           </div>
