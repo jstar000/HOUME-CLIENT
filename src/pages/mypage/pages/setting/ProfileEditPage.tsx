@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
+import { useEditProfileMutation } from '@pages/mypage/apis/mutations/useEditProfileMutation';
 import { useMyPageProfileQuery } from '@pages/mypage/apis/queries/useEditProfileQuery';
 import * as styles from '@pages/signup/SignupPage.css';
 
@@ -48,10 +49,17 @@ const ProfileEditPage = () => {
   });
 
   const { refresh } = useRandomNickname(handleNicknameChange);
+  const { mutate: editProfile, isPending } = useEditProfileMutation();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isFormValid) return;
+    if (!isFormValid || !gender) return;
+
+    editProfile({
+      nickname,
+      gender,
+      birthday: `${birthYear}-${birthMonth.padStart(2, '0')}-${birthDay.padStart(2, '0')}`,
+    });
   };
 
   const nameErrorMessage = (() => {
@@ -145,7 +153,11 @@ const ProfileEditPage = () => {
         </div>
 
         <div className={styles.btnarea}>
-          <ActionButton disabled={!isFormValid} type="submit" fullWidth>
+          <ActionButton
+            disabled={!isFormValid || isPending}
+            type="submit"
+            fullWidth
+          >
             저장하기
           </ActionButton>
         </div>

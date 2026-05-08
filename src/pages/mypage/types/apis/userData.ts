@@ -1,3 +1,5 @@
+import type { GenderType } from '@pages/signup/types/formOptions';
+
 import type { BaseResponse } from '@shared/types/apis';
 
 // 마이페이지 사용자 정보 조회 API
@@ -8,3 +10,10 @@ export interface MyPageUserData {
 }
 
 export type MyPageUserResponse = BaseResponse<MyPageUserData>;
+
+// 사용자 프로필 수정
+export interface EditProfileRequest {
+  nickname: string;
+  gender: GenderType;
+  birthday: string;
+}
