@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 
 import type { GenderType } from '@pages/signup/types/formOptions';
 
@@ -32,6 +32,20 @@ const useSignupForm = (initialData: InitialFormData = {}) => {
   const [gender, setGender] = useState<GenderType | null>(
     initialData.gender ?? null
   );
+
+  useEffect(() => {
+    setNickname(initialData.nickname ?? '');
+    setBirthYear(initialData.birthYear ?? '');
+    setBirthMonth(initialData.birthMonth ?? '');
+    setBirthDay(initialData.birthDay ?? '');
+    setGender(initialData.gender ?? null);
+  }, [
+    initialData.nickname,
+    initialData.birthYear,
+    initialData.birthMonth,
+    initialData.birthDay,
+    initialData.gender,
+  ]);
 
   // -------------------------
   // 이름 유효성 검사
