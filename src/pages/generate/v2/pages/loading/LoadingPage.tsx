@@ -28,6 +28,8 @@ import { usePostCarouselLikeMutation } from '../../apis/mutations/useCarouselLik
 import LikeButton from '../../components/likeButton/LikeButton';
 import Tooltip from '../../components/tooltip/Tooltip';
 
+import type { CarouselItem } from '../../types/generate';
+
 const ANIMATION_DURATION = 600; // 캐러셀 애니메이션 지속 시간 (ms)
 
 // TODO: 커스텀 훅, 유틸함수로 빼기, 기능 별 커스텀 훅 분할 시급
@@ -65,6 +67,9 @@ const LoadingPage = () => {
 
   // 캐러셀 애니메이션 상태 - 스택 UI
   const [animating, setAnimating] = useState(false);
+  const [frontSlot, setFrontSlot] = useState<'A' | 'B'>('A');
+  const [slotAImage, setSlotAImage] = useState<CarouselItem | null>(null);
+  const [slotBImage, setSlotBImage] = useState<CarouselItem | null>(null);
 
   // 애니메이션 타이머 정리용 ref
   const transitionTimeoutRef = useRef<number | null>(null);
@@ -152,6 +157,21 @@ const LoadingPage = () => {
         ? nextImages[0]
         : undefined;
 
+  useEffect(() => {
+    if (animating) return;
+    if (frontSlot === 'A') {
+      setSlotAImage(currentImage);
+      setSlotBImage(nextImage ?? null);
+      return;
+    }
+
+    setSlotBImage(currentImage);
+    setSlotAImage(nextImage ?? null);
+  }, [animating, currentImage, nextImage, frontSlot]);
+
+  const displayCurrentImage = frontSlot === 'A' ? slotAImage : slotBImage;
+  const displayNextImage = frontSlot === 'A' ? slotBImage : slotAImage;
+
   const handleProgressComplete = () => {
     if (navigationData && isApiCompleted) {
       // ResultPage 변수명/엔드포인트 정리는 별도 작업으로 분리
@@ -176,12 +196,12 @@ const LoadingPage = () => {
   const handleAction = (isLike: boolean) => {
     // 로딩 중 or 투표 중에는 투표(vote) 불가
     if (isPending || isJjymLoading) return;
-    if (!currentImage) return;
+    if (!displayCurrentImage) return;
 
     setIsTooltipOpen(false);
 
     if (isLike) {
-      postLike(currentImage.carouselId, {
+      postLike(displayCurrentImage.carouselId, {
         onSuccess: () => {
           goToNext();
         },
@@ -199,6 +219,9 @@ const LoadingPage = () => {
 
   // 다음 이미지로 전환
   const goToNext = () => {
+    if (animating) return;
+    if (!displayNextImage) return;
+
     setAnimating(true);
 
     // 기존 타이머 정리
@@ -208,6 +231,8 @@ const LoadingPage = () => {
 
     // 600ms 후 다음 이미지로 전환
     transitionTimeoutRef.current = window.setTimeout(() => {
+      setFrontSlot((prev) => (prev === 'A' ? 'B' : 'A'));
+
       // 현재 페이지에 다음 이미지가 있으면 인덱스 증가
       if (!isLast) {
         setCurrentIndex((prev) => prev + 1);
@@ -226,6 +251,16 @@ const LoadingPage = () => {
       transitionTimeoutRef.current = null;
     }, ANIMATION_DURATION);
   };
+
+  const slotAClassName =
+    frontSlot === 'A'
+      ? `${styles.currentImageArea} ${animating ? styles.currentImageAreaOut : ''}`
+      : `${styles.nextImageArea} ${animating ? styles.nextImageAreaActive : ''}`;
+
+  const slotBClassName =
+    frontSlot === 'B'
+      ? `${styles.currentImageArea} ${animating ? styles.currentImageAreaOut : ''}`
+      : `${styles.nextImageArea} ${animating ? styles.nextImageAreaActive : ''}`;
 
   // early return
   // store에서 payload 조립 실패 시(직접 URL 접근, 데이터 손실 등) HOME으로 리다이렉트
@@ -256,31 +291,29 @@ const LoadingPage = () => {
                   </div>
                 ) : (
                   <>
-                    {nextImage && (
-                      <div
-                        key={`next-${currentPage + 1}-${nextImage.carouselId}`}
-                        className={`${styles.nextImageArea} ${
-                          animating ? styles.nextImageAreaActive : ''
-                        }`}
-                      >
+                    {slotAImage && (
+                      <div className={slotAClassName}>
                         <img
-                          src={nextImage.url}
-                          alt={`다음 가구 이미지 ${nextImage.carouselId}`}
+                          src={slotAImage.url}
+                          alt={
+                            frontSlot === 'A'
+                              ? `현재 가구 이미지 ${slotAImage.carouselId}`
+                              : `다음 가구 이미지 ${slotAImage.carouselId}`
+                          }
                           className={styles.imageStyle}
                         />
                       </div>
                     )}
 
-                    {currentImage && (
-                      <div
-                        key={`current-${currentPage}-${currentImage.carouselId}`}
-                        className={`${styles.currentImageArea} ${
-                          animating ? styles.currentImageAreaOut : ''
-                        }`}
-                      >
+                    {slotBImage && (
+                      <div className={slotBClassName}>
                         <img
-                          src={currentImage.url}
-                          alt={`현재 가구 이미지 ${currentImage.carouselId}`}
+                          src={slotBImage.url}
+                          alt={
+                            frontSlot === 'B'
+                              ? `현재 가구 이미지 ${slotBImage.carouselId}`
+                              : `다음 가구 이미지 ${slotBImage.carouselId}`
+                          }
                           className={styles.imageStyle}
                         />
                       </div>
@@ -290,7 +323,7 @@ const LoadingPage = () => {
               </div>
             </section>
 
-            {!hasError && currentImage && (
+            {!hasError && displayCurrentImage && (
               <div className={styles.buttonGroup}>
                 <LikeButton
                   name="dislike"
