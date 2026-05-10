@@ -118,7 +118,7 @@ export const queryKeys = {
     images: () => [...queryKeys.mypage.all, 'images'] as const,
     imageDetail: (houseId: number) =>
       [...queryKeys.mypage.all, 'imageDetail', houseId] as const,
-    JjymList: () => [...queryKeys.mypage.all, 'jjym', 'list'] as const,
+    jjymList: () => [...queryKeys.mypage.all, 'jjym', 'list'] as const,
   },
 
   // 스타일

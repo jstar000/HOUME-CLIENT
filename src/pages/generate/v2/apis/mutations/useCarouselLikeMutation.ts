@@ -18,7 +18,7 @@ export const usePostCarouselLikeMutation = () => {
   return useMutation({
     mutationFn: postCarouselLike,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.mypage.JjymList() });
+      queryClient.invalidateQueries({ queryKey: queryKeys.mypage.jjymList() });
     },
   });
 };
