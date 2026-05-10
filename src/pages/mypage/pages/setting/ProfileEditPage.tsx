@@ -1,9 +1,11 @@
+import { ErrorBoundary } from 'react-error-boundary';
 import { useNavigate } from 'react-router-dom';
 
 import { useEditProfileMutation } from '@pages/mypage/apis/mutations/useEditProfileMutation';
 import { useMyPageProfileQuery } from '@pages/mypage/apis/queries/useEditProfileQuery';
 import * as styles from '@pages/signup/SignupPage.css';
 
+import FeatureErrorFallback from '@components/errorFallback/FeatureErrorFallback';
 import Loading from '@components/loading/Loading';
 import ActionButton from '@components/v2/button/actionButton/ActionButton';
 import Chip from '@components/v2/chip/Chip';
@@ -82,86 +84,94 @@ const ProfileEditPage = () => {
     day: birthDay !== '' && dayFieldError,
   };
 
-  if (isProfilePending) return <Loading />;
-
   return (
-    <>
-      <TitleNavBar
-        title="설정"
-        backLabel="이전"
-        onBackClick={() => navigate(-1)}
-      />
-      <form onSubmit={handleSubmit} className={styles.wrapper}>
-        <div className={styles.container}>
-          <div className={styles.fieldbox}>
-            <h2 className={styles.fieldtitle}>닉네임</h2>
-            <div className={styles.flexbox}>
-              <TextField
-                value={nickname}
-                onChange={handleNicknameChange}
-                isError={isNameFormatInvalid || isNameLengthInvalid}
-                errorMessage={nameErrorMessage}
-                maxLength={18}
-                onRefresh={refresh}
-              />
-            </div>
-          </div>
+    <ErrorBoundary FallbackComponent={FeatureErrorFallback}>
+      {isProfilePending ? (
+        <Loading />
+      ) : (
+        <>
+          <TitleNavBar
+            title="설정"
+            backLabel="이전"
+            onBackClick={() => navigate(-1)}
+          />
+          <form onSubmit={handleSubmit} className={styles.wrapper}>
+            <div className={styles.container}>
+              <div className={styles.fieldbox}>
+                <h2 className={styles.fieldtitle}>닉네임</h2>
+                <div className={styles.flexbox}>
+                  <TextField
+                    value={nickname}
+                    onChange={handleNicknameChange}
+                    isError={isNameFormatInvalid || isNameLengthInvalid}
+                    errorMessage={nameErrorMessage}
+                    maxLength={18}
+                    onRefresh={refresh}
+                  />
+                </div>
+              </div>
 
-          <div className={styles.fieldbox}>
-            <h2 className={styles.fieldtitle}>생년월일</h2>
-            <div className={styles.flexbox}>
-              <DateField
-                value={{ year: birthYear, month: birthMonth, day: birthDay }}
-                onChange={(value) => {
-                  handleBirthYearChange(value.year);
-                  handleBirthMonthChange(value.month);
-                  handleBirthDayChange(value.day);
-                }}
-                error={dateErrorStatus}
-                errorMessage={birthErrorMessage}
-              />
-            </div>
-          </div>
+              <div className={styles.fieldbox}>
+                <h2 className={styles.fieldtitle}>생년월일</h2>
+                <div className={styles.flexbox}>
+                  <DateField
+                    value={{
+                      year: birthYear,
+                      month: birthMonth,
+                      day: birthDay,
+                    }}
+                    onChange={(value) => {
+                      handleBirthYearChange(value.year);
+                      handleBirthMonthChange(value.month);
+                      handleBirthDayChange(value.day);
+                    }}
+                    error={dateErrorStatus}
+                    errorMessage={birthErrorMessage}
+                  />
+                </div>
+              </div>
 
-          <div className={styles.fieldbox}>
-            <h2 className={styles.fieldtitle}>성별</h2>
-            <div className={styles.flexbox}>
-              <Chip
-                selected={gender === 'MALE'}
-                color="weak"
-                onClick={() => setGender('MALE')}
-              >
-                남성
-              </Chip>
-              <Chip
-                selected={gender === 'FEMALE'}
-                color="weak"
-                onClick={() => setGender('FEMALE')}
-              >
-                여성
-              </Chip>
-              <Chip
-                selected={gender === 'NONBINARY'}
-                color="weak"
-                onClick={() => setGender('NONBINARY')}
-              >
-                밝히고 싶지 않음
-              </Chip>
+              <div className={styles.fieldbox}>
+                <h2 className={styles.fieldtitle}>성별</h2>
+                <div className={styles.flexbox}>
+                  <Chip
+                    selected={gender === 'MALE'}
+                    color="weak"
+                    onClick={() => setGender('MALE')}
+                  >
+                    남성
+                  </Chip>
+                  <Chip
+                    selected={gender === 'FEMALE'}
+                    color="weak"
+                    onClick={() => setGender('FEMALE')}
+                  >
+                    여성
+                  </Chip>
+                  <Chip
+                    selected={gender === 'NONBINARY'}
+                    color="weak"
+                    onClick={() => setGender('NONBINARY')}
+                  >
+                    밝히고 싶지 않음
+                  </Chip>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <div className={styles.btnarea}>
-          <ActionButton
-            disabled={!isFormValid || isPending}
-            type="submit"
-            fullWidth
-          >
-            저장하기
-          </ActionButton>
-        </div>
-      </form>
-    </>
+            <div className={styles.btnarea}>
+              <ActionButton
+                disabled={!isFormValid || isPending}
+                type="submit"
+                fullWidth
+              >
+                저장하기
+              </ActionButton>
+            </div>
+          </form>
+        </>
+      )}
+    </ErrorBoundary>
   );
 };
 
