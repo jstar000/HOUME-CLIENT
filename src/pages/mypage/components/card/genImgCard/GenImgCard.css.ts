@@ -38,6 +38,7 @@ export const headingText = style({
 
 export const imgContainer = style({
   aspectRatio: '166 / 111',
+  position: 'relative',
   display: 'flex',
   flexShrink: 0,
   alignItems: 'center',
