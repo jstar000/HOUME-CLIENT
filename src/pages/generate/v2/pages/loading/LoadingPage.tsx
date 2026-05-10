@@ -3,7 +3,9 @@ import { useEffect, useRef, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Navigate, useNavigate } from 'react-router-dom';
 
+import type { CarouselItem } from '@pages/generate/types/generate';
 import { useStackDataQuery } from '@pages/generate/v2/apis/queries/useStackDataQuery';
+import LikeButton from '@pages/generate/v2/components/likeButton/LikeButton';
 import { useGenerateStore } from '@pages/generate/v2/stores/useGenerateStore';
 import { useFunnelStore } from '@pages/imageSetup/stores/useFunnelStore';
 
@@ -25,10 +27,7 @@ import { useGenerateImageRequest } from './hooks/useGenerateImageRequest';
 import * as styles from './LoadingPage.css';
 import ProgressBar from './ProgressBar';
 import { usePostCarouselLikeMutation } from '../../apis/mutations/useCarouselLikeMutation';
-import LikeButton from '../../components/likeButton/LikeButton';
 import Tooltip from '../../components/tooltip/Tooltip';
-
-import type { CarouselItem } from '../../types/generate';
 
 const ANIMATION_DURATION = 600; // 캐러셀 애니메이션 지속 시간 (ms)
 
