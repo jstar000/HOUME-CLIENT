@@ -51,3 +51,10 @@ export const productList = style({
   gap: unitVars.unit.gapPadding['200'],
   width: '100%',
 });
+
+export const blockSlot = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '100%',
+});

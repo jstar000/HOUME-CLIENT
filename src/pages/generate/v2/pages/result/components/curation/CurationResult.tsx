@@ -4,6 +4,9 @@ import type { GenerateImageData } from '@pages/generate/types/generate';
 import { useGenerateCurationCategoriesQuery } from '@pages/generate/v2/apis/queries/useCurationCategoriesQuery';
 import { useCurationProductsQuery } from '@pages/generate/v2/apis/queries/useCurationProductsQuery';
 
+import InlineError from '@components/inlineError/InlineError';
+import Loading from '@components/loading/Loading';
+
 import Chip from '@/shared/components/v2/chip/Chip';
 import ProductCard from '@/shared/components/v2/productCard/ProductCard';
 
@@ -30,8 +33,12 @@ const CurationResult = ({
   const lastImageId = images[images.length - 1]?.imageId;
   const currentImageId = images[0]?.imageId ?? 0;
 
-  const { data: categoriesData, isLoading: isCategoriesLoading } =
-    useGenerateCurationCategoriesQuery(currentImageId);
+  const {
+    data: categoriesData,
+    isLoading: isCategoriesLoading,
+    isError: isCategoriesError,
+    refetch: refetchCategories,
+  } = useGenerateCurationCategoriesQuery(currentImageId);
 
   useEffect(() => {
     setSelectedCategoryId(null);
@@ -44,10 +51,23 @@ const CurationResult = ({
     if (first?.id !== undefined) setSelectedCategoryId(first.id);
   }, [categoriesData?.categories, selectedCategoryId]);
 
-  const { data: productsData, isLoading: isProductsLoading } =
-    useCurationProductsQuery(currentImageId, selectedCategoryId ?? 0);
+  const {
+    data: productsData,
+    isLoading: isProductsLoading,
+    isError: isProductsError,
+    refetch: refetchProducts,
+  } = useCurationProductsQuery(currentImageId, selectedCategoryId ?? 0);
   const products = productsData?.products ?? [];
   const categories = categoriesData?.categories ?? [];
+
+  const showCategoriesEmptyUnexpected =
+    !isCategoriesLoading && !isCategoriesError && categories.length === 0;
+
+  const showProductsEmptyUnexpected =
+    selectedCategoryId !== null &&
+    !isProductsLoading &&
+    !isProductsError &&
+    products.length === 0;
 
   return (
     <div className={styles.root}>
@@ -62,61 +82,109 @@ const CurationResult = ({
           <div className={styles.section}>
             <h1 className={styles.title}>이 공간에 어울리는 추천 상품</h1>
             <div className={styles.chipList}>
-              {isCategoriesLoading && categories.length === 0 ? (
-                <p role="status">카테고리를 불러오는 중…</p>
+              {isCategoriesLoading ? (
+                <div className={styles.blockSlot}>
+                  <Loading />
+                </div>
               ) : null}
-              {!isCategoriesLoading && categories.length === 0 ? (
-                <p role="status">추천 카테고리가 없어요.</p>
+              {isCategoriesError ? (
+                <div className={styles.blockSlot}>
+                  <InlineError
+                    message="추천 카테고리를 불러올 수 없습니다"
+                    onRetry={() => {
+                      void refetchCategories();
+                    }}
+                  />
+                </div>
               ) : null}
-              {categories.map((cat, index) => (
-                <Chip
-                  key={cat.id ?? `category-${index}`}
-                  selected={selectedCategoryId === cat.id}
-                  onClick={() =>
-                    cat.id !== undefined && setSelectedCategoryId(cat.id)
-                  }
-                  disabled={cat.id === undefined}
-                >
-                  {cat.categoryName ?? ''}
-                </Chip>
-              ))}
+              {showCategoriesEmptyUnexpected ? (
+                <div className={styles.blockSlot}>
+                  <InlineError
+                    message="추천 정보를 표시할 수 없습니다"
+                    onRetry={() => {
+                      void refetchCategories();
+                    }}
+                  />
+                </div>
+              ) : null}
+              {!isCategoriesLoading &&
+              !isCategoriesError &&
+              categories.length > 0
+                ? categories.map((cat, index) => (
+                    <Chip
+                      key={cat.id ?? `category-${index}`}
+                      selected={selectedCategoryId === cat.id}
+                      onClick={() =>
+                        cat.id !== undefined && setSelectedCategoryId(cat.id)
+                      }
+                      disabled={cat.id === undefined}
+                    >
+                      {cat.categoryName ?? ''}
+                    </Chip>
+                  ))
+                : null}
             </div>
             <div className={styles.productList}>
-              {isProductsLoading && products.length === 0 ? (
-                <p role="status">상품을 불러오는 중…</p>
+              {selectedCategoryId !== null && isProductsLoading ? (
+                <div className={styles.blockSlot}>
+                  <Loading />
+                </div>
               ) : null}
-              {!isProductsLoading && products.length === 0 ? (
-                <p role="status">이 카테고리에 추천 상품이 없어요.</p>
-              ) : null}
-              {products.map((p, index) => {
-                const imageUrl =
-                  p.furnitureProductImageUrl ?? p.baseFurnitureImageUrl ?? '';
-                const href = p.furnitureProductSiteUrl ?? '';
-                const key =
-                  p.furnitureProductId ??
-                  `${p.furnitureProductName ?? 'product'}-${index}`;
-
-                return (
-                  <ProductCard
-                    key={key}
-                    product={{
-                      brand: p.furnitureProductMallName,
-                      title: p.furnitureProductName ?? '',
-                      imageUrl,
-                      colorHexes: [],
+              {selectedCategoryId !== null && isProductsError ? (
+                <div className={styles.blockSlot}>
+                  <InlineError
+                    message="추천 상품을 불러올 수 없습니다"
+                    onRetry={() => {
+                      void refetchProducts();
                     }}
-                    save={{
-                      isSaved: false,
-                      onToggle: () => {},
-                    }}
-                    link={{
-                      href,
-                      onClick: () => {},
-                    }}
-                    enableWholeCardLink={Boolean(href)}
                   />
-                );
-              })}
+                </div>
+              ) : null}
+              {showProductsEmptyUnexpected ? (
+                <div className={styles.blockSlot}>
+                  <InlineError
+                    message="상품 정보를 표시할 수 없습니다"
+                    onRetry={() => {
+                      void refetchProducts();
+                    }}
+                  />
+                </div>
+              ) : null}
+              {!isProductsLoading &&
+              !isProductsError &&
+              !showProductsEmptyUnexpected
+                ? products.map((p, index) => {
+                    const imageUrl =
+                      p.furnitureProductImageUrl ??
+                      p.baseFurnitureImageUrl ??
+                      '';
+                    const href = p.furnitureProductSiteUrl ?? '';
+                    const key =
+                      p.furnitureProductId ??
+                      `${p.furnitureProductName ?? 'product'}-${index}`;
+
+                    return (
+                      <ProductCard
+                        key={key}
+                        product={{
+                          brand: p.furnitureProductMallName,
+                          title: p.furnitureProductName ?? '',
+                          imageUrl,
+                          colorHexes: [],
+                        }}
+                        save={{
+                          isSaved: false,
+                          onToggle: () => {},
+                        }}
+                        link={{
+                          href,
+                          onClick: () => {},
+                        }}
+                        enableWholeCardLink={Boolean(href)}
+                      />
+                    );
+                  })
+                : null}
             </div>
           </div>
         )}
