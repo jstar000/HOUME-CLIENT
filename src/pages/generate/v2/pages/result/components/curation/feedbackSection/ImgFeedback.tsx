@@ -1,10 +1,10 @@
 import { memo, useEffect, useRef, useState } from 'react';
 
-import { useDeleteResultPreferenceMutation } from '@pages/generate/apis/mutations/useDeleteResultPreferenceMutation';
-import { useFactorPreferenceMutation } from '@pages/generate/apis/mutations/useFactorPreferenceMutation';
-import { useResultPreferenceMutation } from '@pages/generate/apis/mutations/useResultPreferenceMutation';
-import { useFactorsQuery } from '@pages/generate/apis/queries/useFactorsQuery';
 import type { ResultPageLikeState } from '@pages/generate/types/generate';
+import { useDeleteResultPreferenceMutation } from '@pages/generate/v2/apis/mutations/useDeleteResultPreferenceMutation';
+import { useFactorPreferenceMutation } from '@pages/generate/v2/apis/mutations/useFactorPreferenceMutation';
+import { useResultPreferenceMutation } from '@pages/generate/v2/apis/mutations/useResultPreferenceMutation';
+import { useFactorsQuery } from '@pages/generate/v2/apis/queries/useFactorsQuery';
 
 import IconButton from '@components/v2/button/IconButton';
 import Chip from '@components/v2/chip/Chip';
@@ -26,12 +26,14 @@ const ImgFeedback = memo(({ imageId }: ImgFeedbackProps) => {
   const { mutate: sendPreference } = useResultPreferenceMutation();
   const { mutate: deletePreference } = useDeleteResultPreferenceMutation();
   const { mutate: sendFactorPreference } = useFactorPreferenceMutation();
-  const { data: likeFactorsData = [] } = useFactorsQuery(true, {
+  const { data: likeFactorsResponse } = useFactorsQuery(true, {
     enabled: lockedPreference === 'like',
   });
-  const { data: dislikeFactorsData = [] } = useFactorsQuery(false, {
+  const { data: dislikeFactorsResponse } = useFactorsQuery(false, {
     enabled: lockedPreference === 'dislike',
   });
+  const likeFactorsData = likeFactorsResponse?.factors ?? [];
+  const dislikeFactorsData = dislikeFactorsResponse?.factors ?? [];
 
   useEffect(() => {
     lockedPreferenceRef.current = lockedPreference;
@@ -162,7 +164,9 @@ const ImgFeedback = memo(({ imageId }: ImgFeedbackProps) => {
                 <Chip
                   key={factor.id}
                   selected={selectedFactorId === factor.id}
-                  onClick={() => handleFactorClick(factor.id)}
+                  onClick={() =>
+                    factor.id !== undefined && handleFactorClick(factor.id)
+                  }
                   disabled={isFactorSubmitting || isPreferenceSubmitting}
                 >
                   {factor.text}
@@ -174,7 +178,9 @@ const ImgFeedback = memo(({ imageId }: ImgFeedbackProps) => {
                 <Chip
                   key={factor.id}
                   selected={selectedFactorId === factor.id}
-                  onClick={() => handleFactorClick(factor.id)}
+                  onClick={() =>
+                    factor.id !== undefined && handleFactorClick(factor.id)
+                  }
                   disabled={isFactorSubmitting || isPreferenceSubmitting}
                 >
                   {factor.text}
@@ -190,7 +196,9 @@ const ImgFeedback = memo(({ imageId }: ImgFeedbackProps) => {
                 <Chip
                   key={factor.id}
                   selected={selectedFactorId === factor.id}
-                  onClick={() => handleFactorClick(factor.id)}
+                  onClick={() =>
+                    factor.id !== undefined && handleFactorClick(factor.id)
+                  }
                   disabled={isFactorSubmitting || isPreferenceSubmitting}
                 >
                   {factor.text}
@@ -202,7 +210,9 @@ const ImgFeedback = memo(({ imageId }: ImgFeedbackProps) => {
                 <Chip
                   key={factor.id}
                   selected={selectedFactorId === factor.id}
-                  onClick={() => handleFactorClick(factor.id)}
+                  onClick={() =>
+                    factor.id !== undefined && handleFactorClick(factor.id)
+                  }
                   disabled={isFactorSubmitting || isPreferenceSubmitting}
                 >
                   {factor.text}
