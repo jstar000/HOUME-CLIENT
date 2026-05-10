@@ -55,6 +55,9 @@ export const API_ENDPOINT = {
       `/api/v1/generated-images/${imageId}/preference/factors/${factorId}`,
     CURATION_CATEGORIES: (imageId: number) =>
       `/api/v1/generated-images/${imageId}/curations/categories`,
+    CURATION_CATEGORIES_V2: (
+      imageId: number // b-2 추천형 (객체 인식 X)
+    ) => `/api/v2/generated-images/${imageId}/curations/categories`,
     CURATION_PRODUCTS: (imageId: number, categoryId: number) =>
       `/api/v1/generated-images/${imageId}/curations/products/${categoryId}`,
     CURATION_DASHBOARD: '/api/v1/dashboard-info',
