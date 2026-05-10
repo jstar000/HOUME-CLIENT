@@ -1,4 +1,4 @@
-import { queryKeys } from '../constants/queryKey';
+import { queryKeys } from '@constants/queryKey';
 
 import type { QueryClient } from '@tanstack/react-query';
 
