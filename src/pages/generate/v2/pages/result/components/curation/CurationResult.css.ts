@@ -39,9 +39,10 @@ export const content = style({
 
 export const chipList = style({
   display: 'flex',
-  flexDirection: 'column',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
   gap: unitVars.unit.gapPadding['200'],
-  width: 'fit-content',
+  width: '100%',
 });
 
 export const productList = style({
