@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
 
-import type { GenderType } from '@pages/signup/types/formOptions';
+import type { Gender } from '@pages/signup/types/formOptions';
 
 import {
   VALIDATION_RULES,
@@ -18,7 +18,7 @@ interface InitialFormData {
   birthYear?: string;
   birthMonth?: string;
   birthDay?: string;
-  gender?: GenderType | null;
+  gender?: Gender | null;
 }
 
 const useSignupForm = (initialData: InitialFormData = {}) => {
@@ -29,7 +29,7 @@ const useSignupForm = (initialData: InitialFormData = {}) => {
   const [birthYear, setBirthYear] = useState(initialData.birthYear ?? '');
   const [birthMonth, setBirthMonth] = useState(initialData.birthMonth ?? '');
   const [birthDay, setBirthDay] = useState(initialData.birthDay ?? '');
-  const [gender, setGender] = useState<GenderType | null>(
+  const [gender, setGender] = useState<Gender | null>(
     initialData.gender ?? null
   );
 

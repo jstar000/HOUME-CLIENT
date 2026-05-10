@@ -1,4 +1,4 @@
-import type { GenderType } from '@pages/signup/types/formOptions';
+import type { Gender } from '@pages/signup/types/formOptions';
 
 import type { BaseResponse } from '@shared/types/apis';
 
@@ -14,6 +14,6 @@ export type MyPageUserResponse = BaseResponse<MyPageUserData>;
 // 사용자 프로필 수정
 export interface EditProfileRequest {
   nickname: string;
-  gender: GenderType;
+  gender: Gender;
   birthday: string;
 }
