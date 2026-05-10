@@ -9,7 +9,7 @@ export const deleteResultPreference = async (
 ): Promise<void> => {
   return request({
     method: HTTPMethod.DELETE,
-    url: `${API_ENDPOINT.GENERATE.IMAGE_PREFERENCE}/${imageId}/preference`,
+    url: `${API_ENDPOINT.GENERATE.IMAGE_GENERATION}/${imageId}/preference`,
   });
 };
 

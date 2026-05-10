@@ -10,7 +10,7 @@ export const postResultPreference = async (
 ): Promise<void> => {
   return request({
     method: HTTPMethod.POST,
-    url: `${API_ENDPOINT.GENERATE.IMAGE_PREFERENCE}/${imageId}/preference`,
+    url: `${API_ENDPOINT.GENERATE.IMAGE_GENERATION}/${imageId}/preference`,
     body: { isLike },
   });
 };
