@@ -17,7 +17,8 @@ import { useRandomNickname } from '@hooks/useGetRandomNickname';
 import useUserForm from '@hooks/useUserForm';
 
 const ProfileEditPage = () => {
-  const { data: profile, isLoading } = useMyPageProfileQuery();
+  const { data: profile, isPending: isProfilePending } =
+    useMyPageProfileQuery(); // 기본 정보 불러오기
   const birthParts = profile?.birthday?.split('-') ?? [];
 
   const navigate = useNavigate();
@@ -81,9 +82,7 @@ const ProfileEditPage = () => {
     day: birthDay !== '' && dayFieldError,
   };
 
-  if (isLoading || !profile) {
-    return <Loading />;
-  }
+  if (isProfilePending) return <Loading />;
 
   return (
     <>
