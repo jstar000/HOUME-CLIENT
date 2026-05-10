@@ -50,6 +50,8 @@ export const API_ENDPOINT = {
     IMAGE_BANNER: '/api/v1/generated-images/generate/banner', // 경로2 배너 진입 이미지 생성
     IMAGE_OTHER_STYLE: '/api/v1/generated-images/generate/other-style', // 경로4 다른 스타일 진입 이미지 생성
     IMAGE_GENERATION: '/api/v1/generated-images',
+    IMAGE_PREFERENCE: (imageId: number) =>
+      `/api/v1/generated-images/${imageId}/preference`,
     FACTORS: '/api/v1/factors',
     FACTOR_PREFERENCE: (imageId: number, factorId: number) =>
       `/api/v1/generated-images/${imageId}/preference/factors/${factorId}`,
