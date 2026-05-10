@@ -15,7 +15,7 @@ import TextField from '@components/v2/userFormField/TextField';
 import { ERROR_MESSAGES } from '@constants/clientErrorMessage';
 
 import { useRandomNickname } from '@hooks/useGetRandomNickname';
-import useSignupForm from '@hooks/useUserForm';
+import useUserForm from '@hooks/useUserForm';
 
 import { usePostSignupMutation } from './apis/mutations/usePostSignupMutation';
 import SignupExitPopupContent from './components/exitPopupContent/SignupExitPopupContent';
@@ -114,7 +114,7 @@ const SignupPage = () => {
     dayFieldError,
     isFormValid,
     hasError,
-  } = useSignupForm();
+  } = useUserForm();
 
   const { mutate: signUp } = usePostSignupMutation();
 

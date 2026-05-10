@@ -1,6 +1,5 @@
-import type { Gender } from '@pages/signup/types/formOptions';
-
 import type { BaseResponse } from '@shared/types/apis';
+import type { Gender } from '@shared/types/formOptions';
 
 // 마이페이지 사용자 정보 조회 API
 export interface MyPageUserData {

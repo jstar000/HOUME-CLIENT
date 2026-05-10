@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
 
-import type { Gender } from '@pages/signup/types/formOptions';
+import type { Gender } from '@shared/types/formOptions';
 
 import {
   VALIDATION_RULES,
@@ -21,7 +21,7 @@ interface InitialFormData {
   gender?: Gender | null;
 }
 
-const useSignupForm = (initialData: InitialFormData = {}) => {
+const useUserForm = (initialData: InitialFormData = {}) => {
   // -------------------------
   // 상태 관리
   // -------------------------
@@ -194,4 +194,4 @@ const useSignupForm = (initialData: InitialFormData = {}) => {
   };
 };
 
-export default useSignupForm;
+export default useUserForm;
