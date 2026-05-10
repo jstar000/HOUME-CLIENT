@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 import { useGetRandomNicknameQuery } from '@apis/queries/useGetNickname';
 
 export const useRandomNickname = (
@@ -5,7 +7,7 @@ export const useRandomNickname = (
 ) => {
   const { data: randomNickname, refetch } = useGetRandomNicknameQuery();
 
-  const refresh = async () => {
+  const refresh = useCallback(async () => {
     try {
       const { data, isSuccess } = await refetch();
 
@@ -16,7 +18,7 @@ export const useRandomNickname = (
     } catch (error) {
       console.error('닉네임 새로고침 실패:', error);
     }
-  };
+  }, [onSuccess, refetch]);
 
   return {
     randomNickname,
