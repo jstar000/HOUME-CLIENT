@@ -17,7 +17,7 @@ export interface ImgFeedbackProps {
 
 const ImgFeedback = memo(({ imageId }: ImgFeedbackProps) => {
   const [lockedPreference, setLockedPreference] =
-    useState<ResultPageLikeState>('like');
+    useState<ResultPageLikeState>(null);
   const [selectedFactorId, setSelectedFactorId] = useState<number | null>(null);
   const [isPreferenceSubmitting, setIsPreferenceSubmitting] = useState(false);
   const [isFactorSubmitting, setIsFactorSubmitting] = useState(false);
