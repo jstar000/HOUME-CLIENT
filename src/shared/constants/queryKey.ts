@@ -139,5 +139,4 @@ export const queryKeys = {
     all: ['signup'] as const,
     randomNickname: () => [...queryKeys.signup.all, 'randomNickname'] as const,
   },
-
 } as const;

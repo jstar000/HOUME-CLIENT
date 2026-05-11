@@ -86,6 +86,9 @@ export const useKakaoLoginMutation = () => {
             signupToken,
             prefill: response.data.prefill,
           },
+          // OAuth callback 페이지가 history에 남지 않도록 replace 사용
+          // replace가 없을 시 signup 페이지에서 뒤로가기 했을 때 callback 재진입 -> kakao oauth callback mutation이 재실행됨
+          replace: true,
         });
         return;
       }
@@ -96,7 +99,9 @@ export const useKakaoLoginMutation = () => {
       }
 
       // 기존회원 카카오 로그인 성공 시 시작점 복귀 + 토스트
-      navigate(consumeLoginRedirect() ?? ROUTES.HOME);
+      // OAuth callback 페이지가 history에 남지 않도록 replace 사용
+      // replace가 없을 시 시작점에서 뒤로가기 했을 때 callback 재진입 -> kakao oauth callback mutation이 재실행됨
+      navigate(consumeLoginRedirect() ?? ROUTES.HOME, { replace: true });
       notify({ text: '로그인이 완료되었어요', type: TOAST_TYPE.INFO });
     },
     // 카카오 로그인 실패

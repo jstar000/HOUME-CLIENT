@@ -12,12 +12,13 @@ import Popup from '@components/v2/popup/Popup';
 
 import { ERROR_MESSAGES } from '@constants/clientErrorMessage';
 
+import { useExitBlocker } from '@hooks/useExitBlocker';
+
 import { usePostSignupMutation } from './apis/mutations/usePostSignupMutation';
 import { useGetRandomNicknameQuery } from './apis/queries/useGetNickname';
 import SignupExitPopupContent from './components/exitPopupContent/SignupExitPopupContent';
 import DateField from './components/textField/DateField';
 import TextField from './components/textField/TextField';
-import { useSignupExitConfirm } from './hooks/useSignupExitConfirm';
 import useSignupForm from './hooks/useSignupForm';
 import * as styles from './SignupPage.css';
 import {
@@ -50,33 +51,6 @@ const SignupPage = () => {
   const yearRef = useRef<HTMLInputElement>(null);
   const [isNameSubmitted, setIsNameSubmitted] = useState(false);
 
-  // 이탈 방지 팝업
-  const { popupClosed } = useSignupExitConfirm({
-    onBackAttempt: () => {
-      overlay.open(({ unmount }) => {
-        const closePopup = () => {
-          popupClosed();
-          unmount();
-        };
-
-        return (
-          <Popup
-            btnStyle="text"
-            btnText="계속하기"
-            weakBtnText="그만두기"
-            onClose={closePopup}
-            onConfirm={closePopup}
-            onCancel={() => {
-              closePopup();
-              navigate(ROUTES.LOGIN, { replace: true });
-            }}
-            content={<SignupExitPopupContent />}
-          />
-        );
-      });
-    },
-  });
-
   const routeSignupToken = isSignupLocationState(location.state)
     ? (location.state.signupToken ?? null)
     : null;
@@ -93,6 +67,37 @@ const SignupPage = () => {
       navigate(ROUTES.LOGIN, { replace: true });
     }
   }, [signupToken, navigate]);
+
+  // 이탈 방지 팝업 (NavBar 뒤로가기/브라우저 뒤로가기/모바일 뒤로가기 스와이프 모두 가로챔)
+  // signupToken이 없으면 useEffect가 LOGIN으로 redirect하므로 가드 비활성화
+  useExitBlocker({
+    enabled: !!signupToken,
+    onBlocked: ({ proceed, reset }) => {
+      overlay.open(({ unmount }) => {
+        const close = () => {
+          reset();
+          unmount();
+        };
+
+        return (
+          <Popup
+            btnStyle="text"
+            btnText="계속하기"
+            weakBtnText="그만두기"
+            onClose={close}
+            onConfirm={close}
+            onCancel={() => {
+              unmount();
+              // 모달 unmount 직후 proceed → 사용자가 시도한 navigation(뒤로가기 등) 진행
+              // KakaoCallback이 replace로 history에 안 남으므로 자연스럽게 /login(또는 진입점)으로 이동
+              proceed();
+            }}
+            content={<SignupExitPopupContent />}
+          />
+        );
+      });
+    },
+  });
 
   const {
     nickname,
