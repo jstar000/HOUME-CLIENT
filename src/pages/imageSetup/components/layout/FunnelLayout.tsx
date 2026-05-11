@@ -10,6 +10,7 @@ import { useExitBlocker } from '@hooks/useExitBlocker';
 import TitleNavBar from '@/shared/components/v2/navBar/TitleNavBar';
 
 import * as styles from './FunnelLayout.css';
+import { FUNNEL_STEP_PARAM } from '../../constants/funnel';
 import {
   logSelectHouseInfoClickModalContinue,
   logSelectHouseInfoClickModalExit,
@@ -24,10 +25,6 @@ const NAVBAR_TITLE_BY_STEP: Record<FunnelStepKey, string> = {
   InteriorStyle: '취향 선택하기',
   ActivityInfo: '가구 선택하기',
 };
-
-// @use-funnel/react-router가 step 이동 시 URL search에 추가하는 쿼리 키
-// (정상적인 step 진행은 모달 없이 통과시키기 위한 식별자로 사용)
-const FUNNEL_STEP_PARAM = 'image-generation-funnel.step=';
 
 // step1에서 모달 없이 통과시켜야 하는 라우트
 // - LOGIN: 미로그인 사용자가 도면 선택 시 로그인 게이트로 이동하는 케이스
