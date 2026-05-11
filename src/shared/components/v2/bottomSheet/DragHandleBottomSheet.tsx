@@ -58,11 +58,12 @@ const DragHandleBottomSheet = ({
       if (!panel) return;
 
       // vaul의 자체 drag 핸들러(Drawer.Content data-vaul-drawer)와 충돌해 panel transform이 적용되며
-      // "튕기는" 애니메이션이 발생. 자체 drag만 수행하도록 propagation 차단.
+      // 튕기는 애니메이션이 발생 -> 자체 drag만 수행하도록 propagation 차단.
+      // 튕김 해결에 효과가 없음...
       e.stopPropagation();
 
-      // ref만 기록. setIsDragging/setDragHeight는 PointerMove에서 임계값 넘은 후 호출
-      // (단순 터치만 했을 때 panel 인라인이 변경되어 시각 점프하는 문제 해결, vaul의 swipeStartThreshold 패턴)
+      // ref만 기록. setIsDragging/setDragHeight는 PointerMove에서 임계값(5px) 넘은 후 호출
+      // (단순 터치만 했을 때 panel 인라인이 변경되어 바텀시트가 튕기는 문제 해결)
       dragStartYRef.current = e.clientY;
       startHeightRef.current = panel.offsetHeight;
       collapsedPxRef.current = isPersistent
