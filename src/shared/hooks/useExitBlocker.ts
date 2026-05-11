@@ -32,7 +32,7 @@ export const useExitBlocker = ({
 }: UseExitBlockerOptions) => {
   // 호출부에서 inline 함수를 넘겨도 useBlocker가 매 렌더 재등록되지 않도록 ref 적용
   const onBlockedRef = useRef(onBlocked);
-  const shouldRef = useRef(shouldBlockNavigation);
+  const shouldBlockNavigationRef = useRef(shouldBlockNavigation);
 
   // 매 렌더마다 ref를 최신 콜백으로 동기화
   useEffect(() => {
@@ -40,14 +40,16 @@ export const useExitBlocker = ({
   }, [onBlocked]);
 
   useEffect(() => {
-    shouldRef.current = shouldBlockNavigation;
+    shouldBlockNavigationRef.current = shouldBlockNavigation;
   }, [shouldBlockNavigation]);
 
   // blockerFn은 enabled가 바뀔 때만 새로 생성 → useBlocker가 enabled 토글을 즉시 인식
   const blockerFn = useCallback<BlockerFunction>(
     (args) => {
       if (!enabled) return false;
-      return shouldRef.current ? shouldRef.current(args) : true;
+      return shouldBlockNavigationRef.current
+        ? shouldBlockNavigationRef.current(args)
+        : true;
     },
     [enabled]
   );
@@ -55,7 +57,15 @@ export const useExitBlocker = ({
   // React Router Data API의 blocker 상태 머신 ('unblocked' | 'blocked' | 'proceeding')
   const blocker = useBlocker(blockerFn);
 
+  // cleanup에서 항상 최신 blocker를 참조하도록 ref로 추적 (클로저 문제 해결)
+  // (deps 빈 useEffect에서 cleanup 호출 시 첫 렌더의 blocker만 캡처되어 stuck 가능)
+  const blockerRef = useRef(blocker);
+  useEffect(() => {
+    blockerRef.current = blocker;
+  }, [blocker]);
+
   // blocker가 'blocked' 상태로 진입하는 순간 onBlocked 콜백 실행 (모달 표시 등)
+  // deps를 blocker.state로 두어 객체 참조만 바뀌고 state가 동일한 경우 중복 호출되지 않도록 함
   useEffect(() => {
     if (blocker.state === 'blocked') {
       onBlockedRef.current({
@@ -63,15 +73,15 @@ export const useExitBlocker = ({
         reset: blocker.reset,
       });
     }
-  }, [blocker]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blocker.state]);
 
   // 모달이 떠 있는 상태로 컴포넌트 언마운트 시 blocker가 stuck되는 것 방지
   // (이후 다른 페이지의 navigation까지 모두 막힐 수 있음)
   useEffect(() => {
     return () => {
-      if (blocker.state === 'blocked') blocker.reset();
+      if (blockerRef.current.state === 'blocked') blockerRef.current.reset();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return blocker;
