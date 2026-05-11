@@ -110,7 +110,8 @@ export const useKakaoLoginMutation = () => {
       logLoginSocialViewToastLoginError();
 
       // 카카오 로그인 실패 시 시작점 복귀 + 토스트
-      navigate(consumeLoginRedirect() ?? ROUTES.HOME);
+      // onSuccess와 동일하게 replace: true -> callback 페이지가 history에 남아 뒤로가기 시 callback 재진입했을 떄 mutation 재실행되는 문제 차단
+      navigate(consumeLoginRedirect() ?? ROUTES.HOME, { replace: true });
       notify({
         text: '로그인 처리 중 오류가 발생했어요',
         type: TOAST_TYPE.WARNING,
