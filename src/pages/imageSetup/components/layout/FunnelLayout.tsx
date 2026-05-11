@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { ROUTES } from '@routes/paths';
 
-import Popup from '@components/overlay/popup/Popup';
+import Popup from '@components/v2/popup/Popup';
 
 import { useExitBlocker } from '@hooks/useExitBlocker';
 
@@ -73,24 +73,46 @@ const FunnelLayout = ({ children, currentStep }: FunnelLayoutProps) => {
       logSelectHouseInfoViewModal();
 
       // unmount: overlay-kit이 제공, 모달 컴포넌트 제거
-      overlay.open(({ unmount }) => (
-        <Popup
-          onClose={() => {
-            logSelectHouseInfoClickModalContinue();
-            // 이탈 방지 팝업의 '계속하기' -> blocker의 'blocked' 상태 해제, 현재 step에 머무름
-            reset();
-            unmount();
-          }}
-          onExit={() => {
-            logSelectHouseInfoClickModalExit();
-            unmount();
-            // 이탈 방지 팝업의 '나가기' -> 막혔던 navigation(뒤로가기 등)을 그대로 진행
-            proceed();
-          }}
-          title={`지금 나가면 무료로\n 이미지를 생성할 수 없어요`}
-          detail={`이 페이지를 떠나면 지금까지 입력한 \n 정보와 함께 무료 토큰도 사라져요.`}
-        />
-      ));
+      overlay.open(({ unmount }) => {
+        // '계속하기' / backdrop 클릭 -> blocker의 'blocked' 상태 해제, 현재 step에 머무름
+        const stay = () => {
+          logSelectHouseInfoClickModalContinue();
+          reset();
+          unmount();
+        };
+
+        // '나가기' -> 막혔던 navigation(뒤로가기 등)을 그대로 진행
+        const exit = () => {
+          logSelectHouseInfoClickModalExit();
+          unmount();
+          proceed();
+        };
+
+        return (
+          <Popup
+            btnStyle="text"
+            btnText="계속 입력하기"
+            weakBtnText="나가기"
+            onClose={stay}
+            onConfirm={stay}
+            onCancel={exit}
+            content={
+              <div className={styles.popupContent}>
+                <h3 className={styles.popupTitle}>
+                  지금 나가면 무료로
+                  <br />
+                  이미지를 생성할 수 없어요
+                </h3>
+                <p className={styles.popupDetail}>
+                  이 페이지를 떠나면 지금까지 입력한
+                  <br />
+                  정보와 함께 무료 토큰도 사라져요.
+                </p>
+              </div>
+            }
+          />
+        );
+      });
     },
   });
 
