@@ -32,27 +32,21 @@ const GeneratedImg = ({
 }: GeneratedImgCurationProps) => {
   const [swiper, setSwiper] = useState<SwiperType | null>(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-  const [currentImgId, setCurrentImgId] = useState<number | null>(null);
 
   const lastImage = images[images.length - 1];
   const hasLockedSlide = Boolean(lastImage);
   const totalSlideCount = hasLockedSlide ? images.length + 1 : images.length;
 
-  useEffect(() => {
-    if (currentImgId !== null) {
-      onCurrentImgIdChange?.(currentImgId);
-    }
-  }, [currentImgId, onCurrentImgIdChange]);
+  const resolvedImgId =
+    currentSlideIndex < images.length
+      ? images[currentSlideIndex]?.imageId
+      : lastImage?.imageId;
 
   useEffect(() => {
-    if (currentSlideIndex < images.length) {
-      const newImgId = images[currentSlideIndex]?.imageId;
-      setCurrentImgId(newImgId !== undefined ? newImgId : null);
-      return;
+    if (typeof resolvedImgId === 'number' && Number.isFinite(resolvedImgId)) {
+      onCurrentImgIdChange?.(resolvedImgId);
     }
-    const fallbackId = lastImage?.imageId;
-    setCurrentImgId(fallbackId !== undefined ? fallbackId : null);
-  }, [currentSlideIndex, images, lastImage?.imageId]);
+  }, [resolvedImgId, onCurrentImgIdChange]);
 
   const isPrevDisabled = !swiper || currentSlideIndex === 0;
   const isNextDisabled =
