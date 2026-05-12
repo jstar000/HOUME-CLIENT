@@ -124,6 +124,18 @@ const ImgFeedback = memo(({ imageId }: ImgFeedbackProps) => {
     );
   };
 
+  const activeFactors =
+    lockedPreference === 'like'
+      ? likeFactorsData
+      : lockedPreference === 'dislike'
+        ? dislikeFactorsData
+        : [];
+
+  const factorRows =
+    activeFactors.length > 0
+      ? [activeFactors.slice(0, 2), activeFactors.slice(2, 4)]
+      : [];
+
   return (
     <section className={styles.section}>
       <div className={styles.box}>
@@ -159,68 +171,24 @@ const ImgFeedback = memo(({ imageId }: ImgFeedbackProps) => {
             />
           </div>
         </div>
-        {lockedPreference === 'like' && likeFactorsData.length > 0 && (
+        {factorRows.length > 0 && (
           <div className={styles.tagGroup}>
-            <div className={styles.tagRow}>
-              {likeFactorsData.slice(0, 2).map((factor) => (
-                <Chip
-                  key={factor.id}
-                  selected={selectedFactorId === factor.id}
-                  onClick={() =>
-                    factor.id !== undefined && handleFactorClick(factor.id)
-                  }
-                  disabled={isFactorSubmitting || isPreferenceSubmitting}
-                >
-                  {factor.text}
-                </Chip>
-              ))}
-            </div>
-            <div className={styles.tagRow}>
-              {likeFactorsData.slice(2, 4).map((factor) => (
-                <Chip
-                  key={factor.id}
-                  selected={selectedFactorId === factor.id}
-                  onClick={() =>
-                    factor.id !== undefined && handleFactorClick(factor.id)
-                  }
-                  disabled={isFactorSubmitting || isPreferenceSubmitting}
-                >
-                  {factor.text}
-                </Chip>
-              ))}
-            </div>
-          </div>
-        )}
-        {lockedPreference === 'dislike' && dislikeFactorsData.length > 0 && (
-          <div className={styles.tagGroup}>
-            <div className={styles.tagRow}>
-              {dislikeFactorsData.slice(0, 2).map((factor) => (
-                <Chip
-                  key={factor.id}
-                  selected={selectedFactorId === factor.id}
-                  onClick={() =>
-                    factor.id !== undefined && handleFactorClick(factor.id)
-                  }
-                  disabled={isFactorSubmitting || isPreferenceSubmitting}
-                >
-                  {factor.text}
-                </Chip>
-              ))}
-            </div>
-            <div className={styles.tagRow}>
-              {dislikeFactorsData.slice(2, 4).map((factor) => (
-                <Chip
-                  key={factor.id}
-                  selected={selectedFactorId === factor.id}
-                  onClick={() =>
-                    factor.id !== undefined && handleFactorClick(factor.id)
-                  }
-                  disabled={isFactorSubmitting || isPreferenceSubmitting}
-                >
-                  {factor.text}
-                </Chip>
-              ))}
-            </div>
+            {factorRows.map((rowFactors, rowIndex) => (
+              <div key={rowIndex} className={styles.tagRow}>
+                {rowFactors.map((factor) => (
+                  <Chip
+                    key={factor.id}
+                    selected={selectedFactorId === factor.id}
+                    onClick={() =>
+                      factor.id !== undefined && handleFactorClick(factor.id)
+                    }
+                    disabled={isFactorSubmitting || isPreferenceSubmitting}
+                  >
+                    {factor.text}
+                  </Chip>
+                ))}
+              </div>
+            ))}
           </div>
         )}
       </div>
