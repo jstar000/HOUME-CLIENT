@@ -7,7 +7,7 @@ import { HTTPMethod, request } from '@apis/config/request';
 import { API_ENDPOINT } from '@constants/apiEndpoints';
 import { queryKeys } from '@constants/queryKey';
 
-export const getGenerateCurationResultResponse = async (
+export const getCurationResultResponse = async (
   imageId: number
 ): Promise<FurnitureCategoriesResponse> => {
   return request<FurnitureCategoriesResponse>({
@@ -16,10 +16,10 @@ export const getGenerateCurationResultResponse = async (
   });
 };
 
-export const useGenerateCurationCategoriesQuery = (imageId: number) => {
+export const useCurationCategoriesQuery = (imageId: number) => {
   return useQuery({
     queryKey: queryKeys.generate.curationCategories(imageId),
-    queryFn: () => getGenerateCurationResultResponse(imageId),
+    queryFn: () => getCurationResultResponse(imageId),
     enabled: imageId > 0,
     staleTime: 2 * 60 * 1000,
     gcTime: 1000 * 60 * 60 * 24,

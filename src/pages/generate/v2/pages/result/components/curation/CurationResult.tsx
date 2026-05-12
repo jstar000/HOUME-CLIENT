@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import type { GenerateImageData } from '@pages/generate/types/generate';
-import { useGenerateCurationCategoriesQuery } from '@pages/generate/v2/apis/queries/useCurationCategoriesQuery';
+import { useCurationCategoriesQuery } from '@pages/generate/v2/apis/queries/useCurationCategoriesQuery';
 import { useCurationProductsQuery } from '@pages/generate/v2/apis/queries/useCurationProductsQuery';
 
 import InlineError from '@components/inlineError/InlineError';
@@ -38,7 +38,7 @@ const CurationResult = ({
     isLoading: isCategoriesLoading,
     isError: isCategoriesError,
     refetch: refetchCategories,
-  } = useGenerateCurationCategoriesQuery(currentImageId);
+  } = useCurationCategoriesQuery(currentImageId);
 
   useEffect(() => {
     setSelectedCategoryId(null);
