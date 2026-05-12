@@ -110,18 +110,17 @@ const CurationResult = ({
               {!isCategoriesLoading &&
               !isCategoriesError &&
               categories.length > 0
-                ? categories.map((cat, index) => (
-                    <Chip
-                      key={cat.id ?? `category-${index}`}
-                      selected={selectedCategoryId === cat.id}
-                      onClick={() =>
-                        cat.id !== undefined && setSelectedCategoryId(cat.id)
-                      }
-                      disabled={cat.id === undefined}
-                    >
-                      {cat.categoryName ?? ''}
-                    </Chip>
-                  ))
+                ? categories
+                    .filter((category) => category.id !== undefined)
+                    .map((category) => (
+                      <Chip
+                        key={category.id}
+                        selected={selectedCategoryId === category.id}
+                        onClick={() => setSelectedCategoryId(category.id!)}
+                      >
+                        {category.categoryName ?? ''}
+                      </Chip>
+                    ))
                 : null}
             </div>
             <div className={styles.productList}>
