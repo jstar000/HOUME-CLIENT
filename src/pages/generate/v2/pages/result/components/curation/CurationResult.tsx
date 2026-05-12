@@ -4,11 +4,11 @@ import type { GenerateImageData } from '@pages/generate/types/generate';
 import { useCurationCategoriesQuery } from '@pages/generate/v2/apis/queries/useCurationCategoriesQuery';
 import { useCurationProductsQuery } from '@pages/generate/v2/apis/queries/useCurationProductsQuery';
 
+import Chip from '@shared/components/v2/chip/Chip';
+import ProductCard from '@shared/components/v2/productCard/ProductCard';
+
 import InlineError from '@components/inlineError/InlineError';
 import Loading from '@components/loading/Loading';
-
-import Chip from '@/shared/components/v2/chip/Chip';
-import ProductCard from '@/shared/components/v2/productCard/ProductCard';
 
 import * as styles from './CurationResult.css';
 import ImgFeedback from './feedbackSection/ImgFeedback';
