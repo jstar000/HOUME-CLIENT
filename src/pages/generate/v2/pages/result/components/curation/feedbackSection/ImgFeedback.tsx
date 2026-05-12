@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useRef, useState } from 'react';
 
 import type { ResultPageLikeState } from '@pages/generate/types/generate';
 import { useDeleteResultPreferenceMutation } from '@pages/generate/v2/apis/mutations/useDeleteResultPreferenceMutation';
@@ -23,6 +23,12 @@ const ImgFeedback = memo(({ imageId }: ImgFeedbackProps) => {
   const [isFactorSubmitting, setIsFactorSubmitting] = useState(false);
   const factorRequestSeqRef = useRef(0);
   const lockedPreferenceRef = useRef<ResultPageLikeState>(lockedPreference);
+
+  const commitLockedPreference = (next: ResultPageLikeState) => {
+    lockedPreferenceRef.current = next;
+    setLockedPreference(next);
+  };
+
   const { mutate: sendPreference } = useResultPreferenceMutation();
   const { mutate: deletePreference } = useDeleteResultPreferenceMutation();
   const { mutate: sendFactorPreference } = useFactorPreferenceMutation();
@@ -35,10 +41,6 @@ const ImgFeedback = memo(({ imageId }: ImgFeedbackProps) => {
   const likeFactorsData = likeFactorsResponse?.factors ?? [];
   const dislikeFactorsData = dislikeFactorsResponse?.factors ?? [];
 
-  useEffect(() => {
-    lockedPreferenceRef.current = lockedPreference;
-  }, [lockedPreference]);
-
   const submitPreference = (
     targetImageId: number,
     finalState: Exclude<ResultPageLikeState, null>
@@ -47,7 +49,7 @@ const ImgFeedback = memo(({ imageId }: ImgFeedbackProps) => {
       { imageId: targetImageId, isLike: finalState === 'like' },
       {
         onSuccess: () => {
-          setLockedPreference(finalState);
+          commitLockedPreference(finalState);
           setSelectedFactorId(null);
         },
         onSettled: () => setIsPreferenceSubmitting(false),
@@ -67,7 +69,7 @@ const ImgFeedback = memo(({ imageId }: ImgFeedbackProps) => {
     if (finalState === null) {
       deletePreference(imageId, {
         onSuccess: () => {
-          setLockedPreference(null);
+          commitLockedPreference(null);
           setSelectedFactorId(null);
         },
         onSettled: () => setIsPreferenceSubmitting(false),
