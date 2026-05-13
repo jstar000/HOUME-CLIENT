@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import type { FurnitureProductsInfoResponse } from '@shared/apis/__generated__/data-contracts';
+import type { FurnitureProductsInfoResponseV2 } from '@shared/apis/__generated__/data-contracts';
 
 import { HTTPMethod, request } from '@apis/config/request';
 
@@ -10,8 +10,8 @@ import { queryKeys } from '@constants/queryKey';
 export const getCurationProductsResponse = async (
   imageId: number,
   categoryId: number
-): Promise<FurnitureProductsInfoResponse> => {
-  return request<FurnitureProductsInfoResponse>({
+): Promise<FurnitureProductsInfoResponseV2> => {
+  return request<FurnitureProductsInfoResponseV2>({
     method: HTTPMethod.GET,
     url: API_ENDPOINT.GENERATE.CURATION_PRODUCTS(imageId, categoryId),
   });
