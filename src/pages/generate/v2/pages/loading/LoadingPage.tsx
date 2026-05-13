@@ -172,19 +172,15 @@ const LoadingPage = () => {
   const displayNextImage = frontSlot === 'A' ? slotBImage : slotAImage;
 
   const handleProgressComplete = () => {
-    if (navigationData && isApiCompleted) {
-      // ResultPage 변수명/엔드포인트 정리는 별도 작업으로 분리
-      // TODO: 백엔드가 모든 이미지 생성 응답에 imageUrl을 추가하면 swagger 재생성
-      // url에 imageId 전달, navigate state에 imageUrl 전달
-      // -> ResultPage가 imageId로 이미지 상세조회 API fetch 응답 도착 전 즉시 이미지 표시 가능(location.state에 imageUrl이 있으니까) -> UX 개선
-      // +) 새로고침하면 imageId는 url에 유지되지만 브라우저에 따라 location.state 날아가는데, 그때는 ResultPage의 기본동작(imageId로 이미지 상세조회 API 요청) 실행됨
-      // LoadingPage + ResultPage 묶어서 별도 PR로 작업하기
-      const imageId = (navigationData as { imageId?: number })?.imageId;
-      if (typeof imageId !== 'number') return;
-      navigate(`${ROUTES.GENERATE_RESULT}?houseId=${imageId}`, {
-        replace: true,
-      });
-    }
+    if (!navigationData || !isApiCompleted) return;
+    const { imageId, imageUrl, isMirror } = navigationData;
+    // url에 imageId, state에 imageUrl/isMirror 전달
+    //   ResultPage가 /meta 응답 도착 전에 location.state의 imageUrl로 즉시 이미지 요청 가능
+    //   새로고침 시 state가 손실되더라도 url의 imageId로 /meta API 호출해 imageUrl/isMirror 응답 받을 수 있음
+    navigate(`${ROUTES.GENERATE_RESULT}?houseId=${imageId}`, {
+      replace: true,
+      state: { imageUrl, isMirror },
+    });
   };
 
   const closeTooltip = () => {
