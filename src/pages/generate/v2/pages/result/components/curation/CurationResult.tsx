@@ -152,34 +152,35 @@ const CurationResult = ({
               {!isProductsLoading &&
               !isProductsError &&
               !showProductsEmptyUnexpected
-                ? products.map((p, index) => {
-                    const imageUrl =
-                      p.furnitureProductImageUrl ??
-                      p.baseFurnitureImageUrl ??
-                      '';
-                    const href = p.furnitureProductSiteUrl ?? '';
-                    const key =
-                      p.furnitureProductId ??
-                      `${p.furnitureProductName ?? 'product'}-${index}`;
-
+                ? products.map((wrapper, index) => {
+                    const p = wrapper.product;
+                    if (p == null) return null;
+                    const key = p.id ?? p.productId ?? `product-${index}`;
                     return (
                       <ProductCard
                         key={key}
                         product={{
-                          brand: p.furnitureProductMallName,
-                          title: p.furnitureProductName ?? '',
-                          imageUrl,
-                          colorHexes: [],
+                          brand: p.brand ?? p.mallName,
+                          title: p.name ?? '',
+                          imageUrl: p.imageUrl ?? '',
+                          colorHexes: (p.colors ?? [])
+                            .map((c) => c.value ?? '')
+                            .filter(Boolean),
+                        }}
+                        price={{
+                          original: p.originalPrice,
+                          discount: p.finalPrice,
+                          discountRate: p.discountRate,
                         }}
                         save={{
-                          isSaved: false,
+                          isSaved: Boolean(p.isLiked),
                           onToggle: () => {},
                         }}
                         link={{
-                          href,
+                          href: p.linkUrl ?? '',
                           onClick: () => {},
                         }}
-                        enableWholeCardLink={Boolean(href)}
+                        enableWholeCardLink={Boolean(p.linkUrl)}
                       />
                     );
                   })
