@@ -47,13 +47,16 @@ const ResultPage = () => {
   const stateIsMirror = locationState?.isMirror;
   const stateViewType = locationState?.viewType;
 
-  // /meta API 호출 — 새로고침 등으로 state 손실되었을 때 fallback
+  // /meta API 호출 — state에 imageUrl/isMirror가 모두 들어왔으면 호출 불필요(LoadingPage 정상 진입)
+  // 둘 중 하나라도 누락되었거나 새로고침으로 state가 손실된 경우에만 fallback으로 호출
+  const needsMetaFallback =
+    stateImageUrl === undefined || stateIsMirror === undefined;
   const {
     data: meta,
     isPending: isMetaPending,
     isError: isMetaError,
   } = useImageMetaQuery(parsedImageId ?? 0, {
-    enabled: parsedImageId !== null,
+    enabled: parsedImageId !== null && needsMetaFallback,
   });
 
   // 잘못된 houseId → HOME으로
