@@ -26,7 +26,8 @@ const RoomTypeSection = () => {
   };
 
   // 홈에서 도면 카드 클릭: floorPlanId를 preset으로 전달 → 퍼널 진입 즉시 해당 도면 시트 자동 오픈
-  const handleFloorPlanClick = (floorPlanId: number) => {
+  const handleFloorPlanClick = (floorPlanId: number | undefined) => {
+    if (floorPlanId === undefined) return;
     useImageFlowStore.getState().setFlow({
       entryRoute: ENTRY_ROUTE.FLOOR_PLAN,
       preset: { type: 'floorPlan', floorPlanId },
@@ -56,10 +57,7 @@ const RoomTypeSection = () => {
                 size="s"
                 label={floorPlan.name ?? ''}
                 imageSrc={floorPlan.imageUrl ?? ''}
-                onClick={() =>
-                  floorPlan.id !== undefined &&
-                  handleFloorPlanClick(floorPlan.id)
-                }
+                onClick={() => handleFloorPlanClick(floorPlan.id)}
               />
             </div>
           ))}
