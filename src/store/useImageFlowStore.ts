@@ -22,6 +22,7 @@ export type ResultType = (typeof RESULT_TYPE)[keyof typeof RESULT_TYPE];
 // 퍼널 진입 시점에 setFlow()로 저장 → 최종 이미지 생성 API 호출 시 사용
 export type PresetData =
   | { type: 'banner'; bannerId: number; answerId: number } // 경로2
+  | { type: 'floorPlan'; floorPlanId: number } // 경로3: 홈에서 도면 선택
   | { type: 'style'; styleId: number } // 경로4
   | { type: 'product'; productIds: number[] }; // 경로5
 
