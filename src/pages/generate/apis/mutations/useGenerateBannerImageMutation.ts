@@ -12,32 +12,45 @@ import { HTTPMethod, request } from '@apis/config/request';
 import { API_ENDPOINT } from '@constants/apiEndpoints';
 import { queryKeys } from '@constants/queryKey';
 
+// swagger 응답은 imageId/imageUrl/isMirror 모두 optional → fetcher에서 한 번 검증 후 narrow된 객체로 반환
+type GeneratedImagePayload = {
+  imageId: number;
+  imageUrl: string;
+  isMirror: boolean;
+};
+
 export const postGenerateBannerImage = async (
   requestData: BannerGenerateImageRequest
-): Promise<BannerGenerateImageResponse> => {
+): Promise<GeneratedImagePayload> => {
   const response = await request<BannerGenerateImageResponse>({
     method: HTTPMethod.POST,
     url: API_ENDPOINT.GENERATE.IMAGE_BANNER,
     body: requestData,
   });
 
-  // 응답은 200이지만 imageId가 오지 않는 예외 고려 (실제 발생 가능성은 낮음)
+  // 응답은 200이지만 일부 필드가 오지 않는 예외 고려 (실제 발생 가능성은 낮음)
   if (typeof response.imageId !== 'number') {
     throw new Error('이미지 생성 응답에 imageId가 누락되었습니다');
   }
+  if (typeof response.imageUrl !== 'string') {
+    throw new Error('이미지 생성 응답에 imageUrl이 누락되었습니다');
+  }
+  if (typeof response.isMirror !== 'boolean') {
+    throw new Error('이미지 생성 응답에 isMirror가 누락되었습니다');
+  }
 
-  return response;
+  return {
+    imageId: response.imageId,
+    imageUrl: response.imageUrl,
+    isMirror: response.isMirror,
+  };
 };
 
 export const useGenerateBannerImageMutation = () => {
   const { setApiCompleted, setNavigationData, resetGenerate } =
     useGenerateStore();
 
-  return useMutation<
-    BannerGenerateImageResponse,
-    Error,
-    BannerGenerateImageRequest
-  >({
+  return useMutation<GeneratedImagePayload, Error, BannerGenerateImageRequest>({
     mutationFn: postGenerateBannerImage,
     onSuccess: (data) => {
       resetGenerate();
