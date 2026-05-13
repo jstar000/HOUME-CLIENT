@@ -100,12 +100,17 @@ const GeneratedImagesSection = () => {
   /**
    * 결과 페이지로 이동하며 필요한 감지 데이터를 선행 프리패치
    * - url에 imageId를 houseId 쿼리 파라미터로 전달 (ResultPage가 /meta API 호출에 사용)
-   * - state에 imageUrl을 전달 (ResultPage가 /meta 응답 도착 전 즉시 이미지를 표시할 수 있도록 UX 개선)
+   * - state에 imageUrl과 viewType을 전달
+   *   - imageUrl: ResultPage가 /meta 응답 도착 전에도 즉시 이미지를 표시할 수 있도록 UX 개선용
+   *   - viewType: 마이페이지 진입 시에는 useImageFlowStore에 결과 분기 정보가 없으므로, mypage 가구 리스트 응답의 viewType('LIST' | 'RECOMMEND')을 그대로 넘겨 ResultPage가 CurationResult/ListResult 중 무엇을 마운트할지 결정하도록 함
    */
   const handleViewResult = (item: GeneratedImageListItem) => {
     logMyPageClickBtnImgCard();
     navigate(`${ROUTES.GENERATE_RESULT}?houseId=${item.imageId}`, {
-      state: { imageUrl: item.generatedImageUrl },
+      state: {
+        imageUrl: item.generatedImageUrl,
+        viewType: item.viewType,
+      },
     });
     // 네비게이션 직후 우선순위 감지 프리페치 실행
     scheduleDetectionPrefetch(item.imageId, item.generatedImageUrl, {

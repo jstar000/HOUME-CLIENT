@@ -35,13 +35,17 @@ const ResultPage = () => {
       ? candidate
       : null;
 
-  // LoadingPage에서 navigate state로 전달한 imageUrl/isMirror (새로고침 시 손실 → /meta로 fallback)
+  // LoadingPage/마이페이지에서 navigate state로 전달한 데이터 (새로고침 시 손실 → /meta로 fallback)
+  // - imageUrl/isMirror: 즉시 이미지 표시용
+  // - viewType: 마이페이지에서 진입한 경우의 결과 타입(`'LIST' | 'RECOMMEND'` 등 문자열). useImageFlowStore에 결과 분기 정보가 없는 경우의 fallback 분기 기준으로 사용
   const locationState = location.state as {
     imageUrl?: string;
     isMirror?: boolean;
+    viewType?: string;
   } | null;
   const stateImageUrl = locationState?.imageUrl;
   const stateIsMirror = locationState?.isMirror;
+  const stateViewType = locationState?.viewType;
 
   // /meta API 호출 — 새로고침 등으로 state 손실되었을 때 fallback
   const {
@@ -96,6 +100,15 @@ const ResultPage = () => {
     isMirror: resolvedIsMirror,
   };
 
+  // 결과 뷰 분기 우선순위
+  // 1. state.viewType이 있으면 우선 사용 (마이페이지에서 진입한 경우, mypage 응답의 viewType을 그대로 받아 ResultPage에 전달)
+  // 2. 없으면 useImageFlowStore.resultType 사용 (LoadingPage에서 진입한 경우, 퍼널 진입 시점에 설정된 값)
+  // 3. 둘 다 없으면 기본값으로 CurationResult를 마운트 (새로고침으로 state가 손실되고 store에도 정보가 없는 fallback 케이스)
+  const isListView =
+    stateViewType !== undefined
+      ? stateViewType === 'LIST'
+      : resultType === RESULT_TYPE.LIST;
+
   return (
     <main className={styles.pageLayout}>
       <TitleNavBar
@@ -105,7 +118,7 @@ const ResultPage = () => {
       />
       <div className={styles.content}>
         <div className={styles.resultBody}>
-          {resultType === RESULT_TYPE.LIST ? (
+          {isListView ? (
             <ListResult image={image} />
           ) : (
             <CurationResult images={[image]} />
