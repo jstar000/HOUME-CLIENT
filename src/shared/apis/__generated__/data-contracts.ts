@@ -186,6 +186,18 @@ export interface ProductGenerateImageRequest {
   productIds: number[];
 }
 
+export interface ProductGenerateImageRequest {
+  /** @format int64 */
+  floorPlanId: number;
+  floorPlanView: string;
+  isMirror: boolean;
+  /**
+   * @maxItems 6
+   * @minItems 1
+   */
+  productIds: number[];
+}
+
 export interface OtherStyleGenerateImageRequest {
   /** @format int64 */
   bannerId: number;
@@ -731,6 +743,34 @@ export interface MyPageProfileResponse {
   gender?: "MALE" | "FEMALE" | "NONBINARY";
 }
 
+export interface UpdateMyPageProfileRequest {
+  /**
+   * @minLength 2
+   * @maxLength 20
+   * @pattern ^[가-힣a-zA-Z0-9]+$
+   */
+  nickname?: string;
+  /** @pattern MALE|FEMALE|NONBINARY */
+  gender?: string;
+  birthday?: string;
+}
+
+export interface ApiResponseMyPageProfileResponse {
+  /** @format int32 */
+  code?: number;
+  msg?: string;
+  data?: MyPageProfileResponse;
+}
+
+export interface MyPageProfileResponse {
+  /** @format int64 */
+  userId?: number;
+  nickname?: string;
+  /** @format date */
+  birthday?: string;
+  gender?: "MALE" | "FEMALE" | "NONBINARY";
+}
+
 export interface CreateUserRequest {
   /** @pattern ^[가-힣a-zA-Z]+$ */
   name: string;
@@ -1040,6 +1080,23 @@ export interface ExploreHouseTemplateDetailResponse {
   floorPlanName?: string;
   equilibrium?: string;
   floorPlans?: ExploreHouseTemplateDetailItemResponse[];
+}
+
+export interface ApiResponseFurnitureCategoriesResponse {
+  /** @format int32 */
+  code?: number;
+  msg?: string;
+  data?: FurnitureCategoriesResponse;
+}
+
+export interface FurnitureCategoriesResponse {
+  categories?: FurnitureCategoryResponse[];
+}
+
+export interface FurnitureCategoryResponse {
+  /** @format int64 */
+  id?: number;
+  categoryName?: string;
 }
 
 export interface ApiResponseFurnitureCategoriesResponse {
@@ -1420,9 +1477,11 @@ export interface FurnitureProductsInfoResponseForPlan {
 }
 
 export interface ApiResponseGeneratedImageMetaResponse {
+export interface ApiResponseGeneratedImageMetaResponse {
   /** @format int32 */
   code?: number;
   msg?: string;
+  data?: GeneratedImageMetaResponse;
   data?: GeneratedImageMetaResponse;
 }
 
@@ -1431,15 +1490,25 @@ export interface GeneratedImageMetaResponse {
   imageId?: number;
   imageUrl?: string;
   isMirror?: boolean;
+export interface GeneratedImageMetaResponse {
+  /** @format int64 */
+  imageId?: number;
+  imageUrl?: string;
+  isMirror?: boolean;
 }
 
+export interface ApiResponseFurnitureProductsInfoResponse {
 export interface ApiResponseFurnitureProductsInfoResponseV2 {
   /** @format int32 */
   code?: number;
   msg?: string;
+  data?: FurnitureProductsInfoResponse;
   data?: FurnitureProductsInfoResponseV2;
 }
 
+export interface FurnitureProductsInfoResponse {
+  userName?: string;
+  products?: FurnitureProductInfo[];
 export interface FurnitureProductsInfoResponseV2 {
   userName?: string;
   products?: ProductWrapper[];
@@ -2051,6 +2120,8 @@ export type GenerateImageData = ApiResponseImageInfoResponse;
 
 export type GenerateImageByProductsData = ApiResponseGenerateImageV4Response;
 
+export type GenerateImageByProductsData = ApiResponseGenerateImageV4Response;
+
 export type GenerateOtherStyleImageByGeminiData =
   ApiResponseOtherStyleGenerateImageResponse;
 
@@ -2138,6 +2209,10 @@ export type GetMyPageProfileData = ApiResponseMyPageProfileResponse;
 
 export type UpdateMyPageProfileData = ApiResponseMyPageProfileResponse;
 
+export type GetMyPageProfileData = ApiResponseMyPageProfileResponse;
+
+export type UpdateMyPageProfileData = ApiResponseMyPageProfileResponse;
+
 export type GetStyleData = ApiResponseAdminStyleResponse;
 
 export type DeleteStyleData = ApiResponseString;
@@ -2197,6 +2272,9 @@ export type GetExploreHouseTemplateDetailData =
 export type GetFurnitureCategoriesV2Data =
   ApiResponseFurnitureCategoriesResponse;
 
+export type GetFurnitureCategoriesV2Data =
+  ApiResponseFurnitureCategoriesResponse;
+
 export type GetDashboardCategoriesData = ApiResponseDashboardCategoriesResponse;
 
 export type GetActivityFurnitureMappingsData =
@@ -2233,6 +2311,8 @@ export type GetFurnitureProductInfoFromNaverApiForPlanData =
 
 export type GetFurnitureProductInfoFromNaverApiForPlanV2Data =
   ApiResponseFurnitureProductsInfoResponseForPlan;
+
+export type GetGeneratedImageMetaData = ApiResponseGeneratedImageMetaResponse;
 
 export type GetGeneratedImageMetaData = ApiResponseGeneratedImageMetaResponse;
 
