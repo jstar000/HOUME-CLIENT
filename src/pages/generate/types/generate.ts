@@ -19,32 +19,7 @@ export interface ImageStackResponse {
 
 // 이미지 생성 V4 요청 타입은 swagger 자동 생성 사용, V2/V3 Legacy API 관련 타입은 제거
 
-// 이미지 생성 API 응답 데이터 타입
-export interface GenerateImageData {
-  imageId: number;
-  imageUrl: string;
-  isMirror: boolean;
-  equilibrium: string;
-  houseForm: string;
-  tagName: string;
-  name: string;
-}
-
-// 이미지 생성 API 응답 데이터 타입 - 여러 이미지 응답 (A안)
-export interface GenerateImageAResponse {
-  code: number;
-  msg: string;
-  data: {
-    imageInfoResponses: GenerateImageData[];
-  };
-}
-
-// 이미지 생성 API 응답 데이터 타입 - 단일 이미지 (B안)
-export interface GenerateImageBResponse {
-  code: number;
-  msg: string;
-  data: GenerateImageData;
-}
+// 결과 페이지 자식 컴포넌트 props용 이미지 메타 타입은 v2/pages/result/types.ts(ResultImageMeta) 참조
 
 // 요인 문구 타입
 export interface Factor {
