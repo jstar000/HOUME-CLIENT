@@ -2,36 +2,28 @@ import { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import type { GenerateImageData } from '@pages/generate/types/generate';
-
 import TitleNavBar from '@components/v2/navBar/TitleNavBar';
 
 import CurationResult from './components/curation/CurationResult';
 import ListResult from './components/list/ListResult';
 import * as styles from './ResultPage.css';
 
+import type { ResultImageMeta } from './types';
+
 /** 라우팅 연동 전: 초기에 보여줄 결과 뷰 (`'curation'` | `'list'`) */
 const DEV_UI_DEFAULT_RESULT_VIEW: 'curation' | 'list' = 'curation';
 
 /** 라우팅·API 연동 전 UI 확인용 목 데이터 */
-const MOCK_GENERATE_IMAGES: GenerateImageData[] = [
+const MOCK_GENERATE_IMAGES: ResultImageMeta[] = [
   {
     imageId: 9051,
     imageUrl: 'https://picsum.photos/seed/houme-gen-1/800/800',
     isMirror: false,
-    equilibrium: 'mock',
-    houseForm: 'mock',
-    tagName: 'mock',
-    name: 'mock',
   },
   {
     imageId: 90002,
     imageUrl: 'https://picsum.photos/seed/houme-gen-2/800/800',
     isMirror: false,
-    equilibrium: 'mock',
-    houseForm: 'mock',
-    tagName: 'mock',
-    name: 'mock',
   },
 ];
 
