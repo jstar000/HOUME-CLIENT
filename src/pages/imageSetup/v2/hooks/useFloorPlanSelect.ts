@@ -63,7 +63,7 @@ export const useFloorPlanSelect = (
       store.selectNewFloorPlan(preset.floorPlanId);
       store.openFloorPlanSheet();
       // FLOOR_PLAN 경로는 풀퍼널이므로 LoadingPage가 preset을 사용하지 않음 → 시트 오픈 후 즉시 클리어
-      useImageFlowStore.setState({ preset: null });
+      useImageFlowStore.getState().clearPreset();
     }
     // 마운트 시 1회만 평가
     // eslint-disable-next-line react-hooks/exhaustive-deps
