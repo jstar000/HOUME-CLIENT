@@ -70,13 +70,14 @@ export const useFloorPlanSelect = (
   }, []);
 
   // RecentSheet 자동 오픈: FloorPlanSheet가 자동 오픈되지 않은 모든 경로에서 표시
-  // (로그인 복귀 / 홈 도면 클릭으로 FloorPlanSheet 이미 열린 경우는 if(isFloorPlanSheetOpen) return; 으로 저장된 내 공간 바텀시트 스킵)
-  // recentFloorPlan fetch 완료 후 1회 처리
+  // recentFloorPlan이 캐시된 상태로 진입하면 위 useEffect와 같은 mount commit에서 함께 실행되는데,
+  // 그때 `store` 변수는 첫 렌더의 snapshot이라 위 effect의 openFloorPlanSheet()가 반영되지 않음.
+  // -> useFloorPlanStore.getState()로 zustand에서 동기적으로 최신값을 읽어 race condition 방지!
   const recentHandledRef = useRef(false);
   useEffect(() => {
     if (recentHandledRef.current) return;
     if (!recentFloorPlan) return;
-    if (store.isFloorPlanSheetOpen) return;
+    if (useFloorPlanStore.getState().isFloorPlanSheetOpen) return;
 
     recentHandledRef.current = true;
     store.openRecentSheet();
