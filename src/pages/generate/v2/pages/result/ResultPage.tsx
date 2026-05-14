@@ -47,10 +47,14 @@ const ResultPage = () => {
   const stateIsMirror = locationState?.isMirror;
   const stateViewType = locationState?.viewType;
 
-  // /meta API 호출 — state에 imageUrl/isMirror가 모두 들어왔으면 호출 불필요
+  // state.imageUrl이 비어있는 경우(null/빈 문자열)도 누락으로 간주 -> /meta로 fallback
+  const hasStateImageUrl =
+    typeof stateImageUrl === 'string' && stateImageUrl.trim() !== '';
+  const hasStateIsMirror = typeof stateIsMirror === 'boolean';
+
+  // /meta API 호출 — state에 imageUrl/isMirror가 모두 유효하게 들어왔으면 호출 불필요
   // 둘 중 하나라도 누락되었거나 새로고침으로 state가 손실된 경우에만 fallback으로 호출
-  const needsMetaFallback =
-    stateImageUrl === undefined || stateIsMirror === undefined;
+  const needsMetaFallback = !hasStateImageUrl || !hasStateIsMirror;
   const {
     data: meta,
     isPending: isMetaPending,
@@ -64,9 +68,11 @@ const ResultPage = () => {
     return <Navigate to={ROUTES.HOME} replace />;
   }
 
-  // state 우선, 부재 시 meta 응답으로 보충
-  const resolvedImageUrl = stateImageUrl ?? meta?.imageUrl;
-  const resolvedIsMirror = stateIsMirror ?? meta?.isMirror ?? false;
+  // 유효한 state 값 우선, 부재 시 meta 응답으로 보충
+  const resolvedImageUrl = hasStateImageUrl ? stateImageUrl : meta?.imageUrl;
+  const resolvedIsMirror = hasStateIsMirror
+    ? stateIsMirror
+    : (meta?.isMirror ?? false);
 
   // state도 없고 meta도 아직 로딩 중 → 로딩 UI
   if (!resolvedImageUrl && isMetaPending) {
