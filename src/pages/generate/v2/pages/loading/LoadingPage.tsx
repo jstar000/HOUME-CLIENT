@@ -11,7 +11,7 @@ import { useFunnelStore } from '@pages/imageSetup/stores/useFunnelStore';
 
 import { ROUTES } from '@routes/paths';
 
-import { useImageFlowStore } from '@store/useImageFlowStore';
+import { RESULT_TYPE, useImageFlowStore } from '@store/useImageFlowStore';
 
 import { TOAST_TYPE } from '@shared/types/toast';
 
@@ -174,13 +174,19 @@ const LoadingPage = () => {
   const handleProgressComplete = () => {
     if (!navigationData || !isApiCompleted) return;
     const { imageId, imageUrl, isMirror } = navigationData;
-    // url에 imageId, state에 imageUrl/isMirror 전달
-    //   ResultPage가 /meta 응답 도착 전에 location.state의 imageUrl로 즉시 이미지 요청 가능
-    //   새로고침 시 state가 손실되더라도 url의 imageId로 /meta API 호출해 imageUrl/isMirror 응답 받을 수 있음
-    navigate(`${ROUTES.GENERATE_RESULT}?houseId=${imageId}`, {
-      replace: true,
-      state: { imageUrl, isMirror },
-    });
+    // useImageFlowStore.resultType을 url로 전달
+    const resultType = useImageFlowStore.getState().resultType;
+    const viewTypeParam =
+      resultType === RESULT_TYPE.LIST ? 'LIST' : 'RECOMMEND';
+
+    // url에 imageId/viewType, state에 imageUrl/isMirror 전달
+    navigate(
+      `${ROUTES.GENERATE_RESULT}?houseId=${imageId}&viewType=${viewTypeParam}`,
+      {
+        replace: true,
+        state: { imageUrl, isMirror },
+      }
+    );
   };
 
   const closeTooltip = () => {

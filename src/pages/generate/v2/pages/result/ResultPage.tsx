@@ -9,8 +9,6 @@ import { useImageMetaQuery } from '@pages/generate/v2/apis/queries/useImageMetaQ
 
 import { ROUTES } from '@routes/paths';
 
-import { RESULT_TYPE, useImageFlowStore } from '@store/useImageFlowStore';
-
 import InlineError from '@components/inlineError/InlineError';
 import Loading from '@components/loading/Loading';
 import TitleNavBar from '@components/v2/navBar/TitleNavBar';
@@ -25,7 +23,6 @@ const ResultPage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const location = useLocation();
-  const resultType = useImageFlowStore((state) => state.resultType);
 
   // URL ?houseId= 파싱 (NaN/소수점/음수는 클라이언트에서 차단, 그 외 잘못된 id는 백엔드 응답 에러로 처리)
   const rawHouseId = searchParams.get('houseId')?.trim() ?? '';
@@ -35,17 +32,20 @@ const ResultPage = () => {
       ? candidate
       : null;
 
+  // URL ?viewType= 파싱 —> CurationResult/ListResult 분기 기준으로 사용
+  // /meta 응답에 viewType이 없어서 새로고침이나 직접 URL 진입에도 분기를 유지하려면 URL에 viewType이 명시되어 있어야 함
+  // viewType이 'LIST'일 때만 ListResult로 분기, 그 외(없음/알 수 없는 값)는 모두 CurationResult로 fallback
+  const rawViewType = searchParams.get('viewType');
+  const isListView = rawViewType === 'LIST';
+
   // LoadingPage/마이페이지에서 navigate state로 전달한 데이터 (새로고침 시 손실 → /meta로 fallback)
-  // - imageUrl/isMirror: 즉시 이미지 표시용
-  // - viewType: 마이페이지에서 진입한 경우의 결과 타입(`'LIST' | 'RECOMMEND'` 등 문자열). useImageFlowStore에 결과 분기 정보가 없는 경우의 fallback 분기 기준으로 사용
+  // imageUrl/isMirror는 /meta 응답에 포함되므로 state 손실 시 자동 보충 가능
   const locationState = location.state as {
     imageUrl?: string;
     isMirror?: boolean;
-    viewType?: string;
   } | null;
   const stateImageUrl = locationState?.imageUrl;
   const stateIsMirror = locationState?.isMirror;
-  const stateViewType = locationState?.viewType;
 
   // state.imageUrl이 비어있는 경우(null/빈 문자열)도 누락으로 간주 -> /meta로 fallback
   const hasStateImageUrl =
@@ -108,15 +108,6 @@ const ResultPage = () => {
     imageUrl: resolvedImageUrl ?? '',
     isMirror: resolvedIsMirror,
   };
-
-  // 결과 뷰 분기 우선순위
-  // 1. state.viewType이 있으면 우선 사용 (마이페이지에서 진입한 경우, mypage 응답의 viewType을 그대로 받아 ResultPage에 전달)
-  // 2. 없으면 useImageFlowStore.resultType 사용 (LoadingPage에서 진입한 경우, 퍼널 진입 시점에 설정된 값)
-  // 3. 둘 다 없으면 기본값으로 CurationResult를 마운트 (새로고침으로 state가 손실되고 store에도 정보가 없는 fallback 케이스)
-  const isListView =
-    stateViewType !== undefined
-      ? stateViewType === 'LIST'
-      : resultType === RESULT_TYPE.LIST;
 
   return (
     <main className={styles.pageLayout}>
