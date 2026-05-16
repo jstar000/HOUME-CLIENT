@@ -157,6 +157,7 @@ const CurationResult = ({
                     const p = wrapper.product;
                     if (p == null) return null;
                     const key = p.id ?? p.productId ?? `product-${index}`;
+                    const href = p.linkUrl ?? '';
                     return (
                       <ProductCard
                         key={key}
@@ -178,10 +179,11 @@ const CurationResult = ({
                           onToggle: () => {},
                         }}
                         link={{
-                          href: p.linkUrl ?? '',
-                          onClick: () => {},
+                          href,
+                          onClick: () =>
+                            href &&
+                            window.open(href, '_blank', 'noopener,noreferrer'),
                         }}
-                        enableWholeCardLink={Boolean(p.linkUrl)}
                       />
                     );
                   })
