@@ -18,13 +18,30 @@ export const RESULT_TYPE = {
 
 export type ResultType = (typeof RESULT_TYPE)[keyof typeof RESULT_TYPE];
 
+// 경로5(PRODUCT_SELECTION)에서 ProductTab UI 복원에 사용하는 스냅샷 아이템
+// productIds는 상품으로 이미지 생성 API payload용, productSnapshot은 상품 탭에서 바텀시트가 확장됐을 때의 가구 UI 복원용으로 책임이 분리됨
+export interface ProductSnapshotItem {
+  id: string;
+  title: string;
+  brand: string;
+  imageUrl?: string;
+  originalPrice: number;
+  discountPrice: number;
+  discountRate: number;
+}
+
 // 경로별 프리셋 (경로에 따라 preset이 달라짐을 나타내고, 경로별 타입 안정성을 위해 discriminated union 적용)
 // 퍼널 진입 시점에 setFlow()로 저장 → 최종 이미지 생성 API 호출 시 사용
+// 경로5(product)는 productIds(API payload) + productSnapshot(UI 복원, 로그인 게이트 복귀/재선택 진입 시 ProductTab hydration용)을 함께 보관 (홈 화면에서 상품 '탭'은 url이 없으므로 자체 url이 존재하는 banner/style 플로우와는 다른 방식으로 로그인 게이트에 대비해야 함)
 export type PresetData =
   | { type: 'banner'; bannerId: number; answerId: number } // 경로2
   | { type: 'floorPlan'; floorPlanId: number } // 경로3: 홈에서 도면 선택
   | { type: 'style'; styleId: number } // 경로4
-  | { type: 'product'; productIds: number[] }; // 경로5
+  | {
+      type: 'product';
+      productIds: number[];
+      productSnapshot: ProductSnapshotItem[];
+    }; // 경로5
 
 interface ImageFlowState {
   entryRoute: EntryRoute | null;
