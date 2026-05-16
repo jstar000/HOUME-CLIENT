@@ -1,5 +1,3 @@
-import { get } from 'http';
-
 import { useEffect, useState } from 'react';
 
 import type {
@@ -180,7 +178,7 @@ const ProductCard = ({
                   )}
                   {discountPriceText && (
                     <div className={styles.discountRow}>
-                      {discountRateText && discountRateText !== '0' && (
+                      {discountRateText && discountRateText !== '0%' && (
                         <span className={styles.discountRateText}>
                           {discountRateText}
                         </span>
