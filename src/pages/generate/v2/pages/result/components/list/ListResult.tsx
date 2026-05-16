@@ -2,6 +2,10 @@ import { useGenerateListResultQuery } from '@pages/generate/v2/apis/queries/useG
 import { useRelatedImagesQuery } from '@pages/generate/v2/apis/queries/useRelatedImagesQuery';
 import { useSimilarItemsQuery } from '@pages/generate/v2/apis/queries/useSimilarItemsQuery';
 
+import { useSavedItemsStore } from '@store/useSavedItemsStore';
+
+import { useJjymMutation } from '@apis/mutations/useJjymMutation';
+
 import ListProductCard from '@/shared/components/v2/productCard/ListProductCard';
 import ProductCard from '@/shared/components/v2/productCard/ProductCard';
 import StyleCard from '@/shared/components/v2/styleCard/StyleCard';
@@ -26,6 +30,8 @@ const ListResult = ({ image }: ListResultProps) => {
   const includedImages = (relatedData?.images ?? []).filter(
     (item) => item.resultType === 'LIST' || item.resultType === 'RECOMMEND'
   );
+  const { mutate: toggleJjym } = useJjymMutation();
+  const savedProductIds = useSavedItemsStore((s) => s.savedProductIds);
 
   return (
     <div className={styles.root}>
@@ -49,8 +55,12 @@ const ListResult = ({ image }: ListResultProps) => {
                   discountRate: item.discountRate!,
                 }}
                 save={{
-                  isSaved: item.isLiked!,
-                  onToggle: () => {},
+                  isSaved:
+                    (item.id != null && savedProductIds.has(item.id)) ||
+                    Boolean(item.isLiked),
+                  onToggle: () => {
+                    if (item.id != null) toggleJjym(item.id);
+                  },
                 }}
                 link={{
                   href: item.linkUrl!,
@@ -81,8 +91,12 @@ const ListResult = ({ image }: ListResultProps) => {
                   discountRate: item.discountRate!,
                 }}
                 save={{
-                  isSaved: item.isLiked!,
-                  onToggle: () => {},
+                  isSaved:
+                    (item.id != null && savedProductIds.has(item.id)) ||
+                    Boolean(item.isLiked),
+                  onToggle: () => {
+                    if (item.id != null) toggleJjym(item.id);
+                  },
                   count: item.jjymCount!,
                 }}
                 link={{
