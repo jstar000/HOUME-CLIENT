@@ -40,35 +40,42 @@ const ListResult = ({ image }: ListResultProps) => {
         <div className={styles.section}>
           <h1 className={styles.sectionTitle}>선택한 상품</h1>
           <div className={styles.flexContent}>
-            {selectedProducts.map((item) => (
-              <ListProductCard
-                key={item.id}
-                cardSize="m"
-                product={{
-                  title: item.name!,
-                  imageUrl: item.imageUrl!,
-                  colorHexes: (item.colors ?? []).map((color) => color.value!),
-                }}
-                price={{
-                  original: item.originalPrice!,
-                  discount: item.finalPrice!,
-                  discountRate: item.discountRate!,
-                }}
-                save={{
-                  isSaved:
-                    (item.id != null && savedProductIds.has(item.id)) ||
-                    Boolean(item.isLiked),
-                  onToggle: () => {
-                    if (item.id != null) toggleJjym(item.id);
-                  },
-                }}
-                link={{
-                  href: item.linkUrl!,
-                  onClick: () => {},
-                }}
-                enableWholeCardLink={true}
-              />
-            ))}
+            {selectedProducts.map((item) => {
+              const href = item.linkUrl ?? '';
+
+              return (
+                <ListProductCard
+                  key={item.id}
+                  cardSize="m"
+                  product={{
+                    title: item.name!,
+                    imageUrl: item.imageUrl!,
+                    colorHexes: (item.colors ?? []).map(
+                      (color) => color.value!
+                    ),
+                  }}
+                  price={{
+                    original: item.originalPrice!,
+                    discount: item.finalPrice!,
+                    discountRate: item.discountRate!,
+                  }}
+                  save={{
+                    isSaved:
+                      (item.id != null && savedProductIds.has(item.id)) ||
+                      Boolean(item.isLiked),
+                    onToggle: () => {
+                      if (item.id != null) toggleJjym(item.id);
+                    },
+                  }}
+                  link={{
+                    href,
+                    onClick: () =>
+                      href &&
+                      window.open(href, '_blank', 'noopener,noreferrer'),
+                  }}
+                />
+              );
+            })}
           </div>
         </div>
         <div className={styles.section}>
@@ -76,36 +83,43 @@ const ListResult = ({ image }: ListResultProps) => {
             방금 담은 스타일과 비슷한 상품
           </h1>
           <div className={styles.gridContent}>
-            {similarProducts.map((item) => (
-              <ProductCard
-                key={item.id}
-                product={{
-                  brand: item.brand!,
-                  title: item.name!,
-                  imageUrl: item.imageUrl!,
-                  colorHexes: (item.colors ?? []).map((color) => color.value!),
-                }}
-                price={{
-                  original: item.originalPrice!,
-                  discount: item.finalPrice!,
-                  discountRate: item.discountRate!,
-                }}
-                save={{
-                  isSaved:
-                    (item.id != null && savedProductIds.has(item.id)) ||
-                    Boolean(item.isLiked),
-                  onToggle: () => {
-                    if (item.id != null) toggleJjym(item.id);
-                  },
-                  count: item.jjymCount!,
-                }}
-                link={{
-                  href: item.linkUrl!,
-                  onClick: () => {},
-                }}
-                enableWholeCardLink={true}
-              />
-            ))}
+            {similarProducts.map((item) => {
+              const href = item.linkUrl ?? '';
+
+              return (
+                <ProductCard
+                  key={item.id}
+                  product={{
+                    brand: item.brand!,
+                    title: item.name!,
+                    imageUrl: item.imageUrl!,
+                    colorHexes: (item.colors ?? []).map(
+                      (color) => color.value!
+                    ),
+                  }}
+                  price={{
+                    original: item.originalPrice!,
+                    discount: item.finalPrice!,
+                    discountRate: item.discountRate!,
+                  }}
+                  save={{
+                    isSaved:
+                      (item.id != null && savedProductIds.has(item.id)) ||
+                      Boolean(item.isLiked),
+                    onToggle: () => {
+                      if (item.id != null) toggleJjym(item.id);
+                    },
+                    count: item.jjymCount!,
+                  }}
+                  link={{
+                    href,
+                    onClick: () =>
+                      href &&
+                      window.open(href, '_blank', 'noopener,noreferrer'),
+                  }}
+                />
+              );
+            })}
           </div>
         </div>
         <div className={styles.section}>
