@@ -38,7 +38,7 @@ export const overlay = style([
   },
 ]);
 
-// 모바일 프레임 폭으로 panel을 감싸는 컨테이너 (시트 본체의 직접 부모)
+// 모바일 프레임 폭으로 panel을 감싸는 컨테이너
 export const content = style([
   mobileFrame,
   {
