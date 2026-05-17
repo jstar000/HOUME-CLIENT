@@ -91,7 +91,7 @@ const LoadingPage = () => {
   const { mutate: postLike, isPending: isJjymLoading } =
     usePostCarouselLikeMutation();
 
-  // 진입경로별 mutation 호출 (풀퍼널 / banner / otherStyle 분기)
+  // 진입경로별 mutation 호출 (풀퍼널 / banner / otherStyle / product 분기)
   useEffect(() => {
     const onMutationError = (error: Error) => {
       console.error('이미지 생성 실패:', error);
@@ -101,7 +101,7 @@ const LoadingPage = () => {
     // mutation 응답 시(성공/실패 모두) 퍼널/프리셋 데이터 즉시 정리
     // (이전 입력값이 sessionStorage에 살아있으면 사용자가 /generate URL로 직접 재진입 시 mutation이 재실행되어 같은 요청이 불필요하게 다시 실행됨)
     // - useFunnelStore.reset(): 풀퍼널 분기(preset === null) 차단 — useFunnelStore 데이터 비워서 useGenerateImageRequest가 invalid 반환하도록
-    // - preset null: 숏퍼널 분기(preset.type === 'banner'/'style') 차단
+    // - preset null: 숏퍼널 분기(preset.type === 'banner'/'style'/'product') 차단
     // - useImageFlowStore의 entryRoute/resultType은 ResultPage에서 사용하므로 유지
     const onMutationSettled = () => {
       useFunnelStore.getState().reset();
@@ -124,6 +124,9 @@ const LoadingPage = () => {
         requestState.mutate(requestState.payload, mutateOptions);
         return;
       case 'otherStyle':
+        requestState.mutate(requestState.payload, mutateOptions);
+        return;
+      case 'product':
         requestState.mutate(requestState.payload, mutateOptions);
         return;
     }
