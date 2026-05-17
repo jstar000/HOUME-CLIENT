@@ -156,7 +156,7 @@ export const useGenerateImageRequest = (): GenerateImageRequestResult => {
       };
     }
 
-    // 선택한 상품으로 이미지 생성 (preset의 productSnapshot은 UI 복원용이므로 API payload에서는 무시)
+    // 선택한 상품으로 이미지 생성 (preset의 productsToBeRestored은 UI 복원용이므로 API payload에서는 불필요, 무시)
     if (preset.type === 'product') {
       if (
         !isIntegerArray(preset.productIds) ||
