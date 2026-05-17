@@ -1,6 +1,19 @@
+import { useNavigate } from 'react-router-dom';
+
 import { useGenerateListResultQuery } from '@pages/generate/v2/apis/queries/useGenerateListResultQuery';
 import { useRelatedImagesQuery } from '@pages/generate/v2/apis/queries/useRelatedImagesQuery';
 import { useSimilarItemsQuery } from '@pages/generate/v2/apis/queries/useSimilarItemsQuery';
+import { useFunnelStore } from '@pages/imageSetup/stores/useFunnelStore';
+
+import { ROUTES } from '@routes/paths';
+
+import {
+  ENTRY_ROUTE,
+  useImageFlowStore,
+  type ProductItem,
+} from '@store/useImageFlowStore';
+
+import ActionButton from '@shared/components/v2/button/actionButton/ActionButton';
 
 import ListProductCard from '@/shared/components/v2/productCard/ListProductCard';
 import ProductCard from '@/shared/components/v2/productCard/ProductCard';
@@ -8,6 +21,7 @@ import StyleCard from '@/shared/components/v2/styleCard/StyleCard';
 
 import GeneratedImg from './imgSection/GeneratedImg';
 import * as styles from './ListResult.css';
+import { toProductItem } from '../../utils/toProductItem';
 
 import type { ResultImageMeta } from '../../types';
 
@@ -16,6 +30,7 @@ export interface ListResultProps {
 }
 
 const ListResult = ({ image }: ListResultProps) => {
+  const navigate = useNavigate();
   const { data: listData } = useGenerateListResultQuery(image.imageId);
   const { data: similarData } = useSimilarItemsQuery(image.imageId);
   const { data: relatedData } = useRelatedImagesQuery(image.imageId);
@@ -27,12 +42,51 @@ const ListResult = ({ image }: ListResultProps) => {
     (item) => item.resultType === 'LIST' || item.resultType === 'RECOMMEND'
   );
 
+  // '상품 다시 선택하기' 클릭 핸들러
+  // - listData.products → ProductItem[] 매핑 (id 유효한 것만)
+  //   - ProductItem: 상품탭 바텀시트의 '선택한 상품' 카드용 타입
+  // - useFunnelStore.reset()으로 (혹시나) 남아있는 floorPlan 데이터 제거
+  // - setFlow({ PRODUCT_SELECTION, { productIds, productsToBeRestored } })
+  // - navigate(HOME, state.activeTab='product') → HomePage가 상품 탭 활성, ProductTab이 useState 초기값으로 복원
+  const handleReselectProducts = () => {
+    const mapped: ProductItem[] = selectedProducts
+      .map(toProductItem)
+      .filter((p): p is ProductItem => p !== null);
+    if (mapped.length === 0) return;
+
+    const productIds = mapped
+      .map((p) => Number(p.id))
+      .filter((n) => Number.isInteger(n));
+    if (productIds.length === 0) return;
+
+    useFunnelStore.getState().reset();
+    useImageFlowStore.getState().setFlow({
+      entryRoute: ENTRY_ROUTE.PRODUCT_SELECTION,
+      preset: {
+        type: 'product',
+        productIds,
+        productsToBeRestored: mapped,
+      },
+    });
+
+    navigate(ROUTES.HOME, { state: { activeTab: 'product' } });
+  };
+
   return (
     <div className={styles.root}>
       <GeneratedImg image={image} />
       <div className={styles.mainArea}>
         <div className={styles.section}>
-          <h1 className={styles.sectionTitle}>선택한 상품</h1>
+          <div className={styles.sectionHeader}>
+            <h1 className={styles.sectionTitle}>선택한 상품</h1>
+            <ActionButton
+              size="S"
+              leftIcon="RefreshStrokeWhite"
+              onClick={handleReselectProducts}
+            >
+              다시 선택하기
+            </ActionButton>
+          </div>
           <div className={styles.flexContent}>
             {selectedProducts.map((item) => (
               <ListProductCard

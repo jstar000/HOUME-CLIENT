@@ -27,8 +27,7 @@ const ProductTab = () => {
   const productsToBeRestored = useMemo(() => {
     const preset = useImageFlowStore.getState().preset;
     return preset?.type === 'product' ? preset.productsToBeRestored : [];
-    // mount 시 1회만 평가
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // mount 시 1회만 평가 (store는 ref 안정)
   }, []);
   const hasProductsToBeRestored = productsToBeRestored.length > 0;
 
