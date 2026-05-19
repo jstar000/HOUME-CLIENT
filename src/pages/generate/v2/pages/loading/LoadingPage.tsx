@@ -246,11 +246,13 @@ const LoadingPage = () => {
       resultType === RESULT_TYPE.LIST ? 'LIST' : 'RECOMMEND';
 
     // url에 imageId/viewType, state에 imageUrl/isMirror 전달
+    // state.from='loading': ResultPage가 진입 경로를 식별해 뒤로가기 가드를 다르게 적용
+    // (loading 경유: 뒤로가기 시 HOME으로 강제 redirect / 마이페이지 경유: 일반 history(-1))
     navigate(
       `${ROUTES.GENERATE_RESULT}?houseId=${imageId}&viewType=${viewTypeParam}`,
       {
         replace: true,
-        state: { imageUrl, isMirror },
+        state: { imageUrl, isMirror, from: 'loading' },
       }
     );
   };
