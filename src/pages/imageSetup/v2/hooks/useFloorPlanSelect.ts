@@ -50,9 +50,12 @@ export const useFloorPlanSelect = (
   useEffect(() => {
     const savedFloorPlan = useFunnelStore.getState().floorPlan;
     if (savedFloorPlan) {
+      // floorPlanViewIndex는 isMultiView 도면의 swiper 위치 복원용
+      // 이전 sessionStorage 데이터에 해당 필드가 없을 수 있어 ?? 0 fallback
       store.restoreFloorPlan(
         savedFloorPlan.floorPlanId,
-        savedFloorPlan.isMirror
+        savedFloorPlan.isMirror,
+        savedFloorPlan.floorPlanViewIndex ?? 0
       );
       store.openFloorPlanSheet();
       return;
@@ -113,12 +116,18 @@ export const useFloorPlanSelect = (
     const floorPlanView =
       selectedDetailViews[store.selectedViewIndex]?.view ?? '';
 
+    // 다음 스텝으로 이동 시에 전달할 데이터 (API payload에 필요한 필드만)
     const floorPlanData: CompletedFloorPlanSelect['floorPlan'] = {
       floorPlanId: store.selectedFloorPlanId,
       isMirror: store.isMirror,
       floorPlanView,
     };
-    useFunnelStore.getState().setFloorPlan(floorPlanData);
+
+    // useFunnelStore에는 UI 복원용 floorPlanViewIndex까지 함께 저장
+    useFunnelStore.getState().setFloorPlan({
+      ...floorPlanData,
+      floorPlanViewIndex: store.selectedViewIndex,
+    });
     onNext({ floorPlan: floorPlanData });
   };
 
@@ -132,7 +141,11 @@ export const useFloorPlanSelect = (
       isMirror: store.isMirror,
       floorPlanView: recentFloorPlan.view ?? '',
     };
-    useFunnelStore.getState().setFloorPlan(floorPlanData);
+    // RecentSheet 진입은 view 선택 단계 없이 즉시 확정 → floorPlanViewIndex 0 기본값
+    useFunnelStore.getState().setFloorPlan({
+      ...floorPlanData,
+      floorPlanViewIndex: 0,
+    });
     onNext({ floorPlan: floorPlanData });
   };
 
