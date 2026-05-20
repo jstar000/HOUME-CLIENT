@@ -159,12 +159,13 @@ const CurationResult = ({
               {!isProductsLoading &&
               !isProductsError &&
               !showProductsEmptyUnexpected
-                ? products.map((wrapper, index) => {
+                ? products.map((wrapper) => {
                     const p = wrapper.product;
                     if (p == null) return null;
-                    const key = p.id ?? p.productId ?? `product-${index}`;
                     const href = p.linkUrl ?? '';
-                    const rawProductId = p.id ?? p.productId;
+                    const rawProductId = p.id;
+                    if (rawProductId == null) return null;
+                    const key = rawProductId;
                     return (
                       <ProductCard
                         key={key}
@@ -183,12 +184,9 @@ const CurationResult = ({
                         }}
                         save={{
                           isSaved:
-                            (rawProductId != null &&
-                              savedProductIds.has(rawProductId)) ||
+                            savedProductIds.has(rawProductId) ||
                             Boolean(p.isLiked),
-                          onToggle: () => {
-                            if (rawProductId != null) toggleJjym(rawProductId);
-                          },
+                          onToggle: () => toggleJjym(rawProductId),
                         }}
                         link={{
                           href,
