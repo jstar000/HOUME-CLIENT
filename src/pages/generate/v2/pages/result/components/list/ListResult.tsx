@@ -52,11 +52,14 @@ const ListResult = ({ image }: ListResultProps) => {
           <h1 className={styles.sectionTitle}>선택한 상품</h1>
           <div className={styles.flexContent}>
             {selectedProducts.map((item) => {
+              const id = item.id;
+              if (id == null) return null;
+
               const href = item.linkUrl ?? '';
 
               return (
                 <ListProductCard
-                  key={item.id}
+                  key={id}
                   cardSize="m"
                   product={{
                     title: item.name!,
@@ -71,12 +74,8 @@ const ListResult = ({ image }: ListResultProps) => {
                     discountRate: item.discountRate!,
                   }}
                   save={{
-                    isSaved:
-                      (item.id != null && savedProductIds.has(item.id)) ||
-                      Boolean(item.isLiked),
-                    onToggle: () => {
-                      if (item.id != null) toggleJjym(item.id);
-                    },
+                    isSaved: savedProductIds.has(id),
+                    onToggle: () => toggleJjym(id),
                   }}
                   link={{
                     href,
@@ -95,11 +94,14 @@ const ListResult = ({ image }: ListResultProps) => {
           </h1>
           <div className={styles.gridContent}>
             {similarProducts.map((item) => {
+              const id = item.id;
+              if (id == null) return null;
+
               const href = item.linkUrl ?? '';
 
               return (
                 <ProductCard
-                  key={item.id}
+                  key={id}
                   product={{
                     brand: item.brand!,
                     title: item.name!,
@@ -114,12 +116,8 @@ const ListResult = ({ image }: ListResultProps) => {
                     discountRate: item.discountRate!,
                   }}
                   save={{
-                    isSaved:
-                      (item.id != null && savedProductIds.has(item.id)) ||
-                      Boolean(item.isLiked),
-                    onToggle: () => {
-                      if (item.id != null) toggleJjym(item.id);
-                    },
+                    isSaved: savedProductIds.has(id),
+                    onToggle: () => toggleJjym(id),
                     count: item.jjymCount!,
                   }}
                   link={{

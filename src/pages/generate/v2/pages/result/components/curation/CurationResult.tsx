@@ -183,9 +183,7 @@ const CurationResult = ({
                           discountRate: p.discountRate,
                         }}
                         save={{
-                          isSaved:
-                            savedProductIds.has(rawProductId) ||
-                            Boolean(p.isLiked),
+                          isSaved: savedProductIds.has(rawProductId),
                           onToggle: () => toggleJjym(rawProductId),
                         }}
                         link={{
