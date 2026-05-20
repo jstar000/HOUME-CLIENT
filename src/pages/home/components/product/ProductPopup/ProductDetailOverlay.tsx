@@ -69,8 +69,15 @@ const ProductDetailOverlay = ({
 
     const linkHrefOverride = detail?.linkUrl ?? link?.href;
 
-    return { product, price, linkHrefOverride };
-  }, [detail, link?.href, listPrice, listProduct]);
+    const saveCount =
+      detail != null
+        ? detail.jjymCount
+        : save.count != null && save.count > 0
+          ? save.count
+          : undefined;
+
+    return { product, price, linkHrefOverride, saveCount };
+  }, [detail, link?.href, listPrice, listProduct, save.count]);
 
   const isSaved =
     savedProductIds.has(id) || Boolean(detail?.isLiked) || save.isSaved;
@@ -96,7 +103,7 @@ const ProductDetailOverlay = ({
         <ProductDetailCard
           product={merged.product}
           price={merged.price}
-          saveCount={save.count}
+          saveCount={merged.saveCount}
           link={link}
           linkHrefOverride={merged.linkHrefOverride}
         />
