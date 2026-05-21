@@ -12,10 +12,10 @@ export const TOAST_TYPE = {
 } as const;
 
 // // 1) 키 타입
-// export type ToastTypeKey = keyof typeof TOAST_TYPE;
+export type ToastTypeKey = keyof typeof TOAST_TYPE;
 
 // // 2) 값 타입
-// export type ToastType = (typeof TOAST_TYPE)[ToastTypeKey];
+export type ToastType = (typeof TOAST_TYPE)[ToastTypeKey];
 
 export const toastStyle = {
   backgroundColor: 'transparent',

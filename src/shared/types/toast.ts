@@ -1,5 +1,3 @@
-import { unitVars } from '../styles/tokensV2/unit.css';
-
 import type { ToasterProps } from 'sonner';
 
 export const TOAST_TYPE = {
