@@ -1,3 +1,7 @@
+import {
+  TOAST_ACTION_LABEL,
+  TOAST_MESSAGE,
+} from '@shared/constants/toastMessage';
 import { TOAST_TYPE, TOASTER_ID } from '@shared/types/toast';
 
 import MainToaster from './Sonner';
@@ -20,7 +24,7 @@ const SonnerToastTest = () => {
         type="button"
         onClick={() =>
           notify({
-            text: '로그인에 성공했어요',
+            text: TOAST_MESSAGE.LOGIN_SUCCESS,
             type: TOAST_TYPE.SUCCESS,
             options: {
               toasterId: TOASTER_ID.TOP_4,
@@ -34,7 +38,7 @@ const SonnerToastTest = () => {
         type="button"
         onClick={() =>
           notify({
-            text: '로그인에 실패했어요. 다시 시도해주세요.',
+            text: TOAST_MESSAGE.LOGIN_ERROR,
             type: TOAST_TYPE.ERROR,
             options: {
               toasterId: TOASTER_ID.BOTTOM_8,
@@ -48,7 +52,7 @@ const SonnerToastTest = () => {
         type="button"
         onClick={() =>
           notify({
-            text: '필수 가구는 선택 해제할 수 없어요',
+            text: TOAST_MESSAGE.REQUIRED_ITEM_LOCKED,
             type: TOAST_TYPE.INFO,
             options: {
               toasterId: TOASTER_ID.TOP_4,
@@ -65,9 +69,9 @@ const SonnerToastTest = () => {
         type="button"
         onClick={() =>
           notify({
-            text: '상품을 찜했어요! 찜한 상품으로 이동할까요?',
+            text: TOAST_MESSAGE.SAVED_ITEM_MOVE,
             type: TOAST_TYPE.ACTION,
-            actionLabel: '이동',
+            actionLabel: TOAST_ACTION_LABEL.MOVE,
             onClick: () => {
               console.log('찜 바로가기');
             },
@@ -86,9 +90,9 @@ const SonnerToastTest = () => {
         type="button"
         onClick={() =>
           notify({
-            text: '찜을 취소했어요',
+            text: TOAST_MESSAGE.SAVED_ITEM_REMOVED,
             type: TOAST_TYPE.ACTION,
-            actionLabel: '되돌리기',
+            actionLabel: TOAST_ACTION_LABEL.UNDO,
             onClick: () => {
               console.log('찜 되돌리기');
             },
