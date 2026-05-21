@@ -20,7 +20,7 @@ const SonnerToastTest = () => {
         type="button"
         onClick={() =>
           notify({
-            text: '로그인에 성공했어요.',
+            text: '로그인에 성공했어요',
             type: TOAST_TYPE.SUCCESS,
             options: {
               toasterId: TOASTER_ID.TOP,
@@ -48,11 +48,10 @@ const SonnerToastTest = () => {
         type="button"
         onClick={() =>
           notify({
-            text: '필수 가구는 선택 해제할 수 없어요.',
+            text: '필수 가구는 선택 해제할 수 없어요',
             type: TOAST_TYPE.INFO,
             options: {
               toasterId: TOASTER_ID.TOP,
-
               style: {
                 marginTop: '4rem',
               },
@@ -74,7 +73,6 @@ const SonnerToastTest = () => {
             },
             options: {
               toasterId: TOASTER_ID.BOTTOM_4,
-
               style: {
                 marginBottom: '4rem',
               },
@@ -88,7 +86,7 @@ const SonnerToastTest = () => {
         type="button"
         onClick={() =>
           notify({
-            text: '찜을 취소했어요.',
+            text: '찜을 취소했어요',
             type: TOAST_TYPE.ACTION,
             actionLabel: '되돌리기',
             onClick: () => {
@@ -96,7 +94,6 @@ const SonnerToastTest = () => {
             },
             options: {
               toasterId: TOASTER_ID.BOTTOM_4,
-
               style: {
                 marginBottom: '4rem',
               },
