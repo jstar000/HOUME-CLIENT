@@ -39,7 +39,7 @@ export const useToast = () => {
           (id) => (
             <ActionToast
               text={text}
-              actionLabel={actionLabel || 'Action'}
+              actionLabel={actionLabel || ''}
               onAction={() => {
                 onClick?.();
                 toast.dismiss(id);
