@@ -52,6 +52,7 @@ export const message = recipe({
 
 export const actionButton = style({
   textDecoration: 'underline',
+  ...fontVars.font.body_m_14,
 });
 
 export const toastStyle: CSSProperties = {
