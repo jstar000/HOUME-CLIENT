@@ -8,7 +8,8 @@ import type { ToastContainerProps } from 'react-toastify';
 // react-toastify의 ToastContainer 기본 설정 (일단 삭제 안함)
 export const TOAST_TYPE = {
   INFO: 'info',
-  SUCCESS: 'success',
+  WARNING: 'warning',
+  NAVIGATE: 'navigate',
 } as const;
 
 // // 1) 키 타입
