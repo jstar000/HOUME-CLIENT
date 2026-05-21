@@ -4,9 +4,9 @@ import { useMyPageUserQuery } from '@pages/mypage/apis/queries/useMyPageUserQuer
 
 import { useUserStore } from '@store/useUserStore';
 
-import { TOAST_TYPE } from '@shared/types/toast';
-
 import CreditIcon from '@assets/icons/modalCoin.png';
+
+import { TOAST_TYPE } from '@/shared/types/toastLegacy.ts';
 
 import * as styles from './CreditModal.css.ts';
 import CtaButton from '../../button/ctaButton/CtaButton';

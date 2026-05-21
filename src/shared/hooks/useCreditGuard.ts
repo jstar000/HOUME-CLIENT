@@ -4,7 +4,7 @@ import { useMyPageUserQuery } from '@pages/mypage/apis/queries/useMyPageUserQuer
 
 import { useToast } from '@components/toast/useToast';
 
-import { TOAST_TYPE } from '../types/toast';
+import { TOAST_TYPE } from '../types/toastLegacy';
 
 interface CreditGuardReturn {
   checkCredit: () => Promise<boolean>;
