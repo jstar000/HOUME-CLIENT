@@ -17,16 +17,24 @@ export type ToastTypeKey = keyof typeof TOAST_TYPE;
 // 2) 값 타입
 export type ToastType = (typeof TOAST_TYPE)[ToastTypeKey];
 
+// toast 위치 키
+export const TOASTER_ID = {
+  TOP: 'top',
+  BOTTOM_8: 'bottom-8',
+  BOTTOM_4: 'bottom-4',
+} as const;
+
+export type ToasterId = (typeof TOASTER_ID)[keyof typeof TOASTER_ID];
+
 // sonner의 Toaster 기본 설정
 export const TOASTER_DEFAULTS = {
-  position: 'bottom-center',
   visibleToasts: 1,
   closeButton: false,
   duration: 2000,
   expand: false, // hover시 확장
 } satisfies Pick<
   ToasterProps,
-  'position' | 'visibleToasts' | 'closeButton' | 'duration' | 'expand'
+  'visibleToasts' | 'closeButton' | 'duration' | 'expand'
 >;
 
 // react-toastify의 ToastContainer 기본 설정 (일단 삭제 안함)

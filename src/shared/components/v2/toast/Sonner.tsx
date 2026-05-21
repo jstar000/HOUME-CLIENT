@@ -1,16 +1,32 @@
-import { Toaster, type ToasterProps } from 'sonner';
+import { Toaster } from 'sonner';
 
-import { TOASTER_DEFAULTS } from '@shared/types/toast';
+import { TOASTER_DEFAULTS, TOASTER_ID } from '@shared/types/toast';
 
-const MainToaster = (props: ToasterProps) => {
+const MainToaster = () => {
   return (
-    <Toaster
-      {...TOASTER_DEFAULTS}
-      toastOptions={{
-        unstyled: true,
-      }}
-      {...props}
-    />
+    <>
+      <Toaster
+        id={TOASTER_ID.TOP}
+        position="top-center"
+        offset={{ top: '4rem' }}
+        toastOptions={{ unstyled: true }}
+        {...TOASTER_DEFAULTS}
+      />
+      <Toaster
+        id={TOASTER_ID.BOTTOM_8}
+        position="bottom-center"
+        offset={{ bottom: '8rem' }}
+        toastOptions={{ unstyled: true }}
+        {...TOASTER_DEFAULTS}
+      />
+      <Toaster
+        id={TOASTER_ID.BOTTOM_4}
+        position="bottom-center"
+        offset={{ bottom: '4rem' }}
+        toastOptions={{ unstyled: true }}
+        {...TOASTER_DEFAULTS}
+      />
+    </>
   );
 };
 
