@@ -23,7 +23,7 @@ const SonnerToastTest = () => {
             text: '로그인에 성공했어요',
             type: TOAST_TYPE.SUCCESS,
             options: {
-              toasterId: TOASTER_ID.TOP,
+              toasterId: TOASTER_ID.TOP_4,
             },
           })
         }
@@ -51,7 +51,7 @@ const SonnerToastTest = () => {
             text: '필수 가구는 선택 해제할 수 없어요',
             type: TOAST_TYPE.INFO,
             options: {
-              toasterId: TOASTER_ID.TOP,
+              toasterId: TOASTER_ID.TOP_4,
               style: {
                 marginTop: '4rem',
               },

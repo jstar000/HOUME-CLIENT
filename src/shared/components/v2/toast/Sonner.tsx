@@ -6,7 +6,7 @@ const MainToaster = () => {
   return (
     <>
       <Toaster
-        id={TOASTER_ID.TOP}
+        id={TOASTER_ID.TOP_4}
         position="top-center"
         offset={{ top: '4rem' }}
         mobileOffset={{ top: '4rem' }}

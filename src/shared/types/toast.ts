@@ -15,7 +15,7 @@ export type ToastType = (typeof TOAST_TYPE)[ToastTypeKey];
 
 // toast 위치 키
 export const TOASTER_ID = {
-  TOP: 'top',
+  TOP_4: 'top-4',
   BOTTOM_8: 'bottom-8',
   BOTTOM_4: 'bottom-4',
 } as const;
