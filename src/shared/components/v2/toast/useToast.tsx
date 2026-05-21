@@ -2,11 +2,12 @@ import { useCallback, useRef } from 'react';
 
 import { toast, type ExternalToast } from 'sonner';
 
-import { TOAST_TYPE_V2, toastStyle, type ToastType } from '@shared/types/toast';
+import { TOAST_TYPE, type ToastType } from '@shared/types/toast';
 
 import Toast from '@components/v2/toast/Toast';
 
 import ActionToast from './ActionToast';
+import { toastStyle } from './Toast.css';
 
 interface UseToastParams {
   text: string;
@@ -23,7 +24,7 @@ export const useToast = () => {
   const notify = useCallback(
     ({
       text,
-      type = TOAST_TYPE_V2.INFO,
+      type = TOAST_TYPE.INFO,
       options,
       onClick,
       actionLabel,
@@ -34,7 +35,7 @@ export const useToast = () => {
       }
 
       // 2) 새 토스트를 띄우고, 반환된 ID를 저장
-      if (type === TOAST_TYPE_V2.ACTION) {
+      if (type === TOAST_TYPE.ACTION) {
         toastId.current = toast.custom(
           (id) => (
             <ActionToast
