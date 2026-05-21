@@ -79,8 +79,7 @@ const ProductDetailOverlay = ({
     return { product, price, linkHrefOverride, saveCount };
   }, [detail, link?.href, listPrice, listProduct, save.count]);
 
-  const isSaved =
-    savedProductIds.has(id) || Boolean(detail?.isLiked) || save.isSaved;
+  const isSaved = savedProductIds.has(id);
 
   const handleSaveToggle = () => {
     toggleJjym(id);
