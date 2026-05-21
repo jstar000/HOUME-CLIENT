@@ -9,6 +9,7 @@ const MainToaster = () => {
         id={TOASTER_ID.TOP}
         position="top-center"
         offset={{ top: '4rem' }}
+        mobileOffset={{ top: '4rem' }}
         toastOptions={{ unstyled: true }}
         {...TOASTER_DEFAULTS}
       />
@@ -16,6 +17,7 @@ const MainToaster = () => {
         id={TOASTER_ID.BOTTOM_8}
         position="bottom-center"
         offset={{ bottom: '8rem' }}
+        mobileOffset={{ bottom: '8rem' }}
         toastOptions={{ unstyled: true }}
         {...TOASTER_DEFAULTS}
       />
@@ -23,6 +25,7 @@ const MainToaster = () => {
         id={TOASTER_ID.BOTTOM_4}
         position="bottom-center"
         offset={{ bottom: '4rem' }}
+        mobileOffset={{ bottom: '4rem' }}
         toastOptions={{ unstyled: true }}
         {...TOASTER_DEFAULTS}
       />
