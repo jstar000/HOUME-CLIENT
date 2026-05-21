@@ -95,7 +95,7 @@ const ProductDetailCard = ({
               <div className={styles.popupPreviewLikeRow}>
                 <Icon name="HeartFillGray" size="14" />
                 <span className={styles.popupPreviewLikeCount}>
-                  {saveCount}
+                  {saveCount.toLocaleString('ko-KR')}
                 </span>
               </div>
             ) : null}
