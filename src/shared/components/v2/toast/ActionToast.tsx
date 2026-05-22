@@ -25,10 +25,11 @@ const ActionToast = ({
         size="s"
         color="inverse"
         onClick={onAction}
-        children={actionLabel}
         aria-label={ariaLabel || '버튼'}
         className={styles.actionButton}
-      />
+      >
+        {actionLabel}
+      </TextButton>
     </div>
   );
 };
