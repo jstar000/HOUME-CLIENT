@@ -15,7 +15,7 @@ const Toast = ({ text, type = 'info' }: ToastProps) => {
     <div
       role={isError ? 'alert' : 'status'}
       aria-live={isError ? 'assertive' : 'polite'}
-      className={styles.container({ type: type })}
+      className={styles.container({ type })}
     >
       {isError ? <Icon name="CloseFillDanger" size="20" /> : null}
       <span className={styles.message({ type: 'default' })}>{text}</span>
