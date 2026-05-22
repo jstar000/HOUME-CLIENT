@@ -18,6 +18,7 @@ interface SelectedProductSheetProps {
   expanded: boolean;
   selectedProducts: SelectedProductItem[];
   onRemoveProduct: (id: number) => void;
+  onAddProductClick?: () => void;
   maxCount?: number;
 }
 
@@ -25,6 +26,7 @@ const SelectedProductSheet = ({
   expanded,
   selectedProducts,
   onRemoveProduct,
+  onAddProductClick,
   maxCount = 6,
 }: SelectedProductSheetProps) => {
   const selectedCount = selectedProducts.length;
@@ -93,7 +95,11 @@ const SelectedProductSheet = ({
             </div>
           ))}
           {Array.from({ length: emptyCount }).map((_, index) => (
-            <div key={`empty-${index}`} className={styles.addCard}>
+            <div
+              key={`empty-${index}`}
+              className={styles.addCard}
+              onClick={onAddProductClick}
+            >
               {hasSelectedProduct ? (
                 <>
                   <div className={styles.addImageWrap}>

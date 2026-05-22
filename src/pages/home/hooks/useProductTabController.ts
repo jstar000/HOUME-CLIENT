@@ -102,6 +102,11 @@ const useProductTabController = () => {
     resetDraft();
   }, [resetDraft]);
 
+  /** expanded 상태에서 '상품 추가하기' 클릭 시 선택 시트 접기 */
+  const handleAddProductClick = useCallback(() => {
+    setSheetExpanded(false);
+  }, []);
+
   /** ProductTab에서 사용할 공개 값 */
   return {
     sheetExpanded,
@@ -126,6 +131,7 @@ const useProductTabController = () => {
     handleFilterSheetClose,
     handleFilterApply,
     handleFilterResetClick,
+    handleAddProductClick,
   };
 };
 
