@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 import ProductFilterSheet from '@pages/home/components/product/ProductFilterSheet/ProductFilterSheet';
 import {
   MAX_SELECTED_PRODUCTS,
@@ -12,6 +14,7 @@ import IntroSection from './IntroSection/IntroSection';
 import * as styles from './ProductTab.css';
 import SearchSection from './SearchSection/SearchSection';
 import SelectedProductSheet from './SelectedProductSheet/SelectedProductSheet';
+import * as selectedSheetStyles from './SelectedProductSheet/SelectedProductSheet.css';
 
 const ProductTab = () => {
   const {
@@ -33,6 +36,21 @@ const ProductTab = () => {
     handleFilterResetClick,
   } = useProductTabController();
 
+  const handleSelectedSheetClick = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      if (!sheetExpanded) return;
+      if (
+        !(event.target as HTMLElement).closest(
+          `.${selectedSheetStyles.addCard}`
+        )
+      ) {
+        return;
+      }
+      setSheetExpanded(false);
+    },
+    [sheetExpanded, setSheetExpanded]
+  );
+
   return (
     <div className={styles.container}>
       <IntroSection />
@@ -49,14 +67,17 @@ const ProductTab = () => {
       <DragHandleBottomSheet
         open={!filterSheetOpen}
         collapsedHeight="24rem"
+        expanded={sheetExpanded}
         onExpandedChange={setSheetExpanded}
         contentSlot={
-          <SelectedProductSheet
-            expanded={sheetExpanded}
-            selectedProducts={selectedProducts}
-            onRemoveProduct={handleRemoveSelectedProduct}
-            maxCount={MAX_SELECTED_PRODUCTS}
-          />
+          <div onClick={handleSelectedSheetClick}>
+            <SelectedProductSheet
+              expanded={sheetExpanded}
+              selectedProducts={selectedProducts}
+              onRemoveProduct={handleRemoveSelectedProduct}
+              maxCount={MAX_SELECTED_PRODUCTS}
+            />
+          </div>
         }
         primaryButton={
           <ActionButton
