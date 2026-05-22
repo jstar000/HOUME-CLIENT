@@ -2,6 +2,7 @@ import { style } from '@vanilla-extract/css';
 
 import { zIndex } from '@styles/tokens/zIndex';
 import { colorVars } from '@styles/tokensV2/color.css';
+import { fontVars } from '@styles/tokensV2/font.css';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
 export const section = style({
@@ -89,6 +90,46 @@ export const productList = style({
   gap: unitVars.unit.gapPadding['200'],
   padding: `${unitVars.unit.gapPadding['200']} ${unitVars.unit.gapPadding['500']}`,
   width: '100%',
+});
+
+export const productListState = style({
+  display: 'flex',
+  gridColumn: '1 / -1',
+  justifyContent: 'center',
+  padding: `${unitVars.unit.gapPadding['500']} ${unitVars.unit.gapPadding['200']}`,
+  width: '100%',
+});
+
+export const productListEmptyWrap = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gridColumn: '1 / -1',
+  alignItems: 'center',
+  width: '100%',
+});
+
+export const emptyContainer = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: unitVars.unit.gapPadding['200'],
+  padding: unitVars.unit.gapPadding['200'],
+  width: '100%',
+});
+
+export const emptyTitle = style({
+  margin: 0,
+  textAlign: 'center',
+  color: colorVars.color.text.secondary,
+  ...fontVars.font.title_sb_16,
+});
+
+export const emptyDescription = style({
+  margin: 0,
+  textAlign: 'center',
+  whiteSpace: 'pre-line',
+  color: colorVars.color.text.tertiary,
+  ...fontVars.font.body_r_14,
 });
 
 export const scrollTopFloatingWrap = style({

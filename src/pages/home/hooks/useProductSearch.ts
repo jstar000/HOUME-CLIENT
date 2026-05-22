@@ -78,6 +78,9 @@ const useProductSearch = (baseParams: ProductListQueryVariables) => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
+    isPending,
+    isError,
+    refetch,
   } = useProductListQuery(queryParams);
 
   /**
@@ -118,6 +121,9 @@ const useProductSearch = (baseParams: ProductListQueryVariables) => {
     loadMoreRef,
     keyword,
     products,
+    isPending,
+    isError,
+    refetch,
     handleSearchKeywordChange,
   };
 };
