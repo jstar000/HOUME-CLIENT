@@ -15,6 +15,7 @@ interface UseToastParams {
   options?: ExternalToast;
   onClick?: () => void;
   actionLabel?: string;
+  ariaLabel?: string;
 }
 
 export const useToast = () => {
@@ -28,6 +29,7 @@ export const useToast = () => {
       options,
       onClick,
       actionLabel,
+      ariaLabel,
     }: UseToastParams) => {
       // 1) 현재 toastId에 해당하는 toast가 떠있는지 확인, 떠있다면 해당 toast를 dismiss
       if (toastId.current !== null) {
@@ -41,6 +43,7 @@ export const useToast = () => {
             <ActionToast
               text={text}
               actionLabel={actionLabel || ''}
+              ariaLabel={ariaLabel}
               onAction={() => {
                 onClick?.();
                 toast.dismiss(id);

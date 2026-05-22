@@ -5,19 +5,14 @@ import {
 import { TOAST_TYPE, TOASTER_ID } from '@shared/types/toast';
 
 import MainToaster from './Sonner';
+import * as styles from './Toast.css';
 import { useToast } from './useToast';
 
 const SonnerToastTest = () => {
   const { notify } = useToast();
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '1.2rem',
-      }}
-    >
+    <div className={styles.testStyle}>
       <MainToaster />
 
       <button
@@ -72,9 +67,7 @@ const SonnerToastTest = () => {
             text: TOAST_MESSAGE.SAVED_ITEM_MOVE,
             type: TOAST_TYPE.ACTION,
             actionLabel: TOAST_ACTION_LABEL.MOVE,
-            onClick: () => {
-              console.log('찜 바로가기');
-            },
+            onClick: () => {},
             options: {
               toasterId: TOASTER_ID.BOTTOM_4,
               style: {
@@ -93,9 +86,7 @@ const SonnerToastTest = () => {
             text: TOAST_MESSAGE.SAVED_ITEM_REMOVED,
             type: TOAST_TYPE.ACTION,
             actionLabel: TOAST_ACTION_LABEL.UNDO,
-            onClick: () => {
-              console.log('찜 되돌리기');
-            },
+            onClick: () => {},
             options: {
               toasterId: TOASTER_ID.BOTTOM_4,
               style: {

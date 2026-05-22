@@ -63,3 +63,9 @@ export const toastStyle: CSSProperties = {
   width: '100%',
   maxWidth: unitVars.unit.dimension.wMax,
 };
+
+export const testStyle = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '1.2rem',
+});
