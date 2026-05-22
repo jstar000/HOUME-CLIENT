@@ -32,3 +32,22 @@ export const TOASTER_DEFAULTS = {
   ToasterProps,
   'visibleToasts' | 'closeButton' | 'duration' | 'expand'
 >;
+
+// 토스터 위치별 offset 설정
+export const TOASTER_CONFIGS = [
+  {
+    id: TOASTER_ID.TOP_4,
+    position: 'top-center',
+    offset: { top: '4rem' },
+  },
+  {
+    id: TOASTER_ID.BOTTOM_4,
+    position: 'bottom-center',
+    offset: { bottom: '4rem' },
+  },
+  {
+    id: TOASTER_ID.BOTTOM_8,
+    position: 'bottom-center',
+    offset: { bottom: '8rem' },
+  },
+] as const;
