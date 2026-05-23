@@ -1,22 +1,18 @@
 import { useCallback } from 'react';
 
+import { overlay } from 'overlay-kit';
+
+import ProductDetailOverlay from '@pages/home/components/product/ProductPopup/ProductDetailOverlay';
+import type { SelectedProduct } from '@pages/home/types/productTab';
+
 import IconButton from '@shared/components/v2/button/IconButton';
 import Icon from '@shared/components/v2/icon/Icon';
 
 import * as styles from './SelectedProductSheet.css';
 
-interface SelectedProductItem {
-  id: number;
-  title: string;
-  imageUrl?: string;
-  originalPrice: number;
-  discountPrice: number;
-  discountRate: number;
-}
-
 interface SelectedProductSheetProps {
   expanded: boolean;
-  selectedProducts: SelectedProductItem[];
+  selectedProducts: SelectedProduct[];
   onRemoveProduct: (id: number) => void;
   onAddProductClick?: () => void;
   maxCount?: number;
@@ -42,6 +38,40 @@ const SelectedProductSheet = ({
     [onRemoveProduct]
   );
 
+  /** 상품 목록 찜 API 미연동 — ProductDetailOverlay `SaveInfo`용 no-op */
+  const handleSaveToggleNoop = useCallback(() => {}, []);
+
+  const handleSelectedCardClick = useCallback(
+    (product: SelectedProduct) => {
+      overlay.open(({ unmount }) => (
+        <ProductDetailOverlay
+          unmount={unmount}
+          id={product.id}
+          product={{
+            title: product.title,
+            brand: product.brand,
+            imageUrl: product.imageUrl,
+          }}
+          price={{
+            original: product.originalPrice,
+            discountRate: product.discountRate,
+            discount: product.discountPrice,
+          }}
+          save={{
+            isSaved: false,
+            onToggle: handleSaveToggleNoop,
+          }}
+          shoppingAction={{
+            label: '선택',
+            disabled: true,
+            onClick: () => {},
+          }}
+        />
+      ));
+    },
+    [handleSaveToggleNoop]
+  );
+
   return (
     <div className={styles.container}>
       <div className={styles.headerRow}>
@@ -57,7 +87,18 @@ const SelectedProductSheet = ({
         <div className={styles.expandedGrid}>
           {visibleProducts.map((product) => (
             <div key={product.id} className={styles.selectedCardContainer}>
-              <div className={styles.selectedCard}>
+              <div
+                className={styles.selectedCard}
+                role="button"
+                tabIndex={0}
+                onClick={() => handleSelectedCardClick(product)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    handleSelectedCardClick(product);
+                  }
+                }}
+              >
                 <div className={styles.selectedImageWrap}>
                   {product.imageUrl ? (
                     <img

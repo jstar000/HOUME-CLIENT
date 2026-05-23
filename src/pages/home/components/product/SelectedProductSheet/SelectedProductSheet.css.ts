@@ -139,6 +139,7 @@ export const addLabel = style({
 export const selectedCard = style({
   display: 'flex',
   flexDirection: 'column',
+  cursor: 'pointer',
   width: '100%',
 });
 
