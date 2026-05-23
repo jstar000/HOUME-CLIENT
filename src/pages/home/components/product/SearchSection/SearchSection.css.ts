@@ -5,12 +5,14 @@ import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
+const PRODUCT_BOTTOM_SHEET_COLLAPSED_HEIGHT = '24rem';
+const PRODUCT_SCROLL_TOP_FLOATING_BOTTOM = `calc(${PRODUCT_BOTTOM_SHEET_COLLAPSED_HEIGHT} + 1.2rem)`;
+
 export const section = style({
   boxSizing: 'border-box',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'stretch',
-  paddingBottom: '22rem', // 하단 바 높이만큼 패딩
   width: '100%',
 });
 
@@ -92,27 +94,39 @@ export const productList = style({
   width: '100%',
 });
 
+export const productListFallback = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'stretch',
+  padding: `${unitVars.unit.gapPadding['200']} ${unitVars.unit.gapPadding['500']}`,
+  width: '100%',
+});
+
 export const productListState = style({
   display: 'flex',
-  gridColumn: '1 / -1',
   justifyContent: 'center',
-  padding: `${unitVars.unit.gapPadding['500']} ${unitVars.unit.gapPadding['200']}`,
   width: '100%',
 });
 
 export const productListEmptyWrap = style({
   display: 'flex',
   flexDirection: 'column',
-  gridColumn: '1 / -1',
   alignItems: 'center',
+  padding: `${unitVars.unit.gapPadding['500']} ${unitVars.unit.gapPadding['000']}`,
   width: '100%',
+});
+
+export const recommendDivider = style({
+  margin: `${unitVars.unit.gapPadding['000']} calc(${unitVars.unit.gapPadding['500']} * -1) 0`,
+  backgroundColor: colorVars.color.border.tertiary,
+  height: '0.8rem',
 });
 
 export const emptyContainer = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  gap: unitVars.unit.gapPadding['200'],
+  gap: unitVars.unit.gapPadding['000'],
   padding: unitVars.unit.gapPadding['200'],
   width: '100%',
 });
@@ -136,7 +150,7 @@ export const scrollTopFloatingWrap = style({
   position: 'fixed',
   zIndex: zIndex.sticky,
   right: unitVars.unit.gapPadding['500'],
-  bottom: '25rem',
+  bottom: PRODUCT_SCROLL_TOP_FLOATING_BOTTOM,
   transform: 'translateY(0.8rem)',
   transition: 'opacity 240ms ease, transform 240ms ease',
   opacity: 0,
