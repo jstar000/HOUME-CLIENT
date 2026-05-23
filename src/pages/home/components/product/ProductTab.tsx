@@ -13,6 +13,8 @@ import * as styles from './ProductTab.css';
 import SearchSection from './SearchSection/SearchSection';
 import SelectedProductSheet from './SelectedProductSheet/SelectedProductSheet';
 
+const PRODUCT_BOTTOM_SHEET_COLLAPSED_HEIGHT = '24rem';
+
 const ProductTab = () => {
   const {
     sheetExpanded,
@@ -49,7 +51,7 @@ const ProductTab = () => {
 
       <DragHandleBottomSheet
         open={!filterSheetOpen}
-        collapsedHeight="24rem"
+        collapsedHeight={PRODUCT_BOTTOM_SHEET_COLLAPSED_HEIGHT}
         expanded={sheetExpanded}
         onExpandedChange={setSheetExpanded}
         contentSlot={
