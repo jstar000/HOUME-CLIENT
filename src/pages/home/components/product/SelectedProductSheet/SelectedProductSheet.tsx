@@ -26,7 +26,6 @@ const SelectedProductSheet = ({
   maxCount = 6,
 }: SelectedProductSheetProps) => {
   const selectedCount = selectedProducts.length;
-  const hasSelectedProduct = selectedCount > 0;
   const emptyCount = Math.max(maxCount - selectedCount, 0);
   const visibleProducts = selectedProducts.slice(0, maxCount);
   const formatPrice = (price: number) => price.toLocaleString('ko-KR');
@@ -136,30 +135,13 @@ const SelectedProductSheet = ({
             </div>
           ))}
           {Array.from({ length: emptyCount }).map((_, index) => (
-            <div
-              key={`empty-${index}`}
-              className={styles.addCard}
-              onClick={onAddProductClick}
-            >
-              {hasSelectedProduct ? (
-                <>
-                  <div className={styles.addImageWrap}>
-                    <span className={styles.addCardContent} aria-hidden>
-                      <Icon name="PlusFill" size="20" />
-                    </span>
-                  </div>
-                  <div className={styles.addInfoPlaceholder}>
-                    <p className={styles.addLabel}>상품 추가하기</p>
-                  </div>
-                </>
-              ) : (
-                <div className={styles.addCardSquare}>
-                  <div className={styles.addCardContent} aria-hidden>
-                    <Icon name="PlusFill" size="20" />
-                    <p className={styles.addLabel}>상품 추가하기</p>
-                  </div>
+            <div key={`empty-${index}`} className={styles.expandedGridSlot}>
+              <div className={styles.addCardSquare} onClick={onAddProductClick}>
+                <div className={styles.addCardContent} aria-hidden>
+                  <Icon name="PlusFill" size="20" />
+                  <p className={styles.addLabel}>상품 추가하기</p>
                 </div>
-              )}
+              </div>
             </div>
           ))}
         </div>
