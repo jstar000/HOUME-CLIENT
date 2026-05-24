@@ -12,8 +12,11 @@ import {
   useImageFlowStore,
   type ProductItem,
 } from '@store/useImageFlowStore';
+import { useSavedItemsStore } from '@store/useSavedItemsStore';
 
 import ActionButton from '@shared/components/v2/button/actionButton/ActionButton';
+
+import { useJjymMutation } from '@apis/mutations/useJjymMutation';
 
 import ListProductCard from '@/shared/components/v2/productCard/ListProductCard';
 import ProductCard from '@/shared/components/v2/productCard/ProductCard';
@@ -24,6 +27,12 @@ import * as styles from './ListResult.css';
 import { toProductItem } from '../../utils/toProductItem';
 
 import type { ResultImageMeta } from '../../types';
+
+const getGenerateResultPath = (houseId: number, viewType: string) =>
+  `${ROUTES.GENERATE_RESULT}?${new URLSearchParams({
+    houseId: String(houseId),
+    viewType,
+  })}`;
 
 export interface ListResultProps {
   image: ResultImageMeta;
@@ -41,6 +50,8 @@ const ListResult = ({ image }: ListResultProps) => {
   const includedImages = (relatedData?.images ?? []).filter(
     (item) => item.resultType === 'LIST' || item.resultType === 'RECOMMEND'
   );
+  const { mutate: toggleJjym } = useJjymMutation();
+  const savedProductIds = useSavedItemsStore((s) => s.savedProductIds);
 
   // '상품 다시 선택하기' 클릭 핸들러
   // - listData.products → ProductItem[] 매핑 (id 유효한 것만)
@@ -88,31 +99,41 @@ const ListResult = ({ image }: ListResultProps) => {
             </ActionButton>
           </div>
           <div className={styles.flexContent}>
-            {selectedProducts.map((item) => (
-              <ListProductCard
-                key={item.id}
-                cardSize="m"
-                product={{
-                  title: item.name!,
-                  imageUrl: item.imageUrl!,
-                  colorHexes: (item.colors ?? []).map((color) => color.value!),
-                }}
-                price={{
-                  original: item.originalPrice!,
-                  discount: item.finalPrice!,
-                  discountRate: item.discountRate!,
-                }}
-                save={{
-                  isSaved: item.isLiked!,
-                  onToggle: () => {},
-                }}
-                link={{
-                  href: item.linkUrl!,
-                  onClick: () => {},
-                }}
-                enableWholeCardLink={true}
-              />
-            ))}
+            {selectedProducts.map((item) => {
+              const id = item.id;
+              if (id == null) return null;
+
+              const href = item.linkUrl ?? '';
+
+              return (
+                <ListProductCard
+                  key={id}
+                  cardSize="m"
+                  product={{
+                    title: item.name!,
+                    imageUrl: item.imageUrl!,
+                    colorHexes: (item.colors ?? []).map(
+                      (color) => color.value!
+                    ),
+                  }}
+                  price={{
+                    original: item.originalPrice!,
+                    discount: item.finalPrice!,
+                    discountRate: item.discountRate!,
+                  }}
+                  save={{
+                    isSaved: savedProductIds.has(id),
+                    onToggle: () => toggleJjym(id),
+                  }}
+                  link={{
+                    href,
+                    onClick: () =>
+                      href &&
+                      window.open(href, '_blank', 'noopener,noreferrer'),
+                  }}
+                />
+              );
+            })}
           </div>
         </div>
         <div className={styles.section}>
@@ -120,32 +141,42 @@ const ListResult = ({ image }: ListResultProps) => {
             방금 담은 스타일과 비슷한 상품
           </h1>
           <div className={styles.gridContent}>
-            {similarProducts.map((item) => (
-              <ProductCard
-                key={item.id}
-                product={{
-                  brand: item.brand!,
-                  title: item.name!,
-                  imageUrl: item.imageUrl!,
-                  colorHexes: (item.colors ?? []).map((color) => color.value!),
-                }}
-                price={{
-                  original: item.originalPrice!,
-                  discount: item.finalPrice!,
-                  discountRate: item.discountRate!,
-                }}
-                save={{
-                  isSaved: item.isLiked!,
-                  onToggle: () => {},
-                  count: item.jjymCount!,
-                }}
-                link={{
-                  href: item.linkUrl!,
-                  onClick: () => {},
-                }}
-                enableWholeCardLink={true}
-              />
-            ))}
+            {similarProducts.map((item) => {
+              const id = item.id;
+              if (id == null) return null;
+
+              const href = item.linkUrl ?? '';
+
+              return (
+                <ProductCard
+                  key={id}
+                  product={{
+                    brand: item.brand!,
+                    title: item.name!,
+                    imageUrl: item.imageUrl!,
+                    colorHexes: (item.colors ?? []).map(
+                      (color) => color.value!
+                    ),
+                  }}
+                  price={{
+                    original: item.originalPrice!,
+                    discount: item.finalPrice!,
+                    discountRate: item.discountRate!,
+                  }}
+                  save={{
+                    isSaved: savedProductIds.has(id),
+                    onToggle: () => toggleJjym(id),
+                    count: item.jjymCount!,
+                  }}
+                  link={{
+                    href,
+                    onClick: () =>
+                      href &&
+                      window.open(href, '_blank', 'noopener,noreferrer'),
+                  }}
+                />
+              );
+            })}
           </div>
         </div>
         <div className={styles.section}>
@@ -154,7 +185,18 @@ const ListResult = ({ image }: ListResultProps) => {
           </h1>
           <div className={styles.gridContent}>
             {includedImages.map((item) => (
-              <StyleCard key={item.id} imageSrc={item.imageUrl!} size="s" />
+              <StyleCard
+                key={item.id}
+                imageSrc={item.imageUrl!}
+                size="s"
+                onClick={() => {
+                  if (item.id == null || item.resultType == null) return;
+
+                  navigate(getGenerateResultPath(item.id, item.resultType), {
+                    state: { imageUrl: item.imageUrl },
+                  });
+                }}
+              />
             ))}
           </div>
         </div>

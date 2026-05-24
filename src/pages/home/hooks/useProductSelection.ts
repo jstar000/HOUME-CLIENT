@@ -67,10 +67,8 @@ const useProductSelection = ({
   );
 
   /** 선택된 상품 1개 제거 */
-  const handleRemoveSelectedProduct = useCallback((productId: string) => {
-    setSelectedProducts((prev) =>
-      prev.filter((product) => product.id !== productId)
-    );
+  const handleRemoveSelectedProduct = useCallback((id: number) => {
+    setSelectedProducts((prev) => prev.filter((product) => product.id !== id));
   }, []);
 
   /**
