@@ -11,9 +11,13 @@ export const ENTRY_ROUTE = {
 
 export type EntryRoute = (typeof ENTRY_ROUTE)[keyof typeof ENTRY_ROUTE];
 
+// 서버 응답 viewType과 enum 값 일치 (BANNER/STYLE/PRODUCT/FULL_FUNNEL/LEGACY)
+// ResultPage에서 viewType에 따른 분기는 ResultPage 내부에서 처리: FULL_FUNNEL/LEGACY → CurationResult, 그 외 → ListResult
 export const RESULT_TYPE = {
-  RECOMMENDATION: 'RECOMMENDATION',
-  LIST: 'LIST',
+  BANNER: 'BANNER',
+  FULL_FUNNEL: 'FULL_FUNNEL',
+  STYLE: 'STYLE',
+  PRODUCT: 'PRODUCT',
 } as const;
 
 export type ResultType = (typeof RESULT_TYPE)[keyof typeof RESULT_TYPE];
@@ -56,13 +60,12 @@ interface ImageFlowState {
   reset: () => void;
 }
 
-// 경로 → 결과 유형 자동 매핑
 const RESULT_TYPE_MAP: Record<EntryRoute, ResultType> = {
-  [ENTRY_ROUTE.GENERATE_BUTTON]: RESULT_TYPE.RECOMMENDATION,
-  [ENTRY_ROUTE.HOME_BANNER]: RESULT_TYPE.LIST,
-  [ENTRY_ROUTE.FLOOR_PLAN]: RESULT_TYPE.RECOMMENDATION,
-  [ENTRY_ROUTE.STYLE_RESTYLE]: RESULT_TYPE.LIST,
-  [ENTRY_ROUTE.PRODUCT_SELECTION]: RESULT_TYPE.LIST,
+  [ENTRY_ROUTE.GENERATE_BUTTON]: RESULT_TYPE.FULL_FUNNEL,
+  [ENTRY_ROUTE.HOME_BANNER]: RESULT_TYPE.BANNER,
+  [ENTRY_ROUTE.FLOOR_PLAN]: RESULT_TYPE.FULL_FUNNEL,
+  [ENTRY_ROUTE.STYLE_RESTYLE]: RESULT_TYPE.STYLE,
+  [ENTRY_ROUTE.PRODUCT_SELECTION]: RESULT_TYPE.PRODUCT,
 };
 
 export const useImageFlowStore = create<ImageFlowState>()(

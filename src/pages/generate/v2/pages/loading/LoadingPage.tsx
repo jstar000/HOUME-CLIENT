@@ -11,7 +11,7 @@ import { useFunnelStore } from '@pages/imageSetup/stores/useFunnelStore';
 
 import { ROUTES } from '@routes/paths';
 
-import { RESULT_TYPE, useImageFlowStore } from '@store/useImageFlowStore';
+import { useImageFlowStore } from '@store/useImageFlowStore';
 
 import TestImg from '@assets/v2/images/TestImg.png';
 
@@ -177,14 +177,12 @@ const LoadingPage = () => {
   const handleProgressComplete = () => {
     if (!navigationData || !isApiCompleted) return;
     const { imageId, imageUrl, isMirror } = navigationData;
-    // useImageFlowStore.resultType을 url로 전달
-    const resultType = useImageFlowStore.getState().resultType;
-    const viewTypeParam =
-      resultType === RESULT_TYPE.LIST ? 'LIST' : 'RECOMMEND';
+    // STYLE | PRODUCT | BANNER | FULL_FUNNEL
+    const viewType = useImageFlowStore.getState().resultType;
 
     // url에 imageId/viewType, state에 imageUrl/isMirror 전달
     navigate(
-      `${ROUTES.GENERATE_RESULT}?houseId=${imageId}&viewType=${viewTypeParam}`,
+      `${ROUTES.GENERATE_RESULT}?houseId=${imageId}&viewType=${viewType}`,
       {
         replace: true,
         state: { imageUrl, isMirror },
