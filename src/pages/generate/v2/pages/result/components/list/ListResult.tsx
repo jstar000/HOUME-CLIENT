@@ -7,11 +7,7 @@ import { useFunnelStore } from '@pages/imageSetup/stores/useFunnelStore';
 
 import { ROUTES } from '@routes/paths';
 
-import {
-  ENTRY_ROUTE,
-  useImageFlowStore,
-  type ProductItem,
-} from '@store/useImageFlowStore';
+import { ENTRY_ROUTE, useImageFlowStore } from '@store/useImageFlowStore';
 import { useSavedItemsStore } from '@store/useSavedItemsStore';
 
 import ActionButton from '@shared/components/v2/button/actionButton/ActionButton';
@@ -55,28 +51,20 @@ const ListResult = ({ image, isProductView }: ListResultProps) => {
   const savedProductIds = useSavedItemsStore((s) => s.savedProductIds);
 
   // '상품 다시 선택하기' 클릭 핸들러
-  // - listData.products → ProductItem[] 매핑 (id 유효한 것만)
-  //   - ProductItem: 상품탭 바텀시트의 '선택한 상품' 카드용 타입
+  // - listData.products → ProductItem[] 매핑 (상품 탭 바텀시트의 '선택한 상품' 카드용 타입)
   // - useFunnelStore.reset()으로 (혹시나) 남아있는 floorPlan 데이터 제거
   // - setFlow({ PRODUCT_SELECTION, { productIds, productsToBeRestored } })
   // - navigate(HOME, state.activeTab='product') → HomePage가 상품 탭 활성, ProductTab이 useState 초기값으로 복원
   const handleReselectProducts = () => {
-    const mapped: ProductItem[] = selectedProducts
-      .map(toProductItem)
-      .filter((p): p is ProductItem => p !== null);
+    const mapped = selectedProducts.map(toProductItem);
     if (mapped.length === 0) return;
-
-    const productIds = mapped
-      .map((p) => Number(p.id))
-      .filter((n) => Number.isInteger(n));
-    if (productIds.length === 0) return;
 
     useFunnelStore.getState().reset();
     useImageFlowStore.getState().setFlow({
       entryRoute: ENTRY_ROUTE.PRODUCT_SELECTION,
       preset: {
         type: 'product',
-        productIds,
+        productIds: mapped.map((p) => p.id),
         productsToBeRestored: mapped,
       },
     });

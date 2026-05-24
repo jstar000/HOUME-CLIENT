@@ -25,7 +25,7 @@ export type ResultType = (typeof RESULT_TYPE)[keyof typeof RESULT_TYPE];
 // 경로5(PRODUCT_SELECTION)에서 ProductTab UI 복원에 사용하는 스냅샷
 // productIds는 상품으로 이미지 생성 API payload용, productsToBeRestored는 외부(로그인게이트/ResultPage)로부터 ProductTab에 진입했을 때 사용
 export interface ProductItem {
-  id: string;
+  id: number;
   title: string;
   brand: string;
   imageUrl?: string;

@@ -151,15 +151,6 @@ const useProductTabController = ({
       return;
     }
 
-    // SelectedProduct.id(string) → productIds(number) 변환 + 검증
-    const productIds = selectedProducts
-      .map((p) => Number(p.id))
-      .filter((n) => Number.isInteger(n));
-    if (productIds.length !== selectedProducts.length) {
-      notify({ text: '선택한 상품 정보가 올바르지 않습니다' });
-      return;
-    }
-
     // 이전 풀퍼널 잔재(floorPlan)가 살아있으면 도면 선택 없이 LoadingPage 진입 위험
     // → 항상 새로 도면 선택을 거치도록 reset
     useFunnelStore.getState().reset();
@@ -168,7 +159,7 @@ const useProductTabController = ({
       entryRoute: ENTRY_ROUTE.PRODUCT_SELECTION,
       preset: {
         type: 'product',
-        productIds,
+        productIds: selectedProducts.map((p) => p.id),
         productsToBeRestored: selectedProducts,
       },
     });
