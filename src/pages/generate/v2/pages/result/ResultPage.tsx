@@ -32,11 +32,15 @@ const ResultPage = () => {
       ? candidate
       : null;
 
-  // URL ?viewType= 파싱 —> CurationResult/ListResult 분기 기준으로 사용
-  // /meta 응답에 viewType이 없어서 새로고침이나 직접 URL 진입에도 분기를 유지하려면 URL에 viewType이 명시되어 있어야 함
-  // viewType이 'LIST'일 때만 ListResult로 분기, 그 외(없음/알 수 없는 값)는 모두 CurationResult로 fallback
+  // URL ?viewType -> 추천형/목록형 분기 기준 + 목록형 내 '상품 다시 선택하기' 버튼 분기 기준
+  // BANNER/STYLE/PRODUCT → 목록형 렌더, 그 외(FULL_FUNNEL/LEGACY/없음/알 수 없는 값) → 추천형 폴백
+  // viewType==PRODUCT만 '상품 다시 선택하기' 버튼 추가 렌더
   const rawViewType = searchParams.get('viewType');
-  const isListView = rawViewType === 'LIST';
+  const isListView =
+    rawViewType === 'BANNER' ||
+    rawViewType === 'STYLE' ||
+    rawViewType === 'PRODUCT';
+  const isProductView = rawViewType === 'PRODUCT';
 
   // LoadingPage/마이페이지에서 navigate state로 전달한 데이터 (새로고침 시 손실 → /meta로 fallback)
   // imageUrl/isMirror는 /meta 응답에 포함되므로 state 손실 시 자동 보충 가능
@@ -119,7 +123,7 @@ const ResultPage = () => {
       <div className={styles.content}>
         <div className={styles.resultBody}>
           {isListView ? (
-            <ListResult image={image} />
+            <ListResult image={image} isProductView={isProductView} />
           ) : (
             <CurationResult images={[image]} />
           )}

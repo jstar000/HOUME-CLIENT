@@ -36,9 +36,10 @@ const getGenerateResultPath = (houseId: number, viewType: string) =>
 
 export interface ListResultProps {
   image: ResultImageMeta;
+  isProductView: boolean;
 }
 
-const ListResult = ({ image }: ListResultProps) => {
+const ListResult = ({ image, isProductView }: ListResultProps) => {
   const navigate = useNavigate();
   const { data: listData } = useGenerateListResultQuery(image.imageId);
   const { data: similarData } = useSimilarItemsQuery(image.imageId);
@@ -90,13 +91,15 @@ const ListResult = ({ image }: ListResultProps) => {
         <div className={styles.section}>
           <div className={styles.sectionHeader}>
             <h1 className={styles.sectionTitle}>선택한 상품</h1>
-            <ActionButton
-              size="S"
-              leftIcon="RefreshStrokeWhite"
-              onClick={handleReselectProducts}
-            >
-              다시 선택하기
-            </ActionButton>
+            {isProductView && (
+              <ActionButton
+                size="S"
+                leftIcon="RefreshStrokeWhite"
+                onClick={handleReselectProducts}
+              >
+                다시 선택하기
+              </ActionButton>
+            )}
           </div>
           <div className={styles.flexContent}>
             {selectedProducts.map((item) => {
