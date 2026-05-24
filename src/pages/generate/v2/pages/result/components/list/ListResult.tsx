@@ -56,7 +56,10 @@ const ListResult = ({ image, isProductView }: ListResultProps) => {
   // - setFlow({ PRODUCT_SELECTION, { productIds, productsToBeRestored } })
   // - navigate(HOME, state.activeTab='product') → HomePage가 상품 탭 활성, ProductTab이 useState 초기값으로 복원
   const handleReselectProducts = () => {
-    const mapped = selectedProducts.map(toProductItem);
+    // toProductItem이 product.id! 단언으로 변환하므로 id 누락 항목은 여기서 필터해서 productIds에 undefined가 섞이지 않도록 보호
+    const mapped = selectedProducts
+      .filter((p) => p.id != null)
+      .map(toProductItem);
     if (mapped.length === 0) return;
 
     useFunnelStore.getState().reset();

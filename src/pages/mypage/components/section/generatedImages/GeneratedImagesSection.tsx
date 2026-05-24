@@ -111,7 +111,10 @@ const GeneratedImagesSection = () => {
    * - state로 imageUrl + isMirror 전달
    */
   const handleViewResult = (item: ItemResponse) => {
-    if (item.imageId == null || !item.generatedImageUrl) return;
+    // viewType 누락 시 URL에 `viewType=undefined` 문자열이 그대로 들어가 ResultPage 분기가 의도와 다르게 동작 → 가드로 차단
+    if (item.imageId == null || !item.generatedImageUrl || !item.viewType) {
+      return;
+    }
     logMyPageClickBtnImgCard();
     navigate(
       `${ROUTES.GENERATE_RESULT}?houseId=${item.imageId}&viewType=${item.viewType}`,
