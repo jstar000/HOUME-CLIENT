@@ -79,7 +79,6 @@ const GenImgCard = ({
       {isListType && (
         <section className={styles.listCardContainer}>
           {usedProducts.map((item) => {
-            // swagger 자동 생성 타입(UsedProductResponse)의 필드가 모두 optional이므로 rawProductId 누락 시 렌더 스킵
             if (item.rawProductId == null) return null;
             return (
               <ListProductCard

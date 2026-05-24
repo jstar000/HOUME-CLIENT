@@ -9,6 +9,8 @@ import { useImageMetaQuery } from '@pages/generate/v2/apis/queries/useImageMetaQ
 
 import { ROUTES } from '@routes/paths';
 
+import { isCurationViewType, RESULT_TYPE } from '@store/useImageFlowStore';
+
 import InlineError from '@components/inlineError/InlineError';
 import Loading from '@components/loading/Loading';
 import TitleNavBar from '@components/v2/navBar/TitleNavBar';
@@ -33,14 +35,9 @@ const ResultPage = () => {
       : null;
 
   // URL ?viewType -> 추천형/목록형 분기 기준 + 목록형 내 '상품 다시 선택하기' 버튼 분기 기준
-  // BANNER/STYLE/PRODUCT → 목록형 렌더, 그 외(FULL_FUNNEL/LEGACY/없음/알 수 없는 값) → 추천형 폴백
-  // viewType==PRODUCT만 '상품 다시 선택하기' 버튼 추가 렌더
   const rawViewType = searchParams.get('viewType');
-  const isListView =
-    rawViewType === 'BANNER' ||
-    rawViewType === 'STYLE' ||
-    rawViewType === 'PRODUCT';
-  const isProductView = rawViewType === 'PRODUCT';
+  const isListView = !isCurationViewType(rawViewType);
+  const isProductView = rawViewType === RESULT_TYPE.PRODUCT;
 
   // LoadingPage/마이페이지에서 navigate state로 전달한 데이터 (새로고침 시 손실 → /meta로 fallback)
   // imageUrl/isMirror는 /meta 응답에 포함되므로 state 손실 시 자동 보충 가능

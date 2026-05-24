@@ -9,6 +9,8 @@ import { formatDate } from '@pages/mypage/utils/formatting';
 
 import { ROUTES } from '@routes/paths';
 
+import { isCurationViewType } from '@store/useImageFlowStore';
+
 import type { ItemResponse } from '@apis/__generated__/data-contracts';
 
 import Loading from '@components/loading/Loading';
@@ -176,10 +178,8 @@ const GeneratedImagesSection = () => {
             </div>
             <div className={styles.listContainer}>
               {(group.items ?? []).map((item) => {
-                // imageId 누락 시 렌더 스킵
                 if (item.imageId == null) return null;
-                const isCurationCard =
-                  item.viewType === 'FULL_FUNNEL' || item.viewType === 'LEGACY';
+                const isCurationCard = isCurationViewType(item.viewType);
                 return (
                   <GenImgCard
                     key={item.imageId}

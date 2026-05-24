@@ -11,8 +11,8 @@ export const ENTRY_ROUTE = {
 
 export type EntryRoute = (typeof ENTRY_ROUTE)[keyof typeof ENTRY_ROUTE];
 
-// 서버 응답 viewType과 enum 값 일치 (BANNER/STYLE/PRODUCT/FULL_FUNNEL/LEGACY)
-// ResultPage에서 viewType에 따른 분기는 ResultPage 내부에서 처리: FULL_FUNNEL/LEGACY → CurationResult, 그 외 → ListResult
+// 서버 응답 viewType과 enum 값 통일
+// +) 서버 응답의 'LEGACY'는 enum에서 제외 (LEGACY는 isCurationViewType 헬퍼에서 추천형으로 처리)
 export const RESULT_TYPE = {
   BANNER: 'BANNER',
   FULL_FUNNEL: 'FULL_FUNNEL',
@@ -21,6 +21,12 @@ export const RESULT_TYPE = {
 } as const;
 
 export type ResultType = (typeof RESULT_TYPE)[keyof typeof RESULT_TYPE];
+
+// viewType이 추천형인지 판단하는 헬퍼
+export const isCurationViewType = (viewType: string | null | undefined) =>
+  viewType !== RESULT_TYPE.BANNER &&
+  viewType !== RESULT_TYPE.STYLE &&
+  viewType !== RESULT_TYPE.PRODUCT;
 
 // 경로5(PRODUCT_SELECTION)에서 ProductTab UI 복원에 사용하는 스냅샷
 // productIds는 상품으로 이미지 생성 API payload용, productsToBeRestored는 외부(로그인게이트/ResultPage)로부터 ProductTab에 진입했을 때 사용
