@@ -12,9 +12,7 @@ import { useFunnelStore } from '@pages/imageSetup/stores/useFunnelStore';
 
 import { ROUTES } from '@routes/paths';
 
-import { RESULT_TYPE, useImageFlowStore } from '@store/useImageFlowStore';
-
-import { TOAST_TYPE } from '@shared/types/toast';
+import { useImageFlowStore } from '@store/useImageFlowStore';
 
 import TestImg from '@assets/v2/images/TestImg.png';
 
@@ -25,6 +23,8 @@ import Popup from '@components/v2/popup/Popup';
 
 import { useErrorHandler } from '@hooks/useErrorHandler';
 import { useExitBlocker } from '@hooks/useExitBlocker';
+
+import { TOAST_TYPE } from '@/shared/types/toastLegacy';
 
 import { useExitImageFlow } from './hooks/useExitImageFlow';
 import { useGenerateImageRequest } from './hooks/useGenerateImageRequest';
@@ -157,7 +157,7 @@ const LoadingPage = () => {
   const { mutate: postLike, isPending: isJjymLoading } =
     usePostCarouselLikeMutation();
 
-  // 진입경로별 mutation 호출 (풀퍼널 / banner / otherStyle 분기)
+  // 진입경로별 mutation 호출 (풀퍼널 / banner / otherStyle / product 분기)
   useEffect(() => {
     const onMutationError = (error: Error) => {
       console.error('이미지 생성 실패:', error);
@@ -167,7 +167,7 @@ const LoadingPage = () => {
     // mutation 응답 시(성공/실패 모두) 퍼널/프리셋 데이터 즉시 정리
     // (이전 입력값이 sessionStorage에 살아있으면 사용자가 /generate URL로 직접 재진입 시 mutation이 재실행되어 같은 요청이 불필요하게 다시 실행됨)
     // - useFunnelStore.reset(): 풀퍼널 분기(preset === null) 차단 — useFunnelStore 데이터 비워서 useGenerateImageRequest가 invalid 반환하도록
-    // - preset null: 숏퍼널 분기(preset.type === 'banner'/'style') 차단
+    // - preset null: 숏퍼널 분기(preset.type === 'banner'/'style'/'product') 차단
     // - useImageFlowStore의 entryRoute/resultType은 ResultPage에서 사용하므로 유지
     const onMutationSettled = () => {
       useFunnelStore.getState().reset();
@@ -190,6 +190,9 @@ const LoadingPage = () => {
         requestState.mutate(requestState.payload, mutateOptions);
         return;
       case 'otherStyle':
+        requestState.mutate(requestState.payload, mutateOptions);
+        return;
+      case 'product':
         requestState.mutate(requestState.payload, mutateOptions);
         return;
     }
@@ -240,16 +243,14 @@ const LoadingPage = () => {
   const handleProgressComplete = () => {
     if (!navigationData || !isApiCompleted) return;
     const { imageId, imageUrl, isMirror } = navigationData;
-    // useImageFlowStore.resultType을 url로 전달
-    const resultType = useImageFlowStore.getState().resultType;
-    const viewTypeParam =
-      resultType === RESULT_TYPE.LIST ? 'LIST' : 'RECOMMEND';
+    // STYLE | PRODUCT | BANNER | FULL_FUNNEL
+    const viewType = useImageFlowStore.getState().resultType;
 
     // url에 imageId/viewType, state에 imageUrl/isMirror 전달
     // state.from='loading': ResultPage가 진입 경로를 식별해 뒤로가기 가드를 다르게 적용
     // (loading 경유: 뒤로가기 시 HOME으로 강제 redirect / 마이페이지 경유: 일반 history(-1))
     navigate(
-      `${ROUTES.GENERATE_RESULT}?houseId=${imageId}&viewType=${viewTypeParam}`,
+      `${ROUTES.GENERATE_RESULT}?houseId=${imageId}&viewType=${viewType}`,
       {
         replace: true,
         state: { imageUrl, isMirror, from: 'loading' },

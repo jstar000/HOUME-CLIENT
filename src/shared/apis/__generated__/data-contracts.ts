@@ -507,6 +507,11 @@ export interface SoozipRawProductSaveResponse {
   skippedCount?: number;
 }
 
+export interface AdminCurationRawProductColorRequest {
+  rawColorName?: string;
+  clientColorName?: string;
+}
+
 export interface AdminCurationRawProductCreateRequest {
   /** @pattern ^[a-zA-Z0-9][a-zA-Z0-9_-]{0,49}$ */
   source: string;
@@ -519,7 +524,15 @@ export interface AdminCurationRawProductCreateRequest {
     | "ACCESSORY";
   /** @format int64 */
   productId: number;
+  /**
+   * @minLength 0
+   * @maxLength 2048
+   */
   productImageUrl: string;
+  /**
+   * @minLength 0
+   * @maxLength 2048
+   */
   productSiteUrl: string;
   productName: string;
   productMallName?: string;
@@ -541,6 +554,9 @@ export interface AdminCurationRawProductCreateRequest {
   isExposed?: boolean;
   /** @format date-time */
   fetchedAt?: string;
+  colors?: AdminCurationRawProductColorRequest[];
+  furnitureIds?: number[];
+  furnitureTagIds?: number[];
 }
 
 export interface AdminCurationRawProductColorResponse {
@@ -548,6 +564,18 @@ export interface AdminCurationRawProductColorResponse {
   id?: number;
   rawColorName?: string;
   clientColorName?: string;
+}
+
+export interface AdminCurationRawProductFurnitureResponse {
+  /** @format int64 */
+  mappingId?: number;
+  /** @format int64 */
+  furnitureId?: number;
+  furnitureNameKr?: string;
+  furnitureNameEng?: string;
+  /** @format int64 */
+  furnitureTypeId?: number;
+  furnitureTypeNameKr?: string;
 }
 
 export interface AdminCurationRawProductFurnitureTagResponse {
@@ -601,6 +629,7 @@ export interface AdminCurationRawProductResponse {
   fetchedAt?: string;
   isExposed?: boolean;
   colors?: AdminCurationRawProductColorResponse[];
+  furnitures?: AdminCurationRawProductFurnitureResponse[];
   furnitureTags?: AdminCurationRawProductFurnitureTagResponse[];
 }
 
@@ -840,7 +869,15 @@ export interface AdminCurationRawProductUpdateRequest {
     | "ACCESSORY";
   /** @format int64 */
   productId?: number;
+  /**
+   * @minLength 0
+   * @maxLength 2048
+   */
   productImageUrl?: string;
+  /**
+   * @minLength 0
+   * @maxLength 2048
+   */
   productSiteUrl?: string;
   productName?: string;
   productMallName?: string;
@@ -862,6 +899,9 @@ export interface AdminCurationRawProductUpdateRequest {
   isExposed?: boolean;
   /** @format date-time */
   fetchedAt?: string;
+  colors?: AdminCurationRawProductColorRequest[];
+  furnitureIds?: number[];
+  furnitureTagIds?: number[];
 }
 
 export interface AdminCurationRawProductFurnitureTagUpdateRequest {
@@ -943,12 +983,13 @@ export interface DateGroupResponse {
 export interface ItemResponse {
   /** @format int64 */
   imageId?: number;
-  viewType?: "LIST" | "RECOMMEND";
+  viewType?: "BANNER" | "STYLE" | "PRODUCT" | "FULL_FUNNEL" | "LEGACY";
   generatedImageUrl?: string;
   /** @format date-time */
   generatedAt?: string;
   bannerTitle?: string | null;
   productSummaryText?: string | null;
+  isMirror?: boolean;
   usedProducts?: UsedProductResponse[];
 }
 
@@ -1172,6 +1213,8 @@ export interface GetCarouselResponseDTO {
 
 export interface GetCarouselV2ListResponseDTO {
   carousels?: GetCarouselResponseDTO[];
+  /** @format int64 */
+  nextCursor?: number;
 }
 
 export interface ApiResponseOtherStyleListResponse {
@@ -1431,6 +1474,7 @@ export interface GeneratedImageMetaResponse {
   imageId?: number;
   imageUrl?: string;
   isMirror?: boolean;
+  generationType?: string;
 }
 
 export interface ApiResponseFurnitureProductsInfoResponseV2 {
@@ -1619,6 +1663,8 @@ export interface ProductDetail {
   linkUrl?: string;
   colors?: ProductColorDetail[];
   isLiked?: boolean;
+  /** @format int64 */
+  jjymCount?: number;
 }
 
 export interface ApiResponseCurationProductFilterResponse {
@@ -1904,6 +1950,29 @@ export interface ApiResponseAdminFurnitureTagOptionListResponse {
   code?: number;
   msg?: string;
   data?: AdminFurnitureTagOptionListResponse;
+}
+
+export interface AdminFurnitureOptionListResponse {
+  furnitures?: AdminFurnitureOptionResponse[];
+}
+
+export interface AdminFurnitureOptionResponse {
+  /**
+   * 가구 ID
+   * @format int64
+   */
+  furnitureId?: number;
+  /** 가구 한글 이름 */
+  furnitureNameKr?: string;
+  /** 가구 영어 이름 */
+  furnitureNameEng?: string;
+}
+
+export interface ApiResponseAdminFurnitureOptionListResponse {
+  /** @format int32 */
+  code?: number;
+  msg?: string;
+  data?: AdminFurnitureOptionListResponse;
 }
 
 export interface AdminFurnitureTagGetDTO {
@@ -2283,6 +2352,9 @@ export type GetFurnitureTypesData = ApiResponseAdminFurnitureTypeListResponse;
 
 export type GetFurnitureTagsByTypeData =
   ApiResponseAdminFurnitureTagOptionListResponse;
+
+export type GetFurnituresByTypeData =
+  ApiResponseAdminFurnitureOptionListResponse;
 
 export type GetFurnitureTagsData = ApiResponseAdminFurnitureTagGetDTO;
 
