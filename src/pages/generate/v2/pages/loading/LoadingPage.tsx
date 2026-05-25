@@ -53,15 +53,17 @@ const LoadingPage = () => {
   const exitImageFlow = useExitImageFlow();
 
   // LoadingPage 이탈 가드 — 브라우저 뒤로가기/NavBar 뒤로가기/모바일 스와이프 모두 가로채서 confirm 모달 표시
-  // - GENERATE_RESULT, HOME 으로의 navigation은 화이트리스트로 통과
+  // - GENERATE_RESULT, HOME, LOGIN 으로의 navigation은 화이트리스트로 통과
   //   - GENERATE_RESULT: 이미지 생성 정상 완료 시 LoadingPage가 직접 호출하는 redirect (handleProgressComplete)
-  //   - HOME: 이랄방지 팝업에서 '나가기'를 선택하면 이동하는 destination, invalid 가드 fallback
+  //   - HOME: 이탈방지 팝업에서 '나가기'를 선택하면 이동하는 destination, invalid 가드 fallback
+  //   - LOGIN: 세션 만료(SESSION_EXPIRED) 시 globalErrorHandler가 강제 redirect — 모달로 막으면 재인증 불가하므로 통과
   useExitBlocker({
     enabled: true,
     shouldBlockNavigation: ({ nextLocation }) => {
       if (
         nextLocation.pathname === ROUTES.GENERATE_RESULT ||
-        nextLocation.pathname === ROUTES.HOME
+        nextLocation.pathname === ROUTES.HOME ||
+        nextLocation.pathname === ROUTES.LOGIN
       ) {
         return false;
       }
