@@ -32,6 +32,9 @@ export const useFloorPlanSelect = (
     store.appliedFilters
   );
   const floorPlans = houseTemplatesData?.floorPlans ?? [];
+  // isExact=false: 필터에 정확 매칭 도면이 없어 서버가 비슷한 도면으로 대체 응답 → '이런 공간은 어떠세요?' UI로 분기
+  // undefined일 때는 정상 그리드 fallback (응답 일관성 깨지거나 필드 누락 시 안전)
+  const isExact = houseTemplatesData?.isExact !== false;
 
   // 도면 상세 조회 (카드 선택 -> floorPlanId가 null이 아닐 때 쿼리 enabled)
   const { data: detailData } = useHouseTemplateDetailQuery(
@@ -160,6 +163,7 @@ export const useFloorPlanSelect = (
   return {
     filterCategories: FILTER_CATEGORIES,
     floorPlans,
+    isExact,
     selectedFloorPlanName,
     selectedEquilibrium,
     selectedDetailViews,
