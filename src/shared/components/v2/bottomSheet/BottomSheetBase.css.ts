@@ -87,10 +87,7 @@ export const dragHeader = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  border: 0,
-  background: 'transparent',
   cursor: 'grab',
-  // button reset
   touchAction: 'none',
   padding: unitVars.unit.gapPadding['200'],
   width: '100%',
