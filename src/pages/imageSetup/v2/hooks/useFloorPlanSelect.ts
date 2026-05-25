@@ -2,7 +2,11 @@ import { useEffect, useRef } from 'react';
 
 import { useImageFlowStore } from '@store/useImageFlowStore';
 
-import { useToast } from '@components/toast/useToast';
+import { TOAST_TYPE, TOASTER_ID } from '@shared/types/toast';
+
+import { useToast } from '@components/v2/toast/useToast';
+
+import { TOAST_MESSAGE } from '@constants/toastMessage';
 
 import { useFunnelStore } from '../../stores/useFunnelStore';
 import { useHouseTemplateDetailQuery } from '../apis/queries/useHouseTemplateDetailQuery';
@@ -84,7 +88,11 @@ export const useFloorPlanSelect = (
 
     recentHandledRef.current = true;
     store.openRecentSheet();
-    notify({ text: '저장된 내 공간을 불러왔어요.' });
+    notify({
+      text: TOAST_MESSAGE.RECENT_FLOOR_PLAN_LOADED,
+      type: TOAST_TYPE.INFO,
+      options: { toasterId: TOASTER_ID.TOP_4 },
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [recentFloorPlan]);
 
