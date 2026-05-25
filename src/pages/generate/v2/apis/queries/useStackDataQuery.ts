@@ -7,28 +7,32 @@ import { HTTPMethod, request } from '@apis/config/request';
 import { API_ENDPOINT } from '@constants/apiEndpoints';
 import { queryKeys } from '@constants/queryKey';
 
-import type { CarouselItem, ImageStackResponse } from '../../types/generate';
+import type { GetCarouselV2ListResponseDTO } from '@/shared/apis/__generated__/data-contracts';
 
-export const getStackData = async (page: number): Promise<CarouselItem[]> => {
-  const res = await request<ImageStackResponse>({
+export const getStackData = async (
+  cursor?: number
+): Promise<GetCarouselV2ListResponseDTO> => {
+  const query = cursor === undefined ? undefined : { cursor };
+
+  const res = await request<GetCarouselV2ListResponseDTO>({
     method: HTTPMethod.GET,
     url: API_ENDPOINT.GENERATE.CAROUSELS_V2,
-    query: { page },
+    query: query,
   });
-  return res.carousels ?? [];
+  return res;
 };
 
 export const useStackDataQuery = (
-  page: number,
+  cursor: number | undefined,
   options: {
     enabled: boolean;
-    onSuccess?: (data: CarouselItem[]) => void;
+    onSuccess?: (data: GetCarouselV2ListResponseDTO) => void;
     onError?: (err: unknown) => void;
   }
 ) => {
-  const query = useQuery<CarouselItem[], unknown>({
-    queryKey: queryKeys.generate.stack(page),
-    queryFn: () => getStackData(page),
+  const query = useQuery<GetCarouselV2ListResponseDTO, unknown>({
+    queryKey: queryKeys.generate.stack(cursor),
+    queryFn: () => getStackData(cursor),
     staleTime: 2 * 60 * 1000,
     retry: 2,
     enabled: options.enabled,
