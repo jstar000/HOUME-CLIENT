@@ -91,10 +91,13 @@ export const useFloorPlanStore = create<FloorPlanStoreState>((set) => ({
   selectNewFloorPlan: (floorPlanId) =>
     set({ ...INITIAL_SELECTION, selectedFloorPlanId: floorPlanId }),
   restoreFloorPlan: (floorPlanId, isMirror, viewIndex) => {
+    // store 진입 시점에 0 이상 정수로 정규화 (보정 못하면 0)
+    const normalizedViewIndex =
+      Number.isInteger(viewIndex) && viewIndex >= 0 ? viewIndex : 0;
     set({
       selectedFloorPlanId: floorPlanId,
       isMirror,
-      selectedViewIndex: viewIndex,
+      selectedViewIndex: normalizedViewIndex,
     });
   },
   clearFloorPlan: () => set(INITIAL_SELECTION),
