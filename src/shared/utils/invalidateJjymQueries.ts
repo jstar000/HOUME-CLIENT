@@ -22,7 +22,7 @@ export const invalidateJjymRelatedQueries = (
     relatedKeys.map((key) =>
       queryClient.invalidateQueries({
         queryKey: key,
-        refetchType: 'active',
+        refetchType: 'active', // 현재 화면에서 사용 중인 쿼리만 바로 다시 요청
       })
     )
   );
