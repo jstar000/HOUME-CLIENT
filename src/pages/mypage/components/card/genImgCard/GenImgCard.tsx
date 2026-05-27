@@ -2,11 +2,11 @@ import { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import type { UsedProduct } from '@pages/mypage/types/apis/generateList';
 import { logMyPageClickBtnFurnitureCard } from '@pages/mypage/utils/analytics';
 
 import { ROUTES } from '@routes/paths';
 
+import type { UsedProductResponse } from '@apis/__generated__/data-contracts';
 import { useJjymMutation } from '@apis/mutations/useJjymMutation';
 
 import TestImage from '@assets/v2/images/TestImg.png';
