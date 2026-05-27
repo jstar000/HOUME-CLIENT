@@ -98,7 +98,7 @@ export const productListFallback = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'stretch',
-  padding: `${unitVars.unit.gapPadding['200']} ${unitVars.unit.gapPadding['500']}`,
+  padding: unitVars.unit.gapPadding['000'],
   width: '100%',
 });
 
@@ -117,7 +117,7 @@ export const productListEmptyWrap = style({
 });
 
 export const recommendDivider = style({
-  margin: `${unitVars.unit.gapPadding['000']} calc(${unitVars.unit.gapPadding['500']} * -1) 0`,
+  margin: 0,
   backgroundColor: colorVars.color.border.tertiary,
   height: '0.8rem',
 });
@@ -127,7 +127,7 @@ export const emptyContainer = style({
   flexDirection: 'column',
   alignItems: 'center',
   gap: unitVars.unit.gapPadding['000'],
-  padding: unitVars.unit.gapPadding['200'],
+  padding: unitVars.unit.gapPadding['400'],
   width: '100%',
 });
 
