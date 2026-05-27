@@ -33,7 +33,7 @@ const StyleDetailPage = () => {
 
   const {
     data: styleDetailData,
-    isFetching,
+    isLoading,
     isError,
     refetch,
   } = useGetStyleDetailQuery(Number(styleId));
@@ -77,7 +77,7 @@ const StyleDetailPage = () => {
         onBackClick={() => navigate(-1)}
       />
       <div className={styles.container}>
-        {isFetching ? (
+        {isLoading ? (
           <Loading />
         ) : isError ? (
           <InlineError
