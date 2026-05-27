@@ -7,7 +7,7 @@ import { TOAST_TYPE, type ToastType } from '@shared/types/toast';
 import Toast from '@components/v2/toast/Toast';
 
 import ActionToast from './ActionToast';
-import toastStyle from './Sonner';
+import { toastStyle } from './Toast.css';
 
 interface UseToastParams {
   text: string;

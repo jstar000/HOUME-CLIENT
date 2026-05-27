@@ -1,3 +1,5 @@
+import type { CSSProperties } from 'react';
+
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
@@ -52,6 +54,14 @@ export const actionButton = style({
   textDecoration: 'underline',
   ...fontVars.font.body_m_14,
 });
+
+export const toastStyle: CSSProperties = {
+  display: 'flex',
+  justifyContent: 'center',
+  boxShadow: 'none',
+  backgroundColor: 'transparent',
+  width: '100%',
+};
 
 export const testStyle = style({
   display: 'flex',
