@@ -39,7 +39,12 @@ const StyleDetailPage = () => {
   } = useGetStyleDetailQuery(Number(styleId));
 
   // 찜 해제 토글
-  const { mutate: toggleJjym } = useJjymMutation();
+  const { mutate: toggleJjym } = useJjymMutation({
+    savedToastType: 'move',
+    onSavedAction: () => {
+      navigate(ROUTES.MYPAGE, { state: { activeTab: 'savedItems' } });
+    },
+  });
 
   const handleToggleSave = (id: number) => {
     toggleJjym(id);
