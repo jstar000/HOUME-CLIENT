@@ -169,6 +169,7 @@ const CurationResult = ({
                     return (
                       <ProductCard
                         key={key}
+                        enableWholeCardLink
                         product={{
                           brand: p.brand ?? p.mallName,
                           title: p.name ?? '',
