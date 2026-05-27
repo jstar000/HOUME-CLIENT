@@ -149,13 +149,25 @@ const SelectedProductSheet = ({
         <div className={styles.compactRow} aria-label="선택한 상품 미리보기">
           {visibleProducts.map((product) => (
             <div key={product.id} className={styles.compactSlotContainer}>
-              <div className={styles.compactSlotFilled}>
+              <div
+                className={styles.compactSlotFilled}
+                role="button"
+                tabIndex={0}
+                aria-label={`${product.title} 상세 보기`}
+                onClick={() => handleSelectedCardClick(product)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    handleSelectedCardClick(product);
+                  }
+                }}
+              >
                 <div className={styles.compactImageWrap}>
                   {product.imageUrl ? (
                     <img
                       className={styles.compactImage}
                       src={product.imageUrl}
-                      alt={product.title}
+                      alt=""
                     />
                   ) : (
                     <div className={styles.compactImageFallback} aria-hidden>

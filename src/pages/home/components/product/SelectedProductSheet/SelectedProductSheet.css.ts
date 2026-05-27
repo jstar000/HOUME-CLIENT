@@ -52,6 +52,7 @@ export const compactSlot = style({
 export const compactSlotFilled = style([
   compactSlot,
   {
+    cursor: 'pointer',
     overflow: 'hidden',
   },
 ]);
