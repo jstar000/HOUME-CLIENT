@@ -33,7 +33,8 @@ export const useStackDataQuery = (
   const query = useQuery<GetCarouselV2ListResponseDTO, unknown>({
     queryKey: queryKeys.generate.stack(cursor),
     queryFn: () => getStackData(cursor),
-    staleTime: 2 * 60 * 1000,
+    staleTime: cursor === undefined ? 0 : 2 * 60 * 1000,
+    gcTime: cursor === undefined ? 0 : 1000 * 60 * 60 * 24,
     retry: 2,
     enabled: options.enabled,
   });
