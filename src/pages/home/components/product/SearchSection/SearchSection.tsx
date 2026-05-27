@@ -59,6 +59,9 @@ const SearchSection = ({
     loadMoreRef,
     keyword,
     products,
+    recommendedProducts,
+    isRecommended,
+    showEmptyState,
     isPending,
     isError,
     refetch,
@@ -79,7 +82,6 @@ const SearchSection = ({
     [onAppliedFilterChipRemove]
   );
 
-  /** 상품 목록 찜 API 미연동 — ProductCard `SaveInfo`용 no-op */
   const handleSaveToggleNoop = useCallback(() => {}, []);
 
   const handleSelectProduct = useCallback(
@@ -154,7 +156,7 @@ const SearchSection = ({
           <div className={styles.filterScroll}>{filterChips}</div>
         </div>
       </div>
-      {isPending || isError || products.length === 0 ? (
+      {isPending || isError || showEmptyState ? (
         <div className={styles.productListFallback}>
           {isPending ? (
             <div className={styles.productListState}>
@@ -181,8 +183,16 @@ const SearchSection = ({
                   </p>
                 </div>
               </div>
-              <div className={styles.recommendDivider} role="separator" />
-              <RecommendSection />
+              {isRecommended ? (
+                <>
+                  <div className={styles.recommendDivider} role="separator" />
+                  <RecommendSection
+                    products={recommendedProducts}
+                    selectedProductIds={selectedProductIds}
+                    onSelectProduct={handleSelectProduct}
+                  />
+                </>
+              ) : null}
             </>
           )}
         </div>
