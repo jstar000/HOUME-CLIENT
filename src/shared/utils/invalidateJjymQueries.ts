@@ -18,7 +18,12 @@ export const invalidateJjymRelatedQueries = (
     relatedKeys.push(queryKeys.mypage.jjymList());
   }
 
-  relatedKeys.forEach((key) => {
-    queryClient.invalidateQueries({ queryKey: key });
-  });
+  return Promise.all(
+    relatedKeys.map((key) =>
+      queryClient.invalidateQueries({
+        queryKey: key,
+        refetchType: 'active',
+      })
+    )
+  );
 };

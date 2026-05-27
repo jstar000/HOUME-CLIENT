@@ -70,7 +70,10 @@ export const useJjymMutation = (options?: UseJjymMutationOptions) => {
       toggleSaveProduct(rawProductId);
     }
 
-    invalidateJjymRelatedQueries(queryClient, shouldInvalidateSavedItemsList);
+    await invalidateJjymRelatedQueries(
+      queryClient,
+      shouldInvalidateSavedItemsList
+    );
   };
 
   return useMutation<SaveItemsResponse, AxiosError, number>({
@@ -82,7 +85,7 @@ export const useJjymMutation = (options?: UseJjymMutationOptions) => {
       return { rawProductId };
     },
 
-    onSuccess: (data, rawProductId) => {
+    onSuccess: async (data, rawProductId) => {
       const isSavedNow = useSavedItemsStore
         .getState()
         .savedProductIds.has(rawProductId);
@@ -93,7 +96,7 @@ export const useJjymMutation = (options?: UseJjymMutationOptions) => {
 
       if (data.favorited) {
         if (savedToastType === 'none') {
-          invalidateJjymRelatedQueries(
+          await invalidateJjymRelatedQueries(
             queryClient,
             shouldInvalidateSavedItemsList
           );
@@ -130,7 +133,10 @@ export const useJjymMutation = (options?: UseJjymMutationOptions) => {
         });
       }
 
-      invalidateJjymRelatedQueries(queryClient, shouldInvalidateSavedItemsList);
+      await invalidateJjymRelatedQueries(
+        queryClient,
+        shouldInvalidateSavedItemsList
+      );
     },
 
     onError: (_error, rawProductId) => {
