@@ -4,7 +4,7 @@ import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
-const PRODUCT_BOTTOM_SHEET_COLLAPSED_HEIGHT = '24rem';
+import { PRODUCT_BOTTOM_SHEET_COLLAPSED_HEIGHT } from '../../constants/productTab';
 
 export const container = style({
   boxSizing: 'border-box',

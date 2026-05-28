@@ -12,8 +12,7 @@ import IntroSection from './IntroSection/IntroSection';
 import * as styles from './ProductTab.css';
 import SearchSection from './SearchSection/SearchSection';
 import SelectedProductSheet from './SelectedProductSheet/SelectedProductSheet';
-
-const PRODUCT_BOTTOM_SHEET_COLLAPSED_HEIGHT = '24rem';
+import { PRODUCT_BOTTOM_SHEET_COLLAPSED_HEIGHT } from '../../constants/productTab';
 
 const ProductTab = () => {
   const {
