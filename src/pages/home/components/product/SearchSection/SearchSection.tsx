@@ -160,7 +160,7 @@ const SearchSection = ({
         <div className={styles.productListFallback}>
           {isPending ? (
             <div className={styles.productListState}>
-              <Loading />
+              <Loading inline />
             </div>
           ) : isError ? (
             <div className={styles.productListState}>
