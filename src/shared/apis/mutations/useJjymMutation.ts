@@ -17,12 +17,12 @@ import { invalidateJjymRelatedQueries } from '@utils/invalidateJjymQueries';
 
 import type { AxiosError } from 'axios';
 
-type JjymSavedToastType = 'move' | 'stored' | 'none';
-type JjymRemovedToastType = 'info' | 'undo';
+type JjymSavedToast = 'move' | 'stored' | 'none';
+type JjymRemovedToast = 'info' | 'undo';
 
 interface UseJjymMutationOptions {
-  savedToastType?: JjymSavedToastType;
-  removedToastType?: JjymRemovedToastType;
+  savedToastType?: JjymSavedToast;
+  removedToastType?: JjymRemovedToast;
   onSavedAction?: () => void;
   invalidateSavedItemsList?: boolean; // 찜 목록 무효화 여부
 }
@@ -38,7 +38,7 @@ export const postJjym = async (
 
 const TOAST_OPTIONS = { toasterId: TOASTER_ID.BOTTOM_4 };
 
-const getSavedToastContent = (type: JjymSavedToastType) => {
+const getSavedToastContent = (type: JjymSavedToast) => {
   if (type === 'stored') {
     return {
       text: TOAST_MESSAGE.SAVED_ITEM_STORED,
