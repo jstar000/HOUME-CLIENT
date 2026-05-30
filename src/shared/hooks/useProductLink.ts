@@ -8,10 +8,15 @@ import { useLoginGate } from '@hooks/useLoginGate';
 export const useProductLink = () => {
   const { requireLogin } = useLoginGate();
 
-  const openProductLink = (href?: string) => {
+  /**
+   * @param href 외부 상품 URL
+   * @param onBeforeOpen 게이트 통과 후 새 탭을 열기 직전 실행할 사이드이펙트 (예: 클릭 분석 로깅)
+   */
+  const openProductLink = (href?: string, onBeforeOpen?: () => void) => {
     if (!href || typeof window === 'undefined') return;
 
     requireLogin(() => {
+      onBeforeOpen?.();
       window.open(href, '_blank', 'noopener,noreferrer');
     });
   };
