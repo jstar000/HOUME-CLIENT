@@ -10,7 +10,7 @@ export const useProductLink = () => {
 
   /**
    * @param href 외부 상품 URL
-   * @param onBeforeOpen 게이트 통과 후 새 탭을 열기 직전 실행할 사이드이펙트 (예: 클릭 분석 로깅)
+   * @param onBeforeOpen 로그인 게이트 통과 후 새 탭을 열기 직전 실행할 sideEffect (ex: GA 이벤트)
    */
   const openProductLink = (href?: string, onBeforeOpen?: () => void) => {
     if (!href || typeof window === 'undefined') return;
