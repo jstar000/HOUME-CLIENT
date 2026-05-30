@@ -86,6 +86,10 @@ const ProductDetailOverlay = ({
     return { product, price, linkHrefOverride, saveCount };
   }, [detail, link?.href, listPrice, listProduct, save.count]);
 
+  // nav effect가 매 렌더 새 merged 객체 때문에 재구독되지 않도록 최신값을 ref로 읽음
+  const mergedRef = useRef(merged);
+  mergedRef.current = merged;
+
   const isSaved = savedProductIds.has(id);
 
   const handleSaveToggle = () => {
@@ -99,15 +103,11 @@ const ProductDetailOverlay = ({
 
     // 로그인 게이트 플로우로 진입하는 경우 복귀 후 이 상품 모달을 다시 띄우기 위해 정보 저장
     if (location.pathname === ROUTES.LOGIN) {
-      setReopenProduct({
-        id,
-        product: merged.product,
-        price: merged.price,
-        linkHref: merged.linkHrefOverride,
-      });
+      const { product, price, linkHrefOverride } = mergedRef.current;
+      setReopenProduct({ id, product, price, linkHref: linkHrefOverride });
     }
     unmount();
-  }, [location.pathname, unmount, id, merged]);
+  }, [location.pathname, unmount, id]);
 
   return (
     <Popup
