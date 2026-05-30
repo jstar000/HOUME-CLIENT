@@ -1,4 +1,6 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
+
+import { useLocation } from 'react-router-dom';
 
 import { useProductDetailQuery } from '@pages/home/apis/queries/useProductDetailQuery';
 
@@ -44,6 +46,16 @@ const ProductDetailOverlay = ({
   const detail = data?.product;
   const { mutate: toggleJjym } = useJjymMutation();
   const savedProductIds = useSavedItemsStore((s) => s.savedProductIds);
+  const location = useLocation();
+  const openedPathRef = useRef(location.pathname);
+
+  // 로그인 게이트가 로그인 페이지로 보내는 등 라우트가 바뀌면 오버레이를 닫음
+  // overlay-kit은 라우트 변경 시 자동으로 닫히지 않으므로 직접 unmount
+  useEffect(() => {
+    if (location.pathname !== openedPathRef.current) {
+      unmount();
+    }
+  }, [location.pathname, unmount]);
 
   const merged = useMemo(() => {
     const detailColorHexes =
