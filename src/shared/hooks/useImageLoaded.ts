@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 
 interface UseImageLoadedOptions {
   /** 로드 실패 시 교체할 폴백 이미지. 지정하면 onError에서 src를 폴백으로 스왑한다. */
@@ -27,7 +27,8 @@ export const useImageLoaded = (
   const [isLoaded, setIsLoaded] = useState(false);
 
   // 부모가 내려준 src가 바뀌면 동기화 (폴백으로 스왑됐어도 새 src가 오면 그 값으로 리셋)
-  useEffect(() => {
+  // 브라우저에 paint하기 전에 맞춰야 새 메타데이터와 옛 이미지가 한 프레임 같이 노출되는 걸 막을 수 있음
+  useLayoutEffect(() => {
     setSrc(initialSrc);
   }, [initialSrc]);
 

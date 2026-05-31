@@ -45,7 +45,9 @@ const ListProductCard = ({
 }: ListProductCardProps) => {
   const linkHref = link?.href;
   const { openProductLink } = useProductLink();
-  const { isLoaded, imgProps } = useImageLoaded(product.imageUrl || CardImage);
+  const { isLoaded, imgProps } = useImageLoaded(product.imageUrl || CardImage, {
+    fallbackSrc: CardImage,
+  });
 
   const { visibleColors, extraColorCount } = getColorChips(product.colorHexes);
   const { originalPriceText, discountPriceText, discountRateText } =
