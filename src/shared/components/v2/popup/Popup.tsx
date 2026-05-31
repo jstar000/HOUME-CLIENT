@@ -95,8 +95,8 @@ const Popup = ({
         {showCloseButton ? (
           <div className={styles.closeButton}>
             <IconButton
-              name="Close"
-              size="S"
+              name="CloseFillGray"
+              size="M"
               aria-label="닫기"
               onClick={onClose}
             />

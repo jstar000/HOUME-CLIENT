@@ -36,11 +36,12 @@ export const container = style({
 export const closeButton = style({
   position: 'absolute',
   zIndex: zIndex.sticky,
-  top: '1.2rem',
-  right: '1.2rem',
+  top: '0rem',
+  right: '0rem',
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
+  padding: unitVars.unit.gapPadding['300'],
 });
 
 export const contentArea = recipe({
@@ -55,7 +56,7 @@ export const contentArea = recipe({
         padding: unitVars.unit.gapPadding['700'],
       },
       solid: {
-        padding: `${unitVars.unit.gapPadding['600']} ${unitVars.unit.gapPadding['600']} ${unitVars.unit.gapPadding['200']} ${unitVars.unit.gapPadding['600']}`,
+        padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['500']} ${unitVars.unit.gapPadding['200']} ${unitVars.unit.gapPadding['500']}`,
       },
     },
   },
