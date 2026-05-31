@@ -38,7 +38,7 @@ export const useEditProfileMutation = () => {
   return useMutation<MyPageProfileResponse, Error, EditProfileRequest>({
     mutationFn: patchProfile,
     onSuccess: (updatedProfile, requestProfile) => {
-      queryClient.setQueryData<MyPageProfileResponse>(
+      queryClient.setQueryData<MyPageProfileResponse>( // 프로필 수정 페이지 UI 반영
         queryKeys.mypage.profile(),
         (prevProfile) => ({
           ...prevProfile,
@@ -48,7 +48,7 @@ export const useEditProfileMutation = () => {
           gender: updatedProfile.gender ?? requestProfile.gender,
         })
       );
-      queryClient.setQueryData<MyPageUserData>(
+      queryClient.setQueryData<MyPageUserData>( // 마이페이지 상단 이름 UI 반영
         queryKeys.mypage.user(),
         (prevUser) =>
           prevUser ? { ...prevUser, name: requestProfile.nickname } : prevUser
