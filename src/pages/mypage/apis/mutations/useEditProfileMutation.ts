@@ -51,7 +51,15 @@ export const useEditProfileMutation = () => {
       queryClient.setQueryData<MyPageUserData>( // 마이페이지 상단 이름 UI 반영
         queryKeys.mypage.user(),
         (prevUser) =>
-          prevUser ? { ...prevUser, name: requestProfile.nickname } : prevUser
+          prevUser
+            ? {
+                ...prevUser,
+                name:
+                  updatedProfile.nickname ??
+                  requestProfile.nickname ??
+                  prevUser.name,
+              }
+            : prevUser
       );
       queryClient.invalidateQueries({
         queryKey: queryKeys.mypage.profile(),
