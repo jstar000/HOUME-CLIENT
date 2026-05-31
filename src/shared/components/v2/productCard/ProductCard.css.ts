@@ -132,6 +132,14 @@ export const middleInfoSection = recipe({
     gap: unitVars.unit.gapPadding['200'],
     padding: unitVars.unit.gapPadding['050'],
   },
+  variants: {
+    cardType: {
+      default: {},
+      shopping: {
+        minHeight: '9.6rem',
+      },
+    },
+  },
 });
 
 export const productInfo = style({

@@ -162,7 +162,7 @@ const ProductCard = ({
           </div>
         )}
 
-        <div className={styles.middleInfoSection()}>
+        <div className={styles.middleInfoSection({ cardType })}>
           {/* 브랜드, 상품 이름 */}
           <div className={styles.productInfo} data-click-area="title">
             {isDefault && !!product.brand && (
