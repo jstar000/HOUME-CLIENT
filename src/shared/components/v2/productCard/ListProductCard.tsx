@@ -137,9 +137,9 @@ const ListProductCard = ({
               </>
             ) : (
               // 할인 없을 때
-              originalPriceText && (
+              (discountPriceText || originalPriceText) && (
                 <span className={styles.discountPriceText}>
-                  {originalPriceText}
+                  {discountPriceText ?? originalPriceText}
                 </span>
               )
             )}
