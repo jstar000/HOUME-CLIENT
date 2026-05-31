@@ -174,6 +174,8 @@ const SignupPage = () => {
     if (isNameSectionValid) {
       shouldFocusBirthFieldRef.current = true;
       setIsNameSubmitted(true);
+
+      // 이미 생년월일 필드가 노출된 상태면 직접 포커스
       if (isNameSubmitted) {
         yearRef.current?.focus();
         shouldFocusBirthFieldRef.current = false;
