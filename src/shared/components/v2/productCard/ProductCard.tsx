@@ -15,6 +15,7 @@ import {
   createCardClickHandler,
   getColorChips,
   getPriceTexts,
+  stopCardClickPropagation,
   type CardClickArea,
 } from '@utils/productCardUtils';
 
@@ -55,6 +56,11 @@ const ProductCard = ({
   onShoppingViewDetailClick,
 }: ProductCardProps) => {
   const isDefault = cardType === 'default';
+  const isShoppingDetailClickable =
+    cardType === 'shopping' && Boolean(onShoppingViewDetailClick);
+  const isWholeCardLink = enableWholeCardLink && Boolean(link?.href);
+  const isClickable = isShoppingDetailClickable || isWholeCardLink;
+
   const [isLoaded, setIsLoaded] = useState(false);
   const linkHref = link?.href;
   const { openProductLink } = useProductLink();
@@ -74,20 +80,31 @@ const ProductCard = ({
     enableWholeCardLink,
     linkHref,
     onNavigate: handleLinkClick,
+    onShoppingViewDetailClick: isShoppingDetailClickable
+      ? onShoppingViewDetailClick
+      : undefined,
   });
+
+  const wrapperA11y = isShoppingDetailClickable
+    ? {
+        role: 'button' as const,
+        tabIndex: 0,
+        'aria-label': `${product.title} 자세히 보기`,
+      }
+    : isWholeCardLink
+      ? {
+          role: 'link' as const,
+          tabIndex: 0,
+          'aria-label': `${product.title} 상품 링크로 이동`,
+        }
+      : {};
 
   return (
     <div
-      className={`${styles.wrapper()} ${
-        enableWholeCardLink ? styles.clickable : ''
-      }`}
+      className={`${styles.wrapper()} ${isClickable ? styles.clickable : ''}`}
       onClick={handleWrapperClick}
       onKeyDown={handleWrapperKeyDown}
-      role={enableWholeCardLink && linkHref ? 'link' : undefined}
-      tabIndex={enableWholeCardLink && linkHref ? 0 : undefined}
-      aria-label={
-        enableWholeCardLink ? `${product.title} 상품 링크로 이동` : undefined
-      }
+      {...wrapperA11y}
     >
       <section className={styles.imgSection()} data-click-area="image">
         {!isLoaded && <div className={styles.skeleton} />}
@@ -100,9 +117,7 @@ const ProductCard = ({
 
         <div
           className={styles.linkBtnContainer()}
-          onClick={(event) => event.stopPropagation()}
-          onKeyDown={(event) => event.stopPropagation()}
-          role="presentation"
+          {...stopCardClickPropagation}
         >
           {isDefault && linkHref && (
             <ActionButton
@@ -118,12 +133,7 @@ const ProductCard = ({
           )}
         </div>
 
-        <div
-          className={styles.saveBtnOverlay}
-          onClick={(event) => event.stopPropagation()}
-          onKeyDown={(event) => event.stopPropagation()}
-          role="presentation"
-        >
+        <div className={styles.saveBtnOverlay} {...stopCardClickPropagation}>
           {isDefault ? (
             <IconButton
               name={save.isSaved ? 'HeartFillColor' : 'HeartStrokeWhite'}
@@ -220,16 +230,18 @@ const ProductCard = ({
             </div>
           )
         ) : (
-          <ActionButton
-            variant="outlined"
-            color="inverse"
-            size="S"
-            fullWidth
-            disabled={shoppingAction?.disabled}
-            onClick={shoppingAction?.onClick}
-          >
-            {shoppingAction?.label ?? '선택'}
-          </ActionButton>
+          <div {...stopCardClickPropagation}>
+            <ActionButton
+              variant="outlined"
+              color="inverse"
+              size="S"
+              fullWidth
+              disabled={shoppingAction?.disabled}
+              onClick={shoppingAction?.onClick}
+            >
+              {shoppingAction?.label ?? '선택'}
+            </ActionButton>
+          </div>
         )}
       </section>
     </div>
