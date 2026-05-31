@@ -151,9 +151,18 @@ const ListResult = ({ image, isProductView }: ListResultProps) => {
     refetch: refetchRelated,
   } = useRelatedImagesQuery(image.imageId);
 
-  const selectedProductsRaw = listData?.products ?? [];
-  const similarProductsRaw = similarData?.products ?? [];
-  const relatedImagesRaw = relatedData?.images ?? [];
+  const selectedProductsRaw = useMemo(
+    () => listData?.products ?? [],
+    [listData?.products]
+  );
+  const similarProductsRaw = useMemo(
+    () => similarData?.products ?? [],
+    [similarData?.products]
+  );
+  const relatedImagesRaw = useMemo(
+    () => relatedData?.images ?? [],
+    [relatedData?.images]
+  );
 
   const renderableSelectedProducts = useMemo(
     () => selectedProductsRaw.filter((product) => product.id != null),
@@ -168,11 +177,12 @@ const ListResult = ({ image, isProductView }: ListResultProps) => {
   const renderableRelatedImages = useMemo(
     () =>
       relatedImagesRaw.filter(
-        (image) =>
-          image.id != null &&
-          image.resultType != null &&
-          (image.resultType === 'LIST' || image.resultType === 'RECOMMEND') &&
-          Boolean(image.imageUrl?.trim())
+        (relatedImage) =>
+          relatedImage.id != null &&
+          relatedImage.resultType != null &&
+          (relatedImage.resultType === 'LIST' ||
+            relatedImage.resultType === 'RECOMMEND') &&
+          Boolean(relatedImage.imageUrl?.trim())
       ),
     [relatedImagesRaw]
   );
