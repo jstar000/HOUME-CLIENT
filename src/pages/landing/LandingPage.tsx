@@ -1,14 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 
-import { useABTest } from '@pages/generate/hooks/useABTest';
 import type { HomeLocationState } from '@pages/home/HomePage';
 import { useLandingQuery } from '@pages/landing/apis/queries/useLandingQuery';
+import { LANDING_CTA_BY_VARIANT } from '@pages/landing/constants/landingCtaAbTest';
 import { useDissolveAnimation } from '@pages/landing/hooks/useDissolveAnimation';
 
 import { ROUTES } from '@routes/paths';
 
 import ActionButton from '@shared/components/v2/button/actionButton/ActionButton';
 import LogoNavBar from '@shared/components/v2/navBar/LogoNavBar';
+import { DEFAULT_AB_VARIANT } from '@shared/types/abTest';
+
+import { useABTest } from '@hooks/useABTest';
 
 import * as styles from './LandingPage.css';
 
@@ -38,8 +41,8 @@ const LandingPage = () => {
     navigate(ROUTES.HOME, { state });
   };
 
-  /** A/B: single → solid inverse CTA, multiple → ghost + 아이콘 CTA */
-  const isGhostCta = !isLoading && variant === 'multiple';
+  const ctaStyle =
+    LANDING_CTA_BY_VARIANT[isLoading ? DEFAULT_AB_VARIANT : variant];
 
   return (
     <main className={styles.page}>
@@ -73,26 +76,15 @@ const LandingPage = () => {
               집 구조, 취향, 생활 방식까지 반영하는 AI 홈 스타일링
             </p>
           </div>
-          {isGhostCta ? (
-            <ActionButton
-              variant="ghost"
-              color="primary"
-              size="L"
-              leftIcon="DoubleStar"
-              onClick={handleNavigateHome}
-            >
-              우리 집 바꾸러 가기
-            </ActionButton>
-          ) : (
-            <ActionButton
-              variant="solid"
-              color="inverse"
-              size="L"
-              onClick={handleNavigateHome}
-            >
-              우리 집 바꾸러 가기
-            </ActionButton>
-          )}
+          <ActionButton
+            variant={ctaStyle.buttonVariant}
+            color={ctaStyle.color}
+            size="L"
+            leftIcon={ctaStyle.leftIcon}
+            onClick={handleNavigateHome}
+          >
+            우리 집 바꾸러 가기
+          </ActionButton>
         </div>
       </section>
     </main>
