@@ -19,7 +19,6 @@ import { useRandomNickname } from '@hooks/useGetRandomNickname';
 import useUserForm from '@hooks/useUserForm';
 
 import { usePostSignupMutation } from './apis/mutations/usePostSignupMutation';
-import SignupExitPopupContent from './components/exitPopupContent/SignupExitPopupContent';
 import * as styles from './SignupPage.css';
 import {
   logSignupFormClickBtnCTA,
@@ -49,7 +48,8 @@ const SignupPage = () => {
   const isInitialized = useRef(false);
   const nicknameRef = useRef<HTMLInputElement>(null);
   const yearRef = useRef<HTMLInputElement>(null);
-  const [isNameSubmitted, setIsNameSubmitted] = useState(false);
+  const [isNameSubmitted, setIsNameSubmitted] = useState(false); // 생년월일 필드 노출 여부
+  const shouldFocusBirthFieldRef = useRef(false); // 생년월일 필드 노출 후 포커스 이동 여부
 
   const routeSignupToken = isSignupLocationState(location.state)
     ? (location.state.signupToken ?? null)
@@ -72,6 +72,10 @@ const SignupPage = () => {
   // signupToken이 없으면 useEffect가 LOGIN으로 redirect하므로 가드 비활성화
   useExitBlocker({
     enabled: !!signupToken,
+    shouldBlockNavigation: ({ nextLocation }) => {
+      if (nextLocation.pathname === ROUTES.WELCOME) return false;
+      return true;
+    },
     onBlocked: ({ proceed, reset }) => {
       overlay.open(({ unmount }) => {
         const close = () => {
@@ -84,6 +88,7 @@ const SignupPage = () => {
             btnStyle="text"
             btnText="계속하기"
             weakBtnText="그만두기"
+            topIconName="WarningFillDanger"
             onClose={close}
             onConfirm={close}
             onCancel={() => {
@@ -92,7 +97,18 @@ const SignupPage = () => {
               // KakaoCallback이 replace로 history에 안 남으므로 자연스럽게 /login(또는 진입점)으로 이동
               proceed();
             }}
-            content={<SignupExitPopupContent />}
+            content={
+              <div className={styles.popupContent}>
+                <h3 className={styles.popupTitle}>
+                  아직 회원가입이 완료되지 않았어요!
+                </h3>
+                <p className={styles.popupDetail}>
+                  지금 나가면 무료로 이미지를 만들 수 있는
+                  <br />
+                  토큰이 사라져요. 가입을 그만두시겠어요?
+                </p>
+              </div>
+            }
           />
         );
       });
@@ -167,14 +183,41 @@ const SignupPage = () => {
   // 닉네임 Enter시
   const handleNicknameEnter = () => {
     if (isNameSectionValid) {
+      shouldFocusBirthFieldRef.current = true;
+      setIsNameSubmitted(true);
+
+      // 이미 생년월일 필드가 노출된 상태면 직접 포커스
+      if (isNameSubmitted) {
+        yearRef.current?.focus();
+        shouldFocusBirthFieldRef.current = false;
+      }
+    }
+  };
+
+  const handleNicknameFieldBlur = (e: React.FocusEvent<HTMLDivElement>) => {
+    const nextFocusedElement = e.relatedTarget;
+    if (
+      nextFocusedElement instanceof Node &&
+      e.currentTarget.contains(nextFocusedElement)
+    ) {
+      return;
+    }
+
+    if (isNameSectionValid) {
+      shouldFocusBirthFieldRef.current = false;
       setIsNameSubmitted(true);
     }
   };
 
   // 생년월일 필드 렌더링된 직후 감지해 포커싱
   useEffect(() => {
-    if (isNameSubmitted && isNameSectionValid) {
+    if (
+      isNameSubmitted &&
+      isNameSectionValid &&
+      shouldFocusBirthFieldRef.current
+    ) {
       yearRef.current?.focus();
+      shouldFocusBirthFieldRef.current = false;
     }
   }, [isNameSubmitted, isNameSectionValid]);
 
@@ -241,7 +284,10 @@ const SignupPage = () => {
 
       <div className={styles.container}>
         {/* 닉네임 입력 */}
-        <div className={styles.fieldbox}>
+        <div
+          className={styles.fieldbox}
+          onBlurCapture={handleNicknameFieldBlur}
+        >
           <h2 className={styles.fieldtitle}>닉네임</h2>
           <div className={styles.flexbox}>
             <TextField

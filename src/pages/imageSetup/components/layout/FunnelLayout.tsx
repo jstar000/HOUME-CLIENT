@@ -103,7 +103,7 @@ const FunnelLayout = ({ children, currentStep }: FunnelLayoutProps) => {
         return (
           <Popup
             btnStyle="text"
-            btnText="계속 입력하기"
+            btnText="계속하기"
             weakBtnText="나가기"
             onClose={stay}
             onConfirm={stay}
@@ -111,14 +111,14 @@ const FunnelLayout = ({ children, currentStep }: FunnelLayoutProps) => {
             content={
               <div className={styles.popupContent}>
                 <h3 className={styles.popupTitle}>
-                  지금 나가면 무료로
+                  지금 나가면 선택한
                   <br />
-                  이미지를 생성할 수 없어요
+                  정보가 모두 사라져요.
                 </h3>
                 <p className={styles.popupDetail}>
-                  이 페이지를 떠나면 지금까지 입력한
+                  거의 다왔어요! 공간을 선택하고
                   <br />
-                  정보와 함께 무료 토큰도 사라져요.
+                  원하는 AI 이미지를 받아보세요.
                 </p>
               </div>
             }
@@ -133,9 +133,10 @@ const FunnelLayout = ({ children, currentStep }: FunnelLayoutProps) => {
       <TitleNavBar
         title={NAVBAR_TITLE_BY_STEP[currentStep]}
         backLabel="이전"
-        // step1에서는 navigate(-1) → useExitBlocker가 가로채서 모달 표시
-        // step2/step3에서는 undefined → TitleNavBar 기본 동작(navigate(-1))으로 use-funnel history 자연 처리
-        onBackClick={isStep1 ? () => navigate(-1) : undefined}
+        // 모든 step에서 동일하게 navigate(-1) 호출
+        // - step1: useExitBlocker가 가로채서 이탈 모달 표시 (이미지 생성 플로우 진행 중 보호)
+        // - step2/step3: 이전 step 복귀
+        onBackClick={() => navigate(-1)}
       />
       <div className={styles.content}>{children}</div>
     </div>

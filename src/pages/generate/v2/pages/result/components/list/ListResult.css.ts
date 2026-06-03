@@ -25,9 +25,15 @@ export const section = style({
   width: '100%',
 });
 
+export const sectionHeader = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  padding: `0 ${unitVars.unit.gapPadding['100']}`,
+});
+
 export const sectionTitle = style({
   ...fontVars.font.title_sb_16,
-  padding: `0 ${unitVars.unit.gapPadding['100']}`,
   color: colorVars.color.text.primary,
 });
 
@@ -43,4 +49,27 @@ export const gridContent = style({
   gridTemplateColumns: 'repeat(2, 1fr)',
   gap: unitVars.unit.gapPadding['200'],
   width: '100%',
+});
+
+export const blockSlot = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '100%',
+});
+
+export const listLoadingSlot = style([
+  blockSlot,
+  {
+    minHeight: '12rem',
+  },
+]);
+
+export const gridLoadingSlot = style({
+  display: 'flex',
+  gridColumn: '1 / -1',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '100%',
+  minHeight: '22rem',
 });

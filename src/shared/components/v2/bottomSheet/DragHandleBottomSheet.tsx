@@ -21,6 +21,8 @@ interface DragHandleBottomSheetProps {
   primaryButton: ReactNode;
   secondaryButton?: ReactNode;
   onExpandedChange?: (expanded: boolean) => void;
+  /** 부모에서 expanded가 바뀔 때 패널 높이 동기화 */
+  expanded?: boolean;
   /** 최소 높이 (rem 문자열). 있으면 Persistent 모드, 없으면 Dismissible 모드 */
   collapsedHeight?: string;
   /** Dismissible 모드에서 바텀시트가 닫혀야 할 때 부모에게 알리는 콜백 */
@@ -48,12 +50,25 @@ const DragHandleBottomSheet = ({
   primaryButton,
   secondaryButton,
   onExpandedChange,
+  expanded: expandedFromParent,
   collapsedHeight,
   onDismiss,
 }: DragHandleBottomSheetProps) => {
   const isPersistent = collapsedHeight !== undefined;
 
-  const [expanded, setExpanded] = useState(!isPersistent);
+  // 내부 expanded 초기값을 부모 prop과 똑같이 맞춤
+  // 마운트 시 내부(expanded)와 부모(expandedFromParent)가 어긋나면,
+  // 부모→자식(아래 effect)/자식→부모(onExpandedChange effect) 양방향 동기화가
+  // 서로 반대값으로 끊임없이 진동 -> Maximum update depth 오류 발생
+  // expandedFromParent 미전달(Dismissible 모드)이면 기존과 동일하게 !isPersistent.
+  const [expanded, setExpanded] = useState(expandedFromParent ?? !isPersistent);
+
+  useEffect(() => {
+    if (expandedFromParent !== undefined) {
+      setExpanded(expandedFromParent);
+    }
+  }, [expandedFromParent]);
+
   const [dragPhase, setDragPhase] = useState<DragPhase>('idle');
   const [dragHeight, setDragHeight] = useState<number | null>(null);
 
@@ -263,18 +278,14 @@ const DragHandleBottomSheet = ({
       }
       dimOpacity={computeDimOpacity()}
       preventScroll={!isPersistent || expanded}
-      handleSlot={
-        <button
-          type="button"
-          aria-label="바텀시트 크기 조절"
-          className={styles.dragHandleButton}
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={finishDrag}
-          onPointerCancel={finishDrag}
-          onLostPointerCapture={finishDrag}
-        />
-      }
+      handleSlot={<span className={styles.dragHandleButton} aria-hidden />}
+      dragHandlerProps={{
+        onPointerDown: handlePointerDown,
+        onPointerMove: handlePointerMove,
+        onPointerUp: finishDrag,
+        onPointerCancel: finishDrag,
+        onLostPointerCapture: finishDrag,
+      }}
     />
   );
 };

@@ -34,7 +34,7 @@ export const carouselSection = style({
 export const buttonGroup = style({
   display: 'flex',
   justifyContent: 'center',
-  gap: unitVars.unit.gapPadding['200'],
+  gap: unitVars.unit.gapPadding['500'],
   padding: unitVars.unit.gapPadding['500'],
   width: '100%',
 });
@@ -107,4 +107,25 @@ export const errorMessage = style({
   ...fontVars.font.body_r_14,
   textAlign: 'center',
   color: colorVars.color.gray600,
+});
+
+// 이탈 방지 팝업 콘텐츠 영역
+export const popupContent = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+});
+
+export const popupTitle = style({
+  ...fontVars.font.title_sb_16,
+  marginBottom: unitVars.unit.gapPadding['200'],
+  textAlign: 'center',
+  color: colorVars.color.text.primary,
+});
+
+export const popupDetail = style({
+  ...fontVars.font.body_r_14,
+  textAlign: 'center',
+  color: colorVars.color.text.secondary,
 });

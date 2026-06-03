@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 import { useMyPageUserQuery } from '@pages/mypage/apis/queries/useMyPageUserQuery';
 
@@ -34,9 +34,38 @@ const HomePage = () => {
   const isLoggedIn = !!accessToken;
   const location = useLocation();
   const homeState = location.state as HomeLocationState | undefined;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tabParam = searchParams.get('tab');
+
+  // 외부 진입(로그인 복귀/ResultPage 재선택) 흐름 감지:
+  // useImageFlowStore.preset.type === 'product'이고 productsToBeRestored이 비어있지 않으면
+  // -> 사용자가 '이 상품들로 우리 집 꾸미기' CTA를 거쳐서 돌아오는 중. 따라서 '상품' 탭으로 이동
+  // HomePage mount 시 1회만 평가 (preset은 ProductTab mount 직후 clearPreset으로 비워지므로 다음 진입엔 영향 없음)
+  const presetHasProductsToBeRestored = useMemo(() => {
+    const preset = useImageFlowStore.getState().preset;
+    return preset?.type === 'product' && preset.productsToBeRestored.length > 0;
+  }, []);
+
   const [activeMenuTab, setActiveMenuTab] = useState<HomeMenuTab>(
-    homeState?.activeTab ?? 'explore'
+    tabParam === 'product' || tabParam === 'explore'
+      ? tabParam
+      : (homeState?.activeTab ??
+          (presetHasProductsToBeRestored ? 'product' : 'explore'))
   );
+
+  // 탭 전환 시 URL ?tab= 에 반영 → 로그인 게이트로 이탈했다 복귀해도 같은 탭으로 돌아옴
+  const handleTabChange = (tab: HomeMenuTab) => {
+    setActiveMenuTab(tab);
+    setSearchParams(
+      (prev) => {
+        const next = new URLSearchParams(prev);
+        if (tab === 'product') next.set('tab', 'product');
+        else next.delete('tab');
+        return next;
+      },
+      { replace: true }
+    );
+  };
 
   const scrollDepth50Sent = useRef(false);
   const scrollDepth100Sent = useRef(false);
@@ -116,7 +145,7 @@ const HomePage = () => {
         ]}
         activeTab={activeMenuTab}
         sticky={activeMenuTab === 'explore'}
-        onTabChange={setActiveMenuTab}
+        onTabChange={handleTabChange}
       />
       {activeMenuTab === 'explore' && (
         <ExploreTab exploreSeedBannerId={homeState?.exploreSeedBannerId} />

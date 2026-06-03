@@ -1,11 +1,10 @@
 // import { StrictMode } from 'react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { OverlayProvider } from 'overlay-kit';
 import { createRoot } from 'react-dom/client';
 import { ErrorBoundary } from 'react-error-boundary';
 import { HelmetProvider } from 'react-helmet-async';
-import { ToastContainer } from 'react-toastify';
+import 'sonner/dist/styles.css';
 
 import { initClarity } from '@shared/config/clarity';
 import {
@@ -16,11 +15,11 @@ import {
   AB_TEST_STORAGE_KEY,
   parseDevAbQueryOverride,
 } from '@shared/types/abTest';
-import { toastConfig } from '@shared/types/toast';
 
 import { queryClient } from '@apis/config/queryClient';
 
 import AppErrorFallback from '@components/errorFallback/AppErrorFallback';
+import MainToaster from '@components/v2/toast/Sonner';
 import '@styles/global.css';
 
 import App from './App';
@@ -51,11 +50,9 @@ createRoot(rootElement, getSentryReactErrorHandlerOptions()).render(
   <ErrorBoundary FallbackComponent={AppErrorFallback}>
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
-        <OverlayProvider>
-          <App />
-          <ToastContainer {...toastConfig} />
-          {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />}
-        </OverlayProvider>
+        <App />
+        <MainToaster />
+        {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />}
       </QueryClientProvider>
     </HelmetProvider>
   </ErrorBoundary>

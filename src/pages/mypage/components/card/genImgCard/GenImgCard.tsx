@@ -1,22 +1,28 @@
 import { useState } from 'react';
 
+import { useNavigate } from 'react-router-dom';
+
+import { logMyPageClickBtnFurnitureCard } from '@pages/mypage/utils/analytics';
+
+import { ROUTES } from '@routes/paths';
+
+import type { UsedProductResponse } from '@apis/__generated__/data-contracts';
+import { useJjymMutation } from '@apis/mutations/useJjymMutation';
+
 import TestImage from '@assets/v2/images/TestImg.png';
 
-import { logMyPageClickBtnFurnitureCard } from '@/pages/mypage/utils/analytics';
-import { useJjymMutation } from '@/shared/apis/mutations/useJjymMutation';
-import TextButton from '@/shared/components/v2/btnText/TextButton';
-import ListProductCard from '@/shared/components/v2/productCard/ListProductCard';
+import TextButton from '@components/v2/btnText/TextButton';
+import ListProductCard from '@components/v2/productCard/ListProductCard';
 
 import * as styles from './GenImgCard.css';
 
-import type { UsedProduct } from '@/pages/mypage/types/apis/generateList';
-
 interface GenImgCardProps {
   cardType?: 'list' | 'curation';
-  productSummaryText?: string;
+  productSummaryText?: string | null;
   imageId: number;
   imageUrl?: string;
-  usedProducts?: UsedProduct[];
+  isMirror?: boolean;
+  usedProducts?: UsedProductResponse[];
   isLoaded?: boolean;
   onCurationClick?: () => void;
   onImageLoad?: (imageId: number, imageUrl?: string) => void;
@@ -27,6 +33,7 @@ const GenImgCard = ({
   productSummaryText,
   imageId,
   imageUrl,
+  isMirror = false,
   usedProducts = [],
   isLoaded = false,
   onCurationClick,
@@ -34,6 +41,7 @@ const GenImgCard = ({
 }: GenImgCardProps) => {
   const isListType = cardType === 'list';
   const [isImageReady, setIsImageReady] = useState(isLoaded); // 이미지 로드 완료 여부
+  const navigate = useNavigate();
 
   const handleImageLoad = () => {
     setIsImageReady(true);
@@ -41,7 +49,12 @@ const GenImgCard = ({
   };
 
   // 찜 토글
-  const { mutate: toggleJjym } = useJjymMutation();
+  const { mutate: toggleJjym } = useJjymMutation({
+    savedToastType: 'stored',
+    onSavedAction: () => {
+      navigate(ROUTES.MYPAGE, { state: { activeTab: 'savedItems' } });
+    },
+  });
 
   const handleToggleSave = (id: number) => {
     toggleJjym(id);
@@ -69,37 +82,40 @@ const GenImgCard = ({
         <img
           src={imageUrl || TestImage}
           alt={productSummaryText ?? '생성 이미지'}
-          className={styles.cardImg}
+          className={styles.cardImg({ mirrored: isMirror })}
           onLoad={handleImageLoad}
         />
       </section>
 
       {isListType && (
         <section className={styles.listCardContainer}>
-          {usedProducts.map((item) => (
-            <ListProductCard
-              key={item.rawProductId}
-              cardSize="s"
-              product={{
-                title: item.productName,
-                imageUrl: item.productImageUrl,
-              }}
-              price={{
-                original: item.listPrice,
-                discount: item.discountPrice,
-                discountRate: item.discountRate,
-              }}
-              save={{
-                isSaved: item.isJjym,
-                onToggle: () => handleToggleSave(item.rawProductId),
-              }}
-              link={{
-                href: item.productSiteUrl,
-                onClick: logMyPageClickBtnFurnitureCard,
-              }}
-              enableWholeCardLink={true}
-            />
-          ))}
+          {usedProducts.map((item) => {
+            if (item.rawProductId == null) return null;
+            return (
+              <ListProductCard
+                key={item.rawProductId}
+                cardSize="s"
+                product={{
+                  title: item.productName ?? '',
+                  imageUrl: item.productImageUrl ?? '',
+                }}
+                price={{
+                  original: item.listPrice ?? 0,
+                  discount: item.discountPrice ?? 0,
+                  discountRate: item.discountRate ?? 0,
+                }}
+                save={{
+                  isSaved: item.isJjym ?? false,
+                  onToggle: () => handleToggleSave(item.rawProductId!),
+                }}
+                link={{
+                  href: item.productSiteUrl ?? '',
+                  onClick: logMyPageClickBtnFurnitureCard,
+                }}
+                enableWholeCardLink={true}
+              />
+            );
+          })}
         </section>
       )}
     </div>

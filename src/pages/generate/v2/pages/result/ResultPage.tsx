@@ -9,9 +9,13 @@ import { useImageMetaQuery } from '@pages/generate/v2/apis/queries/useImageMetaQ
 
 import { ROUTES } from '@routes/paths';
 
+import { isCurationViewType, RESULT_TYPE } from '@store/useImageFlowStore';
+
 import InlineError from '@components/inlineError/InlineError';
 import Loading from '@components/loading/Loading';
 import TitleNavBar from '@components/v2/navBar/TitleNavBar';
+
+import { useExitBlocker } from '@hooks/useExitBlocker';
 
 import CurationResult from './components/curation/CurationResult';
 import ListResult from './components/list/ListResult';
@@ -32,20 +36,35 @@ const ResultPage = () => {
       ? candidate
       : null;
 
-  // URL ?viewType= 파싱 —> CurationResult/ListResult 분기 기준으로 사용
-  // /meta 응답에 viewType이 없어서 새로고침이나 직접 URL 진입에도 분기를 유지하려면 URL에 viewType이 명시되어 있어야 함
-  // viewType이 'LIST'일 때만 ListResult로 분기, 그 외(없음/알 수 없는 값)는 모두 CurationResult로 fallback
+  // URL ?viewType -> 추천형/목록형 분기 기준 + 목록형 내 '상품 다시 선택하기' 버튼 분기 기준
   const rawViewType = searchParams.get('viewType');
-  const isListView = rawViewType === 'LIST';
+  const isListView = !isCurationViewType(rawViewType);
+  const isProductView = rawViewType === RESULT_TYPE.PRODUCT;
 
   // LoadingPage/마이페이지에서 navigate state로 전달한 데이터 (새로고침 시 손실 → /meta로 fallback)
   // imageUrl/isMirror는 /meta 응답에 포함되므로 state 손실 시 자동 보충 가능
+  // from은 진입 경로 식별용 — 'loading'인 경우 뒤로가기를 HOME으로 강제 리다이렉트
   const locationState = location.state as {
     imageUrl?: string;
     isMirror?: boolean;
+    from?: 'loading';
   } | null;
   const stateImageUrl = locationState?.imageUrl;
   const stateIsMirror = locationState?.isMirror;
+  const isFromLoading = locationState?.from === 'loading';
+
+  // 뒤로가기 가드 — LoadingPage->ResultPage이고, 사용자 액션이 POP(뒤로가기)일 때만 useExitBlocker 훅이 실행됨
+  // - LoadingPage->ResultPage에서 뒤로가기 시 HOME으로 redirect (이미지 생성 플로우로 재진입 방지)
+  // - MyPage->ResultPage시에는 enabled=false, 따라서 history(-1)
+  // - navigation 액션이 PUSH/REPLACE(자식 컴포넌트에서 다른 페이지로 이동, "다시 만들기"로 상품 탭 이동 등)일 때는 정상적으로 navigate
+  useExitBlocker({
+    enabled: isFromLoading,
+    shouldBlockNavigation: ({ historyAction }) => historyAction === 'POP',
+    onBlocked: ({ reset }) => {
+      reset();
+      navigate(ROUTES.HOME, { replace: true });
+    },
+  });
 
   // state.imageUrl이 비어있는 경우(null/빈 문자열)도 누락으로 간주 -> /meta로 fallback
   const hasStateImageUrl =
@@ -112,14 +131,14 @@ const ResultPage = () => {
   return (
     <main className={styles.pageLayout}>
       <TitleNavBar
-        background="transparent"
+        background="gradient"
         placement="overContent"
         onBackClick={() => navigate(-1)}
       />
       <div className={styles.content}>
         <div className={styles.resultBody}>
           {isListView ? (
-            <ListResult image={image} />
+            <ListResult image={image} isProductView={isProductView} />
           ) : (
             <CurationResult images={[image]} />
           )}

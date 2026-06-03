@@ -129,7 +129,8 @@ const useProductFilterState = () => {
     [colorMeta.allId, furnitureMeta.allId, priceMeta.allId]
   );
 
-  /** allId 확정/변경 시 draft를 정규화 */
+  // allId 확정/변경 시 draft 정규화.
+  // 주의(무한루프): allIds 참조 안정 전제(useFilterListQuery staleTime:Infinity). 불안정해지면 setDraftValues가 매 렌더 새 객체 → 루프. 그땐 값 동일 시 set 생략 가드 추가.
   useEffect(() => {
     setDraftValues((prev) =>
       toDraftFromExternal(toExternalFromDraft(prev, allIds), allIds)
@@ -140,6 +141,11 @@ const useProductFilterState = () => {
   const syncDraftFromApplied = useCallback(() => {
     setDraftValues(toDraftFromExternal(appliedValues, allIds));
   }, [allIds, appliedValues]);
+
+  /** 적용된 모든 필터를 비움(섹션별 ALL로 복귀) — 외부로부터 상품 탭에 진입(ResultPage에서 상품 재선택 버튼을 눌러 상품 탭에 진입하는 등)할 때 필터 칩 전부 해제 용도 */
+  const clearAllFilters = useCallback(() => {
+    setAppliedValues(INITIAL_FILTER_VALUES);
+  }, []);
 
   /** 시트 내부 값만 초기화(섹션별 전체 선택으로 복원) */
   const resetDraft = useCallback(() => {
@@ -238,6 +244,7 @@ const useProductFilterState = () => {
     appliedValues,
     syncDraftFromApplied,
     resetDraft,
+    clearAllFilters,
     toggleDraftChip,
     applyDraft,
     removeAppliedChip,

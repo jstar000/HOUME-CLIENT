@@ -1,12 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+
+import { useNavigate } from 'react-router-dom';
 
 import { useCurationCategoriesQuery } from '@pages/generate/v2/apis/queries/useCurationCategoriesQuery';
 import { useCurationProductsQuery } from '@pages/generate/v2/apis/queries/useCurationProductsQuery';
 
+import { ROUTES } from '@routes/paths';
+
 import { useSavedItemsStore } from '@store/useSavedItemsStore';
 
 import Chip from '@shared/components/v2/chip/Chip';
+import EmptyView from '@shared/components/v2/emptyView/EmptyView';
 import ProductCard from '@shared/components/v2/productCard/ProductCard';
+import { EMPTY_VIEW_TEXT } from '@shared/constants/emptyViewText';
 
 import { useJjymMutation } from '@apis/mutations/useJjymMutation';
 
@@ -19,16 +25,93 @@ import GeneratedImg from './imgSection/GeneratedImg';
 
 import type { ResultImageMeta } from '../../types';
 
+type SectionDisplayState =
+  | 'loading'
+  | 'error'
+  | 'empty'
+  | 'partial'
+  | 'content';
+
+const getSectionDisplayState = ({
+  isLoading,
+  isError,
+  rawCount,
+  renderableCount,
+}: {
+  isLoading: boolean;
+  isError: boolean;
+  rawCount: number;
+  renderableCount: number;
+}): SectionDisplayState => {
+  if (isLoading) return 'loading';
+  if (isError) return 'error';
+  if (renderableCount > 0) return 'content';
+  if (rawCount > 0) return 'partial';
+  return 'empty';
+};
+
 export interface CurationResultProps {
   images: ResultImageMeta[];
   onCurrentImgIdChange?: (imageId: number) => void;
   groupId?: number | null;
 }
 
+interface ProductListFallbackProps {
+  state: SectionDisplayState;
+  onRetry?: () => void;
+}
+
+const ProductListFallback = ({ state, onRetry }: ProductListFallbackProps) => {
+  if (state === 'content') return null;
+
+  if (state === 'loading') {
+    return (
+      <div className={styles.productListFallbackSlot}>
+        <Loading inline />
+      </div>
+    );
+  }
+
+  if (state === 'error') {
+    return (
+      <div className={styles.productListFallbackSlot}>
+        <InlineError
+          message={EMPTY_VIEW_TEXT.curationResult.products.loadError}
+          onRetry={
+            onRetry
+              ? () => {
+                  void onRetry();
+                }
+              : undefined
+          }
+        />
+      </div>
+    );
+  }
+
+  const title =
+    state === 'partial'
+      ? EMPTY_VIEW_TEXT.curationResult.products.partial
+      : EMPTY_VIEW_TEXT.curationResult.products.empty;
+  const description =
+    state === 'partial'
+      ? EMPTY_VIEW_TEXT.curationResult.products.partialDescription
+      : state === 'empty'
+        ? EMPTY_VIEW_TEXT.curationResult.products.emptyDescription
+        : undefined;
+
+  return (
+    <div className={styles.productListFallbackSlot}>
+      <EmptyView title={title} description={description} />
+    </div>
+  );
+};
+
 const CurationResult = ({
   images,
   onCurrentImgIdChange,
 }: CurationResultProps) => {
+  const navigate = useNavigate();
   const [slideIndex, setSlideIndex] = useState(0);
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null
@@ -52,7 +135,7 @@ const CurationResult = ({
   useEffect(() => {
     if (selectedCategoryId !== null) return;
     const list = categoriesData?.categories ?? [];
-    const first = list[0];
+    const first = list.find((category) => category.id !== undefined);
     if (first?.id !== undefined) setSelectedCategoryId(first.id);
   }, [categoriesData?.categories, selectedCategoryId]);
 
@@ -62,19 +145,42 @@ const CurationResult = ({
     isError: isProductsError,
     refetch: refetchProducts,
   } = useCurationProductsQuery(currentImageId, selectedCategoryId ?? 0);
-  const products = productsData?.products ?? [];
+
+  const productsRaw = productsData?.products ?? [];
   const categories = categoriesData?.categories ?? [];
-  const { mutate: toggleJjym } = useJjymMutation();
-  const savedProductIds = useSavedItemsStore((s) => s.savedProductIds);
+  const renderableCategories = useMemo(
+    () => categories.filter((category) => category.id !== undefined),
+    [categories]
+  );
 
-  const showCategoriesEmptyUnexpected =
-    !isCategoriesLoading && !isCategoriesError && categories.length === 0;
+  const renderableProducts = useMemo(
+    () => productsRaw.filter((wrapper) => wrapper.product?.id != null),
+    [productsRaw]
+  );
 
-  const showProductsEmptyUnexpected =
-    selectedCategoryId !== null &&
-    !isProductsLoading &&
-    !isProductsError &&
-    products.length === 0;
+  const categoriesState = getSectionDisplayState({
+    isLoading: isCategoriesLoading,
+    isError: isCategoriesError,
+    rawCount: categories.length,
+    renderableCount: renderableCategories.length,
+  });
+
+  const productsState =
+    selectedCategoryId === null
+      ? 'content'
+      : getSectionDisplayState({
+          isLoading: isProductsLoading,
+          isError: isProductsError,
+          rawCount: productsRaw.length,
+          renderableCount: renderableProducts.length,
+        });
+
+  const { mutate: toggleJjym } = useJjymMutation({
+    onSavedAction: () => {
+      navigate(ROUTES.MYPAGE, { state: { activeTab: 'savedItems' } });
+    },
+  });
+  const getSavedState = useSavedItemsStore((s) => s.getSavedState);
 
   return (
     <div className={styles.root}>
@@ -89,93 +195,69 @@ const CurationResult = ({
           <div className={styles.section}>
             <h1 className={styles.title}>이 공간에 어울리는 추천 상품</h1>
             <div className={styles.chipList}>
-              {isCategoriesLoading ? (
-                <div className={styles.blockSlot}>
-                  <Loading />
+              {categoriesState === 'loading' ? (
+                <div className={styles.categoryLoadingSlot}>
+                  <Loading inline />
                 </div>
               ) : null}
-              {isCategoriesError ? (
+              {categoriesState === 'error' ? (
                 <div className={styles.blockSlot}>
                   <InlineError
-                    message="추천 카테고리를 불러올 수 없습니다"
+                    message={
+                      EMPTY_VIEW_TEXT.curationResult.categories.loadError
+                    }
                     onRetry={() => {
                       void refetchCategories();
                     }}
                   />
                 </div>
               ) : null}
-              {showCategoriesEmptyUnexpected ? (
+              {categoriesState === 'empty' || categoriesState === 'partial' ? (
                 <div className={styles.blockSlot}>
                   <InlineError
-                    message="추천 정보를 표시할 수 없습니다"
+                    message={EMPTY_VIEW_TEXT.curationResult.categories.empty}
                     onRetry={() => {
                       void refetchCategories();
                     }}
                   />
                 </div>
               ) : null}
-              {!isCategoriesLoading &&
-              !isCategoriesError &&
-              categories.length > 0
-                ? categories
-                    .filter((category) => category.id !== undefined)
-                    .map((category) => (
-                      <Chip
-                        key={category.id}
-                        selected={selectedCategoryId === category.id}
-                        onClick={() => setSelectedCategoryId(category.id!)}
-                      >
-                        {category.categoryName ?? ''}
-                      </Chip>
-                    ))
+              {categoriesState === 'content'
+                ? renderableCategories.map((category) => (
+                    <Chip
+                      key={category.id}
+                      selected={selectedCategoryId === category.id}
+                      onClick={() => setSelectedCategoryId(category.id!)}
+                    >
+                      {category.categoryName ?? ''}
+                    </Chip>
+                  ))
                 : null}
             </div>
             <div className={styles.productList}>
-              {selectedCategoryId !== null && isProductsLoading ? (
-                <div className={styles.blockSlot}>
-                  <Loading />
-                </div>
+              {selectedCategoryId !== null ? (
+                <ProductListFallback
+                  state={productsState}
+                  onRetry={refetchProducts}
+                />
               ) : null}
-              {selectedCategoryId !== null && isProductsError ? (
-                <div className={styles.blockSlot}>
-                  <InlineError
-                    message="추천 상품을 불러올 수 없습니다"
-                    onRetry={() => {
-                      void refetchProducts();
-                    }}
-                  />
-                </div>
-              ) : null}
-              {showProductsEmptyUnexpected ? (
-                <div className={styles.blockSlot}>
-                  <InlineError
-                    message="상품 정보를 표시할 수 없습니다"
-                    onRetry={() => {
-                      void refetchProducts();
-                    }}
-                  />
-                </div>
-              ) : null}
-              {!isProductsLoading &&
-              !isProductsError &&
-              !showProductsEmptyUnexpected
-                ? products.map((wrapper) => {
-                    const p = wrapper.product;
-                    if (p == null) return null;
-                    const href = p.linkUrl ?? '';
-                    const rawProductId = p.id;
-                    if (rawProductId == null) return null;
-                    const key = rawProductId;
+              {selectedCategoryId !== null && productsState === 'content'
+                ? renderableProducts.map((wrapper) => {
+                    const p = wrapper.product!;
+                    const id = p.id!;
+                    const href = p.linkUrl?.trim() ?? '';
+
                     return (
                       <ProductCard
-                        key={key}
+                        key={id}
+                        enableWholeCardLink={Boolean(href)}
                         product={{
-                          brand: p.brand ?? p.mallName,
+                          brand: p.brand ?? p.mallName ?? '',
                           title: p.name ?? '',
                           imageUrl: p.imageUrl ?? '',
                           colorHexes: (p.colors ?? [])
-                            .map((c) => c.value ?? '')
-                            .filter(Boolean),
+                            .map((color) => color.value)
+                            .filter((value): value is string => Boolean(value)),
                         }}
                         price={{
                           original: p.originalPrice,
@@ -183,15 +265,10 @@ const CurationResult = ({
                           discountRate: p.discountRate,
                         }}
                         save={{
-                          isSaved: savedProductIds.has(rawProductId),
-                          onToggle: () => toggleJjym(rawProductId),
+                          isSaved: getSavedState(id, p.isLiked),
+                          onToggle: () => toggleJjym(id),
                         }}
-                        link={{
-                          href,
-                          onClick: () =>
-                            href &&
-                            window.open(href, '_blank', 'noopener,noreferrer'),
-                        }}
+                        link={href ? { href } : undefined}
                       />
                     );
                   })

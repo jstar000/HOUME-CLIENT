@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-
 import type {
   ProductInfo,
   PriceInfo,
@@ -8,6 +6,9 @@ import type {
 } from '@shared/types/productCard';
 
 import CardImage from '@assets/images/cardExImg.svg?url';
+
+import { useImageLoaded } from '@hooks/useImageLoaded';
+import { useProductLink } from '@hooks/useProductLink';
 
 import {
   createCardClickHandler,
@@ -42,33 +43,24 @@ const ListProductCard = ({
   onCardClick,
   enableWholeCardLink = false,
 }: ListProductCardProps) => {
-  const [isLoaded, setIsLoaded] = useState(false);
   const linkHref = link?.href;
-
-  useEffect(() => {
-    setIsLoaded(false);
-  }, [product.imageUrl]);
+  const { openProductLink } = useProductLink();
+  const { isLoaded, imgProps } = useImageLoaded(product.imageUrl || CardImage, {
+    fallbackSrc: CardImage,
+  });
 
   const { visibleColors, extraColorCount } = getColorChips(product.colorHexes);
   const { originalPriceText, discountPriceText, discountRateText } =
     getPriceTexts(price?.original, price?.discount, price?.discountRate);
 
+  const handleLinkButtonClick = () => openProductLink(linkHref, link?.onClick);
+
   const { handleWrapperClick, handleWrapperKeyDown } = createCardClickHandler({
     onCardClick,
     enableWholeCardLink,
     linkHref,
+    onNavigate: handleLinkButtonClick,
   });
-
-  const handleLinkButtonClick = () => {
-    if (link?.onClick) {
-      link.onClick();
-      return;
-    }
-
-    if (linkHref && typeof window !== 'undefined') {
-      window.open(linkHref, '_blank', 'noopener,noreferrer');
-    }
-  };
 
   return (
     <div
@@ -89,10 +81,9 @@ const ListProductCard = ({
       >
         {!isLoaded && <div className={styles.skeleton} />}
         <img
+          {...imgProps}
           className={styles.cardImage({ loaded: isLoaded, size: cardSize })}
-          src={product.imageUrl || CardImage}
           alt="카드 이미지"
-          onLoad={() => setIsLoaded(true)}
         />
       </section>
 
@@ -142,9 +133,9 @@ const ListProductCard = ({
               </>
             ) : (
               // 할인 없을 때
-              originalPriceText && (
+              (discountPriceText || originalPriceText) && (
                 <span className={styles.discountPriceText}>
-                  {originalPriceText}
+                  {discountPriceText ?? originalPriceText}
                 </span>
               )
             )}

@@ -26,7 +26,9 @@ export const getPriceTexts = (
     originalPriceText: formatKrw(originalPrice),
     discountPriceText: formatKrw(discountPrice),
     discountRateText:
-      typeof discountRate === 'number' && Number.isFinite(discountRate)
+      typeof discountRate === 'number' &&
+      Number.isFinite(discountRate) &&
+      discountRate > 0
         ? `${discountRate}%`
         : null,
   };
@@ -35,14 +37,31 @@ export const getPriceTexts = (
 // 카드 클릭 핸들러
 export type CardClickArea = 'card' | 'image' | 'title';
 
+/** 카드 내부 버튼 클릭이 wrapper로 전파되지 않도록 */
+export const stopCardClickPropagation = {
+  onClick: (event: React.MouseEvent) => {
+    event.stopPropagation();
+  },
+  onKeyDown: (event: React.KeyboardEvent) => {
+    event.stopPropagation();
+  },
+  role: 'presentation' as const,
+};
+
 export const createCardClickHandler = ({
   onCardClick,
   enableWholeCardLink,
   linkHref,
+  onNavigate,
+  onShoppingViewDetailClick,
 }: {
   onCardClick?: (area?: CardClickArea) => void;
   enableWholeCardLink: boolean;
   linkHref?: string;
+  // 카드 본문(이미지/제목) 클릭 시 실제 이동 동작. 로그인 게이트 + 새 탭 열기는 호출부(useProductLink)가 담당
+  onNavigate?: () => void;
+  /** shopping 카드: 카드 클릭 시 자세히 보기 (선택 버튼 등은 stopCardClickPropagation으로 제외) */
+  onShoppingViewDetailClick?: () => void;
 }) => ({
   handleWrapperClick: (event: React.MouseEvent<HTMLDivElement>) => {
     const target = event.target as HTMLElement | null;
@@ -53,18 +72,28 @@ export const createCardClickHandler = ({
 
     onCardClick?.(resolvedArea);
 
-    if (!enableWholeCardLink || !linkHref || typeof window === 'undefined')
+    if (onShoppingViewDetailClick) {
+      onShoppingViewDetailClick();
       return;
-    window.open(linkHref, '_blank', 'noopener,noreferrer');
+    }
+
+    if (!enableWholeCardLink || !linkHref) return;
+    onNavigate?.();
   },
 
   handleWrapperKeyDown: (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (!enableWholeCardLink || !linkHref || typeof window === 'undefined')
-      return;
     if (event.key !== 'Enter' && event.key !== ' ') return;
+
+    if (onShoppingViewDetailClick) {
+      event.preventDefault();
+      onShoppingViewDetailClick();
+      return;
+    }
+
+    if (!enableWholeCardLink || !linkHref) return;
 
     event.preventDefault();
     onCardClick?.('card');
-    window.open(linkHref, '_blank', 'noopener,noreferrer');
+    onNavigate?.();
   },
 });
