@@ -46,11 +46,8 @@ const writeVariantToStorage = (variant: ABTestGroup): void => {
   localStorage.setItem(AB_TEST_STORAGE_KEY, variant);
 };
 
-/** 코드로 variant 고정. 'A' | 'B' 또는 null */
-const DEV_FIXED_VARIANT: ABTestGroup | null = import.meta.env.DEV ? null : null;
-
 /**
- * 배정 우선순위 (DEV): ?ab= → DEV_FIXED → storage → userId / 랜덤
+ * 배정 우선순위 (DEV): ?ab= → storage → userId / 랜덤
  * 배정 우선순위 (PROD): storage → userId / 랜덤
  */
 const resolveABVariant = (userId: number | null | undefined): ABTestGroup => {
@@ -62,10 +59,6 @@ const resolveABVariant = (userId: number | null | undefined): ABTestGroup => {
       // localStorage 저장 실패 시 무시
     }
     return devQueryOverride;
-  }
-
-  if (DEV_FIXED_VARIANT) {
-    return DEV_FIXED_VARIANT;
   }
 
   const cached = readVariantFromStorage();
@@ -91,10 +84,6 @@ const getInitialVariant = (): ABTestGroup => {
   const devQueryOverride = parseDevAbQueryOverride();
   if (devQueryOverride) {
     return devQueryOverride;
-  }
-
-  if (DEV_FIXED_VARIANT) {
-    return DEV_FIXED_VARIANT;
   }
 
   return readVariantFromStorage() ?? DEFAULT_AB_VARIANT;
