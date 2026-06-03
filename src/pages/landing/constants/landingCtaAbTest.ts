@@ -5,11 +5,11 @@ import type {
 import type { IconName } from '@shared/components/v2/icon/Icon';
 import type { ABTestGroup } from '@shared/types/abTest';
 
-export type LandingCtaStyle = {
+export interface LandingCtaStyle {
   buttonVariant: ActionButtonVariant;
   color: ActionButtonColor;
   leftIcon?: IconName;
-};
+}
 
 /** 랜딩 CTA A/B: A = solid inverse, B = ghost + 아이콘 */
 export const LANDING_CTA_BY_VARIANT: Record<ABTestGroup, LandingCtaStyle> = {
