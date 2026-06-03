@@ -9,7 +9,6 @@ import { ROUTES } from '@routes/paths';
 
 import ActionButton from '@shared/components/v2/button/actionButton/ActionButton';
 import LogoNavBar from '@shared/components/v2/navBar/LogoNavBar';
-import { DEFAULT_AB_VARIANT } from '@shared/types/abTest';
 
 import { useABTest } from '@hooks/useABTest';
 
@@ -20,7 +19,7 @@ const DISSOLVE_DURATION_MS = 300;
 
 const LandingPage = () => {
   const navigate = useNavigate();
-  const { variant, isLoading } = useABTest();
+  const { variant } = useABTest();
   const { data: landingData } = useLandingQuery();
   const landingItems = landingData?.landings ?? [];
   const { currentIndex, previousIndex } = useDissolveAnimation({
@@ -41,8 +40,7 @@ const LandingPage = () => {
     navigate(ROUTES.HOME, { state });
   };
 
-  const ctaStyle =
-    LANDING_CTA_BY_VARIANT[isLoading ? DEFAULT_AB_VARIANT : variant];
+  const ctaStyle = LANDING_CTA_BY_VARIANT[variant];
 
   return (
     <main className={styles.page}>
