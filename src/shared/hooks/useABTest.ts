@@ -1,9 +1,11 @@
 /**
  * A/B 테스트 variant 배정 훅
  *
- * 1. localStorage에 배정값이 있으면 로그인 여부와 관계없이 유지 (퍼널 전환 비교용)
- * 2. 없고 userId가 있으면 홀수 A / 짝수 B 배정 후 저장
- * 3. 없고 비로그인이면 50% 랜덤 배정 후 저장
+ * DEV: ?ab=A|B 쿼리가 최우선 (storage·userId보다 우선)
+ * PROD:
+ * 1. localStorage 배정값 유지 (로그인 후에도 동일, 퍼널 전환 비교용)
+ * 2. 없고 userId → 홀수 A / 짝수 B
+ * 3. 없고 비로그인 → 50% 랜덤
  *
  * UI 의미(예: solid/ghost CTA)는 사용처에서 variant → 설정으로 매핑
  * Firebase Analytics 연동은 GA 작업 브랜치에서 추가 예정
@@ -11,15 +13,19 @@
 
 import { useEffect, useState } from 'react';
 
+import { useLocation } from 'react-router-dom';
+
 import { useUserStore } from '@store/useUserStore';
 
 import type { ABTestGroup } from '@shared/types/abTest';
-import { AB_TEST_STORAGE_KEY, DEFAULT_AB_VARIANT } from '@shared/types/abTest';
+import {
+  AB_TEST_STORAGE_KEY,
+  DEFAULT_AB_VARIANT,
+  isABTestGroup,
+  parseDevAbQueryOverride,
+} from '@shared/types/abTest';
 
 export type { ABTestGroup };
-
-const isABTestGroup = (value: string): value is ABTestGroup =>
-  value === 'A' || value === 'B';
 
 const getVariantFromUserId = (userId: number): ABTestGroup =>
   userId % 2 === 1 ? 'A' : 'B';
@@ -40,13 +46,24 @@ const writeVariantToStorage = (variant: ABTestGroup): void => {
   localStorage.setItem(AB_TEST_STORAGE_KEY, variant);
 };
 
-/** 개발 모드에서 variant 고정. 'A' | 'B' 또는 null */
+/** 코드로 variant 고정. 'A' | 'B' 또는 null */
 const DEV_FIXED_VARIANT: ABTestGroup | null = import.meta.env.DEV ? null : null;
 
 /**
- * 배정 우선순위: DEV 고정 → storage 유지 → (신규) userId 홀짝 → (신규) 비로그인 50% 랜덤
+ * 배정 우선순위 (DEV): ?ab= → DEV_FIXED → storage → userId / 랜덤
+ * 배정 우선순위 (PROD): storage → userId / 랜덤
  */
 const resolveABVariant = (userId: number | null | undefined): ABTestGroup => {
+  const devQueryOverride = parseDevAbQueryOverride();
+  if (devQueryOverride) {
+    try {
+      writeVariantToStorage(devQueryOverride);
+    } catch {
+      // localStorage 저장 실패 시 무시
+    }
+    return devQueryOverride;
+  }
+
   if (DEV_FIXED_VARIANT) {
     return DEV_FIXED_VARIANT;
   }
@@ -71,13 +88,20 @@ const resolveABVariant = (userId: number | null | undefined): ABTestGroup => {
 };
 
 const getInitialVariant = (): ABTestGroup => {
+  const devQueryOverride = parseDevAbQueryOverride();
+  if (devQueryOverride) {
+    return devQueryOverride;
+  }
+
   if (DEV_FIXED_VARIANT) {
     return DEV_FIXED_VARIANT;
   }
+
   return readVariantFromStorage() ?? DEFAULT_AB_VARIANT;
 };
 
 export const useABTest = () => {
+  const { search } = useLocation();
   const userId = useUserStore((state) => state.userId);
 
   const [variant, setVariant] = useState<ABTestGroup>(getInitialVariant);
@@ -95,6 +119,12 @@ export const useABTest = () => {
         setError(err instanceof Error ? err.message : 'Unknown error');
 
         try {
+          const devQueryOverride = parseDevAbQueryOverride();
+          if (devQueryOverride) {
+            setVariant(devQueryOverride);
+            return;
+          }
+
           const cached = readVariantFromStorage();
           setVariant(
             cached ??
@@ -112,7 +142,7 @@ export const useABTest = () => {
     };
 
     initializeABTest();
-  }, [userId]);
+  }, [userId, search]);
 
   return {
     variant,
