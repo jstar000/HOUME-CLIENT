@@ -8,6 +8,8 @@ import type { SelectedProduct } from '@pages/home/types/productTab';
 import IconButton from '@shared/components/v2/button/IconButton';
 import Icon from '@shared/components/v2/icon/Icon';
 
+import OptimizedImage from '@components/image/OptimizedImage';
+
 import * as styles from './SelectedProductSheet.css';
 
 interface SelectedProductSheetProps {
@@ -100,7 +102,7 @@ const SelectedProductSheet = ({
               >
                 <div className={styles.selectedImageWrap}>
                   {product.imageUrl ? (
-                    <img
+                    <OptimizedImage
                       className={styles.selectedImage}
                       src={product.imageUrl}
                       alt={product.title}
@@ -164,7 +166,7 @@ const SelectedProductSheet = ({
               >
                 <div className={styles.compactImageWrap}>
                   {product.imageUrl ? (
-                    <img
+                    <OptimizedImage
                       className={styles.compactImage}
                       src={product.imageUrl}
                       alt=""

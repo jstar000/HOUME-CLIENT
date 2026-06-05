@@ -8,6 +8,8 @@ import type {
 
 import CardImage from '@assets/images/cardExImg.svg?url';
 
+import OptimizedImage from '@components/image/OptimizedImage';
+
 import { useProductLink } from '@hooks/useProductLink';
 
 import { getColorChips, getPriceTexts } from '@utils/productCardUtils';
@@ -43,9 +45,10 @@ const ProductDetailCard = ({
   return (
     <div className={styles.card}>
       <div className={styles.imageWrap}>
-        <img
+        <OptimizedImage
           className={styles.image}
           src={product.imageUrl || CardImage}
+          fallbackSrc={CardImage}
           alt={product.title}
         />
         {linkHref ? (
