@@ -1,3 +1,5 @@
+import OptimizedImage from '@components/image/OptimizedImage';
+
 import * as styles from './FloorCard.css';
 
 interface FloorPlanItemProps extends React.ComponentProps<'div'> {
@@ -8,7 +10,13 @@ interface FloorPlanItemProps extends React.ComponentProps<'div'> {
 const FloorPlanItem = ({ src, selected = false }: FloorPlanItemProps) => {
   return (
     <div className={`${styles.container} ${selected ? styles.selected : ''}`}>
-      <img src={src} className={styles.floorimg} alt="카드 이미지" />
+      <OptimizedImage
+        src={src}
+        sizes="200px"
+        className={styles.floorimg}
+        alt="카드 이미지"
+        decoding="async"
+      />
     </div>
   );
 };
