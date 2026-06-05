@@ -8,6 +8,7 @@ import 'swiper/css';
 
 import type { ExploreHouseTemplateDetailItemResponse } from '@apis/__generated__/data-contracts';
 
+import OptimizedImage from '@components/image/OptimizedImage';
 import CloseBottomSheet from '@components/v2/bottomSheet/CloseBottomSheet';
 import ActionButton from '@components/v2/button/actionButton/ActionButton';
 import IconButton from '@components/v2/button/IconButton';
@@ -94,8 +95,9 @@ const FloorPlanSheet = ({
               >
                 {detailViews.map((view, index) => (
                   <SwiperSlide key={`view-${index}`}>
-                    <img
-                      src={view.imageUrl}
+                    <OptimizedImage
+                      src={view.imageUrl ?? ''}
+                      sizes="440px"
                       alt={`${floorPlanName} ${view.view}`}
                       className={clsx(
                         styles.slideImage,
