@@ -1,5 +1,7 @@
 import OptimizedImage from '@components/image/OptimizedImage';
 
+import { IMAGE_SIZES } from '@utils/imageVariant';
+
 import * as styles from './MoodboardCard.css';
 
 interface MoodboardCardProps
@@ -34,7 +36,7 @@ const MoodboardCard = ({
     >
       <OptimizedImage
         src={src}
-        sizes="200px"
+        sizes={IMAGE_SIZES.grid}
         alt={alt}
         className={styles.image}
         draggable={false}

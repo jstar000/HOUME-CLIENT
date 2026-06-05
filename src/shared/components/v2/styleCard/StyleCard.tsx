@@ -9,6 +9,8 @@ import fallbackImage from '@assets/v2/images/CardRoomTypeFallback.svg';
 
 import OptimizedImage from '@components/image/OptimizedImage';
 
+import { IMAGE_SIZES } from '@utils/imageVariant';
+
 import * as styles from './StyleCard.css';
 
 export type StyleCardSize = 's' | 'L';
@@ -61,7 +63,7 @@ const StyleCard = ({
       >
         <OptimizedImage
           src={initialImageSrc}
-          sizes={isLarge ? '440px' : '200px'}
+          sizes={isLarge ? IMAGE_SIZES.full : IMAGE_SIZES.grid}
           fallbackSrc={fallbackImage}
           alt=""
           aria-hidden

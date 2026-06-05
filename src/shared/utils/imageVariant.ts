@@ -5,6 +5,16 @@
 /** 서버 VariantKeyResolver.VARIANT_WIDTHS와 동일하게 유지해야 한다. */
 export const IMAGE_VARIANT_WIDTHS = [400, 800, 1280] as const;
 
+/**
+ * OptimizedImage `sizes` — 슬롯이 화면에서 렌더되는 대략적인 폭
+ * 그리드 썸네일(~200px)와 full width/히어로 이미지(~440px) 두 가지
+ * 브라우저는 이 값 × DPR로 variant를 골라 sizes에 전달한다
+ */
+export const IMAGE_SIZES = {
+  grid: '200px',
+  full: '440px',
+} as const;
+
 // 최적화 대상: 우리 어드민 S3 원본(쿼리스트링 없는 .png/.jpg/.jpeg).
 // 외부 CDN(ohousecdn 등 ?w= 쿼리)·이미 webp인 이미지는 제외하고 원본을 그대로 쓴다.
 const OPTIMIZABLE_URL = /\.(png|jpe?g)$/i;

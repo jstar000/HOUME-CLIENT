@@ -14,6 +14,8 @@ import OptimizedImage from '@components/image/OptimizedImage';
 
 import { useABTest } from '@hooks/useABTest';
 
+import { IMAGE_SIZES } from '@utils/imageVariant';
+
 import * as styles from './LandingPage.css';
 
 const DISSOLVE_INTERVAL_MS = 4000;
@@ -49,7 +51,7 @@ const LandingPage = () => {
           <OptimizedImage
             key={item.bannerId ?? index}
             src={item.imageUrl}
-            sizes="440px"
+            sizes={IMAGE_SIZES.full}
             alt="랜딩 배경 이미지"
             aria-hidden
             loading={index === 0 ? 'eager' : 'lazy'}

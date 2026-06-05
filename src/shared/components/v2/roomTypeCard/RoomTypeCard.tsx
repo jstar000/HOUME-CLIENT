@@ -6,6 +6,8 @@ import fallbackImage from '@assets/v2/images/CardRoomTypeFallback.svg';
 
 import OptimizedImage from '@components/image/OptimizedImage';
 
+import { IMAGE_SIZES } from '@utils/imageVariant';
+
 import * as styles from './RoomTypeCard.css';
 import Icon from '../icon/Icon';
 
@@ -72,7 +74,7 @@ const RoomTypeOptionCard = ({
     >
       <OptimizedImage
         src={initialImageSrc}
-        sizes="200px"
+        sizes={IMAGE_SIZES.grid}
         fallbackSrc={fallbackImage}
         alt=""
         aria-hidden="true"
@@ -111,7 +113,7 @@ const RoomTypePreviewCard = ({
     <div className={clsx(styles.previewCard, className)} {...rest}>
       <OptimizedImage
         src={initialImageSrc}
-        sizes="440px"
+        sizes={IMAGE_SIZES.full}
         fallbackSrc={fallbackImage}
         alt={imageAlt}
         className={styles.image}

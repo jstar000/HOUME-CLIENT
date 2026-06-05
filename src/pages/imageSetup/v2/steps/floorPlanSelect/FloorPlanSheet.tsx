@@ -14,6 +14,8 @@ import ActionButton from '@components/v2/button/actionButton/ActionButton';
 import IconButton from '@components/v2/button/IconButton';
 import Icon from '@components/v2/icon/Icon';
 
+import { IMAGE_SIZES } from '@utils/imageVariant';
+
 import * as styles from './FloorPlanSheet.css';
 import { useFloorPlanSheet } from '../../hooks/useFloorPlanSheet';
 
@@ -97,7 +99,7 @@ const FloorPlanSheet = ({
                   <SwiperSlide key={`view-${index}`}>
                     <OptimizedImage
                       src={view.imageUrl ?? ''}
-                      sizes="440px"
+                      sizes={IMAGE_SIZES.full}
                       alt={`${floorPlanName} ${view.view}`}
                       className={clsx(
                         styles.slideImage,
