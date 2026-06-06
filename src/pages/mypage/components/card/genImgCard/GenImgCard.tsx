@@ -9,7 +9,7 @@ import { ROUTES } from '@routes/paths';
 import type { UsedProductResponse } from '@apis/__generated__/data-contracts';
 import { useJjymMutation } from '@apis/mutations/useJjymMutation';
 
-import TestImage from '@assets/v2/images/TestImg.png';
+import emptyImage from '@assets/v2/images/ImgEmpty.png';
 
 import OptimizedImage from '@components/image/OptimizedImage';
 import TextButton from '@components/v2/btnText/TextButton';
@@ -81,8 +81,8 @@ const GenImgCard = ({
         {/* 이미지 로드 완료 전에는 skeleton, 완료 시 실제 이미지 렌더링 */}
         {!isImageReady && <div className={styles.skeleton} />}
         <OptimizedImage
-          src={imageUrl || TestImage}
-          fallbackSrc={TestImage}
+          src={imageUrl || emptyImage}
+          fallbackSrc={emptyImage}
           alt={productSummaryText ?? '생성 이미지'}
           className={styles.cardImg({ mirrored: isMirror })}
           onLoad={handleImageLoad}

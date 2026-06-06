@@ -24,6 +24,8 @@ export const useDissolveAnimation = ({
       setCurrentIndex(0);
       return;
     }
+    // 배너 목록이 줄어 currentIndex가 범위를 벗어나면(예: 5→3) 다음 tick까지 빈 배경이 보이므로 즉시 클램프
+    setCurrentIndex((prev) => (prev >= itemCount ? 0 : prev));
     const intervalId = window.setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % itemCount);
     }, intervalMs);

@@ -5,7 +5,7 @@ import type {
   LinkInfo,
 } from '@shared/types/productCard';
 
-import CardImage from '@assets/images/cardExImg.svg?url';
+import emptyImage from '@assets/v2/images/ImgEmpty.png';
 
 import OptimizedImage from '@components/image/OptimizedImage';
 
@@ -78,8 +78,8 @@ const ListProductCard = ({
         data-click-area="image"
       >
         <OptimizedImage
-          src={product.imageUrl || CardImage}
-          fallbackSrc={CardImage}
+          src={product.imageUrl || emptyImage}
+          fallbackSrc={emptyImage}
           placeholder="skeleton"
           className={styles.cardImage({ size: cardSize })}
           alt="카드 이미지"

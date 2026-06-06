@@ -5,7 +5,7 @@ import clsx from 'clsx';
 
 import Icon from '@shared/components/v2/icon/Icon';
 
-import fallbackImage from '@assets/v2/images/CardRoomTypeFallback.svg';
+import emptyImage from '@assets/v2/images/ImgEmpty.png';
 
 import OptimizedImage from '@components/image/OptimizedImage';
 
@@ -64,7 +64,7 @@ const StyleCard = ({
         <OptimizedImage
           src={initialImageSrc}
           sizes={isLarge ? IMAGE_SIZES.full : IMAGE_SIZES.grid}
-          fallbackSrc={fallbackImage}
+          fallbackSrc={emptyImage}
           alt=""
           aria-hidden
           className={styles.image}

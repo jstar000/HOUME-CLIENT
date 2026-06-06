@@ -6,7 +6,7 @@ import type {
   ProductInfo,
 } from '@shared/types/productCard';
 
-import CardImage from '@assets/images/cardExImg.svg?url';
+import emptyImage from '@assets/v2/images/ImgEmpty.png';
 
 import OptimizedImage from '@components/image/OptimizedImage';
 
@@ -47,8 +47,8 @@ const ProductDetailCard = ({
       <div className={styles.imageWrap}>
         <OptimizedImage
           className={styles.image}
-          src={product.imageUrl || CardImage}
-          fallbackSrc={CardImage}
+          src={product.imageUrl || emptyImage}
+          fallbackSrc={emptyImage}
           alt={product.title}
         />
         {linkHref ? (

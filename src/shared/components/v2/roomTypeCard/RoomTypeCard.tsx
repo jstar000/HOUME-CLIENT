@@ -2,7 +2,7 @@ import type { ComponentProps } from 'react';
 
 import clsx from 'clsx';
 
-import fallbackImage from '@assets/v2/images/CardRoomTypeFallback.svg';
+import emptyImage from '@assets/v2/images/ImgEmpty.png';
 
 import OptimizedImage from '@components/image/OptimizedImage';
 
@@ -75,7 +75,7 @@ const RoomTypeOptionCard = ({
       <OptimizedImage
         src={initialImageSrc}
         sizes={IMAGE_SIZES.grid}
-        fallbackSrc={fallbackImage}
+        fallbackSrc={emptyImage}
         alt=""
         aria-hidden="true"
         className={styles.image}
@@ -114,7 +114,7 @@ const RoomTypePreviewCard = ({
       <OptimizedImage
         src={initialImageSrc}
         sizes={IMAGE_SIZES.full}
-        fallbackSrc={fallbackImage}
+        fallbackSrc={emptyImage}
         alt={imageAlt}
         className={styles.image}
         loading={imageLoading}

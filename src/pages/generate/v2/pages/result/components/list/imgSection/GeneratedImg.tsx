@@ -20,6 +20,7 @@ const GeneratedImg = ({ image }: GeneratedImgListProps) => {
           src={image.imageUrl}
           alt=""
           fetchPriority="high"
+          loading="eager"
           decoding="async"
           className={styles.imgArea({ mirrored: image.isMirror })}
         />
