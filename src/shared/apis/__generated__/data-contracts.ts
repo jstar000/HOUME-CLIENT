@@ -1203,14 +1203,12 @@ export interface ApiResponseGetCarouselV2ListResponseDTO {
 
 export interface GetCarouselResponseDTO {
   /** @format int64 */
-  carouselId?: number;
+  rawProductId?: number;
   url?: string;
 }
 
 export interface GetCarouselV2ListResponseDTO {
   carousels?: GetCarouselResponseDTO[];
-  /** @format int64 */
-  nextCursor?: number;
 }
 
 export interface ApiResponseOtherStyleListResponse {
