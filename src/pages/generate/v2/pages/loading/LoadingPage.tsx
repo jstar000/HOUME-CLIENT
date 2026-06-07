@@ -130,9 +130,12 @@ const LoadingPage = () => {
   // 이미지 생성 payload에 필요한 데이터가 정상적으로 구성되어 있으면 true
   const isRequestValid = requestState.kind !== 'invalid';
 
-  // 캐러셀 페이지네이션 (무한 스크롤) - 스택 UI
-  const [currentPage, setCurrentPage] = useState<number | undefined>(undefined);
-  const [nextCursor, setNextCursor] = useState<number | undefined>(undefined);
+  // 생성 요청이 시작되면 funnel store가 reset되므로, 캐러셀 조회용 가구 선택값은 첫 진입 시점 스냅샷으로 유지
+  const furnitureIdsRef = useRef<number[]>(
+    useFunnelStore.getState().activityInfo?.furnitureIds ?? []
+  );
+
+  const furnitureIds = furnitureIdsRef.current;
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // 캐러셀 애니메이션 상태 - 스택 UI
@@ -152,21 +155,15 @@ const LoadingPage = () => {
     data: currentStack,
     isPending,
     isError,
-  } = useStackDataQuery(currentPage, {
+  } = useStackDataQuery(furnitureIds, {
     enabled: isRequestValid,
-    onSuccess: (data) => {
+    onSuccess: () => {
       setCurrentIndex(0);
-      setNextCursor(data.nextCursor ?? undefined);
     },
     onError: (err) => handleError(err, 'loading'),
   });
 
-  const { data: nextStack } = useStackDataQuery(nextCursor, {
-    enabled: nextCursor !== undefined && isRequestValid,
-  });
-
   const currentImages = currentStack?.carousels ?? [];
-  const nextImages = nextStack?.carousels ?? [];
 
   // 스택 UI 좋아요 (찜하기 연동됨)
   const { mutate: postLike, isPending: isJjymLoading } =
@@ -227,18 +224,14 @@ const LoadingPage = () => {
     !currentImages ||
     currentImages.length === 0;
 
-  // 정상 데이터(normal data)일 때 현재/다음 이미지 계산
+  // 정상 데이터일 때 현재/다음 이미지 계산
   const currentImage = hasError ? null : currentImages[currentIndex];
-
-  const isLast = hasError ? false : currentIndex === currentImages.length - 1;
 
   const nextImage = hasError
     ? null
-    : !isLast
+    : currentImages.length > 1
       ? currentImages[currentIndex + 1]
-      : nextImages && nextImages.length > 0
-        ? nextImages[0]
-        : undefined;
+      : undefined;
 
   useEffect(() => {
     if (animating) return;
@@ -286,13 +279,14 @@ const LoadingPage = () => {
     setIsTooltipOpen(false);
 
     if (isLike) {
-      if (displayCurrentImage?.carouselId == null) return;
-      postLike(displayCurrentImage.carouselId, {
+      if (displayCurrentImage?.rawProductId == null) return;
+      postLike(displayCurrentImage.rawProductId, {
         onSuccess: () => {
           goToNext();
         },
         onError: () => {
           notify({
+            //TODO: 서버 에러 토스트 구현
             text: '잠시 오류가 발생했어요. 다시 시도해주세요.',
             type: TOAST_TYPE.WARNING,
           });
@@ -319,18 +313,8 @@ const LoadingPage = () => {
     transitionTimeoutRef.current = window.setTimeout(() => {
       setFrontSlot((prev) => (prev === 'A' ? 'B' : 'A'));
 
-      // 현재 페이지에 다음 이미지가 있으면 인덱스 증가
-      if (!isLast) {
+      if (currentImages.length > 1) {
         setCurrentIndex((prev) => prev + 1);
-      }
-      // 마지막 이미지면 다음 페이지로 이동
-      else {
-        if (nextImages && nextImages.length > 0 && nextCursor !== undefined) {
-          setCurrentPage(nextCursor);
-          setCurrentIndex(0);
-        } else {
-          // console.log('마지막 페이지 도달');
-        }
       }
 
       setAnimating(false);
@@ -383,8 +367,8 @@ const LoadingPage = () => {
                           src={slotAImage.url}
                           alt={
                             frontSlot === 'A'
-                              ? `현재 가구 이미지 ${slotAImage.carouselId}`
-                              : `다음 가구 이미지 ${slotAImage.carouselId}`
+                              ? `현재 가구 이미지 ${slotAImage.rawProductId}`
+                              : `다음 가구 이미지 ${slotAImage.rawProductId}`
                           }
                           className={styles.imageStyle}
                         />
@@ -397,8 +381,8 @@ const LoadingPage = () => {
                           src={slotBImage.url}
                           alt={
                             frontSlot === 'B'
-                              ? `현재 가구 이미지 ${slotBImage.carouselId}`
-                              : `다음 가구 이미지 ${slotBImage.carouselId}`
+                              ? `현재 가구 이미지 ${slotBImage.rawProductId}`
+                              : `다음 가구 이미지 ${slotBImage.rawProductId}`
                           }
                           className={styles.imageStyle}
                         />
