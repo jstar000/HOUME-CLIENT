@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import { useQuery } from '@tanstack/react-query';
 
 import { HTTPMethod, request } from '@apis/config/request';
@@ -20,17 +18,8 @@ export const getStackData = async (
   return res;
 };
 
-export const useStackDataQuery = (
-  furnitureIds: number[],
-  options: {
-    enabled: boolean;
-    onSuccess?: (data: GetCarouselV2ListResponseDTO) => void;
-    onError?: (err: unknown) => void;
-  }
-) => {
-  const { enabled, onSuccess, onError } = options;
-
-  const query = useQuery<GetCarouselV2ListResponseDTO, unknown>({
+export const useStackDataQuery = (furnitureIds: number[], enabled: boolean) => {
+  return useQuery<GetCarouselV2ListResponseDTO, unknown>({
     queryKey: queryKeys.generate.stack(furnitureIds),
     queryFn: () => getStackData(furnitureIds),
     staleTime: 2 * 60 * 1000,
@@ -38,18 +27,4 @@ export const useStackDataQuery = (
     retry: 2,
     enabled,
   });
-
-  useEffect(() => {
-    if (query.isSuccess && query.data) {
-      onSuccess?.(query.data);
-    }
-  }, [onSuccess, query.isSuccess, query.data]);
-
-  useEffect(() => {
-    if (query.isError) {
-      onError?.(query.error);
-    }
-  }, [onError, query.isError, query.error]);
-
-  return query;
 };

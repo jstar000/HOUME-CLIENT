@@ -155,13 +155,8 @@ const LoadingPage = () => {
     data: currentStack,
     isPending,
     isError,
-  } = useStackDataQuery(furnitureIds, {
-    enabled: isRequestValid,
-    onSuccess: () => {
-      setCurrentIndex(0);
-    },
-    onError: (err) => handleError(err, 'loading'),
-  });
+    error,
+  } = useStackDataQuery(furnitureIds, isRequestValid);
 
   const currentImages = currentStack?.carousels ?? [];
 
@@ -209,6 +204,12 @@ const LoadingPage = () => {
         return;
     }
   }, [handleError, requestState]);
+
+  useEffect(() => {
+    if (isError && error) {
+      handleError(error, 'loading');
+    }
+  }, [error, handleError, isError]);
 
   useEffect(() => {
     return () => {
