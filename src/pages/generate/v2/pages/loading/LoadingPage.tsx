@@ -368,8 +368,8 @@ const LoadingPage = () => {
                           src={slotAImage.url}
                           alt={
                             frontSlot === 'A'
-                              ? `현재 가구 이미지 ${slotAImage.rawProductId}`
-                              : `다음 가구 이미지 ${slotAImage.rawProductId}`
+                              ? `현재 가구 이미지`
+                              : `다음 가구 이미지`
                           }
                           className={styles.imageStyle}
                         />
@@ -382,8 +382,8 @@ const LoadingPage = () => {
                           src={slotBImage.url}
                           alt={
                             frontSlot === 'B'
-                              ? `현재 가구 이미지 ${slotBImage.rawProductId}`
-                              : `다음 가구 이미지 ${slotBImage.rawProductId}`
+                              ? `현재 가구 이미지`
+                              : `다음 가구 이미지`
                           }
                           className={styles.imageStyle}
                         />
