@@ -62,7 +62,18 @@ const GenImgCard = ({
 
   return (
     <div className={styles.wrapper}>
-      <section className={styles.textContainer} onClick={onCurationClick}>
+      <section
+        className={styles.textContainer}
+        role="button"
+        tabIndex={0}
+        onClick={onCurationClick}
+        onKeyDown={(e) => {
+          if ((e.key === 'Enter' || e.key === ' ') && onCurationClick) {
+            e.preventDefault();
+            onCurationClick();
+          }
+        }}
+      >
         <span className={styles.headingText}>{productSummaryText}</span>
         <TextButton
           color="secondary"
