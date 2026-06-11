@@ -130,12 +130,6 @@ const LoadingPage = () => {
   // 이미지 생성 payload에 필요한 데이터가 정상적으로 구성되어 있으면 true
   const isRequestValid = requestState.kind !== 'invalid';
 
-  // 생성 요청이 시작되면 funnel store가 reset되므로, 캐러셀 조회용 가구 선택값은 첫 진입 시점 스냅샷으로 유지
-  const furnitureIdsRef = useRef<number[]>(
-    useFunnelStore.getState().activityInfo?.furnitureIds ?? []
-  );
-
-  const furnitureIds = furnitureIdsRef.current;
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // 캐러셀 애니메이션 상태 - 스택 UI
@@ -156,7 +150,7 @@ const LoadingPage = () => {
     isPending,
     isError,
     error,
-  } = useStackDataQuery(furnitureIds, isRequestValid);
+  } = useStackDataQuery(isRequestValid);
 
   const currentImages = currentStack?.carousels ?? [];
 

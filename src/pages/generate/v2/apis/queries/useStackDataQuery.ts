@@ -7,21 +7,18 @@ import { queryKeys } from '@constants/queryKey';
 
 import type { GetCarouselV2ListResponseDTO } from '@/shared/apis/__generated__/data-contracts';
 
-export const getStackData = async (
-  furnitureIds: number[]
-): Promise<GetCarouselV2ListResponseDTO> => {
+export const getStackData = async (): Promise<GetCarouselV2ListResponseDTO> => {
   const res = await request<GetCarouselV2ListResponseDTO>({
     method: HTTPMethod.GET,
     url: API_ENDPOINT.GENERATE.CAROUSELS_V2,
-    query: { furnitureIds },
   });
   return res;
 };
 
-export const useStackDataQuery = (furnitureIds: number[], enabled: boolean) => {
+export const useStackDataQuery = (enabled: boolean) => {
   return useQuery<GetCarouselV2ListResponseDTO, unknown>({
-    queryKey: queryKeys.generate.stack(furnitureIds),
-    queryFn: () => getStackData(furnitureIds),
+    queryKey: queryKeys.generate.stack(),
+    queryFn: () => getStackData(),
     staleTime: 2 * 60 * 1000,
     gcTime: 1000 * 60 * 60 * 24,
     retry: 2,
