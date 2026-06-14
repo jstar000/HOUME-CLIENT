@@ -70,19 +70,26 @@ const Popup = ({
     ) : (
       <div className={styles.buttonArea({ btnStyle: 'solid' })}>
         {sideIconName ? (
-          <IconButton name={sideIconName} size="M" onClick={onCancel} />
+          <IconButton
+            name={sideIconName}
+            size="M"
+            className={styles.sideIconButton}
+            onClick={onCancel}
+          />
         ) : null}
-        <ActionButton
-          variant="solid"
-          color="primary"
-          size="L"
-          leftIcon={btnIcon}
-          fullWidth={!hasWeak}
-          disabled={confirmDisabled}
-          onClick={onConfirm}
-        >
-          {btnText}
-        </ActionButton>
+        <div className={styles.primaryButtonWrap}>
+          <ActionButton
+            variant="solid"
+            color="primary"
+            size="L"
+            leftIcon={btnIcon}
+            fullWidth
+            disabled={confirmDisabled}
+            onClick={onConfirm}
+          >
+            {btnText}
+          </ActionButton>
+        </div>
       </div>
     );
 

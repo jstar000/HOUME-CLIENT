@@ -29,7 +29,7 @@ export const container = style({
   willChange: 'opacity',
   borderRadius: unitVars.unit.radius['700'],
   backgroundColor: colorVars.color.gray000,
-  width: '28.8rem',
+  width: '24rem',
   overflow: 'hidden',
   animation: `${fadeIn} 0.45s cubic-bezier(0.22, 1, 0.36, 1)`,
 });
@@ -95,15 +95,25 @@ export const buttonArea = recipe({
       },
       solid: {
         alignItems: 'center',
-        justifyContent: 'flex-end',
         gap: '0.8rem',
         padding: `${unitVars.unit.gapPadding['200']} ${unitVars.unit.gapPadding['400']} ${unitVars.unit.gapPadding['400']} ${unitVars.unit.gapPadding['400']}`,
+        width: '100%',
       },
     },
   },
   defaultVariants: {
     btnStyle: 'solid',
   },
+});
+
+export const sideIconButton = style({
+  flexShrink: 0,
+});
+
+export const primaryButtonWrap = style({
+  display: 'flex',
+  flex: '1 1 0',
+  minWidth: 0,
 });
 
 export const textButton = recipe({
