@@ -41,7 +41,7 @@ export const chipList = style({
   display: 'flex',
   flexDirection: 'row',
   flexWrap: 'nowrap',
-  gap: unitVars.unit.gapPadding['200'],
+  gap: unitVars.unit.gapPadding['100'],
   width: '100%',
   overflowX: 'auto',
   overflowY: 'hidden',
