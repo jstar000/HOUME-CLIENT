@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useEffect, type ReactNode } from 'react';
 
 import * as styles from './Popup.css.ts';
 import ActionButton from '../button/actionButton/ActionButton';
@@ -41,6 +41,15 @@ const Popup = ({
   confirmDisabled = false,
 }: PopupProps) => {
   const hasWeak = weakBtnText != null && weakBtnText !== '';
+
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, []);
 
   const footer =
     btnStyle === 'text' ? (
@@ -94,7 +103,8 @@ const Popup = ({
     );
 
   return (
-    <div className={styles.backdrop} onClick={onClose}>
+    <div className={styles.viewportLayer}>
+      <div className={styles.backdrop} onClick={onClose} />
       <div
         className={styles.container}
         role="dialog"

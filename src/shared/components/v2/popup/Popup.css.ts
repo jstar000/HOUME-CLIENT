@@ -12,16 +12,29 @@ const fadeIn = keyframes({
   to: { opacity: 1 },
 });
 
-export const backdrop = style({
+export const viewportLayer = style({
   position: 'fixed',
   zIndex: zIndex.popup,
+  top: 0,
+  bottom: 0,
+  left: '50%',
+  transform: 'translateX(-50%)',
+  width: '100%',
+  minWidth: unitVars.unit.dimension.wMin,
+  maxWidth: unitVars.unit.dimension.wMax,
+  overflow: 'hidden',
+  overscrollBehavior: 'none',
+});
+
+export const backdrop = style({
+  position: 'absolute',
   inset: 0,
   background: 'rgba(0, 0, 0, 0.2)',
   animation: `${fadeIn} 0.45s cubic-bezier(0.22, 1, 0.36, 1)`,
 });
 
 export const container = style({
-  position: 'fixed',
+  position: 'absolute',
   zIndex: zIndex.popup + 1,
   top: '50%',
   left: '50%',
