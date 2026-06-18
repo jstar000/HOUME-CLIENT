@@ -102,7 +102,7 @@ const ProductTab = () => {
 
   return (
     <div className={styles.container}>
-      <IntroSection />
+      {/* <IntroSection /> */}
       <SearchSection
         chipSelected={chipSelected}
         onFilterChipClick={handleFilterChipClick}
