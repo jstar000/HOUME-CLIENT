@@ -24,5 +24,5 @@ export const resolveLoginToasterId = (redirectPath: string): ToasterId => {
     return TOASTER_ID.TOP_4;
   }
 
-  return TOASTER_ID.BOTTOM_4;
+  return TOASTER_ID.BOTTOM_8;
 };
