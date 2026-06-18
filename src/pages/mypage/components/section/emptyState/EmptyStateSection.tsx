@@ -20,15 +20,15 @@ const EmptyStateSection = ({ type }: EmptyStateSectionProps) => {
   const navigate = useNavigate();
 
   const handleGoProductClick = () => {
+    navigate(ROUTES.HOME, { state: { activeTab: 'product' } });
+  };
+
+  const handleGoRoomTypeClick = () => {
     logMyPageClickBtnMakeImg();
     useImageFlowStore
       .getState()
       .setFlow({ entryRoute: ENTRY_ROUTE.GENERATE_BUTTON });
     navigate(ROUTES.IMAGE_SETUP);
-  };
-
-  const handleGoRoomTypeClick = () => {
-    navigate(ROUTES.GENERATE); // 임시 라우터
   };
 
   const content = {
