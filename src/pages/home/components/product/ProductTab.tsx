@@ -15,7 +15,6 @@ import CloseBottomSheet from '@shared/components/v2/bottomSheet/CloseBottomSheet
 import DragHandleBottomSheet from '@shared/components/v2/bottomSheet/DragHandleBottomSheet';
 import ActionButton from '@shared/components/v2/button/actionButton/ActionButton';
 
-import IntroSection from './IntroSection/IntroSection';
 import ProductDetailOverlay from './ProductPopup/ProductDetailOverlay';
 import * as styles from './ProductTab.css';
 import SearchSection from './SearchSection/SearchSection';
