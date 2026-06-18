@@ -8,6 +8,7 @@ import emptyImage from '@assets/v2/images/ImgEmpty.png';
 
 import TextButton from '@/shared/components/v2/btnText/TextButton';
 import ActionButton from '@/shared/components/v2/button/actionButton/ActionButton';
+import { ENTRY_ROUTE, useImageFlowStore } from '@/store/useImageFlowStore';
 
 import * as styles from './EmptyStateSection.css';
 
@@ -20,7 +21,10 @@ const EmptyStateSection = ({ type }: EmptyStateSectionProps) => {
 
   const handleGoProductClick = () => {
     logMyPageClickBtnMakeImg();
-    navigate(ROUTES.HOME, { state: { activeTab: 'product' } });
+    useImageFlowStore
+      .getState()
+      .setFlow({ entryRoute: ENTRY_ROUTE.GENERATE_BUTTON });
+    navigate(ROUTES.IMAGE_SETUP);
   };
 
   const handleGoRoomTypeClick = () => {
