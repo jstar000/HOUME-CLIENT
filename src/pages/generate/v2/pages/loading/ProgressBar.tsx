@@ -81,10 +81,6 @@ const ProgressLoadingBar = ({ onComplete }: ProgressLoadingBarProps) => {
         timeoutRef.current = null;
       }
     };
-
-    // onComplete은 deps에서 의도적으로 제외 — 본문이 onCompleteRef.current만 쓰므로 불필요한 의존성.
-    // deps에 넣으면 매 렌더(handleProgressComplete가 새 참조)마다 이 effect가 재실행되어, 100% 직후
-    // 예약된 navigate 타임아웃이 cleanup의 clearTimeout으로 취소되고 doneRef 가드로 재예약되지 않아 전환이 누락됨.
   }, [isDone]);
 
   // API 완료 시 isDone = true
