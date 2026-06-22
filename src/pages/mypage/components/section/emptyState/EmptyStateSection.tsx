@@ -1,7 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 
-import { logMyPageClickBtnMakeImg } from '@pages/mypage/utils/analytics';
-
 import { ROUTES } from '@routes/paths';
 
 import emptyImage from '@assets/v2/images/ImgEmpty.png';
@@ -19,7 +17,6 @@ const EmptyStateSection = ({ type }: EmptyStateSectionProps) => {
   const navigate = useNavigate();
 
   const handleGoProductClick = () => {
-    logMyPageClickBtnMakeImg();
     navigate(ROUTES.HOME, { state: { activeTab: 'product' } });
   };
 

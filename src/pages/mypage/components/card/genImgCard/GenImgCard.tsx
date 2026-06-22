@@ -2,8 +2,6 @@ import { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { logMyPageClickBtnFurnitureCard } from '@pages/mypage/utils/analytics';
-
 import { ROUTES } from '@routes/paths';
 
 import type { UsedProductResponse } from '@apis/__generated__/data-contracts';
@@ -123,7 +121,6 @@ const GenImgCard = ({
                 }}
                 link={{
                   href: item.productSiteUrl ?? '',
-                  onClick: logMyPageClickBtnFurnitureCard,
                 }}
                 enableWholeCardLink={true}
               />

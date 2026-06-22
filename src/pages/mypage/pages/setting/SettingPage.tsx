@@ -5,12 +5,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { useDeleteUserMutation } from '@pages/login/apis/mutations/useDeleteUserMutation';
 import { useLogoutMutation } from '@pages/login/apis/mutations/useLogoutMutation';
-import {
-  logMyPageClickBtnLogout,
-  logMyPageClickBtnSuccession,
-  logMyPageClickSuccessionModalCancel,
-  logMyPageClickSuccessionModalOut,
-} from '@pages/mypage/utils/analytics';
 
 import { ROUTES } from '@routes/paths';
 
@@ -43,7 +37,6 @@ const SettingPage = () => {
   };
 
   const handleLogout = () => {
-    logMyPageClickBtnLogout();
     // 1) 토스트 표시 (2.5초 유지)
     notify({
       text: '로그아웃 되었습니다',
@@ -68,7 +61,6 @@ const SettingPage = () => {
   };
 
   const handleWithdraw = () => {
-    logMyPageClickBtnSuccession();
     overlay.open(({ unmount }) => (
       <Popup
         btnStyle="text"
@@ -76,11 +68,9 @@ const SettingPage = () => {
         btnText="취소하기"
         weakBtnText="탈퇴하기"
         onConfirm={() => {
-          logMyPageClickSuccessionModalCancel();
           unmount();
         }}
         onCancel={() => {
-          logMyPageClickSuccessionModalOut();
           // 모달 닫고 탈퇴 진행
           unmount();
           deleteUser();

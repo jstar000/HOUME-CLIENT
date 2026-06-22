@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { useGetJjymListQuery } from '@pages/mypage/apis/queries/useGetJjymListQuery';
-import { logMyPageClickBtnFurnitureCard } from '@pages/mypage/utils/analytics';
 
 import { useSavedItemsStore } from '@store/useSavedItemsStore';
 
@@ -109,7 +108,6 @@ const SavedItemsSection = () => {
                 }}
                 link={{
                   href: item.productSiteUrl,
-                  onClick: logMyPageClickBtnFurnitureCard,
                   label: '사이트',
                 }}
                 enableWholeCardLink={true}

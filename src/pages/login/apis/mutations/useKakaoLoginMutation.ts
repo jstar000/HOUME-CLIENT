@@ -1,8 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
-import { logLoginSocialViewToastLoginError } from '@pages/login/utils/analytics';
-
 import { ROUTES } from '@routes/paths';
 
 import { useUserStore } from '@store/useUserStore';
@@ -112,7 +110,6 @@ export const useKakaoLoginMutation = () => {
     // 카카오 로그인 실패
     onError: (error) => {
       console.error('[useKakaoLoginMutation] login error:', error);
-      logLoginSocialViewToastLoginError();
 
       // 카카오 로그인 실패 시 시작점 복귀 + 토스트
       // onSuccess와 동일하게 replace: true -> callback 페이지가 history에 남아 뒤로가기 시 callback 재진입했을 떄 mutation 재실행되는 문제 차단

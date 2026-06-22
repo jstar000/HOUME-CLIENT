@@ -20,10 +20,6 @@ import useUserForm from '@hooks/useUserForm';
 
 import { usePostSignupMutation } from './apis/mutations/usePostSignupMutation';
 import * as styles from './SignupPage.css';
-import {
-  logSignupFormClickBtnCTA,
-  logSignupFormViewError,
-} from './utils/analytics';
 
 interface SignupLocationState {
   signupToken?: string | null;
@@ -133,7 +129,6 @@ const SignupPage = () => {
     monthFieldError,
     dayFieldError,
     isFormValid,
-    hasError,
   } = useUserForm();
 
   const { mutate: signUp } = usePostSignupMutation();
@@ -166,19 +161,6 @@ const SignupPage = () => {
       }
     }
   }, [randomNickname, nickname, handleNicknameChange]);
-
-  const errorSentRef = useRef(false);
-
-  // 에러가 표시될 때 이벤트 전송 (최초 1회)
-  useEffect(() => {
-    if (hasError && !errorSentRef.current) {
-      logSignupFormViewError();
-      errorSentRef.current = true;
-    } else if (!hasError) {
-      // 에러가 사라지면 ref 초기화 (다시 에러가 발생하면 이벤트 전송)
-      errorSentRef.current = false;
-    }
-  }, [hasError]);
 
   // 닉네임 Enter시
   const handleNicknameEnter = () => {
@@ -223,9 +205,6 @@ const SignupPage = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    // CTA 버튼 클릭 시 GA 이벤트 전송
-    logSignupFormClickBtnCTA();
 
     if (!isFormValid || !gender || !signupToken) return;
 

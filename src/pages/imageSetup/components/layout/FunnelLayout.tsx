@@ -11,11 +11,6 @@ import TitleNavBar from '@/shared/components/v2/navBar/TitleNavBar';
 
 import * as styles from './FunnelLayout.css';
 import { FUNNEL_STEP_PARAM } from '../../constants/funnel';
-import {
-  logSelectHouseInfoClickModalContinue,
-  logSelectHouseInfoClickModalExit,
-  logSelectHouseInfoViewModal,
-} from '../../utils/analytics';
 import { useFloorPlanStore } from '../../v2/stores/useFloorPlanStore';
 
 type FunnelStepKey = 'FloorPlanSelect' | 'InteriorStyle' | 'ActivityInfo';
@@ -68,8 +63,6 @@ const FunnelLayout = ({ children, currentStep }: FunnelLayoutProps) => {
       return true;
     },
     onBlocked: ({ proceed, reset }) => {
-      logSelectHouseInfoViewModal();
-
       // vaul Drawer의 modal=true가 이탈방지 Popup의 pointer-events를 차단하므로,
       // popup이 떠 있는 동안에는 시트들을 일시 close하고, 계속 입력 시 원상 복구
       // 선택/필터 상태는 useFloorPlanStore가 보존하므로 시트만 다시 열면 사용자 작업이 그대로 이어짐
@@ -86,7 +79,6 @@ const FunnelLayout = ({ children, currentStep }: FunnelLayoutProps) => {
       overlay.open(({ unmount }) => {
         // '계속하기' / backdrop 클릭 -> blocker의 'blocked' 상태 해제, 현재 step에 머무름
         const stay = () => {
-          logSelectHouseInfoClickModalContinue();
           useFloorPlanStore.getState().restoreSheets(sheetsSnapshot);
           reset();
           unmount();
@@ -95,7 +87,6 @@ const FunnelLayout = ({ children, currentStep }: FunnelLayoutProps) => {
         // '나가기' -> 막혔던 navigation(뒤로가기 등)을 그대로 진행
         // 페이지 자체를 떠나므로 시트 복원 불필요 (cleanup에서 store reset됨)
         const exit = () => {
-          logSelectHouseInfoClickModalExit();
           unmount();
           proceed();
         };

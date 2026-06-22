@@ -1,7 +1,6 @@
 // Step 3
 import { useMoodBoardQuery } from '@pages/imageSetup/apis/queries/useMoodBoardQuery';
 import { useInteriorStyle } from '@pages/imageSetup/hooks/useInteriorStyle';
-import { logSelectMoodboardClickBtnCTA } from '@pages/imageSetup/utils/analytics';
 
 import InlineError from '@components/inlineError/InlineError';
 import Loading from '@components/loading/Loading';
@@ -35,9 +34,8 @@ const InteriorStyle = ({ context, onNext }: InteriorStyleProps) => {
 
   // CTA 버튼 클릭 핸들러 (현재 native disabled로 비활성 시 클릭 자체가 차단됨)
   // TODO: ActionButton에 visuallyDisabled prop이 추가되면(별도 PR)
-  // logSelectMoodboardClickBtnCTAInactive 로깅을 다시 복원할 것
+  // selectMoodboard_btnCTAInactive_click 로깅을 다시 복원할 것
   const handleCtaButtonClick = () => {
-    logSelectMoodboardClickBtnCTA();
     handleNext();
   };
 

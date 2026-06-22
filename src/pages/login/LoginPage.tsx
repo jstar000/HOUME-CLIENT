@@ -9,7 +9,6 @@ import { API_ENDPOINT } from '@constants/apiEndpoints';
 import Icon from '@/shared/components/v2/icon/Icon';
 
 import * as styles from './loginPage.css';
-import { logLoginSocialClickBtnCTA } from './utils/analytics';
 import { getAuthEnvironment } from './utils/environment';
 
 const LoginPage = () => {
@@ -29,9 +28,6 @@ const LoginPage = () => {
    * 7. 파싱한 code를 백엔드 `/oauth/kakao/callback` API로 전달하여 로그인 처리
    */
   const handleKakaoLogin = () => {
-    // CTA 버튼 클릭 시 GA 이벤트 전송
-    logLoginSocialClickBtnCTA();
-
     // 현재 환경 감지: hostname 기반으로 local/preview/dev 결정
     const hostname = window.location.hostname;
     const env = getAuthEnvironment(hostname);
@@ -42,10 +38,7 @@ const LoginPage = () => {
     // 카카오 인증을 처리한 후 프론트엔드 `/oauth/kakao/callback?code=인가코드`로 리다이렉트합니다.
     const backendAuthUrl = `${import.meta.env.VITE_API_BASE_URL}${API_ENDPOINT.AUTH.KAKAO_AUTH}?env=${env}&prompt=login`;
 
-    // Firebase Analytics 이벤트 전송을 위한 지연 후 리다이렉트
-    setTimeout(() => {
-      window.location.href = backendAuthUrl;
-    }, 200);
+    window.location.href = backendAuthUrl;
   };
 
   return (

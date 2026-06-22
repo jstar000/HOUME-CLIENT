@@ -2,11 +2,6 @@ import { useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import {
-  logSelectFurnitureClickBtnCTA,
-  logSelectFurnitureClickBtnCTACreditError,
-} from '@pages/imageSetup/utils/analytics';
-
 import { ROUTES } from '@routes/paths';
 
 import { useCreditGuard } from '@hooks/useCreditGuard';
@@ -189,13 +184,9 @@ export const useActivityInfo = (context: ImageSetupSteps['ActivityInfo']) => {
     // 중복 클릭 방지
     if (isChecking || isButtonDisabled) return;
 
-    // CTA 버튼 클릭 시 GA 이벤트 전송
-    logSelectFurnitureClickBtnCTA();
-
     // 이미지 생성 전 크레딧 확인
     const hasCredit = await checkCredit();
     if (!hasCredit) {
-      logSelectFurnitureClickBtnCTACreditError();
       setIsButtonDisabled(true);
       return;
     }

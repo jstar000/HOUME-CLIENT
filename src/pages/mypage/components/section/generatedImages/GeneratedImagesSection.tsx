@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { useGetGeneratedImageListQuery } from '@pages/mypage/apis/queries/useMyPageImagesQuery';
 import { useDetectionPrefetch } from '@pages/mypage/hooks/useDetectionPrefetch';
-import { logMyPageClickBtnImgCard } from '@pages/mypage/utils/analytics';
 import { formatDate } from '@pages/mypage/utils/formatting';
 
 import { ROUTES } from '@routes/paths';
@@ -115,7 +114,6 @@ const GeneratedImagesSection = () => {
     if (item.imageId == null || !item.generatedImageUrl || !item.viewType) {
       return;
     }
-    logMyPageClickBtnImgCard();
     navigate(
       `${ROUTES.GENERATE_RESULT}?houseId=${item.imageId}&viewType=${item.viewType}`,
       {
