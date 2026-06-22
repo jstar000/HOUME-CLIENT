@@ -79,7 +79,12 @@ const OptimizedImage = ({
   // skeleton일 때만 delay 후 단색 → shimmer로 전환.
   // 그 안에 로드되면 isLoaded=true가 되어 shimmer 없이 단색만 보이고 끝난다.
   useEffect(() => {
-    if (placeholder !== 'skeleton' || placeholderDelay <= 0) return;
+    if (placeholder !== 'skeleton') return;
+    // delay가 0 이하면 단색 단계 없이 즉시 shimmer (delay가 양수→0으로 바뀌어도 보장)
+    if (placeholderDelay <= 0) {
+      setDelayPassed(true);
+      return;
+    }
     setDelayPassed(false);
     const timer = window.setTimeout(
       () => setDelayPassed(true),
