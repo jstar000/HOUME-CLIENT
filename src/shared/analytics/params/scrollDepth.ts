@@ -1,7 +1,9 @@
 /** 노션 scroll 이벤트 공통 `scroll_depth` 값 */
-export const SCROLL_DEPTH_THRESHOLDS = [0, 25, 50, 75, 100] as const;
+export type ScrollDepth = 0 | 25 | 50 | 75 | 100;
 
-export type ScrollDepth = (typeof SCROLL_DEPTH_THRESHOLDS)[number];
+export const SCROLL_DEPTH_THRESHOLDS: readonly ScrollDepth[] = [
+  0, 25, 50, 75, 100,
+];
 
 export const scrollDepthParams = (depth: ScrollDepth) => ({
   scroll_depth: depth,
@@ -11,13 +13,12 @@ const isScrollDepth = (value: number): value is ScrollDepth =>
   SCROLL_DEPTH_THRESHOLDS.includes(value as ScrollDepth);
 
 /** 스크롤 진행률(0~100)에 도달한 depth 목록 (오름차순) */
-export const getScrollDepthsUpTo = (percent: number): ScrollDepth[] =>
-  SCROLL_DEPTH_THRESHOLDS.filter((depth) => percent >= depth);
+export function getScrollDepthsUpTo(percent: number): ScrollDepth[] {
+  return SCROLL_DEPTH_THRESHOLDS.filter((depth) => percent >= depth);
+}
 
 /** 스크롤 컨테이너 기준 현재 depth (가장 높은 임계값) */
-export const getScrollDepthFromElement = (
-  element: HTMLElement
-): ScrollDepth => {
+export function getScrollDepthFromElement(element: HTMLElement): ScrollDepth {
   const maxScroll = element.scrollHeight - element.clientHeight;
 
   if (maxScroll <= 0) {
@@ -28,10 +29,10 @@ export const getScrollDepthFromElement = (
   const depths = getScrollDepthsUpTo(percent);
 
   return depths[depths.length - 1] ?? 0;
-};
+}
 
 /** window 스크롤 기준 현재 depth */
-export const getScrollDepthFromWindow = (): ScrollDepth => {
+export function getScrollDepthFromWindow(): ScrollDepth {
   const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
 
   if (maxScroll <= 0) {
@@ -42,7 +43,7 @@ export const getScrollDepthFromWindow = (): ScrollDepth => {
   const depths = getScrollDepthsUpTo(percent);
 
   return depths[depths.length - 1] ?? 0;
-};
+}
 
 /**
  * depth별 1회만 콜백 실행 (중복 scroll 이벤트 방지)
