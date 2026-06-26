@@ -158,6 +158,7 @@ export const skeletonBrand = style([
   {
     display: 'block',
     width: '30%',
+    minHeight: '1.56rem',
     color: 'transparent',
   },
 ]);
@@ -168,6 +169,7 @@ export const skeletonOriginalPrice = style([
   {
     display: 'block',
     width: '28%',
+    minHeight: '1.43rem',
     color: 'transparent',
   },
 ]);
@@ -178,6 +180,7 @@ export const skeletonDiscountPrice = style([
   {
     display: 'block',
     width: '40%',
+    minHeight: '2.25rem',
     color: 'transparent',
   },
 ]);
