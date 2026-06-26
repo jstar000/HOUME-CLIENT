@@ -28,7 +28,7 @@ export const searchHeader = style({
 export const stickyHeader = style({
   position: 'fixed',
   zIndex: zIndex.navigation,
-  top: 0,
+  top: 'env(safe-area-inset-top, 0px)',
   margin: '0 auto',
   background: colorVars.color.bg.primary,
   width: '100%',

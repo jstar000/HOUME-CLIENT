@@ -25,12 +25,12 @@ export const container = recipe({
       /** 일반 페이지: 문서 흐름 + 상단 고정 */
       sticky: {
         position: 'sticky',
-        top: 0,
+        top: 'env(safe-area-inset-top, 0px)',
       },
       /** 풀블리드 콘텐츠 위 오버레이(부모는 `position: relative` 권장) */
       overContent: {
         position: 'absolute',
-        top: 0,
+        top: 'env(safe-area-inset-top, 0px)',
         right: 0,
         left: 0,
         marginRight: 'auto',
