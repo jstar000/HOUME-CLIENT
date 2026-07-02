@@ -1,7 +1,9 @@
 import { style } from '@vanilla-extract/css';
+import { recipe } from '@vanilla-extract/recipes';
 
 import { colorVars } from '@/shared/styles/tokensV2/color.css';
 import { fontVars } from '@/shared/styles/tokensV2/font.css';
+import { transition } from '@/shared/styles/tokensV2/interaction/interaction.utils';
 import { unitVars } from '@/shared/styles/tokensV2/unit.css';
 
 export const section = style({
@@ -11,7 +13,6 @@ export const section = style({
 export const box = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: unitVars.unit.gapPadding['400'],
   border: `1px solid ${colorVars.color.border.secondary}`,
   borderRadius: unitVars.unit.radius['600'],
   backgroundColor: colorVars.color.fill.inverse,
@@ -44,10 +45,35 @@ export const buttonGroup = style({
   display: 'flex',
 });
 
-export const tagGroup = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: unitVars.unit.gapPadding['100'],
+export const tagGroup = recipe({
+  base: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: unitVars.unit.gapPadding['100'],
+    transition: [
+      transition('opacity', 'fast', 'bezier.out'),
+      transition('padding-top', 'fast', 'bezier.out'),
+    ].join(', '),
+    overflow: 'hidden',
+  },
+  variants: {
+    opened: {
+      false: {
+        opacity: 0,
+        pointerEvents: 'none',
+        paddingTop: 0,
+        height: 0,
+      },
+      true: {
+        opacity: 1,
+        paddingTop: unitVars.unit.gapPadding['400'],
+        height: 'auto',
+      },
+    },
+  },
+  defaultVariants: {
+    opened: false,
+  },
 });
 
 export const tagRow = style({
