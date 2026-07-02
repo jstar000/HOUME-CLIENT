@@ -51,8 +51,8 @@ export const useToast = () => {
             />
           ),
           {
+            duration: Infinity,
             ...options,
-
             style: {
               ...toastStyle,
               ...options?.style,

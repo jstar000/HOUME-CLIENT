@@ -13,7 +13,7 @@ export const toastShowSpec = {
   property: 'opacity',
 } as const satisfies InteractionSpec;
 
-/** afterDelay 2s + drag down → motion.fadeOut + motion.slideOut */
+/** motion.fadeOut + motion.slideOut — dismiss 트리거는 toast.ts defaults 참고 */
 export const toastHideSpec = {
   trigger: 'afterDelay',
   action: 'motion.fadeOut',
@@ -22,5 +22,5 @@ export const toastHideSpec = {
   property: 'opacity',
 } as const satisfies InteractionSpec;
 
-export const TOAST_MOTION_MS = interactionDurationMs(toastShowSpec);
-export const TOAST_MOTION_EASING = interactionEasing(toastShowSpec);
+export const TOAST_SHOW_MS = interactionDurationMs(toastShowSpec);
+export const TOAST_SHOW_EASING = interactionEasing(toastShowSpec);

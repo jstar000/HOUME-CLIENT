@@ -3,25 +3,22 @@ import { globalStyle } from '@vanilla-extract/css';
 import { interaction } from '@styles/tokensV2/interaction/interaction.utils';
 
 import {
-  TOAST_MOTION_EASING,
-  TOAST_MOTION_MS,
+  TOAST_SHOW_EASING,
+  TOAST_SHOW_MS,
   toastHideSpec,
   toastShowSpec,
 } from './constants';
 
-const toastShowTransition = [
-  interaction({ ...toastShowSpec, property: 'opacity' }),
-  interaction({ ...toastShowSpec, property: 'transform' }),
-  interaction({ ...toastShowSpec, property: 'height' }),
-].join(', ');
+const buildTransition = (spec: typeof toastShowSpec | typeof toastHideSpec) =>
+  [
+    interaction({ ...spec, property: 'opacity' }),
+    interaction({ ...spec, property: 'transform' }),
+    interaction({ ...spec, property: 'height' }),
+  ].join(', ');
 
-const toastHideTransition = [
-  interaction({ ...toastHideSpec, property: 'opacity' }),
-  interaction({ ...toastHideSpec, property: 'transform' }),
-  interaction({ ...toastHideSpec, property: 'height' }),
-].join(', ');
+const toastShowTransition = buildTransition(toastShowSpec);
+const toastHideTransition = buildTransition(toastHideSpec);
 
-/** Sonner 기본 400ms ease → Figma motion.fadeIn/slideIn (duration.slower + bezier.out) */
 globalStyle('[data-sonner-toast]', {
   transition: toastShowTransition,
 });
@@ -38,11 +35,11 @@ globalStyle(
   }
 );
 
-/** drag down swipe-out → motion.slideOut + fadeOut */
+/** drag down swipe-out */
 globalStyle(
   '[data-sonner-toast][data-swipe-out="true"][data-y-position="bottom"], [data-sonner-toast][data-swipe-out="true"][data-y-position="top"]',
   {
-    animationDuration: `${TOAST_MOTION_MS}ms`,
-    animationTimingFunction: TOAST_MOTION_EASING,
+    animationDuration: `${TOAST_SHOW_MS}ms`,
+    animationTimingFunction: TOAST_SHOW_EASING,
   }
 );
