@@ -1,6 +1,8 @@
 import { styleVariants } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
+import { transition } from '@styles/tokensV2/interaction/interaction.utils';
+
 import { unitVars } from '@/shared/styles/tokensV2/unit.css';
 
 export const iconSize = styleVariants({
@@ -15,6 +17,8 @@ export const iconSize = styleVariants({
 
 export const iconButton = recipe({
   base: {
+    transformOrigin: 'center center',
+    transition: transition('transform', 'fastest', 'bezier.out'),
     padding: unitVars.unit.gapPadding[100],
 
     selectors: {
