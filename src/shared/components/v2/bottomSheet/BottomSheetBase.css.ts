@@ -3,9 +3,15 @@ import { recipe } from '@vanilla-extract/recipes';
 
 import { zIndex } from '@styles/tokens/zIndex';
 import { colorVars } from '@styles/tokensV2/color.css';
+import { interaction } from '@styles/tokensV2/interaction/interaction.utils';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
-import { SHEET_TRANSITION_EASING, SHEET_TRANSITION_MS } from './constants';
+import { sheetSlideInSpec } from './constants';
+
+const sheetSlideTransition = [
+  interaction({ ...sheetSlideInSpec, property: 'transform' }),
+  interaction({ ...sheetSlideInSpec, property: 'height' }),
+].join(', ');
 
 // dim과 바텀시트를 동일한 모바일 프레임 폭으로 맞추기 위한 공통 폭 제한
 const mobileFrame = style({
@@ -68,7 +74,7 @@ export const panel = recipe({
   base: {
     display: 'flex',
     flexDirection: 'column',
-    transition: `transform ${SHEET_TRANSITION_MS}ms ${SHEET_TRANSITION_EASING}, height ${SHEET_TRANSITION_MS}ms ${SHEET_TRANSITION_EASING}`,
+    transition: sheetSlideTransition,
     willChange: 'transform, height',
     borderTopLeftRadius: unitVars.unit.radius['700'],
     borderTopRightRadius: unitVars.unit.radius['700'],

@@ -11,8 +11,10 @@ import { createPortal } from 'react-dom';
 
 import IconButton from '@components/v2/button/IconButton';
 
+import { interaction } from '@styles/tokensV2/interaction/interaction.utils';
+
 import * as styles from './BottomSheetBase.css';
-import { SHEET_TRANSITION_MS } from './constants';
+import { SHEET_TRANSITION_MS, sheetSlideOutSpec } from './constants';
 
 type BasePhase = 'closed' | 'opening' | 'open' | 'closing';
 
@@ -232,7 +234,7 @@ const BottomSheetBase = ({
           pointerEvents: backgroundInteractable ? 'none' : 'auto',
           transition:
             basePhase === 'closing'
-              ? `opacity ${SHEET_TRANSITION_MS}ms ease-out`
+              ? interaction({ ...sheetSlideOutSpec, property: 'opacity' })
               : undefined,
         }}
         onClick={onOverlayClick}

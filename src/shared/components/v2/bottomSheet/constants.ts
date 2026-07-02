@@ -1,8 +1,35 @@
+import {
+  interactionDurationMs,
+  interactionEasing,
+  type InteractionSpec,
+} from '@styles/tokensV2/interaction/interaction.utils';
+
 export const TOP_OFFSET_REM = '10.4rem';
 
-export const SHEET_TRANSITION_MS = 350;
+export const sheetSlideInSpec = {
+  trigger: 'tap',
+  action: 'motion.slideIn',
+  duration: 'base',
+  easing: 'bezier.back',
+  property: 'transform',
+} as const satisfies InteractionSpec;
 
-export const SHEET_TRANSITION_EASING = 'cubic-bezier(.32, .72, 0, 1)';
+export const sheetSlideOutSpec = {
+  trigger: 'tap',
+  action: 'motion.slideOut',
+  duration: 'base',
+  easing: 'bezier.back',
+  property: 'transform',
+} as const satisfies InteractionSpec;
+
+export const SHEET_SLIDE_IN_MS = interactionDurationMs(sheetSlideInSpec);
+export const SHEET_SLIDE_IN_EASING = interactionEasing(sheetSlideInSpec);
+
+export const SHEET_SLIDE_OUT_MS = interactionDurationMs(sheetSlideOutSpec);
+export const SHEET_SLIDE_OUT_EASING = interactionEasing(sheetSlideOutSpec);
+
+/** transitionend / setTimeout fallback용 (slideOut과 동일) */
+export const SHEET_TRANSITION_MS = SHEET_SLIDE_OUT_MS;
 
 export const DRAG_THRESHOLD_PX = 5;
 
