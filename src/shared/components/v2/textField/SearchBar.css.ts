@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
-import { transition } from '@styles/tokensV2/interaction/interaction.utils';
+import { interaction } from '@styles/tokensV2/interaction/interaction.utils';
 
 import { colorVars } from '@/shared/styles/tokensV2/color.css';
 import { fontVars } from '@/shared/styles/tokensV2/font.css';
@@ -13,7 +13,13 @@ export const wrapper = recipe({
     alignItems: 'center',
     gap: unitVars.unit.gapPadding['200'],
     transformOrigin: 'center center',
-    transition: transition('transform', 'fastest', 'bezier.out'),
+    transition: interaction({
+      trigger: 'whilePressing',
+      action: 'stateChange',
+      duration: 'fastest',
+      easing: 'bezier.out',
+      property: 'transform',
+    }),
     borderRadius: unitVars.unit.radius.full,
     backgroundColor: colorVars.color.fill.weak,
     padding: unitVars.unit.gapPadding['200'],

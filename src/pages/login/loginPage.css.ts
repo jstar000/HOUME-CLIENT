@@ -3,7 +3,7 @@ import { style } from '@vanilla-extract/css';
 import { animationTokens } from '@styles/tokens/animation.css';
 import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
-import { transition } from '@styles/tokensV2/interaction/interaction.utils';
+import { interaction } from '@styles/tokensV2/interaction/interaction.utils';
 
 import { unitVars } from '@/shared/styles/tokensV2/unit.css';
 
@@ -88,7 +88,13 @@ export const btn = style({
   justifyContent: 'center',
   gap: unitVars.unit.gapPadding['200'],
   transformOrigin: 'center center',
-  transition: transition('transform', 'fastest', 'bezier.out'),
+  transition: interaction({
+    trigger: 'whilePressing',
+    action: 'stateChange',
+    duration: 'fastest',
+    easing: 'bezier.out',
+    property: 'transform',
+  }),
   border: 'none',
   borderRadius: unitVars.unit.radius.full,
   backgroundColor: '#FEE500',

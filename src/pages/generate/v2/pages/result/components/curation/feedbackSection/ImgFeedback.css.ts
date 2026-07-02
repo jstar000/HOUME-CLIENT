@@ -3,7 +3,10 @@ import { recipe } from '@vanilla-extract/recipes';
 
 import { colorVars } from '@/shared/styles/tokensV2/color.css';
 import { fontVars } from '@/shared/styles/tokensV2/font.css';
-import { transition } from '@/shared/styles/tokensV2/interaction/interaction.utils';
+import {
+  interaction,
+  type InteractionSpec,
+} from '@/shared/styles/tokensV2/interaction/interaction.utils';
 import { unitVars } from '@/shared/styles/tokensV2/unit.css';
 
 export const section = style({
@@ -45,14 +48,22 @@ export const buttonGroup = style({
   display: 'flex',
 });
 
+const tagGroupOpenSpec = {
+  trigger: 'tap',
+  action: 'stateChange',
+  duration: 'fast',
+  easing: 'bezier.out',
+  property: 'opacity',
+} as const satisfies InteractionSpec;
+
 export const tagGroup = recipe({
   base: {
     display: 'flex',
     flexDirection: 'column',
     gap: unitVars.unit.gapPadding['100'],
     transition: [
-      transition('opacity', 'fast', 'bezier.out'),
-      transition('padding-top', 'fast', 'bezier.out'),
+      interaction({ ...tagGroupOpenSpec, property: 'opacity' }),
+      interaction({ ...tagGroupOpenSpec, property: 'padding-top' }),
     ].join(', '),
     overflow: 'hidden',
   },

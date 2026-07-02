@@ -2,7 +2,7 @@ import { style } from '@vanilla-extract/css';
 
 import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
-import { transition } from '@styles/tokensV2/interaction/interaction.utils';
+import { interaction } from '@styles/tokensV2/interaction/interaction.utils';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
 export const fieldWrapper = style({
@@ -17,7 +17,13 @@ export const fieldBox = style({
   display: 'flex',
   alignItems: 'center',
   transformOrigin: 'center center',
-  transition: transition('transform', 'fastest', 'bezier.out'),
+  transition: interaction({
+    trigger: 'whilePressing',
+    action: 'stateChange',
+    duration: 'fastest',
+    easing: 'bezier.out',
+    property: 'transform',
+  }),
   border: `1px solid ${colorVars.color.border.primary}`,
   borderRadius: unitVars.unit.radius['300'],
   backgroundColor: colorVars.color.fill.inverse,
