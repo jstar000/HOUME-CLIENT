@@ -3,6 +3,7 @@ import { recipe } from '@vanilla-extract/recipes';
 
 import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
+import { transition } from '@styles/tokensV2/interaction/interaction.utils';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
 // 카드 컨테이너
@@ -13,7 +14,7 @@ export const card = recipe({
   base: {
     aspectRatio: '164 / 240',
     position: 'relative',
-    transition: 'transform 120ms ease',
+    transition: transition('transform', 'fastest', 'bezier.out'),
     border: `1px solid ${colorVars.color.border.secondary}`,
     borderRadius: unitVars.unit.radius['600'],
     backgroundColor: 'transparent',
