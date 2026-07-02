@@ -1,5 +1,8 @@
 import { useEffect, type ReactNode } from 'react';
 
+import { useMountMotionPhase } from '@shared/hooks/useMountMotionPhase';
+
+import { POPUP_FADE_OUT_MS } from './constants';
 import * as styles from './Popup.css.ts';
 import ActionButton from '../button/actionButton/ActionButton';
 import IconButton from '../button/IconButton';
@@ -42,6 +45,11 @@ const Popup = ({
 }: PopupProps) => {
   const hasWeak = weakBtnText != null && weakBtnText !== '';
 
+  const { phase, containerRef, requestClose, handleTransitionEnd } =
+    useMountMotionPhase({
+      exitDurationMs: POPUP_FADE_OUT_MS,
+    });
+
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -58,7 +66,7 @@ const Popup = ({
           <button
             type="button"
             className={styles.textButton({ role: 'weak', layout: 'paired' })}
-            onClick={onCancel}
+            onClick={() => requestClose(onCancel)}
           >
             {weakBtnText}
           </button>
@@ -71,7 +79,7 @@ const Popup = ({
           })}
           disabled={confirmDisabled}
           aria-disabled={confirmDisabled || undefined}
-          onClick={onConfirm}
+          onClick={() => requestClose(onConfirm)}
         >
           {btnText}
         </button>
@@ -83,7 +91,7 @@ const Popup = ({
             name={sideIconName}
             size="M"
             className={styles.sideIconButton}
-            onClick={onCancel}
+            onClick={() => requestClose(onCancel)}
           />
         ) : null}
         <div className={styles.primaryButtonWrap}>
@@ -94,7 +102,7 @@ const Popup = ({
             leftIcon={btnIcon}
             fullWidth
             disabled={confirmDisabled}
-            onClick={onConfirm}
+            onClick={() => requestClose(onConfirm)}
           >
             {btnText}
           </ActionButton>
@@ -104,13 +112,19 @@ const Popup = ({
 
   return (
     <div className={styles.viewportLayer}>
-      <div className={styles.backdrop} onClick={onClose} />
       <div
-        className={styles.container}
+        className={styles.backdrop({ phase })}
+        onClick={() => requestClose(onClose)}
+        aria-hidden="true"
+      />
+      <div
+        ref={containerRef}
+        className={styles.container({ phase })}
         role="dialog"
         aria-modal="true"
         aria-label={ariaLabel ?? '안내 팝업'}
         onClick={(e) => e.stopPropagation()}
+        onTransitionEnd={handleTransitionEnd}
       >
         {showCloseButton ? (
           <div className={styles.closeButton}>
@@ -118,7 +132,7 @@ const Popup = ({
               name="CloseFillGray"
               size="M"
               aria-label="닫기"
-              onClick={onClose}
+              onClick={() => requestClose(onClose)}
             />
           </div>
         ) : null}
