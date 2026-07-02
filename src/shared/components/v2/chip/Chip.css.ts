@@ -3,7 +3,16 @@ import { recipe } from '@vanilla-extract/recipes';
 
 import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
+import { interaction } from '@styles/tokensV2/interaction/interaction.utils';
 import { unitVars } from '@styles/tokensV2/unit.css';
+
+const pressTransformTransition = interaction({
+  trigger: 'whilePressing',
+  action: 'stateChange',
+  duration: 'fastest',
+  easing: 'bezier.out',
+  property: 'transform',
+});
 
 export const chip = recipe({
   base: {
@@ -11,8 +20,13 @@ export const chip = recipe({
     alignItems: 'center',
     justifyContent: 'center',
     gap: unitVars.unit.gapPadding['050'],
-    transition:
-      'transform 120ms ease, background-color 120ms ease, color 120ms ease, border-color 120ms ease',
+    transformOrigin: 'center center',
+    transition: [
+      pressTransformTransition,
+      'background-color 120ms ease',
+      'color 120ms ease',
+      'border-color 120ms ease',
+    ].join(', '),
     borderWidth: '1px',
     borderStyle: 'solid',
     borderRadius: unitVars.unit.gapPadding.full,
@@ -126,7 +140,8 @@ export const suffixButton = style({
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  transition: 'transform 100ms ease',
+  transformOrigin: 'center center',
+  transition: pressTransformTransition,
   paddingTop: unitVars.unit.gapPadding['200'],
   paddingRight: unitVars.unit.gapPadding['300'],
   paddingBottom: unitVars.unit.gapPadding['200'],
