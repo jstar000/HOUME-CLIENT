@@ -3,6 +3,7 @@ import { style } from '@vanilla-extract/css';
 import { animationTokens } from '@styles/tokens/animation.css';
 import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
+import { transition } from '@styles/tokensV2/interaction/interaction.utils';
 
 import { unitVars } from '@/shared/styles/tokensV2/unit.css';
 
@@ -86,7 +87,8 @@ export const btn = style({
   alignItems: 'center',
   justifyContent: 'center',
   gap: unitVars.unit.gapPadding['200'],
-  transition: 'all 0.2s ease-in-out',
+  transformOrigin: 'center center',
+  transition: transition('transform', 'fastest', 'bezier.out'),
   border: 'none',
   borderRadius: unitVars.unit.radius.full,
   backgroundColor: '#FEE500',
@@ -100,7 +102,7 @@ export const btn = style({
   color: colorVars.color.text.primary,
 
   ':active': {
-    transform: 'scale(0.98)',
+    transform: 'scale(0.97)',
   },
 });
 
