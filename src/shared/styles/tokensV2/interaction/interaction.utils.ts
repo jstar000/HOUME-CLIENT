@@ -11,14 +11,45 @@ export type InteractionTrigger =
 export type InteractionAction = keyof typeof interactionVars.interaction.action;
 
 /**
+ * Figma 인터랙션 스펙 — trigger / action / duration / easing / property
+ * property는 CSS transition-property (예: transform, opacity, height)
+ */
+export interface InteractionSpec {
+  trigger: InteractionTrigger;
+  action: InteractionAction;
+  duration: InteractionDuration;
+  easing: InteractionEasing;
+  property: string;
+}
+
+/**
+ * Figma 스펙 → CSS transition 문자열
+ *
+ * @example
+ * interaction({
+ *   trigger: 'whilePressing',
+ *   action: 'stateChange',
+ *   duration: 'fastest',
+ *   easing: 'bezier.out',
+ *   property: 'transform',
+ * })
+ * // => 'transform 150ms cubic-bezier(0, 0.56, 0.33, 1)'
+ */
+export const interaction = (spec: InteractionSpec): string =>
+  transition(spec.property, spec.duration, spec.easing);
+
+export const interactionDurationMs = (spec: InteractionSpec): number =>
+  Number.parseInt(interactionVars.interaction.duration[spec.duration], 10);
+
+export const interactionEasing = (spec: InteractionSpec): string =>
+  interactionVars.interaction.easing[spec.easing];
+
+/**
  * CSS transition 단일 속성 문자열 생성
  *
  * @example
  * transition('opacity', 'base', 'bezier.out')
  * // => 'opacity 400ms cubic-bezier(0, 0.56, 0.33, 1)'
- *
- * @example
- * [transition('opacity'), transition('transform')].join(', ')
  */
 export const transition = (
   property: string,
