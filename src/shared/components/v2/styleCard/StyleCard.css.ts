@@ -3,6 +3,7 @@ import { recipe } from '@vanilla-extract/recipes';
 
 import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
+import { transition } from '@styles/tokensV2/interaction/interaction.utils';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
 export const wrapper = recipe({
@@ -15,18 +16,40 @@ export const wrapper = recipe({
   variants: {
     scaleOnPress: {
       true: {
-        transition: 'transform 100ms ease',
-        selectors: {
-          '&:has(button:active)': {
-            transform: 'scale(0.98)',
-          },
-        },
+        transition: transition('transform', 'fastest', 'bezier.out'),
       },
       false: {},
     },
+    size: {
+      s: {},
+      L: {},
+    },
   },
+  compoundVariants: [
+    {
+      variants: { scaleOnPress: true, size: 's' },
+      style: {
+        selectors: {
+          '&:has(button:active)': {
+            transform: 'scale(0.95)',
+          },
+        },
+      },
+    },
+    {
+      variants: { scaleOnPress: true, size: 'L' },
+      style: {
+        selectors: {
+          '&:has(button:active)': {
+            transform: 'scale(0.97)',
+          },
+        },
+      },
+    },
+  ],
   defaultVariants: {
     scaleOnPress: true,
+    size: 's',
   },
 });
 
