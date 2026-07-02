@@ -2,13 +2,15 @@ import { style } from '@vanilla-extract/css';
 
 import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
+import { transition } from '@styles/tokensV2/interaction/interaction.utils';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
 export const trigger = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  transition: 'transform 120ms ease',
+  transformOrigin: 'center center',
+  transition: transition('transform', 'fastest', 'bezier.out'),
   border: 'none',
   borderRadius: unitVars.unit.radius.full,
   backgroundColor: colorVars.color.fill.weak,
@@ -18,7 +20,7 @@ export const trigger = style({
   height: '4.8rem',
   selectors: {
     '&:active': {
-      transform: 'scale(0.95)',
+      transform: 'scale(0.97)',
     },
   },
 });

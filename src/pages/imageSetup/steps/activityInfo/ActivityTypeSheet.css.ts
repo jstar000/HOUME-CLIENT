@@ -3,6 +3,7 @@ import { recipe } from '@vanilla-extract/recipes';
 
 import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
+import { transition } from '@styles/tokensV2/interaction/interaction.utils';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
 export const contents = style({
@@ -23,7 +24,11 @@ export const radioItem = recipe({
   base: {
     display: 'flex',
     alignItems: 'center',
-    transition: 'transform 120ms ease, background-color 120ms ease',
+    transformOrigin: 'center center',
+    transition: [
+      transition('transform', 'fastest', 'bezier.out'),
+      'background-color 120ms ease',
+    ].join(', '),
     border: 'none',
     borderRadius: unitVars.unit.radius.full,
     cursor: 'pointer',
