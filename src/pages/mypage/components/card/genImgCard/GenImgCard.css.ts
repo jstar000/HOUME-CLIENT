@@ -3,15 +3,8 @@ import { recipe } from '@vanilla-extract/recipes';
 
 import { colorVars } from '@/shared/styles/tokensV2/color.css';
 import { fontVars } from '@/shared/styles/tokensV2/font.css';
+import { transition } from '@/shared/styles/tokensV2/interaction/interaction.utils';
 import { unitVars } from '@/shared/styles/tokensV2/unit.css';
-
-export const wrapper = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: unitVars.unit.gapPadding['200'],
-  padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['500']}`,
-  width: '100%',
-});
 
 export const textContainer = style({
   display: 'flex',
@@ -39,12 +32,27 @@ export const imgContainer = style({
   display: 'flex',
   flexShrink: 0,
   alignItems: 'center',
-  transition: 'transform 100ms ease',
   border: 0,
   borderRadius: unitVars.unit.radius['300'],
   cursor: 'pointer',
   width: '100%',
   overflow: 'hidden',
+});
+
+// wrapper는 textContainer/imgContainer 클래스 문자열을 :has()에서 참조
+// 두 스타일 선언 이후에 배치해야 초기화 순서 문제 발생 X
+export const wrapper = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: unitVars.unit.gapPadding['200'],
+  transition: transition('transform', 'fastest', 'bezier.out'),
+  padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['500']}`,
+  width: '100%',
+  selectors: {
+    [`&:has(${textContainer}:active), &:has(${imgContainer}:active)`]: {
+      transform: 'scale(0.97)',
+    },
+  },
 });
 
 export const cardImg = recipe({
