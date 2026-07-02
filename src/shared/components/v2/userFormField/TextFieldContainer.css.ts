@@ -2,6 +2,7 @@ import { style } from '@vanilla-extract/css';
 
 import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
+import { transition } from '@styles/tokensV2/interaction/interaction.utils';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
 export const fieldWrapper = style({
@@ -15,7 +16,8 @@ export const fieldBox = style({
   boxSizing: 'border-box',
   display: 'flex',
   alignItems: 'center',
-  transition: 'all 0.2s ease-in-out',
+  transformOrigin: 'center center',
+  transition: transition('transform', 'fastest', 'bezier.out'),
   border: `1px solid ${colorVars.color.border.primary}`,
   borderRadius: unitVars.unit.radius['300'],
   backgroundColor: colorVars.color.fill.inverse,
@@ -23,8 +25,8 @@ export const fieldBox = style({
   width: '100%',
   height: '4.4rem',
   selectors: {
-    '&:active': {
-      transform: 'scale(0.98)',
+    '&:active, &:has(:active)': {
+      transform: 'scale(0.97)',
     },
   },
 });
