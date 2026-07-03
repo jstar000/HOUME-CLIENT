@@ -9,28 +9,20 @@ import { logEvent } from 'firebase/analytics';
 import { useUserStore } from '@store/useUserStore';
 
 import type { GaEventName } from '@shared/analytics/events';
-import type { ScrollDepth } from '@shared/analytics/params/scrollDepth';
+import {
+  LOGIN_STATUS,
+  type LoginStatus,
+} from '@shared/analytics/params/global';
+import type {
+  AnalyticsParamValue,
+  TrackEventParams,
+} from '@shared/analytics/params/types';
 import { analytics } from '@shared/config/firebase';
+
+export type { LoginStatus, TrackEventParams } from '@shared/analytics/params';
 
 /** VITE_ANALYTICS_ENV 값 (local / staging / production) */
 export type AnalyticsEnvironment = 'local' | 'staging' | 'production';
-
-/** 공통 파라미터 login_status 값 */
-export type LoginStatus = 'logged_in' | 'logged_out';
-
-/** Firebase logEvent에 허용되는 파라미터 값 타입 */
-type AnalyticsParamValue = string | number | boolean;
-
-/** 이벤트별 추가 파라미터 (노션 Parameter 컬럼 기준) */
-export type TrackEventParams = {
-  screen_name?: string;
-  login_entry_route?: string;
-  image_entry_route?: string;
-  scroll_depth?: ScrollDepth;
-  section_name?: string;
-  trigger_context?: string;
-  [key: string]: AnalyticsParamValue | undefined;
-};
 
 /** Firebase Analytics 실제 전송 여부 (.env) */
 const isAnalyticsEnabled =
@@ -50,7 +42,7 @@ const getAnalyticsEnvironment = (): AnalyticsEnvironment => {
 /** login_status 파라미터용 — zustand accessToken 기준 */
 const getLoginStatus = (): LoginStatus => {
   const { accessToken } = useUserStore.getState();
-  return accessToken ? 'logged_in' : 'logged_out';
+  return accessToken ? LOGIN_STATUS.LOGGED_IN : LOGIN_STATUS.LOGGED_OUT;
 };
 
 /** page_path 파라미터용 */
@@ -116,7 +108,7 @@ export const trackEvent = (
  * `screen_name` 포함 trackEvent 후 기존 핸들러 실행
  *
  * @example
- * onClick={trackCallback(GA_EVENTS_DONE.topNav.LOGIN_CLICK, 'topNav', onLoginClick)}
+ * onClick={trackCallback(GA_EVENTS.topNav.LOGIN_CLICK, 'topNav', onLoginClick)}
  */
 export const trackCallback = (
   eventName: GaEventName,
