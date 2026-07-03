@@ -5,26 +5,28 @@ import { interaction } from '@styles/tokensV2/interaction/interaction.utils';
 import {
   TOAST_SHOW_EASING,
   TOAST_SHOW_MS,
-  toastHideSpec,
-  toastShowSpec,
+  toastHideInteraction,
+  toastShowInteraction,
 } from './constants';
 
-const buildTransition = (spec: typeof toastShowSpec | typeof toastHideSpec) =>
+const buildTransition = (
+  motion: typeof toastShowInteraction | typeof toastHideInteraction
+) =>
   [
-    interaction({ ...spec, property: 'opacity' }),
-    interaction({ ...spec, property: 'transform' }),
-    interaction({ ...spec, property: 'height' }),
+    interaction({ ...motion, property: 'opacity' }),
+    interaction({ ...motion, property: 'transform' }),
+    interaction({ ...motion, property: 'height' }),
   ].join(', ');
 
-const toastShowTransition = buildTransition(toastShowSpec);
-const toastHideTransition = buildTransition(toastHideSpec);
+const toastShowTransition = buildTransition(toastShowInteraction);
+const toastHideTransition = buildTransition(toastHideInteraction);
 
 globalStyle('[data-sonner-toast]', {
   transition: toastShowTransition,
 });
 
 globalStyle('[data-sonner-toast] > *', {
-  transition: interaction({ ...toastShowSpec, property: 'opacity' }),
+  transition: interaction({ ...toastShowInteraction, property: 'opacity' }),
 });
 
 /** Sonner removed 상태별 하드코딩 transition 오버라이드 */

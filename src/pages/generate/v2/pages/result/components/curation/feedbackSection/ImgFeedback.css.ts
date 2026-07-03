@@ -48,7 +48,7 @@ export const buttonGroup = style({
   display: 'flex',
 });
 
-const tagGroupOpenSpec = {
+const tagGroupOpenInteraction = {
   trigger: 'tap',
   action: 'stateChange',
   duration: 'fast',
@@ -62,8 +62,8 @@ export const tagGroup = recipe({
     flexDirection: 'column',
     gap: unitVars.unit.gapPadding['100'],
     transition: [
-      interaction({ ...tagGroupOpenSpec, property: 'opacity' }),
-      interaction({ ...tagGroupOpenSpec, property: 'padding-top' }),
+      interaction({ ...tagGroupOpenInteraction, property: 'opacity' }),
+      interaction({ ...tagGroupOpenInteraction, property: 'padding-top' }),
     ].join(', '),
     overflow: 'hidden',
   },
