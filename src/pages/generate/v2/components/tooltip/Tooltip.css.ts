@@ -21,11 +21,11 @@ const tooltipFadeInInteraction = {
 
 const tooltipFadeInKeyframes = keyframes({
   from: {
-    transform: 'translateX(-50%) scale(0.8)',
+    transform: 'scale(0.8)',
     opacity: 0,
   },
   to: {
-    transform: 'translateX(-50%) scale(1)',
+    transform: 'scale(1)',
     opacity: 1,
   },
 });
@@ -42,19 +42,20 @@ export const tooltip = style({
   zIndex: zIndex.button,
   bottom: 'calc(100% + 1.56rem)',
   left: '50%',
-  transformOrigin: 'center center',
-  animation: `${tooltipFadeInKeyframes} ${interactionDurationMs(tooltipFadeInInteraction)}ms ${interactionEasing(tooltipFadeInInteraction)} forwards`,
+  transform: 'translateX(-50%)',
 });
 
 export const tooltipContent = style({
   display: 'flex',
   alignItems: 'center',
+  transformOrigin: 'center center',
   borderRadius: unitVars.unit.radius.full,
   background: colorVars.color.fill.secondary,
   padding: `${unitVars.unit.gapPadding['100']} ${unitVars.unit.gapPadding['200']}`,
   width: '100%',
   minWidth: 'max-content',
   maxWidth: '27.7rem',
+  animation: `${tooltipFadeInKeyframes} ${interactionDurationMs(tooltipFadeInInteraction)}ms ${interactionEasing(tooltipFadeInInteraction)} both`,
   whiteSpace: 'nowrap',
 });
 
