@@ -1,10 +1,9 @@
-import { keyframes, style } from '@vanilla-extract/css';
+import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 import { colorVars } from '@styles/tokensV2/color.css';
 import {
-  interactionDurationMs,
-  interactionEasing,
+  interaction,
   type InteractionSpec,
 } from '@styles/tokensV2/interaction/interaction.utils';
 
@@ -20,24 +19,22 @@ const popupFadeInInteraction = {
   property: 'opacity',
 } as const satisfies InteractionSpec;
 
-const popupFadeInMs = interactionDurationMs(popupFadeInInteraction);
-const popupFadeInEasing = interactionEasing(popupFadeInInteraction);
+const popupFadeInTransition = [
+  interaction({ ...popupFadeInInteraction, property: 'opacity' }),
+  interaction({ ...popupFadeInInteraction, property: 'transform' }),
+].join(', ');
 
-const backdropFadeIn = keyframes({
-  from: { opacity: 0 },
-  to: { opacity: 1 },
+const popupFadeInOpacityTransition = interaction({
+  ...popupFadeInInteraction,
+  property: 'opacity',
 });
 
-const containerFadeIn = keyframes({
-  from: {
-    transform: 'translate(-50%, -50%) scale(0.9)',
-    opacity: 0,
-  },
-  to: {
-    transform: 'translate(-50%, -50%) scale(1)',
-    opacity: 1,
-  },
-});
+const motionHidden = {
+  opacity: 0,
+} as const;
+
+const containerHiddenTransform = 'translate(-50%, -50%) scale(0.9)';
+const containerVisibleTransform = 'translate(-50%, -50%) scale(1)';
 
 export const viewportLayer = style({
   position: 'fixed',
@@ -53,24 +50,60 @@ export const viewportLayer = style({
   overscrollBehavior: 'none',
 });
 
-export const backdrop = style({
-  position: 'absolute',
-  inset: 0,
-  background: 'rgba(0, 0, 0, 0.2)',
-  animation: `${backdropFadeIn} ${popupFadeInMs}ms ${popupFadeInEasing} forwards`,
+export const backdrop = recipe({
+  base: {
+    position: 'absolute',
+    inset: 0,
+    willChange: 'opacity',
+    background: 'rgba(0, 0, 0, 0.2)',
+  },
+  variants: {
+    motion: {
+      opening: {
+        ...motionHidden,
+        transition: 'none',
+      },
+      open: {
+        transition: popupFadeInOpacityTransition,
+        opacity: 1,
+      },
+    },
+  },
+  defaultVariants: {
+    motion: 'opening',
+  },
 });
 
-export const container = style({
-  position: 'absolute',
-  zIndex: zIndex.popup + 1,
-  top: '50%',
-  left: '50%',
-  transformOrigin: 'center center',
-  borderRadius: unitVars.unit.radius['700'],
-  backgroundColor: colorVars.color.gray000,
-  width: '24rem',
-  overflow: 'hidden',
-  animation: `${containerFadeIn} ${popupFadeInMs}ms ${popupFadeInEasing} forwards`,
+export const container = recipe({
+  base: {
+    position: 'absolute',
+    zIndex: zIndex.popup + 1,
+    top: '50%',
+    left: '50%',
+    transformOrigin: 'center center',
+    willChange: 'opacity, transform',
+    borderRadius: unitVars.unit.radius['700'],
+    backgroundColor: colorVars.color.gray000,
+    width: '24rem',
+    overflow: 'hidden',
+  },
+  variants: {
+    motion: {
+      opening: {
+        ...motionHidden,
+        transform: containerHiddenTransform,
+        transition: 'none',
+      },
+      open: {
+        transform: containerVisibleTransform,
+        transition: popupFadeInTransition,
+        opacity: 1,
+      },
+    },
+  },
+  defaultVariants: {
+    motion: 'opening',
+  },
 });
 
 export const closeButton = style({
