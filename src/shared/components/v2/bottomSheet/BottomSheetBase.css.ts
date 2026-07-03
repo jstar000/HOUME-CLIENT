@@ -1,4 +1,4 @@
-import { keyframes, style } from '@vanilla-extract/css';
+import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 import { zIndex } from '@styles/tokens/zIndex';
@@ -6,13 +6,12 @@ import { colorVars } from '@styles/tokensV2/color.css';
 import {
   interaction,
   interactionDurationMs,
-  interactionEasing,
   type InteractionSpec,
 } from '@styles/tokensV2/interaction/interaction.utils';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
 /** tap → motion.slideIn / motion.slideOut (동일 duration·easing) */
-const sheetSlideInteraction = {
+const sheetSlideInInteraction = {
   trigger: 'tap',
   action: 'motion.slideIn',
   duration: 'base',
@@ -20,35 +19,25 @@ const sheetSlideInteraction = {
   property: 'transform',
 } as const satisfies InteractionSpec;
 
-const sheetSlideInMs = interactionDurationMs(sheetSlideInteraction);
-const sheetSlideEasing = interactionEasing(sheetSlideInteraction);
-const sheetSlideTiming = `${sheetSlideInMs}ms ${sheetSlideEasing}`;
+const sheetSlideOutInteraction = {
+  trigger: 'tap',
+  action: 'motion.slideOut',
+  duration: 'base',
+  easing: 'bezier.back',
+  property: 'transform',
+} as const satisfies InteractionSpec;
 
-const sheetSlideIn = keyframes({
-  from: { transform: 'translateY(100%)' },
-  to: { transform: 'translateY(0)' },
+const sheetSlideTransition = [
+  interaction({ ...sheetSlideInInteraction, property: 'transform' }),
+  interaction({ ...sheetSlideInInteraction, property: 'height' }),
+].join(', ');
+
+export const SHEET_SLIDE_MS = interactionDurationMs(sheetSlideInInteraction);
+
+export const sheetSlideOutOpacityTransition = interaction({
+  ...sheetSlideOutInteraction,
+  property: 'opacity',
 });
-
-const sheetSlideOut = keyframes({
-  from: { transform: 'translateY(0)' },
-  to: { transform: 'translateY(var(--sheet-close-y, 100%))' },
-});
-
-const overlayFadeOut = keyframes({
-  from: { opacity: 1 },
-  to: { opacity: 0 },
-});
-
-const sheetHeightTransition = interaction({
-  ...sheetSlideInteraction,
-  property: 'height',
-});
-
-export const SHEET_SLIDE_MS = sheetSlideInMs;
-
-export const sheetSlideInAnimation = `${sheetSlideIn} ${sheetSlideTiming} forwards`;
-export const sheetSlideOutAnimation = `${sheetSlideOut} ${sheetSlideTiming} forwards`;
-export const overlayFadeOutAnimation = `${overlayFadeOut} ${sheetSlideTiming} forwards`;
 
 // dim과 바텀시트를 동일한 모바일 프레임 폭으로 맞추기 위한 공통 폭 제한
 const mobileFrame = style({
@@ -104,13 +93,13 @@ export const srOnlyTitle = style({
 });
 
 // 헤더, 본문, 액션 영역을 감싸는 바텀시트 패널 본체
-// transform: open/close keyframes (BottomSheetBase 소유)
+// transform: open/close transition (BottomSheetBase 소유)
 // height: expanded/collapsed/dragging (DragHandleBottomSheet 소유)
 export const panel = recipe({
   base: {
     display: 'flex',
     flexDirection: 'column',
-    transition: sheetHeightTransition,
+    transition: sheetSlideTransition,
     willChange: 'transform, height',
     borderTopLeftRadius: unitVars.unit.radius['700'],
     borderTopRightRadius: unitVars.unit.radius['700'],

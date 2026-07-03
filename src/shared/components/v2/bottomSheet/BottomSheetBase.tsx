@@ -137,14 +137,32 @@ const BottomSheetBase = ({
     }
   }, [open]);
 
-  // opening: 패널 높이 측정 (closing 시 slideOut 거리용)
+  // opening: 측정 → rAF×2 → 'open' (transition으로 슬라이드 인)
   useLayoutEffect(() => {
-    if (basePhase !== 'opening') return;
+    if (basePhase !== 'opening') return undefined;
     const panel = internalPanelRef.current;
-    if (panel) panelHRef.current = panel.offsetHeight;
+    if (!panel) return undefined;
+
+    const myGen = ++genRef.current;
+    panelHRef.current = panel.offsetHeight;
+
+    let raf2: number | null = null;
+    const raf1 = requestAnimationFrame(() => {
+      if (myGen !== genRef.current) return;
+      raf2 = requestAnimationFrame(() => {
+        if (myGen !== genRef.current) return;
+        setBasePhase('open');
+        raf2 = null;
+      });
+    });
+
+    return () => {
+      cancelAnimationFrame(raf1);
+      if (raf2 !== null) cancelAnimationFrame(raf2);
+    };
   }, [basePhase]);
 
-  // closing: animationend fallback
+  // closing: transitionend 또는 setTimeout fallback으로 unmount
   useEffect(() => {
     if (basePhase !== 'closing') return undefined;
 
@@ -159,13 +177,11 @@ const BottomSheetBase = ({
     };
   }, [basePhase]);
 
-  // panel animationend 가드 (closeButton scale animation bubble 차단)
-  const handleAnimationEnd = useCallback(
-    (e: React.AnimationEvent<HTMLDivElement>) => {
+  // panel transitionend 가드 (closeButton scale transition bubble 차단)
+  const handleTransitionEnd = useCallback(
+    (e: React.TransitionEvent<HTMLDivElement>) => {
       if (e.target !== internalPanelRef.current) return;
-      if (basePhase === 'opening') {
-        setBasePhase('open');
-      }
+      if (e.propertyName !== 'transform') return;
       if (basePhase === 'closing') {
         setBasePhase('closed');
       }
@@ -175,21 +191,15 @@ const BottomSheetBase = ({
 
   if (basePhase === 'closed') return null;
 
-  const panelMotionStyle = (() => {
-    if (basePhase === 'opening') {
-      return { animation: styles.sheetSlideInAnimation };
-    }
-    if (basePhase === 'closing') {
-      return {
-        ['--sheet-close-y' as string]: `${closingPanelHRef.current}px`,
-        animation: styles.sheetSlideOutAnimation,
-      };
-    }
-    return {
-      transform: `translateY(${panelTranslateY ?? 0}px)`,
-      ...(disableTransition ? { transition: 'none' } : {}),
-    };
-  })();
+  const transform =
+    basePhase === 'opening'
+      ? 'translateY(100%)'
+      : basePhase === 'closing'
+        ? `translateY(${closingPanelHRef.current}px)`
+        : `translateY(${panelTranslateY ?? 0}px)`;
+
+  const inlineTransition =
+    basePhase === 'opening' || disableTransition ? 'none' : undefined;
 
   // 접근성: title 추출 (스크린리더용)
   const accessibleTitle =
@@ -203,15 +213,7 @@ const BottomSheetBase = ({
   const ariaModal = !backgroundInteractable;
 
   // closing 중에는 dim도 함께 fade out. 외에는 dimOpacity prop 또는 CSS 기본값 사용
-  const overlayStyle = (() => {
-    if (basePhase === 'closing') {
-      return { animation: styles.overlayFadeOutAnimation };
-    }
-    if (dimOpacity !== undefined) {
-      return { opacity: dimOpacity };
-    }
-    return undefined;
-  })();
+  const overlayOpacity = basePhase === 'closing' ? 0 : dimOpacity;
 
   // dragHandle 시트가 collapsed일 땐 콘텐츠 스크롤을 막아야(overflow hidden)
   // body를 위로 끄는 제스처가 native 스크롤과 충돌 없이 expand로만 동작 (close 타입·expanded는 스크롤 허용)
@@ -225,8 +227,12 @@ const BottomSheetBase = ({
       <div
         className={styles.overlay}
         style={{
-          ...overlayStyle,
+          ...(overlayOpacity !== undefined ? { opacity: overlayOpacity } : {}),
           pointerEvents: backgroundInteractable ? 'none' : 'auto',
+          transition:
+            basePhase === 'closing'
+              ? styles.sheetSlideOutOpacityTransition
+              : undefined,
         }}
         onClick={onOverlayClick}
         aria-hidden="true"
@@ -244,9 +250,12 @@ const BottomSheetBase = ({
           className={styles.panel({ headerType })}
           style={{
             ...panelStyle,
-            ...panelMotionStyle,
+            transform,
+            ...(inlineTransition !== undefined
+              ? { transition: inlineTransition }
+              : {}),
           }}
-          onAnimationEnd={handleAnimationEnd}
+          onTransitionEnd={handleTransitionEnd}
         >
           {headerType === 'dragHandle' ? (
             // dragHeader 자체를 button으로 -> 드래그 hit area를 dragHeader 전체로 확장 (모바일 드래그 UX 개선)
