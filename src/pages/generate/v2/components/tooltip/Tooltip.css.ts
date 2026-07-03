@@ -1,9 +1,34 @@
-import { style } from '@vanilla-extract/css';
+import { keyframes, style } from '@vanilla-extract/css';
+
+import {
+  interactionDurationMs,
+  interactionEasing,
+  type InteractionSpec,
+} from '@styles/tokensV2/interaction/interaction.utils';
 
 import { zIndex } from '@/shared/styles/tokens/zIndex';
 import { colorVars } from '@/shared/styles/tokensV2/color.css';
 import { fontVars } from '@/shared/styles/tokensV2/font.css';
 import { unitVars } from '@/shared/styles/tokensV2/unit.css';
+
+const tooltipFadeInInteraction = {
+  trigger: 'afterDelay',
+  action: 'motion.fadeIn',
+  duration: 'base',
+  easing: 'bezier.back',
+  property: 'opacity',
+} as const satisfies InteractionSpec;
+
+const tooltipFadeInKeyframes = keyframes({
+  from: {
+    transform: 'translateX(-50%) scale(0.8)',
+    opacity: 0,
+  },
+  to: {
+    transform: 'translateX(-50%) scale(1)',
+    opacity: 1,
+  },
+});
 
 export const wrapper = style({
   position: 'relative',
@@ -17,7 +42,8 @@ export const tooltip = style({
   zIndex: zIndex.button,
   bottom: 'calc(100% + 1.56rem)',
   left: '50%',
-  transform: 'translateX(-50%)',
+  transformOrigin: 'center center',
+  animation: `${tooltipFadeInKeyframes} ${interactionDurationMs(tooltipFadeInInteraction)}ms ${interactionEasing(tooltipFadeInInteraction)} forwards`,
 });
 
 export const tooltipContent = style({
@@ -30,12 +56,6 @@ export const tooltipContent = style({
   minWidth: 'max-content',
   maxWidth: '27.7rem',
   whiteSpace: 'nowrap',
-
-  selectors: {
-    '&:active': {
-      transform: 'scale(0.95)',
-    },
-  },
 });
 
 export const message = style({
