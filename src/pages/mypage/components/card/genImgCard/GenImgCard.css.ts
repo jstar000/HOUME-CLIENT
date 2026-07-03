@@ -55,9 +55,10 @@ export const wrapper = style({
   padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['500']}`,
   width: '100%',
   selectors: {
-    [`&:has(${textContainer}:active), &:has(${imgContainer}:active)`]: {
-      transform: 'scale(0.97)',
-    },
+    [`&:has(${textContainer}:active:not(:has(button:active))), &:has(${imgContainer}:active)`]:
+      {
+        transform: 'scale(0.97)',
+      },
   },
 });
 

@@ -3,6 +3,7 @@ import { recipe } from '@vanilla-extract/recipes';
 
 import { colorVars } from '@shared/styles/tokensV2/color.css';
 import { fontVars } from '@shared/styles/tokensV2/font.css';
+import { interaction } from '@shared/styles/tokensV2/interaction/interaction.utils';
 import { unitVars } from '@shared/styles/tokensV2/unit.css';
 
 export const wrapper = recipe({
@@ -36,6 +37,21 @@ export const clickable = style({
       outline: `2px solid ${colorVars.color.text.brand}`,
       outlineOffset: '2px',
       borderRadius: '0.8rem',
+    },
+  },
+});
+
+export const pressable = style({
+  transition: interaction({
+    trigger: 'whilePressing',
+    action: 'stateChange',
+    duration: 'fastest',
+    easing: 'bezier.out',
+    property: 'transform',
+  }),
+  selectors: {
+    '&:active:not(:has(button:active))': {
+      transform: 'scale(0.95)',
     },
   },
 });
