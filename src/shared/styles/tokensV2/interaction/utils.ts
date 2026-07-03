@@ -1,4 +1,7 @@
-import { interactionVars } from '@styles/tokensV2/interaction/tokens.css';
+import {
+  interactionDurationValues,
+  interactionVars,
+} from '@styles/tokensV2/interaction/tokens.css';
 
 export type InteractionDuration =
   keyof typeof interactionVars.interaction.duration;
@@ -36,7 +39,7 @@ export const interaction = (spec: InteractionSpec): string =>
   transition(spec.property, spec.duration, spec.easing);
 
 export const interactionDurationMs = (spec: InteractionSpec): number =>
-  Number.parseInt(interactionVars.interaction.duration[spec.duration], 10);
+  interactionDurationValues[spec.duration];
 
 export const interactionEasing = (spec: InteractionSpec): string =>
   interactionVars.interaction.easing[spec.easing];

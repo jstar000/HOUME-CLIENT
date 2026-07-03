@@ -9,16 +9,28 @@ import { createGlobalTheme } from '@vanilla-extract/css';
  * - trigger: 인터랙션 시작 조건 (식별자)
  * - action: 인터랙션 결과 동작 (식별자)
  */
+
+/** JS 타이머/keyframes용 ms 원본값 (createGlobalTheme 값은 var() 참조라 parse 불가) */
+export const interactionDurationValues = {
+  instant: 0,
+  fastest: 150,
+  fast: 250,
+  base: 400,
+  slow: 600,
+  slower: 800,
+  slowest: 1200,
+} as const;
+
 export const interactionVars = createGlobalTheme(':root', {
   interaction: {
     duration: {
-      instant: '0ms',
-      fastest: '150ms',
-      fast: '250ms',
-      base: '400ms',
-      slow: '600ms',
-      slower: '800ms',
-      slowest: '1200ms',
+      instant: `${interactionDurationValues.instant}ms`,
+      fastest: `${interactionDurationValues.fastest}ms`,
+      fast: `${interactionDurationValues.fast}ms`,
+      base: `${interactionDurationValues.base}ms`,
+      slow: `${interactionDurationValues.slow}ms`,
+      slower: `${interactionDurationValues.slower}ms`,
+      slowest: `${interactionDurationValues.slowest}ms`,
     },
     easing: {
       'bezier.out': 'cubic-bezier(0, 0.56, 0.33, 1)',
