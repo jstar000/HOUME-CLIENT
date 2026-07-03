@@ -11,10 +11,8 @@ import { createPortal } from 'react-dom';
 
 import IconButton from '@components/v2/button/IconButton';
 
-import { interaction } from '@styles/tokensV2/interaction/interaction.utils';
-
 import * as styles from './BottomSheetBase.css';
-import { SHEET_TRANSITION_MS, sheetSlideOutSpec } from './constants';
+import { SHEET_TRANSITION_MS } from './constants';
 
 type BasePhase = 'closed' | 'opening' | 'open' | 'closing';
 
@@ -139,32 +137,14 @@ const BottomSheetBase = ({
     }
   }, [open]);
 
-  // opening: 측정 → rAF*2 → 'open' (transition으로 슬라이드 인)
+  // opening: 패널 높이 측정 (closing 시 slideOut 거리용)
   useLayoutEffect(() => {
-    if (basePhase !== 'opening') return undefined;
+    if (basePhase !== 'opening') return;
     const panel = internalPanelRef.current;
-    if (!panel) return undefined;
-
-    const myGen = ++genRef.current;
-    panelHRef.current = panel.offsetHeight;
-
-    let raf2: number | null = null;
-    const raf1 = requestAnimationFrame(() => {
-      if (myGen !== genRef.current) return;
-      raf2 = requestAnimationFrame(() => {
-        if (myGen !== genRef.current) return;
-        setBasePhase('open');
-        raf2 = null;
-      });
-    });
-
-    return () => {
-      cancelAnimationFrame(raf1);
-      if (raf2 !== null) cancelAnimationFrame(raf2);
-    };
+    if (panel) panelHRef.current = panel.offsetHeight;
   }, [basePhase]);
 
-  // closing: transitionend 또는 setTimeout fallback으로 unmount
+  // closing: animationend fallback
   useEffect(() => {
     if (basePhase !== 'closing') return undefined;
 
@@ -179,11 +159,13 @@ const BottomSheetBase = ({
     };
   }, [basePhase]);
 
-  // panel transitionend 가드 (closeButton의 transform 100ms transition bubble 차단)
-  const handleTransitionEnd = useCallback(
-    (e: React.TransitionEvent<HTMLDivElement>) => {
+  // panel animationend 가드 (closeButton scale animation bubble 차단)
+  const handleAnimationEnd = useCallback(
+    (e: React.AnimationEvent<HTMLDivElement>) => {
       if (e.target !== internalPanelRef.current) return;
-      if (e.propertyName !== 'transform') return;
+      if (basePhase === 'opening') {
+        setBasePhase('open');
+      }
       if (basePhase === 'closing') {
         setBasePhase('closed');
       }
@@ -193,16 +175,21 @@ const BottomSheetBase = ({
 
   if (basePhase === 'closed') return null;
 
-  // transform/transition 합성
-  const transform =
-    basePhase === 'opening'
-      ? 'translateY(100%)'
-      : basePhase === 'closing'
-        ? `translateY(${closingPanelHRef.current}px)`
-        : `translateY(${panelTranslateY ?? 0}px)`;
-
-  const inlineTransition =
-    basePhase === 'opening' || disableTransition ? 'none' : undefined;
+  const panelMotionStyle = (() => {
+    if (basePhase === 'opening') {
+      return { animation: styles.sheetSlideInAnimation };
+    }
+    if (basePhase === 'closing') {
+      return {
+        ['--sheet-close-y' as string]: `${closingPanelHRef.current}px`,
+        animation: styles.sheetSlideOutAnimation,
+      };
+    }
+    return {
+      transform: `translateY(${panelTranslateY ?? 0}px)`,
+      ...(disableTransition ? { transition: 'none' } : {}),
+    };
+  })();
 
   // 접근성: title 추출 (스크린리더용)
   const accessibleTitle =
@@ -216,7 +203,15 @@ const BottomSheetBase = ({
   const ariaModal = !backgroundInteractable;
 
   // closing 중에는 dim도 함께 fade out. 외에는 dimOpacity prop 또는 CSS 기본값 사용
-  const overlayOpacity = basePhase === 'closing' ? 0 : dimOpacity;
+  const overlayStyle = (() => {
+    if (basePhase === 'closing') {
+      return { animation: styles.overlayFadeOutAnimation };
+    }
+    if (dimOpacity !== undefined) {
+      return { opacity: dimOpacity };
+    }
+    return undefined;
+  })();
 
   // dragHandle 시트가 collapsed일 땐 콘텐츠 스크롤을 막아야(overflow hidden)
   // body를 위로 끄는 제스처가 native 스크롤과 충돌 없이 expand로만 동작 (close 타입·expanded는 스크롤 허용)
@@ -230,12 +225,8 @@ const BottomSheetBase = ({
       <div
         className={styles.overlay}
         style={{
-          ...(overlayOpacity !== undefined ? { opacity: overlayOpacity } : {}),
+          ...overlayStyle,
           pointerEvents: backgroundInteractable ? 'none' : 'auto',
-          transition:
-            basePhase === 'closing'
-              ? interaction({ ...sheetSlideOutSpec, property: 'opacity' })
-              : undefined,
         }}
         onClick={onOverlayClick}
         aria-hidden="true"
@@ -253,12 +244,9 @@ const BottomSheetBase = ({
           className={styles.panel({ headerType })}
           style={{
             ...panelStyle,
-            transform,
-            ...(inlineTransition !== undefined
-              ? { transition: inlineTransition }
-              : {}),
+            ...panelMotionStyle,
           }}
-          onTransitionEnd={handleTransitionEnd}
+          onAnimationEnd={handleAnimationEnd}
         >
           {headerType === 'dragHandle' ? (
             // dragHeader 자체를 button으로 -> 드래그 hit area를 dragHeader 전체로 확장 (모바일 드래그 UX 개선)

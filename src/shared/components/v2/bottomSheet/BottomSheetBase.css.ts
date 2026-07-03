@@ -1,17 +1,54 @@
-import { style } from '@vanilla-extract/css';
+import { keyframes, style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
 import { zIndex } from '@styles/tokens/zIndex';
 import { colorVars } from '@styles/tokensV2/color.css';
-import { interaction } from '@styles/tokensV2/interaction/interaction.utils';
+import {
+  interaction,
+  interactionDurationMs,
+  interactionEasing,
+  type InteractionSpec,
+} from '@styles/tokensV2/interaction/interaction.utils';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
-import { sheetSlideInSpec } from './constants';
+/** tap → motion.slideIn / motion.slideOut (동일 duration·easing) */
+const sheetSlideInteraction = {
+  trigger: 'tap',
+  action: 'motion.slideIn',
+  duration: 'base',
+  easing: 'bezier.back',
+  property: 'transform',
+} as const satisfies InteractionSpec;
 
-const sheetSlideTransition = [
-  interaction({ ...sheetSlideInSpec, property: 'transform' }),
-  interaction({ ...sheetSlideInSpec, property: 'height' }),
-].join(', ');
+const sheetSlideInMs = interactionDurationMs(sheetSlideInteraction);
+const sheetSlideEasing = interactionEasing(sheetSlideInteraction);
+const sheetSlideTiming = `${sheetSlideInMs}ms ${sheetSlideEasing}`;
+
+const sheetSlideIn = keyframes({
+  from: { transform: 'translateY(100%)' },
+  to: { transform: 'translateY(0)' },
+});
+
+const sheetSlideOut = keyframes({
+  from: { transform: 'translateY(0)' },
+  to: { transform: 'translateY(var(--sheet-close-y, 100%))' },
+});
+
+const overlayFadeOut = keyframes({
+  from: { opacity: 1 },
+  to: { opacity: 0 },
+});
+
+const sheetHeightTransition = interaction({
+  ...sheetSlideInteraction,
+  property: 'height',
+});
+
+export const SHEET_SLIDE_MS = sheetSlideInMs;
+
+export const sheetSlideInAnimation = `${sheetSlideIn} ${sheetSlideTiming} forwards`;
+export const sheetSlideOutAnimation = `${sheetSlideOut} ${sheetSlideTiming} forwards`;
+export const overlayFadeOutAnimation = `${overlayFadeOut} ${sheetSlideTiming} forwards`;
 
 // dim과 바텀시트를 동일한 모바일 프레임 폭으로 맞추기 위한 공통 폭 제한
 const mobileFrame = style({
@@ -67,18 +104,16 @@ export const srOnlyTitle = style({
 });
 
 // 헤더, 본문, 액션 영역을 감싸는 바텀시트 패널 본체
-// transform: open/close 슬라이드 (BottomSheetBase 소유)
+// transform: open/close keyframes (BottomSheetBase 소유)
 // height: expanded/collapsed/dragging (DragHandleBottomSheet 소유)
-// gap/padding은 헤더 타입별 디자인이 달라 headerType variant로 분기
 export const panel = recipe({
   base: {
     display: 'flex',
     flexDirection: 'column',
-    transition: sheetSlideTransition,
+    transition: sheetHeightTransition,
     willChange: 'transform, height',
     borderTopLeftRadius: unitVars.unit.radius['700'],
     borderTopRightRadius: unitVars.unit.radius['700'],
-    // Figma Shadow/bottomSheet: X 0, Y -4, Blur 20, Spread 0
     boxShadow: `0 -0.4rem 2rem 0 ${colorVars.color.shadow.bottomSheet}`,
     backgroundColor: colorVars.color.bg.primary,
     width: '100%',
@@ -90,6 +125,7 @@ export const panel = recipe({
   variants: {
     headerType: {
       // 핸들이 패널 최상단에 붙고(상단 padding 0) 하단 여백 8px, 핸들↔시트본문 간격은 dragHeader padding이 담당(gap 0)
+
       dragHandle: {
         gap: unitVars.unit.gapPadding['000'],
         padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['200']}`,
