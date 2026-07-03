@@ -1,13 +1,11 @@
 /**
  * GA4 Event Code 상수 (Notion v2.0.0)
  *
- * - `done`: B-2 사용 + 윤아 최종 Done → 1차 삽입 대상
- * - `notStarted`: 기획 확정 후 2차 삽입 예정 (미리 정의해 두고 trackEvent 연결만 나중에)
- *
+ * 노션 기획 확정 기준 전체 이벤트 카탈로그
+ * 화면별 trackEvent 연결은 각 페이지/컴포넌트에서 진행
  */
 
-/** 1차 삽입 대상 (Done) */
-export const GA_EVENTS_DONE = {
+export const GA_EVENTS = {
   landing: {
     PAGE_VIEW: 'landing_page_view',
     BTN_CTA_CLICK: 'landing_btnCTA_click',
@@ -61,6 +59,9 @@ export const GA_EVENTS_DONE = {
     SELECT_SHEET_CTA_CLICK: 'shop_selectSheetCTA_click',
     SELECT_SHEET_DISABLED_CTA_CLICK: 'shop_selectSheetdisabledCTA_click',
     SELECT_SHEET_ITEM_COUNT_CHANGE: 'shop_selectSheetItemCount_change',
+    PRODUCT_CARD_SELECT_CLICK: 'shop_productCardSelect_click',
+    PRODUCT_CARD_UNSELECT_CLICK: 'shop_productCardUnselect_click',
+    PRODUCT_CARD_DETAIL_CLICK: 'shop_productCardDetail_click',
   },
 
   bannerDetail: {
@@ -87,8 +88,6 @@ export const GA_EVENTS_DONE = {
     BTN_SERVICE_TERM_CLICK: 'loginSocial_btnserviceTerm_click',
     BTN_PRIVACY_POLICY_CLICK: 'loginSocial_btnprivacyPolicy_click',
     TOAST_LOGIN_ERROR_VIEW: 'loginSocial_toastLoginError_view',
-    /** Action 컬럼 없음 — 노션 Event Code 그대로 */
-    LOGIN_SUCCESS: 'loginSocial_LoginSuccess',
   },
 
   signupForm: {
@@ -133,20 +132,10 @@ export const GA_EVENTS_DONE = {
     ACTIVITY_SHEET_VIEW: 'selectFurniture_activitySheet_view',
     ACTIVITY_SHEET_CTA_CLICK: 'selectFurniture_activitySheetCTA_click',
     BTN_FURNITURE_CLICK: 'selectFurniture_btnFurniture_click',
-    /** 노션 오타(Funiture) 그대로 */
-    BTN_FUNITURE_CLEAR_CLICK: 'selectFurniture_btnFunitureClear_click',
+    BTN_FURNITURE_CLEAR_CLICK: 'selectFurniture_btnFurnitureClear_click',
     BTN_CTA_CLICK: 'selectFurniture_btnCTA_click',
     ERROR_TOAST_ESSENTIAL_DESELECT_VIEW:
       'selectFurniture_errorToastEssentialDeselect_view',
-  },
-} as const;
-
-/** 2차 삽입 예정 (Not started) — 상수만 선언, trackEvent 연결은 이후 */
-export const GA_EVENTS_NOT_STARTED = {
-  shop: {
-    PRODUCT_CARD_SELECT_CLICK: 'shop_productCardSelect_click',
-    PRODUCT_CARD_UNSELECT_CLICK: 'shop_productCardUnselect_click',
-    PRODUCT_CARD_DETAIL_CLICK: 'shop_productCardDetail_click',
   },
 
   resultRec: {
@@ -177,12 +166,6 @@ export const GA_EVENTS_NOT_STARTED = {
   },
 } as const;
 
-/** Done + Not started 통합 (타입·검색용) */
-export const GA_EVENTS = {
-  ...GA_EVENTS_DONE,
-  notStarted: GA_EVENTS_NOT_STARTED,
-} as const;
-
 type EventValue<T> =
   T extends Record<string, infer V>
     ? V extends string
@@ -191,6 +174,4 @@ type EventValue<T> =
     : never;
 
 /** 모든 Event Code 문자열 유니온 */
-export type GaEventName =
-  | EventValue<typeof GA_EVENTS_DONE>
-  | EventValue<typeof GA_EVENTS_NOT_STARTED>;
+export type GaEventName = EventValue<typeof GA_EVENTS>;
