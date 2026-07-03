@@ -4,41 +4,10 @@ import { recipe } from '@vanilla-extract/recipes';
 import { zIndex } from '@styles/tokens/zIndex';
 import { colorVars } from '@styles/tokensV2/color.css';
 import {
-  interaction,
-  interactionDurationMs,
-  type InteractionSpec,
-} from '@styles/tokensV2/interaction/interaction.utils';
+  pressInteraction,
+  sheetSlideInteraction,
+} from '@styles/tokensV2/interaction/presets';
 import { unitVars } from '@styles/tokensV2/unit.css';
-
-/** tap → motion.slideIn / motion.slideOut (동일 duration·easing) */
-const sheetSlideInInteraction = {
-  trigger: 'tap',
-  action: 'motion.slideIn',
-  duration: 'base',
-  easing: 'bezier.back',
-  property: 'transform',
-} as const satisfies InteractionSpec;
-
-const sheetSlideOutInteraction = {
-  trigger: 'tap',
-  action: 'motion.slideOut',
-  duration: 'base',
-  easing: 'bezier.back',
-  property: 'transform',
-} as const satisfies InteractionSpec;
-
-const sheetSlideTransition = [
-  interaction({ ...sheetSlideInInteraction, property: 'transform' }),
-  interaction({ ...sheetSlideInInteraction, property: 'height' }),
-].join(', ');
-
-export const SHEET_SLIDE_MS = interactionDurationMs(sheetSlideInInteraction);
-
-export const sheetSlideOutOpacityTransition = interaction({
-  ...sheetSlideOutInteraction,
-  property: 'opacity',
-});
-
 // dim과 바텀시트를 동일한 모바일 프레임 폭으로 맞추기 위한 공통 폭 제한
 const mobileFrame = style({
   width: '100%',
@@ -99,7 +68,7 @@ export const panel = recipe({
   base: {
     display: 'flex',
     flexDirection: 'column',
-    transition: sheetSlideTransition,
+    transition: sheetSlideInteraction,
     willChange: 'transform, height',
     borderTopLeftRadius: unitVars.unit.radius['700'],
     borderTopRightRadius: unitVars.unit.radius['700'],
@@ -200,17 +169,12 @@ export const closeButton = style({
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  transition: 'transform 100ms ease',
+  ...pressInteraction(0.95),
   border: 0,
   background: 'transparent',
   padding: unitVars.unit.gapPadding['300'],
   width: '4.8rem',
   height: '4.8rem',
-  selectors: {
-    '&:active': {
-      transform: 'scale(0.95)',
-    },
-  },
 });
 
 // 본문 콘텐츠와 하단 버튼 감싸는 column 래퍼

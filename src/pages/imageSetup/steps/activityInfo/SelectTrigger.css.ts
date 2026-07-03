@@ -2,7 +2,7 @@ import { style } from '@vanilla-extract/css';
 
 import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
-import { interaction } from '@styles/tokensV2/interaction/interaction.utils';
+import { pressInteraction } from '@styles/tokensV2/interaction/presets';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
 export const trigger = style({
@@ -10,13 +10,7 @@ export const trigger = style({
   alignItems: 'center',
   justifyContent: 'space-between',
   transformOrigin: 'center center',
-  transition: interaction({
-    trigger: 'whilePressing',
-    action: 'stateChange',
-    duration: 'fastest',
-    easing: 'bezier.out',
-    property: 'transform',
-  }),
+  ...pressInteraction(0.97),
   border: 'none',
   borderRadius: unitVars.unit.radius.full,
   backgroundColor: colorVars.color.fill.weak,
@@ -24,11 +18,6 @@ export const trigger = style({
   padding: `${unitVars.unit.gapPadding['300']} ${unitVars.unit.gapPadding['400']}`,
   width: '100%',
   height: '4.8rem',
-  selectors: {
-    '&:active': {
-      transform: 'scale(0.97)',
-    },
-  },
 });
 
 export const leftContainer = style({

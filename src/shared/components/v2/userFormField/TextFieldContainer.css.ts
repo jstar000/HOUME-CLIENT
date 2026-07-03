@@ -2,7 +2,7 @@ import { style } from '@vanilla-extract/css';
 
 import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
-import { interaction } from '@styles/tokensV2/interaction/interaction.utils';
+import { pressInteraction } from '@styles/tokensV2/interaction/presets';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
 export const fieldWrapper = style({
@@ -17,24 +17,13 @@ export const fieldBox = style({
   display: 'flex',
   alignItems: 'center',
   transformOrigin: 'center center',
-  transition: interaction({
-    trigger: 'whilePressing',
-    action: 'stateChange',
-    duration: 'fastest',
-    easing: 'bezier.out',
-    property: 'transform',
-  }),
+  ...pressInteraction(0.97, '&:active, &:has(:active)'),
   border: `1px solid ${colorVars.color.border.primary}`,
   borderRadius: unitVars.unit.radius['300'],
   backgroundColor: colorVars.color.fill.inverse,
   padding: unitVars.unit.gapPadding['200'],
   width: '100%',
   height: '4.4rem',
-  selectors: {
-    '&:active, &:has(:active)': {
-      transform: 'scale(0.97)',
-    },
-  },
 });
 
 export const focused = style({

@@ -3,8 +3,9 @@ import { recipe } from '@vanilla-extract/recipes';
 
 import { colorVars } from '@shared/styles/tokensV2/color.css';
 import { fontVars } from '@shared/styles/tokensV2/font.css';
-import { interaction } from '@shared/styles/tokensV2/interaction/interaction.utils';
 import { unitVars } from '@shared/styles/tokensV2/unit.css';
+
+import { pressInteraction } from '@styles/tokensV2/interaction/presets';
 
 export const wrapper = recipe({
   base: {
@@ -42,18 +43,7 @@ export const clickable = style({
 });
 
 export const pressable = style({
-  transition: interaction({
-    trigger: 'whilePressing',
-    action: 'stateChange',
-    duration: 'fastest',
-    easing: 'bezier.out',
-    property: 'transform',
-  }),
-  selectors: {
-    '&:active:not(:has(button:active))': {
-      transform: 'scale(0.95)',
-    },
-  },
+  ...pressInteraction(0.95, '&:active:not(:has(button:active))'),
 });
 
 export const imgSection = recipe({

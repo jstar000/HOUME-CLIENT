@@ -3,32 +3,13 @@ import { recipe } from '@vanilla-extract/recipes';
 
 import { colorVars } from '@styles/tokensV2/color.css';
 import {
-  interaction,
-  type InteractionSpec,
-} from '@styles/tokensV2/interaction/interaction.utils';
+  popupFadeInInteraction,
+  popupFadeInOpacityInteraction,
+} from '@styles/tokensV2/interaction/presets';
 
 import { zIndex } from '@/shared/styles/tokens/zIndex';
 import { fontVars } from '@/shared/styles/tokensV2/font.css';
 import { unitVars } from '@/shared/styles/tokensV2/unit.css';
-
-const popupFadeInInteraction = {
-  trigger: 'tap',
-  action: 'motion.fadeIn',
-  duration: 'fast',
-  easing: 'bezier.back',
-  property: 'opacity',
-} as const satisfies InteractionSpec;
-
-const popupFadeInTransition = [
-  interaction({ ...popupFadeInInteraction, property: 'opacity' }),
-  interaction({ ...popupFadeInInteraction, property: 'transform' }),
-].join(', ');
-
-const popupFadeInOpacityTransition = interaction({
-  ...popupFadeInInteraction,
-  property: 'opacity',
-});
-
 const motionHidden = {
   opacity: 0,
 } as const;
@@ -64,7 +45,7 @@ export const backdrop = recipe({
         transition: 'none',
       },
       open: {
-        transition: popupFadeInOpacityTransition,
+        transition: popupFadeInOpacityInteraction,
         opacity: 1,
       },
     },
@@ -96,7 +77,7 @@ export const container = recipe({
       },
       open: {
         transform: containerVisibleTransform,
-        transition: popupFadeInTransition,
+        transition: popupFadeInInteraction,
         opacity: 1,
       },
     },

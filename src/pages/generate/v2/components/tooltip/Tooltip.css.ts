@@ -1,24 +1,15 @@
 import { keyframes, style } from '@vanilla-extract/css';
 
+import { tooltipFadeInSpec } from '@styles/tokensV2/interaction/presets';
 import {
   interactionDurationMs,
   interactionEasing,
-  type InteractionSpec,
-} from '@styles/tokensV2/interaction/interaction.utils';
+} from '@styles/tokensV2/interaction/utils';
 
 import { zIndex } from '@/shared/styles/tokens/zIndex';
 import { colorVars } from '@/shared/styles/tokensV2/color.css';
 import { fontVars } from '@/shared/styles/tokensV2/font.css';
 import { unitVars } from '@/shared/styles/tokensV2/unit.css';
-
-const tooltipFadeInInteraction = {
-  trigger: 'afterDelay',
-  action: 'motion.fadeIn',
-  duration: 'base',
-  easing: 'bezier.back',
-  property: 'opacity',
-} as const satisfies InteractionSpec;
-
 const tooltipFadeInKeyframes = keyframes({
   from: {
     transform: 'scale(0.8)',
@@ -55,7 +46,7 @@ export const tooltipContent = style({
   width: '100%',
   minWidth: 'max-content',
   maxWidth: '27.7rem',
-  animation: `${tooltipFadeInKeyframes} ${interactionDurationMs(tooltipFadeInInteraction)}ms ${interactionEasing(tooltipFadeInInteraction)} both`,
+  animation: `${tooltipFadeInKeyframes} ${interactionDurationMs(tooltipFadeInSpec)}ms ${interactionEasing(tooltipFadeInSpec)} both`,
   whiteSpace: 'nowrap',
 });
 

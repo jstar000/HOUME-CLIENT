@@ -1,7 +1,7 @@
 import { styleVariants } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
-import { interaction } from '@styles/tokensV2/interaction/interaction.utils';
+import { pressInteraction } from '@styles/tokensV2/interaction/presets';
 
 import { unitVars } from '@/shared/styles/tokensV2/unit.css';
 
@@ -18,21 +18,8 @@ export const iconSize = styleVariants({
 export const iconButton = recipe({
   base: {
     transformOrigin: 'center center',
-    transition: interaction({
-      trigger: 'whilePressing',
-      action: 'stateChange',
-      duration: 'fastest',
-      easing: 'bezier.out',
-      property: 'transform',
-    }),
+    ...pressInteraction(0.95, '&:not(:disabled):active'),
     padding: unitVars.unit.gapPadding[100],
-
-    selectors: {
-      // 비활성화 상태가 아닐 때만 active 효과 적용
-      '&:not(:disabled):active': {
-        transform: 'scale(0.95)',
-      },
-    },
   },
   variants: {
     disabled: {

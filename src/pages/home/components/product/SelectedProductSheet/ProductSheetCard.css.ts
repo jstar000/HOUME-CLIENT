@@ -3,7 +3,7 @@ import { recipe } from '@vanilla-extract/recipes';
 
 import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
-import { interaction } from '@styles/tokensV2/interaction/interaction.utils';
+import { pressInteraction } from '@styles/tokensV2/interaction/presets';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
 const compactCardBase = style({
@@ -22,20 +22,9 @@ export const compactSlotContainer = style({
 export const compactSlotFilled = style([
   compactCardBase,
   {
-    transition: interaction({
-      trigger: 'whilePressing',
-      action: 'stateChange',
-      duration: 'fastest',
-      easing: 'bezier.out',
-      property: 'transform',
-    }),
+    ...pressInteraction(0.9),
     cursor: 'pointer',
     overflow: 'hidden',
-    selectors: {
-      '&:active': {
-        transform: 'scale(0.9)',
-      },
-    },
   },
 ]);
 
@@ -70,20 +59,9 @@ export const selectedCardContainer = style({
 export const selectedCard = style({
   display: 'flex',
   flexDirection: 'column',
-  transition: interaction({
-    trigger: 'whilePressing',
-    action: 'stateChange',
-    duration: 'fastest',
-    easing: 'bezier.out',
-    property: 'transform',
-  }),
+  ...pressInteraction(0.95),
   cursor: 'pointer',
   width: '100%',
-  selectors: {
-    '&:active': {
-      transform: 'scale(0.95)',
-    },
-  },
 });
 
 export const selectedImage = style({

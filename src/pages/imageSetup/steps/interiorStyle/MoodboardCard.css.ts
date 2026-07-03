@@ -3,7 +3,7 @@ import { recipe } from '@vanilla-extract/recipes';
 
 import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
-import { interaction } from '@styles/tokensV2/interaction/interaction.utils';
+import { pressInteraction } from '@styles/tokensV2/interaction/presets';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
 // 카드 컨테이너
@@ -14,13 +14,7 @@ export const card = recipe({
   base: {
     aspectRatio: '164 / 240',
     position: 'relative',
-    transition: interaction({
-      trigger: 'whilePressing',
-      action: 'stateChange',
-      duration: 'fastest',
-      easing: 'bezier.out',
-      property: 'transform',
-    }),
+    ...pressInteraction(0.95),
     border: `1px solid ${colorVars.color.border.secondary}`,
     borderRadius: unitVars.unit.radius['600'],
     backgroundColor: 'transparent',
@@ -29,11 +23,6 @@ export const card = recipe({
     width: '100%',
     overflow: 'hidden',
     font: 'inherit',
-    selectors: {
-      '&:active': {
-        transform: 'scale(0.95)',
-      },
-    },
   },
   variants: {
     state: {

@@ -1,12 +1,10 @@
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
+import { tagGroupOpenInteraction } from '@styles/tokensV2/interaction/presets';
+
 import { colorVars } from '@/shared/styles/tokensV2/color.css';
 import { fontVars } from '@/shared/styles/tokensV2/font.css';
-import {
-  interaction,
-  type InteractionSpec,
-} from '@/shared/styles/tokensV2/interaction/interaction.utils';
 import { unitVars } from '@/shared/styles/tokensV2/unit.css';
 
 export const section = style({
@@ -47,24 +45,12 @@ export const description = style({
 export const buttonGroup = style({
   display: 'flex',
 });
-
-const tagGroupOpenInteraction = {
-  trigger: 'tap',
-  action: 'stateChange',
-  duration: 'fast',
-  easing: 'bezier.out',
-  property: 'opacity',
-} as const satisfies InteractionSpec;
-
 export const tagGroup = recipe({
   base: {
     display: 'flex',
     flexDirection: 'column',
     gap: unitVars.unit.gapPadding['100'],
-    transition: [
-      interaction({ ...tagGroupOpenInteraction, property: 'opacity' }),
-      interaction({ ...tagGroupOpenInteraction, property: 'padding-top' }),
-    ].join(', '),
+    transition: tagGroupOpenInteraction,
     overflow: 'hidden',
   },
   variants: {

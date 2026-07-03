@@ -3,7 +3,7 @@ import { recipe } from '@vanilla-extract/recipes';
 
 import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
-import { interaction } from '@styles/tokensV2/interaction/interaction.utils';
+import { pressInteraction } from '@styles/tokensV2/interaction/presets';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
 export const optionCard = recipe({
@@ -12,22 +12,11 @@ export const optionCard = recipe({
     display: 'flex',
     flexShrink: 0,
     alignItems: 'flex-start',
-    transition: interaction({
-      trigger: 'whilePressing',
-      action: 'stateChange',
-      duration: 'fastest',
-      easing: 'bezier.out',
-      property: 'transform',
-    }),
+    ...pressInteraction(0.95),
     border: 0,
     borderRadius: unitVars.unit.radius['600'],
     overflow: 'hidden',
     textAlign: 'left',
-    selectors: {
-      '&:active': {
-        transform: 'scale(0.95)',
-      },
-    },
   },
   variants: {
     kind: {
@@ -166,15 +155,10 @@ export const previewNavButton = style({
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  transition: 'transform 100ms ease',
+  ...pressInteraction(0.95),
   border: 0,
   background: 'transparent',
   padding: unitVars.unit.gapPadding['200'],
   width: '3.6rem',
   height: '3.6rem',
-  selectors: {
-    '&:active': {
-      transform: 'scale(0.95)',
-    },
-  },
 });

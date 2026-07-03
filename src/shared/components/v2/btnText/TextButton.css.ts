@@ -3,7 +3,7 @@ import { recipe } from '@vanilla-extract/recipes';
 
 import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
-import { interaction } from '@styles/tokensV2/interaction/interaction.utils';
+import { pressInteraction } from '@styles/tokensV2/interaction/presets';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
 export const button = recipe({
@@ -13,19 +13,7 @@ export const button = recipe({
     justifyContent: 'center',
     gap: unitVars.unit.gapPadding['000'],
     transformOrigin: 'center center',
-    transition: interaction({
-      trigger: 'whilePressing',
-      action: 'stateChange',
-      duration: 'fastest',
-      easing: 'bezier.out',
-      property: 'transform',
-    }),
-
-    selectors: {
-      '&:not(:disabled):active': {
-        transform: 'scale(0.95)',
-      },
-    },
+    ...pressInteraction(0.95, '&:not(:disabled):active'),
   },
   variants: {
     color: {

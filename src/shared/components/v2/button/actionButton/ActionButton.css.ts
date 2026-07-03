@@ -2,7 +2,7 @@ import { recipe } from '@vanilla-extract/recipes';
 
 import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
-import { interaction } from '@styles/tokensV2/interaction/interaction.utils';
+import { pressTransformInteraction } from '@styles/tokensV2/interaction/presets';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
 const sizeVariantStyles = {
@@ -56,13 +56,7 @@ export const button = recipe({
     alignItems: 'center',
     justifyContent: 'center',
     transformOrigin: 'center center',
-    transition: interaction({
-      trigger: 'whilePressing',
-      action: 'stateChange',
-      duration: 'fastest',
-      easing: 'bezier.out',
-      property: 'transform',
-    }),
+    transition: pressTransformInteraction,
     border: 'none',
     borderRadius: unitVars.unit.radius['full'],
     cursor: 'pointer',

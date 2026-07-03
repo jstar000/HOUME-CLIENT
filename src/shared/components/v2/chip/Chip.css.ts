@@ -3,17 +3,8 @@ import { recipe } from '@vanilla-extract/recipes';
 
 import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
-import { interaction } from '@styles/tokensV2/interaction/interaction.utils';
+import { pressTransformInteraction } from '@styles/tokensV2/interaction/presets';
 import { unitVars } from '@styles/tokensV2/unit.css';
-
-const pressTransformTransition = interaction({
-  trigger: 'whilePressing',
-  action: 'stateChange',
-  duration: 'fastest',
-  easing: 'bezier.out',
-  property: 'transform',
-});
-
 export const chip = recipe({
   base: {
     display: 'inline-flex',
@@ -22,7 +13,7 @@ export const chip = recipe({
     gap: unitVars.unit.gapPadding['050'],
     transformOrigin: 'center center',
     transition: [
-      pressTransformTransition,
+      pressTransformInteraction,
       'background-color 120ms ease',
       'color 120ms ease',
       'border-color 120ms ease',
@@ -141,7 +132,7 @@ export const suffixButton = style({
   alignItems: 'center',
   justifyContent: 'center',
   transformOrigin: 'center center',
-  transition: pressTransformTransition,
+  transition: pressTransformInteraction,
   paddingTop: unitVars.unit.gapPadding['200'],
   paddingRight: unitVars.unit.gapPadding['300'],
   paddingBottom: unitVars.unit.gapPadding['200'],

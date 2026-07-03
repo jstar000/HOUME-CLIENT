@@ -1,9 +1,10 @@
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
+import { pressTransformInteraction } from '@styles/tokensV2/interaction/presets';
+
 import { colorVars } from '@/shared/styles/tokensV2/color.css';
 import { fontVars } from '@/shared/styles/tokensV2/font.css';
-import { interaction } from '@/shared/styles/tokensV2/interaction/interaction.utils';
 import { unitVars } from '@/shared/styles/tokensV2/unit.css';
 
 export const textContainer = style({
@@ -45,13 +46,7 @@ export const wrapper = style({
   display: 'flex',
   flexDirection: 'column',
   gap: unitVars.unit.gapPadding['200'],
-  transition: interaction({
-    trigger: 'whilePressing',
-    action: 'stateChange',
-    duration: 'fastest',
-    easing: 'bezier.out',
-    property: 'transform',
-  }),
+  transition: pressTransformInteraction,
   padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['500']}`,
   width: '100%',
   selectors: {
