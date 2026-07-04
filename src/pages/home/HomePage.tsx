@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
+import { useRecentFloorPlanQuery } from '@pages/imageSetup/v2/apis/queries/useRecentFloorPlanQuery';
 import { useMyPageUserQuery } from '@pages/mypage/apis/queries/useMyPageUserQuery';
 
 import { ROUTES } from '@routes/paths';
@@ -9,7 +10,14 @@ import { ROUTES } from '@routes/paths';
 import { useImageFlowStore, ENTRY_ROUTE } from '@store/useImageFlowStore';
 import { useUserStore } from '@store/useUserStore';
 
+import { GA_EVENTS } from '@shared/analytics/events';
+import {
+  useAnalyticsPageView,
+  useScrollDepthTrack,
+} from '@shared/analytics/hooks';
 import { LOGIN_ENTRY_ROUTE } from '@shared/analytics/params/gate';
+import { SCREEN_NAME } from '@shared/analytics/screenNames';
+import { trackEvent } from '@shared/analytics/track';
 import { persistLoginEntryRoute } from '@shared/analytics/utils/loginEntryRoute';
 
 import MenuTab from '@components/v2/menuTab/MenuTab';
@@ -52,9 +60,35 @@ const HomePage = () => {
       : (homeState?.activeTab ??
           (presetHasProductsToBeRestored ? 'product' : 'explore'))
   );
+  const isExploreTab = activeMenuTab === 'explore';
+  const { data: recentFloorPlanData } = useRecentFloorPlanQuery();
+  const hasPreviousImage = recentFloorPlanData?.hasRecentImage === true;
+
+  useAnalyticsPageView(
+    GA_EVENTS.home.PAGE_VIEW,
+    SCREEN_NAME.HOME,
+    { has_previous_image: hasPreviousImage },
+    { enabled: isExploreTab }
+  );
+
+  useScrollDepthTrack(GA_EVENTS.home.PAGE_SCROLL, SCREEN_NAME.HOME, {
+    enabled: isExploreTab,
+  });
 
   // 탭 전환 시 URL ?tab= 에 반영 → 로그인 게이트로 이탈했다 복귀해도 같은 탭으로 돌아옴
   const handleTabChange = (tab: HomeMenuTab) => {
+    if (tab === 'explore' && activeMenuTab !== 'explore') {
+      trackEvent(GA_EVENTS.home.TAP_EXPLORE_CLICK, {
+        screen_name: SCREEN_NAME.HOME,
+      });
+    }
+
+    if (tab === 'product' && activeMenuTab !== 'product') {
+      trackEvent(GA_EVENTS.home.TAP_SHOP_CLICK, {
+        screen_name: SCREEN_NAME.HOME,
+      });
+    }
+
     setActiveMenuTab(tab);
     setSearchParams(
       (prev) => {
@@ -107,7 +141,11 @@ const HomePage = () => {
         onTabChange={handleTabChange}
       />
       {activeMenuTab === 'explore' && (
-        <ExploreTab exploreSeedBannerId={homeState?.exploreSeedBannerId} />
+        <ExploreTab
+          exploreSeedBannerId={homeState?.exploreSeedBannerId}
+          hasPreviousImage={hasPreviousImage}
+          hasPreviousSpace={hasPreviousImage}
+        />
       )}
       {activeMenuTab === 'product' && <ProductTab />}
     </main>

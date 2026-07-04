@@ -28,9 +28,10 @@ const AUTO_PLAY_DELAY_MS = 2000;
 type BannerProps = {
   seedBannerId: number;
   onSlideClick?: (slide: BannerSlide) => void;
+  onBannerSwipe?: (direction: 'left' | 'right', slide: BannerSlide) => void;
 };
 
-const Banner = ({ seedBannerId, onSlideClick }: BannerProps) => {
+const Banner = ({ seedBannerId, onSlideClick, onBannerSwipe }: BannerProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const { data } = useBannerListQuery(seedBannerId);
 
@@ -74,6 +75,18 @@ const Banner = ({ seedBannerId, onSlideClick }: BannerProps) => {
             }
             onSlideChange={(swiper: SwiperType) => {
               setActiveIndex(swiper.realIndex);
+            }}
+            onTouchEnd={(swiper: SwiperType) => {
+              if (!onBannerSwipe || slides.length <= 1) return;
+              if (!swiper.touches.diff) return;
+
+              const slide = slides[swiper.realIndex];
+              if (!slide) return;
+
+              onBannerSwipe(
+                swiper.swipeDirection === 'prev' ? 'left' : 'right',
+                slide
+              );
             }}
             onSwiper={(swiper: SwiperType) => {
               setActiveIndex(swiper.realIndex);

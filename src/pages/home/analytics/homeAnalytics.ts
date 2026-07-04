@@ -1,0 +1,67 @@
+import type { BannerSlide } from '@pages/home/components/explore/banner/Banner';
+
+import { GA_EVENTS } from '@shared/analytics/events';
+import {
+  getHomeBannerParams,
+  getHomeStyleParams,
+} from '@shared/analytics/params/builders';
+import { SCREEN_NAME } from '@shared/analytics/screenNames';
+import { trackEvent } from '@shared/analytics/track';
+
+type HomeSpaceCardInput = {
+  spaceId?: number;
+  spaceName?: string;
+  hasPreviousSpace?: boolean;
+  hasPreviousImage?: boolean;
+};
+
+const homeScreenParams = () => ({
+  screen_name: SCREEN_NAME.HOME,
+});
+
+export const trackHomeBannerSlideEvent = (
+  eventName:
+    | typeof GA_EVENTS.home.BANNER_BG_IMG_CLICK
+    | typeof GA_EVENTS.home.BANNER_LEFT_SWIPE
+    | typeof GA_EVENTS.home.BANNER_RIGHT_SWIPE,
+  slide: BannerSlide | undefined
+) => {
+  if (!slide) return;
+
+  trackEvent(eventName, {
+    ...homeScreenParams(),
+    ...getHomeBannerParams({ bannerId: slide.id, bannerName: slide.title }),
+  });
+};
+
+export const trackHomeSpaceCardClick = ({
+  spaceId,
+  spaceName,
+  hasPreviousSpace,
+  hasPreviousImage,
+}: HomeSpaceCardInput) => {
+  trackEvent(GA_EVENTS.home.SPACE_CARD_CLICK, {
+    ...homeScreenParams(),
+    has_previous_space: hasPreviousSpace,
+    has_previous_image: hasPreviousImage,
+    space_id: spaceId,
+    space_name: spaceName,
+  });
+};
+
+export const trackHomeSpaceCardSlideScroll = (spaceId?: number) => {
+  trackEvent(GA_EVENTS.home.SPACE_CARD_SLIDE_SCROLL, {
+    ...homeScreenParams(),
+    ...(spaceId !== undefined && { space_id: spaceId }),
+  });
+};
+
+export const trackHomeStyleCardClick = (style: {
+  id: number;
+  name?: string;
+}) => {
+  trackEvent(GA_EVENTS.home.STYLE_CARD_CLICK, {
+    ...homeScreenParams(),
+    ...getHomeStyleParams({ styleId: style.id, styleName: style.name }),
+  });
+};
