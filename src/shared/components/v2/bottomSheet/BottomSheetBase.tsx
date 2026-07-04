@@ -11,6 +11,8 @@ import { createPortal } from 'react-dom';
 
 import IconButton from '@components/v2/button/IconButton';
 
+import { sheetSlideOutOpacityInteraction } from '@styles/tokensV2/interaction/presets';
+
 import * as styles from './BottomSheetBase.css';
 import { SHEET_TRANSITION_MS } from './constants';
 
@@ -49,6 +51,13 @@ interface BottomSheetBaseProps {
   preventScroll?: boolean;
   /** dragHandle 시트의 펼침 상태. 본문↔버튼 gap을 collapsed 8px / expanded 20px로 분기 (기본: false) */
   expanded?: boolean;
+  /** 콘텐츠 스크롤 컨테이너(contentSlot) ref. body 드래그 시 scrollTop 측정용 */
+  contentScrollRef?: React.Ref<HTMLDivElement>;
+  /** contentSlot에 부착할 body 터치 드래그 핸들러 (DragHandleBottomSheet에서 시트 expand/collapse 제어) */
+  contentTouchHandlers?: Pick<
+    React.DOMAttributes<HTMLDivElement>,
+    'onTouchStart' | 'onTouchMove' | 'onTouchEnd' | 'onTouchCancel'
+  >;
 }
 
 const BottomSheetBase = ({
@@ -71,6 +80,8 @@ const BottomSheetBase = ({
   backgroundInteractable = false,
   preventScroll = true,
   expanded = false,
+  contentScrollRef,
+  contentTouchHandlers,
 }: BottomSheetBaseProps) => {
   const [basePhase, setBasePhase] = useState<BasePhase>('closed');
 
@@ -128,7 +139,7 @@ const BottomSheetBase = ({
     }
   }, [open]);
 
-  // opening: 측정 → rAF*2 → 'open' (transition으로 슬라이드 인)
+  // opening: 측정 → rAF×2 → 'open' (transition으로 슬라이드 인)
   useLayoutEffect(() => {
     if (basePhase !== 'opening') return undefined;
     const panel = internalPanelRef.current;
@@ -168,7 +179,7 @@ const BottomSheetBase = ({
     };
   }, [basePhase]);
 
-  // panel transitionend 가드 (closeButton의 transform 100ms transition bubble 차단)
+  // panel transitionend 가드 (closeButton scale transition bubble 차단)
   const handleTransitionEnd = useCallback(
     (e: React.TransitionEvent<HTMLDivElement>) => {
       if (e.target !== internalPanelRef.current) return;
@@ -182,7 +193,6 @@ const BottomSheetBase = ({
 
   if (basePhase === 'closed') return null;
 
-  // transform/transition 합성
   const transform =
     basePhase === 'opening'
       ? 'translateY(100%)'
@@ -207,6 +217,10 @@ const BottomSheetBase = ({
   // closing 중에는 dim도 함께 fade out. 외에는 dimOpacity prop 또는 CSS 기본값 사용
   const overlayOpacity = basePhase === 'closing' ? 0 : dimOpacity;
 
+  // dragHandle 시트가 collapsed일 땐 콘텐츠 스크롤을 막아야(overflow hidden)
+  // body를 위로 끄는 제스처가 native 스크롤과 충돌 없이 expand로만 동작 (close 타입·expanded는 스크롤 허용)
+  const contentScrollable = headerType !== 'dragHandle' || expanded;
+
   return createPortal(
     <div
       className={styles.viewportLayer}
@@ -219,7 +233,7 @@ const BottomSheetBase = ({
           pointerEvents: backgroundInteractable ? 'none' : 'auto',
           transition:
             basePhase === 'closing'
-              ? `opacity ${SHEET_TRANSITION_MS}ms ease-out`
+              ? sheetSlideOutOpacityInteraction
               : undefined,
         }}
         onClick={onOverlayClick}
@@ -270,7 +284,17 @@ const BottomSheetBase = ({
             </div>
           )}
           <div className={styles.body({ headerType, expanded })}>
-            <div className={styles.contentSlot}>{contentSlot}</div>
+            <div
+              ref={contentScrollRef}
+              className={styles.contentSlot}
+              style={{
+                overflowY: contentScrollable ? 'auto' : 'hidden',
+                touchAction: contentScrollable ? 'pan-y' : 'none',
+              }}
+              {...contentTouchHandlers}
+            >
+              {contentSlot}
+            </div>
             <div className={styles.actionRow}>
               {secondaryButton && (
                 <div className={styles.secondaryActionSlot}>

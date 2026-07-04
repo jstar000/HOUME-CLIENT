@@ -1,22 +1,11 @@
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
-import {
-  animationTokens,
-  SKELETON_GRADIENT,
-} from '@styles/tokens/animation.css';
+import { pressTransformInteraction } from '@styles/tokensV2/interaction/presets';
 
 import { colorVars } from '@/shared/styles/tokensV2/color.css';
 import { fontVars } from '@/shared/styles/tokensV2/font.css';
 import { unitVars } from '@/shared/styles/tokensV2/unit.css';
-
-export const wrapper = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: unitVars.unit.gapPadding['200'],
-  padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['500']}`,
-  width: '100%',
-});
 
 export const textContainer = style({
   display: 'flex',
@@ -44,12 +33,30 @@ export const imgContainer = style({
   display: 'flex',
   flexShrink: 0,
   alignItems: 'center',
-  transition: 'transform 100ms ease',
   border: 0,
   borderRadius: unitVars.unit.radius['300'],
   cursor: 'pointer',
   width: '100%',
   overflow: 'hidden',
+});
+
+// wrapper는 textContainer/imgContainer 클래스 문자열을 :has()에서 참조
+// 두 스타일 선언 이후에 배치해야 초기화 순서 문제 발생 X
+export const wrapper = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: unitVars.unit.gapPadding['200'],
+  transition: pressTransformInteraction,
+  padding: `${unitVars.unit.gapPadding['000']} ${unitVars.unit.gapPadding['500']}`,
+  width: '100%',
+  selectors: {
+    [`&:has(${imgContainer}:active)`]: {
+      transform: 'scale(0.97)',
+    },
+    [`&:has(${textContainer}:active):not(:has(button:active))`]: {
+      transform: 'scale(0.97)',
+    },
+  },
 });
 
 export const cardImg = recipe({
@@ -70,6 +77,7 @@ export const cardImg = recipe({
   },
 });
 
+// 가로 스크롤되는 상품 카드 리스트 (list 타입 카드 하단)
 export const listCardContainer = style({
   display: 'flex',
   alignItems: 'center',
@@ -91,13 +99,4 @@ export const listCardContainer = style({
       display: 'none',
     },
   },
-});
-
-export const skeleton = style({
-  position: 'absolute',
-  inset: 0,
-  borderRadius: '0.8rem',
-  background: SKELETON_GRADIENT,
-  backgroundSize: '200% 100%',
-  animation: `${animationTokens.skeletonWave} 2s linear infinite`,
 });

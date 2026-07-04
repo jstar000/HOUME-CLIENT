@@ -214,11 +214,8 @@ const LoadingPage = () => {
     };
   }, []);
 
-  const hasError =
-    isError ||
-    (!isPending && !currentImages) ||
-    !currentImages ||
-    currentImages.length === 0;
+  // currentImages는 `currentStack?.carousels ?? []`로 항상 배열 → 빈 배열 여부만 확인
+  const hasError = isError || currentImages.length === 0;
 
   // 정상 데이터일 때 현재/다음 이미지 계산
   const currentImage = hasError ? null : currentImages[currentIndex];
@@ -367,6 +364,7 @@ const LoadingPage = () => {
                               : `다음 가구 이미지`
                           }
                           className={styles.imageStyle}
+                          placeholder="color"
                           loading="eager"
                         />
                       </div>
@@ -382,6 +380,7 @@ const LoadingPage = () => {
                               : `다음 가구 이미지`
                           }
                           className={styles.imageStyle}
+                          placeholder="color"
                           loading="eager"
                         />
                       </div>

@@ -6,15 +6,19 @@ import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
+const NAV_BAR_CONTENT_HEIGHT = '4.8rem';
+
 export const container = style({
+  boxSizing: 'border-box',
   zIndex: zIndex.navBar,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
+  paddingTop: 'env(safe-area-inset-top, 0px)',
   width: '100%',
   minWidth: unitVars.unit.dimension.wMin,
   maxWidth: unitVars.unit.dimension.wMax,
-  height: '4.8rem',
+  height: `calc(${NAV_BAR_CONTENT_HEIGHT} + env(safe-area-inset-top, 0px))`,
 });
 
 export const leftContainer = style({
@@ -68,18 +72,12 @@ export const generateButton = style({
   alignItems: 'center',
   justifyContent: 'center',
   gap: unitVars.unit.gapPadding['100'],
-  transition: 'transform 120ms ease',
   border: 0,
   borderRadius: unitVars.unit.radius.full,
   backgroundColor: colorVars.color.fill.primary,
   paddingRight: unitVars.unit.gapPadding['300'],
   paddingLeft: unitVars.unit.gapPadding['300'],
   height: '4rem',
-  selectors: {
-    '&:active': {
-      transform: 'scale(0.95)',
-    },
-  },
 });
 
 export const icon16 = style({
@@ -104,17 +102,11 @@ export const loginButton = recipe({
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    transition: 'transform 120ms ease',
     border: 0,
     background: 'transparent',
     paddingRight: unitVars.unit.gapPadding['100'],
     paddingLeft: unitVars.unit.gapPadding['100'],
     ...fontVars.font.body_r_14,
-    selectors: {
-      '&:active': {
-        transform: 'scale(0.95)',
-      },
-    },
   },
   variants: {
     page: {
@@ -132,17 +124,11 @@ export const profileButton = style({
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  transition: 'transform 120ms ease',
   border: 0,
   background: 'transparent',
   padding: unitVars.unit.gapPadding['100'],
   width: '4.8rem',
   height: '4.8rem',
-  selectors: {
-    '&:active': {
-      transform: 'scale(0.95)',
-    },
-  },
 });
 
 export const profileImage = style({

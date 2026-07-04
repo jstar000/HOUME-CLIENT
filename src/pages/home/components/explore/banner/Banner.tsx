@@ -23,7 +23,7 @@ export type BannerSlide = {
   imageUrl: string;
 };
 
-const AUTO_PLAY_DELAY_MS = 4000;
+const AUTO_PLAY_DELAY_MS = 2000;
 
 type BannerProps = {
   seedBannerId: number;
@@ -92,6 +92,7 @@ const Banner = ({ seedBannerId, onSlideClick }: BannerProps) => {
                       sizes={IMAGE_SIZES.full}
                       alt={slide.title}
                       className={styles.image}
+                      placeholder="color"
                       draggable={false}
                       loading={index === 0 ? 'eager' : 'lazy'}
                       decoding="async"
