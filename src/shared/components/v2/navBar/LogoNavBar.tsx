@@ -2,8 +2,9 @@ import { useNavigate } from 'react-router-dom';
 
 import { ROUTES } from '@routes/paths';
 
+import { TOP_NAV_RETURN_SCREEN } from '@shared/analytics/componentAnalytics';
 import { GA_EVENTS } from '@shared/analytics/events';
-import { SCREEN_NAME, type ScreenName } from '@shared/analytics/screenNames';
+import { type ScreenName } from '@shared/analytics/screenNames';
 import { trackCallback } from '@shared/analytics/track';
 
 import imgProfile from '@assets/v2/images/ImgProfile.svg';
@@ -44,28 +45,28 @@ const LogoNavBar = ({
     GA_EVENTS.component.TOP_NAV_LOGO_CLICK,
     screenName,
     () => navigate(ROUTES.HOME),
-    { return_screen_name: SCREEN_NAME.HOME }
+    TOP_NAV_RETURN_SCREEN.LOGO
   );
 
   const handleGenerateClick = trackCallback(
     GA_EVENTS.component.TOP_NAV_CREATE_IMG_CLICK,
     screenName,
     onGenerateClick,
-    { return_screen_name: SCREEN_NAME.ROOM_TYPE }
+    TOP_NAV_RETURN_SCREEN.CREATE_IMG
   );
 
   const handleLoginClick = trackCallback(
     GA_EVENTS.component.TOP_NAV_LOGIN_CLICK,
     screenName,
     onLoginClick,
-    { return_screen_name: SCREEN_NAME.LOGIN_SOCIAL }
+    TOP_NAV_RETURN_SCREEN.LOGIN
   );
 
   const handleProfileClick = trackCallback(
     GA_EVENTS.component.TOP_NAV_MYPAGE_CLICK,
     screenName,
     onProfileClick,
-    { return_screen_name: SCREEN_NAME.MYPAGE }
+    TOP_NAV_RETURN_SCREEN.MYPAGE
   );
 
   return (

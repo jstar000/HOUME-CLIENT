@@ -4,11 +4,13 @@ import { useMutation } from '@tanstack/react-query';
 
 import { useSavedItemsStore } from '@store/useSavedItemsStore';
 
-import { GA_EVENTS } from '@shared/analytics/events';
-import { getProductCardParams } from '@shared/analytics/params/builders/productCard';
+import {
+  trackSaveToastCancelClick,
+  trackSaveToastToSeeClick,
+  trackToastSaveView,
+} from '@shared/analytics/componentAnalytics';
 import type { LoginEntryRoute } from '@shared/analytics/params/gate';
 import { resolveScreenName } from '@shared/analytics/screenNames';
-import { trackEvent } from '@shared/analytics/track';
 import type { SaveItemsRequest, SaveItemsResponse } from '@shared/types/jjym';
 import { TOAST_TYPE, TOASTER_ID } from '@shared/types/toast';
 
@@ -60,12 +62,8 @@ const getSavedToastContent = (type: JjymSavedToast) => {
   };
 };
 
-const getSaveToastParams = (rawProductId: number, productName?: string) => ({
-  screen_name: resolveScreenName(
-    window.location.pathname + window.location.search
-  ),
-  ...getProductCardParams({ productId: rawProductId, name: productName }),
-});
+const getCurrentScreenName = () =>
+  resolveScreenName(window.location.pathname + window.location.search);
 
 export const useJjymMutation = (options?: UseJjymMutationOptions) => {
   const toggleSaveProduct = useSavedItemsStore((s) => s.toggleSaveProduct);
@@ -124,35 +122,37 @@ export const useJjymMutation = (options?: UseJjymMutationOptions) => {
         }
 
         const toastContent = getSavedToastContent(savedToastType);
-        const toastParams = getSaveToastParams(rawProductId, productName);
+        const toastInput = {
+          screenName: getCurrentScreenName(),
+          rawProductId,
+          productName,
+        };
 
-        trackEvent(GA_EVENTS.component.TOAST_SAVE_VIEW, toastParams);
+        trackToastSaveView(toastInput);
 
         notify({
           text: toastContent.text,
           type: TOAST_TYPE.ACTION,
           actionLabel: toastContent.actionLabel,
           onClick: () => {
-            trackEvent(
-              GA_EVENTS.component.SAVE_TOAST_TO_SEE_CLICK,
-              toastParams
-            );
+            trackSaveToastToSeeClick(toastInput);
             options?.onSavedAction?.();
           },
           options: TOAST_OPTIONS,
         });
       } else {
-        const toastParams = getSaveToastParams(rawProductId, productName);
+        const toastInput = {
+          screenName: getCurrentScreenName(),
+          rawProductId,
+          productName,
+        };
 
         notify({
           text: TOAST_MESSAGE.SAVED_ITEM_REMOVED,
           type: TOAST_TYPE.ACTION,
           actionLabel: TOAST_ACTION_LABEL.UNDO,
           onClick: () => {
-            trackEvent(
-              GA_EVENTS.component.SAVE_TOAST_CANCEL_CLICK,
-              toastParams
-            );
+            trackSaveToastCancelClick(toastInput);
             toggleSaveProduct(rawProductId);
 
             void syncSavedStateWithServer(rawProductId).catch(() => {

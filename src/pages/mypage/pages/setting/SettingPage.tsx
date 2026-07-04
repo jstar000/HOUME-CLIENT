@@ -14,10 +14,13 @@ import {
 
 import { ROUTES } from '@routes/paths';
 
+import {
+  trackSuccessionMdByeClick,
+  trackSuccessionMdCancelClick,
+} from '@shared/analytics/componentAnalytics';
 import { GA_EVENTS } from '@shared/analytics/events';
 import { useAnalyticsPageView } from '@shared/analytics/hooks';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
-import { trackEvent } from '@shared/analytics/track';
 
 import { useToast } from '@components/toast/useToast';
 import TitleNavBar from '@components/v2/navBar/TitleNavBar';
@@ -92,14 +95,11 @@ const SettingPage = () => {
           btnText="취소하기"
           weakBtnText="탈퇴하기"
           onConfirm={() => {
-            trackEvent(GA_EVENTS.component.SUCCESSION_MD_CANCEL_CLICK);
+            trackSuccessionMdCancelClick();
             unmount();
           }}
           onCancel={() => {
-            trackEvent(GA_EVENTS.component.SUCCESSION_MD_BYE_CLICK, {
-              screen_name: SCREEN_NAME.SETTING,
-              return_screen_name: SCREEN_NAME.HOME,
-            });
+            trackSuccessionMdByeClick();
             unmount();
             deleteUser();
           }}

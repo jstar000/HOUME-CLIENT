@@ -19,6 +19,10 @@ import { ROUTES } from '@routes/paths';
 
 import { useImageFlowStore } from '@store/useImageFlowStore';
 
+import {
+  trackGenImgQuitMdKeepClick,
+  trackGenImgQuitMdQuitClick,
+} from '@shared/analytics/componentAnalytics';
 import { GA_EVENTS } from '@shared/analytics/events';
 import { useAnalyticsPageView } from '@shared/analytics/hooks';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
@@ -101,10 +105,7 @@ const LoadingPage = () => {
           unmount();
         };
         const exit = () => {
-          trackEvent(GA_EVENTS.component.GEN_IMG_QUIT_MD_QUIT_CLICK, {
-            screen_name: SCREEN_NAME.LOAD_IMG,
-            return_screen_name: SCREEN_NAME.HOME,
-          });
+          trackGenImgQuitMdQuitClick(SCREEN_NAME.LOAD_IMG);
           unmount();
           exitImageFlow();
           reset();
@@ -118,11 +119,11 @@ const LoadingPage = () => {
             weakBtnText="나가기"
             topIconName="WarningFillDanger"
             onClose={() => {
-              trackEvent(GA_EVENTS.component.GEN_IMG_QUIT_MD_KEEP_CLICK);
+              trackGenImgQuitMdKeepClick();
               stay();
             }}
             onConfirm={() => {
-              trackEvent(GA_EVENTS.component.GEN_IMG_QUIT_MD_KEEP_CLICK);
+              trackGenImgQuitMdKeepClick();
               stay();
             }}
             onCancel={exit}

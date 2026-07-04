@@ -8,9 +8,11 @@ import {
 
 import { ROUTES } from '@routes/paths';
 
-import { GA_EVENTS } from '@shared/analytics/events';
+import {
+  trackResetInfoMdKeepClick,
+  trackResetInfoMdQuitClick,
+} from '@shared/analytics/componentAnalytics';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
-import { trackEvent } from '@shared/analytics/track';
 
 import Popup from '@components/v2/popup/Popup';
 
@@ -96,10 +98,7 @@ const FunnelLayout = ({ children, currentStep }: FunnelLayoutProps) => {
         };
 
         const exit = () => {
-          trackEvent(GA_EVENTS.component.RESET_INFO_MD_QUIT_CLICK, {
-            screen_name: SCREEN_NAME.ROOM_TYPE,
-            return_screen_name: SCREEN_NAME.HOME,
-          });
+          trackResetInfoMdQuitClick(SCREEN_NAME.ROOM_TYPE);
           unmount();
           proceed();
         };
@@ -110,11 +109,11 @@ const FunnelLayout = ({ children, currentStep }: FunnelLayoutProps) => {
             btnText="계속하기"
             weakBtnText="나가기"
             onClose={() => {
-              trackEvent(GA_EVENTS.component.RESET_INFO_MD_KEEP_CLICK);
+              trackResetInfoMdKeepClick();
               stay();
             }}
             onConfirm={() => {
-              trackEvent(GA_EVENTS.component.RESET_INFO_MD_KEEP_CLICK);
+              trackResetInfoMdKeepClick();
               stay();
             }}
             onCancel={exit}
