@@ -108,7 +108,7 @@ export const trackEvent = (
  * `screen_name` 포함 trackEvent 후 기존 핸들러 실행
  *
  * @example
- * onClick={trackCallback(GA_EVENTS.topNav.LOGIN_CLICK, 'topNav', onLoginClick)}
+ * onClick={trackCallback(GA_EVENTS.component.TOP_NAV_LOGIN_CLICK, 'topNav', onLoginClick)}
  */
 export const trackCallback = (
   eventName: GaEventName,
