@@ -35,6 +35,7 @@ const MainToaster = () => {
       notify({
         text: TOAST_MESSAGE.NETWORK_UNSTABLE,
         type: TOAST_TYPE.ERROR,
+        hasIcon: false,
         options: { toasterId: TOASTER_ID.BOTTOM_4 },
       });
     };
