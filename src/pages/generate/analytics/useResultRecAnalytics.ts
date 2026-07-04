@@ -2,13 +2,19 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import {
   joinProductIds,
+  trackResultRecBtnArrowLeftClick,
+  trackResultRecBtnArrowRightClick,
+  trackResultRecBtnMoreImgClick,
+  trackResultRecBtnPreferenceClick,
   trackResultRecChipFilterClick,
   trackResultRecFeedCardGoSiteClick,
   trackResultRecFeedCardOnCardClick,
   trackResultRecFeedCardSaveClick,
   trackResultRecFeedCardUnsaveClick,
   trackResultRecListRecView,
+  trackResultRecMdNotYetView,
   trackResultRecSlideFilterCombView,
+  trackResultRecToastThxOpinionView,
 } from '@pages/generate/analytics/resultRecAnalytics';
 
 import type { ProductCardInput } from '@shared/analytics/params/builders/productCard';
@@ -145,11 +151,40 @@ const useResultRecAnalytics = ({
     []
   );
 
+  const handleArrowLeftClick = useCallback(() => {
+    trackResultRecBtnArrowLeftClick();
+  }, []);
+
+  const handleArrowRightClick = useCallback(() => {
+    trackResultRecBtnArrowRightClick();
+  }, []);
+
+  const handleMoreImgClick = useCallback(() => {
+    trackResultRecBtnMoreImgClick();
+    trackResultRecMdNotYetView();
+  }, []);
+
+  const handlePreferenceClick = useCallback(
+    (params: { genImgId: number; isLike: boolean }) => {
+      trackResultRecBtnPreferenceClick(params);
+    },
+    []
+  );
+
+  const handleFactorFeedbackThankYou = useCallback(() => {
+    trackResultRecToastThxOpinionView();
+  }, []);
+
   return {
     handleCategoryChipClick,
     handleFeedCardClick,
     handleFeedCardGoSiteClick,
     handleFeedCardSaveToggle,
+    handleArrowLeftClick,
+    handleArrowRightClick,
+    handleMoreImgClick,
+    handlePreferenceClick,
+    handleFactorFeedbackThankYou,
   };
 };
 

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { useResultRecAnalytics } from '@pages/generate/hooks/useResultRecAnalytics';
+import { useResultRecAnalytics } from '@pages/generate/analytics/useResultRecAnalytics';
 import { useCurationCategoriesQuery } from '@pages/generate/v2/apis/queries/useCurationCategoriesQuery';
 import { useCurationProductsQuery } from '@pages/generate/v2/apis/queries/useCurationProductsQuery';
 
@@ -182,6 +182,11 @@ const CurationResult = ({
     handleFeedCardClick,
     handleFeedCardGoSiteClick,
     handleFeedCardSaveToggle,
+    handleArrowLeftClick,
+    handleArrowRightClick,
+    handleMoreImgClick,
+    handlePreferenceClick,
+    handleFactorFeedbackThankYou,
   } = useResultRecAnalytics({
     currentImageId,
     categoriesState,
@@ -205,6 +210,9 @@ const CurationResult = ({
         images={images}
         onCurrentImgIdChange={onCurrentImgIdChange}
         onSlideChange={setSlideIndex}
+        onArrowLeftClick={handleArrowLeftClick}
+        onArrowRightClick={handleArrowRightClick}
+        onMoreImgClick={handleMoreImgClick}
       />
 
       <div className={styles.mainArea}>
@@ -318,7 +326,11 @@ const CurationResult = ({
             className={styles.section}
             aria-label="생성 이미지 선호도 조사"
           >
-            <ImgFeedback imageId={lastImageId} />
+            <ImgFeedback
+              imageId={lastImageId}
+              onPreferenceClick={handlePreferenceClick}
+              onFactorFeedbackThankYou={handleFactorFeedbackThankYou}
+            />
           </section>
         )}
       </div>

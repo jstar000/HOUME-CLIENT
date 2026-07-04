@@ -7,13 +7,6 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-import {
-  trackResultRecBtnArrowLeftClick,
-  trackResultRecBtnArrowRightClick,
-  trackResultRecBtnMoreImgClick,
-  trackResultRecMdNotYetView,
-} from '@pages/generate/analytics/resultRecAnalytics';
-
 import generateResultLockedPreview from '@assets/images/generateResultLockedPreview.png';
 
 import OptimizedImage from '@components/image/OptimizedImage';
@@ -30,12 +23,18 @@ export interface GeneratedImgCurationProps {
   images: ResultImageMeta[];
   onCurrentImgIdChange?: (currentImgId: number) => void;
   onSlideChange?: (slideIndex: number) => void;
+  onArrowLeftClick?: () => void;
+  onArrowRightClick?: () => void;
+  onMoreImgClick?: () => void;
 }
 
 const GeneratedImg = ({
   images,
   onCurrentImgIdChange,
   onSlideChange,
+  onArrowLeftClick,
+  onArrowRightClick,
+  onMoreImgClick,
 }: GeneratedImgCurationProps) => {
   const [swiper, setSwiper] = useState<SwiperType | null>(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -60,8 +59,7 @@ const GeneratedImg = ({
     !swiper || currentSlideIndex === Math.max(0, totalSlideCount - 1);
 
   const handleOpenModal = () => {
-    trackResultRecBtnMoreImgClick();
-    trackResultRecMdNotYetView();
+    onMoreImgClick?.();
     overlay.open(({ unmount }) => (
       <CommunityComingSoonModal onClose={unmount} />
     ));
@@ -90,7 +88,7 @@ const GeneratedImg = ({
               className={styles.slideNavBtn}
               disabled={isPrevDisabled}
               onClick={() => {
-                trackResultRecBtnArrowLeftClick();
+                onArrowLeftClick?.();
                 swiper?.slidePrev();
               }}
               aria-label="이전 이미지"
@@ -141,7 +139,7 @@ const GeneratedImg = ({
               className={styles.slideNavBtn}
               disabled={isNextDisabled}
               onClick={() => {
-                trackResultRecBtnArrowRightClick();
+                onArrowRightClick?.();
                 swiper?.slideNext();
               }}
               aria-label="다음 이미지"
