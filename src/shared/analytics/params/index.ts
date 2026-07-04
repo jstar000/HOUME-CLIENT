@@ -8,6 +8,7 @@
 export * from '@shared/analytics/utils';
 export * from '@shared/analytics/params/auth';
 export * from '@shared/analytics/params/bannerDetail';
+export * from '@shared/analytics/params/builders';
 export * from '@shared/analytics/params/gate';
 export * from '@shared/analytics/params/global';
 export * from '@shared/analytics/params/homeContent';
