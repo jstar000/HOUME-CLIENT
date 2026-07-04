@@ -1,3 +1,5 @@
+import type { RefObject } from 'react';
+
 import type { ExploreHouseTemplateItemResponse } from '@apis/__generated__/data-contracts';
 
 import emptyImage from '@assets/v2/images/ImgEmpty.png';
@@ -11,11 +13,12 @@ import * as styles from './FloorPlanSelectGrid.css';
 import type { FilterCategory, FloorPlanFilters } from '../../types/floorPlan';
 
 interface FloorPlanSelectGridProps {
+  gridScrollRef: RefObject<HTMLDivElement | null>;
   filterCategories: FilterCategory[];
   floorPlans: ExploreHouseTemplateItemResponse[];
   isExact: boolean;
   appliedFilters: FloorPlanFilters;
-  onCardClick: (floorPlanId: number) => void;
+  onCardClick: (floorPlanId: number, fromRecommendation?: boolean) => void;
   onFilterChipClick: () => void;
   onFilterChipClear: (key: keyof FloorPlanFilters) => void;
 }
@@ -36,6 +39,7 @@ const getChipLabel = (category: FilterCategory, filterValues: string[]) => {
 };
 
 const FloorPlanSelectGrid = ({
+  gridScrollRef,
   filterCategories,
   floorPlans,
   isExact,
@@ -45,7 +49,10 @@ const FloorPlanSelectGrid = ({
   onFilterChipClear,
 }: FloorPlanSelectGridProps) => {
   // 도면 카드 매핑: 정상 그리드와 '이런 공간은 어떠세요?' 유사 섹션 양쪽에서 동일하게 재사용
-  const cards = floorPlans.map((plan) => {
+  const renderCard = (
+    plan: ExploreHouseTemplateItemResponse,
+    fromRecommendation = false
+  ) => {
     if (plan.id === undefined) return null;
     return (
       <RoomTypeCard
@@ -55,10 +62,10 @@ const FloorPlanSelectGrid = ({
         label={plan.name ?? ''}
         imageSrc={plan.imageUrl ?? ''}
         showRecentBadge={plan.isLatest}
-        onClick={() => onCardClick(plan.id as number)}
+        onClick={() => onCardClick(plan.id as number, fromRecommendation)}
       />
     );
-  });
+  };
 
   return (
     <div className={styles.container}>
@@ -94,9 +101,11 @@ const FloorPlanSelectGrid = ({
       </div>
 
       {/* 카드 그리드 영역 */}
-      <div className={styles.gridScroll}>
+      <div ref={gridScrollRef} className={styles.gridScroll}>
         {isExact ? (
-          <div className={styles.grid}>{cards}</div>
+          <div className={styles.grid}>
+            {floorPlans.map((plan) => renderCard(plan))}
+          </div>
         ) : (
           <>
             {/* 상단 이미지 + 공간없음 텍스트 */}
@@ -118,7 +127,9 @@ const FloorPlanSelectGrid = ({
             {/* '이런 공간은 어떠세요?' — 서버가 대체로 보내준 유사 도면 그리드 */}
             <div className={styles.similarSection}>
               <p className={styles.similarTitle}>이런 공간은 어떠세요?</p>
-              <div className={styles.grid}>{cards}</div>
+              <div className={styles.grid}>
+                {floorPlans.map((plan) => renderCard(plan, true))}
+              </div>
             </div>
           </>
         )}

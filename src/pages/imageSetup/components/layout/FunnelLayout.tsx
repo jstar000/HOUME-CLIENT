@@ -1,6 +1,11 @@
 import { overlay } from 'overlay-kit';
 import { useNavigate } from 'react-router-dom';
 
+import {
+  trackRoomTypeBtnBackClick,
+  trackRoomTypeMdResetInfoView,
+} from '@pages/imageSetup/analytics/roomTypeAnalytics';
+
 import { ROUTES } from '@routes/paths';
 
 import { GA_EVENTS } from '@shared/analytics/events';
@@ -81,6 +86,8 @@ const FunnelLayout = ({ children, currentStep }: FunnelLayoutProps) => {
 
       // unmount: overlay-kit이 제공, 모달 컴포넌트 제거
       overlay.open(({ unmount }) => {
+        trackRoomTypeMdResetInfoView();
+
         // '계속하기' / backdrop 클릭 -> blocker의 'blocked' 상태 해제, 현재 step에 머무름
         const stay = () => {
           useFloorPlanStore.getState().restoreSheets(sheetsSnapshot);
@@ -139,7 +146,12 @@ const FunnelLayout = ({ children, currentStep }: FunnelLayoutProps) => {
         // 모든 step에서 동일하게 navigate(-1) 호출
         // - step1: useExitBlocker가 가로채서 이탈 모달 표시 (이미지 생성 플로우 진행 중 보호)
         // - step2/step3: 이전 step 복귀
-        onBackClick={() => navigate(-1)}
+        onBackClick={() => {
+          if (isStep1) {
+            trackRoomTypeBtnBackClick();
+          }
+          navigate(-1);
+        }}
       />
       <div className={styles.content}>{children}</div>
     </div>

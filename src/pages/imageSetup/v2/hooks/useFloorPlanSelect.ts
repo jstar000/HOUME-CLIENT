@@ -2,20 +2,11 @@ import { useEffect, useRef } from 'react';
 
 import { useImageFlowStore } from '@store/useImageFlowStore';
 
-import { GA_EVENTS } from '@shared/analytics/events';
-import { SCREEN_NAME } from '@shared/analytics/screenNames';
-import { trackEvent } from '@shared/analytics/track';
-import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
 import { TOAST_TYPE, TOASTER_ID } from '@shared/types/toast';
 
 import { useToast } from '@components/v2/toast/useToast';
 
 import { TOAST_MESSAGE } from '@constants/toastMessage';
-
-import {
-  getReturnScreenNameFromImageEntry,
-  toSheetExpansionStatus,
-} from '@/shared/analytics/utils/imageFlow/imageFlowParams';
 
 import { useFunnelStore } from '../../stores/useFunnelStore';
 import { useHouseTemplateDetailQuery } from '../apis/queries/useHouseTemplateDetailQuery';
@@ -58,29 +49,6 @@ export const useFloorPlanSelect = (
   const recentFloorPlan = recentFloorPlanData?.hasRecentImage
     ? recentFloorPlanData
     : null;
-
-  const trackViewSheetSubmit = (
-    floorPlanId: number,
-    floorPlanName: string,
-    floorPlanView: string,
-    equilibrium: string
-  ) => {
-    trackEvent(GA_EVENTS.roomType.VIEW_SHT_SUBMIT, {
-      screen_name: SCREEN_NAME.ROOM_TYPE,
-      image_entry_route: getEntryRoute(),
-      return_screen_name: getReturnScreenNameFromImageEntry(),
-      space_id: floorPlanId,
-      space_name: floorPlanName,
-      space_view: floorPlanView,
-      space_size: equilibrium,
-      sheet_expansion_status: toSheetExpansionStatus(
-        useFloorPlanStore.getState().isFloorPlanSheetOpen
-      ),
-      has_previous_space: recentFloorPlanData?.hasRecentImage === true,
-      previous_space_id: recentFloorPlanData?.floorPlanId,
-      previous_space_name: recentFloorPlanData?.floorPlanName,
-    });
-  };
 
   // 시트 자동 오픈 우선순위 (마운트 시 1회 평가):
   // 1순위: useFunnelStore.floorPlan 있음 → FloorPlanSheet 복원 (로그인 게이트 복귀)
@@ -178,12 +146,6 @@ export const useFloorPlanSelect = (
       ...floorPlanData,
       floorPlanViewIndex: store.selectedViewIndex,
     });
-    trackViewSheetSubmit(
-      store.selectedFloorPlanId,
-      selectedFloorPlanName,
-      floorPlanView,
-      selectedEquilibrium
-    );
     onNext({ floorPlan: floorPlanData });
   };
 
@@ -205,12 +167,6 @@ export const useFloorPlanSelect = (
       ...floorPlanData,
       floorPlanViewIndex: store.selectedViewIndex,
     });
-    trackViewSheetSubmit(
-      recentFloorPlan.floorPlanId,
-      recentFloorPlan.floorPlanName ?? '',
-      floorPlanView,
-      recentFloorPlan.equilibrium ?? ''
-    );
     onNext({ floorPlan: floorPlanData });
   };
 
