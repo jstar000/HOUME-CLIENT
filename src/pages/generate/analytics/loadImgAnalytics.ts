@@ -3,7 +3,10 @@ import { getProductCardParams } from '@shared/analytics/params/builders/productC
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
 import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
-import { getLoadImgReturnScreenName } from '@shared/analytics/utils/imageFlow/imageFlowParams';
+import {
+  getLoadImgReturnScreenName,
+  toLoadPreferenceType,
+} from '@shared/analytics/utils/imageFlow';
 
 const loadImgScreenParams = () => ({
   screen_name: SCREEN_NAME.LOAD_IMG,
@@ -44,4 +47,19 @@ export const trackLoadImgCardPreferenceView = ({
 
 export const trackLoadImgMdGenImgQuitView = () => {
   trackEvent(GA_EVENTS.loadImg.MD_GEN_IMG_QUIT_VIEW, loadImgScreenParams());
+};
+
+export const trackLoadImgCardPreferenceClick = ({
+  productId,
+  isLike,
+}: {
+  productId: number;
+  isLike: boolean;
+}) => {
+  trackEvent(GA_EVENTS.loadImg.CARD_PREFERENCE_CLICK, {
+    ...loadImgScreenParams(),
+    image_entry_route: getEntryRoute(),
+    product_id: productId,
+    load_preference_type: toLoadPreferenceType(isLike),
+  });
 };

@@ -5,6 +5,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 import {
+  trackLoadImgCardPreferenceClick,
   trackLoadImgCardPreferenceView,
   trackLoadImgMdGenImgQuitView,
   trackLoadImgPageBackSwipe,
@@ -26,8 +27,11 @@ import {
 import { GA_EVENTS } from '@shared/analytics/events';
 import { useAnalyticsPageView } from '@shared/analytics/hooks';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
-import { trackEvent } from '@shared/analytics/track';
 import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
+import {
+  ensureShortFunnelFlowSnapshot,
+  getLoadImgReturnScreenName,
+} from '@shared/analytics/utils/imageFlow';
 
 import type { GetCarouselResponseDTO } from '@apis/__generated__/data-contracts';
 
@@ -42,11 +46,6 @@ import Popup from '@components/v2/popup/Popup';
 import { useErrorHandler } from '@hooks/useErrorHandler';
 import { useExitBlocker } from '@hooks/useExitBlocker';
 
-import {
-  ensureShortFunnelFlowSnapshot,
-  getLoadImgReturnScreenName,
-  toLoadPreferenceType,
-} from '@/shared/analytics/utils/imageFlow/imageFlowParams';
 import { TOAST_TYPE } from '@/shared/types/toastLegacy';
 
 import { useExitImageFlow } from './hooks/useExitImageFlow';
@@ -342,13 +341,14 @@ const LoadingPage = () => {
     if (isPending || isJjymLoading) return;
     if (!displayCurrentImage) return;
 
+    const productId = displayCurrentImage.rawProductId;
+    if (productId == null) return;
+
     setIsTooltipOpen(false);
 
-    trackEvent(GA_EVENTS.loadImg.CARD_PREFERENCE_CLICK, {
-      screen_name: SCREEN_NAME.LOAD_IMG,
-      image_entry_route: getEntryRoute(),
-      product_id: displayCurrentImage.rawProductId,
-      load_preference_type: toLoadPreferenceType(isLike),
+    trackLoadImgCardPreferenceClick({
+      productId,
+      isLike,
     });
 
     if (isLike) {
