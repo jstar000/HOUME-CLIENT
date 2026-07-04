@@ -4,6 +4,8 @@ import { useGetJjymListQuery } from '@pages/mypage/apis/queries/useGetJjymListQu
 
 import { useSavedItemsStore } from '@store/useSavedItemsStore';
 
+import { LOGIN_ENTRY_ROUTE } from '@shared/analytics/params/gate';
+
 import { useJjymMutation } from '@apis/mutations/useJjymMutation';
 
 import { SESSION_STORAGE_KEYS } from '@constants/bottomSheet';
@@ -34,6 +36,7 @@ const SavedItemsSection = () => {
   const { mutate: toggleJjym } = useJjymMutation({
     savedToastType: 'none',
     invalidateSavedItemsList: false,
+    loginEntryRoute: LOGIN_ENTRY_ROUTE.PRODUCT_CARD_SAVE,
   });
 
   const handleToggleSave = (id: number) => {

@@ -7,10 +7,15 @@ import { ROUTES } from '@routes/paths';
 
 import { useUserStore } from '@store/useUserStore';
 
+import { LOGIN_ENTRY_ROUTE } from '@shared/analytics/params/gate';
+import { persistLoginEntryRoute } from '@shared/analytics/utils/loginEntryRoute';
+
 import FeatureErrorFallback from '@components/errorFallback/FeatureErrorFallback';
 import InlineError from '@components/inlineError/InlineError';
 import Loading from '@components/loading/Loading';
 import TitleNavBar from '@components/v2/navBar/TitleNavBar';
+
+import { setLoginRedirect } from '@utils/loginRedirect';
 
 import MenuTab from '@/shared/components/v2/menuTab/MenuTab';
 
@@ -64,6 +69,8 @@ const MyPage = () => {
   useEffect(() => {
     // 로그인되지 않았으면 로그인 페이지로 리디렉션
     if (!isLoggedIn) {
+      setLoginRedirect(ROUTES.MYPAGE);
+      persistLoginEntryRoute(LOGIN_ENTRY_ROUTE.TOP_NAV_LOGIN);
       navigate(ROUTES.LOGIN);
     }
   }, [isLoggedIn, navigate]);

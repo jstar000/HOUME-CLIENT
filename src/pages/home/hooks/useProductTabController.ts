@@ -17,6 +17,7 @@ import { ROUTES } from '@routes/paths';
 
 import { ENTRY_ROUTE, useImageFlowStore } from '@store/useImageFlowStore';
 
+import { persistImageFlowLoginEntry } from '@shared/analytics/utils/loginEntryRoute';
 import { TOAST_MESSAGE } from '@shared/constants/toastMessage';
 import { TOAST_TYPE, TOASTER_ID } from '@shared/types/toast';
 
@@ -177,6 +178,7 @@ const useProductTabController = ({
     });
 
     // 로그인 복귀 시 HOME으로 이동 -> HomePage가 preset.productsToBeRestored 감지해 상품 탭으로 이동, ProductTab이 store 값을 useState 초기값으로 복원
+    persistImageFlowLoginEntry(ENTRY_ROUTE.PRODUCT_SELECTION);
     requireLogin(() => navigate(ROUTES.IMAGE_SETUP));
   }, [navigate, notify, requireLogin, selectedProducts]);
 

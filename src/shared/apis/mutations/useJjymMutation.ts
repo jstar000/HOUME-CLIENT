@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 
 import { useSavedItemsStore } from '@store/useSavedItemsStore';
 
+import type { LoginEntryRoute } from '@shared/analytics/params/gate';
 import type { SaveItemsRequest, SaveItemsResponse } from '@shared/types/jjym';
 import { TOAST_TYPE, TOASTER_ID } from '@shared/types/toast';
 
@@ -25,6 +26,7 @@ interface UseJjymMutationOptions {
   savedToastType?: JjymSavedToast;
   onSavedAction?: () => void;
   invalidateSavedItemsList?: boolean; // 찜 목록 무효화 여부
+  loginEntryRoute?: LoginEntryRoute;
 }
 
 export const postJjym = async (
@@ -139,8 +141,17 @@ export const useJjymMutation = (options?: UseJjymMutationOptions) => {
   });
 
   // 찜 토글 전 로그인 게이트: 비로그인이면 mutate 미실행 → onMutate 낙관적 업데이트도 일어나지 않음
-  const mutate: typeof mutation.mutate = (rawProductId, mutateOptions) => {
-    requireLogin(() => mutation.mutate(rawProductId, mutateOptions));
+  type JjymMutateOptions = Parameters<typeof mutation.mutate>[1] & {
+    loginEntryRoute?: LoginEntryRoute;
+  };
+
+  const mutate = (rawProductId: number, mutateOptions?: JjymMutateOptions) => {
+    const { loginEntryRoute, ...restOptions } = mutateOptions ?? {};
+
+    requireLogin(
+      () => mutation.mutate(rawProductId, restOptions),
+      loginEntryRoute ?? options?.loginEntryRoute
+    );
   };
 
   return { ...mutation, mutate };

@@ -9,8 +9,13 @@ import { ROUTES } from '@routes/paths';
 import { useImageFlowStore, ENTRY_ROUTE } from '@store/useImageFlowStore';
 import { useUserStore } from '@store/useUserStore';
 
+import { LOGIN_ENTRY_ROUTE } from '@shared/analytics/params/gate';
+import { persistLoginEntryRoute } from '@shared/analytics/utils/loginEntryRoute';
+
 import MenuTab from '@components/v2/menuTab/MenuTab';
 import LogoNavBar from '@components/v2/navBar/LogoNavBar';
+
+import { setLoginRedirect } from '@utils/loginRedirect';
 
 import ExploreTab from './components/explore/ExploreTab';
 import ProductTab from './components/product/ProductTab';
@@ -77,6 +82,8 @@ const HomePage = () => {
   };
 
   const handleLogin = () => {
+    setLoginRedirect(window.location.pathname + window.location.search);
+    persistLoginEntryRoute(LOGIN_ENTRY_ROUTE.TOP_NAV_LOGIN);
     navigate(ROUTES.LOGIN);
   };
 

@@ -22,7 +22,6 @@ const EmptyStateSection = ({ type }: EmptyStateSectionProps) => {
   };
 
   const handleGoRoomTypeClick = () => {
-    logMyPageClickBtnMakeImg();
     useImageFlowStore
       .getState()
       .setFlow({ entryRoute: ENTRY_ROUTE.GENERATE_BUTTON });

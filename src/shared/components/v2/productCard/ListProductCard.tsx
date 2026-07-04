@@ -1,3 +1,4 @@
+import { LOGIN_ENTRY_ROUTE } from '@shared/analytics/params/gate';
 import type {
   ProductInfo,
   PriceInfo,
@@ -52,7 +53,12 @@ const ListProductCard = ({
   const { originalPriceText, discountPriceText, discountRateText } =
     getPriceTexts(price?.original, price?.discount, price?.discountRate);
 
-  const handleLinkButtonClick = () => openProductLink(linkHref, link?.onClick);
+  const handleLinkButtonClick = () =>
+    openProductLink(
+      linkHref,
+      link?.onClick,
+      LOGIN_ENTRY_ROUTE.PRODUCT_LIST_SITE
+    );
 
   const { handleWrapperClick, handleWrapperKeyDown } = createCardClickHandler({
     onCardClick,

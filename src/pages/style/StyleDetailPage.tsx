@@ -5,6 +5,9 @@ import { ROUTES } from '@routes/paths';
 import { ENTRY_ROUTE, useImageFlowStore } from '@store/useImageFlowStore';
 import { useSavedItemsStore } from '@store/useSavedItemsStore';
 
+import { LOGIN_ENTRY_ROUTE } from '@shared/analytics/params/gate';
+import { persistImageFlowLoginEntry } from '@shared/analytics/utils/loginEntryRoute';
+
 import { useJjymMutation } from '@apis/mutations/useJjymMutation';
 
 import FallbackImage from '@assets/v2/images/bannerFallback.svg';
@@ -40,6 +43,7 @@ const StyleDetailPage = () => {
   // 찜 해제 토글
   const { mutate: toggleJjym } = useJjymMutation({
     savedToastType: 'move',
+    loginEntryRoute: LOGIN_ENTRY_ROUTE.PRODUCT_LIST_SAVE,
     onSavedAction: () => {
       navigate(ROUTES.MYPAGE, { state: { activeTab: 'savedItems' } });
     },
@@ -59,6 +63,7 @@ const StyleDetailPage = () => {
       preset: { type: 'style', styleId: parsedId },
     });
 
+    persistImageFlowLoginEntry(ENTRY_ROUTE.STYLE_RESTYLE);
     requireLogin(() => navigate(ROUTES.IMAGE_SETUP));
   };
 

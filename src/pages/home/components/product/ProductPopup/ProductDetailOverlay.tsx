@@ -9,6 +9,7 @@ import { ROUTES } from '@routes/paths';
 
 import { useSavedItemsStore } from '@store/useSavedItemsStore';
 
+import { LOGIN_ENTRY_ROUTE } from '@shared/analytics/params/gate';
 import type { ProductColorDetail } from '@shared/apis/__generated__/data-contracts';
 import Popup from '@shared/components/v2/popup/Popup';
 import type {
@@ -49,6 +50,7 @@ const ProductDetailOverlay = ({
   const { data, isPending } = useProductDetailQuery(id);
   const detail = data?.product;
   const { mutate: toggleJjym } = useJjymMutation({
+    loginEntryRoute: LOGIN_ENTRY_ROUTE.PRODUCT_CARD_SAVE,
     onSavedAction: () => {
       navigate(ROUTES.MYPAGE, { state: { activeTab: 'savedItems' } });
     },

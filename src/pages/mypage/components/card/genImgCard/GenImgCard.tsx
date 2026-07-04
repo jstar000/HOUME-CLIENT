@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { ROUTES } from '@routes/paths';
 
+import { LOGIN_ENTRY_ROUTE } from '@shared/analytics/params/gate';
+
 import type { UsedProductResponse } from '@apis/__generated__/data-contracts';
 import { useJjymMutation } from '@apis/mutations/useJjymMutation';
 
@@ -44,6 +46,7 @@ const GenImgCard = ({
   // 찜 토글
   const { mutate: toggleJjym } = useJjymMutation({
     savedToastType: 'stored',
+    loginEntryRoute: LOGIN_ENTRY_ROUTE.PRODUCT_LIST_SAVE,
     onSavedAction: () => {
       navigate(ROUTES.MYPAGE, { state: { activeTab: 'savedItems' } });
     },

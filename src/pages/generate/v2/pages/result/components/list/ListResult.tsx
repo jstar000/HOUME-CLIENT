@@ -12,6 +12,7 @@ import { ROUTES } from '@routes/paths';
 import { ENTRY_ROUTE, useImageFlowStore } from '@store/useImageFlowStore';
 import { useSavedItemsStore } from '@store/useSavedItemsStore';
 
+import { LOGIN_ENTRY_ROUTE } from '@shared/analytics/params/gate';
 import ActionButton from '@shared/components/v2/button/actionButton/ActionButton';
 import EmptyView from '@shared/components/v2/emptyView/EmptyView';
 import { EMPTY_VIEW_TEXT } from '@shared/constants/emptyViewText';
@@ -298,7 +299,11 @@ const ListResult = ({ image, isProductView }: ListResultProps) => {
                       }}
                       save={{
                         isSaved: getSavedState(id, item.isLiked),
-                        onToggle: () => toggleJjym(id),
+                        onToggle: () =>
+                          toggleJjym(id, {
+                            loginEntryRoute:
+                              LOGIN_ENTRY_ROUTE.PRODUCT_LIST_SAVE,
+                          }),
                       }}
                       link={href ? { href } : undefined}
                     />
@@ -346,7 +351,11 @@ const ListResult = ({ image, isProductView }: ListResultProps) => {
                         }}
                         save={{
                           isSaved: getSavedState(id, item.isLiked),
-                          onToggle: () => toggleJjym(id),
+                          onToggle: () =>
+                            toggleJjym(id, {
+                              loginEntryRoute:
+                                LOGIN_ENTRY_ROUTE.PRODUCT_CARD_SAVE,
+                            }),
                           count: item.jjymCount,
                         }}
                         link={href ? { href } : undefined}

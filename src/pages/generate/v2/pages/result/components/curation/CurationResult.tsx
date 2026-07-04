@@ -9,6 +9,7 @@ import { ROUTES } from '@routes/paths';
 
 import { useSavedItemsStore } from '@store/useSavedItemsStore';
 
+import { LOGIN_ENTRY_ROUTE } from '@shared/analytics/params/gate';
 import Chip from '@shared/components/v2/chip/Chip';
 import EmptyView from '@shared/components/v2/emptyView/EmptyView';
 import ProductCard from '@shared/components/v2/productCard/ProductCard';
@@ -176,6 +177,7 @@ const CurationResult = ({
         });
 
   const { mutate: toggleJjym } = useJjymMutation({
+    loginEntryRoute: LOGIN_ENTRY_ROUTE.PRODUCT_CARD_SAVE,
     onSavedAction: () => {
       navigate(ROUTES.MYPAGE, { state: { activeTab: 'savedItems' } });
     },
