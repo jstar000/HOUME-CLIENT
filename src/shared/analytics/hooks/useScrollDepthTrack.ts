@@ -12,6 +12,8 @@ import { trackEvent } from '@shared/analytics/track';
 type ScrollTrackParams = Omit<TrackEventParams, 'screen_name' | 'scroll_depth'>;
 
 interface UseScrollDepthTrackOptions {
+  /** false면 scroll_depth 이벤트 미전송 */
+  enabled?: boolean;
   /** 스크롤 컨테이너 (미지정 시 window) */
   getScrollElement?: () => HTMLElement | null;
   extraParams?: ScrollTrackParams;
@@ -32,6 +34,8 @@ export const useScrollDepthTrack = (
   getScrollElementRef.current = options?.getScrollElement;
 
   useEffect(() => {
+    if (options?.enabled === false) return;
+
     const tracker = trackerRef.current;
     tracker.reset();
 
@@ -69,5 +73,5 @@ export const useScrollDepthTrack = (
       window.removeEventListener('scroll', fireDepthEvents);
       tracker.reset();
     };
-  }, [eventName, screenName]);
+  }, [eventName, screenName, options?.enabled]);
 };
