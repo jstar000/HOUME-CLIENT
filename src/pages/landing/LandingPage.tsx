@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import type { HomeLocationState } from '@pages/home/HomePage';
+import { trackLandingCtaClick } from '@pages/landing/analytics/landingAnalytics';
 import { useLandingQuery } from '@pages/landing/apis/queries/useLandingQuery';
 import { LANDING_CTA_BY_VARIANT } from '@pages/landing/constants/landingCtaAbTest';
 
@@ -10,12 +11,8 @@ import { ROUTES } from '@routes/paths';
 
 import { GA_EVENTS } from '@shared/analytics/events';
 import { useAnalyticsPageView } from '@shared/analytics/hooks';
-import {
-  getLandingCtaParams,
-  getLandingTestType,
-} from '@shared/analytics/params/landing';
+import { getLandingTestType } from '@shared/analytics/params/landing';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
-import { trackEvent } from '@shared/analytics/track';
 import ActionButton from '@shared/components/v2/button/actionButton/ActionButton';
 import LogoNavBar from '@shared/components/v2/navBar/LogoNavBar';
 
@@ -58,10 +55,7 @@ const LandingPage = () => {
   });
 
   const handleNavigateHome = () => {
-    trackEvent(GA_EVENTS.landing.BTN_CTA_CLICK, {
-      screen_name: SCREEN_NAME.LANDING,
-      ...getLandingCtaParams(selectedLanding),
-    });
+    trackLandingCtaClick(selectedLanding);
 
     const bannerId = selectedLanding?.bannerId;
     const state: HomeLocationState = {
