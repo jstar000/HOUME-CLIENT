@@ -5,6 +5,7 @@ import {
   useSearchParams,
 } from 'react-router-dom';
 
+import { trackResultListBtnBackClick } from '@pages/generate/analytics/resultListAnalytics';
 import { trackResultRecBtnBackClick } from '@pages/generate/analytics/resultRecAnalytics';
 import { useImageMetaQuery } from '@pages/generate/v2/apis/queries/useImageMetaQuery';
 
@@ -91,8 +92,18 @@ const ResultPage = () => {
     enabled: parsedImageId !== null && !isListView,
   });
 
+  useScrollDepthTrack(
+    GA_EVENTS.resultList.PAGE_SCROLL,
+    SCREEN_NAME.RESULT_LIST,
+    {
+      enabled: parsedImageId !== null && isListView,
+    }
+  );
+
   const handleBackClick = () => {
-    if (!isListView) {
+    if (isListView) {
+      trackResultListBtnBackClick();
+    } else {
       trackResultRecBtnBackClick();
     }
     navigate(-1);
