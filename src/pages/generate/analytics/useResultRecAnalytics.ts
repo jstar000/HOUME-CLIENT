@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import {
-  joinProductIds,
   trackResultRecBtnArrowLeftClick,
   trackResultRecBtnArrowRightClick,
   trackResultRecBtnMoreImgClick,
@@ -17,7 +16,10 @@ import {
   trackResultRecToastThxOpinionView,
 } from '@pages/generate/analytics/resultRecAnalytics';
 
-import type { ProductCardInput } from '@shared/analytics/params/builders/productCard';
+import {
+  joinProductIds,
+  toProductCardInputFromProductInfo,
+} from '@shared/analytics/params/builders/productCard';
 
 import type {
   FurnitureCategoryResponse,
@@ -31,26 +33,6 @@ type SectionDisplayState =
   | 'empty'
   | 'partial'
   | 'content';
-
-const toCurationFeedProductCardInput = (
-  product: Pick<
-    ProductInfo,
-    | 'id'
-    | 'name'
-    | 'brand'
-    | 'mallName'
-    | 'originalPrice'
-    | 'finalPrice'
-    | 'categoryName'
-  >
-): ProductCardInput => ({
-  productId: product.id,
-  name: product.name,
-  brand: product.brand ?? product.mallName,
-  originalPrice: product.originalPrice,
-  finalPrice: product.finalPrice,
-  categoryName: product.categoryName,
-});
 
 const resolveRenderableProducts = (wrappers: ProductWrapper[]) =>
   wrappers
@@ -132,16 +114,20 @@ const useResultRecAnalytics = ({
   );
 
   const handleFeedCardClick = useCallback((product: ProductInfo) => {
-    trackResultRecFeedCardOnCardClick(toCurationFeedProductCardInput(product));
+    trackResultRecFeedCardOnCardClick(
+      toProductCardInputFromProductInfo(product)
+    );
   }, []);
 
   const handleFeedCardGoSiteClick = useCallback((product: ProductInfo) => {
-    trackResultRecFeedCardGoSiteClick(toCurationFeedProductCardInput(product));
+    trackResultRecFeedCardGoSiteClick(
+      toProductCardInputFromProductInfo(product)
+    );
   }, []);
 
   const handleFeedCardSaveToggle = useCallback(
     (product: ProductInfo, isSaved: boolean) => {
-      const productInput = toCurationFeedProductCardInput(product);
+      const productInput = toProductCardInputFromProductInfo(product);
       if (isSaved) {
         trackResultRecFeedCardUnsaveClick(productInput);
       } else {

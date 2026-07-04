@@ -5,19 +5,9 @@ import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
 import { getReturnScreenNameParams } from '@shared/analytics/utils/screenName';
 
-import type { RelatedImageResponse } from '@apis/__generated__/data-contracts';
-
-import { joinProductIds } from './resultRecAnalytics';
-
 const resultListScreenParams = () => ({
   screen_name: SCREEN_NAME.RESULT_LIST,
 });
-
-export const joinImageIds = (images: Pick<RelatedImageResponse, 'id'>[]) =>
-  images
-    .map((image) => image.id)
-    .filter((id): id is number => id !== undefined)
-    .join(', ') || undefined;
 
 export const trackResultListBtnBackClick = () => {
   trackEvent(GA_EVENTS.resultList.BTN_BACK_CLICK, {
@@ -146,5 +136,3 @@ export const trackResultListListOthersImgView = (othersImgIds?: string) => {
     others_img_ids: othersImgIds,
   });
 };
-
-export { joinProductIds };

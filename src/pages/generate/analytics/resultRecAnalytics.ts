@@ -1,5 +1,8 @@
 import { GA_EVENTS } from '@shared/analytics/events';
-import { getProductCardParams } from '@shared/analytics/params/builders/productCard';
+import {
+  getProductCardParams,
+  joinProductIds,
+} from '@shared/analytics/params/builders/productCard';
 import type { ProductCardInput } from '@shared/analytics/params/builders/productCard';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
@@ -17,17 +20,7 @@ const resultRecScreenParams = () => ({
 
 export const joinCategoryIds = (
   categories: Pick<FurnitureCategoryResponse, 'id'>[]
-) =>
-  categories
-    .map((category) => category.id)
-    .filter((id): id is number => id !== undefined)
-    .join(', ') || undefined;
-
-export const joinProductIds = (products: Pick<ProductInfo, 'id'>[]) =>
-  products
-    .map((product) => product.id)
-    .filter((id): id is number => id !== undefined)
-    .join(', ') || undefined;
+) => joinProductIds(categories);
 
 export const joinProductNames = (products: Pick<ProductInfo, 'name'>[]) =>
   products

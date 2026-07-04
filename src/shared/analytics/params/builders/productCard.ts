@@ -24,6 +24,19 @@ export type ProductCardInput = {
   save_status?: SaveStatus;
 };
 
+/** GA comma-separated id list param (`product_ids`, `others_img_ids` 등) */
+export const joinAnalyticsIds = <T extends { id?: number }>(
+  items: T[]
+): string | undefined =>
+  items
+    .map((item) => item.id)
+    .filter((id): id is number => id !== undefined)
+    .join(', ') || undefined;
+
+export const joinProductIds = joinAnalyticsIds;
+
+export const joinImageIds = joinAnalyticsIds;
+
 /**
  * 상품 카드 클릭/노출 이벤트 공통 파라미터
  * undefined 필드는 track.ts 병합 시 자연히 제외됨
@@ -55,3 +68,86 @@ export const getProductCardParams = (
     save_status: saveStatus,
   };
 };
+
+/** resultRec curation 피드 — ProductInfo */
+export const toProductCardInputFromProductInfo = (product: {
+  id?: number;
+  name?: string;
+  brand?: string;
+  mallName?: string;
+  originalPrice?: number;
+  finalPrice?: number;
+  categoryName?: string;
+}): ProductCardInput => ({
+  productId: product.id,
+  name: product.name,
+  brand: product.brand ?? product.mallName,
+  originalPrice: product.originalPrice,
+  finalPrice: product.finalPrice,
+  categoryName: product.categoryName,
+});
+
+/** resultList 선택 상품 — GenerateImageResultProductResponse */
+export const toProductCardInputFromGenerateResultProduct = (
+  item: Pick<
+    ProductCardInput,
+    'id' | 'productId' | 'name' | 'originalPrice' | 'finalPrice'
+  >
+): ProductCardInput => ({
+  productId: item.id ?? item.productId,
+  name: item.name,
+  originalPrice: item.originalPrice,
+  finalPrice: item.finalPrice,
+});
+
+/** resultList 유사 상품 피드 — SimilarItemResponse */
+export const toProductCardInputFromSimilarItem = (
+  item: Pick<
+    ProductCardInput,
+    'id' | 'productId' | 'name' | 'brand' | 'originalPrice' | 'finalPrice'
+  >
+): ProductCardInput => ({
+  productId: item.id ?? item.productId,
+  name: item.name,
+  brand: item.brand,
+  originalPrice: item.originalPrice,
+  finalPrice: item.finalPrice,
+});
+
+/** mypage 찜 피드 — FurnitureItem */
+export const toProductCardInputFromJjymFeed = (
+  item: Pick<
+    ProductCardInput,
+    'productId' | 'name' | 'brand' | 'originalPrice' | 'finalPrice'
+  > & {
+    rawProductId?: number;
+    productName?: string;
+    brandName?: string;
+    listPrice?: number;
+    discountPrice?: number;
+  }
+): ProductCardInput => ({
+  productId: item.rawProductId ?? item.productId,
+  name: item.productName ?? item.name,
+  brand: item.brandName ?? item.brand,
+  originalPrice: item.listPrice ?? item.originalPrice,
+  finalPrice: item.discountPrice ?? item.finalPrice,
+});
+
+/** mypage 사용 상품 — UsedProductResponse */
+export const toProductCardInputFromUsedListProduct = (
+  item: Pick<
+    ProductCardInput,
+    'productId' | 'name' | 'originalPrice' | 'finalPrice'
+  > & {
+    rawProductId?: number;
+    productName?: string;
+    listPrice?: number;
+    discountPrice?: number;
+  }
+): ProductCardInput => ({
+  productId: item.rawProductId ?? item.productId,
+  name: item.productName ?? item.name,
+  originalPrice: item.listPrice ?? item.originalPrice,
+  finalPrice: item.discountPrice ?? item.finalPrice,
+});

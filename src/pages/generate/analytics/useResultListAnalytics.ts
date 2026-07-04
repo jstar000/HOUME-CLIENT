@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import {
-  joinImageIds,
-  joinProductIds,
   trackResultListBtnReselectClick,
   trackResultListFeedCardGoSiteClick,
   trackResultListFeedCardOnCardClick,
@@ -18,7 +16,12 @@ import {
   trackResultListListSelectedView,
 } from '@pages/generate/analytics/resultListAnalytics';
 
-import type { ProductCardInput } from '@shared/analytics/params/builders/productCard';
+import {
+  joinImageIds,
+  joinProductIds,
+  toProductCardInputFromGenerateResultProduct,
+  toProductCardInputFromSimilarItem,
+} from '@shared/analytics/params/builders/productCard';
 
 import type {
   GenerateImageResultProductResponse,
@@ -32,31 +35,6 @@ type SectionDisplayState =
   | 'empty'
   | 'partial'
   | 'content';
-
-const toSelectedListProductCardInput = (
-  item: Pick<
-    GenerateImageResultProductResponse,
-    'id' | 'name' | 'originalPrice' | 'finalPrice'
-  >
-): ProductCardInput => ({
-  productId: item.id,
-  name: item.name,
-  originalPrice: item.originalPrice,
-  finalPrice: item.finalPrice,
-});
-
-const toSimilarFeedProductCardInput = (
-  item: Pick<
-    SimilarItemResponse,
-    'id' | 'name' | 'brand' | 'originalPrice' | 'finalPrice'
-  >
-): ProductCardInput => ({
-  productId: item.id,
-  name: item.name,
-  brand: item.brand,
-  originalPrice: item.originalPrice,
-  finalPrice: item.finalPrice,
-});
 
 interface UseResultListAnalyticsOptions {
   genImgId: number;
@@ -128,21 +106,25 @@ const useResultListAnalytics = ({
 
   const handleSelectedListCardClick = useCallback(
     (item: GenerateImageResultProductResponse) => {
-      trackResultListListCardClick(toSelectedListProductCardInput(item));
+      trackResultListListCardClick(
+        toProductCardInputFromGenerateResultProduct(item)
+      );
     },
     []
   );
 
   const handleSelectedListCardGoSiteClick = useCallback(
     (item: GenerateImageResultProductResponse) => {
-      trackResultListListCardGoSiteClick(toSelectedListProductCardInput(item));
+      trackResultListListCardGoSiteClick(
+        toProductCardInputFromGenerateResultProduct(item)
+      );
     },
     []
   );
 
   const handleSelectedListCardSaveToggle = useCallback(
     (item: GenerateImageResultProductResponse, isSaved: boolean) => {
-      const product = toSelectedListProductCardInput(item);
+      const product = toProductCardInputFromGenerateResultProduct(item);
       if (isSaved) {
         trackResultListListCardUnsaveClick(product);
       } else {
@@ -154,21 +136,25 @@ const useResultListAnalytics = ({
 
   const handleSimilarFeedCardClick = useCallback(
     (item: SimilarItemResponse) => {
-      trackResultListFeedCardOnCardClick(toSimilarFeedProductCardInput(item));
+      trackResultListFeedCardOnCardClick(
+        toProductCardInputFromSimilarItem(item)
+      );
     },
     []
   );
 
   const handleSimilarFeedCardGoSiteClick = useCallback(
     (item: SimilarItemResponse) => {
-      trackResultListFeedCardGoSiteClick(toSimilarFeedProductCardInput(item));
+      trackResultListFeedCardGoSiteClick(
+        toProductCardInputFromSimilarItem(item)
+      );
     },
     []
   );
 
   const handleSimilarFeedCardSaveToggle = useCallback(
     (item: SimilarItemResponse, isSaved: boolean) => {
-      const product = toSimilarFeedProductCardInput(item);
+      const product = toProductCardInputFromSimilarItem(item);
       if (isSaved) {
         trackResultListFeedCardUnsaveClick(product);
       } else {
