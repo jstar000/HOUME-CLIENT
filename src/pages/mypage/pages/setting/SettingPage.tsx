@@ -8,6 +8,10 @@ import { useLogoutMutation } from '@pages/login/apis/mutations/useLogoutMutation
 
 import { ROUTES } from '@routes/paths';
 
+import { GA_EVENTS } from '@shared/analytics/events';
+import { SCREEN_NAME } from '@shared/analytics/screenNames';
+import { trackEvent } from '@shared/analytics/track';
+
 import { useToast } from '@components/toast/useToast';
 import TitleNavBar from '@components/v2/navBar/TitleNavBar';
 import Popup from '@components/v2/popup/Popup';
@@ -68,10 +72,14 @@ const SettingPage = () => {
         btnText="취소하기"
         weakBtnText="탈퇴하기"
         onConfirm={() => {
+          trackEvent(GA_EVENTS.component.SUCCESSION_MD_CANCEL_CLICK);
           unmount();
         }}
         onCancel={() => {
-          // 모달 닫고 탈퇴 진행
+          trackEvent(GA_EVENTS.component.SUCCESSION_MD_BYE_CLICK, {
+            screen_name: SCREEN_NAME.SETTING,
+            return_screen_name: SCREEN_NAME.HOME,
+          });
           unmount();
           deleteUser();
         }}

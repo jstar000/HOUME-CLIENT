@@ -3,6 +3,10 @@ import { useNavigate } from 'react-router-dom';
 
 import { ROUTES } from '@routes/paths';
 
+import { GA_EVENTS } from '@shared/analytics/events';
+import { SCREEN_NAME } from '@shared/analytics/screenNames';
+import { trackEvent } from '@shared/analytics/track';
+
 import Popup from '@components/v2/popup/Popup';
 
 import { useExitBlocker } from '@hooks/useExitBlocker';
@@ -84,9 +88,11 @@ const FunnelLayout = ({ children, currentStep }: FunnelLayoutProps) => {
           unmount();
         };
 
-        // '나가기' -> 막혔던 navigation(뒤로가기 등)을 그대로 진행
-        // 페이지 자체를 떠나므로 시트 복원 불필요 (cleanup에서 store reset됨)
         const exit = () => {
+          trackEvent(GA_EVENTS.component.RESET_INFO_MD_QUIT_CLICK, {
+            screen_name: SCREEN_NAME.ROOM_TYPE,
+            return_screen_name: SCREEN_NAME.HOME,
+          });
           unmount();
           proceed();
         };
@@ -96,8 +102,14 @@ const FunnelLayout = ({ children, currentStep }: FunnelLayoutProps) => {
             btnStyle="text"
             btnText="계속하기"
             weakBtnText="나가기"
-            onClose={stay}
-            onConfirm={stay}
+            onClose={() => {
+              trackEvent(GA_EVENTS.component.RESET_INFO_MD_KEEP_CLICK);
+              stay();
+            }}
+            onConfirm={() => {
+              trackEvent(GA_EVENTS.component.RESET_INFO_MD_KEEP_CLICK);
+              stay();
+            }}
             onCancel={exit}
             content={
               <div className={styles.popupContent}>

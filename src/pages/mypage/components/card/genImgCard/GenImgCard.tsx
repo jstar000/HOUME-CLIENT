@@ -52,8 +52,8 @@ const GenImgCard = ({
     },
   });
 
-  const handleToggleSave = (id: number) => {
-    toggleJjym(id);
+  const handleToggleSave = (id: number, productName?: string) => {
+    toggleJjym(id, { productName });
   };
 
   return (
@@ -113,7 +113,8 @@ const GenImgCard = ({
                 }}
                 save={{
                   isSaved: item.isJjym ?? false,
-                  onToggle: () => handleToggleSave(item.rawProductId!),
+                  onToggle: () =>
+                    handleToggleSave(item.rawProductId!, item.productName),
                 }}
                 link={{
                   href: item.productSiteUrl ?? '',

@@ -124,6 +124,7 @@ const HomePage = () => {
   return (
     <main className={styles.page}>
       <LogoNavBar
+        screenName={SCREEN_NAME.HOME}
         page="home"
         showGenerateButton
         authSlot={isLoggedIn ? 'profile' : 'login'}

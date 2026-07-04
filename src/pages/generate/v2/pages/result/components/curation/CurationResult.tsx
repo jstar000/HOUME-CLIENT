@@ -268,7 +268,12 @@ const CurationResult = ({
                         }}
                         save={{
                           isSaved: getSavedState(id, p.isLiked),
-                          onToggle: () => toggleJjym(id),
+                          onToggle: () =>
+                            toggleJjym(id, {
+                              loginEntryRoute:
+                                LOGIN_ENTRY_ROUTE.PRODUCT_LIST_SAVE,
+                              productName: p.name,
+                            }),
                         }}
                         link={href ? { href } : undefined}
                       />

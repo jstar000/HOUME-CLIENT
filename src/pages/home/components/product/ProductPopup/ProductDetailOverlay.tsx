@@ -100,7 +100,7 @@ const ProductDetailOverlay = ({
   const isSaved = getSavedState(id, detail?.isLiked ?? save.isSaved);
 
   const handleSaveToggle = () => {
-    toggleJjym(id);
+    toggleJjym(id, { productName: merged.product.title });
   };
 
   // 라우트가 바뀌면(ex: 로그인 게이트) 상품상세 오버레이 닫기

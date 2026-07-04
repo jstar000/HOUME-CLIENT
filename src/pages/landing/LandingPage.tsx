@@ -92,7 +92,7 @@ const LandingPage = () => {
           />
         ) : null
       )}
-      <LogoNavBar page="landing" />
+      <LogoNavBar screenName={SCREEN_NAME.LANDING} page="landing" />
       <section className={styles.mainSection}>
         <div className={styles.contentBlock}>
           <div className={styles.textContainer}>

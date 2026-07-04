@@ -30,6 +30,16 @@ export const leftContainer = style({
   height: '100%',
 });
 
+export const logoButton = style({
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  border: 0,
+  background: 'transparent',
+  cursor: 'pointer',
+  padding: 0,
+});
+
 export const logoImage = style({
   display: 'block',
   width: '7.2rem',

@@ -1,8 +1,14 @@
+import { useRef } from 'react';
+
 import { useMutation } from '@tanstack/react-query';
 
 import { useSavedItemsStore } from '@store/useSavedItemsStore';
 
+import { GA_EVENTS } from '@shared/analytics/events';
+import { getProductCardParams } from '@shared/analytics/params/builders/productCard';
 import type { LoginEntryRoute } from '@shared/analytics/params/gate';
+import { resolveScreenName } from '@shared/analytics/screenNames';
+import { trackEvent } from '@shared/analytics/track';
 import type { SaveItemsRequest, SaveItemsResponse } from '@shared/types/jjym';
 import { TOAST_TYPE, TOASTER_ID } from '@shared/types/toast';
 
@@ -54,10 +60,20 @@ const getSavedToastContent = (type: JjymSavedToast) => {
   };
 };
 
+const getSaveToastParams = (rawProductId: number, productName?: string) => ({
+  screen_name: resolveScreenName(
+    window.location.pathname + window.location.search
+  ),
+  ...getProductCardParams({ productId: rawProductId, name: productName }),
+});
+
 export const useJjymMutation = (options?: UseJjymMutationOptions) => {
   const toggleSaveProduct = useSavedItemsStore((s) => s.toggleSaveProduct);
   const { notify } = useToast();
   const { requireLogin } = useLoginGate();
+  const pendingProductNamesRef = useRef<Map<number, string | undefined>>(
+    new Map()
+  );
   const savedToastType = options?.savedToastType ?? 'move';
   const shouldInvalidateSavedItemsList =
     options?.invalidateSavedItemsList !== false;
@@ -88,6 +104,8 @@ export const useJjymMutation = (options?: UseJjymMutationOptions) => {
     },
 
     onSuccess: async (data, rawProductId) => {
+      const productName = pendingProductNamesRef.current.get(rawProductId);
+      pendingProductNamesRef.current.delete(rawProductId);
       const isSavedNow = useSavedItemsStore
         .getState()
         .savedProductIds.has(rawProductId);
@@ -106,19 +124,35 @@ export const useJjymMutation = (options?: UseJjymMutationOptions) => {
         }
 
         const toastContent = getSavedToastContent(savedToastType);
+        const toastParams = getSaveToastParams(rawProductId, productName);
+
+        trackEvent(GA_EVENTS.component.TOAST_SAVE_VIEW, toastParams);
+
         notify({
           text: toastContent.text,
           type: TOAST_TYPE.ACTION,
           actionLabel: toastContent.actionLabel,
-          onClick: options?.onSavedAction,
+          onClick: () => {
+            trackEvent(
+              GA_EVENTS.component.SAVE_TOAST_TO_SEE_CLICK,
+              toastParams
+            );
+            options?.onSavedAction?.();
+          },
           options: TOAST_OPTIONS,
         });
       } else {
+        const toastParams = getSaveToastParams(rawProductId, productName);
+
         notify({
           text: TOAST_MESSAGE.SAVED_ITEM_REMOVED,
           type: TOAST_TYPE.ACTION,
           actionLabel: TOAST_ACTION_LABEL.UNDO,
           onClick: () => {
+            trackEvent(
+              GA_EVENTS.component.SAVE_TOAST_CANCEL_CLICK,
+              toastParams
+            );
             toggleSaveProduct(rawProductId);
 
             void syncSavedStateWithServer(rawProductId).catch(() => {
@@ -136,6 +170,7 @@ export const useJjymMutation = (options?: UseJjymMutationOptions) => {
     },
 
     onError: (_error, rawProductId) => {
+      pendingProductNamesRef.current.delete(rawProductId);
       toggleSaveProduct(rawProductId);
     },
   });
@@ -143,10 +178,13 @@ export const useJjymMutation = (options?: UseJjymMutationOptions) => {
   // 찜 토글 전 로그인 게이트: 비로그인이면 mutate 미실행 → onMutate 낙관적 업데이트도 일어나지 않음
   type JjymMutateOptions = Parameters<typeof mutation.mutate>[1] & {
     loginEntryRoute?: LoginEntryRoute;
+    productName?: string;
   };
 
   const mutate = (rawProductId: number, mutateOptions?: JjymMutateOptions) => {
-    const { loginEntryRoute, ...restOptions } = mutateOptions ?? {};
+    const { loginEntryRoute, productName, ...restOptions } =
+      mutateOptions ?? {};
+    pendingProductNamesRef.current.set(rawProductId, productName);
 
     requireLogin(
       () => mutation.mutate(rawProductId, restOptions),

@@ -303,6 +303,7 @@ const ListResult = ({ image, isProductView }: ListResultProps) => {
                           toggleJjym(id, {
                             loginEntryRoute:
                               LOGIN_ENTRY_ROUTE.PRODUCT_LIST_SAVE,
+                            productName: item.name,
                           }),
                       }}
                       link={href ? { href } : undefined}
@@ -355,6 +356,7 @@ const ListResult = ({ image, isProductView }: ListResultProps) => {
                             toggleJjym(id, {
                               loginEntryRoute:
                                 LOGIN_ENTRY_ROUTE.PRODUCT_CARD_SAVE,
+                              productName: item.name,
                             }),
                           count: item.jjymCount,
                         }}

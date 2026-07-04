@@ -89,8 +89,11 @@ const LoadingPage = () => {
           reset();
           unmount();
         };
-        // '나가기' -> store/sessionStorage 정리 후 'HOME'으로 이동 (replace: true)
         const exit = () => {
+          trackEvent(GA_EVENTS.component.GEN_IMG_QUIT_MD_QUIT_CLICK, {
+            screen_name: SCREEN_NAME.LOAD_IMG,
+            return_screen_name: SCREEN_NAME.HOME,
+          });
           unmount();
           exitImageFlow();
           reset();
@@ -103,8 +106,14 @@ const LoadingPage = () => {
             btnText="생성 기다리기"
             weakBtnText="나가기"
             topIconName="WarningFillDanger"
-            onClose={stay}
-            onConfirm={stay}
+            onClose={() => {
+              trackEvent(GA_EVENTS.component.GEN_IMG_QUIT_MD_KEEP_CLICK);
+              stay();
+            }}
+            onConfirm={() => {
+              trackEvent(GA_EVENTS.component.GEN_IMG_QUIT_MD_KEEP_CLICK);
+              stay();
+            }}
             onCancel={exit}
             content={
               <div className={styles.popupContent}>

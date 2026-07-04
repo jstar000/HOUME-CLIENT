@@ -53,8 +53,8 @@ const StyleDetailPage = () => {
     },
   });
 
-  const handleToggleSave = (id: number) => {
-    toggleJjym(id);
+  const handleToggleSave = (id: number, productName?: string) => {
+    toggleJjym(id, { productName });
   };
 
   // 스타일 상세 CTA: setFlow(STYLE_RESTYLE) → 로그인 체크 → 스타일 상세로 복귀
@@ -133,7 +133,7 @@ const StyleDetailPage = () => {
                           : false,
                       onToggle: () => {
                         if (item.id !== undefined) {
-                          handleToggleSave(item.id);
+                          handleToggleSave(item.id, item.name);
                         }
                       },
                     }}
