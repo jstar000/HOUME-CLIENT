@@ -11,8 +11,8 @@
  *
  * @example
  * import {
+ *   mapEntryRouteToLoginEntry,
  *   persistLoginEntryRoute,
- *   persistImageFlowLoginEntry,
  *   clearLoginEntryRoute,
  *   getLoginSocialParams,
  * } from '@shared/analytics/utils/loginEntryRoute';

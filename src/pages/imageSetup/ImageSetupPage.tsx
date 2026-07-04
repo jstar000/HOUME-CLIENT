@@ -7,7 +7,7 @@ import { ROUTES } from '@routes/paths';
 
 import { getNextFunnelStep, useImageFlowStore } from '@store/useImageFlowStore';
 
-import { persistImageFlowLoginEntry } from '@shared/analytics/utils/loginEntryRoute';
+import { mapEntryRouteToLoginEntry } from '@shared/analytics/utils/loginEntryRoute';
 
 import FeatureErrorFallback from '@components/errorFallback/FeatureErrorFallback';
 
@@ -104,8 +104,10 @@ const ImageSetupPage = () => {
                 if (nextStep === 'INTERIOR_STYLE') {
                   // 풀퍼널 (경로 1, 3): 로그인 게이트 통과 후 다음 스텝(InteriorStyle)으로 이동
                   // 미로그인 시 도면 선택값은 useFunnelStore persist로 유지됨
-                  persistImageFlowLoginEntry(entryRoute);
-                  requireLogin(() => history.push('InteriorStyle', data));
+                  requireLogin(
+                    () => history.push('InteriorStyle', data),
+                    mapEntryRouteToLoginEntry(entryRoute)
+                  );
                 } else {
                   // 숏퍼널(경로 2, 4, 5): FloorPlanSelect가 마지막 스텝 → 바로 이미지 생성으로 이동
                   // payload는 LoadingPage가 useImageFlowStore.preset + useFunnelStore.floorPlan으로 조립

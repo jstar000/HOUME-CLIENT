@@ -6,7 +6,7 @@ import { ENTRY_ROUTE, useImageFlowStore } from '@store/useImageFlowStore';
 import { useSavedItemsStore } from '@store/useSavedItemsStore';
 
 import { LOGIN_ENTRY_ROUTE } from '@shared/analytics/params/gate';
-import { persistImageFlowLoginEntry } from '@shared/analytics/utils/loginEntryRoute';
+import { mapEntryRouteToLoginEntry } from '@shared/analytics/utils/loginEntryRoute';
 
 import { useJjymMutation } from '@apis/mutations/useJjymMutation';
 
@@ -63,8 +63,10 @@ const StyleDetailPage = () => {
       preset: { type: 'style', styleId: parsedId },
     });
 
-    persistImageFlowLoginEntry(ENTRY_ROUTE.STYLE_RESTYLE);
-    requireLogin(() => navigate(ROUTES.IMAGE_SETUP));
+    requireLogin(
+      () => navigate(ROUTES.IMAGE_SETUP),
+      mapEntryRouteToLoginEntry(ENTRY_ROUTE.STYLE_RESTYLE)
+    );
   };
 
   return (

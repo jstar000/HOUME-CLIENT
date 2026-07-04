@@ -2,11 +2,13 @@
  * 이미지 퍼널 ENTRY_ROUTE → GA login_entry_route
  *
  * - 앱 도메인(`useImageFlowStore.ENTRY_ROUTE`)과 GA enum(`LOGIN_ENTRY_ROUTE`) 연결 SSOT
- * - `persistImageFlowLoginEntry`는 `requireLogin()` 직전에 호출 (게이트 훅은 GA를 모름)
+ * - call site에서 `mapEntryRouteToLoginEntry`로 변환 후 `requireLogin(action, route)`에 전달
  *
  * @example
- * persistImageFlowLoginEntry(ENTRY_ROUTE.HOME_BANNER);
- * requireLogin(() => navigate(ROUTES.IMAGE_SETUP));
+ * requireLogin(
+ *   () => navigate(ROUTES.IMAGE_SETUP),
+ *   mapEntryRouteToLoginEntry(ENTRY_ROUTE.HOME_BANNER)
+ * );
  */
 import { ENTRY_ROUTE, type EntryRoute } from '@store/useImageFlowStore';
 

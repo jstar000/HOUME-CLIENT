@@ -8,7 +8,7 @@ import { ROUTES } from '@routes/paths';
 
 import { ENTRY_ROUTE, useImageFlowStore } from '@store/useImageFlowStore';
 
-import { persistImageFlowLoginEntry } from '@shared/analytics/utils/loginEntryRoute';
+import { mapEntryRouteToLoginEntry } from '@shared/analytics/utils/loginEntryRoute';
 import ActionButton from '@shared/components/v2/button/actionButton/ActionButton';
 import Icon from '@shared/components/v2/icon/Icon';
 import TitleNavBar from '@shared/components/v2/navBar/TitleNavBar';
@@ -87,8 +87,10 @@ const BannerDetailPage = () => {
       },
     });
 
-    persistImageFlowLoginEntry(ENTRY_ROUTE.HOME_BANNER);
-    requireLogin(() => navigate(ROUTES.IMAGE_SETUP));
+    requireLogin(
+      () => navigate(ROUTES.IMAGE_SETUP),
+      mapEntryRouteToLoginEntry(ENTRY_ROUTE.HOME_BANNER)
+    );
   };
 
   return (
