@@ -20,7 +20,8 @@ interface UseScrollDepthTrackOptions {
 }
 
 /**
- * scroll_depth 임계값(0/25/50/75/100) 도달 시 이벤트 1회씩 전송
+ * scroll_depth 임계값(25/50/75/100) 도달 시 이벤트 1회씩 전송.
+ * 실제 scroll 이벤트 발생 후에만 측정 (mount 시 0% 자동 전송 없음).
  */
 export const useScrollDepthTrack = (
   eventName: GaEventName,
@@ -44,6 +45,8 @@ export const useScrollDepthTrack = (
 
       if (element) {
         tracker.trackFromElement(element, (depth) => {
+          if (depth === 0) return;
+
           trackEvent(eventName, {
             ...extraParamsRef.current,
             screen_name: screenName,
@@ -58,6 +61,8 @@ export const useScrollDepthTrack = (
       const percent = maxScroll <= 0 ? 0 : (window.scrollY / maxScroll) * 100;
 
       tracker.trackFromPercent(percent, (depth) => {
+        if (depth === 0) return;
+
         trackEvent(eventName, {
           ...extraParamsRef.current,
           screen_name: screenName,
@@ -66,7 +71,6 @@ export const useScrollDepthTrack = (
       });
     };
 
-    fireDepthEvents();
     window.addEventListener('scroll', fireDepthEvents, { passive: true });
 
     return () => {

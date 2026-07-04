@@ -47,8 +47,8 @@ const ProductTab = () => {
 
   const {
     shopListContext,
-    registerProductRef,
     setSheetExpanded,
+    handleProductListRender,
     handleFilterChipClick,
     handleFilterApply,
     handleFilterResetClick,
@@ -142,7 +142,7 @@ const ProductTab = () => {
         onSearchBarClick={handleSearchBarClick}
         onSearchSubmit={handleSearchSubmit}
         onSearchClear={handleSearchClear}
-        registerProductRef={registerProductRef}
+        onProductListRender={handleProductListRender}
       />
 
       <DragHandleBottomSheet

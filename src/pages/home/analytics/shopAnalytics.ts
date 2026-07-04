@@ -160,14 +160,11 @@ export const trackShopFeedCardUnselectClick = () => {
   trackEvent(GA_EVENTS.shop.FEED_CARD_UNSELECT_CLICK, shopScreenParams());
 };
 
-export const trackShopListProductView = (
-  product: ProductSearchCardItem,
-  listContext?: ShopListContext
-) => {
-  trackEvent(GA_EVENTS.shop.LIST_PRODUCT_VIEW, {
-    ...getShopListContextParams(listContext),
-    ...getShopProductCardParams(product),
-  });
+export const trackShopListProductView = (listContext?: ShopListContext) => {
+  trackEvent(
+    GA_EVENTS.shop.LIST_PRODUCT_VIEW,
+    getShopListContextParams(listContext)
+  );
 };
 
 export const trackShopListEmptyView = (listContext?: ShopListContext) => {

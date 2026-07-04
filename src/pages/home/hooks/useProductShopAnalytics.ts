@@ -6,15 +6,12 @@ import {
   getShopSelectSheetParams,
   shopScreenParams,
   trackShopFilterListClick,
-  trackShopFeedCardUnselectClick,
-  trackShopListProductView,
   trackShopSelectSheetItemCountChange,
   trackShopSelectSheetSwipe,
   trackShopSelectSheetView,
   type ShopListContext,
   type ShopSelectSheetContext,
 } from '@pages/home/analytics/shopAnalytics';
-import type { ProductSearchCardItem } from '@pages/home/hooks/useProductSearch';
 import {
   MAX_SELECTED_PRODUCTS,
   type ProductTabController,
@@ -57,6 +54,7 @@ const useProductShopAnalytics = (
   const {
     sheetExpanded,
     setSheetExpanded: setSheetExpandedState,
+    filterSheetOpen,
     selectedProducts,
     keyword,
     debouncedKeyword,
@@ -66,9 +64,6 @@ const useProductShopAnalytics = (
     priceLabels,
     colorLabels,
     productCount,
-    products,
-    recommendedProducts,
-    isRecommended,
     handleFilterChipClick,
     handleFilterApply,
     handleFilterResetClick,
@@ -149,17 +144,14 @@ const useProductShopAnalytics = (
     extraParams: scrollParams,
   });
 
+  // 선택 바텀시트(DragHandleBottomSheet open={!filterSheetOpen}) 최초 노출 시 1회
   useEffect(() => {
-    if (selectedProducts.length === 0) {
-      hasTrackedSelectSheetViewRef.current = false;
-      return;
-    }
-
+    if (filterSheetOpen) return;
     if (hasTrackedSelectSheetViewRef.current) return;
 
     hasTrackedSelectSheetViewRef.current = true;
-    trackShopSelectSheetView(getSelectSheetContext({ selectedProducts }));
-  }, [getSelectSheetContext, selectedProducts]);
+    trackShopSelectSheetView(getSelectSheetContext());
+  }, [filterSheetOpen, getSelectSheetContext]);
 
   const trackSelectSheetCountChange = useCallback(
     (
@@ -194,87 +186,12 @@ const useProductShopAnalytics = (
     [getSelectSheetContext, setSheetExpandedState]
   );
 
-  const handleProductViewedCountChange = useCallback(
+  const handleProductListRender = useCallback(
     (count: number) => {
       productCountViewedRef.current = count;
       onProductViewedCountChange(count);
     },
     [onProductViewedCountChange]
-  );
-
-  const impressionProducts = useMemo(
-    (): ProductSearchCardItem[] =>
-      isRecommended ? recommendedProducts : products,
-    [isRecommended, products, recommendedProducts]
-  );
-
-  const seenProductIdsRef = useRef(new Set<number>());
-  const productObserverRef = useRef<IntersectionObserver | null>(null);
-  const productElementMapRef = useRef(new Map<number, HTMLElement>());
-
-  useEffect(() => {
-    seenProductIdsRef.current.clear();
-    productElementMapRef.current.clear();
-    handleProductViewedCountChange(0);
-  }, [handleProductViewedCountChange, impressionProducts]);
-
-  useEffect(() => {
-    productObserverRef.current?.disconnect();
-
-    productObserverRef.current = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-
-          const productId = Number(
-            (entry.target as HTMLElement).dataset.shopProductId
-          );
-          if (
-            !Number.isFinite(productId) ||
-            seenProductIdsRef.current.has(productId)
-          ) {
-            return;
-          }
-
-          const product = impressionProducts.find(
-            (item) => item.id === productId
-          );
-          if (!product) return;
-
-          seenProductIdsRef.current.add(productId);
-          trackShopListProductView(product, getShopListContext());
-          handleProductViewedCountChange(seenProductIdsRef.current.size);
-        });
-      },
-      { threshold: 0.5 }
-    );
-
-    productElementMapRef.current.forEach((element) => {
-      productObserverRef.current?.observe(element);
-    });
-
-    return () => productObserverRef.current?.disconnect();
-  }, [getShopListContext, handleProductViewedCountChange, impressionProducts]);
-
-  const registerProductRef = useCallback(
-    (productId: number) => (element: HTMLElement | null) => {
-      const observer = productObserverRef.current;
-      const previous = productElementMapRef.current.get(productId);
-
-      if (previous && observer) {
-        observer.unobserve(previous);
-      }
-
-      if (!element) {
-        productElementMapRef.current.delete(productId);
-        return;
-      }
-
-      element.dataset.shopProductId = String(productId);
-      productElementMapRef.current.set(productId, element);
-      observer?.observe(element);
-    },
-    []
   );
 
   const handleFilterChipClickWithAnalytics = useCallback(
@@ -324,12 +241,19 @@ const useProductShopAnalytics = (
 
       if (prev.length >= MAX_SELECTED_PRODUCTS) return;
 
+      if (prev.length === 0) {
+        trackEvent(
+          GA_EVENTS.shop.SELECT_SHEET_ADD_ITEM_CLICK,
+          getShopSelectSheetParams(getSelectSheetContext())
+        );
+      }
+
       trackSelectSheetCountChange(
         [...prev, product],
         COUNT_TRIGGER_EVENT.ADD_CLICK
       );
     },
-    [handleSelectProduct, trackSelectSheetCountChange]
+    [getSelectSheetContext, handleSelectProduct, trackSelectSheetCountChange]
   );
 
   const handleRemoveSelectedProductWithAnalytics = useCallback(
@@ -337,8 +261,6 @@ const useProductShopAnalytics = (
       const nextProducts = selectedProductsRef.current.filter(
         (product) => product.id !== id
       );
-
-      trackShopFeedCardUnselectClick();
 
       trackEvent(GA_EVENTS.shop.SELECT_SHEET_REMOVE_CLICK, {
         ...getShopSelectSheetParams(getSelectSheetContext()),
@@ -362,12 +284,8 @@ const useProductShopAnalytics = (
   );
 
   const handleAddProductClickWithAnalytics = useCallback(() => {
-    trackEvent(
-      GA_EVENTS.shop.SELECT_SHEET_ADD_ITEM_CLICK,
-      getShopSelectSheetParams(getSelectSheetContext())
-    );
     handleAddProductClick();
-  }, [getSelectSheetContext, handleAddProductClick]);
+  }, [handleAddProductClick]);
 
   const handleSearchBarClick = useCallback(() => {
     trackEvent(GA_EVENTS.shop.SEARCH_BAR_CLICK, shopScreenParams());
@@ -436,8 +354,8 @@ const useProductShopAnalytics = (
 
   return {
     shopListContext,
-    registerProductRef,
     setSheetExpanded,
+    handleProductListRender,
     handleFilterChipClick: handleFilterChipClickWithAnalytics,
     handleFilterApply: handleFilterApplyWithAnalytics,
     handleFilterResetClick: handleFilterResetClickWithAnalytics,

@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 
 import {
   trackShopFeedCardSelectClick,
+  trackShopFeedCardUnselectClick,
   type ShopListContext,
 } from '@pages/home/analytics/shopAnalytics';
 import type { ProductSearchCardItem } from '@pages/home/hooks/useProductSearch';
@@ -16,9 +17,6 @@ interface RecommendSectionProps {
   selectedProductIds: number[];
   onSelectProduct: (product: SelectedProduct) => void;
   shopListContext: ShopListContext;
-  registerProductRef: (
-    productId: number
-  ) => (element: HTMLElement | null) => void;
   onOpenProductDetail: (
     id: number,
     cardProduct: { title: string; brand: string; imageUrl: string },
@@ -32,6 +30,7 @@ interface RecommendSectionProps {
     cardShoppingAction: {
       label: string;
       disabled?: boolean;
+      visualDisabled?: boolean;
       onClick: () => void;
     }
   ) => void;
@@ -42,7 +41,6 @@ const RecommendSection = ({
   selectedProductIds,
   onSelectProduct,
   shopListContext,
-  registerProductRef,
   onOpenProductDetail,
 }: RecommendSectionProps) => {
   const handleSaveToggleNoop = useCallback(() => {}, []);
@@ -97,9 +95,12 @@ const RecommendSection = ({
           };
           const cardShoppingAction = {
             label: isSelected ? '선택됨' : '선택',
-            disabled: isSelected,
+            visualDisabled: isSelected,
             onClick: () => {
-              if (isSelected) return;
+              if (isSelected) {
+                trackShopFeedCardUnselectClick();
+                return;
+              }
 
               trackShopFeedCardSelectClick(selectedProduct, shopListContext);
               onSelectProduct(selectedProduct);
@@ -107,7 +108,7 @@ const RecommendSection = ({
           };
 
           return (
-            <div key={id} ref={registerProductRef(id)}>
+            <div key={id}>
               <ProductCard
                 cardType="shopping"
                 product={cardProduct}

@@ -5,7 +5,9 @@ import { overlay } from 'overlay-kit';
 import {
   trackShopFeedCardDetailClick,
   trackShopFeedCardSelectClick,
+  trackShopFeedCardUnselectClick,
   trackShopListEmptyView,
+  trackShopListProductView,
   type ShopListContext,
 } from '@pages/home/analytics/shopAnalytics';
 import ProductDetailOverlay from '@pages/home/components/product/ProductPopup/ProductDetailOverlay';
@@ -56,9 +58,7 @@ interface SearchSectionProps {
   onSearchBarClick: () => void;
   onSearchSubmit: () => void;
   onSearchClear: () => void;
-  registerProductRef: (
-    productId: number
-  ) => (element: HTMLElement | null) => void;
+  onProductListRender?: (productCountViewed: number) => void;
 }
 
 const SearchSection = ({
@@ -82,7 +82,7 @@ const SearchSection = ({
   onSearchBarClick,
   onSearchSubmit,
   onSearchClear,
-  registerProductRef,
+  onProductListRender,
 }: SearchSectionProps) => {
   const searchBarRef = useRef<HTMLDivElement>(null);
   const filterListRef = useRef<HTMLDivElement>(null);
@@ -104,6 +104,17 @@ const SearchSection = ({
     hasTrackedEmptyViewRef.current = true;
     trackShopListEmptyView(shopListContext);
   }, [showEmptyState, shopListContext]);
+
+  useEffect(() => {
+    if (isPending || isError || showEmptyState) return;
+
+    trackShopListProductView({
+      ...listContextRef.current,
+      productCount: products.length,
+      productCountViewed: products.length,
+    });
+    onProductListRender?.(products.length);
+  }, [isError, isPending, onProductListRender, products, showEmptyState]);
 
   const handleFilterChipCategoryClick = useCallback(
     (category: ProductFilterChipCategory) => {
@@ -216,9 +227,12 @@ const SearchSection = ({
     };
     const cardShoppingAction = {
       label: isSelected ? '선택됨' : '선택',
-      disabled: isSelected,
+      visualDisabled: isSelected,
       onClick: () => {
-        if (isSelected) return;
+        if (isSelected) {
+          trackShopFeedCardUnselectClick();
+          return;
+        }
 
         trackShopFeedCardSelectClick(selectedProduct, shopListContext);
         onSelectProduct(selectedProduct);
@@ -226,7 +240,7 @@ const SearchSection = ({
     };
 
     return (
-      <div key={id} ref={registerProductRef(id)}>
+      <div key={id}>
         <ProductCard
           cardType="shopping"
           product={cardProduct}
@@ -350,7 +364,6 @@ const SearchSection = ({
                     selectedProductIds={selectedProductIds}
                     onSelectProduct={onSelectProduct}
                     shopListContext={shopListContext}
-                    registerProductRef={registerProductRef}
                     onOpenProductDetail={openProductDetail}
                   />
                 </>

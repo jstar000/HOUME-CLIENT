@@ -40,6 +40,7 @@ interface ProductCardProps {
     label?: string;
     onClick: () => void;
     disabled?: boolean;
+    visualDisabled?: boolean;
   };
   onShoppingViewDetailClick?: () => void;
 }
@@ -240,6 +241,7 @@ const ProductCard = ({
               size="S"
               fullWidth
               disabled={shoppingAction?.disabled}
+              visualDisabled={shoppingAction?.visualDisabled}
               onClick={shoppingAction?.onClick}
             >
               {shoppingAction?.label ?? '선택'}
