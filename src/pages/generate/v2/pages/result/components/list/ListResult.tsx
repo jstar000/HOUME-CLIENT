@@ -228,7 +228,7 @@ const ListResult = ({ image, isProductView }: ListResultProps) => {
 
     useFunnelStore.getState().reset();
     useImageFlowStore.getState().setFlow({
-      entryRoute: ENTRY_ROUTE.PRODUCT_SELECTION,
+      entryRoute: ENTRY_ROUTE.PRODUCT_REGENERATE,
       preset: {
         type: 'product',
         productIds: mapped.map((p) => p.id),

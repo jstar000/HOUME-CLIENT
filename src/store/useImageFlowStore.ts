@@ -7,6 +7,7 @@ export const ENTRY_ROUTE = {
   FLOOR_PLAN: 'FLOOR_PLAN', // 경로3: "우리 집 공간으로 시작하기" 도면 클릭
   STYLE_RESTYLE: 'STYLE_RESTYLE', // 경로4: "다른 스타일로 꾸며보기"
   PRODUCT_SELECTION: 'PRODUCT_SELECTION', // 경로5: "상품" 탭 담기 → CTA
+  PRODUCT_REGENERATE: 'PRODUCT_REGENERATE', // 경로5-재: 결과 → "다시 선택하기" → 상품 탭
 } as const;
 
 export type EntryRoute = (typeof ENTRY_ROUTE)[keyof typeof ENTRY_ROUTE];
@@ -72,6 +73,7 @@ const RESULT_TYPE_MAP: Record<EntryRoute, ResultType> = {
   [ENTRY_ROUTE.FLOOR_PLAN]: RESULT_TYPE.FULL_FUNNEL,
   [ENTRY_ROUTE.STYLE_RESTYLE]: RESULT_TYPE.STYLE,
   [ENTRY_ROUTE.PRODUCT_SELECTION]: RESULT_TYPE.PRODUCT,
+  [ENTRY_ROUTE.PRODUCT_REGENERATE]: RESULT_TYPE.PRODUCT,
 };
 
 export const useImageFlowStore = create<ImageFlowState>()(

@@ -168,8 +168,13 @@ const useProductTabController = ({
     // → 항상 새로 도면 선택을 거치도록 reset
     useFunnelStore.getState().reset();
 
+    const entryRoute =
+      useImageFlowStore.getState().entryRoute === ENTRY_ROUTE.PRODUCT_REGENERATE
+        ? ENTRY_ROUTE.PRODUCT_REGENERATE
+        : ENTRY_ROUTE.PRODUCT_SELECTION;
+
     useImageFlowStore.getState().setFlow({
-      entryRoute: ENTRY_ROUTE.PRODUCT_SELECTION,
+      entryRoute,
       preset: {
         type: 'product',
         productIds: selectedProducts.map((p) => p.id),
@@ -180,7 +185,7 @@ const useProductTabController = ({
     // 로그인 복귀 시 HOME으로 이동 -> HomePage가 preset.productsToBeRestored 감지해 상품 탭으로 이동, ProductTab이 store 값을 useState 초기값으로 복원
     requireLogin(
       () => navigate(ROUTES.IMAGE_SETUP),
-      mapEntryRouteToLoginEntry(ENTRY_ROUTE.PRODUCT_SELECTION)
+      mapEntryRouteToLoginEntry(entryRoute)
     );
   }, [navigate, notify, requireLogin, selectedProducts]);
 

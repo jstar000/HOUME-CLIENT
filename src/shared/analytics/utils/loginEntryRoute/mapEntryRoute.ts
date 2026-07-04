@@ -24,6 +24,9 @@ const ENTRY_TO_LOGIN_ENTRY_ROUTE: Record<EntryRoute, LoginEntryRoute> = {
   [ENTRY_ROUTE.FLOOR_PLAN]: LOGIN_ENTRY_ROUTE.HOME_SPACE,
   [ENTRY_ROUTE.STYLE_RESTYLE]: LOGIN_ENTRY_ROUTE.HOME_STYLE,
   [ENTRY_ROUTE.PRODUCT_SELECTION]: LOGIN_ENTRY_ROUTE.SHOP_GENERATE,
+  // PRODUCT_REGENERATE(결과 페이지 "다시 선택하기")는 항상 로그인 상태에서만 진입하므로
+  // 로그인 게이트에 도달할 일이 없음 → Record 완전성 위해 값만 채운 매핑
+  [ENTRY_ROUTE.PRODUCT_REGENERATE]: LOGIN_ENTRY_ROUTE.SHOP_GENERATE,
 };
 
 export const mapEntryRouteToLoginEntry = (
