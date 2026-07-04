@@ -147,22 +147,22 @@ const CurationResult = ({
     refetch: refetchProducts,
   } = useCurationProductsQuery(currentImageId, selectedCategoryId ?? 0);
 
-  const productsRaw = productsData?.products ?? [];
-  const categories = categoriesData?.categories ?? [];
+  const productsRaw = productsData?.products;
+  const categories = categoriesData?.categories;
   const renderableCategories = useMemo(
-    () => categories.filter((category) => category.id !== undefined),
+    () => (categories ?? []).filter((category) => category.id !== undefined),
     [categories]
   );
 
   const renderableProducts = useMemo(
-    () => productsRaw.filter((wrapper) => wrapper.product?.id != null),
+    () => (productsRaw ?? []).filter((wrapper) => wrapper.product?.id != null),
     [productsRaw]
   );
 
   const categoriesState = getSectionDisplayState({
     isLoading: isCategoriesLoading,
     isError: isCategoriesError,
-    rawCount: categories.length,
+    rawCount: categories?.length ?? 0,
     renderableCount: renderableCategories.length,
   });
 
@@ -172,7 +172,7 @@ const CurationResult = ({
       : getSectionDisplayState({
           isLoading: isProductsLoading,
           isError: isProductsError,
-          rawCount: productsRaw.length,
+          rawCount: productsRaw?.length ?? 0,
           renderableCount: renderableProducts.length,
         });
 
