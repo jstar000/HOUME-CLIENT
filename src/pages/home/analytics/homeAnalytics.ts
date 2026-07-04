@@ -19,6 +19,26 @@ const homeScreenParams = () => ({
   screen_name: SCREEN_NAME.HOME,
 });
 
+export const trackHomeTapExploreClick = () => {
+  trackEvent(GA_EVENTS.home.TAP_EXPLORE_CLICK, homeScreenParams());
+};
+
+export const trackHomeTapShopClick = () => {
+  trackEvent(GA_EVENTS.home.TAP_SHOP_CLICK, homeScreenParams());
+};
+
+export const trackHomeSpaceMoreClick = () => {
+  trackEvent(GA_EVENTS.home.SPACE_MORE_CLICK, homeScreenParams());
+};
+
+export const trackHomeSpaceMoreCardClick = () => {
+  trackEvent(GA_EVENTS.home.SPACE_MORE_CARD_CLICK, homeScreenParams());
+};
+
+export const trackHomeStyleMoreClick = () => {
+  trackEvent(GA_EVENTS.home.STYLE_MORE_CLICK, homeScreenParams());
+};
+
 export const trackHomeBannerSlideEvent = (
   eventName:
     | typeof GA_EVENTS.home.BANNER_BG_IMG_CLICK

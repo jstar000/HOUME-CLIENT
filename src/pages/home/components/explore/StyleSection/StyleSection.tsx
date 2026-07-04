@@ -1,12 +1,11 @@
 import { generatePath, useNavigate } from 'react-router-dom';
 
-import { trackHomeStyleCardClick } from '@pages/home/analytics/homeAnalytics';
+import {
+  trackHomeStyleCardClick,
+  trackHomeStyleMoreClick,
+} from '@pages/home/analytics/homeAnalytics';
 
 import { ROUTES } from '@routes/paths';
-
-import { GA_EVENTS } from '@shared/analytics/events';
-import { SCREEN_NAME } from '@shared/analytics/screenNames';
-import { trackEvent } from '@shared/analytics/track';
 
 import FallbackImage from '@assets/v2/images/bannerFallback.svg';
 
@@ -32,9 +31,7 @@ const StyleSection = () => {
   };
 
   const handleMoreClick = () => {
-    trackEvent(GA_EVENTS.home.STYLE_MORE_CLICK, {
-      screen_name: SCREEN_NAME.HOME,
-    });
+    trackHomeStyleMoreClick();
     navigate(ROUTES.STYLE_LIST);
   };
 

@@ -2,6 +2,10 @@ import { useMemo, useState } from 'react';
 
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
+import {
+  trackHomeTapExploreClick,
+  trackHomeTapShopClick,
+} from '@pages/home/analytics/homeAnalytics';
 import { useRecentFloorPlanQuery } from '@pages/imageSetup/v2/apis/queries/useRecentFloorPlanQuery';
 import { useMyPageUserQuery } from '@pages/mypage/apis/queries/useMyPageUserQuery';
 
@@ -17,7 +21,6 @@ import {
 } from '@shared/analytics/hooks';
 import { LOGIN_ENTRY_ROUTE } from '@shared/analytics/params/gate';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
-import { trackEvent } from '@shared/analytics/track';
 import { persistLoginEntryRoute } from '@shared/analytics/utils/loginEntryRoute';
 
 import MenuTab from '@components/v2/menuTab/MenuTab';
@@ -78,15 +81,11 @@ const HomePage = () => {
   // 탭 전환 시 URL ?tab= 에 반영 → 로그인 게이트로 이탈했다 복귀해도 같은 탭으로 돌아옴
   const handleTabChange = (tab: HomeMenuTab) => {
     if (tab === 'explore' && activeMenuTab !== 'explore') {
-      trackEvent(GA_EVENTS.home.TAP_EXPLORE_CLICK, {
-        screen_name: SCREEN_NAME.HOME,
-      });
+      trackHomeTapExploreClick();
     }
 
     if (tab === 'product' && activeMenuTab !== 'product') {
-      trackEvent(GA_EVENTS.home.TAP_SHOP_CLICK, {
-        screen_name: SCREEN_NAME.HOME,
-      });
+      trackHomeTapShopClick();
     }
 
     setActiveMenuTab(tab);

@@ -5,16 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import {
   trackHomeSpaceCardClick,
   trackHomeSpaceCardSlideScroll,
+  trackHomeSpaceMoreCardClick,
+  trackHomeSpaceMoreClick,
 } from '@pages/home/analytics/homeAnalytics';
 import { useHouseTemplatesQuery } from '@pages/imageSetup/v2/apis/queries/useHouseTemplatesQuery';
 
 import { ROUTES } from '@routes/paths';
 
 import { ENTRY_ROUTE, useImageFlowStore } from '@store/useImageFlowStore';
-
-import { GA_EVENTS } from '@shared/analytics/events';
-import { SCREEN_NAME } from '@shared/analytics/screenNames';
-import { trackEvent } from '@shared/analytics/track';
 
 import RoomTypeCard from '@components/v2/roomTypeCard/RoomTypeCard';
 
@@ -45,16 +43,12 @@ const RoomTypeSection = ({
 
   // "더보기" / "more" 카드: floorPlanId 없이 진입, 사용자가 그리드에서 도면을 직접 선택
   const handleMoreClick = () => {
-    trackEvent(GA_EVENTS.home.SPACE_MORE_CLICK, {
-      screen_name: SCREEN_NAME.HOME,
-    });
+    trackHomeSpaceMoreClick();
     navigateToImageSetup();
   };
 
   const handleMoreCardClick = () => {
-    trackEvent(GA_EVENTS.home.SPACE_MORE_CARD_CLICK, {
-      screen_name: SCREEN_NAME.HOME,
-    });
+    trackHomeSpaceMoreCardClick();
     navigateToImageSetup();
   };
 
