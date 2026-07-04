@@ -9,6 +9,7 @@ import { ALL_FILTER_SENTINEL } from '@pages/home/utils/productFilterUtils';
 
 import { GA_EVENTS } from '@shared/analytics/events';
 import { getProductCardParams } from '@shared/analytics/params/builders/productCard';
+import type { ImageEntryRoute } from '@shared/analytics/params/gate';
 import {
   COUNT_TRIGGER_EVENT,
   SHEET_EXPANSION_STATUS,
@@ -16,7 +17,7 @@ import {
   type SheetExpansionStatus,
 } from '@shared/analytics/params/shop';
 import { FILTER_TYPE } from '@shared/analytics/params/space';
-import { SCREEN_NAME } from '@shared/analytics/screenNames';
+import { SCREEN_NAME, type ScreenName } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
 import { toSheetExpansionStatus } from '@shared/analytics/utils/imageFlow';
 
@@ -133,6 +134,118 @@ export const trackShopFilterListClick = (
       category === 'furniture' ? 'furniture' : undefined,
     filter_shop_price: category === 'price' ? 'price' : undefined,
     filter_shop_color: category === 'color' ? 'color' : undefined,
+  });
+};
+
+export const trackShopFilterSheetView = (
+  listContext: ShopListContext,
+  sheetExpanded: boolean
+) => {
+  trackEvent(GA_EVENTS.shop.FILTER_SHT_VIEW, {
+    ...getShopListContextParams(listContext),
+    sheet_expansion_status: toSheetExpansionStatus(sheetExpanded),
+  });
+};
+
+export const trackShopFilterSheetSubmit = (listContext: ShopListContext) => {
+  trackEvent(
+    GA_EVENTS.shop.FILTER_SHT_SUBMIT,
+    getShopListContextParams(listContext)
+  );
+};
+
+export const trackShopFilterSheetResetClick = (
+  listContext: ShopListContext
+) => {
+  trackEvent(
+    GA_EVENTS.shop.FILTER_SHT_RESET_CLICK,
+    getShopListContextParams(listContext)
+  );
+};
+
+export const trackShopSearchBarClick = () => {
+  trackEvent(GA_EVENTS.shop.SEARCH_BAR_CLICK, shopScreenParams());
+};
+
+export const trackShopSearchSubmit = (listContext: ShopListContext) => {
+  trackEvent(
+    GA_EVENTS.shop.SEARCH_SUBMIT,
+    getShopListContextParams(listContext)
+  );
+};
+
+export const trackShopSearchClear = (listContext: ShopListContext) => {
+  trackEvent(
+    GA_EVENTS.shop.SEARCH_CLEAR,
+    getShopListContextParams(listContext)
+  );
+};
+
+export const trackShopSelectSheetAddItemClick = (
+  context: ShopSelectSheetContext
+) => {
+  trackEvent(
+    GA_EVENTS.shop.SELECT_SHEET_ADD_ITEM_CLICK,
+    getShopSelectSheetParams(context)
+  );
+};
+
+export const trackShopSelectSheetRemoveClick = (
+  context: ShopSelectSheetContext,
+  product: Pick<SelectedProduct, 'id' | 'title'>
+) => {
+  trackEvent(GA_EVENTS.shop.SELECT_SHEET_REMOVE_CLICK, {
+    ...getShopSelectSheetParams(context),
+    product_id: product.id,
+    product_name: product.title,
+  });
+};
+
+export const trackShopSelectSheetItemClick = (
+  context: ShopSelectSheetContext,
+  product: Pick<SelectedProduct, 'id' | 'title'>
+) => {
+  trackEvent(GA_EVENTS.shop.SELECT_SHEET_ITEM_CLICK, {
+    ...getShopSelectSheetParams(context),
+    product_id: product.id,
+    product_name: product.title,
+  });
+};
+
+export type ShopSelectSheetCtaContext = ShopListContext & {
+  sheetExpanded: boolean;
+  selectedProducts: SelectedProduct[];
+  imageEntryRoute?: ImageEntryRoute;
+  returnScreenName: ScreenName;
+  hasPreviousSpace: boolean;
+  hasPreviousImage: boolean;
+};
+
+export const trackShopSelectSheetCtaClick = ({
+  sheetExpanded,
+  selectedProducts,
+  imageEntryRoute,
+  returnScreenName,
+  hasPreviousSpace,
+  hasPreviousImage,
+  ...listContext
+}: ShopSelectSheetCtaContext) => {
+  const lastProduct = selectedProducts[selectedProducts.length - 1];
+
+  trackEvent(GA_EVENTS.shop.SELECT_SHEET_CTA_CLICK, {
+    ...getShopListContextParams(listContext),
+    image_entry_route: imageEntryRoute,
+    return_screen_name: returnScreenName,
+    sheet_expansion_status: toSheetExpansionStatus(sheetExpanded),
+    selected_count: selectedProducts.length,
+    selected_product_ids: selectedProducts
+      .map((product) => product.id)
+      .join(', '),
+    product_id: lastProduct?.id,
+    product_name: lastProduct?.title,
+    product_price: lastProduct?.discountPrice,
+    has_previous_space: hasPreviousSpace,
+    has_previous_image: hasPreviousImage,
   });
 };
 

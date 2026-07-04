@@ -3,10 +3,18 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 import {
   COUNT_TRIGGER_EVENT,
   getShopListContextParams,
-  getShopSelectSheetParams,
-  shopScreenParams,
   trackShopFilterListClick,
+  trackShopFilterSheetResetClick,
+  trackShopFilterSheetSubmit,
+  trackShopFilterSheetView,
+  trackShopSearchBarClick,
+  trackShopSearchClear,
+  trackShopSearchSubmit,
+  trackShopSelectSheetAddItemClick,
+  trackShopSelectSheetCtaClick,
+  trackShopSelectSheetItemClick,
   trackShopSelectSheetItemCountChange,
+  trackShopSelectSheetRemoveClick,
   trackShopSelectSheetSwipe,
   trackShopSelectSheetView,
   type ShopListContext,
@@ -25,12 +33,8 @@ import {
   useScrollDepthTrack,
 } from '@shared/analytics/hooks';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
-import { trackEvent } from '@shared/analytics/track';
 import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
-import {
-  getReturnScreenNameFromImageEntry,
-  toSheetExpansionStatus,
-} from '@shared/analytics/utils/imageFlow';
+import { getReturnScreenNameFromImageEntry } from '@shared/analytics/utils/imageFlow';
 
 interface UseProductShopAnalyticsOptions {
   productCountViewed: number;
@@ -202,10 +206,7 @@ const useProductShopAnalytics = (
       handleFilterChipClick(category);
 
       if (!wasOpen) {
-        trackEvent(GA_EVENTS.shop.FILTER_SHT_VIEW, {
-          ...getShopListContextParams(getShopListContext()),
-          sheet_expansion_status: toSheetExpansionStatus(sheetExpanded),
-        });
+        trackShopFilterSheetView(getShopListContext(), sheetExpanded);
       }
     },
     [
@@ -218,18 +219,12 @@ const useProductShopAnalytics = (
 
   const handleFilterApplyWithAnalytics = useCallback(() => {
     handleFilterApply();
-    trackEvent(
-      GA_EVENTS.shop.FILTER_SHT_SUBMIT,
-      getShopListContextParams(getShopListContext())
-    );
+    trackShopFilterSheetSubmit(getShopListContext());
   }, [getShopListContext, handleFilterApply]);
 
   const handleFilterResetClickWithAnalytics = useCallback(() => {
     handleFilterResetClick();
-    trackEvent(
-      GA_EVENTS.shop.FILTER_SHT_RESET_CLICK,
-      getShopListContextParams(getShopListContext())
-    );
+    trackShopFilterSheetResetClick(getShopListContext());
   }, [getShopListContext, handleFilterResetClick]);
 
   const handleSelectProductWithAnalytics = useCallback(
@@ -242,10 +237,7 @@ const useProductShopAnalytics = (
       if (prev.length >= MAX_SELECTED_PRODUCTS) return;
 
       if (prev.length === 0) {
-        trackEvent(
-          GA_EVENTS.shop.SELECT_SHEET_ADD_ITEM_CLICK,
-          getShopSelectSheetParams(getSelectSheetContext())
-        );
+        trackShopSelectSheetAddItemClick(getSelectSheetContext());
       }
 
       trackSelectSheetCountChange(
@@ -261,14 +253,16 @@ const useProductShopAnalytics = (
       const nextProducts = selectedProductsRef.current.filter(
         (product) => product.id !== id
       );
+      const removedProduct = selectedProductsRef.current.find(
+        (product) => product.id === id
+      );
 
-      trackEvent(GA_EVENTS.shop.SELECT_SHEET_REMOVE_CLICK, {
-        ...getShopSelectSheetParams(getSelectSheetContext()),
-        product_id: id,
-        product_name: selectedProductsRef.current.find(
-          (product) => product.id === id
-        )?.title,
-      });
+      if (removedProduct) {
+        trackShopSelectSheetRemoveClick(
+          getSelectSheetContext(),
+          removedProduct
+        );
+      }
 
       trackSelectSheetCountChange(
         nextProducts,
@@ -288,24 +282,18 @@ const useProductShopAnalytics = (
   }, [handleAddProductClick]);
 
   const handleSearchBarClick = useCallback(() => {
-    trackEvent(GA_EVENTS.shop.SEARCH_BAR_CLICK, shopScreenParams());
+    trackShopSearchBarClick();
   }, []);
 
   const handleSearchSubmit = useCallback(() => {
-    trackEvent(
-      GA_EVENTS.shop.SEARCH_SUBMIT,
-      getShopListContextParams({
-        ...getShopListContext(),
-        searchKeyword: keyword,
-      })
-    );
+    trackShopSearchSubmit({
+      ...getShopListContext(),
+      searchKeyword: keyword,
+    });
   }, [getShopListContext, keyword]);
 
   const handleSearchClear = useCallback(() => {
-    trackEvent(
-      GA_EVENTS.shop.SEARCH_CLEAR,
-      getShopListContextParams(getShopListContext())
-    );
+    trackShopSearchClear(getShopListContext());
     handleSearchKeywordChange('');
   }, [getShopListContext, handleSearchKeywordChange]);
 
@@ -315,21 +303,14 @@ const useProductShopAnalytics = (
       return;
     }
 
-    const lastProduct = selectedProducts[selectedProducts.length - 1];
-
-    trackEvent(GA_EVENTS.shop.SELECT_SHEET_CTA_CLICK, {
-      ...getShopListContextParams(getShopListContext()),
-      image_entry_route: getEntryRoute(),
-      return_screen_name:
-        getReturnScreenNameFromImageEntry() ?? SCREEN_NAME.SHOP,
-      sheet_expansion_status: toSheetExpansionStatus(sheetExpanded),
-      selected_count: selectedProducts.length,
-      selected_product_ids: selectedProducts.map((p) => p.id).join(', '),
-      product_id: lastProduct?.id,
-      product_name: lastProduct?.title,
-      product_price: lastProduct?.discountPrice,
-      has_previous_space: recentFloorPlanData?.hasRecentImage === true,
-      has_previous_image: recentFloorPlanData?.hasRecentImage === true,
+    trackShopSelectSheetCtaClick({
+      ...getShopListContext(),
+      sheetExpanded,
+      selectedProducts,
+      imageEntryRoute: getEntryRoute(),
+      returnScreenName: getReturnScreenNameFromImageEntry() ?? SCREEN_NAME.SHOP,
+      hasPreviousSpace: recentFloorPlanData?.hasRecentImage === true,
+      hasPreviousImage: recentFloorPlanData?.hasRecentImage === true,
     });
 
     handleDecorateWithProductsClick();
@@ -343,11 +324,7 @@ const useProductShopAnalytics = (
 
   const handleSelectSheetItemClick = useCallback(
     (product: SelectedProduct) => {
-      trackEvent(GA_EVENTS.shop.SELECT_SHEET_ITEM_CLICK, {
-        ...getShopSelectSheetParams(getSelectSheetContext()),
-        product_id: product.id,
-        product_name: product.title,
-      });
+      trackShopSelectSheetItemClick(getSelectSheetContext(), product);
     },
     [getSelectSheetContext]
   );
