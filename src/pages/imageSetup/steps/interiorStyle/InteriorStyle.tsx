@@ -1,10 +1,9 @@
 // Step 3
-import { useEffect } from 'react';
-
 import { useMoodBoardQuery } from '@pages/imageSetup/apis/queries/useMoodBoardQuery';
 import { useInteriorStyle } from '@pages/imageSetup/hooks/useInteriorStyle';
 
 import { GA_EVENTS } from '@shared/analytics/events';
+import { useAnalyticsPageView } from '@shared/analytics/hooks';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
 import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
@@ -41,12 +40,13 @@ const InteriorStyle = ({ context, onNext }: InteriorStyleProps) => {
   } = useMoodBoardQuery();
   const images = moodBoardData?.moodBoardResponseList || [];
 
-  useEffect(() => {
-    trackEvent(GA_EVENTS.selectMoodboard.PAGE_VIEW, {
-      screen_name: SCREEN_NAME.SELECT_MOODBOARD,
+  useAnalyticsPageView(
+    GA_EVENTS.selectMoodboard.PAGE_VIEW,
+    SCREEN_NAME.SELECT_MOODBOARD,
+    {
       image_entry_route: getEntryRoute(),
-    });
-  }, []);
+    }
+  );
 
   // CTA 버튼 클릭 핸들러 (현재 native disabled로 비활성 시 클릭 자체가 차단됨)
   // TODO: ActionButton에 visuallyDisabled prop이 추가되면(별도 PR)

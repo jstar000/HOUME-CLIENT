@@ -9,6 +9,10 @@ import { ROUTES } from '@routes/paths';
 import { ENTRY_ROUTE, useImageFlowStore } from '@store/useImageFlowStore';
 
 import { GA_EVENTS } from '@shared/analytics/events';
+import {
+  getBannerChipParams,
+  getHomeBannerParams,
+} from '@shared/analytics/params/builders';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
 import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
@@ -98,9 +102,14 @@ const BannerDetailPage = () => {
     trackEvent(GA_EVENTS.bannerDetail.BTN_CTA_CLICK, {
       screen_name: SCREEN_NAME.BANNER_DETAIL,
       image_entry_route: getEntryRoute(),
-      home_banner_id: parsedBannerId,
-      home_banner_name: bannerDetail.bannerName ?? '',
-      selected_banner_chip: selectedAnswer?.text ?? '',
+      ...getHomeBannerParams({
+        bannerId: parsedBannerId,
+        bannerName: bannerDetail.bannerName ?? '',
+      }),
+      ...getBannerChipParams({
+        answerId: selectedAnswerId,
+        answerText: selectedAnswer?.text ?? '',
+      }),
     });
 
     requireLogin(

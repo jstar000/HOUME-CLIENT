@@ -14,6 +14,7 @@ import { ROUTES } from '@routes/paths';
 import { useImageFlowStore } from '@store/useImageFlowStore';
 
 import { GA_EVENTS } from '@shared/analytics/events';
+import { useAnalyticsPageView } from '@shared/analytics/hooks';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
 import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
@@ -140,18 +141,16 @@ const LoadingPage = () => {
 
   // 이미지 생성 payload에 필요한 데이터가 정상적으로 구성되어 있으면 true
   const isRequestValid = requestState.kind !== 'invalid';
-  const hasPageViewRef = useRef(false);
 
-  useEffect(() => {
-    if (!isRequestValid || hasPageViewRef.current) return;
-    hasPageViewRef.current = true;
-
-    trackEvent(GA_EVENTS.loadImg.PAGE_VIEW, {
-      screen_name: SCREEN_NAME.LOAD_IMG,
+  useAnalyticsPageView(
+    GA_EVENTS.loadImg.PAGE_VIEW,
+    SCREEN_NAME.LOAD_IMG,
+    {
       image_entry_route: getEntryRoute(),
       return_screen_name: getLoadImgReturnScreenName(),
-    });
-  }, [isRequestValid]);
+    },
+    { enabled: isRequestValid }
+  );
 
   const [currentIndex, setCurrentIndex] = useState(0);
 

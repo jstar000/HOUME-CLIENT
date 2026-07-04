@@ -1,12 +1,11 @@
-import { useEffect } from 'react';
-
 import { Link } from 'react-router-dom';
 
 import { ROUTES } from '@routes/paths';
 
 import { GA_EVENTS } from '@shared/analytics/events';
+import { useAnalyticsPageView } from '@shared/analytics/hooks';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
-import { trackCallback, trackEvent } from '@shared/analytics/track';
+import { trackCallback } from '@shared/analytics/track';
 import { getLoginSocialParams } from '@shared/analytics/utils/loginEntryRoute';
 
 import KakaoLoginImg from '@assets/v2/images/ImgKakaoLogin.png';
@@ -19,12 +18,11 @@ import * as styles from './loginPage.css';
 import { getAuthEnvironment } from './utils/environment';
 
 const LoginPage = () => {
-  useEffect(() => {
-    trackEvent(GA_EVENTS.loginSocial.PAGE_VIEW, {
-      screen_name: SCREEN_NAME.LOGIN_SOCIAL,
-      ...getLoginSocialParams(),
-    });
-  }, []);
+  useAnalyticsPageView(
+    GA_EVENTS.loginSocial.PAGE_VIEW,
+    SCREEN_NAME.LOGIN_SOCIAL,
+    getLoginSocialParams()
+  );
 
   /**
    * 카카오 로그인 버튼 클릭 핸들러

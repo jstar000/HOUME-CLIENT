@@ -1,5 +1,3 @@
-import { useEffect, useRef } from 'react';
-
 import {
   Navigate,
   useLocation,
@@ -14,7 +12,8 @@ import { ROUTES } from '@routes/paths';
 import { isCurationViewType, RESULT_TYPE } from '@store/useImageFlowStore';
 
 import { GA_EVENTS } from '@shared/analytics/events';
-import { trackEvent } from '@shared/analytics/track';
+import { useAnalyticsPageView } from '@shared/analytics/hooks';
+import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
 
 import InlineError from '@components/inlineError/InlineError';
@@ -63,25 +62,26 @@ const ResultPage = () => {
   const stateImageUrl = locationState?.imageUrl;
   const stateIsMirror = locationState?.isMirror;
   const isFromLoading = locationState?.from === 'loading';
-  const hasResultPageViewRef = useRef(false);
 
-  useEffect(() => {
-    if (parsedImageId === null || hasResultPageViewRef.current) return;
-    hasResultPageViewRef.current = true;
-
-    if (isListView) {
-      trackEvent(GA_EVENTS.resultList.PAGE_VIEW, {
-        ...buildResultListPageViewParams(parsedImageId),
-        image_entry_route: getEntryRoute(),
-      });
-      return;
-    }
-
-    trackEvent(GA_EVENTS.resultRec.PAGE_VIEW, {
-      ...buildResultRecPageViewParams(parsedImageId),
+  useAnalyticsPageView(
+    GA_EVENTS.resultList.PAGE_VIEW,
+    SCREEN_NAME.RESULT_LIST,
+    {
+      ...buildResultListPageViewParams(parsedImageId ?? 0),
       image_entry_route: getEntryRoute(),
-    });
-  }, [isListView, parsedImageId]);
+    },
+    { enabled: parsedImageId !== null && isListView }
+  );
+
+  useAnalyticsPageView(
+    GA_EVENTS.resultRec.PAGE_VIEW,
+    SCREEN_NAME.RESULT_REC,
+    {
+      ...buildResultRecPageViewParams(parsedImageId ?? 0),
+      image_entry_route: getEntryRoute(),
+    },
+    { enabled: parsedImageId !== null && !isListView }
+  );
 
   // 뒤로가기 가드 — LoadingPage->ResultPage이고, 사용자 액션이 POP(뒤로가기)일 때만 useExitBlocker 훅이 실행됨
   // - LoadingPage->ResultPage에서 뒤로가기 시 HOME으로 redirect (이미지 생성 플로우로 재진입 방지)
