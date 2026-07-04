@@ -1,4 +1,12 @@
+import { useCallback, useMemo } from 'react';
+
 import { useNavigate, useParams } from 'react-router-dom';
+
+import {
+  getStyleDetailPageViewParams,
+  trackStyleDetailBackClick,
+  trackStyleDetailCtaClick,
+} from '@pages/style/analytics/styleAnalytics';
 
 import { ROUTES } from '@routes/paths';
 
@@ -6,10 +14,12 @@ import { ENTRY_ROUTE, useImageFlowStore } from '@store/useImageFlowStore';
 import { useSavedItemsStore } from '@store/useSavedItemsStore';
 
 import { GA_EVENTS } from '@shared/analytics/events';
+import {
+  useAnalyticsPageView,
+  useScrollDepthTrack,
+} from '@shared/analytics/hooks';
 import { LOGIN_ENTRY_ROUTE } from '@shared/analytics/params/gate';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
-import { trackEvent } from '@shared/analytics/track';
-import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
 import { mapEntryRouteToLoginEntry } from '@shared/analytics/utils/loginEntryRoute';
 
 import { useJjymMutation } from '@apis/mutations/useJjymMutation';
@@ -31,9 +41,10 @@ import { useGetStyleDetailQuery } from './apis/useGetStyleDetailQuery';
 import * as styles from './StyleDetailPage.css';
 
 const StyleDetailPage = () => {
-  const { styleId } = useParams();
+  const { styleId = '' } = useParams<{ styleId: string }>();
   const navigate = useNavigate();
   const { requireLogin } = useLoginGate();
+  const parsedStyleId = Number(styleId);
 
   const savedProductIds = useSavedItemsStore((state) => state.savedProductIds);
 
@@ -42,9 +53,38 @@ const StyleDetailPage = () => {
     isLoading,
     isError,
     refetch,
-  } = useGetStyleDetailQuery(Number(styleId));
+  } = useGetStyleDetailQuery(parsedStyleId);
 
-  // 찜 해제 토글
+  const isDataReady = !isLoading && !isError && styleDetailData != null;
+
+  const styleContext = useMemo(
+    () => ({
+      styleId: parsedStyleId,
+      styleName: styleDetailData?.styleName,
+    }),
+    [parsedStyleId, styleDetailData?.styleName]
+  );
+
+  const pageViewParams = useMemo(
+    () => getStyleDetailPageViewParams(styleContext),
+    [styleContext]
+  );
+
+  useAnalyticsPageView(
+    GA_EVENTS.styleDetail.PAGE_VIEW,
+    SCREEN_NAME.STYLE_DETAIL,
+    pageViewParams,
+    { enabled: isDataReady }
+  );
+
+  useScrollDepthTrack(
+    GA_EVENTS.styleDetail.PAGE_SCROLL,
+    SCREEN_NAME.STYLE_DETAIL,
+    {
+      enabled: isDataReady,
+    }
+  );
+
   const { mutate: toggleJjym } = useJjymMutation({
     savedToastType: 'move',
     loginEntryRoute: LOGIN_ENTRY_ROUTE.PRODUCT_LIST_SAVE,
@@ -57,22 +97,20 @@ const StyleDetailPage = () => {
     toggleJjym(id, { productName });
   };
 
-  // 스타일 상세 CTA: setFlow(STYLE_RESTYLE) → 로그인 체크 → 스타일 상세로 복귀
+  const handleBackClick = useCallback(() => {
+    trackStyleDetailBackClick();
+    navigate(-1);
+  }, [navigate]);
+
   const handleCta = () => {
-    const parsedId = Number(styleId);
-    if (Number.isNaN(parsedId)) return;
+    if (Number.isNaN(parsedStyleId)) return;
 
     useImageFlowStore.getState().setFlow({
       entryRoute: ENTRY_ROUTE.STYLE_RESTYLE,
-      preset: { type: 'style', styleId: parsedId },
+      preset: { type: 'style', styleId: parsedStyleId },
     });
 
-    trackEvent(GA_EVENTS.styleDetail.BTN_CTA_CLICK, {
-      screen_name: SCREEN_NAME.STYLE_DETAIL,
-      image_entry_route: getEntryRoute(),
-      home_style_id: parsedId,
-      home_style_name: styleDetailData?.styleName ?? '',
-    });
+    trackStyleDetailCtaClick(styleContext);
 
     requireLogin(
       () => navigate(ROUTES.IMAGE_SETUP),
@@ -85,7 +123,7 @@ const StyleDetailPage = () => {
       <TitleNavBar
         title="스타일 상세 보기"
         backLabel="이전"
-        onBackClick={() => navigate(-1)}
+        onBackClick={handleBackClick}
       />
       <div className={styles.container}>
         {isLoading ? (
