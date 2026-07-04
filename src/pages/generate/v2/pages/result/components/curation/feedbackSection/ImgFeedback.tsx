@@ -1,5 +1,9 @@
 import { memo, useEffect, useRef, useState } from 'react';
 
+import {
+  trackResultRecBtnPreferenceClick,
+  trackResultRecToastThxOpinionView,
+} from '@pages/generate/analytics/resultRecAnalytics';
 import type { ResultPageLikeState } from '@pages/generate/types/generate';
 import { useDeleteResultPreferenceMutation } from '@pages/generate/v2/apis/mutations/useDeleteResultPreferenceMutation';
 import { useFactorPreferenceMutation } from '@pages/generate/v2/apis/mutations/useFactorPreferenceMutation';
@@ -97,6 +101,11 @@ const ImgFeedback = memo(({ imageId }: ImgFeedbackProps) => {
       return;
     }
 
+    trackResultRecBtnPreferenceClick({
+      genImgId: imageId,
+      isLike: finalState === 'like',
+    });
+
     if (lockedPreference !== null && lockedPreference !== finalState) {
       if (selectedFactorId !== null) {
         const previousFactorId = selectedFactorId;
@@ -136,6 +145,7 @@ const ImgFeedback = memo(({ imageId }: ImgFeedbackProps) => {
           if (lockedPreferenceRef.current !== expectedPreference) return;
           setSelectedFactorId(isSelected ? null : factorId);
           if (!isSelected) {
+            trackResultRecToastThxOpinionView();
             notify({
               text: TOAST_MESSAGE.IMAGE_FEEDBACK_THANKS,
               type: TOAST_TYPE.INFO,

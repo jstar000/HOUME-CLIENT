@@ -13,7 +13,9 @@ import {
 } from '@shared/analytics/params/imageSetup';
 import {
   LOAD_PREFERENCE_TYPE,
+  RESULT_PREFERENCE_TYPE,
   type LoadPreferenceType,
+  type ResultPreferenceType,
 } from '@shared/analytics/params/result';
 import { SHEET_EXPANSION_STATUS } from '@shared/analytics/params/shop';
 import { SCREEN_NAME, type ScreenName } from '@shared/analytics/screenNames';
@@ -97,6 +99,13 @@ export const toSheetExpansionStatus = (expanded: boolean) =>
 
 export const toLoadPreferenceType = (isLike: boolean): LoadPreferenceType =>
   isLike ? LOAD_PREFERENCE_TYPE.PREFERRED : LOAD_PREFERENCE_TYPE.NON_PREFERRED;
+
+export const toResultPreferenceType = (
+  isLike: boolean
+): ResultPreferenceType =>
+  isLike
+    ? RESULT_PREFERENCE_TYPE.PREFERRED
+    : RESULT_PREFERENCE_TYPE.NON_PREFERRED;
 
 export const getFlowAnalyticsSnapshot = (): FlowAnalyticsSnapshot | null =>
   useImageFlowStore.getState().flowSnapshot;

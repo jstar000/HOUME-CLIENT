@@ -1,7 +1,17 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
+import {
+  joinProductIds,
+  trackResultRecChipFilterClick,
+  trackResultRecFeedCardGoSiteClick,
+  trackResultRecFeedCardOnCardClick,
+  trackResultRecFeedCardSaveClick,
+  trackResultRecFeedCardUnsaveClick,
+  trackResultRecListRecView,
+  trackResultRecSlideFilterCombView,
+} from '@pages/generate/analytics/resultRecAnalytics';
 import { useCurationCategoriesQuery } from '@pages/generate/v2/apis/queries/useCurationCategoriesQuery';
 import { useCurationProductsQuery } from '@pages/generate/v2/apis/queries/useCurationProductsQuery';
 
@@ -184,6 +194,52 @@ const CurationResult = ({
   });
   const getSavedState = useSavedItemsStore((s) => s.getSavedState);
 
+  const trackedFilterCombRef = useRef(false);
+  const trackedListRecKeyRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    trackedFilterCombRef.current = false;
+    trackedListRecKeyRef.current = null;
+  }, [currentImageId]);
+
+  useEffect(() => {
+    if (categoriesState !== 'content' || trackedFilterCombRef.current) return;
+
+    trackedFilterCombRef.current = true;
+    trackResultRecSlideFilterCombView({
+      categories: renderableCategories,
+      products: renderableProducts
+        .map((wrapper) => wrapper.product)
+        .filter((product): product is NonNullable<typeof product> =>
+          Boolean(product?.id)
+        ),
+    });
+  }, [categoriesState, renderableCategories, renderableProducts]);
+
+  useEffect(() => {
+    if (productsState !== 'content' || selectedCategoryId === null) return;
+
+    const products = renderableProducts
+      .map((wrapper) => wrapper.product)
+      .filter((product): product is NonNullable<typeof product> =>
+        Boolean(product?.id)
+      );
+    const listRecKey = `${selectedCategoryId}:${joinProductIds(products)}`;
+    if (trackedListRecKeyRef.current === listRecKey) return;
+
+    trackedListRecKeyRef.current = listRecKey;
+    trackResultRecListRecView({
+      categories: renderableCategories,
+      selectedCategoryId,
+      products,
+    });
+  }, [
+    productsState,
+    renderableCategories,
+    renderableProducts,
+    selectedCategoryId,
+  ]);
+
   return (
     <div className={styles.root}>
       <GeneratedImg
@@ -229,7 +285,16 @@ const CurationResult = ({
                     <Chip
                       key={category.id}
                       selected={selectedCategoryId === category.id}
-                      onClick={() => setSelectedCategoryId(category.id!)}
+                      onClick={() => {
+                        const categoryId = category.id!;
+                        if (selectedCategoryId !== categoryId) {
+                          trackResultRecChipFilterClick({
+                            categories: renderableCategories,
+                            selectedCategoryId: categoryId,
+                          });
+                        }
+                        setSelectedCategoryId(categoryId);
+                      }}
                     >
                       {category.categoryName ?? ''}
                     </Chip>
@@ -248,11 +313,22 @@ const CurationResult = ({
                     const p = wrapper.product!;
                     const id = p.id!;
                     const href = p.linkUrl?.trim() ?? '';
+                    const productCardInput = {
+                      productId: id,
+                      name: p.name,
+                      brand: p.brand ?? p.mallName,
+                      originalPrice: p.originalPrice,
+                      finalPrice: p.finalPrice,
+                      categoryName: p.categoryName,
+                    };
 
                     return (
                       <ProductCard
                         key={id}
                         enableWholeCardLink={Boolean(href)}
+                        onCardClick={() =>
+                          trackResultRecFeedCardOnCardClick(productCardInput)
+                        }
                         product={{
                           brand: p.brand ?? p.mallName ?? '',
                           title: p.name ?? '',
@@ -268,14 +344,33 @@ const CurationResult = ({
                         }}
                         save={{
                           isSaved: getSavedState(id, p.isLiked),
-                          onToggle: () =>
+                          onToggle: () => {
+                            const isSaved = getSavedState(id, p.isLiked);
+                            if (isSaved) {
+                              trackResultRecFeedCardUnsaveClick(
+                                productCardInput
+                              );
+                            } else {
+                              trackResultRecFeedCardSaveClick(productCardInput);
+                            }
                             toggleJjym(id, {
                               loginEntryRoute:
                                 LOGIN_ENTRY_ROUTE.PRODUCT_LIST_SAVE,
                               productName: p.name,
-                            }),
+                            });
+                          },
                         }}
-                        link={href ? { href } : undefined}
+                        link={
+                          href
+                            ? {
+                                href,
+                                onClick: () =>
+                                  trackResultRecFeedCardGoSiteClick(
+                                    productCardInput
+                                  ),
+                              }
+                            : undefined
+                        }
                       />
                     );
                   })

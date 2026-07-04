@@ -5,6 +5,7 @@ import {
   useSearchParams,
 } from 'react-router-dom';
 
+import { trackResultRecBtnBackClick } from '@pages/generate/analytics/resultRecAnalytics';
 import { useImageMetaQuery } from '@pages/generate/v2/apis/queries/useImageMetaQuery';
 
 import { ROUTES } from '@routes/paths';
@@ -12,7 +13,10 @@ import { ROUTES } from '@routes/paths';
 import { isCurationViewType, RESULT_TYPE } from '@store/useImageFlowStore';
 
 import { GA_EVENTS } from '@shared/analytics/events';
-import { useAnalyticsPageView } from '@shared/analytics/hooks';
+import {
+  useAnalyticsPageView,
+  useScrollDepthTrack,
+} from '@shared/analytics/hooks';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
 
@@ -83,6 +87,17 @@ const ResultPage = () => {
     { enabled: parsedImageId !== null && !isListView }
   );
 
+  useScrollDepthTrack(GA_EVENTS.resultRec.PAGE_SCROLL, SCREEN_NAME.RESULT_REC, {
+    enabled: parsedImageId !== null && !isListView,
+  });
+
+  const handleBackClick = () => {
+    if (!isListView) {
+      trackResultRecBtnBackClick();
+    }
+    navigate(-1);
+  };
+
   // 뒤로가기 가드 — LoadingPage->ResultPage이고, 사용자 액션이 POP(뒤로가기)일 때만 useExitBlocker 훅이 실행됨
   // - LoadingPage->ResultPage에서 뒤로가기 시 HOME으로 redirect (이미지 생성 플로우로 재진입 방지)
   // - MyPage->ResultPage시에는 enabled=false, 따라서 history(-1)
@@ -131,7 +146,7 @@ const ResultPage = () => {
         <TitleNavBar
           background="transparent"
           placement="overContent"
-          onBackClick={() => navigate(-1)}
+          onBackClick={handleBackClick}
         />
         <Loading />
       </main>
@@ -145,7 +160,7 @@ const ResultPage = () => {
         <TitleNavBar
           background="transparent"
           placement="overContent"
-          onBackClick={() => navigate(-1)}
+          onBackClick={handleBackClick}
         />
         <InlineError message="이미지를 불러올 수 없습니다" />
       </main>
@@ -164,7 +179,7 @@ const ResultPage = () => {
       <TitleNavBar
         background="gradient"
         placement="overContent"
-        onBackClick={() => navigate(-1)}
+        onBackClick={handleBackClick}
       />
       <div className={styles.content}>
         <div className={styles.resultBody}>

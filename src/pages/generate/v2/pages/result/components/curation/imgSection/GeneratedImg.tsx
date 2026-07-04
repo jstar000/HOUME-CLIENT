@@ -7,6 +7,13 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
+import {
+  trackResultRecBtnArrowLeftClick,
+  trackResultRecBtnArrowRightClick,
+  trackResultRecBtnMoreImgClick,
+  trackResultRecMdNotYetView,
+} from '@pages/generate/analytics/resultRecAnalytics';
+
 import generateResultLockedPreview from '@assets/images/generateResultLockedPreview.png';
 
 import OptimizedImage from '@components/image/OptimizedImage';
@@ -53,6 +60,8 @@ const GeneratedImg = ({
     !swiper || currentSlideIndex === Math.max(0, totalSlideCount - 1);
 
   const handleOpenModal = () => {
+    trackResultRecBtnMoreImgClick();
+    trackResultRecMdNotYetView();
     overlay.open(({ unmount }) => (
       <CommunityComingSoonModal onClose={unmount} />
     ));
@@ -80,7 +89,10 @@ const GeneratedImg = ({
               size="M"
               className={styles.slideNavBtn}
               disabled={isPrevDisabled}
-              onClick={() => swiper?.slidePrev()}
+              onClick={() => {
+                trackResultRecBtnArrowLeftClick();
+                swiper?.slidePrev();
+              }}
               aria-label="이전 이미지"
             />
           </div>
@@ -128,7 +140,10 @@ const GeneratedImg = ({
               size="M"
               className={styles.slideNavBtn}
               disabled={isNextDisabled}
-              onClick={() => swiper?.slideNext()}
+              onClick={() => {
+                trackResultRecBtnArrowRightClick();
+                swiper?.slideNext();
+              }}
               aria-label="다음 이미지"
             />
           </div>
