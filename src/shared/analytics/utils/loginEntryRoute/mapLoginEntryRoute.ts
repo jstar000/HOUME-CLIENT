@@ -16,7 +16,8 @@ import {
   LOGIN_ENTRY_ROUTE,
   type LoginEntryRoute,
 } from '@shared/analytics/params/gate';
-import { persistLoginEntryRoute } from '@shared/analytics/utils/loginEntryRoute/storage';
+
+import { persistLoginEntryRoute } from './storeLoginEntryRoute';
 
 const ENTRY_TO_LOGIN_ENTRY_ROUTE: Record<EntryRoute, LoginEntryRoute> = {
   [ENTRY_ROUTE.GENERATE_BUTTON]: LOGIN_ENTRY_ROUTE.TOP_NAV_GENERATE,

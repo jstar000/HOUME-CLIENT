@@ -1,22 +1,14 @@
 /**
- * GA login_entry_route 유틸
+ * GA `login_entry_route` — 로그인 게이트 진입 경로
  *
- * | 모듈 | 역할 |
+ * 파일명: `동사 + LoginEntryRoute` (또는 LoginSocialEventParams)
+ *
+ * | 파일 | 역할 |
  * |------|------|
- * | storage | sessionStorage persist / get / clear |
- * | mapEntryRoute | ENTRY_ROUTE → GA 매핑 및 저장 |
- * | loginSocialParams | **로그인 플로우 전용** — loginSocial / signupForm·signupComp CTA·page_view |
- *
- * 앱 복귀 URL(`@utils/loginRedirect`)과는 분리 — OAuth 완료 시 각각 호출
- *
- * @example
- * import {
- *   mapEntryRouteToLoginEntry,
- *   persistLoginEntryRoute,
- *   clearLoginEntryRoute,
- *   getLoginSocialParams,
- * } from '@shared/analytics/utils/loginEntryRoute';
+ * | storeLoginEntryRoute | sessionStorage 저장 / 조회 / 삭제 |
+ * | mapLoginEntryRoute | ENTRY_ROUTE → GA enum 매핑 |
+ * | buildLoginSocialEventParams | 로그인 플로우 이벤트 params (`getLoginSocialParams`) |
  */
-export * from '@shared/analytics/utils/loginEntryRoute/loginSocialParams';
-export * from '@shared/analytics/utils/loginEntryRoute/mapEntryRoute';
-export * from '@shared/analytics/utils/loginEntryRoute/storage';
+export * from './buildLoginSocialEventParams';
+export * from './mapLoginEntryRoute';
+export * from './storeLoginEntryRoute';

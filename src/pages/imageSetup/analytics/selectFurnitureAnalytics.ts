@@ -3,7 +3,7 @@ import { GA_TOAST_TYPE } from '@shared/analytics/params/toast';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
 import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
-import { mapActivityCodeToChip } from '@shared/analytics/utils/imageFlow/imageFlowParams';
+import { mapActivityCodeToChip } from '@shared/analytics/utils/imageFlow';
 
 const selectFurnitureScreenParams = () => ({
   screen_name: SCREEN_NAME.SELECT_FURNITURE,

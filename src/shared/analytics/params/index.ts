@@ -1,11 +1,12 @@
 /**
  * GA4 파라미터 enum / 타입 (노션 v2.0.0)
  *
+ * 런타임 배선은 `@shared/analytics/utils` — 본 barrel에는 포함하지 않음.
+ *
  * @example
  * import { LOGIN_ENTRY_ROUTE, type TrackEventParams } from '@shared/analytics/params';
  */
 
-export * from '@shared/analytics/utils';
 export * from '@shared/analytics/params/auth';
 export * from '@shared/analytics/params/bannerDetail';
 export * from '@shared/analytics/params/builders';

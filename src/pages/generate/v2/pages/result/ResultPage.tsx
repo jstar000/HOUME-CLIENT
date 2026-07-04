@@ -20,17 +20,16 @@ import {
 } from '@shared/analytics/hooks';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
+import {
+  buildResultListPageViewParams,
+  buildResultRecPageViewParams,
+} from '@shared/analytics/utils/imageFlow';
 
 import InlineError from '@components/inlineError/InlineError';
 import Loading from '@components/loading/Loading';
 import TitleNavBar from '@components/v2/navBar/TitleNavBar';
 
 import { useExitBlocker } from '@hooks/useExitBlocker';
-
-import {
-  buildResultListPageViewParams,
-  buildResultRecPageViewParams,
-} from '@/shared/analytics/utils/imageFlow/imageFlowParams';
 
 import CurationResult from './components/curation/CurationResult';
 import ListResult from './components/list/ListResult';

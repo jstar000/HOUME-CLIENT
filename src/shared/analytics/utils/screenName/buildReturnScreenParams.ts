@@ -3,10 +3,10 @@ import { getLoginSocialParams } from '@shared/analytics/utils/loginEntryRoute';
 
 import { getLoginRedirect } from '@utils/loginRedirect';
 
-import { getPreviousScreenName } from './screenNameStack';
+import { getPreviousScreenName } from './updateScreenNameStack';
 
 /**
- * `return_screen_name` — navigation 정책
+ * `return_screen_name` — 라우트 스택 정책
  *
  * `useScreenNavigation`이 갱신한 직전 화면을 사용하고, 스택이 비어 있으면 fallback.
  * 뒤로가기·일반 page_view 보조 파라미터에 사용.
@@ -17,7 +17,7 @@ export const getReturnScreenName = (
   fallback: AnalyticsScreenName
 ): AnalyticsScreenName => getPreviousScreenName() ?? fallback;
 
-/** navigation 정책 — `{ return_screen_name }` */
+/** 스택 기반 — `{ return_screen_name }` */
 export const getReturnScreenNameParams = (fallback: AnalyticsScreenName) => ({
   return_screen_name: getReturnScreenName(fallback),
 });
@@ -26,7 +26,7 @@ export const getReturnScreenNameParams = (fallback: AnalyticsScreenName) => ({
  * 로그인 게이트 경유 page_view용
  *
  * - `loginRedirect` 세션 있음 → `getLoginSocialParams()` (로그인 플로우 전용)
- * - 없음 → navigation 정책 + fallback
+ * - 없음 → 스택 정책 + fallback
  */
 export const getLoginGatePageViewReturnParams = (
   fallback: AnalyticsScreenName

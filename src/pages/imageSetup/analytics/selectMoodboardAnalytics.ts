@@ -2,7 +2,7 @@ import { GA_EVENTS } from '@shared/analytics/events';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
 import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
-import { buildMoodboardIdsParam } from '@shared/analytics/utils/imageFlow/imageFlowParams';
+import { buildMoodboardIdsParam } from '@shared/analytics/utils/imageFlow';
 
 const selectMoodboardScreenParams = () => ({
   screen_name: SCREEN_NAME.SELECT_MOODBOARD,

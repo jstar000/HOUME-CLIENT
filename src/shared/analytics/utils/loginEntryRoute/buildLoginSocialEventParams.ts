@@ -22,13 +22,12 @@
 import { ROUTES } from '@routes/paths';
 
 import type { LoginEntryRoute } from '@shared/analytics/params/gate';
-import {
-  resolveScreenName,
-  type ScreenName,
-} from '@shared/analytics/screenNames';
-import { getLoginEntryRoute } from '@shared/analytics/utils/loginEntryRoute/storage';
+import type { ScreenName } from '@shared/analytics/screenNames';
+import { resolveScreenName } from '@shared/analytics/utils/screenName';
 
 import { getLoginRedirect } from '@utils/loginRedirect';
+
+import { getLoginEntryRoute } from './storeLoginEntryRoute';
 
 export type { LoginEntryRoute };
 

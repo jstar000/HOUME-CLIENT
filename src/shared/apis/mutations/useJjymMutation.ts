@@ -10,7 +10,7 @@ import {
   trackToastSaveView,
 } from '@shared/analytics/componentAnalytics';
 import type { LoginEntryRoute } from '@shared/analytics/params/gate';
-import { resolveScreenName } from '@shared/analytics/screenNames';
+import { resolveScreenName } from '@shared/analytics/utils/screenName';
 import type { SaveItemsRequest, SaveItemsResponse } from '@shared/types/jjym';
 import { TOAST_TYPE, TOASTER_ID } from '@shared/types/toast';
 

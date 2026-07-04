@@ -1,5 +1,6 @@
 import type { AnalyticsScreenName } from '@shared/analytics/params/global';
-import { resolveScreenName } from '@shared/analytics/screenNames';
+
+import { resolveScreenName } from './resolveScreenName';
 
 let previousScreenName: AnalyticsScreenName | undefined;
 let currentScreenName: AnalyticsScreenName | undefined;

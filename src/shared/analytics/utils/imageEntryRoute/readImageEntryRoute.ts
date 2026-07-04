@@ -12,7 +12,8 @@
 import { useImageFlowStore } from '@store/useImageFlowStore';
 
 import type { ImageEntryRoute } from '@shared/analytics/params/gate';
-import { mapEntryRouteToImageEntry } from '@shared/analytics/utils/imageEntryRoute/mapEntryRoute';
+
+import { mapEntryRouteToImageEntry } from './mapImageEntryRoute';
 
 export const getEntryRoute = (): ImageEntryRoute | undefined => {
   const entryRoute = useImageFlowStore.getState().entryRoute;

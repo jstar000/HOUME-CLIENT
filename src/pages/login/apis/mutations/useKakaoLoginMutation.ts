@@ -9,9 +9,9 @@ import { useUserStore } from '@store/useUserStore';
 
 import { GA_EVENTS } from '@shared/analytics/events';
 import { GA_TOAST_TYPE } from '@shared/analytics/params/toast';
-import { resolveScreenName } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
 import { clearLoginEntryRoute } from '@shared/analytics/utils/loginEntryRoute';
+import { resolveScreenName } from '@shared/analytics/utils/screenName';
 import { TOAST_TYPE } from '@shared/types/toast';
 
 import { HTTPMethod, request } from '@apis/config/request';

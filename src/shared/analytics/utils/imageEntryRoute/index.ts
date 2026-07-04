@@ -1,19 +1,12 @@
 /**
- * GA image_entry_route 유틸
+ * GA `image_entry_route` — 이미지 퍼널 진입 경로
  *
- * | 모듈 | 역할 |
+ * 파일명: `동사 + ImageEntryRoute`
+ *
+ * | 파일 | 역할 |
  * |------|------|
- * | mapEntryRoute | ENTRY_ROUTE → IMAGE_ENTRY_ROUTE 매핑 SSOT |
- * | getEntryRoute | useImageFlowStore.entryRoute → IMAGE_ENTRY_ROUTE 조회 |
- *
- * login_entry_route와 달리 별도 sessionStorage를 두지 않음
- * → useImageFlowStore가 이미 entryRoute를 persist/reset하므로 그대로 소스로 사용
- *
- * @example
- * import {
- *   getEntryRoute,
- *   mapEntryRouteToImageEntry,
- * } from '@shared/analytics/utils/imageEntryRoute';
+ * | mapImageEntryRoute | ENTRY_ROUTE → GA enum 매핑 SSOT |
+ * | readImageEntryRoute | flow store → `getEntryRoute()` 조회 |
  */
-export * from '@shared/analytics/utils/imageEntryRoute/getEntryRoute';
-export * from '@shared/analytics/utils/imageEntryRoute/mapEntryRoute';
+export * from './mapImageEntryRoute';
+export * from './readImageEntryRoute';

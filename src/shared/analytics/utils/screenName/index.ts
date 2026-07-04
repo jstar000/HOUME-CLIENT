@@ -1,10 +1,17 @@
 /**
- * GA screen_name 스택 + `return_screen_name` 파라미터
+ * GA `screen_name` / `return_screen_name` — 라우트 스택 기반
  *
- * | 모듈 | 역할 |
+ * 파일명: `동사 + ScreenNameStack` / `ReturnScreenParams` / `resolveScreenName`
+ *
+ * | 파일 | 역할 |
  * |------|------|
- * | screenNameStack | 라우트 변경 시 previous/current screen_name 갱신 |
- * | returnScreenName | `return_screen_name` 정책별 params 조립 |
+ * | resolveScreenName | URL → screen_name 변환 |
+ * | updateScreenNameStack | 라우트 변경 시 previous/current screen_name 갱신 |
+ * | buildReturnScreenParams | 스택 기반 `return_screen_name` params 조립 |
+ *
+ * `SCREEN_NAME` 상수 → `@shared/analytics/screenNames`
+ * 이미지 퍼널 return_screen_name → `imageFlow/resolveFunnelReturnScreen`
  */
-export * from './returnScreenName';
-export * from './screenNameStack';
+export * from './buildReturnScreenParams';
+export * from './resolveScreenName';
+export * from './updateScreenNameStack';

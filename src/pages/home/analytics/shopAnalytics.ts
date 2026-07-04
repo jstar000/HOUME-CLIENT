@@ -18,7 +18,7 @@ import {
 import { FILTER_TYPE } from '@shared/analytics/params/space';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
-import { toSheetExpansionStatus } from '@shared/analytics/utils/imageFlow/imageFlowParams';
+import { toSheetExpansionStatus } from '@shared/analytics/utils/imageFlow';
 
 type FilterLabelMap = Record<string, string>;
 

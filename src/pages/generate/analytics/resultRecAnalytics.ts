@@ -3,7 +3,7 @@ import { getProductCardParams } from '@shared/analytics/params/builders/productC
 import type { ProductCardInput } from '@shared/analytics/params/builders/productCard';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
-import { toResultPreferenceType } from '@shared/analytics/utils/imageFlow/imageFlowParams';
+import { toResultPreferenceType } from '@shared/analytics/utils/imageFlow';
 import { getReturnScreenNameParams } from '@shared/analytics/utils/screenName';
 
 import type {

@@ -12,7 +12,7 @@ import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
 import {
   getReturnScreenNameFromImageEntry,
   toSheetExpansionStatus,
-} from '@shared/analytics/utils/imageFlow/imageFlowParams';
+} from '@shared/analytics/utils/imageFlow';
 
 import type {
   ExploreHouseTemplateItemResponse,

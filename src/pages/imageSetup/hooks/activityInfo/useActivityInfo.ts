@@ -8,12 +8,12 @@ import { ROUTES } from '@routes/paths';
 
 import { holdEntryRoute } from '@store/useImageFlowStore';
 
-import { useCreditGuard } from '@hooks/useCreditGuard';
-
 import {
   buildSelectedFurnitureChips,
   captureFullFunnelFlowSnapshot,
-} from '@/shared/analytics/utils/imageFlow/imageFlowParams';
+} from '@shared/analytics/utils/imageFlow';
+
+import { useCreditGuard } from '@hooks/useCreditGuard';
 
 import { useActivitySelection } from './useActivitySelection';
 import { useCategorySelection } from './useCategorySelection';
