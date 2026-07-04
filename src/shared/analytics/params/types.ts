@@ -69,7 +69,4 @@ export type TrackEventParams = {
   {
     toast_type?: GaToastType | string;
     error_code?: string;
-  } & {
-  /** 노션에 정의되기 전 확장 파라미터 */
-  [key: string]: AnalyticsParamValue | undefined;
-};
+  };
