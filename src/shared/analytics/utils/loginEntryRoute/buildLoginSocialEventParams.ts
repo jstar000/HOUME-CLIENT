@@ -22,7 +22,6 @@
 import { ROUTES } from '@routes/paths';
 
 import type { LoginEntryRoute } from '@shared/analytics/params/gate';
-import type { ScreenName } from '@shared/analytics/screenNames';
 import { resolveScreenName } from '@shared/analytics/utils/screenName';
 
 import { getLoginRedirect } from '@utils/loginRedirect';
@@ -30,10 +29,6 @@ import { getLoginRedirect } from '@utils/loginRedirect';
 import { getLoginEntryRoute } from './storeLoginEntryRoute';
 
 export type { LoginEntryRoute };
-
-/** @deprecated `resolveScreenName` 사용 */
-export const pathToScreenName = (path: string): ScreenName | string =>
-  resolveScreenName(path);
 
 /** 로그인 플로우 이벤트 공통 파라미터 (`login_entry_route` + `return_screen_name`) */
 export const getLoginSocialParams = () => {
