@@ -111,3 +111,19 @@ export const getNextFunnelStep = (
   }
   return 'IMAGE_LOADING';
 };
+
+/**
+ * ImageSetup → /generate 이동 시 unmount cleanup에서 entryRoute clear 생략
+ * (LoadingPage·ResultPage GA image_entry_route 유지, useExitImageFlow.reset()까지)
+ */
+let entryRouteHeld = false;
+
+export const holdEntryRoute = (): void => {
+  entryRouteHeld = true;
+};
+
+export const consumeEntryRouteHold = (): boolean => {
+  const held = entryRouteHeld;
+  entryRouteHeld = false;
+  return held;
+};

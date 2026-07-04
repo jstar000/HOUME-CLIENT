@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { ROUTES } from '@routes/paths';
 
+import { holdEntryRoute } from '@store/useImageFlowStore';
+
 import { useCreditGuard } from '@hooks/useCreditGuard';
 
 import { useActivitySelection } from './useActivitySelection';
@@ -193,6 +195,7 @@ export const useActivityInfo = (context: ImageSetupSteps['ActivityInfo']) => {
 
     // payload 조립 + 다음 페이지(LoadingPage)로 데이터 전달은 useGenerateImageRequest 훅이 담당
     // 퍼널 데이터는 ImageSetupPage mount 시점에 다음 진입에서 reset
+    holdEntryRoute();
     navigate(ROUTES.GENERATE);
   };
 
