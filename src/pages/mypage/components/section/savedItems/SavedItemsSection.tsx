@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
+import { useMypageSavedItemsAnalytics } from '@pages/mypage/analytics/useMypageAnalytics';
 import { useGetJjymListQuery } from '@pages/mypage/apis/queries/useGetJjymListQuery';
-import { useMypageSavedItemsAnalytics } from '@pages/mypage/hooks/useMypageAnalytics';
 
 import { useSavedItemsStore } from '@store/useSavedItemsStore';
 

@@ -2,9 +2,9 @@ import { useCallback, useEffect, useRef } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
+import { useMypageGeneratedImagesAnalytics } from '@pages/mypage/analytics/useMypageAnalytics';
 import { useGetGeneratedImageListQuery } from '@pages/mypage/apis/queries/useMyPageImagesQuery';
 import { useDetectionPrefetch } from '@pages/mypage/hooks/useDetectionPrefetch';
-import { useMypageGeneratedImagesAnalytics } from '@pages/mypage/hooks/useMypageAnalytics';
 import { formatDate } from '@pages/mypage/utils/formatting';
 
 import { ROUTES } from '@routes/paths';

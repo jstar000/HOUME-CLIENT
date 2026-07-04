@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
+import { useMypageEmptyStateAnalytics } from '@pages/mypage/analytics/useMypageAnalytics';
 import { useGetJjymListQuery } from '@pages/mypage/apis/queries/useGetJjymListQuery';
-import { useMypageEmptyStateAnalytics } from '@pages/mypage/hooks/useMypageAnalytics';
 
 import { ROUTES } from '@routes/paths';
 

@@ -19,12 +19,12 @@ import { setLoginRedirect } from '@utils/loginRedirect';
 
 import MenuTab from '@/shared/components/v2/menuTab/MenuTab';
 
+import { useMypageAnalytics } from './analytics/useMypageAnalytics';
 import { useMyPageProfileQuery } from './apis/queries/useEditProfileQuery';
 import { useMyPageUserQuery } from './apis/queries/useMyPageUserQuery';
 import GeneratedImagesSection from './components/section/generatedImages/GeneratedImagesSection';
 import ProfileSection from './components/section/profile/ProfileSection';
 import SavedItemsSection from './components/section/savedItems/SavedItemsSection';
-import { useMypageAnalytics } from './hooks/useMypageAnalytics';
 import * as styles from './MyPage.css';
 
 export type MypageMenuTab = 'generatedImages' | 'savedItems';

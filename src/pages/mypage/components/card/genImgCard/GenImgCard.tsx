@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import { useMypageGenImgCardAnalytics } from '@pages/mypage/hooks/useMypageAnalytics';
+import { useMypageGenImgCardAnalytics } from '@pages/mypage/analytics/useMypageAnalytics';
 
 import { ROUTES } from '@routes/paths';
 

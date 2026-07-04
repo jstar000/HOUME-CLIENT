@@ -14,7 +14,7 @@ import {
   trackSignupNotCompModalQuitClick,
   trackSignupNotCompModalView,
 } from '@pages/signup/analytics/signupFormAnalytics';
-import { useSignupFormAnalytics } from '@pages/signup/hooks/useSignupFormAnalytics';
+import { useSignupFormAnalytics } from '@pages/signup/analytics/useSignupFormAnalytics';
 
 import { ROUTES } from '@routes/paths';
 

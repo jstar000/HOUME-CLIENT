@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 
 import { overlay } from 'overlay-kit';
 
-import { useSelectFurnitureAnalytics } from '@pages/imageSetup/hooks/useSelectFurnitureAnalytics';
+import { useSelectFurnitureAnalytics } from '@pages/imageSetup/analytics/useSelectFurnitureAnalytics';
 
 import InlineError from '@components/inlineError/InlineError';
 import Loading from '@components/loading/Loading';

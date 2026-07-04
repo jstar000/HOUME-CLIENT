@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { overlay } from 'overlay-kit';
 
+import { useProductShopAnalytics } from '@pages/home/analytics/useProductShopAnalytics';
 import ProductFilterSheet from '@pages/home/components/product/ProductFilterSheet/ProductFilterSheet';
-import { useProductShopAnalytics } from '@pages/home/hooks/useProductShopAnalytics';
 import {
   MAX_SELECTED_PRODUCTS,
   useProductTabController,

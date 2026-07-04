@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { useResultListAnalytics } from '@pages/generate/hooks/useResultListAnalytics';
+import { useResultListAnalytics } from '@pages/generate/analytics/useResultListAnalytics';
 import { useGenerateListResultQuery } from '@pages/generate/v2/apis/queries/useGenerateListResultQuery';
 import { useRelatedImagesQuery } from '@pages/generate/v2/apis/queries/useRelatedImagesQuery';
 import { useSimilarItemsQuery } from '@pages/generate/v2/apis/queries/useSimilarItemsQuery';

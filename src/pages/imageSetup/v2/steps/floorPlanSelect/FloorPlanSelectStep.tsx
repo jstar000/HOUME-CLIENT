@@ -1,4 +1,4 @@
-import { useRoomTypeAnalytics } from '@pages/imageSetup/hooks/useRoomTypeAnalytics';
+import { useRoomTypeAnalytics } from '@pages/imageSetup/analytics/useRoomTypeAnalytics';
 
 import FilterSheet from './FilterSheet';
 import FloorPlanSelectGrid from './FloorPlanSelectGrid';

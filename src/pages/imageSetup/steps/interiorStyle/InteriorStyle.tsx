@@ -1,6 +1,6 @@
 // Step 3
+import { useSelectMoodboardAnalytics } from '@pages/imageSetup/analytics/useSelectMoodboardAnalytics';
 import { useMoodBoardQuery } from '@pages/imageSetup/apis/queries/useMoodBoardQuery';
-import { useSelectMoodboardAnalytics } from '@pages/imageSetup/hooks/useSelectMoodboardAnalytics';
 
 import InlineError from '@components/inlineError/InlineError';
 import Loading from '@components/loading/Loading';
