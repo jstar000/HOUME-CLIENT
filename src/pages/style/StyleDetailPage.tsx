@@ -5,7 +5,11 @@ import { ROUTES } from '@routes/paths';
 import { ENTRY_ROUTE, useImageFlowStore } from '@store/useImageFlowStore';
 import { useSavedItemsStore } from '@store/useSavedItemsStore';
 
+import { GA_EVENTS } from '@shared/analytics/events';
 import { LOGIN_ENTRY_ROUTE } from '@shared/analytics/params/gate';
+import { SCREEN_NAME } from '@shared/analytics/screenNames';
+import { trackEvent } from '@shared/analytics/track';
+import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
 import { mapEntryRouteToLoginEntry } from '@shared/analytics/utils/loginEntryRoute';
 
 import { useJjymMutation } from '@apis/mutations/useJjymMutation';
@@ -61,6 +65,13 @@ const StyleDetailPage = () => {
     useImageFlowStore.getState().setFlow({
       entryRoute: ENTRY_ROUTE.STYLE_RESTYLE,
       preset: { type: 'style', styleId: parsedId },
+    });
+
+    trackEvent(GA_EVENTS.styleDetail.BTN_CTA_CLICK, {
+      screen_name: SCREEN_NAME.STYLE_DETAIL,
+      image_entry_route: getEntryRoute(),
+      home_style_id: parsedId,
+      home_style_name: styleDetailData?.styleName ?? '',
     });
 
     requireLogin(

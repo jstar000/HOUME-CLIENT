@@ -6,7 +6,18 @@ import { ROUTES } from '@routes/paths';
 
 import { holdEntryRoute } from '@store/useImageFlowStore';
 
+import { GA_EVENTS } from '@shared/analytics/events';
+import { SCREEN_NAME } from '@shared/analytics/screenNames';
+import { trackEvent } from '@shared/analytics/track';
+import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
+
 import { useCreditGuard } from '@hooks/useCreditGuard';
+
+import {
+  buildSelectedFurnitureChips,
+  captureFullFunnelFlowSnapshot,
+  mapActivityCodeToChip,
+} from '@/shared/analytics/utils/imageFlow/imageFlowParams';
 
 import { useActivitySelection } from './useActivitySelection';
 import { useCategorySelection } from './useCategorySelection';
@@ -15,6 +26,7 @@ import { useActivitiesQuery } from '../../apis/queries/useActivitiesQuery';
 import { useFurnitureCategoriesQuery } from '../../apis/queries/useFurnitureCategoriesQuery';
 import { useFunnelStore } from '../../stores/useFunnelStore';
 import { CATEGORY_SELECTION_MODE } from '../../types/funnel/activityInfo';
+import { useRecentFloorPlanQuery } from '../../v2/apis/queries/useRecentFloorPlanQuery';
 
 import type { ActivityInfoFormData } from '../../types/funnel/activityInfo';
 import type { ImageSetupSteps } from '../../types/funnel/steps';
@@ -47,6 +59,8 @@ export const useActivityInfo = (context: ImageSetupSteps['ActivityInfo']) => {
     isError: isCategoriesError,
     refetch: refetchCategories,
   } = useFurnitureCategoriesQuery();
+
+  const { data: recentFloorPlanData } = useRecentFloorPlanQuery();
 
   // 둘 중 하나라도 pending/error면 전체가 pending/error
   const isPending = isActivitiesPending || isCategoriesPending;
@@ -194,7 +208,27 @@ export const useActivityInfo = (context: ImageSetupSteps['ActivityInfo']) => {
     }
 
     // payload 조립 + 다음 페이지(LoadingPage)로 데이터 전달은 useGenerateImageRequest 훅이 담당
-    // 퍼널 데이터는 ImageSetupPage mount 시점에 다음 진입에서 reset
+    const funnelState = useFunnelStore.getState();
+    const furnitureChipCodes = buildSelectedFurnitureChips(
+      formData.furnitureIds,
+      categoriesData?.categories
+    );
+
+    captureFullFunnelFlowSnapshot({
+      floorPlanId: funnelState.floorPlan?.floorPlanId,
+      moodBoardIds: funnelState.moodBoardIds ?? undefined,
+      activityCode: formData.activity,
+      furnitureChipCodes,
+    });
+
+    trackEvent(GA_EVENTS.selectFurniture.BTN_CTA_CLICK, {
+      screen_name: SCREEN_NAME.SELECT_FURNITURE,
+      image_entry_route: getEntryRoute(),
+      selected_furniture_chips: furnitureChipCodes,
+      selected_activity_chip: mapActivityCodeToChip(formData.activity),
+      has_previous_image: recentFloorPlanData?.hasRecentImage === true,
+    });
+
     holdEntryRoute();
     navigate(ROUTES.GENERATE);
   };

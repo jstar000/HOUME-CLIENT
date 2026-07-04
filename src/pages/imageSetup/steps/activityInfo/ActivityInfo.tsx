@@ -1,8 +1,13 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { overlay } from 'overlay-kit';
 
 import { useActivityInfo } from '@pages/imageSetup/hooks/activityInfo/useActivityInfo';
+
+import { GA_EVENTS } from '@shared/analytics/events';
+import { SCREEN_NAME } from '@shared/analytics/screenNames';
+import { trackEvent } from '@shared/analytics/track';
+import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
 
 import InlineError from '@components/inlineError/InlineError';
 import Loading from '@components/loading/Loading';
@@ -38,6 +43,13 @@ const ActivityInfo = ({ context }: ActivityInfoProps) => {
     globalConstraints,
     handleSubmit,
   } = useActivityInfo(context);
+
+  useEffect(() => {
+    trackEvent(GA_EVENTS.selectFurniture.PAGE_VIEW, {
+      screen_name: SCREEN_NAME.SELECT_FURNITURE,
+      image_entry_route: getEntryRoute(),
+    });
+  }, []);
 
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const sheetIdRef = useRef<string | null>(null);

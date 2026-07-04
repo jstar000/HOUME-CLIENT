@@ -13,6 +13,11 @@ import { ROUTES } from '@routes/paths';
 
 import { useImageFlowStore } from '@store/useImageFlowStore';
 
+import { GA_EVENTS } from '@shared/analytics/events';
+import { SCREEN_NAME } from '@shared/analytics/screenNames';
+import { trackEvent } from '@shared/analytics/track';
+import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
+
 import type { GetCarouselResponseDTO } from '@apis/__generated__/data-contracts';
 
 import TestImg from '@assets/v2/images/TestImg.png';
@@ -26,6 +31,11 @@ import Popup from '@components/v2/popup/Popup';
 import { useErrorHandler } from '@hooks/useErrorHandler';
 import { useExitBlocker } from '@hooks/useExitBlocker';
 
+import {
+  ensureShortFunnelFlowSnapshot,
+  getLoadImgReturnScreenName,
+  toLoadPreferenceType,
+} from '@/shared/analytics/utils/imageFlow/imageFlowParams';
 import { TOAST_TYPE } from '@/shared/types/toastLegacy';
 
 import { useExitImageFlow } from './hooks/useExitImageFlow';
@@ -130,6 +140,18 @@ const LoadingPage = () => {
 
   // 이미지 생성 payload에 필요한 데이터가 정상적으로 구성되어 있으면 true
   const isRequestValid = requestState.kind !== 'invalid';
+  const hasPageViewRef = useRef(false);
+
+  useEffect(() => {
+    if (!isRequestValid || hasPageViewRef.current) return;
+    hasPageViewRef.current = true;
+
+    trackEvent(GA_EVENTS.loadImg.PAGE_VIEW, {
+      screen_name: SCREEN_NAME.LOAD_IMG,
+      image_entry_route: getEntryRoute(),
+      return_screen_name: getLoadImgReturnScreenName(),
+    });
+  }, [isRequestValid]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -186,15 +208,19 @@ const LoadingPage = () => {
         console.error('invalid requestState kind');
         return;
       case 'fullFunnel':
+        ensureShortFunnelFlowSnapshot();
         requestState.mutate(requestState.payload, mutateOptions);
         return;
       case 'banner':
+        ensureShortFunnelFlowSnapshot();
         requestState.mutate(requestState.payload, mutateOptions);
         return;
       case 'otherStyle':
+        ensureShortFunnelFlowSnapshot();
         requestState.mutate(requestState.payload, mutateOptions);
         return;
       case 'product':
+        ensureShortFunnelFlowSnapshot();
         requestState.mutate(requestState.payload, mutateOptions);
         return;
     }
@@ -270,6 +296,13 @@ const LoadingPage = () => {
     if (!displayCurrentImage) return;
 
     setIsTooltipOpen(false);
+
+    trackEvent(GA_EVENTS.loadImg.CARD_PREFERENCE_CLICK, {
+      screen_name: SCREEN_NAME.LOAD_IMG,
+      image_entry_route: getEntryRoute(),
+      product_id: displayCurrentImage.rawProductId,
+      load_preference_type: toLoadPreferenceType(isLike),
+    });
 
     if (isLike) {
       if (displayCurrentImage?.rawProductId == null) return;

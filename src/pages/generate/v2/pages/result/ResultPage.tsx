@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import {
   Navigate,
   useLocation,
@@ -11,11 +13,20 @@ import { ROUTES } from '@routes/paths';
 
 import { isCurationViewType, RESULT_TYPE } from '@store/useImageFlowStore';
 
+import { GA_EVENTS } from '@shared/analytics/events';
+import { trackEvent } from '@shared/analytics/track';
+import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
+
 import InlineError from '@components/inlineError/InlineError';
 import Loading from '@components/loading/Loading';
 import TitleNavBar from '@components/v2/navBar/TitleNavBar';
 
 import { useExitBlocker } from '@hooks/useExitBlocker';
+
+import {
+  buildResultListPageViewParams,
+  buildResultRecPageViewParams,
+} from '@/shared/analytics/utils/imageFlow/imageFlowParams';
 
 import CurationResult from './components/curation/CurationResult';
 import ListResult from './components/list/ListResult';
@@ -52,6 +63,25 @@ const ResultPage = () => {
   const stateImageUrl = locationState?.imageUrl;
   const stateIsMirror = locationState?.isMirror;
   const isFromLoading = locationState?.from === 'loading';
+  const hasResultPageViewRef = useRef(false);
+
+  useEffect(() => {
+    if (parsedImageId === null || hasResultPageViewRef.current) return;
+    hasResultPageViewRef.current = true;
+
+    if (isListView) {
+      trackEvent(GA_EVENTS.resultList.PAGE_VIEW, {
+        ...buildResultListPageViewParams(parsedImageId),
+        image_entry_route: getEntryRoute(),
+      });
+      return;
+    }
+
+    trackEvent(GA_EVENTS.resultRec.PAGE_VIEW, {
+      ...buildResultRecPageViewParams(parsedImageId),
+      image_entry_route: getEntryRoute(),
+    });
+  }, [isListView, parsedImageId]);
 
   // 뒤로가기 가드 — LoadingPage->ResultPage이고, 사용자 액션이 POP(뒤로가기)일 때만 useExitBlocker 훅이 실행됨
   // - LoadingPage->ResultPage에서 뒤로가기 시 HOME으로 redirect (이미지 생성 플로우로 재진입 방지)

@@ -12,11 +12,16 @@ import type {
   SelectedProduct,
 } from '@pages/home/types/productTab';
 import { useFunnelStore } from '@pages/imageSetup/stores/useFunnelStore';
+import { useRecentFloorPlanQuery } from '@pages/imageSetup/v2/apis/queries/useRecentFloorPlanQuery';
 
 import { ROUTES } from '@routes/paths';
 
 import { ENTRY_ROUTE, useImageFlowStore } from '@store/useImageFlowStore';
 
+import { GA_EVENTS } from '@shared/analytics/events';
+import { SCREEN_NAME } from '@shared/analytics/screenNames';
+import { trackEvent } from '@shared/analytics/track';
+import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
 import { mapEntryRouteToLoginEntry } from '@shared/analytics/utils/loginEntryRoute';
 import { TOAST_MESSAGE } from '@shared/constants/toastMessage';
 import { TOAST_TYPE, TOASTER_ID } from '@shared/types/toast';
@@ -24,6 +29,11 @@ import { TOAST_TYPE, TOASTER_ID } from '@shared/types/toast';
 import { useToast } from '@components/v2/toast/useToast';
 
 import { useLoginGate } from '@hooks/useLoginGate';
+
+import {
+  getReturnScreenNameFromImageEntry,
+  toSheetExpansionStatus,
+} from '@/shared/analytics/utils/imageFlow/imageFlowParams';
 
 /**
  * 필터 상단 칩 선택 상태 기본값
@@ -58,6 +68,7 @@ const useProductTabController = ({
   const navigate = useNavigate();
   const { notify } = useToast();
   const { requireLogin } = useLoginGate();
+  const { data: recentFloorPlanData } = useRecentFloorPlanQuery();
 
   /** 바텀시트/칩 UI 상태 */
   const [sheetExpanded, setSheetExpanded] = useState(initialSheetExpanded);
@@ -182,12 +193,36 @@ const useProductTabController = ({
       },
     });
 
+    const lastProduct = selectedProducts[selectedProducts.length - 1];
+
+    trackEvent(GA_EVENTS.shop.SELECT_SHEET_CTA_CLICK, {
+      screen_name: SCREEN_NAME.SHOP,
+      image_entry_route: getEntryRoute(),
+      return_screen_name:
+        getReturnScreenNameFromImageEntry() ?? SCREEN_NAME.SHOP,
+      sheet_expansion_status: toSheetExpansionStatus(sheetExpanded),
+      selected_count: selectedProducts.length,
+      selected_product_ids: selectedProducts.map((p) => p.id).join(', '),
+      product_id: lastProduct?.id,
+      product_name: lastProduct?.title,
+      product_price: lastProduct?.discountPrice,
+      has_previous_space: recentFloorPlanData?.hasRecentImage === true,
+      has_previous_image: recentFloorPlanData?.hasRecentImage === true,
+    });
+
     // 로그인 복귀 시 HOME으로 이동 -> HomePage가 preset.productsToBeRestored 감지해 상품 탭으로 이동, ProductTab이 store 값을 useState 초기값으로 복원
     requireLogin(
       () => navigate(ROUTES.IMAGE_SETUP),
       mapEntryRouteToLoginEntry(entryRoute)
     );
-  }, [navigate, notify, requireLogin, selectedProducts]);
+  }, [
+    navigate,
+    notify,
+    requireLogin,
+    recentFloorPlanData,
+    selectedProducts,
+    sheetExpanded,
+  ]);
 
   /** ProductTab에서 사용할 공개 값 */
   return {
