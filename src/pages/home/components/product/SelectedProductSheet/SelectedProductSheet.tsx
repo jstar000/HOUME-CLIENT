@@ -2,6 +2,10 @@ import { useCallback } from 'react';
 
 import { overlay } from 'overlay-kit';
 
+import {
+  trackShopFeedCardDetailClick,
+  type ShopListContext,
+} from '@pages/home/analytics/shopAnalytics';
 import ProductDetailOverlay from '@pages/home/components/product/ProductPopup/ProductDetailOverlay';
 import type { SelectedProduct } from '@pages/home/types/productTab';
 
@@ -15,6 +19,8 @@ interface SelectedProductSheetProps {
   selectedProducts: SelectedProduct[];
   onRemoveProduct: (id: number) => void;
   onAddProductClick?: () => void;
+  onItemClick?: (product: SelectedProduct) => void;
+  shopListContext?: ShopListContext;
   maxCount?: number;
 }
 
@@ -23,6 +29,8 @@ const SelectedProductSheet = ({
   selectedProducts,
   onRemoveProduct,
   onAddProductClick,
+  onItemClick,
+  shopListContext,
   maxCount = 6,
 }: SelectedProductSheetProps) => {
   const selectedCount = selectedProducts.length;
@@ -36,11 +44,13 @@ const SelectedProductSheet = ({
     [onRemoveProduct]
   );
 
-  /** 상품 목록 찜 API 미연동 — ProductDetailOverlay `SaveInfo`용 no-op */
   const handleSaveToggleNoop = useCallback(() => {}, []);
 
   const handleSelectedCardClick = useCallback(
     (product: SelectedProduct) => {
+      onItemClick?.(product);
+      trackShopFeedCardDetailClick(product, shopListContext);
+
       overlay.open(({ unmount }) => (
         <ProductDetailOverlay
           unmount={unmount}
@@ -64,10 +74,11 @@ const SelectedProductSheet = ({
             disabled: true,
             onClick: () => {},
           }}
+          shopListContext={shopListContext}
         />
       ));
     },
-    [handleSaveToggleNoop]
+    [handleSaveToggleNoop, onItemClick, shopListContext]
   );
 
   return (

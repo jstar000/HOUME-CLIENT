@@ -131,6 +131,7 @@ const useProductSearch = (baseParams: ProductListQueryVariables) => {
   return {
     loadMoreRef,
     keyword,
+    debouncedKeyword,
     products,
     recommendedProducts,
     isRecommended,

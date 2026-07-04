@@ -1,8 +1,9 @@
 import { useCallback } from 'react';
 
-import { overlay } from 'overlay-kit';
-
-import ProductDetailOverlay from '@pages/home/components/product/ProductPopup/ProductDetailOverlay';
+import {
+  trackShopFeedCardSelectClick,
+  type ShopListContext,
+} from '@pages/home/analytics/shopAnalytics';
 import type { ProductSearchCardItem } from '@pages/home/hooks/useProductSearch';
 import type { SelectedProduct } from '@pages/home/types/productTab';
 
@@ -14,12 +15,35 @@ interface RecommendSectionProps {
   products: ProductSearchCardItem[];
   selectedProductIds: number[];
   onSelectProduct: (product: SelectedProduct) => void;
+  shopListContext: ShopListContext;
+  registerProductRef: (
+    productId: number
+  ) => (element: HTMLElement | null) => void;
+  onOpenProductDetail: (
+    id: number,
+    cardProduct: { title: string; brand: string; imageUrl: string },
+    cardPrice: {
+      original: number;
+      discountRate: number;
+      discount: number;
+    },
+    cardSave: { isSaved: false; onToggle: () => void; count: number },
+    cardLink: { href: string },
+    cardShoppingAction: {
+      label: string;
+      disabled?: boolean;
+      onClick: () => void;
+    }
+  ) => void;
 }
 
 const RecommendSection = ({
   products,
   selectedProductIds,
   onSelectProduct,
+  shopListContext,
+  registerProductRef,
+  onOpenProductDetail,
 }: RecommendSectionProps) => {
   const handleSaveToggleNoop = useCallback(() => {}, []);
 
@@ -31,8 +55,8 @@ const RecommendSection = ({
     <section className={styles.section} aria-label="추천 상품">
       <h2 className={styles.title}>이런 상품은 어떠세요?</h2>
       <div className={styles.productGrid}>
-        {products.map(
-          ({
+        {products.map((item) => {
+          const {
             id,
             title,
             brand,
@@ -43,66 +67,68 @@ const RecommendSection = ({
             colorHexes,
             saveCount,
             linkUrl,
-          }) => {
-            const isSelected = selectedProductIds.includes(id);
-            const cardProduct = {
-              title,
-              brand,
-              imageUrl,
-              colorHexes,
-            };
-            const cardPrice = {
-              original: originalPrice,
-              discountRate,
-              discount: discountPrice,
-            };
-            const cardSave = {
-              isSaved: false as const,
-              onToggle: handleSaveToggleNoop,
-              count: saveCount,
-            };
-            const cardLink = { href: linkUrl };
-            const cardShoppingAction = {
-              label: isSelected ? '선택됨' : '선택',
-              disabled: isSelected,
-              onClick: () =>
-                onSelectProduct({
-                  id,
-                  title,
-                  brand,
-                  imageUrl,
-                  originalPrice,
-                  discountPrice,
-                  discountRate,
-                }),
-            };
+          } = item;
+          const isSelected = selectedProductIds.includes(id);
+          const cardProduct = {
+            title,
+            brand,
+            imageUrl,
+            colorHexes,
+          };
+          const cardPrice = {
+            original: originalPrice,
+            discountRate,
+            discount: discountPrice,
+          };
+          const cardSave = {
+            isSaved: false as const,
+            onToggle: handleSaveToggleNoop,
+            count: saveCount,
+          };
+          const cardLink = { href: linkUrl };
+          const selectedProduct: SelectedProduct = {
+            id,
+            title,
+            brand,
+            imageUrl,
+            originalPrice,
+            discountPrice,
+            discountRate,
+          };
+          const cardShoppingAction = {
+            label: isSelected ? '선택됨' : '선택',
+            disabled: isSelected,
+            onClick: () => {
+              if (isSelected) return;
 
-            return (
+              trackShopFeedCardSelectClick(selectedProduct, shopListContext);
+              onSelectProduct(selectedProduct);
+            },
+          };
+
+          return (
+            <div key={id} ref={registerProductRef(id)}>
               <ProductCard
-                key={id}
                 cardType="shopping"
                 product={cardProduct}
                 price={cardPrice}
                 save={cardSave}
                 link={cardLink}
                 shoppingAction={cardShoppingAction}
-                onShoppingViewDetailClick={() => {
-                  overlay.open(({ unmount }) => (
-                    <ProductDetailOverlay
-                      unmount={unmount}
-                      id={id}
-                      link={cardLink}
-                      price={cardPrice}
-                      product={cardProduct}
-                      save={cardSave}
-                      shoppingAction={cardShoppingAction}
-                    />
-                  ));
-                }}
+                onShoppingViewDetailClick={() =>
+                  onOpenProductDetail(
+                    id,
+                    cardProduct,
+                    cardPrice,
+                    cardSave,
+                    cardLink,
+                    cardShoppingAction
+                  )
+                }
               />
-            );
-          }
-        )}
+            </div>
+          );
+        })}
       </div>
     </section>
   );
