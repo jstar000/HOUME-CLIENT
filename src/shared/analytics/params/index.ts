@@ -5,6 +5,7 @@
  * import { LOGIN_ENTRY_ROUTE, type TrackEventParams } from '@shared/analytics/params';
  */
 
+export * from '@shared/analytics/utils';
 export * from '@shared/analytics/params/auth';
 export * from '@shared/analytics/params/bannerDetail';
 export * from '@shared/analytics/params/gate';
@@ -22,8 +23,3 @@ export * from '@shared/analytics/params/space';
 export * from '@shared/analytics/params/toast';
 export * from '@shared/analytics/params/types';
 export * from '@shared/analytics/screenNames';
-export {
-  getLoginSocialParams,
-  pathToScreenName,
-  type LoginEntryRoute,
-} from '@shared/analytics/params/login';
