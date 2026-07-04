@@ -1,8 +1,16 @@
-import { useEffect, useId, useState } from 'react';
+import { useCallback, useEffect, useId, useMemo, useState } from 'react';
 
 import { useNavigate, useParams } from 'react-router-dom';
 
+import {
+  getBannerDetailPageViewParams,
+  trackBannerDetailBackClick,
+  trackBannerDetailChipClick,
+  trackBannerDetailCtaClick,
+  type BannerDetailContext,
+} from '@pages/banner/analytics/bannerDetailAnalytics';
 import { useBannerDetailQuery } from '@pages/home/apis/queries/useBannerDetailQuery';
+import { useRecentFloorPlanQuery } from '@pages/imageSetup/v2/apis/queries/useRecentFloorPlanQuery';
 
 import { ROUTES } from '@routes/paths';
 
@@ -10,12 +18,10 @@ import { ENTRY_ROUTE, useImageFlowStore } from '@store/useImageFlowStore';
 
 import { GA_EVENTS } from '@shared/analytics/events';
 import {
-  getBannerChipParams,
-  getHomeBannerParams,
-} from '@shared/analytics/params/builders';
+  useAnalyticsPageView,
+  useScrollDepthTrack,
+} from '@shared/analytics/hooks';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
-import { trackEvent } from '@shared/analytics/track';
-import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
 import { mapEntryRouteToLoginEntry } from '@shared/analytics/utils/loginEntryRoute';
 import ActionButton from '@shared/components/v2/button/actionButton/ActionButton';
 import Icon from '@shared/components/v2/icon/Icon';
@@ -43,10 +49,54 @@ const BannerDetailPage = () => {
     isError,
     refetch,
   } = useBannerDetailQuery(parsedBannerId);
+  const { data: recentFloorPlanData, isFetched: isRecentFloorPlanFetched } =
+    useRecentFloorPlanQuery();
+
+  const isDataReady = !isPending && !isError && bannerDetail != null;
+  const hasPreviousImage = recentFloorPlanData?.hasRecentImage === true;
+
+  const bannerContext = useMemo(
+    (): BannerDetailContext => ({
+      bannerId: parsedBannerId,
+      bannerName: bannerDetail?.bannerName,
+    }),
+    [bannerDetail?.bannerName, parsedBannerId]
+  );
+
+  const pageViewParams = useMemo(
+    () =>
+      getBannerDetailPageViewParams(bannerContext, {
+        isNewUser: !hasPreviousImage,
+      }),
+    [bannerContext, hasPreviousImage]
+  );
+
+  useAnalyticsPageView(
+    GA_EVENTS.bannerDetail.PAGE_VIEW,
+    SCREEN_NAME.BANNER_DETAIL,
+    pageViewParams,
+    { enabled: isDataReady && isRecentFloorPlanFetched }
+  );
+
+  useScrollDepthTrack(
+    GA_EVENTS.bannerDetail.PAGE_SCROLL,
+    SCREEN_NAME.BANNER_DETAIL,
+    {
+      enabled: isDataReady,
+    }
+  );
 
   useEffect(() => {
     setSelectedAnswerId(null);
   }, [parsedBannerId]);
+
+  const handleBackClick = useCallback(() => {
+    trackBannerDetailBackClick({
+      bannerId: parsedBannerId,
+      bannerName: bannerDetail?.bannerName,
+    });
+    navigate(-1);
+  }, [bannerDetail?.bannerName, navigate, parsedBannerId]);
 
   if (isPending) {
     return (
@@ -54,7 +104,7 @@ const BannerDetailPage = () => {
         <TitleNavBar
           title="원하는 공간 선택하기"
           backLabel="이전"
-          onBackClick={() => navigate(-1)}
+          onBackClick={handleBackClick}
         />
         <main className={styles.body}>
           <Loading />
@@ -69,7 +119,7 @@ const BannerDetailPage = () => {
         <TitleNavBar
           title="원하는 공간 선택하기"
           backLabel="이전"
-          onBackClick={() => navigate(-1)}
+          onBackClick={handleBackClick}
         />
         <main className={styles.body}>
           <InlineError onRetry={refetch} />
@@ -82,7 +132,6 @@ const BannerDetailPage = () => {
     throw new Response('Banner detail not found', { status: 404 });
   }
 
-  // 배너 상세 CTA: setFlow(HOME_BANNER) → 로그인 체크 → 배너 상세로 복귀
   const handleCta = () => {
     if (selectedAnswerId === null) return;
 
@@ -99,17 +148,9 @@ const BannerDetailPage = () => {
       (answer) => answer.id === selectedAnswerId
     );
 
-    trackEvent(GA_EVENTS.bannerDetail.BTN_CTA_CLICK, {
-      screen_name: SCREEN_NAME.BANNER_DETAIL,
-      image_entry_route: getEntryRoute(),
-      ...getHomeBannerParams({
-        bannerId: parsedBannerId,
-        bannerName: bannerDetail.bannerName ?? '',
-      }),
-      ...getBannerChipParams({
-        answerId: selectedAnswerId,
-        answerText: selectedAnswer?.text ?? '',
-      }),
+    trackBannerDetailCtaClick(bannerContext, {
+      answerId: selectedAnswerId,
+      answerText: selectedAnswer?.text ?? '',
     });
 
     requireLogin(
@@ -123,7 +164,7 @@ const BannerDetailPage = () => {
       <TitleNavBar
         title="원하는 공간 선택하기"
         backLabel="이전"
-        onBackClick={() => navigate(-1)}
+        onBackClick={handleBackClick}
       />
       <main className={styles.body}>
         <div className={styles.bannerContainer}>
@@ -157,7 +198,13 @@ const BannerDetailPage = () => {
                     role="radio"
                     aria-checked={selected}
                     className={styles.optionRow}
-                    onClick={() => setSelectedAnswerId(answerId)}
+                    onClick={() => {
+                      setSelectedAnswerId(answerId);
+                      trackBannerDetailChipClick(bannerContext, {
+                        answerId,
+                        answerText: label,
+                      });
+                    }}
                   >
                     <span className={styles.optionIcon} aria-hidden>
                       <Icon
