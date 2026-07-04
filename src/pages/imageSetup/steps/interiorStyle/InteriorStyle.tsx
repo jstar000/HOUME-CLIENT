@@ -1,19 +1,11 @@
 // Step 3
 import { useMoodBoardQuery } from '@pages/imageSetup/apis/queries/useMoodBoardQuery';
-import { useInteriorStyle } from '@pages/imageSetup/hooks/useInteriorStyle';
-
-import { GA_EVENTS } from '@shared/analytics/events';
-import { useAnalyticsPageView } from '@shared/analytics/hooks';
-import { SCREEN_NAME } from '@shared/analytics/screenNames';
-import { trackEvent } from '@shared/analytics/track';
-import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
+import { useSelectMoodboardAnalytics } from '@pages/imageSetup/hooks/useSelectMoodboardAnalytics';
 
 import InlineError from '@components/inlineError/InlineError';
 import Loading from '@components/loading/Loading';
 import ActionButton from '@components/v2/button/actionButton/ActionButton';
 import TextHeading from '@components/v2/textHeading/TextHeading';
-
-import { buildMoodboardIdsParam } from '@/shared/analytics/utils/imageFlow/imageFlowParams';
 
 import * as styles from './InteriorStyle.css';
 import MoodBoard from './MoodBoard';
@@ -29,8 +21,12 @@ interface InteriorStyleProps {
 }
 
 const InteriorStyle = ({ context, onNext }: InteriorStyleProps) => {
-  const { selectedImages, handleImageSelect, handleNext, isDataComplete } =
-    useInteriorStyle(context, onNext);
+  const {
+    selectedImages,
+    handleImageSelect,
+    handleCtaButtonClick,
+    isDataComplete,
+  } = useSelectMoodboardAnalytics(context, onNext);
 
   const {
     data: moodBoardData,
@@ -39,27 +35,6 @@ const InteriorStyle = ({ context, onNext }: InteriorStyleProps) => {
     refetch,
   } = useMoodBoardQuery();
   const images = moodBoardData?.moodBoardResponseList || [];
-
-  useAnalyticsPageView(
-    GA_EVENTS.selectMoodboard.PAGE_VIEW,
-    SCREEN_NAME.SELECT_MOODBOARD,
-    {
-      image_entry_route: getEntryRoute(),
-    }
-  );
-
-  // CTA 버튼 클릭 핸들러 (현재 native disabled로 비활성 시 클릭 자체가 차단됨)
-  // TODO: ActionButton에 visuallyDisabled prop이 추가되면(별도 PR)
-  // selectMoodboard_btnCTAInactive_click 로깅을 다시 복원할 것
-  const handleCtaButtonClick = () => {
-    trackEvent(GA_EVENTS.selectMoodboard.BTN_CTA_CLICK, {
-      screen_name: SCREEN_NAME.SELECT_MOODBOARD,
-      image_entry_route: getEntryRoute(),
-      selected_moodBoard_ids: buildMoodboardIdsParam(selectedImages),
-      count_moodBoard: selectedImages.length,
-    });
-    handleNext();
-  };
 
   return (
     <div className={styles.container}>
@@ -89,7 +64,7 @@ const InteriorStyle = ({ context, onNext }: InteriorStyleProps) => {
               variant="solid"
               color="primary"
               size="2XL"
-              disabled={!isDataComplete}
+              visualDisabled={!isDataComplete}
               onClick={handleCtaButtonClick}
             >
               다음

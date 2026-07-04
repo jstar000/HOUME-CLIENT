@@ -2,12 +2,7 @@ import { useRef, useState } from 'react';
 
 import { overlay } from 'overlay-kit';
 
-import { useActivityInfo } from '@pages/imageSetup/hooks/activityInfo/useActivityInfo';
-
-import { GA_EVENTS } from '@shared/analytics/events';
-import { useAnalyticsPageView } from '@shared/analytics/hooks';
-import { SCREEN_NAME } from '@shared/analytics/screenNames';
-import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
+import { useSelectFurnitureAnalytics } from '@pages/imageSetup/hooks/useSelectFurnitureAnalytics';
 
 import InlineError from '@components/inlineError/InlineError';
 import Loading from '@components/loading/Loading';
@@ -42,13 +37,10 @@ const ActivityInfo = ({ context }: ActivityInfoProps) => {
     categorySelections,
     globalConstraints,
     handleSubmit,
-  } = useActivityInfo(context);
-
-  useAnalyticsPageView(
-    GA_EVENTS.selectFurniture.PAGE_VIEW,
-    SCREEN_NAME.SELECT_FURNITURE,
-    { image_entry_route: getEntryRoute() }
-  );
+    trackDropDownActivityClick,
+    trackActivitySheetView,
+    trackActivitySheetCtaClick,
+  } = useSelectFurnitureAnalytics(context);
 
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const sheetIdRef = useRef<string | null>(null);
@@ -72,12 +64,14 @@ const ActivityInfo = ({ context }: ActivityInfoProps) => {
   });
 
   const handleActivityTriggerClick = () => {
+    trackDropDownActivityClick();
     sheetIdRef.current = overlay.open(() => (
       <ActivityTypeSheet
         open
         activities={activities}
         selectedActivityCode={activitySelection.selectedActivityItem?.code}
         onConfirm={(activityCode) => {
+          trackActivitySheetCtaClick(activityCode);
           setFormData((prev) => ({ ...prev, activity: activityCode }));
           closeSheet();
         }}
@@ -85,6 +79,7 @@ const ActivityInfo = ({ context }: ActivityInfoProps) => {
       />
     ));
     setIsSheetOpen(true);
+    trackActivitySheetView();
   };
 
   if (isError) return <InlineError onRetry={refetch} />;

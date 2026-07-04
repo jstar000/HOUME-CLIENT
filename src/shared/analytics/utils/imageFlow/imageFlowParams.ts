@@ -21,6 +21,12 @@ import { SCREEN_NAME, type ScreenName } from '@shared/analytics/screenNames';
 import type { FurnitureCategoryGroup } from '@apis/__generated__/data-contracts';
 
 const ACTIVITY_CODE_TO_CHIP: Record<string, ActivityChip> = {
+  // API v2 activity.code
+  REMOTE_WORK: ACTIVITY_CHIP.WORK_REMOTE,
+  READING: ACTIVITY_CHIP.READING,
+  FLOOR_LIVING: ACTIVITY_CHIP.SEDENTARY,
+  HOME_CAFE: ACTIVITY_CHIP.HOME_CAFE,
+  // GA 스펙 snake_case (레거시/스냅샷 호환)
   default: ACTIVITY_CHIP.DEFAULT,
   work_remote: ACTIVITY_CHIP.WORK_REMOTE,
   reading: ACTIVITY_CHIP.READING,

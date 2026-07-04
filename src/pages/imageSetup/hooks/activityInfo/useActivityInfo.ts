@@ -2,21 +2,17 @@ import { useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
+import { trackSelectFurnitureBtnCtaClick } from '@pages/imageSetup/analytics/selectFurnitureAnalytics';
+
 import { ROUTES } from '@routes/paths';
 
 import { holdEntryRoute } from '@store/useImageFlowStore';
-
-import { GA_EVENTS } from '@shared/analytics/events';
-import { SCREEN_NAME } from '@shared/analytics/screenNames';
-import { trackEvent } from '@shared/analytics/track';
-import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
 
 import { useCreditGuard } from '@hooks/useCreditGuard';
 
 import {
   buildSelectedFurnitureChips,
   captureFullFunnelFlowSnapshot,
-  mapActivityCodeToChip,
 } from '@/shared/analytics/utils/imageFlow/imageFlowParams';
 
 import { useActivitySelection } from './useActivitySelection';
@@ -28,8 +24,13 @@ import { useFunnelStore } from '../../stores/useFunnelStore';
 import { CATEGORY_SELECTION_MODE } from '../../types/funnel/activityInfo';
 import { useRecentFloorPlanQuery } from '../../v2/apis/queries/useRecentFloorPlanQuery';
 
+import type { CategorySelectionAnalyticsCallbacks } from './useCategorySelection';
 import type { ActivityInfoFormData } from '../../types/funnel/activityInfo';
 import type { ImageSetupSteps } from '../../types/funnel/steps';
+
+interface UseActivityInfoOptions {
+  categoryAnalytics?: CategorySelectionAnalyticsCallbacks;
+}
 
 /**
  * - 주요활동/가구 카테고리 쿼리 호출
@@ -38,7 +39,10 @@ import type { ImageSetupSteps } from '../../types/funnel/steps';
  * - 활동 변경 시 가구 초기화 + 필수 가구 자동 선택
  * - 제출(크레딧 체크 → sessionStorage → /generate)
  */
-export const useActivityInfo = (context: ImageSetupSteps['ActivityInfo']) => {
+export const useActivityInfo = (
+  context: ImageSetupSteps['ActivityInfo'],
+  options?: UseActivityInfoOptions
+) => {
   const navigate = useNavigate();
 
   // 크레딧 가드 훅 (이미지 생성 시 1크레딧 필요)
@@ -105,47 +109,64 @@ export const useActivityInfo = (context: ImageSetupSteps['ActivityInfo']) => {
   const findByNameEng = (name: string) =>
     categories?.find((c) => c.nameEng === name) ?? null;
 
+  const buildChips = (furnitureIds: number[]) =>
+    buildSelectedFurnitureChips(furnitureIds, categories);
+
+  const categoryAnalytics = options?.categoryAnalytics;
+
   const bed = useCategorySelection(
     findByNameEng('BED'),
     CATEGORY_SELECTION_MODE.BED,
     formData,
     setFormData,
-    globalConstraints
+    globalConstraints,
+    buildChips,
+    categoryAnalytics
   );
   const sofa = useCategorySelection(
     findByNameEng('SOFA'),
     CATEGORY_SELECTION_MODE.SOFA,
     formData,
     setFormData,
-    globalConstraints
+    globalConstraints,
+    buildChips,
+    categoryAnalytics
   );
   const storage = useCategorySelection(
     findByNameEng('STORAGE'),
     CATEGORY_SELECTION_MODE.STORAGE,
     formData,
     setFormData,
-    globalConstraints
+    globalConstraints,
+    buildChips,
+    categoryAnalytics
   );
   const table = useCategorySelection(
     findByNameEng('TABLE'),
     CATEGORY_SELECTION_MODE.TABLE,
     formData,
     setFormData,
-    globalConstraints
+    globalConstraints,
+    buildChips,
+    categoryAnalytics
   );
   const selective = useCategorySelection(
     findByNameEng('SELECTIVE'),
     CATEGORY_SELECTION_MODE.SELECTIVE,
     formData,
     setFormData,
-    globalConstraints
+    globalConstraints,
+    buildChips,
+    categoryAnalytics
   );
   const lighting = useCategorySelection(
     findByNameEng('LIGHTING'),
     CATEGORY_SELECTION_MODE.LIGHTING,
     formData,
     setFormData,
-    globalConstraints
+    globalConstraints,
+    buildChips,
+    categoryAnalytics
   );
 
   // 카테고리 선택 객체 구성
@@ -221,12 +242,10 @@ export const useActivityInfo = (context: ImageSetupSteps['ActivityInfo']) => {
       furnitureChipCodes,
     });
 
-    trackEvent(GA_EVENTS.selectFurniture.BTN_CTA_CLICK, {
-      screen_name: SCREEN_NAME.SELECT_FURNITURE,
-      image_entry_route: getEntryRoute(),
-      selected_furniture_chips: furnitureChipCodes,
-      selected_activity_chip: mapActivityCodeToChip(formData.activity),
-      has_previous_image: recentFloorPlanData?.hasRecentImage === true,
+    trackSelectFurnitureBtnCtaClick({
+      chips: furnitureChipCodes,
+      activityCode: formData.activity,
+      hasPreviousImage: recentFloorPlanData?.hasRecentImage === true,
     });
 
     holdEntryRoute();

@@ -4,6 +4,12 @@ import { overlay } from 'overlay-kit';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Navigate, useNavigate } from 'react-router-dom';
 
+import {
+  trackLoadImgCardPreferenceView,
+  trackLoadImgMdGenImgQuitView,
+  trackLoadImgPageBackSwipe,
+  trackLoadImgPageRefresh,
+} from '@pages/generate/analytics/loadImgAnalytics';
 import { useStackDataQuery } from '@pages/generate/v2/apis/queries/useStackDataQuery';
 import LikeButton from '@pages/generate/v2/components/likeButton/LikeButton';
 import { useGenerateStore } from '@pages/generate/v2/stores/useGenerateStore';
@@ -82,7 +88,12 @@ const LoadingPage = () => {
       }
       return true;
     },
-    onBlocked: ({ reset }) => {
+    onBlocked: ({ reset, historyAction }) => {
+      if (historyAction === 'POP') {
+        trackLoadImgPageBackSwipe();
+      }
+      trackLoadImgMdGenImgQuitView();
+
       overlay.open(({ unmount }) => {
         // '계속 기다리기' / backdrop 클릭 -> blocker 'blocked' 상태 해제, LoadingPage에 머무름
         const stay = () => {
@@ -160,6 +171,18 @@ const LoadingPage = () => {
     },
     { enabled: isRequestValid }
   );
+
+  useEffect(() => {
+    const [navigation] = performance.getEntriesByType(
+      'navigation'
+    ) as PerformanceNavigationTiming[];
+
+    if (navigation?.type === 'reload') {
+      trackLoadImgPageRefresh();
+    }
+  }, []);
+
+  const viewedProductIdsRef = useRef<Set<number>>(new Set());
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -274,6 +297,21 @@ const LoadingPage = () => {
 
   const displayCurrentImage = frontSlot === 'A' ? slotAImage : slotBImage;
   const displayNextImage = frontSlot === 'A' ? slotBImage : slotAImage;
+
+  useEffect(() => {
+    if (isPending || hasError || displayCurrentImage?.rawProductId == null) {
+      return;
+    }
+
+    const productId = displayCurrentImage.rawProductId;
+    if (viewedProductIdsRef.current.has(productId)) return;
+
+    viewedProductIdsRef.current.add(productId);
+    trackLoadImgCardPreferenceView({
+      productId,
+      loadedProductIds: Array.from(viewedProductIdsRef.current).join(', '),
+    });
+  }, [displayCurrentImage, hasError, isPending]);
 
   const handleProgressComplete = () => {
     if (!navigationData || !isApiCompleted) return;
