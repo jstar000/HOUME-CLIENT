@@ -14,6 +14,7 @@ interface TextFieldProps
   maxLength?: number;
   onRefresh?: () => void;
   onEnter?: () => void;
+  onClear?: () => void;
 }
 
 const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
@@ -26,6 +27,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       maxLength,
       onRefresh,
       onEnter,
+      onClear,
       ...props
     },
     ref
@@ -52,6 +54,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         setInternalValue('');
       }
       onChange?.('');
+      onClear?.();
       inputRef.current?.focus(); // clear 클릭 시 포커스 복구
     };
 

@@ -22,12 +22,13 @@ interface DateFieldProps {
   onChange: (value: DateValue) => void;
   error?: DateError;
   errorMessage?: string;
+  onFocus?: () => void;
 }
 
 const onlyNumber = (value: string) => value.replace(/\D/g, '');
 
 const DateField = forwardRef<HTMLInputElement, DateFieldProps>(
-  ({ value, onChange, error, errorMessage }, ref) => {
+  ({ value, onChange, error, errorMessage, onFocus }, ref) => {
     const [focusedPart, setFocusedPart] = useState<
       'year' | 'month' | 'day' | null
     >(null);
@@ -85,7 +86,10 @@ const DateField = forwardRef<HTMLInputElement, DateFieldProps>(
             ref={yearInputRef}
             value={value.year}
             onChange={handleChange}
-            onFocus={() => setFocusedPart('year')}
+            onFocus={() => {
+              setFocusedPart('year');
+              onFocus?.();
+            }}
             onBlur={() => setFocusedPart(null)}
             placeholder="YYYY"
             inputMode="numeric"
