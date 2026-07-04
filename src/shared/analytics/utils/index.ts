@@ -5,3 +5,4 @@
  * - `utils/`: sessionStorage, 앱↔GA 매핑, OAuth 정리 등 배선 (동적)
  */
 export * from '@shared/analytics/utils/loginEntryRoute';
+export * from '@shared/analytics/utils/screenName';

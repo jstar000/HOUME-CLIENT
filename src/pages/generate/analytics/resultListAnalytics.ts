@@ -1,9 +1,9 @@
 import { GA_EVENTS } from '@shared/analytics/events';
-import { getPreviousScreenName } from '@shared/analytics/navigation/screenNavigation';
 import { getProductCardParams } from '@shared/analytics/params/builders/productCard';
 import type { ProductCardInput } from '@shared/analytics/params/builders/productCard';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
+import { getReturnScreenNameParams } from '@shared/analytics/utils/screenName';
 
 import type { RelatedImageResponse } from '@apis/__generated__/data-contracts';
 
@@ -22,7 +22,7 @@ export const joinImageIds = (images: Pick<RelatedImageResponse, 'id'>[]) =>
 export const trackResultListBtnBackClick = () => {
   trackEvent(GA_EVENTS.resultList.BTN_BACK_CLICK, {
     ...resultListScreenParams(),
-    return_screen_name: getPreviousScreenName() ?? SCREEN_NAME.HOME,
+    ...getReturnScreenNameParams(SCREEN_NAME.HOME),
   });
 };
 
@@ -107,7 +107,7 @@ export const trackResultListBtnReselectClick = (
   trackEvent(GA_EVENTS.resultList.BTN_RESELECT_CLICK, {
     ...resultListScreenParams(),
     selected_product_ids: selectedProductIds,
-    return_screen_name: getPreviousScreenName() ?? SCREEN_NAME.HOME,
+    ...getReturnScreenNameParams(SCREEN_NAME.HOME),
   });
 };
 

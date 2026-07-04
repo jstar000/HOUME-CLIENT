@@ -5,7 +5,7 @@
  * |------|------|
  * | storage | sessionStorage persist / get / clear |
  * | mapEntryRoute | ENTRY_ROUTE → GA 매핑 및 저장 |
- * | loginSocialParams | loginSocial 이벤트 파라미터 조립 |
+ * | loginSocialParams | **로그인 플로우 전용** — loginSocial / signupForm·signupComp CTA·page_view |
  *
  * 앱 복귀 URL(`@utils/loginRedirect`)과는 분리 — OAuth 완료 시 각각 호출
  *

@@ -1,5 +1,4 @@
 import { GA_EVENTS } from '@shared/analytics/events';
-import { getPreviousScreenName } from '@shared/analytics/navigation/screenNavigation';
 import {
   getBannerChipParams,
   getHomeBannerParams,
@@ -7,6 +6,7 @@ import {
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
 import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
+import { getReturnScreenNameParams } from '@shared/analytics/utils/screenName';
 
 export type BannerDetailContext = {
   bannerId: number;
@@ -63,7 +63,7 @@ export const trackBannerDetailCtaClick = (
 export const trackBannerDetailBackClick = (ctx: BannerDetailContext) => {
   trackEvent(GA_EVENTS.bannerDetail.BTN_BACK_CLICK, {
     ...bannerDetailScreenParams(),
-    return_screen_name: getPreviousScreenName() ?? SCREEN_NAME.HOME,
+    ...getReturnScreenNameParams(SCREEN_NAME.HOME),
     ...getBannerDetailBannerParams(ctx),
   });
 };

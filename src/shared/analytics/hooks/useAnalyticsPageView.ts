@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
 
 import type { GaEventName } from '@shared/analytics/events';
-import { getPreviousScreenName } from '@shared/analytics/navigation/screenNavigation';
 import type { AnalyticsScreenName } from '@shared/analytics/params/global';
 import type { TrackEventParams } from '@shared/analytics/params/types';
 import { trackEvent } from '@shared/analytics/track';
+import { getPreviousScreenName } from '@shared/analytics/utils/screenName';
 
 type PageViewParams = Omit<
   TrackEventParams,

@@ -1,9 +1,9 @@
 import { GA_EVENTS } from '@shared/analytics/events';
-import { getPreviousScreenName } from '@shared/analytics/navigation/screenNavigation';
 import { getProductCardParams } from '@shared/analytics/params/builders/productCard';
 import type { ProductCardInput } from '@shared/analytics/params/builders/productCard';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
+import { getReturnScreenNameParams } from '@shared/analytics/utils/screenName';
 
 import type {
   DateGroupResponse,
@@ -16,9 +16,8 @@ const mypageScreenParams = () => ({
   screen_name: SCREEN_NAME.MYPAGE,
 });
 
-const mypageReturnScreenParams = () => ({
-  return_screen_name: getPreviousScreenName() ?? SCREEN_NAME.HOME,
-});
+const mypageReturnScreenParams = () =>
+  getReturnScreenNameParams(SCREEN_NAME.HOME);
 
 export const getMypageSavedItemsListParams = (
   items: Pick<FurnitureItem, 'rawProductId'>[] = []

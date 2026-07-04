@@ -1,10 +1,10 @@
 import { GA_EVENTS } from '@shared/analytics/events';
-import { getPreviousScreenName } from '@shared/analytics/navigation/screenNavigation';
 import { getProductCardParams } from '@shared/analytics/params/builders/productCard';
 import type { ProductCardInput } from '@shared/analytics/params/builders/productCard';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
 import { toResultPreferenceType } from '@shared/analytics/utils/imageFlow/imageFlowParams';
+import { getReturnScreenNameParams } from '@shared/analytics/utils/screenName';
 
 import type {
   FurnitureCategoryResponse,
@@ -60,7 +60,7 @@ const recommendedProductParams = (products: ProductInfo[]) => ({
 export const trackResultRecBtnBackClick = () => {
   trackEvent(GA_EVENTS.resultRec.BTN_BACK_CLICK, {
     ...resultRecScreenParams(),
-    return_screen_name: getPreviousScreenName() ?? SCREEN_NAME.HOME,
+    ...getReturnScreenNameParams(SCREEN_NAME.HOME),
   });
 };
 

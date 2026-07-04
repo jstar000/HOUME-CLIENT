@@ -63,7 +63,7 @@ export const buildSelectedFurnitureChips = (
   return codes.length > 0 ? codes.join(', ') : undefined;
 };
 
-/** image_entry_route 기준 imageSetup 직전 화면 (return_screen_name) */
+/** image_entry_route 기준 imageSetup 직전 화면 — image funnel `return_screen_name` */
 export const getReturnScreenNameFromImageEntry = (): ScreenName | undefined => {
   const entryRoute = useImageFlowStore.getState().entryRoute;
   if (!entryRoute) return undefined;
@@ -84,7 +84,7 @@ export const getReturnScreenNameFromImageEntry = (): ScreenName | undefined => {
   }
 };
 
-/** loadImg_page_view return_screen_name — generate 직전 퍼널 스텝 */
+/** loadImg_page_view `return_screen_name` — generate 직전 퍼널 스텝 */
 export const getLoadImgReturnScreenName = (): ScreenName => {
   const entryRoute = useImageFlowStore.getState().entryRoute;
   if (!entryRoute) return SCREEN_NAME.ROOM_TYPE;

@@ -2,7 +2,7 @@ import { useLayoutEffect } from 'react';
 
 import { useLocation } from 'react-router-dom';
 
-import { updateScreenNavigation } from '@shared/analytics/navigation/screenNavigation';
+import { updateScreenNavigation } from '@shared/analytics/utils/screenName';
 
 /**
  * 라우트 변경 시 previous/current screen_name 갱신
