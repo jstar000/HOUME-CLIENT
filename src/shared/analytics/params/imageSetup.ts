@@ -17,4 +17,5 @@ export type ImageSetupParams = {
   /** ex. "bed_single, sofa_1seater, desk, mirror" */
   selected_furniture_chips?: string;
   count_furniture_chips?: number;
+  has_previous_image?: boolean;
 };

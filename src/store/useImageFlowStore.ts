@@ -55,12 +55,23 @@ export type PresetData =
       productsToBeRestored: ProductItem[];
     }; // 경로5
 
+/** mutation 이후 funnel clear되어도 결과 GA에 쓸 퍼널 입력값 */
+export interface FlowAnalyticsSnapshot {
+  floorPlanId?: number;
+  moodBoardIds?: number[];
+  activityCode?: string;
+  furnitureChipCodes?: string;
+  productIds?: number[];
+}
+
 interface ImageFlowState {
   entryRoute: EntryRoute | null;
   resultType: ResultType | null;
   preset: PresetData | null;
+  flowSnapshot: FlowAnalyticsSnapshot | null;
   // 퍼널 진입 시 호출, 진입경로 + 프리셋 세팅 및 resultType 자동 매핑
   setFlow: (params: { entryRoute: EntryRoute; preset?: PresetData }) => void;
+  setFlowSnapshot: (snapshot: FlowAnalyticsSnapshot) => void;
   // preset만 선택적으로 비움 (entryRoute/resultType은 ResultPage에서 사용하므로 유지해야 하는 케이스에 사용)
   clearPreset: () => void;
   // 퍼널 완료/이탈 시 호출
@@ -82,14 +93,22 @@ export const useImageFlowStore = create<ImageFlowState>()(
       entryRoute: null,
       resultType: null,
       preset: null,
+      flowSnapshot: null,
       setFlow: ({ entryRoute, preset }) =>
         set({
           entryRoute,
           resultType: RESULT_TYPE_MAP[entryRoute], // 결과 페이지 타입 자동 매핑
           preset: preset ?? null,
         }),
+      setFlowSnapshot: (flowSnapshot) => set({ flowSnapshot }),
       clearPreset: () => set({ preset: null }),
-      reset: () => set({ entryRoute: null, resultType: null, preset: null }),
+      reset: () =>
+        set({
+          entryRoute: null,
+          resultType: null,
+          preset: null,
+          flowSnapshot: null,
+        }),
     }),
     {
       name: 'image-flow',
