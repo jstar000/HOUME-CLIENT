@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { useGetJjymListQuery } from '@pages/mypage/apis/queries/useGetJjymListQuery';
+import { useMypageSavedItemsAnalytics } from '@pages/mypage/hooks/useMypageAnalytics';
 
 import { useSavedItemsStore } from '@store/useSavedItemsStore';
 
@@ -18,7 +19,6 @@ import * as styles from './SavedItemsSection.css';
 import EmptyStateSection from '../emptyState/EmptyStateSection';
 
 const SavedItemsSection = () => {
-  // 스크롤 포커스 id 가져오기
   const [focusItemId, setFocusItemId] = useState<string | null>(null);
   const [isSavedItemsSynced, setIsSavedItemsSynced] = useState(false);
   const savedProductIds = useSavedItemsStore((state) => state.savedProductIds);
@@ -26,24 +26,35 @@ const SavedItemsSection = () => {
     (state) => state.setSavedProductIds
   );
 
-  // 찜한 목록 조회
   const { data: savedItems = [], isFetched } = useGetJjymListQuery({
     gcTime: 0,
     refetchOnMount: 'always',
   });
 
-  // 찜 해제 토글
+  const {
+    handleFeedCardClick,
+    handleFeedCardGoSiteClick,
+    handleFeedCardSaveToggle,
+  } = useMypageSavedItemsAnalytics({
+    savedItems,
+    isFetched,
+  });
+
   const { mutate: toggleJjym } = useJjymMutation({
     savedToastType: 'none',
     invalidateSavedItemsList: false,
     loginEntryRoute: LOGIN_ENTRY_ROUTE.PRODUCT_CARD_SAVE,
   });
 
-  const handleToggleSave = (id: number) => {
+  const handleToggleSave = (
+    id: number,
+    isSaved: boolean,
+    item: (typeof savedItems)[number]
+  ) => {
+    handleFeedCardSaveToggle(item, isSaved);
     toggleJjym(id);
   };
 
-  // 자동 스크롤 포커싱
   const itemFocusRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -62,7 +73,6 @@ const SavedItemsSection = () => {
     setIsSavedItemsSynced(true);
   }, [isFetched, savedItems, setSavedProductIds]);
 
-  // 데이터 로드 완료 후 스크롤 실행
   useEffect(() => {
     if (focusItemId && isFetched && itemFocusRef.current) {
       itemFocusRef.current?.scrollIntoView({
@@ -72,7 +82,6 @@ const SavedItemsSection = () => {
     }
   }, [focusItemId, isFetched]);
 
-  // 저장된 아이템이 없을 때
   if (isFetched && savedItems.length === 0) {
     return <EmptyStateSection type="savedItems" />;
   }
@@ -83,6 +92,9 @@ const SavedItemsSection = () => {
         {savedItems.map((item) => {
           const isTargetItem =
             String(item.rawProductId) === String(focusItemId);
+          const isSaved = isSavedItemsSynced
+            ? savedProductIds.has(item.rawProductId)
+            : true;
 
           return (
             <div
@@ -103,16 +115,17 @@ const SavedItemsSection = () => {
                   discountRate: item.discountRate,
                 }}
                 save={{
-                  isSaved: isSavedItemsSynced
-                    ? savedProductIds.has(item.rawProductId)
-                    : true,
-                  onToggle: () => handleToggleSave(item.rawProductId),
+                  isSaved,
+                  onToggle: () =>
+                    handleToggleSave(item.rawProductId, isSaved, item),
                   count: item.jjymCount,
                 }}
                 link={{
                   href: item.productSiteUrl,
                   label: '사이트',
+                  onClick: () => handleFeedCardGoSiteClick(item),
                 }}
+                onCardClick={() => handleFeedCardClick(item)}
                 enableWholeCardLink={true}
               />
             </div>

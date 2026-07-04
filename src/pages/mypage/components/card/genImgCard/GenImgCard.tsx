@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
+import { useMypageGenImgCardAnalytics } from '@pages/mypage/hooks/useMypageAnalytics';
+
 import { ROUTES } from '@routes/paths';
 
 import { LOGIN_ENTRY_ROUTE } from '@shared/analytics/params/gate';
@@ -22,7 +24,8 @@ interface GenImgCardProps {
   imageUrl?: string;
   isMirror?: boolean;
   usedProducts?: UsedProductResponse[];
-  onCurationClick?: () => void;
+  onCardGenImgClick?: () => void;
+  onBtnMoreGenImgClick?: () => void;
   onImageLoad?: (imageId: number, imageUrl?: string) => void;
 }
 
@@ -33,17 +36,28 @@ const GenImgCard = ({
   imageUrl,
   isMirror = false,
   usedProducts = [],
-  onCurationClick,
+  onCardGenImgClick,
+  onBtnMoreGenImgClick,
   onImageLoad,
 }: GenImgCardProps) => {
   const isListType = cardType === 'list';
   const navigate = useNavigate();
 
+  const {
+    handleListCardClick,
+    handleListCardGoSiteClick,
+    handleListCardSaveToggle,
+    handleSlideScroll,
+  } = useMypageGenImgCardAnalytics({
+    imageId,
+    isListType,
+    usedProducts,
+  });
+
   const handleImageLoad = () => {
     onImageLoad?.(imageId, imageUrl);
   };
 
-  // 찜 토글
   const { mutate: toggleJjym } = useJjymMutation({
     savedToastType: 'stored',
     loginEntryRoute: LOGIN_ENTRY_ROUTE.PRODUCT_LIST_SAVE,
@@ -52,8 +66,9 @@ const GenImgCard = ({
     },
   });
 
-  const handleToggleSave = (id: number, productName?: string) => {
-    toggleJjym(id, { productName });
+  const handleToggleSave = (item: UsedProductResponse, isSaved: boolean) => {
+    handleListCardSaveToggle(item, isSaved);
+    toggleJjym(item.rawProductId!, { productName: item.productName });
   };
 
   return (
@@ -62,11 +77,11 @@ const GenImgCard = ({
         className={styles.textContainer}
         role="button"
         tabIndex={0}
-        onClick={onCurationClick}
+        onClick={onCardGenImgClick}
         onKeyDown={(e) => {
-          if ((e.key === 'Enter' || e.key === ' ') && onCurationClick) {
+          if ((e.key === 'Enter' || e.key === ' ') && onCardGenImgClick) {
             e.preventDefault();
-            onCurationClick();
+            onCardGenImgClick();
           }
         }}
       >
@@ -77,13 +92,13 @@ const GenImgCard = ({
           rightIcon={'ArrowRight'}
           onClick={(e) => {
             e.stopPropagation();
-            onCurationClick?.();
+            onBtnMoreGenImgClick?.();
           }}
         >
           더보기
         </TextButton>
       </section>
-      <section className={styles.imgContainer} onClick={onCurationClick}>
+      <section className={styles.imgContainer} onClick={onCardGenImgClick}>
         <OptimizedImage
           src={imageUrl || emptyImage}
           fallbackSrc={emptyImage}
@@ -95,13 +110,20 @@ const GenImgCard = ({
       </section>
 
       {isListType && (
-        <section className={styles.listCardContainer}>
+        <section
+          className={styles.listCardContainer}
+          onScroll={handleSlideScroll}
+        >
           {usedProducts.map((item) => {
             if (item.rawProductId == null) return null;
+            const href = item.productSiteUrl?.trim() ?? '';
+
             return (
               <ListProductCard
                 key={item.rawProductId}
                 cardSize="s"
+                enableWholeCardLink={Boolean(href)}
+                onCardClick={() => handleListCardClick(item)}
                 product={{
                   title: item.productName ?? '',
                   imageUrl: item.productImageUrl ?? '',
@@ -113,13 +135,16 @@ const GenImgCard = ({
                 }}
                 save={{
                   isSaved: item.isJjym ?? false,
-                  onToggle: () =>
-                    handleToggleSave(item.rawProductId!, item.productName),
+                  onToggle: () => handleToggleSave(item, item.isJjym ?? false),
                 }}
-                link={{
-                  href: item.productSiteUrl ?? '',
-                }}
-                enableWholeCardLink={true}
+                link={
+                  href
+                    ? {
+                        href,
+                        onClick: () => handleListCardGoSiteClick(item),
+                      }
+                    : undefined
+                }
               />
             );
           })}

@@ -24,6 +24,7 @@ import { useMyPageUserQuery } from './apis/queries/useMyPageUserQuery';
 import GeneratedImagesSection from './components/section/generatedImages/GeneratedImagesSection';
 import ProfileSection from './components/section/profile/ProfileSection';
 import SavedItemsSection from './components/section/savedItems/SavedItemsSection';
+import { useMypageAnalytics } from './hooks/useMypageAnalytics';
 import * as styles from './MyPage.css';
 
 export type MypageMenuTab = 'generatedImages' | 'savedItems';
@@ -66,6 +67,12 @@ const MyPage = () => {
     enabled: isLoggedIn,
   });
 
+  const { handleTabChange, handleBackClick, handleSettingClick } =
+    useMypageAnalytics({
+      activeMenuTab,
+      setActiveMenuTab,
+    });
+
   useEffect(() => {
     // 로그인되지 않았으면 로그인 페이지로 리디렉션
     if (!isLoggedIn) {
@@ -89,7 +96,8 @@ const MyPage = () => {
         title="마이페이지"
         backLabel="이전"
         isSettingBtn={true}
-        onBackClick={() => navigate(-1)}
+        onBackClick={handleBackClick}
+        onSettingClick={handleSettingClick}
       />
 
       {isUserError ? (
@@ -110,7 +118,7 @@ const MyPage = () => {
                 { value: 'savedItems', label: '찜한 상품' },
               ]}
               activeTab={activeMenuTab}
-              onTabChange={setActiveMenuTab}
+              onTabChange={handleTabChange}
             />
           </div>
           {activeMenuTab === 'generatedImages' && <GeneratedImagesSection />}
