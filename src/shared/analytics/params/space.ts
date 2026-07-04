@@ -33,7 +33,7 @@ export type SpaceParams = {
   previous_space_id?: number;
   previous_space_name?: string;
   previous_space_reuse?: PreviousSpaceReuse;
-  filter_type?: typeof FILTER_TYPE.SPACE;
+  filter_type?: FilterType;
   filter_space_roomType?: string;
   filter_space_struct?: string;
   filter_space_size?: string;
