@@ -5,10 +5,17 @@ import { useNavigate } from 'react-router-dom';
 
 import { useDeleteUserMutation } from '@pages/login/apis/mutations/useDeleteUserMutation';
 import { useLogoutMutation } from '@pages/login/apis/mutations/useLogoutMutation';
+import {
+  getSettingPageViewParams,
+  trackSettingLogoutClick,
+  trackSettingSuccessionClick,
+  trackSettingSuccessionModalView,
+} from '@pages/mypage/analytics/settingAnalytics';
 
 import { ROUTES } from '@routes/paths';
 
 import { GA_EVENTS } from '@shared/analytics/events';
+import { useAnalyticsPageView } from '@shared/analytics/hooks';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
 
@@ -28,6 +35,12 @@ const SettingPage = () => {
   const { mutate: deleteUser } = useDeleteUserMutation();
   const logoutTimerRef = useRef<number | null>(null);
 
+  useAnalyticsPageView(
+    GA_EVENTS.setting.PAGE_VIEW,
+    SCREEN_NAME.SETTING,
+    getSettingPageViewParams()
+  );
+
   const handleServicePolicy = () => {
     navigate(ROUTES.SETTING_SERVICE);
   };
@@ -41,6 +54,8 @@ const SettingPage = () => {
   };
 
   const handleLogout = () => {
+    trackSettingLogoutClick();
+
     // 1) 토스트 표시 (2.5초 유지)
     notify({
       text: '로그아웃 되었습니다',
@@ -65,37 +80,43 @@ const SettingPage = () => {
   };
 
   const handleWithdraw = () => {
-    overlay.open(({ unmount }) => (
-      <Popup
-        btnStyle="text"
-        topIconName="WarningFillDanger"
-        btnText="취소하기"
-        weakBtnText="탈퇴하기"
-        onConfirm={() => {
-          trackEvent(GA_EVENTS.component.SUCCESSION_MD_CANCEL_CLICK);
-          unmount();
-        }}
-        onCancel={() => {
-          trackEvent(GA_EVENTS.component.SUCCESSION_MD_BYE_CLICK, {
-            screen_name: SCREEN_NAME.SETTING,
-            return_screen_name: SCREEN_NAME.HOME,
-          });
-          unmount();
-          deleteUser();
-        }}
-        onClose={unmount}
-        content={
-          <div className={styles.popupContent}>
-            <h3 className={styles.popupTitle}>하우미 탈퇴 전 확인하세요</h3>
-            <p className={styles.popupDetail}>
-              탈퇴 시 생성했던 이미지와 함께
-              <br />
-              모든 정보가 삭제되며, 복구가 불가능해요.
-            </p>
-          </div>
-        }
-      />
-    ));
+    trackSettingSuccessionClick();
+
+    overlay.open(({ unmount }) => {
+      trackSettingSuccessionModalView();
+
+      return (
+        <Popup
+          btnStyle="text"
+          topIconName="WarningFillDanger"
+          btnText="취소하기"
+          weakBtnText="탈퇴하기"
+          onConfirm={() => {
+            trackEvent(GA_EVENTS.component.SUCCESSION_MD_CANCEL_CLICK);
+            unmount();
+          }}
+          onCancel={() => {
+            trackEvent(GA_EVENTS.component.SUCCESSION_MD_BYE_CLICK, {
+              screen_name: SCREEN_NAME.SETTING,
+              return_screen_name: SCREEN_NAME.HOME,
+            });
+            unmount();
+            deleteUser();
+          }}
+          onClose={unmount}
+          content={
+            <div className={styles.popupContent}>
+              <h3 className={styles.popupTitle}>하우미 탈퇴 전 확인하세요</h3>
+              <p className={styles.popupDetail}>
+                탈퇴 시 생성했던 이미지와 함께
+                <br />
+                모든 정보가 삭제되며, 복구가 불가능해요.
+              </p>
+            </div>
+          }
+        />
+      );
+    });
   };
 
   return (

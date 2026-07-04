@@ -1,0 +1,25 @@
+import { GA_EVENTS } from '@shared/analytics/events';
+import { SCREEN_NAME } from '@shared/analytics/screenNames';
+import { trackEvent } from '@shared/analytics/track';
+import { getLoginSocialParams } from '@shared/analytics/utils/loginEntryRoute';
+
+const settingScreenParams = () => ({
+  screen_name: SCREEN_NAME.SETTING,
+});
+
+export const getSettingPageViewParams = () => getLoginSocialParams();
+
+export const trackSettingLogoutClick = () => {
+  trackEvent(GA_EVENTS.setting.BTN_LOGOUT_CLICK, {
+    ...settingScreenParams(),
+    return_screen_name: SCREEN_NAME.HOME,
+  });
+};
+
+export const trackSettingSuccessionClick = () => {
+  trackEvent(GA_EVENTS.setting.BTN_SUCCESSION_CLICK, settingScreenParams());
+};
+
+export const trackSettingSuccessionModalView = () => {
+  trackEvent(GA_EVENTS.setting.MD_SUCCESSION_VIEW, settingScreenParams());
+};
