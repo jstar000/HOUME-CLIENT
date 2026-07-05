@@ -41,10 +41,10 @@ import { useGetStyleDetailQuery } from './apis/useGetStyleDetailQuery';
 import * as styles from './StyleDetailPage.css';
 
 const StyleDetailPage = () => {
-  const { styleId = '' } = useParams<{ styleId: string }>();
+  const { styleId } = useParams<{ styleId: string }>();
   const navigate = useNavigate();
   const { requireLogin } = useLoginGate();
-  const parsedStyleId = Number(styleId);
+  const parsedStyleId = styleId ? Number(styleId) : NaN;
 
   const savedProductIds = useSavedItemsStore((state) => state.savedProductIds);
 
