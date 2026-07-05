@@ -2,10 +2,7 @@ import { useCallback } from 'react';
 
 import { overlay } from 'overlay-kit';
 
-import {
-  trackShopFeedCardDetailClick,
-  type ShopListContext,
-} from '@pages/home/analytics/shopAnalytics';
+import type { ShopListContext } from '@pages/home/analytics/shopAnalytics';
 import ProductDetailOverlay from '@pages/home/components/product/ProductPopup/ProductDetailOverlay';
 import type { SelectedProduct } from '@pages/home/types/productTab';
 
@@ -49,7 +46,6 @@ const SelectedProductSheet = ({
   const handleSelectedCardClick = useCallback(
     (product: SelectedProduct) => {
       onItemClick?.(product);
-      trackShopFeedCardDetailClick(product, shopListContext);
 
       overlay.open(({ unmount }) => (
         <ProductDetailOverlay
