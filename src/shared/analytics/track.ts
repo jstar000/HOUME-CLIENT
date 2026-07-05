@@ -94,6 +94,7 @@ export const trackEvent = (
   }
 
   if (!analytics) {
+    console.warn('[Analytics] analytics 인스턴스가 초기화되지 않았습니다.');
     return;
   }
 
