@@ -234,24 +234,24 @@ const LoadingPage = () => {
       onSettled: onMutationSettled,
     };
 
+    if (requestState.kind === 'invalid') {
+      console.error('invalid requestState kind');
+      return;
+    }
+
+    ensureShortFunnelFlowSnapshot();
+
     switch (requestState.kind) {
-      case 'invalid':
-        console.error('invalid requestState kind');
-        return;
       case 'fullFunnel':
-        ensureShortFunnelFlowSnapshot();
         requestState.mutate(requestState.payload, mutateOptions);
         return;
       case 'banner':
-        ensureShortFunnelFlowSnapshot();
         requestState.mutate(requestState.payload, mutateOptions);
         return;
       case 'otherStyle':
-        ensureShortFunnelFlowSnapshot();
         requestState.mutate(requestState.payload, mutateOptions);
         return;
       case 'product':
-        ensureShortFunnelFlowSnapshot();
         requestState.mutate(requestState.payload, mutateOptions);
         return;
     }
