@@ -5,6 +5,7 @@ import type { AnalyticsScreenName } from '@shared/analytics/params/global';
 import {
   createScrollDepthTracker,
   scrollDepthParams,
+  type ScrollDepth,
 } from '@shared/analytics/params/scrollDepth';
 import type { TrackEventParams } from '@shared/analytics/params/types';
 import { trackEvent } from '@shared/analytics/track';
@@ -40,41 +41,76 @@ export const useScrollDepthTrack = (
     const tracker = trackerRef.current;
     tracker.reset();
 
-    const fireDepthEvents = () => {
-      const element = getScrollElementRef.current?.() ?? null;
+    const onReachDepth = (depth: ScrollDepth) => {
+      if (depth === 0) return;
 
-      if (element) {
-        tracker.trackFromElement(element, (depth) => {
-          if (depth === 0) return;
+      trackEvent(eventName, {
+        ...extraParamsRef.current,
+        screen_name: screenName,
+        ...scrollDepthParams(depth),
+      });
+    };
 
-          trackEvent(eventName, {
-            ...extraParamsRef.current,
-            screen_name: screenName,
-            ...scrollDepthParams(depth),
-          });
-        });
-        return;
-      }
-
+    const handleWindowScroll = () => {
       const maxScroll =
         document.documentElement.scrollHeight - window.innerHeight;
       const percent = maxScroll <= 0 ? 0 : (window.scrollY / maxScroll) * 100;
 
-      tracker.trackFromPercent(percent, (depth) => {
-        if (depth === 0) return;
+      tracker.trackFromPercent(percent, onReachDepth);
+    };
 
-        trackEvent(eventName, {
-          ...extraParamsRef.current,
-          screen_name: screenName,
-          ...scrollDepthParams(depth),
-        });
+    const getScrollElement = getScrollElementRef.current;
+    if (!getScrollElement) {
+      window.addEventListener('scroll', handleWindowScroll, { passive: true });
+
+      return () => {
+        window.removeEventListener('scroll', handleWindowScroll);
+        tracker.reset();
+      };
+    }
+
+    let boundElement: HTMLElement | null = null;
+    let rafId = 0;
+
+    const handleElementScroll = () => {
+      if (!boundElement) return;
+
+      tracker.trackFromElement(boundElement, onReachDepth);
+    };
+
+    const unbindElement = () => {
+      if (!boundElement) return;
+
+      boundElement.removeEventListener('scroll', handleElementScroll);
+      boundElement = null;
+    };
+
+    const bindElement = (element: HTMLElement) => {
+      if (boundElement === element) return;
+
+      unbindElement();
+      boundElement = element;
+      element.addEventListener('scroll', handleElementScroll, {
+        passive: true,
       });
     };
 
-    window.addEventListener('scroll', fireDepthEvents, { passive: true });
+    const waitForScrollElement = () => {
+      const element = getScrollElementRef.current?.() ?? null;
+
+      if (element) {
+        bindElement(element);
+        return;
+      }
+
+      rafId = requestAnimationFrame(waitForScrollElement);
+    };
+
+    waitForScrollElement();
 
     return () => {
-      window.removeEventListener('scroll', fireDepthEvents);
+      cancelAnimationFrame(rafId);
+      unbindElement();
       tracker.reset();
     };
   }, [eventName, screenName, options?.enabled]);
