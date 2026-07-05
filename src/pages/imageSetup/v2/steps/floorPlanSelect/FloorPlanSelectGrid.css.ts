@@ -1,4 +1,5 @@
 import { style } from '@vanilla-extract/css';
+import { recipe } from '@vanilla-extract/recipes';
 
 import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
@@ -36,6 +37,15 @@ export const gridScroll = style({
   overflow: 'auto',
 });
 
+// 비율 토글 바 (chipBar와 gridScroll 사이, 우측 정렬) — TODO: Figma 확정 시 수치 교체
+export const ratioToggle = style({
+  display: 'flex',
+  flexShrink: 0,
+  justifyContent: 'flex-end',
+  gap: unitVars.unit.gapPadding['100'],
+  padding: `${unitVars.unit.gapPadding['100']} ${unitVars.unit.gapPadding['500']}`,
+});
+
 export const divider = style({
   margin: `${unitVars.unit.gapPadding['800']} calc(${unitVars.unit.gapPadding['500']} * -1)`,
   backgroundColor: colorVars.color.border.secondary,
@@ -43,11 +53,20 @@ export const divider = style({
   height: '0.8rem',
 });
 
-export const grid = style({
-  display: 'grid',
-  gridTemplateColumns: 'repeat(2, 1fr)',
-  justifyItems: 'center',
-  gap: unitVars.unit.gapPadding['200'],
+export const grid = recipe({
+  base: {
+    display: 'grid',
+    justifyItems: 'center',
+    gap: unitVars.unit.gapPadding['200'],
+  },
+  variants: {
+    // 1:1: 2열 / 3:2: 1열(한 장씩)
+    ratio: {
+      '1:1': { gridTemplateColumns: 'repeat(2, 1fr)' },
+      '3:2': { gridTemplateColumns: '1fr' },
+    },
+  },
+  defaultVariants: { ratio: '1:1' },
 });
 
 export const chipIcon = style({
