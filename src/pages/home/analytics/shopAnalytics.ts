@@ -23,7 +23,7 @@ import { toSheetExpansionStatus } from '@shared/analytics/utils/imageFlow';
 
 type FilterLabelMap = Record<string, string>;
 
-export type ShopListContext = {
+export interface ShopListContext {
   searchKeyword?: string;
   appliedValues?: ProductFilterValues;
   appliedFilterChips?: AppliedFilterChip[];
@@ -32,13 +32,13 @@ export type ShopListContext = {
   colorLabels?: FilterLabelMap;
   productCount?: number;
   productCountViewed?: number;
-};
+}
 
-export type ShopSelectSheetContext = ShopListContext & {
+export interface ShopSelectSheetContext extends ShopListContext {
   sheetExpanded: boolean;
   selectedProducts: SelectedProduct[];
   countTriggerEvent?: CountTriggerEvent;
-};
+}
 
 const shopScreenParams = () => ({
   screen_name: SCREEN_NAME.SHOP,
@@ -212,14 +212,14 @@ export const trackShopSelectSheetItemClick = (
   });
 };
 
-export type ShopSelectSheetCtaContext = ShopListContext & {
+export interface ShopSelectSheetCtaContext extends ShopListContext {
   sheetExpanded: boolean;
   selectedProducts: SelectedProduct[];
   imageEntryRoute?: ImageEntryRoute;
   returnScreenName: ScreenName;
   hasPreviousSpace: boolean;
   hasPreviousImage: boolean;
-};
+}
 
 export const trackShopSelectSheetCtaClick = ({
   sheetExpanded,
