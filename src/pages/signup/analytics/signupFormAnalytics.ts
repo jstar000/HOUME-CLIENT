@@ -1,5 +1,6 @@
-import { GA_EVENTS } from '@shared/analytics/events';
+import { GA_EVENTS, type GaEventName } from '@shared/analytics/events';
 import { SIGNUP_STEP, type SignupStep } from '@shared/analytics/params/auth';
+import type { TrackEventParams } from '@shared/analytics/params/types';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
 import { getLoginSocialParams } from '@shared/analytics/utils/loginEntryRoute';
@@ -11,6 +12,16 @@ const signupFormScreenParams = () => ({
 const signupStepParams = (signupStep: SignupStep) => ({
   signup_step: signupStep,
 });
+
+const trackSignupFormEvent = (
+  eventName: GaEventName,
+  extraParams?: TrackEventParams
+) => {
+  trackEvent(eventName, {
+    ...signupFormScreenParams(),
+    ...extraParams,
+  });
+};
 
 export const getSignupStep = ({
   isNameSectionValid,
@@ -32,101 +43,62 @@ export const getSignupStep = ({
   return SIGNUP_STEP.NICKNAME_INPUT;
 };
 
-export const trackSignupBrowserBackClick = (signupStep: SignupStep) => {
-  trackEvent(GA_EVENTS.signupForm.BROWSER_BACK_CLICK, {
-    ...signupFormScreenParams(),
-    ...signupStepParams(signupStep),
-  });
-};
-
-export const trackSignupBrowserBackSwipe = (signupStep: SignupStep) => {
-  trackEvent(GA_EVENTS.signupForm.BROWSER_BACK_SWIPE, {
-    ...signupFormScreenParams(),
-    ...signupStepParams(signupStep),
-  });
-};
-
-export const trackSignupNicknameFocus = () => {
-  trackEvent(
-    GA_EVENTS.signupForm.INPUT_NICKNAME_FOCUS,
-    signupFormScreenParams()
+export const trackSignupBrowserBackClick = (signupStep: SignupStep) =>
+  trackSignupFormEvent(
+    GA_EVENTS.signupForm.BROWSER_BACK_CLICK,
+    signupStepParams(signupStep)
   );
-};
 
-export const trackSignupNickRandomClick = () => {
-  trackEvent(
-    GA_EVENTS.signupForm.BTN_NICK_RANDOM_CLICK,
-    signupFormScreenParams()
+export const trackSignupBrowserBackSwipe = (signupStep: SignupStep) =>
+  trackSignupFormEvent(
+    GA_EVENTS.signupForm.BROWSER_BACK_SWIPE,
+    signupStepParams(signupStep)
   );
-};
 
-export const trackSignupNickClearClick = () => {
-  trackEvent(
-    GA_EVENTS.signupForm.BTN_NICK_CLEAR_CLICK,
-    signupFormScreenParams()
+export const trackSignupNicknameFocus = () =>
+  trackSignupFormEvent(GA_EVENTS.signupForm.INPUT_NICKNAME_FOCUS);
+
+export const trackSignupNickRandomClick = () =>
+  trackSignupFormEvent(GA_EVENTS.signupForm.BTN_NICK_RANDOM_CLICK);
+
+export const trackSignupNickClearClick = () =>
+  trackSignupFormEvent(GA_EVENTS.signupForm.BTN_NICK_CLEAR_CLICK);
+
+export const trackSignupBirthFocus = () =>
+  trackSignupFormEvent(GA_EVENTS.signupForm.INPUT_BIRTH_FOCUS);
+
+export const trackSignupErrorNickSignView = () =>
+  trackSignupFormEvent(GA_EVENTS.signupForm.ERROR_NICK_SIGN_VIEW);
+
+export const trackSignupErrorNickNumView = () =>
+  trackSignupFormEvent(GA_EVENTS.signupForm.ERROR_NICK_NUM_VIEW);
+
+export const trackSignupErrorBirthIncorrectView = () =>
+  trackSignupFormEvent(GA_EVENTS.signupForm.ERROR_BIRTH_INCORRECT_VIEW);
+
+export const trackSignupErrorBirthUnder14View = () =>
+  trackSignupFormEvent(GA_EVENTS.signupForm.ERROR_BIRTH_UNDER14_VIEW);
+
+export const trackSignupGenderClick = () =>
+  trackSignupFormEvent(GA_EVENTS.signupForm.BTNGENDER_CLICK);
+
+export const trackSignupCtaClick = () =>
+  trackSignupFormEvent(GA_EVENTS.signupForm.BTN_CTA, getLoginSocialParams());
+
+export const trackSignupNotCompModalView = (signupStep: SignupStep) =>
+  trackSignupFormEvent(
+    GA_EVENTS.signupForm.NOT_COMP_MD_VIEW,
+    signupStepParams(signupStep)
   );
-};
 
-export const trackSignupBirthFocus = () => {
-  trackEvent(GA_EVENTS.signupForm.INPUT_BIRTH_FOCUS, signupFormScreenParams());
-};
-
-export const trackSignupErrorNickSignView = () => {
-  trackEvent(
-    GA_EVENTS.signupForm.ERROR_NICK_SIGN_VIEW,
-    signupFormScreenParams()
+export const trackSignupNotCompModalKeepClick = (signupStep: SignupStep) =>
+  trackSignupFormEvent(
+    GA_EVENTS.signupForm.NOT_COMP_MD_KEEP_CLICK,
+    signupStepParams(signupStep)
   );
-};
 
-export const trackSignupErrorNickNumView = () => {
-  trackEvent(
-    GA_EVENTS.signupForm.ERROR_NICK_NUM_VIEW,
-    signupFormScreenParams()
+export const trackSignupNotCompModalQuitClick = (signupStep: SignupStep) =>
+  trackSignupFormEvent(
+    GA_EVENTS.signupForm.NOT_COMP_MD_QUIT_CLICK,
+    signupStepParams(signupStep)
   );
-};
-
-export const trackSignupErrorBirthIncorrectView = () => {
-  trackEvent(
-    GA_EVENTS.signupForm.ERROR_BIRTH_INCORRECT_VIEW,
-    signupFormScreenParams()
-  );
-};
-
-export const trackSignupErrorBirthUnder14View = () => {
-  trackEvent(
-    GA_EVENTS.signupForm.ERROR_BIRTH_UNDER14_VIEW,
-    signupFormScreenParams()
-  );
-};
-
-export const trackSignupGenderClick = () => {
-  trackEvent(GA_EVENTS.signupForm.BTNGENDER_CLICK, signupFormScreenParams());
-};
-
-export const trackSignupCtaClick = () => {
-  trackEvent(GA_EVENTS.signupForm.BTN_CTA, {
-    ...signupFormScreenParams(),
-    ...getLoginSocialParams(),
-  });
-};
-
-export const trackSignupNotCompModalView = (signupStep: SignupStep) => {
-  trackEvent(GA_EVENTS.signupForm.NOT_COMP_MD_VIEW, {
-    ...signupFormScreenParams(),
-    ...signupStepParams(signupStep),
-  });
-};
-
-export const trackSignupNotCompModalKeepClick = (signupStep: SignupStep) => {
-  trackEvent(GA_EVENTS.signupForm.NOT_COMP_MD_KEEP_CLICK, {
-    ...signupFormScreenParams(),
-    ...signupStepParams(signupStep),
-  });
-};
-
-export const trackSignupNotCompModalQuitClick = (signupStep: SignupStep) => {
-  trackEvent(GA_EVENTS.signupForm.NOT_COMP_MD_QUIT_CLICK, {
-    ...signupFormScreenParams(),
-    ...signupStepParams(signupStep),
-  });
-};
