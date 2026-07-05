@@ -17,4 +17,4 @@ export const LOGIN_STATUS = {
 export type LoginStatus = (typeof LOGIN_STATUS)[keyof typeof LOGIN_STATUS];
 
 /** 경로 — screen_name / return_screen_name / previous_screen_name */
-export type AnalyticsScreenName = ScreenName | string;
+export type AnalyticsScreenName = ScreenName | (string & {});
