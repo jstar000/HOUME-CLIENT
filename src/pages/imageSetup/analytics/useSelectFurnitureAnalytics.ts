@@ -9,6 +9,7 @@ import {
   trackSelectFurnitureErrorToastDeselectView,
 } from '@pages/imageSetup/analytics/selectFurnitureAnalytics';
 import { useActivityInfo } from '@pages/imageSetup/hooks/activityInfo/useActivityInfo';
+import type { ImageSetupSteps } from '@pages/imageSetup/types/funnel/steps';
 
 import { GA_EVENTS } from '@shared/analytics/events';
 import {
@@ -17,8 +18,6 @@ import {
 } from '@shared/analytics/hooks';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
-
-import type { ImageSetupSteps } from '../types/funnel/steps';
 
 export const useSelectFurnitureAnalytics = (
   context: ImageSetupSteps['ActivityInfo']

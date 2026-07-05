@@ -14,6 +14,10 @@ import {
   trackRoomTypeViewSheetSubmit,
   trackRoomTypeViewSheetView,
 } from '@pages/imageSetup/analytics/roomTypeAnalytics';
+import type {
+  CompletedFloorPlanSelect,
+  ImageSetupSteps,
+} from '@pages/imageSetup/types/funnel/steps';
 import { useFloorPlanSelect } from '@pages/imageSetup/v2/hooks/useFloorPlanSelect';
 import { useFloorPlanStore } from '@pages/imageSetup/v2/stores/useFloorPlanStore';
 
@@ -23,11 +27,6 @@ import {
   useScrollDepthTrack,
 } from '@shared/analytics/hooks';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
-
-import type {
-  CompletedFloorPlanSelect,
-  ImageSetupSteps,
-} from '../types/funnel/steps';
 
 export const useRoomTypeAnalytics = (
   context: ImageSetupSteps['FloorPlanSelect'],
