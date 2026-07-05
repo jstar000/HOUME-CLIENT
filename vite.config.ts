@@ -29,10 +29,14 @@ export default defineConfig({
     }),
     // 프로덕션 빌드 시 source map을 Sentry에 업로드 (auth token이 있을 때만 동작)
     sentryVitePlugin({
-      org: 'jstar',
+      org: process.env.SENTRY_ORG,
       project: process.env.SENTRY_PROJECT,
       authToken: process.env.SENTRY_AUTH_TOKEN,
       disable: !process.env.SENTRY_AUTH_TOKEN,
+      // 업로드 후 dist에 남은 .map 삭제 → 배포물에 원본 소스 노출 방지
+      sourcemaps: {
+        filesToDeleteAfterUpload: ['./dist/**/*.map'],
+      },
     }),
   ],
   define: {
