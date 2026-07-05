@@ -19,7 +19,12 @@ interface RecommendSectionProps {
   shopListContext: ShopListContext;
   onOpenProductDetail: (
     id: number,
-    cardProduct: { title: string; brand: string; imageUrl: string },
+    cardProduct: {
+      title: string;
+      brand: string;
+      imageUrl: string;
+      colorHexes: string[];
+    },
     cardPrice: {
       original: number;
       discountRate: number;

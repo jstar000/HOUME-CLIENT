@@ -139,7 +139,12 @@ const SearchSection = ({
   const openProductDetail = useCallback(
     (
       id: number,
-      cardProduct: { title: string; brand: string; imageUrl: string },
+      cardProduct: {
+        title: string;
+        brand: string;
+        imageUrl: string;
+        colorHexes: string[];
+      },
       cardPrice: {
         original: number;
         discountRate: number;
@@ -162,7 +167,7 @@ const SearchSection = ({
           originalPrice: cardPrice.original,
           discountPrice: cardPrice.discount,
           discountRate: cardPrice.discountRate,
-          colorHexes: [],
+          colorHexes: cardProduct.colorHexes,
           saveCount: cardSave.count,
           linkUrl: cardLink.href,
         },
