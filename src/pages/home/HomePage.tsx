@@ -64,14 +64,15 @@ const HomePage = () => {
           (presetHasProductsToBeRestored ? 'product' : 'explore'))
   );
   const isExploreTab = activeMenuTab === 'explore';
-  const { data: recentFloorPlanData } = useRecentFloorPlanQuery();
+  const { data: recentFloorPlanData, isFetched: isRecentFloorPlanFetched } =
+    useRecentFloorPlanQuery();
   const hasPreviousImage = recentFloorPlanData?.hasRecentImage === true;
 
   useAnalyticsPageView(
     GA_EVENTS.home.PAGE_VIEW,
     SCREEN_NAME.HOME,
     { has_previous_image: hasPreviousImage },
-    { enabled: isExploreTab }
+    { enabled: isExploreTab && isRecentFloorPlanFetched }
   );
 
   useScrollDepthTrack(GA_EVENTS.home.PAGE_SCROLL, SCREEN_NAME.HOME, {
