@@ -17,16 +17,15 @@ export function getScrollDepthsUpTo(percent: number): ScrollDepth[] {
   return SCROLL_DEPTH_THRESHOLDS.filter((depth) => percent >= depth);
 }
 
+/** 스크롤 컨테이너 기준 진행률(0~100) */
+const getScrollPercentFromElement = (element: HTMLElement): number => {
+  const maxScroll = element.scrollHeight - element.clientHeight;
+  return maxScroll <= 0 ? 0 : (element.scrollTop / maxScroll) * 100;
+};
+
 /** 스크롤 컨테이너 기준 현재 depth (가장 높은 임계값) */
 export function getScrollDepthFromElement(element: HTMLElement): ScrollDepth {
-  const maxScroll = element.scrollHeight - element.clientHeight;
-
-  if (maxScroll <= 0) {
-    return 0;
-  }
-
-  const percent = (element.scrollTop / maxScroll) * 100;
-  const depths = getScrollDepthsUpTo(percent);
+  const depths = getScrollDepthsUpTo(getScrollPercentFromElement(element));
 
   return depths[depths.length - 1] ?? 0;
 }
@@ -80,16 +79,14 @@ export const createScrollDepthTracker = () => {
       element: HTMLElement,
       onReach: (depth: ScrollDepth) => void
     ) => {
-      const maxScroll = element.scrollHeight - element.clientHeight;
-      const percent =
-        maxScroll <= 0 ? 0 : (element.scrollTop / maxScroll) * 100;
-
-      getScrollDepthsUpTo(percent).forEach((depth) => {
-        if (!fired.has(depth)) {
-          fired.add(depth);
-          onReach(depth);
+      getScrollDepthsUpTo(getScrollPercentFromElement(element)).forEach(
+        (depth) => {
+          if (!fired.has(depth)) {
+            fired.add(depth);
+            onReach(depth);
+          }
         }
-      });
+      );
     },
     reset: () => {
       fired.clear();
