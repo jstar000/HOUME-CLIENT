@@ -67,12 +67,17 @@ const ResultPage = () => {
   const stateIsMirror = locationState?.isMirror;
   const isFromLoading = locationState?.from === 'loading';
 
+  // 퍼널 param(image_entry_route/스냅샷)은 로딩 플로우 직후에만 유효
+  // (마이페이지/연관 이미지 진입 시 store에 남은 이전 생성 플로우 값이 붙는 것 방지)
   useAnalyticsPageView(
     GA_EVENTS.resultList.PAGE_VIEW,
     SCREEN_NAME.RESULT_LIST,
     {
-      ...buildResultListPageViewParams(parsedImageId ?? 0),
-      image_entry_route: getEntryRoute(),
+      gen_img_id: parsedImageId ?? 0,
+      ...(isFromLoading && {
+        ...buildResultListPageViewParams(parsedImageId ?? 0),
+        image_entry_route: getEntryRoute(),
+      }),
     },
     { enabled: parsedImageId !== null && isListView }
   );
@@ -81,8 +86,11 @@ const ResultPage = () => {
     GA_EVENTS.resultRec.PAGE_VIEW,
     SCREEN_NAME.RESULT_REC,
     {
-      ...buildResultRecPageViewParams(parsedImageId ?? 0),
-      image_entry_route: getEntryRoute(),
+      gen_img_id: parsedImageId ?? 0,
+      ...(isFromLoading && {
+        ...buildResultRecPageViewParams(parsedImageId ?? 0),
+        image_entry_route: getEntryRoute(),
+      }),
     },
     { enabled: parsedImageId !== null && !isListView }
   );
