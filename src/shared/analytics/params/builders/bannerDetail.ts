@@ -1,12 +1,12 @@
 import type { BannerChipParams } from '@shared/analytics/params/bannerDetail';
 
-export type BannerChipInput = {
+export interface BannerChipInput {
   chipId?: number | string;
   chipName?: string;
   selectedText?: string;
   answerId?: number;
   answerText?: string;
-};
+}
 
 /** 배너 상세 chip 클릭 / CTA 이벤트 파라미터 */
 export const getBannerChipParams = (

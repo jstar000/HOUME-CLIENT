@@ -29,7 +29,7 @@ export type ShopFilterCategory =
   (typeof SHOP_FILTER_CATEGORY)[keyof typeof SHOP_FILTER_CATEGORY];
 
 /** 상품 탭 — 검색·필터·선택 시트 파라미터 */
-export type ShopParams = {
+export interface ShopParams {
   search_keyword?: string;
   selected_shop_keyword_filters?: string;
   filter_type?: FilterType;
@@ -50,4 +50,4 @@ export type ShopParams = {
   selected_sub_category_types?: string;
   count_trigger_event?: CountTriggerEvent;
   sheet_expansion_status?: SheetExpansionStatus;
-};
+}

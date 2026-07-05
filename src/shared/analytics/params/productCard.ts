@@ -4,7 +4,7 @@ import type {
 } from '@shared/analytics/params/product';
 
 /** 상품 카드 공통 DB 파라미터 */
-export type ProductCardParams = {
+export interface ProductCardParams {
   trigger_context?: TriggerContext;
   product_id?: number;
   product_name?: string;
@@ -13,4 +13,4 @@ export type ProductCardParams = {
   product_category?: string;
   product_sub_category?: string;
   save_status?: SaveStatus;
-};
+}

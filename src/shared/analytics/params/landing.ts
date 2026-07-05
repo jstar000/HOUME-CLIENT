@@ -4,11 +4,11 @@ import type { ABTestGroup } from '@shared/types/abTest';
 /** 노션 test_type: A type = Solid, B type = Ghost */
 export type LandingTestType = 'Solid' | 'Ghost';
 
-export type LandingParams = {
+export interface LandingParams {
   test_type?: LandingTestType;
   landing_id?: number;
   landing_name?: string;
-};
+}
 
 const LANDING_TEST_TYPE_BY_VARIANT: Record<ABTestGroup, LandingTestType> = {
   A: 'Solid',

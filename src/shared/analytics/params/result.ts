@@ -26,7 +26,7 @@ export type ResultPreferenceType =
   (typeof RESULT_PREFERENCE_TYPE)[keyof typeof RESULT_PREFERENCE_TYPE];
 
 /** 결과·마이페이지·로딩 파라미터 */
-export type ResultParams = {
+export interface ResultParams {
   img_result_type?: ImgResultType;
   gen_img_style?: string;
   gen_img_id?: number;
@@ -44,4 +44,4 @@ export type ResultParams = {
   result_category_chip?: string;
   recommended_product_ids?: string;
   recommended_product_names?: string;
-};
+}

@@ -4,10 +4,10 @@ import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
 import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
 
-export type StyleContext = {
+export interface StyleContext {
   styleId: number;
   styleName?: string;
-};
+}
 
 const styleListScreenParams = () => ({
   screen_name: SCREEN_NAME.STYLE_LIST,

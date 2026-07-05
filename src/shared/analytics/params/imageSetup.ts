@@ -10,7 +10,7 @@ export const ACTIVITY_CHIP = {
 export type ActivityChip = (typeof ACTIVITY_CHIP)[keyof typeof ACTIVITY_CHIP];
 
 /** 무드보드·가구 선택 파라미터 */
-export type ImageSetupParams = {
+export interface ImageSetupParams {
   selected_moodBoard_ids?: string;
   count_moodBoard?: number;
   selected_activity_chip?: ActivityChip;
@@ -18,4 +18,4 @@ export type ImageSetupParams = {
   selected_furniture_chips?: string;
   count_furniture_chips?: number;
   has_previous_image?: boolean;
-};
+}

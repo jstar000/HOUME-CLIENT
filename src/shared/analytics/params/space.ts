@@ -19,7 +19,7 @@ export type FilterType = (typeof FILTER_TYPE)[keyof typeof FILTER_TYPE];
 export type PreviousSpaceReuse = boolean;
 
 /** 공간/도면 파라미터 (DB 전송 값 위주) */
-export type SpaceParams = {
+export interface SpaceParams {
   space_name?: string;
   space_id?: number;
   space_struct?: string;
@@ -37,4 +37,4 @@ export type SpaceParams = {
   filter_space_roomType?: string;
   filter_space_struct?: string;
   filter_space_size?: string;
-};
+}

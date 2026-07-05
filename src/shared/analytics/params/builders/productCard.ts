@@ -5,7 +5,7 @@ import type {
 import type { ProductCardParams } from '@shared/analytics/params/productCard';
 
 /** getProductCardParams 입력 — API/카드 뷰모델 공통 최소 필드 */
-export type ProductCardInput = {
+export interface ProductCardInput {
   id?: number;
   productId?: number;
   name?: string;
@@ -22,7 +22,7 @@ export type ProductCardInput = {
   isLiked?: boolean;
   trigger_context?: TriggerContext;
   save_status?: SaveStatus;
-};
+}
 
 /** GA comma-separated id list param (`product_ids`, `others_img_ids` 등) */
 export const joinAnalyticsIds = <T extends { id?: number }>(
