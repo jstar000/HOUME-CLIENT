@@ -8,10 +8,10 @@ import { trackEvent } from '@shared/analytics/track';
 import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
 import { getReturnScreenNameParams } from '@shared/analytics/utils/screenName';
 
-export type BannerDetailContext = {
+export interface BannerDetailContext {
   bannerId: number;
   bannerName?: string;
-};
+}
 
 const bannerDetailScreenParams = () => ({
   screen_name: SCREEN_NAME.BANNER_DETAIL,
