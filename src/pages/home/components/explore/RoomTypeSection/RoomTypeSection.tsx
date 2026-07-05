@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -71,6 +71,14 @@ const RoomTypeSection = ({
     });
     navigate(ROUTES.IMAGE_SETUP);
   };
+
+  useEffect(() => {
+    return () => {
+      if (scrollDebounceRef.current) {
+        clearTimeout(scrollDebounceRef.current);
+      }
+    };
+  }, []);
 
   const handleCardScroll = () => {
     if (scrollDebounceRef.current) {
