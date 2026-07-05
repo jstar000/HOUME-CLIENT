@@ -69,9 +69,9 @@ export const useJjymMutation = (options?: UseJjymMutationOptions) => {
   const toggleSaveProduct = useSavedItemsStore((s) => s.toggleSaveProduct);
   const { notify } = useToast();
   const { requireLogin } = useLoginGate();
-  const pendingProductNamesRef = useRef<Map<number, string | undefined>>(
-    new Map()
-  );
+  const pendingJjymContextRef = useRef<
+    Map<number, { productName?: string; screenName: string }>
+  >(new Map());
   const savedToastType = options?.savedToastType ?? 'move';
   const shouldInvalidateSavedItemsList =
     options?.invalidateSavedItemsList !== false;
@@ -102,8 +102,10 @@ export const useJjymMutation = (options?: UseJjymMutationOptions) => {
     },
 
     onSuccess: async (data, rawProductId) => {
-      const productName = pendingProductNamesRef.current.get(rawProductId);
-      pendingProductNamesRef.current.delete(rawProductId);
+      const pendingContext = pendingJjymContextRef.current.get(rawProductId);
+      pendingJjymContextRef.current.delete(rawProductId);
+      const productName = pendingContext?.productName;
+      const screenName = pendingContext?.screenName ?? getCurrentScreenName();
       const isSavedNow = useSavedItemsStore
         .getState()
         .savedProductIds.has(rawProductId);
@@ -123,7 +125,7 @@ export const useJjymMutation = (options?: UseJjymMutationOptions) => {
 
         const toastContent = getSavedToastContent(savedToastType);
         const toastInput = {
-          screenName: getCurrentScreenName(),
+          screenName,
           rawProductId,
           productName,
         };
@@ -142,7 +144,7 @@ export const useJjymMutation = (options?: UseJjymMutationOptions) => {
         });
       } else {
         const toastInput = {
-          screenName: getCurrentScreenName(),
+          screenName,
           rawProductId,
           productName,
         };
@@ -170,7 +172,7 @@ export const useJjymMutation = (options?: UseJjymMutationOptions) => {
     },
 
     onError: (_error, rawProductId) => {
-      pendingProductNamesRef.current.delete(rawProductId);
+      pendingJjymContextRef.current.delete(rawProductId);
       toggleSaveProduct(rawProductId);
     },
   });
@@ -184,12 +186,14 @@ export const useJjymMutation = (options?: UseJjymMutationOptions) => {
   const mutate = (rawProductId: number, mutateOptions?: JjymMutateOptions) => {
     const { loginEntryRoute, productName, ...restOptions } =
       mutateOptions ?? {};
-    pendingProductNamesRef.current.set(rawProductId, productName);
 
-    requireLogin(
-      () => mutation.mutate(rawProductId, restOptions),
-      loginEntryRoute ?? options?.loginEntryRoute
-    );
+    requireLogin(() => {
+      pendingJjymContextRef.current.set(rawProductId, {
+        productName,
+        screenName: getCurrentScreenName(),
+      });
+      mutation.mutate(rawProductId, restOptions);
+    }, loginEntryRoute ?? options?.loginEntryRoute);
   };
 
   return { ...mutation, mutate };
