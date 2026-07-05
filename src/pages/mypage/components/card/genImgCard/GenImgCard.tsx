@@ -71,6 +71,13 @@ const GenImgCard = ({
     toggleJjym(item.rawProductId!, { productName: item.productName });
   };
 
+  const handleCardGenImgKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
+    if ((e.key === 'Enter' || e.key === ' ') && onCardGenImgClick) {
+      e.preventDefault();
+      onCardGenImgClick();
+    }
+  };
+
   return (
     <div className={styles.wrapper}>
       <section
@@ -78,12 +85,7 @@ const GenImgCard = ({
         role="button"
         tabIndex={0}
         onClick={onCardGenImgClick}
-        onKeyDown={(e) => {
-          if ((e.key === 'Enter' || e.key === ' ') && onCardGenImgClick) {
-            e.preventDefault();
-            onCardGenImgClick();
-          }
-        }}
+        onKeyDown={handleCardGenImgKeyDown}
       >
         <span className={styles.headingText}>{productSummaryText}</span>
         <TextButton
@@ -98,7 +100,13 @@ const GenImgCard = ({
           더보기
         </TextButton>
       </section>
-      <section className={styles.imgContainer} onClick={onCardGenImgClick}>
+      <section
+        className={styles.imgContainer}
+        role="button"
+        tabIndex={0}
+        onClick={onCardGenImgClick}
+        onKeyDown={handleCardGenImgKeyDown}
+      >
         <OptimizedImage
           src={imageUrl || emptyImage}
           fallbackSrc={emptyImage}
