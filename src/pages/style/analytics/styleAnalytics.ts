@@ -17,19 +17,18 @@ const styleDetailScreenParams = () => ({
   screen_name: SCREEN_NAME.STYLE_DETAIL,
 });
 
-export const getStyleDetailPageViewParams = (ctx: StyleContext) =>
+const getStyleParamsFromContext = (ctx: StyleContext) =>
   getHomeStyleParams({
     styleId: ctx.styleId,
-    styleName: ctx.styleName ?? '',
+    styleName: ctx.styleName,
   });
+
+export const getStyleDetailPageViewParams = getStyleParamsFromContext;
 
 export const trackStyleListCardClick = (ctx: StyleContext) => {
   trackEvent(GA_EVENTS.styleList.CARD_STYLE_CLICK, {
     ...styleListScreenParams(),
-    ...getHomeStyleParams({
-      styleId: ctx.styleId,
-      styleName: ctx.styleName ?? '',
-    }),
+    ...getStyleParamsFromContext(ctx),
   });
 };
 
@@ -45,9 +44,6 @@ export const trackStyleDetailCtaClick = (ctx: StyleContext) => {
   trackEvent(GA_EVENTS.styleDetail.BTN_CTA_CLICK, {
     ...styleDetailScreenParams(),
     image_entry_route: getEntryRoute(),
-    ...getHomeStyleParams({
-      styleId: ctx.styleId,
-      styleName: ctx.styleName ?? '',
-    }),
+    ...getStyleParamsFromContext(ctx),
   });
 };
