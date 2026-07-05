@@ -18,11 +18,23 @@ export const COUNT_TRIGGER_EVENT = {
 export type CountTriggerEvent =
   (typeof COUNT_TRIGGER_EVENT)[keyof typeof COUNT_TRIGGER_EVENT];
 
+/** 상품 탭 필터 칩 카테고리 — shop_filterList_click 등 */
+export const SHOP_FILTER_CATEGORY = {
+  FURNITURE: 'furniture',
+  PRICE: 'price',
+  COLOR: 'color',
+} as const;
+
+export type ShopFilterCategory =
+  (typeof SHOP_FILTER_CATEGORY)[keyof typeof SHOP_FILTER_CATEGORY];
+
 /** 상품 탭 — 검색·필터·선택 시트 파라미터 */
 export type ShopParams = {
   search_keyword?: string;
   selected_shop_keyword_filters?: string;
   filter_type?: FilterType;
+  /** 필터 시트 진입 칩 카테고리 (적용된 라벨과 구분) */
+  filter_category?: ShopFilterCategory;
   filter_shop_furniture_type?: string;
   filter_shop_price?: string;
   filter_shop_color?: string;

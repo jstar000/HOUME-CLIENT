@@ -130,10 +130,7 @@ export const trackShopFilterListClick = (
   trackEvent(GA_EVENTS.shop.FILTER_LIST_CLICK, {
     ...shopScreenParams(),
     filter_type: FILTER_TYPE.SHOP,
-    filter_shop_furniture_type:
-      category === 'furniture' ? 'furniture' : undefined,
-    filter_shop_price: category === 'price' ? 'price' : undefined,
-    filter_shop_color: category === 'color' ? 'color' : undefined,
+    filter_category: category,
   });
 };
 
