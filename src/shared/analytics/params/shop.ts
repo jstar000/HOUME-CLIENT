@@ -1,5 +1,3 @@
-import type { FilterType } from '@shared/analytics/params/space';
-
 /** 인터랙션 — sheet_expansion_status */
 export const SHEET_EXPANSION_STATUS = {
   DEFAULT: 'default',
@@ -32,7 +30,6 @@ export type ShopFilterCategory =
 export interface ShopParams {
   search_keyword?: string;
   selected_shop_keyword_filters?: string;
-  filter_type?: FilterType;
   /** 필터 시트 진입 칩 카테고리 (적용된 라벨과 구분) */
   filter_category?: ShopFilterCategory;
   filter_shop_furniture_type?: string;
