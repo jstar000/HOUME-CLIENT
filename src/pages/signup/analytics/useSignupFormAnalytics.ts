@@ -150,10 +150,10 @@ export const useSignupFormAnalytics = ({
 
   /** useExitBlocker shouldBlock 콜백에서 historyAction 전달 */
   const trackBrowserBack = (historyAction: NavigationHistoryAction) => {
-    if (historyAction !== 'POP') return;
-
     const gesture = backGestureRef.current ?? 'click';
     backGestureRef.current = null;
+
+    if (historyAction !== 'POP') return;
 
     if (gesture === 'swipe') {
       trackSignupBrowserBackSwipe(signupStep);
