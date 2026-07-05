@@ -28,6 +28,8 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       onRefresh,
       onEnter,
       onClear,
+      onFocus,
+      onBlur,
       ...props
     },
     ref
@@ -78,8 +80,14 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             type="text"
             value={value}
             onChange={handleChange}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
+            onFocus={(e) => {
+              setIsFocused(true);
+              onFocus?.(e);
+            }}
+            onBlur={(e) => {
+              setIsFocused(false);
+              onBlur?.(e);
+            }}
             onKeyDown={handleKeyDown}
             maxLength={maxLength}
             aria-label="닉네임"
