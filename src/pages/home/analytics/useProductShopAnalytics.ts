@@ -73,7 +73,6 @@ const useProductShopAnalytics = (
     handleFilterResetClick,
     handleSelectProduct,
     handleRemoveSelectedProduct,
-    handleAddProductClick,
     handleDecorateWithProductsClick,
     handleSearchKeywordChange,
   } = controller;
@@ -120,6 +119,12 @@ const useProductShopAnalytics = (
     }),
     [getShopListContext, sheetExpanded]
   );
+
+  const getSelectSheetContextRef = useRef(getSelectSheetContext);
+
+  useEffect(() => {
+    getSelectSheetContextRef.current = getSelectSheetContext;
+  }, [getSelectSheetContext]);
 
   const shopListContext = useMemo(
     () => ({
@@ -181,13 +186,13 @@ const useProductShopAnalytics = (
           nextExpanded
             ? GA_EVENTS.shop.SELECT_SHEET_SWIPE_UP
             : GA_EVENTS.shop.SELECT_SHEET_SWIPE_DOWN,
-          getSelectSheetContext({ sheetExpanded: nextExpanded })
+          getSelectSheetContextRef.current({ sheetExpanded: nextExpanded })
         );
 
         return nextExpanded;
       });
     },
-    [getSelectSheetContext, setSheetExpandedState]
+    [setSheetExpandedState]
   );
 
   const handleProductListRender = useCallback(
@@ -278,8 +283,8 @@ const useProductShopAnalytics = (
   );
 
   const handleAddProductClickWithAnalytics = useCallback(() => {
-    handleAddProductClick();
-  }, [handleAddProductClick]);
+    setSheetExpanded(false);
+  }, [setSheetExpanded]);
 
   const handleSearchBarClick = useCallback(() => {
     trackShopSearchBarClick();
