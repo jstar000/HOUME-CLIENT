@@ -17,8 +17,7 @@ import {
 } from '@pages/generate/analytics/resultListAnalytics';
 
 import {
-  joinImageIds,
-  joinProductIds,
+  joinAnalyticsIds,
   toProductCardInputFromGenerateResultProduct,
   toProductCardInputFromSimilarItem,
 } from '@shared/analytics/params/builders/productCard';
@@ -59,7 +58,7 @@ const useResultListAnalytics = ({
   renderableRelatedImages,
 }: UseResultListAnalyticsOptions) => {
   const selectedProductIdsParam = useMemo(
-    () => joinProductIds(renderableSelectedProducts),
+    () => joinAnalyticsIds(renderableSelectedProducts),
     [renderableSelectedProducts]
   );
 
@@ -85,7 +84,7 @@ const useResultListAnalytics = ({
 
     trackedLookAroundViewRef.current = true;
     trackResultListListLookAroundView(
-      joinProductIds(renderableSimilarProducts)
+      joinAnalyticsIds(renderableSimilarProducts)
     );
   }, [renderableSimilarProducts, similarState]);
 
@@ -93,7 +92,7 @@ const useResultListAnalytics = ({
     if (relatedState !== 'content' || trackedOthersImgViewRef.current) return;
 
     trackedOthersImgViewRef.current = true;
-    trackResultListListOthersImgView(joinImageIds(renderableRelatedImages));
+    trackResultListListOthersImgView(joinAnalyticsIds(renderableRelatedImages));
   }, [relatedState, renderableRelatedImages]);
 
   const wrapReselectClick = useCallback(

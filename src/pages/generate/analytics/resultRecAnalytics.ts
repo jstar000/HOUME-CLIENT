@@ -1,7 +1,7 @@
 import { GA_EVENTS } from '@shared/analytics/events';
 import {
   getProductCardParams,
-  joinProductIds,
+  joinAnalyticsIds,
 } from '@shared/analytics/params/builders/productCard';
 import type { ProductCardInput } from '@shared/analytics/params/builders/productCard';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
@@ -20,7 +20,7 @@ const resultRecScreenParams = () => ({
 
 export const joinCategoryIds = (
   categories: Pick<FurnitureCategoryResponse, 'id'>[]
-) => joinProductIds(categories);
+) => joinAnalyticsIds(categories);
 
 export const joinProductNames = (products: Pick<ProductInfo, 'name'>[]) =>
   products
@@ -46,7 +46,7 @@ const categoryFilterParams = ({
 };
 
 const recommendedProductParams = (products: ProductInfo[]) => ({
-  recommended_product_ids: joinProductIds(products),
+  recommended_product_ids: joinAnalyticsIds(products),
   recommended_product_names: joinProductNames(products),
 });
 
@@ -77,7 +77,7 @@ export const trackResultRecListRecView = ({
 }) => {
   trackEvent(GA_EVENTS.resultRec.LIST_REC_VIEW, {
     ...resultRecScreenParams(),
-    look_around_product_ids: joinProductIds(products),
+    look_around_product_ids: joinAnalyticsIds(products),
     ...categoryFilterParams({ categories, selectedCategoryId }),
   });
 };

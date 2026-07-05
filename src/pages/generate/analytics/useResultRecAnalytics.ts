@@ -17,7 +17,7 @@ import {
 } from '@pages/generate/analytics/resultRecAnalytics';
 
 import {
-  joinProductIds,
+  joinAnalyticsIds,
   toProductCardInputFromProductInfo,
 } from '@shared/analytics/params/builders/productCard';
 
@@ -85,7 +85,7 @@ const useResultRecAnalytics = ({
   useEffect(() => {
     if (productsState !== 'content' || selectedCategoryId === null) return;
 
-    const listRecKey = `${selectedCategoryId}:${joinProductIds(resolvedProducts)}`;
+    const listRecKey = `${selectedCategoryId}:${joinAnalyticsIds(resolvedProducts)}`;
     if (trackedListRecKeyRef.current === listRecKey) return;
 
     trackedListRecKeyRef.current = listRecKey;

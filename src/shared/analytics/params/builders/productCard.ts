@@ -33,10 +33,6 @@ export const joinAnalyticsIds = <T extends { id?: number }>(
     .filter((id): id is number => id !== undefined)
     .join(', ') || undefined;
 
-export const joinProductIds = joinAnalyticsIds;
-
-export const joinImageIds = joinAnalyticsIds;
-
 /**
  * 상품 카드 클릭/노출 이벤트 공통 파라미터
  * undefined 필드는 track.ts 병합 시 자연히 제외됨
