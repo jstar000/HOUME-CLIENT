@@ -60,9 +60,13 @@ export const resolveScreenName = (
   if (pathname === ROUTES.SIGNUP) return SCREEN_NAME.SIGNUP_FORM;
   if (pathname === ROUTES.WELCOME) return SCREEN_NAME.SIGNUP_COMP;
   if (pathname === ROUTES.HOME) return SCREEN_NAME.HOME;
-  if (pathname.startsWith('/banner/')) return SCREEN_NAME.BANNER_DETAIL;
+  if (pathname.startsWith(ROUTES.BANNER_DETAIL.replace('/:bannerId', '/'))) {
+    return SCREEN_NAME.BANNER_DETAIL;
+  }
   if (pathname === ROUTES.STYLE_LIST) return SCREEN_NAME.STYLE_LIST;
-  if (pathname.startsWith('/styles/')) return SCREEN_NAME.STYLE_DETAIL;
+  if (pathname.startsWith(ROUTES.STYLE_DETAIL.replace('/:styleId', '/'))) {
+    return SCREEN_NAME.STYLE_DETAIL;
+  }
   if (pathname === ROUTES.SETTING_PROFILE_EDIT) return SCREEN_NAME.EDIT_PROFILE;
   if (pathname === ROUTES.SETTING_PRIVACY) return SCREEN_NAME.PRIVACY_POLICY;
   if (pathname === ROUTES.SETTING_SERVICE) return SCREEN_NAME.SERVICE_TERM;
