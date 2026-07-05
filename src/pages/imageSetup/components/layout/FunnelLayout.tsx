@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import { overlay } from 'overlay-kit';
 import { useNavigate } from 'react-router-dom';
 
@@ -37,6 +39,51 @@ const NAVBAR_TITLE_BY_STEP: Record<FunnelStepKey, string> = {
 // - LOGIN: 미로그인 사용자가 도면 선택 시 로그인 게이트로 이동하는 케이스
 // - GENERATE: 숏퍼널(경로2/4/5)에서 도면 선택 후 바로 이미지 생성으로 이동하는 케이스
 const ALLOWED_NEXT_PATHS: string[] = [ROUTES.LOGIN, ROUTES.GENERATE];
+
+interface RoomTypeResetInfoPopupProps {
+  onStay: () => void;
+  onExit: () => void;
+}
+
+const RoomTypeResetInfoPopup = ({
+  onStay,
+  onExit,
+}: RoomTypeResetInfoPopupProps) => {
+  useEffect(() => {
+    trackRoomTypeMdResetInfoView();
+  }, []);
+
+  return (
+    <Popup
+      btnStyle="text"
+      btnText="계속하기"
+      weakBtnText="나가기"
+      onClose={() => {
+        trackResetInfoMdKeepClick();
+        onStay();
+      }}
+      onConfirm={() => {
+        trackResetInfoMdKeepClick();
+        onStay();
+      }}
+      onCancel={onExit}
+      content={
+        <div className={styles.popupContent}>
+          <h3 className={styles.popupTitle}>
+            지금 나가면 선택한
+            <br />
+            정보가 모두 사라져요.
+          </h3>
+          <p className={styles.popupDetail}>
+            거의 다왔어요! 공간을 선택하고
+            <br />
+            원하는 AI 이미지를 받아보세요.
+          </p>
+        </div>
+      }
+    />
+  );
+};
 
 interface FunnelLayoutProps {
   children: React.ReactNode;
@@ -88,8 +135,6 @@ const FunnelLayout = ({ children, currentStep }: FunnelLayoutProps) => {
 
       // unmount: overlay-kit이 제공, 모달 컴포넌트 제거
       overlay.open(({ unmount }) => {
-        trackRoomTypeMdResetInfoView();
-
         // '계속하기' / backdrop 클릭 -> blocker의 'blocked' 상태 해제, 현재 step에 머무름
         const stay = () => {
           useFloorPlanStore.getState().restoreSheets(sheetsSnapshot);
@@ -103,36 +148,7 @@ const FunnelLayout = ({ children, currentStep }: FunnelLayoutProps) => {
           proceed();
         };
 
-        return (
-          <Popup
-            btnStyle="text"
-            btnText="계속하기"
-            weakBtnText="나가기"
-            onClose={() => {
-              trackResetInfoMdKeepClick();
-              stay();
-            }}
-            onConfirm={() => {
-              trackResetInfoMdKeepClick();
-              stay();
-            }}
-            onCancel={exit}
-            content={
-              <div className={styles.popupContent}>
-                <h3 className={styles.popupTitle}>
-                  지금 나가면 선택한
-                  <br />
-                  정보가 모두 사라져요.
-                </h3>
-                <p className={styles.popupDetail}>
-                  거의 다왔어요! 공간을 선택하고
-                  <br />
-                  원하는 AI 이미지를 받아보세요.
-                </p>
-              </div>
-            }
-          />
-        );
+        return <RoomTypeResetInfoPopup onStay={stay} onExit={exit} />;
       });
     },
   });
