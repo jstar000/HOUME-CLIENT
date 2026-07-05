@@ -78,15 +78,18 @@ const Banner = ({ seedBannerId, onSlideClick, onBannerSwipe }: BannerProps) => {
             }}
             onTouchEnd={(swiper: SwiperType) => {
               if (!onBannerSwipe || slides.length <= 1) return;
-              if (!swiper.touches.diff) return;
+              // 임계값 미만 드래그(스냅백)는 슬라이드가 바뀌지 않음
+              if (swiper.realIndex === swiper.previousIndex) return;
 
               const slide = slides[swiper.realIndex];
               if (!slide) return;
 
-              onBannerSwipe(
-                swiper.swipeDirection === 'prev' ? 'left' : 'right',
-                slide
-              );
+              const touchDiff = swiper.touches.diff;
+              // 터치 이동 방향: 오른쪽 드래그 → 이전 배너, 왼쪽 드래그 → 다음 배너
+              const direction: 'left' | 'right' =
+                touchDiff > 0 ? 'left' : 'right';
+
+              onBannerSwipe(direction, slide);
             }}
             onSwiper={(swiper: SwiperType) => {
               setActiveIndex(swiper.realIndex);
