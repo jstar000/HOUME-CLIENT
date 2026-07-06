@@ -13,6 +13,7 @@ import { GA_EVENTS } from '@shared/analytics/events';
 import { useAnalyticsPageView } from '@shared/analytics/hooks';
 import { getLandingTestType } from '@shared/analytics/params/landing';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
+import { loginStatusParams } from '@shared/analytics/utils/loginStatus';
 import ActionButton from '@shared/components/v2/button/actionButton/ActionButton';
 import LogoNavBar from '@shared/components/v2/navBar/LogoNavBar';
 
@@ -51,6 +52,7 @@ const LandingPage = () => {
   const selectedLanding = landingItems[currentIndex] ?? landingItems[0];
 
   useAnalyticsPageView(GA_EVENTS.landing.PAGE_VIEW, SCREEN_NAME.LANDING, {
+    ...loginStatusParams(),
     test_type: getLandingTestType(variant),
   });
 

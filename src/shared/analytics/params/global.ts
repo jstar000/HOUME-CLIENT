@@ -8,7 +8,7 @@ export const IS_NEW_USER = {
 
 export type IsNewUser = boolean;
 
-/** 유저 상태 — login_status (track.ts에서 자동 주입) */
+/** 유저 상태 — login_status */
 export const LOGIN_STATUS = {
   LOGGED_IN: 'logged_in',
   LOGGED_OUT: 'logged_out',

@@ -3,6 +3,7 @@ import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
 import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
 import { buildMoodboardIdsParam } from '@shared/analytics/utils/imageFlow';
+import { loginStatusParams } from '@shared/analytics/utils/loginStatus';
 
 const selectMoodboardScreenParams = () => ({
   screen_name: SCREEN_NAME.SELECT_MOODBOARD,
@@ -38,6 +39,7 @@ export const trackSelectMoodboardCardClick = (
 
   trackEvent(GA_EVENTS.selectMoodboard.CARD_CLICK, {
     ...selectMoodboardScreenParams(),
+    ...loginStatusParams(),
     ...moodboardSelectionParams(nextSelected),
   });
 };

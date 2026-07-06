@@ -13,6 +13,7 @@ import {
   getReturnScreenNameFromImageEntry,
   toSheetExpansionStatus,
 } from '@shared/analytics/utils/imageFlow';
+import { loginStatusParams } from '@shared/analytics/utils/loginStatus';
 
 import type {
   ExploreHouseTemplateItemResponse,
@@ -118,6 +119,7 @@ export const trackRoomTypeEmptyListRecCardClick = (
 ) => {
   trackEvent(GA_EVENTS.roomType.EMPTY_LIST_REC_CARD_CLICK, {
     ...roomTypeScreenParams(),
+    ...loginStatusParams(),
     ...getRoomTypeFilterParams(appliedFilters),
     ...getRoomTypeSpaceCardParams(plan),
   });
@@ -161,6 +163,7 @@ export const trackRoomTypeListEmptyView = (
 ) => {
   trackEvent(GA_EVENTS.roomType.LIST_EMPTY_VIEW, {
     ...roomTypeScreenParams(),
+    ...loginStatusParams(),
     ...getRoomTypeFilterParams(appliedFilters),
   });
 };
@@ -171,6 +174,7 @@ export const trackRoomTypeEmptyListRecCardView = (
 ) => {
   trackEvent(GA_EVENTS.roomType.EMPTY_LIST_REC_CARD_VIEW, {
     ...roomTypeScreenParams(),
+    ...loginStatusParams(),
     ...getRoomTypeFilterParams(appliedFilters),
     alternative_space_ids:
       alternativeSpaceIds.length > 0
@@ -222,6 +226,7 @@ export const trackRoomTypeViewSheetSubmit = ({
 }) => {
   trackEvent(GA_EVENTS.roomType.VIEW_SHT_SUBMIT, {
     ...roomTypeScreenParams(),
+    ...loginStatusParams(),
     image_entry_route: getEntryRoute(),
     return_screen_name: getReturnScreenNameFromImageEntry(),
     space_id: floorPlanId,

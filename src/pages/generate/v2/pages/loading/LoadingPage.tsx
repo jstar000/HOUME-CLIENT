@@ -32,6 +32,7 @@ import {
   ensureShortFunnelFlowSnapshot,
   getLoadImgReturnScreenName,
 } from '@shared/analytics/utils/imageFlow';
+import { loginStatusParams } from '@shared/analytics/utils/loginStatus';
 
 import type { GetCarouselResponseDTO } from '@apis/__generated__/data-contracts';
 
@@ -166,6 +167,7 @@ const LoadingPage = () => {
     GA_EVENTS.loadImg.PAGE_VIEW,
     SCREEN_NAME.LOAD_IMG,
     {
+      ...loginStatusParams(),
       image_entry_route: getEntryRoute(),
       return_screen_name: getLoadImgReturnScreenName(),
     },

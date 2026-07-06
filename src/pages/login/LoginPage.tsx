@@ -97,9 +97,7 @@ const LoginPage = () => {
             className={styles.link}
             onClick={trackCallback(
               GA_EVENTS.loginSocial.BTN_SERVICE_TERM_CLICK,
-              SCREEN_NAME.LOGIN_SOCIAL,
-              undefined,
-              getLoginSocialParams()
+              SCREEN_NAME.LOGIN_SOCIAL
             )}
           >
             서비스 약관
@@ -110,9 +108,7 @@ const LoginPage = () => {
             className={styles.link}
             onClick={trackCallback(
               GA_EVENTS.loginSocial.BTN_PRIVACY_POLICY_CLICK,
-              SCREEN_NAME.LOGIN_SOCIAL,
-              undefined,
-              getLoginSocialParams()
+              SCREEN_NAME.LOGIN_SOCIAL
             )}
           >
             개인정보처리방침

@@ -139,14 +139,20 @@ const useProductShopAnalytics = (
     [shopListContext]
   );
 
+  const shopPageParams = useMemo(
+    () =>
+      getShopListContextParams(shopListContext, { includeLoginStatus: true }),
+    [shopListContext]
+  );
+
   useAnalyticsPageView(
     GA_EVENTS.shop.PAGE_VIEW,
     SCREEN_NAME.SHOP,
-    scrollParams
+    shopPageParams
   );
 
   useScrollDepthTrack(GA_EVENTS.shop.PAGE_SCROLL, SCREEN_NAME.SHOP, {
-    extraParams: scrollParams,
+    extraParams: shopPageParams,
   });
 
   useScrollDepthTrack(GA_EVENTS.shop.LIST_PRODUCT_SCROLL, SCREEN_NAME.SHOP, {

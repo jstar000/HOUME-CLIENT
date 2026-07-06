@@ -4,6 +4,7 @@ import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
 import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
 import { mapActivityCodeToChip } from '@shared/analytics/utils/imageFlow';
+import { loginStatusParams } from '@shared/analytics/utils/loginStatus';
 
 const selectFurnitureScreenParams = () => ({
   screen_name: SCREEN_NAME.SELECT_FURNITURE,
@@ -79,6 +80,7 @@ export const trackSelectFurnitureBtnCtaClick = ({
 }) => {
   trackEvent(GA_EVENTS.selectFurniture.BTN_CTA_CLICK, {
     ...selectFurnitureScreenParams(),
+    ...loginStatusParams(),
     image_entry_route: getEntryRoute(),
     selected_furniture_chips: chips,
     selected_activity_chip: mapActivityCodeToChip(activityCode),

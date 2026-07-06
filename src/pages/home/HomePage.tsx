@@ -22,6 +22,7 @@ import {
 import { LOGIN_ENTRY_ROUTE } from '@shared/analytics/params/gate';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { persistLoginEntryRoute } from '@shared/analytics/utils/loginEntryRoute';
+import { loginStatusParams } from '@shared/analytics/utils/loginStatus';
 
 import MenuTab from '@components/v2/menuTab/MenuTab';
 import LogoNavBar from '@components/v2/navBar/LogoNavBar';
@@ -71,12 +72,13 @@ const HomePage = () => {
   useAnalyticsPageView(
     GA_EVENTS.home.PAGE_VIEW,
     SCREEN_NAME.HOME,
-    { has_previous_image: hasPreviousImage },
+    { ...loginStatusParams(), has_previous_image: hasPreviousImage },
     { enabled: isExploreTab && isRecentFloorPlanFetched }
   );
 
   useScrollDepthTrack(GA_EVENTS.home.PAGE_SCROLL, SCREEN_NAME.HOME, {
     enabled: isExploreTab,
+    extraParams: loginStatusParams(),
   });
 
   // 탭 전환 시 URL ?tab= 에 반영 → 로그인 게이트로 이탈했다 복귀해도 같은 탭으로 돌아옴

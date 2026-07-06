@@ -6,6 +6,7 @@ import {
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
 import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
+import { loginStatusParams } from '@shared/analytics/utils/loginStatus';
 import { getReturnScreenNameParams } from '@shared/analytics/utils/screenName';
 
 export interface BannerDetailContext {
@@ -27,6 +28,7 @@ export const getBannerDetailPageViewParams = (
   ctx: BannerDetailContext,
   options?: { isNewUser?: boolean }
 ) => ({
+  ...loginStatusParams(),
   ...(options?.isNewUser !== undefined && { is_new_user: options.isNewUser }),
   ...getBannerDetailBannerParams(ctx),
 });
@@ -51,6 +53,7 @@ export const trackBannerDetailCtaClick = (
 ) => {
   trackEvent(GA_EVENTS.bannerDetail.BTN_CTA_CLICK, {
     ...bannerDetailScreenParams(),
+    ...loginStatusParams(),
     image_entry_route: getEntryRoute(),
     ...getBannerDetailBannerParams(ctx),
     ...getBannerChipParams({

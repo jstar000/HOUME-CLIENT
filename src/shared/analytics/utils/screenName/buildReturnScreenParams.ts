@@ -1,5 +1,5 @@
 import type { AnalyticsScreenName } from '@shared/analytics/params/global';
-import { getLoginSocialParams } from '@shared/analytics/utils/loginEntryRoute';
+import { getLoginEntryRouteParams } from '@shared/analytics/utils/loginEntryRoute';
 
 import { getLoginRedirect } from '@utils/loginRedirect';
 
@@ -25,14 +25,14 @@ export const getReturnScreenNameParams = (fallback: AnalyticsScreenName) => ({
 /**
  * 로그인 게이트 경유 page_view용
  *
- * - `loginRedirect` 세션 있음 → `getLoginSocialParams()` (로그인 플로우 전용)
+ * - `loginRedirect` 세션 있음 → `getLoginEntryRouteParams()` (`login_status` 없음)
  * - 없음 → 스택 정책 + fallback
  */
 export const getLoginGatePageViewReturnParams = (
   fallback: AnalyticsScreenName
 ) => {
   if (getLoginRedirect()) {
-    return getLoginSocialParams();
+    return getLoginEntryRouteParams();
   }
 
   return getReturnScreenNameParams(fallback);

@@ -19,7 +19,6 @@ interface UseAnalyticsPageViewOptions {
 /**
  * page_view 1회 전송 (마운트 시)
  * - `previous_screen_name`: `useScreenNavigation`이 갱신한 직전 화면
- * - `login_status` 등 공통 param은 track.ts에서 자동 주입
  */
 export const useAnalyticsPageView = (
   eventName: GaEventName,

@@ -20,6 +20,7 @@ import { FILTER_TYPE } from '@shared/analytics/params/space';
 import { SCREEN_NAME, type ScreenName } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
 import { toSheetExpansionStatus } from '@shared/analytics/utils/imageFlow';
+import { loginStatusParams } from '@shared/analytics/utils/loginStatus';
 
 type FilterLabelMap = Record<string, string>;
 
@@ -58,22 +59,26 @@ const labelsFromIds = (ids: string[] | undefined, labels: FilterLabelMap) => {
   return formatted || undefined;
 };
 
-export const getShopListContextParams = ({
-  searchKeyword,
-  appliedValues,
-  appliedFilterChips,
-  furnitureLabels = {},
-  priceLabels = {},
-  colorLabels = {},
-  productCount,
-  productCountViewed,
-}: ShopListContext = {}) => {
+export const getShopListContextParams = (
+  {
+    searchKeyword,
+    appliedValues,
+    appliedFilterChips,
+    furnitureLabels = {},
+    priceLabels = {},
+    colorLabels = {},
+    productCount,
+    productCountViewed,
+  }: ShopListContext = {},
+  options?: { includeLoginStatus?: boolean }
+) => {
   const selectedKeywordFilters = appliedFilterChips
     ?.filter((chip) => chip.applied)
     .map((chip) => chip.label)
     .join(', ');
 
   return {
+    ...(options?.includeLoginStatus ? loginStatusParams() : {}),
     ...shopScreenParams(),
     search_keyword: searchKeyword?.trim() || undefined,
     selected_shop_keyword_filters: selectedKeywordFilters || undefined,
@@ -88,13 +93,16 @@ export const getShopListContextParams = ({
   };
 };
 
-export const getShopSelectSheetParams = ({
-  sheetExpanded,
-  selectedProducts,
-  countTriggerEvent,
-  ...listContext
-}: ShopSelectSheetContext) => ({
-  ...getShopListContextParams(listContext),
+export const getShopSelectSheetParams = (
+  {
+    sheetExpanded,
+    selectedProducts,
+    countTriggerEvent,
+    ...listContext
+  }: ShopSelectSheetContext,
+  options?: { includeLoginStatus?: boolean }
+) => ({
+  ...getShopListContextParams(listContext, options),
   sheet_expansion_status: toSheetExpansionStatus(sheetExpanded),
   selected_count: selectedProducts.length,
   selected_product_ids:
@@ -128,7 +136,7 @@ export const trackShopFilterListClick = (
   category: ProductFilterChipCategory
 ) => {
   trackEvent(GA_EVENTS.shop.FILTER_LIST_CLICK, {
-    ...shopScreenParams(),
+    ...getShopListContextParams(undefined, { includeLoginStatus: true }),
     filter_type: FILTER_TYPE.SHOP,
     filter_category: category,
   });
@@ -139,7 +147,7 @@ export const trackShopFilterSheetView = (
   sheetExpanded: boolean
 ) => {
   trackEvent(GA_EVENTS.shop.FILTER_SHT_VIEW, {
-    ...getShopListContextParams(listContext),
+    ...getShopListContextParams(listContext, { includeLoginStatus: true }),
     sheet_expansion_status: toSheetExpansionStatus(sheetExpanded),
   });
 };
@@ -147,7 +155,7 @@ export const trackShopFilterSheetView = (
 export const trackShopFilterSheetSubmit = (listContext: ShopListContext) => {
   trackEvent(
     GA_EVENTS.shop.FILTER_SHT_SUBMIT,
-    getShopListContextParams(listContext)
+    getShopListContextParams(listContext, { includeLoginStatus: true })
   );
 };
 
@@ -156,7 +164,7 @@ export const trackShopFilterSheetResetClick = (
 ) => {
   trackEvent(
     GA_EVENTS.shop.FILTER_SHT_RESET_CLICK,
-    getShopListContextParams(listContext)
+    getShopListContextParams(listContext, { includeLoginStatus: true })
   );
 };
 
@@ -167,14 +175,14 @@ export const trackShopSearchBarClick = () => {
 export const trackShopSearchSubmit = (listContext: ShopListContext) => {
   trackEvent(
     GA_EVENTS.shop.SEARCH_SUBMIT,
-    getShopListContextParams(listContext)
+    getShopListContextParams(listContext, { includeLoginStatus: true })
   );
 };
 
 export const trackShopSearchClear = (listContext: ShopListContext) => {
   trackEvent(
     GA_EVENTS.shop.SEARCH_CLEAR,
-    getShopListContextParams(listContext)
+    getShopListContextParams(listContext, { includeLoginStatus: true })
   );
 };
 
@@ -183,7 +191,7 @@ export const trackShopSelectSheetAddItemClick = (
 ) => {
   trackEvent(
     GA_EVENTS.shop.SELECT_SHEET_ADD_ITEM_CLICK,
-    getShopSelectSheetParams(context)
+    getShopSelectSheetParams(context, { includeLoginStatus: true })
   );
 };
 
@@ -192,7 +200,7 @@ export const trackShopSelectSheetRemoveClick = (
   product: Pick<SelectedProduct, 'id' | 'title'>
 ) => {
   trackEvent(GA_EVENTS.shop.SELECT_SHEET_REMOVE_CLICK, {
-    ...getShopSelectSheetParams(context),
+    ...getShopSelectSheetParams(context, { includeLoginStatus: true }),
     product_id: product.id,
     product_name: product.title,
   });
@@ -203,7 +211,7 @@ export const trackShopSelectSheetItemClick = (
   product: Pick<SelectedProduct, 'id' | 'title'>
 ) => {
   trackEvent(GA_EVENTS.shop.SELECT_SHEET_ITEM_CLICK, {
-    ...getShopSelectSheetParams(context),
+    ...getShopSelectSheetParams(context, { includeLoginStatus: true }),
     product_id: product.id,
     product_name: product.title,
   });
@@ -230,7 +238,7 @@ export const trackShopSelectSheetCtaClick = ({
   const lastProduct = selectedProducts[selectedProducts.length - 1];
 
   trackEvent(GA_EVENTS.shop.SELECT_SHEET_CTA_CLICK, {
-    ...getShopListContextParams(listContext),
+    ...getShopListContextParams(listContext, { includeLoginStatus: true }),
     image_entry_route: imageEntryRoute,
     return_screen_name: returnScreenName,
     sheet_expansion_status: toSheetExpansionStatus(sheetExpanded),
@@ -273,14 +281,14 @@ export const trackShopFeedCardUnselectClick = () => {
 export const trackShopListProductView = (listContext?: ShopListContext) => {
   trackEvent(
     GA_EVENTS.shop.LIST_PRODUCT_VIEW,
-    getShopListContextParams(listContext)
+    getShopListContextParams(listContext, { includeLoginStatus: true })
   );
 };
 
 export const trackShopListEmptyView = (listContext?: ShopListContext) => {
   trackEvent(
     GA_EVENTS.shop.LIST_EMPTY_VIEW,
-    getShopListContextParams(listContext)
+    getShopListContextParams(listContext, { includeLoginStatus: true })
   );
 };
 
@@ -345,7 +353,7 @@ export const trackShopFeedDetailMdCloseClick = () => {
 export const trackShopSelectSheetView = (context: ShopSelectSheetContext) => {
   trackEvent(
     GA_EVENTS.shop.SELECT_SHEET_VIEW,
-    getShopSelectSheetParams(context)
+    getShopSelectSheetParams(context, { includeLoginStatus: true })
   );
 };
 

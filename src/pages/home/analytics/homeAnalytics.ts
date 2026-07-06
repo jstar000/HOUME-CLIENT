@@ -7,6 +7,7 @@ import {
 } from '@shared/analytics/params/builders';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
+import { loginStatusParams } from '@shared/analytics/utils/loginStatus';
 
 type HomeSpaceCardInput = {
   spaceId?: number;
@@ -19,24 +20,29 @@ const homeScreenParams = () => ({
   screen_name: SCREEN_NAME.HOME,
 });
 
+const homeScreenWithLoginParams = () => ({
+  ...homeScreenParams(),
+  ...loginStatusParams(),
+});
+
 export const trackHomeTapExploreClick = () => {
-  trackEvent(GA_EVENTS.home.TAP_EXPLORE_CLICK, homeScreenParams());
+  trackEvent(GA_EVENTS.home.TAP_EXPLORE_CLICK, homeScreenWithLoginParams());
 };
 
 export const trackHomeTapShopClick = () => {
-  trackEvent(GA_EVENTS.home.TAP_SHOP_CLICK, homeScreenParams());
+  trackEvent(GA_EVENTS.home.TAP_SHOP_CLICK, homeScreenWithLoginParams());
 };
 
 export const trackHomeSpaceMoreClick = () => {
-  trackEvent(GA_EVENTS.home.SPACE_MORE_CLICK, homeScreenParams());
+  trackEvent(GA_EVENTS.home.SPACE_MORE_CLICK, homeScreenWithLoginParams());
 };
 
 export const trackHomeSpaceMoreCardClick = () => {
-  trackEvent(GA_EVENTS.home.SPACE_MORE_CARD_CLICK, homeScreenParams());
+  trackEvent(GA_EVENTS.home.SPACE_MORE_CARD_CLICK, homeScreenWithLoginParams());
 };
 
 export const trackHomeStyleMoreClick = () => {
-  trackEvent(GA_EVENTS.home.STYLE_MORE_CLICK, homeScreenParams());
+  trackEvent(GA_EVENTS.home.STYLE_MORE_CLICK, homeScreenWithLoginParams());
 };
 
 export const trackHomeBannerSlideEvent = (
@@ -49,7 +55,9 @@ export const trackHomeBannerSlideEvent = (
   if (!slide) return;
 
   trackEvent(eventName, {
-    ...homeScreenParams(),
+    ...(eventName === GA_EVENTS.home.BANNER_BG_IMG_CLICK
+      ? homeScreenWithLoginParams()
+      : homeScreenParams()),
     ...getHomeBannerParams({ bannerId: slide.id, bannerName: slide.title }),
   });
 };
@@ -61,7 +69,7 @@ export const trackHomeSpaceCardClick = ({
   hasPreviousImage,
 }: HomeSpaceCardInput) => {
   trackEvent(GA_EVENTS.home.SPACE_CARD_CLICK, {
-    ...homeScreenParams(),
+    ...homeScreenWithLoginParams(),
     has_previous_space: hasPreviousSpace,
     has_previous_image: hasPreviousImage,
     space_id: spaceId,
@@ -81,7 +89,7 @@ export const trackHomeStyleCardClick = (style: {
   name?: string;
 }) => {
   trackEvent(GA_EVENTS.home.STYLE_CARD_CLICK, {
-    ...homeScreenParams(),
+    ...homeScreenWithLoginParams(),
     ...getHomeStyleParams({ styleId: style.id, styleName: style.name }),
   });
 };

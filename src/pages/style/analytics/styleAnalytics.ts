@@ -3,6 +3,7 @@ import { getHomeStyleParams } from '@shared/analytics/params/builders';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
 import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
+import { loginStatusParams } from '@shared/analytics/utils/loginStatus';
 
 export interface StyleContext {
   styleId: number;
@@ -23,11 +24,15 @@ const getStyleParamsFromContext = (ctx: StyleContext) =>
     styleName: ctx.styleName,
   });
 
-export const getStyleDetailPageViewParams = getStyleParamsFromContext;
+export const getStyleDetailPageViewParams = (ctx: StyleContext) => ({
+  ...getStyleParamsFromContext(ctx),
+  ...loginStatusParams(),
+});
 
 export const trackStyleListCardClick = (ctx: StyleContext) => {
   trackEvent(GA_EVENTS.styleList.CARD_STYLE_CLICK, {
     ...styleListScreenParams(),
+    ...loginStatusParams(),
     ...getStyleParamsFromContext(ctx),
   });
 };
@@ -43,6 +48,7 @@ export const trackStyleDetailBackClick = () => {
 export const trackStyleDetailCtaClick = (ctx: StyleContext) => {
   trackEvent(GA_EVENTS.styleDetail.BTN_CTA_CLICK, {
     ...styleDetailScreenParams(),
+    ...loginStatusParams(),
     image_entry_route: getEntryRoute(),
     ...getStyleParamsFromContext(ctx),
   });

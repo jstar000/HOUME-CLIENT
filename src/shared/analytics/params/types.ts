@@ -7,7 +7,10 @@ import type {
   ImageEntryRoute,
   LoginEntryRoute,
 } from '@shared/analytics/params/gate';
-import type { AnalyticsScreenName } from '@shared/analytics/params/global';
+import type {
+  AnalyticsScreenName,
+  LoginStatus,
+} from '@shared/analytics/params/global';
 import type {
   HomeBannerParams,
   HomeStyleParams,
@@ -28,14 +31,15 @@ export type AnalyticsParamValue = string | number | boolean;
 /**
  * GA4 이벤트별 추가 파라미터 (노션 Parameter 컬럼 v2.0.0)
  *
- * - `login_status`, `page_path`, `analytics_environment`는 track.ts에서 자동 주입
  * - DB 전송 값은 이벤트 발생 시점 데이터를 그대로 전달
+ * - `undefined` 값은 track.ts에서 전송 제외
  */
 export type TrackEventParams = {
   // --- 1. 전역 / 경로 ---
   screen_name?: AnalyticsScreenName;
   return_screen_name?: AnalyticsScreenName;
   previous_screen_name?: AnalyticsScreenName;
+  login_status?: LoginStatus;
   is_new_user?: boolean;
   scroll_depth?: ScrollDepth;
   section_name?: SectionName;

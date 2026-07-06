@@ -13,8 +13,10 @@ export const getSignupCompPageViewParams = () => ({
 });
 
 export const trackSignupCompCtaClick = () => {
+  const { return_screen_name } = getLoginSocialParams();
+
   trackEvent(GA_EVENTS.signupComp.BTN_CTA, {
     ...signupCompScreenParams(),
-    ...getLoginSocialParams(),
+    return_screen_name,
   });
 };

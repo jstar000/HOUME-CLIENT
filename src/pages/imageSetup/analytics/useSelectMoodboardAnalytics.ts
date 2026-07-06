@@ -14,6 +14,7 @@ import {
 } from '@shared/analytics/hooks';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
+import { loginStatusParams } from '@shared/analytics/utils/loginStatus';
 
 import type {
   CompletedInteriorStyle,
@@ -32,13 +33,17 @@ export const useSelectMoodboardAnalytics = (
     GA_EVENTS.selectMoodboard.PAGE_VIEW,
     SCREEN_NAME.SELECT_MOODBOARD,
     {
+      ...loginStatusParams(),
       image_entry_route: getEntryRoute(),
     }
   );
 
   useScrollDepthTrack(
     GA_EVENTS.selectMoodboard.PAGE_SCROLL,
-    SCREEN_NAME.SELECT_MOODBOARD
+    SCREEN_NAME.SELECT_MOODBOARD,
+    {
+      extraParams: loginStatusParams(),
+    }
   );
 
   const handleImageSelectWithAnalytics = useCallback(

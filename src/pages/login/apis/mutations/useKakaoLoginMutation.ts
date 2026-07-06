@@ -11,6 +11,7 @@ import { GA_EVENTS } from '@shared/analytics/events';
 import { GA_TOAST_TYPE } from '@shared/analytics/params/toast';
 import { trackEvent } from '@shared/analytics/track';
 import { clearLoginEntryRoute } from '@shared/analytics/utils/loginEntryRoute';
+import { loginStatusParams } from '@shared/analytics/utils/loginStatus';
 import { resolveScreenName } from '@shared/analytics/utils/screenName';
 import { TOAST_TYPE } from '@shared/types/toast';
 
@@ -126,6 +127,7 @@ export const useKakaoLoginMutation = () => {
       const destination = consumeLoginRedirect() ?? ROUTES.HOME;
       trackEvent(GA_EVENTS.loginSocial.TOAST_LOGIN_ERROR_VIEW, {
         screen_name: resolveScreenName(destination),
+        ...loginStatusParams(),
         toast_type: GA_TOAST_TYPE.LOGIN_FAIL,
         error_code: error.message,
       });

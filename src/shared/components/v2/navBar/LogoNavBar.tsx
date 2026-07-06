@@ -6,6 +6,7 @@ import { TOP_NAV_RETURN_SCREEN } from '@shared/analytics/componentAnalytics';
 import { GA_EVENTS } from '@shared/analytics/events';
 import { type ScreenName } from '@shared/analytics/screenNames';
 import { trackCallback } from '@shared/analytics/track';
+import { loginStatusParams } from '@shared/analytics/utils/loginStatus';
 
 import imgProfile from '@assets/v2/images/ImgProfile.svg';
 import logotypeBlack from '@assets/v2/images/LogotypeBlack.svg';
@@ -45,28 +46,28 @@ const LogoNavBar = ({
     GA_EVENTS.component.TOP_NAV_LOGO_CLICK,
     screenName,
     () => navigate(ROUTES.HOME),
-    TOP_NAV_RETURN_SCREEN.LOGO
+    { ...TOP_NAV_RETURN_SCREEN.LOGO, ...loginStatusParams() }
   );
 
   const handleGenerateClick = trackCallback(
     GA_EVENTS.component.TOP_NAV_CREATE_IMG_CLICK,
     screenName,
     onGenerateClick,
-    TOP_NAV_RETURN_SCREEN.CREATE_IMG
+    { ...TOP_NAV_RETURN_SCREEN.CREATE_IMG, ...loginStatusParams() }
   );
 
   const handleLoginClick = trackCallback(
     GA_EVENTS.component.TOP_NAV_LOGIN_CLICK,
     screenName,
     onLoginClick,
-    TOP_NAV_RETURN_SCREEN.LOGIN
+    { ...TOP_NAV_RETURN_SCREEN.LOGIN, ...loginStatusParams() }
   );
 
   const handleProfileClick = trackCallback(
     GA_EVENTS.component.TOP_NAV_MYPAGE_CLICK,
     screenName,
     onProfileClick,
-    TOP_NAV_RETURN_SCREEN.MYPAGE
+    { ...TOP_NAV_RETURN_SCREEN.MYPAGE, ...loginStatusParams() }
   );
 
   return (
