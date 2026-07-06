@@ -31,6 +31,7 @@ export const getBannerDetailPageViewParams = (
   ...loginStatusParams(),
   ...(options?.isNewUser !== undefined && { is_new_user: options.isNewUser }),
   ...getBannerDetailBannerParams(ctx),
+  selected_banner_chip: '',
 });
 
 export const trackBannerDetailChipClick = (
@@ -56,10 +57,7 @@ export const trackBannerDetailCtaClick = (
     ...loginStatusParams(),
     image_entry_route: getEntryRoute(),
     ...getBannerDetailBannerParams(ctx),
-    ...getBannerChipParams({
-      answerId: answer.answerId,
-      answerText: answer.answerText,
-    }),
+    selected_banner_chip: answer.answerText,
   });
 };
 
