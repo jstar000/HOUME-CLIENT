@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 import {
   COUNT_TRIGGER_EVENT,
   getShopListContextParams,
+  getShopListProductScrollParams,
   trackShopFilterListClick,
   trackShopFilterSheetResetClick,
   trackShopFilterSheetSubmit,
@@ -134,11 +135,8 @@ const useProductShopAnalytics = (
     [getShopListContext, productCountViewed]
   );
 
-  const scrollParams = useMemo(
-    () =>
-      getShopListContextParams(shopListContext, {
-        includeProductCountViewed: true,
-      }),
+  const listProductScrollParams = useMemo(
+    () => getShopListProductScrollParams(shopListContext),
     [shopListContext]
   );
 
@@ -171,7 +169,7 @@ const useProductShopAnalytics = (
   });
 
   useScrollDepthTrack(GA_EVENTS.shop.LIST_PRODUCT_SCROLL, SCREEN_NAME.SHOP, {
-    extraParams: scrollParams,
+    extraParams: listProductScrollParams,
   });
 
   // 선택 바텀시트(DragHandleBottomSheet open={!filterSheetOpen}) 최초 노출 시 1회
@@ -245,13 +243,13 @@ const useProductShopAnalytics = (
 
   const handleFilterApplyWithAnalytics = useCallback(() => {
     handleFilterApply();
-    trackShopFilterSheetSubmit(getShopListContext());
-  }, [getShopListContext, handleFilterApply]);
+    trackShopFilterSheetSubmit(getShopListContext(), sheetExpanded);
+  }, [getShopListContext, handleFilterApply, sheetExpanded]);
 
   const handleFilterResetClickWithAnalytics = useCallback(() => {
     handleFilterResetClick();
-    trackShopFilterSheetResetClick(getShopListContext());
-  }, [getShopListContext, handleFilterResetClick]);
+    trackShopFilterSheetResetClick(getShopListContext(), sheetExpanded);
+  }, [getShopListContext, handleFilterResetClick, sheetExpanded]);
 
   const handleSelectProductWithAnalytics = useCallback(
     (product: SelectedProduct) => {

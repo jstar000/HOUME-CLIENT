@@ -16,7 +16,6 @@ import {
   type CountTriggerEvent,
   type SheetExpansionStatus,
 } from '@shared/analytics/params/shop';
-import { FILTER_TYPE } from '@shared/analytics/params/space';
 import { SCREEN_NAME, type ScreenName } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
 import { toSheetExpansionStatus } from '@shared/analytics/utils/imageFlow';
@@ -73,6 +72,17 @@ const formatSelectedProductIds = (products: SelectedProduct[]) =>
     ? products.map((product) => product.id).join(', ')
     : undefined;
 
+const formatSelectedShopKeywordFilters = (
+  appliedFilterChips?: AppliedFilterChip[]
+) => {
+  const selected = appliedFilterChips
+    ?.filter((chip) => chip.applied)
+    .map((chip) => chip.label)
+    .join(', ');
+
+  return selected || undefined;
+};
+
 export const getShopListContextParams = (
   {
     searchKeyword,
@@ -86,16 +96,12 @@ export const getShopListContextParams = (
   }: ShopListContext = {},
   options?: ShopListParamsOptions
 ) => {
-  const selectedKeywordFilters = appliedFilterChips
-    ?.filter((chip) => chip.applied)
-    .map((chip) => chip.label)
-    .join(', ');
-
   return {
     ...(options?.includeLoginStatus ? loginStatusParams() : {}),
     ...shopScreenParams(),
     search_keyword: searchKeyword?.trim() || undefined,
-    selected_shop_keyword_filters: selectedKeywordFilters || undefined,
+    selected_shop_keyword_filters:
+      formatSelectedShopKeywordFilters(appliedFilterChips),
     filter_shop_furniture_type: labelsFromIds(
       appliedValues?.furnitureTypeIds,
       furnitureLabels
@@ -123,6 +129,15 @@ export const getShopListContextParams = (
       : {}),
   };
 };
+
+export const getShopListProductScrollParams = ({
+  productCount,
+  productCountViewed,
+}: Pick<ShopListContext, 'productCount' | 'productCountViewed'> = {}) => ({
+  ...shopScreenParams(),
+  product_count: productCount,
+  product_count_viewed: productCountViewed,
+});
 
 const getShopSelectSheetBaseParams = (
   {
@@ -180,42 +195,50 @@ export const trackShopFilterListClick = (
   category: ProductFilterChipCategory
 ) => {
   trackEvent(GA_EVENTS.shop.FILTER_LIST_CLICK, {
-    ...getShopListContextParams(undefined, { includeLoginStatus: true }),
-    filter_type: FILTER_TYPE.SHOP,
-    filter_category: category,
+    ...shopScreenParams(),
+    ...loginStatusParams(),
+    filter_type: category,
   });
 };
 
 export const trackShopFilterSheetView = (
-  listContext: ShopListContext,
+  listContext: ShopListContext = {},
   sheetExpanded: boolean
 ) => {
   trackEvent(GA_EVENTS.shop.FILTER_SHT_VIEW, {
-    ...getShopListContextParams(listContext, { includeLoginStatus: true }),
+    ...shopScreenParams(),
+    ...loginStatusParams(),
+    selected_shop_keyword_filters: formatSelectedShopKeywordFilters(
+      listContext.appliedFilterChips
+    ),
     sheet_expansion_status: toSheetExpansionStatus(sheetExpanded),
   });
 };
 
-export const trackShopFilterSheetSubmit = (listContext: ShopListContext) => {
+export const trackShopFilterSheetSubmit = (
+  listContext: ShopListContext,
+  sheetExpanded: boolean
+) => {
   trackEvent(
     GA_EVENTS.shop.FILTER_SHT_SUBMIT,
     getShopListContextParams(listContext, {
       includeLoginStatus: true,
       includeTriggerContext: true,
-      sheetExpanded: true,
+      sheetExpanded,
     })
   );
 };
 
 export const trackShopFilterSheetResetClick = (
-  listContext: ShopListContext
+  listContext: ShopListContext,
+  sheetExpanded: boolean
 ) => {
   trackEvent(
     GA_EVENTS.shop.FILTER_SHT_RESET_CLICK,
     getShopListContextParams(listContext, {
       includeLoginStatus: true,
       includeTriggerContext: true,
-      sheetExpanded: true,
+      sheetExpanded,
     })
   );
 };

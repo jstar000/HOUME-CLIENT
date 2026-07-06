@@ -1,3 +1,5 @@
+import type { ShopFilterCategory } from '@shared/analytics/params/shop';
+
 /** 공간/도면 — space_view_type */
 export const SPACE_VIEW_TYPE = {
   ONLY: 'only',
@@ -13,7 +15,10 @@ export const FILTER_TYPE = {
   SPACE: 'space',
 } as const;
 
-export type FilterType = (typeof FILTER_TYPE)[keyof typeof FILTER_TYPE];
+export type SpaceFilterType = (typeof FILTER_TYPE)[keyof typeof FILTER_TYPE];
+
+/** 공간 필터(shop|space) 또는 상품 탭 필터 칩(furniture|price|color) */
+export type FilterType = SpaceFilterType | ShopFilterCategory;
 
 /** 이전 이력 — previous_space_reuse */
 export type PreviousSpaceReuse = boolean;
