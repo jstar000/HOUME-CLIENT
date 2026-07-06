@@ -1,7 +1,8 @@
 /**
  * GA4 이벤트 전송 코어
  *
- * - `trackEvent`: 호출부 params만 전송·로그 (undefined 키 제거)
+ * - `trackEvent`: 호출부 params를 콘솔에 그대로 로그 (`undefined` 포함)
+ * - Firebase 전송 시에만 `undefined` 키 제거
  * - `trackCallback`: trackEvent 후 기존 onClick 콜백 실행
  */
 import { logEvent } from 'firebase/analytics';
@@ -41,10 +42,11 @@ export const trackEvent = (
   eventName: GaEventName,
   params?: TrackEventParams
 ): void => {
+  const logParams = params ?? {};
   const eventParams = buildEventParams(params);
 
   if (!isAnalyticsEnabled) {
-    console.info('[Analytics]', eventName, eventParams);
+    console.info('[Analytics]', eventName, logParams);
     return;
   }
 

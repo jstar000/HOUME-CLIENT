@@ -32,7 +32,7 @@ export type AnalyticsParamValue = string | number | boolean;
  * GA4 이벤트별 추가 파라미터 (노션 Parameter 컬럼 v2.0.0)
  *
  * - DB 전송 값은 이벤트 발생 시점 데이터를 그대로 전달
- * - `undefined` 값은 track.ts에서 전송 제외
+ * - `undefined` 값은 Firebase 전송 시 제외 (콘솔 로그에는 포함)
  */
 export type TrackEventParams = {
   // --- 1. 전역 / 경로 ---
