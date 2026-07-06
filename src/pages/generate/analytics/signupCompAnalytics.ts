@@ -1,4 +1,5 @@
 import { GA_EVENTS } from '@shared/analytics/events';
+import { VALID_LOGIN_STATUS } from '@shared/analytics/params/auth';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
 import { getLoginSocialParams } from '@shared/analytics/utils/loginEntryRoute';
@@ -9,7 +10,7 @@ const signupCompScreenParams = () => ({
 
 export const getSignupCompPageViewParams = () => ({
   ...getLoginSocialParams(),
-  is_new_user: true,
+  is_valid_login: VALID_LOGIN_STATUS.ALL_PASSED,
 });
 
 export const trackSignupCompCtaClick = () => {

@@ -127,6 +127,7 @@ export const trackResultListImgCardOnCardClick = ({
     selected_product_ids: selectedProductIds,
     others_img_id: othersImgId,
     others_img_product_ids: othersImgProductIds,
+    ...getReturnScreenNameParams(SCREEN_NAME.HOME),
   });
 };
 

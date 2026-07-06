@@ -108,14 +108,11 @@ export const trackResultRecFeedCardUnsaveClick = (
 };
 
 export const trackResultRecBtnArrowRightClick = () => {
-  trackEvent(
-    GA_EVENTS.resultRec.BTN_ARROW_RIGHT_CLICK,
-    resultRecScreenParams()
-  );
+  trackEvent(GA_EVENTS.resultRec.BTN_ARROW_RIGHT_CLICK);
 };
 
 export const trackResultRecBtnArrowLeftClick = () => {
-  trackEvent(GA_EVENTS.resultRec.BTN_ARROW_LEFT_CLICK, resultRecScreenParams());
+  trackEvent(GA_EVENTS.resultRec.BTN_ARROW_LEFT_CLICK);
 };
 
 export const trackResultRecSlideFilterCombView = ({
@@ -146,11 +143,11 @@ export const trackResultRecChipFilterClick = ({
 };
 
 export const trackResultRecBtnMoreImgClick = () => {
-  trackEvent(GA_EVENTS.resultRec.BTN_MORE_IMG_CLICK, resultRecScreenParams());
+  trackEvent(GA_EVENTS.resultRec.BTN_MORE_IMG_CLICK);
 };
 
 export const trackResultRecMdNotYetView = () => {
-  trackEvent(GA_EVENTS.resultRec.MD_NOT_YET_VIEW, resultRecScreenParams());
+  trackEvent(GA_EVENTS.resultRec.MD_NOT_YET_VIEW);
 };
 
 export const trackResultRecBtnPreferenceClick = ({
@@ -168,8 +165,5 @@ export const trackResultRecBtnPreferenceClick = ({
 };
 
 export const trackResultRecToastThxOpinionView = () => {
-  trackEvent(
-    GA_EVENTS.resultRec.TOAST_THX_OPINION_VIEW,
-    resultRecScreenParams()
-  );
+  trackEvent(GA_EVENTS.resultRec.TOAST_THX_OPINION_VIEW);
 };

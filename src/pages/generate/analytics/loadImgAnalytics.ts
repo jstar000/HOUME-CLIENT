@@ -1,5 +1,4 @@
 import { GA_EVENTS } from '@shared/analytics/events';
-import { getProductCardParams } from '@shared/analytics/params/builders/productCard';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
 import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
@@ -32,34 +31,48 @@ export const trackLoadImgPageBackSwipe = () => {
 
 export const trackLoadImgCardPreferenceView = ({
   productId,
+  productName,
   loadedProductIds,
 }: {
   productId: number;
+  productName?: string;
   loadedProductIds: string;
 }) => {
   trackEvent(GA_EVENTS.loadImg.CARD_PREFERENCE_VIEW, {
     ...loadImgScreenParams(),
-    image_entry_route: getEntryRoute(),
-    ...getProductCardParams({ productId }),
+    product_id: productId,
+    product_name: productName,
     loaded_product_ids: loadedProductIds,
   });
 };
 
 export const trackLoadImgMdGenImgQuitView = () => {
-  trackEvent(GA_EVENTS.loadImg.MD_GEN_IMG_QUIT_VIEW, loadImgScreenParams());
+  trackEvent(GA_EVENTS.loadImg.MD_GEN_IMG_QUIT_VIEW);
 };
 
 export const trackLoadImgCardPreferenceClick = ({
   productId,
+  productName,
+  productBrand,
+  productCategory,
+  productPrice,
   isLike,
 }: {
   productId: number;
+  productName?: string;
+  productBrand?: string;
+  productCategory?: string;
+  productPrice?: number;
   isLike: boolean;
 }) => {
   trackEvent(GA_EVENTS.loadImg.CARD_PREFERENCE_CLICK, {
     ...loadImgScreenParams(),
     image_entry_route: getEntryRoute(),
     product_id: productId,
+    product_name: productName,
+    product_brand: productBrand,
+    product_category: productCategory,
+    product_price: productPrice,
     load_preference_type: toLoadPreferenceType(isLike),
   });
 };
