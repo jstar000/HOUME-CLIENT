@@ -70,7 +70,7 @@ export const useScrollDepthTrack = (
     }
 
     let boundElement: HTMLElement | null = null;
-    let rafId = 0;
+    let retryTimerId: number | undefined;
 
     const handleElementScroll = () => {
       if (!boundElement) return;
@@ -103,13 +103,15 @@ export const useScrollDepthTrack = (
         return;
       }
 
-      rafId = requestAnimationFrame(waitForScrollElement);
+      retryTimerId = window.setTimeout(waitForScrollElement, 100);
     };
 
     waitForScrollElement();
 
     return () => {
-      cancelAnimationFrame(rafId);
+      if (retryTimerId !== undefined) {
+        window.clearTimeout(retryTimerId);
+      }
       unbindElement();
       tracker.reset();
     };
