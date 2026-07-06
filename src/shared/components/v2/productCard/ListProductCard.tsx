@@ -53,6 +53,9 @@ const ListProductCard = ({
   const { originalPriceText, discountPriceText, discountRateText } =
     getPriceTexts(price?.original, price?.discount, price?.discountRate);
 
+  const handleCardNavigate = () =>
+    openProductLink(linkHref, undefined, LOGIN_ENTRY_ROUTE.PRODUCT_LIST_SITE);
+
   const handleLinkButtonClick = () =>
     openProductLink(
       linkHref,
@@ -64,7 +67,7 @@ const ListProductCard = ({
     onCardClick,
     enableWholeCardLink,
     linkHref,
-    onNavigate: handleLinkButtonClick,
+    onNavigate: handleCardNavigate,
   });
 
   return (
