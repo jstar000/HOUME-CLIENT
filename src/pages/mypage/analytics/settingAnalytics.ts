@@ -19,9 +19,9 @@ export const trackSettingLogoutClick = () => {
 };
 
 export const trackSettingSuccessionClick = () => {
-  trackEvent(GA_EVENTS.setting.BTN_SUCCESSION_CLICK, settingScreenParams());
+  trackEvent(GA_EVENTS.setting.BTN_SUCCESSION_CLICK);
 };
 
 export const trackSettingSuccessionModalView = () => {
-  trackEvent(GA_EVENTS.setting.MD_SUCCESSION_VIEW, settingScreenParams());
+  trackEvent(GA_EVENTS.setting.MD_SUCCESSION_VIEW);
 };

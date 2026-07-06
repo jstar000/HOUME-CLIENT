@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { overlay } from 'overlay-kit';
 import { useNavigate } from 'react-router-dom';
@@ -30,6 +30,44 @@ import TextButton from '@/shared/components/v2/btnText/TextButton';
 import { TOAST_TYPE } from '@/shared/types/toastLegacy';
 
 import * as styles from './SettingPage.css';
+
+interface SuccessionPopupProps {
+  onCancel: () => void;
+  onConfirm: () => void;
+  onClose: () => void;
+}
+
+const SuccessionPopup = ({
+  onCancel,
+  onConfirm,
+  onClose,
+}: SuccessionPopupProps) => {
+  useEffect(() => {
+    trackSettingSuccessionModalView();
+  }, []);
+
+  return (
+    <Popup
+      btnStyle="text"
+      topIconName="WarningFillDanger"
+      btnText="취소하기"
+      weakBtnText="탈퇴하기"
+      onConfirm={onConfirm}
+      onCancel={onCancel}
+      onClose={onClose}
+      content={
+        <div className={styles.popupContent}>
+          <h3 className={styles.popupTitle}>하우미 탈퇴 전 확인하세요</h3>
+          <p className={styles.popupDetail}>
+            탈퇴 시 생성했던 이미지와 함께
+            <br />
+            모든 정보가 삭제되며, 복구가 불가능해요.
+          </p>
+        </div>
+      }
+    />
+  );
+};
 
 const SettingPage = () => {
   const navigate = useNavigate();
@@ -85,38 +123,20 @@ const SettingPage = () => {
   const handleWithdraw = () => {
     trackSettingSuccessionClick();
 
-    overlay.open(({ unmount }) => {
-      trackSettingSuccessionModalView();
-
-      return (
-        <Popup
-          btnStyle="text"
-          topIconName="WarningFillDanger"
-          btnText="취소하기"
-          weakBtnText="탈퇴하기"
-          onConfirm={() => {
-            trackSuccessionMdCancelClick();
-            unmount();
-          }}
-          onCancel={() => {
-            trackSuccessionMdByeClick();
-            unmount();
-            deleteUser();
-          }}
-          onClose={unmount}
-          content={
-            <div className={styles.popupContent}>
-              <h3 className={styles.popupTitle}>하우미 탈퇴 전 확인하세요</h3>
-              <p className={styles.popupDetail}>
-                탈퇴 시 생성했던 이미지와 함께
-                <br />
-                모든 정보가 삭제되며, 복구가 불가능해요.
-              </p>
-            </div>
-          }
-        />
-      );
-    });
+    overlay.open(({ unmount }) => (
+      <SuccessionPopup
+        onConfirm={() => {
+          trackSuccessionMdCancelClick();
+          unmount();
+        }}
+        onCancel={() => {
+          trackSuccessionMdByeClick();
+          unmount();
+          deleteUser();
+        }}
+        onClose={unmount}
+      />
+    ));
   };
 
   return (
