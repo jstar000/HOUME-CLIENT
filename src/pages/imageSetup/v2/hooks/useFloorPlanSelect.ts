@@ -4,6 +4,8 @@ import { useImageFlowStore } from '@store/useImageFlowStore';
 
 import { TOAST_TYPE, TOASTER_ID } from '@shared/types/toast';
 
+import type { ExploreHouseTemplateItemResponse } from '@apis/__generated__/data-contracts';
+
 import { useToast } from '@components/v2/toast/useToast';
 
 import { TOAST_MESSAGE } from '@constants/toastMessage';
@@ -20,6 +22,8 @@ import type {
   ImageSetupSteps,
 } from '../../types/funnel/steps';
 
+const EMPTY_FLOOR_PLANS: ExploreHouseTemplateItemResponse[] = [];
+
 export const useFloorPlanSelect = (
   _context: ImageSetupSteps['FloorPlanSelect'],
   onNext: (data: CompletedFloorPlanSelect) => void
@@ -31,7 +35,7 @@ export const useFloorPlanSelect = (
   const { data: houseTemplatesData } = useHouseTemplatesQuery(
     store.appliedFilters
   );
-  const floorPlans = houseTemplatesData?.floorPlans ?? [];
+  const floorPlans = houseTemplatesData?.floorPlans ?? EMPTY_FLOOR_PLANS;
   // isExact=false: 필터에 정확 매칭 도면이 없어 서버가 비슷한 도면으로 대체 응답 → '이런 공간은 어떠세요?' UI로 분기
   // undefined일 때는 정상 그리드 fallback (응답 일관성 깨지거나 필드 누락 시 안전)
   const isExact = houseTemplatesData?.isExact !== false;
