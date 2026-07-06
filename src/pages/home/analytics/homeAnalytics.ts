@@ -9,12 +9,27 @@ import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
 import { loginStatusParams } from '@shared/analytics/utils/loginStatus';
 
+import type { ExploreHouseTemplateDetailResponse } from '@apis/__generated__/data-contracts';
+
 type HomeSpaceCardInput = {
   spaceId?: number;
   spaceName?: string;
+  spaceStruct?: string;
+  spaceSize?: string;
+  spaceView?: string;
   hasPreviousSpace?: boolean;
   hasPreviousImage?: boolean;
 };
+
+/** house-template 상세 API → home_spaceCard_click space_* 파라미터 */
+export const getHomeSpaceCardParamsFromDetail = (
+  detail?: ExploreHouseTemplateDetailResponse | null
+) => ({
+  spaceSize: detail?.equilibrium,
+  spaceView: detail?.floorPlans?.[0]?.view,
+  // v2 house-template detail 스펙에 structure 필드 없음
+  spaceStruct: undefined,
+});
 
 const homeScreenParams = () => ({
   screen_name: SCREEN_NAME.HOME,
@@ -59,12 +74,18 @@ export const trackHomeBannerSlideEvent = (
       ? homeScreenWithLoginParams()
       : homeScreenParams()),
     ...getHomeBannerParams({ bannerId: slide.id, bannerName: slide.title }),
+    ...(eventName === GA_EVENTS.home.BANNER_BG_IMG_CLICK && {
+      selected_banner_chip: '',
+    }),
   });
 };
 
 export const trackHomeSpaceCardClick = ({
   spaceId,
   spaceName,
+  spaceStruct,
+  spaceSize,
+  spaceView,
   hasPreviousSpace,
   hasPreviousImage,
 }: HomeSpaceCardInput) => {
@@ -74,6 +95,9 @@ export const trackHomeSpaceCardClick = ({
     has_previous_image: hasPreviousImage,
     space_id: spaceId,
     space_name: spaceName,
+    space_struct: spaceStruct,
+    space_size: spaceSize,
+    space_view: spaceView,
   });
 };
 

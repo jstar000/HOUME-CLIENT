@@ -1,20 +1,27 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 
+import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 import {
+  getHomeSpaceCardParamsFromDetail,
   trackHomeSpaceCardClick,
   trackHomeSpaceCardSlideScroll,
   trackHomeSpaceMoreCardClick,
   trackHomeSpaceMoreClick,
 } from '@pages/home/analytics/homeAnalytics';
+import { getHouseTemplateDetail } from '@pages/imageSetup/v2/apis/queries/useHouseTemplateDetailQuery';
 import { useHouseTemplatesQuery } from '@pages/imageSetup/v2/apis/queries/useHouseTemplatesQuery';
 
 import { ROUTES } from '@routes/paths';
 
 import { ENTRY_ROUTE, useImageFlowStore } from '@store/useImageFlowStore';
 
+import type { ExploreHouseTemplateDetailResponse } from '@apis/__generated__/data-contracts';
+
 import RoomTypeCard from '@components/v2/roomTypeCard/RoomTypeCard';
+
+import { queryKeys } from '@constants/queryKey';
 
 import TextButton from '@/shared/components/v2/btnText/TextButton';
 
@@ -30,9 +37,21 @@ const RoomTypeSection = ({
   hasPreviousSpace = false,
 }: RoomTypeSectionProps) => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const scrollDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { data } = useHouseTemplatesQuery({ size: 4 });
-  const floorPlans = data?.floorPlans ?? [];
+  const floorPlans = useMemo(() => data?.floorPlans ?? [], [data?.floorPlans]);
+
+  useEffect(() => {
+    floorPlans.forEach((plan) => {
+      if (plan.id == null) return;
+
+      void queryClient.prefetchQuery({
+        queryKey: queryKeys.imageSetup.houseTemplateDetail(plan.id),
+        queryFn: () => getHouseTemplateDetail(plan.id as number),
+      });
+    });
+  }, [floorPlans, queryClient]);
 
   const navigateToImageSetup = () => {
     useImageFlowStore
@@ -41,7 +60,6 @@ const RoomTypeSection = ({
     navigate(ROUTES.IMAGE_SETUP);
   };
 
-  // "더보기" / "more" 카드: floorPlanId 없이 진입, 사용자가 그리드에서 도면을 직접 선택
   const handleMoreClick = () => {
     trackHomeSpaceMoreClick();
     navigateToImageSetup();
@@ -52,15 +70,30 @@ const RoomTypeSection = ({
     navigateToImageSetup();
   };
 
-  // 홈에서 도면 카드 클릭: floorPlanId를 preset으로 전달 → 퍼널 진입 즉시 해당 도면 시트 자동 오픈
-  const handleFloorPlanClick = (floorPlanId: number | undefined) => {
+  const handleFloorPlanClick = async (floorPlanId: number | undefined) => {
     if (floorPlanId === undefined) return;
 
     const floorPlan = floorPlans.find((item) => item.id === floorPlanId);
 
+    let detail = queryClient.getQueryData<ExploreHouseTemplateDetailResponse>(
+      queryKeys.imageSetup.houseTemplateDetail(floorPlanId)
+    );
+
+    if (!detail) {
+      try {
+        detail = await queryClient.fetchQuery({
+          queryKey: queryKeys.imageSetup.houseTemplateDetail(floorPlanId),
+          queryFn: () => getHouseTemplateDetail(floorPlanId),
+        });
+      } catch {
+        detail = undefined;
+      }
+    }
+
     trackHomeSpaceCardClick({
       spaceId: floorPlanId,
-      spaceName: floorPlan?.name,
+      spaceName: floorPlan?.name ?? detail?.floorPlanName,
+      ...getHomeSpaceCardParamsFromDetail(detail),
       hasPreviousImage,
       hasPreviousSpace,
     });
