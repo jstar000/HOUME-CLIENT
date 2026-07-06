@@ -309,9 +309,8 @@ const SearchSection = ({
     onFocus: onSearchBarClick,
     onClear: onSearchClear,
     onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => {
-      if (event.key === 'Enter') {
-        onSearchSubmit();
-      }
+      if (event.key !== 'Enter' || event.nativeEvent.isComposing) return;
+      onSearchSubmit();
     },
   };
 
