@@ -11,8 +11,12 @@ export interface BannerChipInput {
 /** 배너 상세 chip 클릭 / CTA 이벤트 파라미터 */
 export const getBannerChipParams = (
   input: BannerChipInput
-): BannerChipParams => ({
-  banner_chip_id: input.chipId ?? input.answerId,
-  banner_chip_name: input.chipName,
-  selected_banner_chip: input.selectedText ?? input.answerText,
-});
+): BannerChipParams => {
+  const chipText = input.selectedText ?? input.answerText;
+
+  return {
+    banner_chip_id: input.chipId ?? input.answerId,
+    banner_chip_name: input.chipName ?? chipText,
+    selected_banner_chip: chipText,
+  };
+};

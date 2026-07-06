@@ -12,7 +12,7 @@ export type ActivityChip = (typeof ACTIVITY_CHIP)[keyof typeof ACTIVITY_CHIP];
 /** 무드보드·가구 선택 파라미터 */
 export interface ImageSetupParams {
   selected_moodBoard_ids?: string;
-  count_moodBoard?: number;
+  count_moodBard?: number;
   selected_activity_chip?: ActivityChip;
   /** ex. "bed_single, sofa_1seater, desk, mirror" */
   selected_furniture_chips?: string;
