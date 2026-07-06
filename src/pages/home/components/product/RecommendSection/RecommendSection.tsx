@@ -3,7 +3,6 @@ import { useCallback } from 'react';
 import {
   trackShopFeedCardSelectClick,
   trackShopFeedCardUnselectClick,
-  type ShopListContext,
 } from '@pages/home/analytics/shopAnalytics';
 import type { ProductSearchCardItem } from '@pages/home/hooks/useProductSearch';
 import type { SelectedProduct } from '@pages/home/types/productTab';
@@ -16,7 +15,6 @@ interface RecommendSectionProps {
   products: ProductSearchCardItem[];
   selectedProductIds: number[];
   onSelectProduct: (product: SelectedProduct) => void;
-  shopListContext: ShopListContext;
   onOpenProductDetail: (
     id: number,
     cardProduct: {
@@ -45,7 +43,6 @@ const RecommendSection = ({
   products,
   selectedProductIds,
   onSelectProduct,
-  shopListContext,
   onOpenProductDetail,
 }: RecommendSectionProps) => {
   const handleSaveToggleNoop = useCallback(() => {}, []);
@@ -107,7 +104,10 @@ const RecommendSection = ({
                 return;
               }
 
-              trackShopFeedCardSelectClick(selectedProduct, shopListContext);
+              trackShopFeedCardSelectClick(
+                selectedProduct,
+                [...selectedProductIds, id].join(', ')
+              );
               onSelectProduct(selectedProduct);
             },
           };

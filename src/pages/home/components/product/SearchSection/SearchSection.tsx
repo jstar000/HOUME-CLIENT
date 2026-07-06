@@ -171,7 +171,7 @@ const SearchSection = ({
           saveCount: cardSave.count,
           linkUrl: cardLink.href,
         },
-        shopListContext
+        selectedProductIds.join(', ') || undefined
       );
 
       overlay.open(({ unmount }) => (
@@ -183,11 +183,11 @@ const SearchSection = ({
           product={cardProduct}
           save={cardSave}
           shoppingAction={cardShoppingAction}
-          shopListContext={shopListContext}
+          selectedProductIds={selectedProductIds.join(', ') || undefined}
         />
       ));
     },
-    [shopListContext]
+    [selectedProductIds]
   );
 
   const renderProductCard = (item: ProductSearchCardItem) => {
@@ -239,7 +239,10 @@ const SearchSection = ({
           return;
         }
 
-        trackShopFeedCardSelectClick(selectedProduct, shopListContext);
+        trackShopFeedCardSelectClick(
+          selectedProduct,
+          [...selectedProductIds, id].join(', ')
+        );
         onSelectProduct(selectedProduct);
       },
     };
@@ -367,7 +370,6 @@ const SearchSection = ({
                     products={recommendedProducts}
                     selectedProductIds={selectedProductIds}
                     onSelectProduct={onSelectProduct}
-                    shopListContext={shopListContext}
                     onOpenProductDetail={openProductDetail}
                   />
                 </>

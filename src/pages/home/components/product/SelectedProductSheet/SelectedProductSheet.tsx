@@ -2,7 +2,6 @@ import { useCallback } from 'react';
 
 import { overlay } from 'overlay-kit';
 
-import type { ShopListContext } from '@pages/home/analytics/shopAnalytics';
 import ProductDetailOverlay from '@pages/home/components/product/ProductPopup/ProductDetailOverlay';
 import type { SelectedProduct } from '@pages/home/types/productTab';
 
@@ -17,7 +16,6 @@ interface SelectedProductSheetProps {
   onRemoveProduct: (id: number) => void;
   onAddProductClick?: () => void;
   onItemClick?: (product: SelectedProduct) => void;
-  shopListContext?: ShopListContext;
   maxCount?: number;
 }
 
@@ -27,7 +25,6 @@ const SelectedProductSheet = ({
   onRemoveProduct,
   onAddProductClick,
   onItemClick,
-  shopListContext,
   maxCount = 6,
 }: SelectedProductSheetProps) => {
   const selectedCount = selectedProducts.length;
@@ -70,11 +67,10 @@ const SelectedProductSheet = ({
             disabled: true,
             onClick: () => {},
           }}
-          shopListContext={shopListContext}
         />
       ));
     },
-    [handleSaveToggleNoop, onItemClick, shopListContext]
+    [handleSaveToggleNoop, onItemClick]
   );
 
   return (

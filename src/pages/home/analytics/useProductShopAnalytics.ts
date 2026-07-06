@@ -135,13 +135,19 @@ const useProductShopAnalytics = (
   );
 
   const scrollParams = useMemo(
-    () => getShopListContextParams(shopListContext),
+    () =>
+      getShopListContextParams(shopListContext, {
+        includeProductCountViewed: true,
+      }),
     [shopListContext]
   );
 
   const shopPageParams = useMemo(
     () =>
-      getShopListContextParams(shopListContext, { includeLoginStatus: true }),
+      getShopListContextParams(shopListContext, {
+        includeLoginStatus: true,
+        includeTriggerContext: true,
+      }),
     [shopListContext]
   );
 
@@ -151,8 +157,17 @@ const useProductShopAnalytics = (
     shopPageParams
   );
 
+  const pageScrollParams = useMemo(
+    () =>
+      getShopListContextParams(shopListContext, {
+        includeLoginStatus: true,
+        includeProductCountViewed: true,
+      }),
+    [shopListContext]
+  );
+
   useScrollDepthTrack(GA_EVENTS.shop.PAGE_SCROLL, SCREEN_NAME.SHOP, {
-    extraParams: shopPageParams,
+    extraParams: pageScrollParams,
   });
 
   useScrollDepthTrack(GA_EVENTS.shop.LIST_PRODUCT_SCROLL, SCREEN_NAME.SHOP, {

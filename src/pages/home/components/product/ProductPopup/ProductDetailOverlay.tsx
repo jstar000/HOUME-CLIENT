@@ -9,7 +9,6 @@ import {
   trackShopFeedDetailMdSelectClick,
   trackShopFeedDetailMdUnsaveClick,
   trackShopFeedDetailMdView,
-  type ShopListContext,
 } from '@pages/home/analytics/shopAnalytics';
 import { useProductDetailQuery } from '@pages/home/apis/queries/useProductDetailQuery';
 import { setReopenProduct } from '@pages/home/utils/productDetailOverlayReopen';
@@ -44,7 +43,7 @@ interface ProductDetailOverlayProps {
     onClick: () => void;
     disabled?: boolean;
   };
-  shopListContext?: ShopListContext;
+  selectedProductIds?: string;
 }
 
 const ProductDetailOverlay = ({
@@ -55,7 +54,7 @@ const ProductDetailOverlay = ({
   save,
   link,
   shoppingAction,
-  shopListContext,
+  selectedProductIds,
 }: ProductDetailOverlayProps) => {
   const navigate = useNavigate();
   const { data, isPending } = useProductDetailQuery(id);
@@ -140,12 +139,20 @@ const ProductDetailOverlay = ({
         title: merged.product.title,
         brand: merged.product.brand,
         discountPrice: merged.price?.discount,
+        categoryName: detail?.categoryName,
       },
-      shopListContext
+      selectedProductIds
     );
     shoppingAction?.onClick();
     unmount();
-  }, [id, merged, shopListContext, shoppingAction, unmount]);
+  }, [
+    detail?.categoryName,
+    id,
+    merged,
+    selectedProductIds,
+    shoppingAction,
+    unmount,
+  ]);
 
   useEffect(() => {
     if (location.pathname === openedPathRef.current) return;

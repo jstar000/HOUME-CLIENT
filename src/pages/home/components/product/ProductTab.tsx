@@ -112,7 +112,6 @@ const ProductTab = () => {
               discountRate: reopen.price?.discountRate ?? 0,
             }),
         }}
-        shopListContext={shopListContext}
       />
     ));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -157,7 +156,6 @@ const ProductTab = () => {
             onRemoveProduct={handleRemoveSelectedProduct}
             onAddProductClick={handleAddProductClick}
             onItemClick={handleSelectSheetItemClick}
-            shopListContext={shopListContext}
             maxCount={MAX_SELECTED_PRODUCTS}
           />
         }
