@@ -8,7 +8,6 @@
  * @see docs/ga-wiring-convention.md § 9 component 이벤트
  */
 import { GA_EVENTS } from '@shared/analytics/events';
-import { getProductCardParams } from '@shared/analytics/params/builders/productCard';
 import { SCREEN_NAME, type ScreenName } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
 
@@ -84,7 +83,8 @@ const getSaveToastParams = ({
   productName,
 }: SaveToastInput) => ({
   screen_name: screenName,
-  ...getProductCardParams({ productId: rawProductId, name: productName }),
+  product_id: rawProductId,
+  product_name: productName,
 });
 
 export const trackToastSaveView = (input: SaveToastInput) => {

@@ -1,5 +1,9 @@
 import { GA_EVENTS } from '@shared/analytics/events';
-import { getProductCardParams } from '@shared/analytics/params/builders/productCard';
+import {
+  getProductCardIdNameParams,
+  getProductCardListCardParams,
+  getProductCardOnCardParams,
+} from '@shared/analytics/params/builders/productCard';
 import type { ProductCardInput } from '@shared/analytics/params/builders/productCard';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
@@ -19,7 +23,7 @@ export const trackResultListBtnBackClick = () => {
 export const trackResultListListCardClick = (product: ProductCardInput) => {
   trackEvent(GA_EVENTS.resultList.LIST_CARD_CLICK, {
     ...resultListScreenParams(),
-    ...getProductCardParams(product),
+    ...getProductCardListCardParams(product),
   });
 };
 
@@ -28,14 +32,14 @@ export const trackResultListListCardGoSiteClick = (
 ) => {
   trackEvent(GA_EVENTS.resultList.LIST_CARD_GO_SITE_CLICK, {
     ...resultListScreenParams(),
-    ...getProductCardParams(product),
+    ...getProductCardListCardParams(product),
   });
 };
 
 export const trackResultListListCardSaveClick = (product: ProductCardInput) => {
   trackEvent(GA_EVENTS.resultList.LIST_CARD_SAVE_CLICK, {
     ...resultListScreenParams(),
-    ...getProductCardParams(product),
+    ...getProductCardIdNameParams(product),
   });
 };
 
@@ -44,7 +48,7 @@ export const trackResultListListCardUnsaveClick = (
 ) => {
   trackEvent(GA_EVENTS.resultList.LIST_CARD_UNSAVE_CLICK, {
     ...resultListScreenParams(),
-    ...getProductCardParams(product),
+    ...getProductCardIdNameParams(product),
   });
 };
 
@@ -62,7 +66,7 @@ export const trackResultListFeedCardOnCardClick = (
 ) => {
   trackEvent(GA_EVENTS.resultList.FEED_CARDON_CARD_CLICK, {
     ...resultListScreenParams(),
-    ...getProductCardParams(product),
+    ...getProductCardOnCardParams(product),
   });
 };
 
@@ -71,14 +75,14 @@ export const trackResultListFeedCardGoSiteClick = (
 ) => {
   trackEvent(GA_EVENTS.resultList.FEED_CARD_GO_SITE_CLICK, {
     ...resultListScreenParams(),
-    ...getProductCardParams(product),
+    ...getProductCardIdNameParams(product),
   });
 };
 
 export const trackResultListFeedCardSaveClick = (product: ProductCardInput) => {
   trackEvent(GA_EVENTS.resultList.FEED_CARD_SAVE_CLICK, {
     ...resultListScreenParams(),
-    ...getProductCardParams(product),
+    ...getProductCardIdNameParams(product),
   });
 };
 
@@ -87,7 +91,7 @@ export const trackResultListFeedCardUnsaveClick = (
 ) => {
   trackEvent(GA_EVENTS.resultList.FEED_CARD_UNSAVE_CLICK, {
     ...resultListScreenParams(),
-    ...getProductCardParams(product),
+    ...getProductCardIdNameParams(product),
   });
 };
 

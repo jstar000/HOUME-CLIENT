@@ -155,6 +155,8 @@ const GeneratedImagesSection = () => {
                     key={item.imageId}
                     cardType={isCurationCard ? 'curation' : 'list'}
                     productSummaryText={item.productSummaryText}
+                    bannerTitle={item.bannerTitle}
+                    viewType={item.viewType}
                     imageId={item.imageId}
                     imageUrl={item.generatedImageUrl}
                     isMirror={item.isMirror}

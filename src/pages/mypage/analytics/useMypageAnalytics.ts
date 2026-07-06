@@ -7,12 +7,10 @@ import {
   trackMypageBtnCtaEmptyGenImgClick,
   trackMypageBtnCtaEmptySavedItemClick,
   trackMypageBtnMoreGenImgClick,
-  trackMypageBtnMoreGenImgClickWithoutProduct,
   trackMypageBtnSettingClick,
   trackMypageBtnTextEmptyGenImgClick,
   trackMypageBtnTextEmptySavedItemClick,
   trackMypageCardGenImgClick,
-  trackMypageCardGenImgClickWithoutProduct,
   trackMypageFeedCardGoSiteClick,
   trackMypageFeedCardOnCardClick,
   trackMypageFeedCardSaveClick,
@@ -184,21 +182,11 @@ const useMypageGeneratedImagesSectionAnalytics = ({
   }, [groups, isListReady]);
 
   const trackCardGenImgClick = useCallback((item: ItemResponse) => {
-    const product = getPrimaryUsedProduct(item);
-    if (product) {
-      trackMypageCardGenImgClick(product);
-    } else {
-      trackMypageCardGenImgClickWithoutProduct();
-    }
+    trackMypageCardGenImgClick(item, getPrimaryUsedProduct(item));
   }, []);
 
   const trackMoreGenImgClick = useCallback((item: ItemResponse) => {
-    const product = getPrimaryUsedProduct(item);
-    if (product) {
-      trackMypageBtnMoreGenImgClick(product);
-    } else {
-      trackMypageBtnMoreGenImgClickWithoutProduct();
-    }
+    trackMypageBtnMoreGenImgClick(item, getPrimaryUsedProduct(item));
   }, []);
 
   return {
@@ -212,13 +200,16 @@ const useMypageGeneratedImagesSectionAnalytics = ({
 // ---------------------------------------------------------------------------
 
 interface UseMypageGenImgCardSectionAnalyticsOptions {
-  imageId: number;
+  item: Pick<
+    ItemResponse,
+    'imageId' | 'viewType' | 'bannerTitle' | 'productSummaryText'
+  >;
   isListType: boolean;
   usedProducts: UsedProductResponse[];
 }
 
 const useMypageGenImgCardSectionAnalytics = ({
-  imageId,
+  item,
   isListType,
   usedProducts,
 }: UseMypageGenImgCardSectionAnalyticsOptions) => {
@@ -227,7 +218,7 @@ const useMypageGenImgCardSectionAnalytics = ({
 
   useEffect(() => {
     trackedListCardViewRef.current = false;
-  }, [imageId, usedProducts]);
+  }, [item.imageId, usedProducts]);
 
   useEffect(() => {
     if (
@@ -271,11 +262,11 @@ const useMypageGenImgCardSectionAnalytics = ({
         (product) => product.rawProductId != null
       );
       trackMypageSlideGenImgItemScroll({
-        genImgId: imageId,
+        item,
         product: firstProduct,
       });
     }, 300);
-  }, [imageId, usedProducts]);
+  }, [item, usedProducts]);
 
   return {
     handleListCardClick,

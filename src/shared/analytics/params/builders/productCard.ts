@@ -65,6 +65,47 @@ export const getProductCardParams = (
   };
 };
 
+/** GoSite / Save / Unsave 등 product_id·product_name만 스펙에 있는 이벤트 */
+export const getProductCardIdNameParams = (
+  product: ProductCardInput
+): Pick<ProductCardParams, 'product_id' | 'product_name'> => {
+  const { product_id, product_name } = getProductCardParams(product);
+  return { product_id, product_name };
+};
+
+/** 피드 onCard·view 등 카드 본문 클릭/노출 스펙 */
+export const getProductCardOnCardParams = (
+  product: ProductCardInput
+): Pick<
+  ProductCardParams,
+  | 'product_id'
+  | 'product_name'
+  | 'product_brand'
+  | 'product_price'
+  | 'product_category'
+> => {
+  const full = getProductCardParams(product);
+  return {
+    product_id: full.product_id,
+    product_name: full.product_name,
+    product_brand: full.product_brand,
+    product_price: full.product_price,
+    product_category: full.product_category,
+  };
+};
+
+/** 리스트 카드 click / GoSite 스펙 (mypage·resultList listCard 등) */
+export const getProductCardListCardParams = (
+  product: ProductCardInput
+): Pick<
+  ProductCardParams,
+  | 'product_id'
+  | 'product_name'
+  | 'product_brand'
+  | 'product_price'
+  | 'product_category'
+> => getProductCardOnCardParams(product);
+
 /** resultRec curation 피드 — ProductInfo */
 export const toProductCardInputFromProductInfo = (product: {
   id?: number;

@@ -1,15 +1,20 @@
 import { GA_EVENTS } from '@shared/analytics/events';
 import {
+  getProductCardIdNameParams,
+  getProductCardListCardParams,
+  getProductCardOnCardParams,
   getProductCardParams,
   toProductCardInputFromJjymFeed,
   toProductCardInputFromUsedListProduct,
 } from '@shared/analytics/params/builders/productCard';
+import { IMG_RESULT_TYPE } from '@shared/analytics/params/result';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
 import { getReturnScreenNameParams } from '@shared/analytics/utils/screenName';
 
 import type {
   DateGroupResponse,
+  ItemResponse,
   UsedProductResponse,
 } from '@apis/__generated__/data-contracts';
 
@@ -41,66 +46,95 @@ export const getMypageGenImgListParams = (groups: DateGroupResponse[] = []) => {
   return { mypage_img_count };
 };
 
+const mapViewTypeToImgResultType = (
+  viewType?: ItemResponse['viewType']
+): (typeof IMG_RESULT_TYPE)[keyof typeof IMG_RESULT_TYPE] | undefined => {
+  if (viewType === 'PRODUCT') {
+    return IMG_RESULT_TYPE.LIST;
+  }
+
+  if (
+    viewType === 'FULL_FUNNEL' ||
+    viewType === 'LEGACY' ||
+    viewType === 'BANNER' ||
+    viewType === 'STYLE'
+  ) {
+    return IMG_RESULT_TYPE.RECOMMEND;
+  }
+
+  return undefined;
+};
+
+export const getMypageGenImgItemParams = (item: ItemResponse) => ({
+  gen_img_id: item.imageId,
+  gen_img_style: item.bannerTitle ?? item.productSummaryText ?? undefined,
+  img_result_type: mapViewTypeToImgResultType(item.viewType),
+});
+
 export const trackMypageFeedCardView = (item: FurnitureItem) => {
   trackEvent(GA_EVENTS.mypage.FEED_CARD_VIEW, {
     ...mypageScreenParams(),
-    ...getProductCardParams(toProductCardInputFromJjymFeed(item)),
+    ...getProductCardOnCardParams(toProductCardInputFromJjymFeed(item)),
   });
 };
 
 export const trackMypageFeedCardGoSiteClick = (item: FurnitureItem) => {
   trackEvent(GA_EVENTS.mypage.FEED_CARD_GO_SITE_CLICK, {
     ...mypageScreenParams(),
-    ...getProductCardParams(toProductCardInputFromJjymFeed(item)),
+    ...getProductCardIdNameParams(toProductCardInputFromJjymFeed(item)),
   });
 };
 
 export const trackMypageFeedCardSaveClick = (item: FurnitureItem) => {
   trackEvent(GA_EVENTS.mypage.FEED_CARD_SAVE_CLICK, {
     ...mypageScreenParams(),
-    ...getProductCardParams(toProductCardInputFromJjymFeed(item)),
+    ...getProductCardIdNameParams(toProductCardInputFromJjymFeed(item)),
   });
 };
 
 export const trackMypageFeedCardUnsaveClick = (item: FurnitureItem) => {
   trackEvent(GA_EVENTS.mypage.FEED_CARD_UNSAVE_CLICK, {
     ...mypageScreenParams(),
-    ...getProductCardParams(toProductCardInputFromJjymFeed(item)),
+    ...getProductCardIdNameParams(toProductCardInputFromJjymFeed(item)),
   });
 };
 
 export const trackMypageFeedCardOnCardClick = (item: FurnitureItem) => {
   trackEvent(GA_EVENTS.mypage.FEED_CARDON_CARD_CLICK, {
     ...mypageScreenParams(),
-    ...getProductCardParams(toProductCardInputFromJjymFeed(item)),
+    ...getProductCardOnCardParams(toProductCardInputFromJjymFeed(item)),
   });
 };
 
 export const trackMypageListCardClick = (item: UsedProductResponse) => {
   trackEvent(GA_EVENTS.mypage.LIST_CARD_CLICK, {
     ...mypageScreenParams(),
-    ...getProductCardParams(toProductCardInputFromUsedListProduct(item)),
+    ...getProductCardListCardParams(
+      toProductCardInputFromUsedListProduct(item)
+    ),
   });
 };
 
 export const trackMypageListCardGoSiteClick = (item: UsedProductResponse) => {
   trackEvent(GA_EVENTS.mypage.LIST_CARD_GO_SITE_CLICK, {
     ...mypageScreenParams(),
-    ...getProductCardParams(toProductCardInputFromUsedListProduct(item)),
+    ...getProductCardListCardParams(
+      toProductCardInputFromUsedListProduct(item)
+    ),
   });
 };
 
 export const trackMypageListCardSaveClick = (item: UsedProductResponse) => {
   trackEvent(GA_EVENTS.mypage.LIST_CARD_SAVE_CLICK, {
     ...mypageScreenParams(),
-    ...getProductCardParams(toProductCardInputFromUsedListProduct(item)),
+    ...getProductCardIdNameParams(toProductCardInputFromUsedListProduct(item)),
   });
 };
 
 export const trackMypageListCardUnsaveClick = (item: UsedProductResponse) => {
   trackEvent(GA_EVENTS.mypage.LIST_CARD_UNSAVE_CLICK, {
     ...mypageScreenParams(),
-    ...getProductCardParams(toProductCardInputFromUsedListProduct(item)),
+    ...getProductCardIdNameParams(toProductCardInputFromUsedListProduct(item)),
   });
 };
 
@@ -109,11 +143,11 @@ export const trackMypageListCardView = () => {
 };
 
 export const trackMypageTabSavedItemClick = () => {
-  trackEvent(GA_EVENTS.mypage.TAB_SAVED_ITEM_CLICK, mypageScreenParams());
+  trackEvent(GA_EVENTS.mypage.TAB_SAVED_ITEM_CLICK);
 };
 
 export const trackMypageTabGenImgClick = () => {
-  trackEvent(GA_EVENTS.mypage.TAB_GEN_IMG_CLICK, mypageScreenParams());
+  trackEvent(GA_EVENTS.mypage.TAB_GEN_IMG_CLICK);
 };
 
 export const trackMypageBtnBackClick = () => {
@@ -123,11 +157,17 @@ export const trackMypageBtnBackClick = () => {
   });
 };
 
-export const trackMypageCardGenImgClick = (item: UsedProductResponse) => {
+export const trackMypageCardGenImgClick = (
+  item: ItemResponse,
+  product?: UsedProductResponse
+) => {
   trackEvent(GA_EVENTS.mypage.CARD_GEN_IMG_CLICK, {
     ...mypageScreenParams(),
     ...mypageReturnScreenParams(),
-    ...getProductCardParams(toProductCardInputFromUsedListProduct(item)),
+    ...getMypageGenImgItemParams(item),
+    ...getProductCardListCardParams(
+      toProductCardInputFromUsedListProduct(product ?? {})
+    ),
   });
 };
 
@@ -145,23 +185,29 @@ export const trackMypageListSavedItemView = (items: FurnitureItem[]) => {
   });
 };
 
-export const trackMypageBtnMoreGenImgClick = (item: UsedProductResponse) => {
+export const trackMypageBtnMoreGenImgClick = (
+  item: ItemResponse,
+  product?: UsedProductResponse
+) => {
   trackEvent(GA_EVENTS.mypage.BTN_MORE_GEN_IMG_CLICK, {
     ...mypageScreenParams(),
     ...mypageReturnScreenParams(),
-    ...getProductCardParams(toProductCardInputFromUsedListProduct(item)),
+    ...getMypageGenImgItemParams(item),
+    ...getProductCardListCardParams(
+      toProductCardInputFromUsedListProduct(product ?? {})
+    ),
   });
 };
 
 export const trackMypageSlideGenImgItemScroll = ({
-  genImgId,
+  item,
   product,
 }: {
-  genImgId: number;
+  item: ItemResponse;
   product?: UsedProductResponse;
 }) => {
   trackEvent(GA_EVENTS.mypage.SLIDE_GEN_IMG_ITEM_SCROLL, {
-    gen_img_id: genImgId,
+    ...getMypageGenImgItemParams(item),
     ...getProductCardParams(
       product ? toProductCardInputFromUsedListProduct(product) : {}
     ),
@@ -169,7 +215,7 @@ export const trackMypageSlideGenImgItemScroll = ({
 };
 
 export const trackMypageBtnSettingClick = () => {
-  trackEvent(GA_EVENTS.mypage.BTN_SETTING_CLICK, mypageScreenParams());
+  trackEvent(GA_EVENTS.mypage.BTN_SETTING_CLICK);
 };
 
 export const trackMypageListEmptyGenImgView = (
@@ -223,20 +269,5 @@ export const trackMypageBtnTextEmptySavedItemClick = (
   trackEvent(GA_EVENTS.mypage.BTN_TEXT_EMPTY_SAVED_ITEM_CLICK, {
     ...mypageScreenParams(),
     ...getMypageSavedItemsListParams(items),
-  });
-};
-
-/** 생성 이미지 카드 클릭 시 usedProducts가 없을 때 product 파라미터 없이 전송 */
-export const trackMypageCardGenImgClickWithoutProduct = () => {
-  trackEvent(GA_EVENTS.mypage.CARD_GEN_IMG_CLICK, {
-    ...mypageScreenParams(),
-    ...mypageReturnScreenParams(),
-  });
-};
-
-export const trackMypageBtnMoreGenImgClickWithoutProduct = () => {
-  trackEvent(GA_EVENTS.mypage.BTN_MORE_GEN_IMG_CLICK, {
-    ...mypageScreenParams(),
-    ...mypageReturnScreenParams(),
   });
 };

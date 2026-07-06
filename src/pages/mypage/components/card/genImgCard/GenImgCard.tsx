@@ -6,7 +6,10 @@ import { ROUTES } from '@routes/paths';
 
 import { LOGIN_ENTRY_ROUTE } from '@shared/analytics/params/gate';
 
-import type { UsedProductResponse } from '@apis/__generated__/data-contracts';
+import type {
+  ItemResponse,
+  UsedProductResponse,
+} from '@apis/__generated__/data-contracts';
 import { useJjymMutation } from '@apis/mutations/useJjymMutation';
 
 import emptyImage from '@assets/v2/images/ImgEmpty.png';
@@ -20,6 +23,8 @@ import * as styles from './GenImgCard.css';
 interface GenImgCardProps {
   cardType?: 'list' | 'curation';
   productSummaryText?: string | null;
+  bannerTitle?: string | null;
+  viewType?: ItemResponse['viewType'];
   imageId: number;
   imageUrl?: string;
   isMirror?: boolean;
@@ -32,6 +37,8 @@ interface GenImgCardProps {
 const GenImgCard = ({
   cardType = 'list',
   productSummaryText,
+  bannerTitle,
+  viewType,
   imageId,
   imageUrl,
   isMirror = false,
@@ -49,7 +56,12 @@ const GenImgCard = ({
     handleListCardSaveToggle,
     handleSlideScroll,
   } = useMypageGenImgCardAnalytics({
-    imageId,
+    item: {
+      imageId,
+      viewType,
+      bannerTitle,
+      productSummaryText,
+    },
     isListType,
     usedProducts,
   });

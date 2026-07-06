@@ -1,6 +1,7 @@
 import { GA_EVENTS } from '@shared/analytics/events';
 import {
-  getProductCardParams,
+  getProductCardIdNameParams,
+  getProductCardOnCardParams,
   joinAnalyticsIds,
 } from '@shared/analytics/params/builders/productCard';
 import type { ProductCardInput } from '@shared/analytics/params/builders/productCard';
@@ -62,7 +63,7 @@ export const trackResultRecFeedCardOnCardClick = (
 ) => {
   trackEvent(GA_EVENTS.resultRec.FEED_CARDON_CARD_CLICK, {
     ...resultRecScreenParams(),
-    ...getProductCardParams(product),
+    ...getProductCardOnCardParams(product),
   });
 };
 
@@ -87,14 +88,14 @@ export const trackResultRecFeedCardGoSiteClick = (
 ) => {
   trackEvent(GA_EVENTS.resultRec.FEED_CARD_GO_SITE_CLICK, {
     ...resultRecScreenParams(),
-    ...getProductCardParams(product),
+    ...getProductCardIdNameParams(product),
   });
 };
 
 export const trackResultRecFeedCardSaveClick = (product: ProductCardInput) => {
   trackEvent(GA_EVENTS.resultRec.FEED_CARD_SAVE_CLICK, {
     ...resultRecScreenParams(),
-    ...getProductCardParams(product),
+    ...getProductCardIdNameParams(product),
   });
 };
 
@@ -103,7 +104,7 @@ export const trackResultRecFeedCardUnsaveClick = (
 ) => {
   trackEvent(GA_EVENTS.resultRec.FEED_CARD_UNSAVE_CLICK, {
     ...resultRecScreenParams(),
-    ...getProductCardParams(product),
+    ...getProductCardIdNameParams(product),
   });
 };
 
