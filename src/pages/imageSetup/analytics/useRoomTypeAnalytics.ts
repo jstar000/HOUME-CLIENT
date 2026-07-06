@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef } from 'react';
 
 import {
-  getRoomTypePreviousSpaceParams,
+  getRoomTypePageViewParams,
+  setRoomTypeScrollElement,
   trackRoomTypeCardRoomClick,
   trackRoomTypeEmptyListRecCardClick,
   trackRoomTypeEmptyListRecCardView,
@@ -59,7 +60,7 @@ export const useRoomTypeAnalytics = (
   useAnalyticsPageView(
     GA_EVENTS.roomType.PAGE_VIEW,
     SCREEN_NAME.ROOM_TYPE,
-    getRoomTypePreviousSpaceParams(recentFloorPlan)
+    getRoomTypePageViewParams(recentFloorPlan)
   );
 
   useScrollDepthTrack(GA_EVENTS.roomType.PAGE_SCROLL, SCREEN_NAME.ROOM_TYPE, {
@@ -67,22 +68,34 @@ export const useRoomTypeAnalytics = (
   });
 
   useEffect(() => {
+    setRoomTypeScrollElement(gridScrollRef.current);
+
+    return () => {
+      setRoomTypeScrollElement(null);
+    };
+  }, []);
+
+  useEffect(() => {
     if (isExact) {
-      trackRoomTypeListRoomCardView(grid.appliedFilters, floorPlans.length);
+      trackRoomTypeListRoomCardView(grid.appliedFilters);
       return;
     }
-
-    trackRoomTypeListEmptyView(grid.appliedFilters);
 
     const alternativeSpaceIds = floorPlans
       .map((plan) => plan.id)
       .filter((id): id is number => id !== undefined);
 
+    trackRoomTypeListEmptyView(grid.appliedFilters, {
+      spaceCount: floorPlans.length,
+      alternativeSpaceIds,
+    });
+
     if (alternativeSpaceIds.length > 0) {
-      trackRoomTypeEmptyListRecCardView(
-        grid.appliedFilters,
-        alternativeSpaceIds
-      );
+      trackRoomTypeEmptyListRecCardView(grid.appliedFilters, {
+        spaceCount: floorPlans.length,
+        alternativeSpaceIds,
+        spaceId: alternativeSpaceIds[0],
+      });
     }
   }, [floorPlans, grid.appliedFilters, isExact]);
 
@@ -142,9 +155,16 @@ export const useRoomTypeAnalytics = (
       if (!plan?.id) return;
 
       if (fromRecommendation) {
-        trackRoomTypeEmptyListRecCardClick(plan, grid.appliedFilters);
+        const alternativeSpaceIds = floorPlans
+          .map((item) => item.id)
+          .filter((id): id is number => id !== undefined);
+
+        trackRoomTypeEmptyListRecCardClick(plan, grid.appliedFilters, {
+          spaceCount: floorPlans.length,
+          alternativeSpaceIds,
+        });
       } else {
-        trackRoomTypeCardRoomClick(plan, grid.appliedFilters);
+        trackRoomTypeCardRoomClick(plan);
       }
 
       handleCardClick(floorPlanId);

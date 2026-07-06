@@ -3,6 +3,11 @@ import type { FloorPlanFilters } from '@pages/imageSetup/v2/types/floorPlan';
 
 import { GA_EVENTS } from '@shared/analytics/events';
 import {
+  getScrollDepthFromElement,
+  getScrollDepthFromWindow,
+  scrollDepthParams,
+} from '@shared/analytics/params/scrollDepth';
+import {
   SPACE_VIEW_TYPE,
   type SpaceViewType,
 } from '@shared/analytics/params/space';
@@ -14,11 +19,18 @@ import {
   toSheetExpansionStatus,
 } from '@shared/analytics/utils/imageFlow';
 import { loginStatusParams } from '@shared/analytics/utils/loginStatus';
+import { getPreviousScreenName } from '@shared/analytics/utils/screenName';
 
 import type {
   ExploreHouseTemplateItemResponse,
   RecentFloorPlanResponse,
 } from '@apis/__generated__/data-contracts';
+
+let roomTypeScrollElement: HTMLElement | null = null;
+
+export const setRoomTypeScrollElement = (element: HTMLElement | null) => {
+  roomTypeScrollElement = element;
+};
 
 const roomTypeScreenParams = () => ({
   screen_name: SCREEN_NAME.ROOM_TYPE,
@@ -64,6 +76,13 @@ export const getRoomTypePreviousSpaceParams = (
   previous_space_name: recentFloorPlan?.floorPlanName,
 });
 
+export const getRoomTypePageViewParams = (
+  recentFloorPlan?: RecentFloorPlanResponse | null
+) => ({
+  previous_screen_name: getPreviousScreenName(),
+  ...getRoomTypePreviousSpaceParams(recentFloorPlan),
+});
+
 const getSpaceViewType = (viewCount: number): SpaceViewType =>
   viewCount > 1 ? SPACE_VIEW_TYPE.MULTI : SPACE_VIEW_TYPE.ONLY;
 
@@ -103,25 +122,33 @@ const filterSheetParams = () => ({
 });
 
 export const trackRoomTypeCardRoomClick = (
-  plan: Pick<ExploreHouseTemplateItemResponse, 'id' | 'name'>,
-  appliedFilters: FloorPlanFilters
+  plan: Pick<ExploreHouseTemplateItemResponse, 'id' | 'name'>
 ) => {
   trackEvent(GA_EVENTS.roomType.CARD_ROOM_CLICK, {
     ...roomTypeScreenParams(),
-    ...getRoomTypeFilterParams(appliedFilters),
     ...getRoomTypeSpaceCardParams(plan),
   });
 };
 
 export const trackRoomTypeEmptyListRecCardClick = (
   plan: Pick<ExploreHouseTemplateItemResponse, 'id' | 'name'>,
-  appliedFilters: FloorPlanFilters
+  appliedFilters: FloorPlanFilters,
+  {
+    spaceCount,
+    alternativeSpaceIds,
+  }: { spaceCount: number; alternativeSpaceIds: number[] }
 ) => {
   trackEvent(GA_EVENTS.roomType.EMPTY_LIST_REC_CARD_CLICK, {
     ...roomTypeScreenParams(),
     ...loginStatusParams(),
     ...getRoomTypeFilterParams(appliedFilters),
     ...getRoomTypeSpaceCardParams(plan),
+    space_count: spaceCount,
+    space_id: plan.id,
+    alternative_space_ids:
+      alternativeSpaceIds.length > 0
+        ? alternativeSpaceIds.join(', ')
+        : undefined,
   });
 };
 
@@ -148,34 +175,47 @@ export const trackRoomTypeFilterSheetDimmedClick = () => {
 };
 
 export const trackRoomTypeListRoomCardView = (
-  appliedFilters: FloorPlanFilters,
-  spaceCount: number
+  appliedFilters: FloorPlanFilters
 ) => {
   trackEvent(GA_EVENTS.roomType.LIST_ROOM_CARD_VIEW, {
     ...roomTypeScreenParams(),
     ...getRoomTypeFilterParams(appliedFilters),
-    space_count: spaceCount,
   });
 };
 
 export const trackRoomTypeListEmptyView = (
-  appliedFilters: FloorPlanFilters
+  appliedFilters: FloorPlanFilters,
+  {
+    spaceCount,
+    alternativeSpaceIds,
+  }: { spaceCount: number; alternativeSpaceIds: number[] }
 ) => {
   trackEvent(GA_EVENTS.roomType.LIST_EMPTY_VIEW, {
     ...roomTypeScreenParams(),
     ...loginStatusParams(),
     ...getRoomTypeFilterParams(appliedFilters),
+    space_count: spaceCount,
+    alternative_space_ids:
+      alternativeSpaceIds.length > 0
+        ? alternativeSpaceIds.join(', ')
+        : undefined,
   });
 };
 
 export const trackRoomTypeEmptyListRecCardView = (
   appliedFilters: FloorPlanFilters,
-  alternativeSpaceIds: number[]
+  {
+    spaceCount,
+    alternativeSpaceIds,
+    spaceId,
+  }: { spaceCount: number; alternativeSpaceIds: number[]; spaceId?: number }
 ) => {
   trackEvent(GA_EVENTS.roomType.EMPTY_LIST_REC_CARD_VIEW, {
     ...roomTypeScreenParams(),
     ...loginStatusParams(),
     ...getRoomTypeFilterParams(appliedFilters),
+    space_count: spaceCount,
+    space_id: spaceId,
     alternative_space_ids:
       alternativeSpaceIds.length > 0
         ? alternativeSpaceIds.join(', ')
@@ -234,14 +274,22 @@ export const trackRoomTypeViewSheetSubmit = ({
     space_view: floorPlanView,
     space_size: equilibrium,
     sheet_expansion_status: toSheetExpansionStatus(true),
-    ...getRoomTypePreviousSpaceParams(recentFloorPlan),
+    previous_space_id: recentFloorPlan?.floorPlanId,
+    previous_space_name: recentFloorPlan?.floorPlanName,
   });
 };
 
 export const trackRoomTypeBtnBackClick = () => {
-  trackEvent(GA_EVENTS.roomType.BTN_BACK_CLICK, roomTypeScreenParams());
+  const scrollDepth = roomTypeScrollElement
+    ? getScrollDepthFromElement(roomTypeScrollElement)
+    : getScrollDepthFromWindow();
+
+  trackEvent(GA_EVENTS.roomType.BTN_BACK_CLICK, {
+    ...roomTypeScreenParams(),
+    ...scrollDepthParams(scrollDepth),
+  });
 };
 
 export const trackRoomTypeMdResetInfoView = () => {
-  trackEvent(GA_EVENTS.roomType.MD_RESET_INFO_VIEW, roomTypeScreenParams());
+  trackEvent(GA_EVENTS.roomType.MD_RESET_INFO_VIEW);
 };

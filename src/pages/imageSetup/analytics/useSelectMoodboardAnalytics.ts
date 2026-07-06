@@ -51,7 +51,7 @@ export const useSelectMoodboardAnalytics = (
       const isSelected = selectedImages.includes(imageId);
 
       if (!isSelected) {
-        trackSelectMoodboardCardClick(selectedImages, imageId);
+        trackSelectMoodboardCardClick();
       }
 
       handleImageSelect(imageId);

@@ -1,4 +1,8 @@
 import { GA_EVENTS } from '@shared/analytics/events';
+import {
+  getScrollDepthFromWindow,
+  scrollDepthParams,
+} from '@shared/analytics/params/scrollDepth';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
 import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
@@ -12,7 +16,7 @@ const selectMoodboardScreenParams = () => ({
 const moodboardSelectionParams = (selectedImages: number[]) => ({
   image_entry_route: getEntryRoute(),
   selected_moodBoard_ids: buildMoodboardIdsParam(selectedImages),
-  count_moodBoard: selectedImages.length,
+  count_moodBard: selectedImages.length,
 });
 
 export const trackSelectMoodboardBtnCtaInactiveClick = () => {
@@ -29,17 +33,10 @@ export const trackSelectMoodboardBtnCtaClick = (selectedImages: number[]) => {
   });
 };
 
-export const trackSelectMoodboardCardClick = (
-  selectedImages: number[],
-  moodboardId: number
-) => {
-  const nextSelected = selectedImages.includes(moodboardId)
-    ? selectedImages
-    : [...selectedImages, moodboardId];
-
+export const trackSelectMoodboardCardClick = () => {
   trackEvent(GA_EVENTS.selectMoodboard.CARD_CLICK, {
     ...selectMoodboardScreenParams(),
     ...loginStatusParams(),
-    ...moodboardSelectionParams(nextSelected),
+    ...scrollDepthParams(getScrollDepthFromWindow()),
   });
 };
