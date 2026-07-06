@@ -116,7 +116,7 @@ const HomePage = () => {
   };
 
   const handleLogin = () => {
-    setLoginRedirect(window.location.pathname + window.location.search);
+    setLoginRedirect(location.pathname + location.search);
     persistLoginEntryRoute(LOGIN_ENTRY_ROUTE.TOP_NAV_LOGIN);
     navigate(ROUTES.LOGIN);
   };
