@@ -168,7 +168,9 @@ const FunnelLayout = ({ children, currentStep }: FunnelLayoutProps) => {
           navigate(-1);
         }}
       />
-      <div className={styles.content}>{children}</div>
+      <div className={styles.content}>
+        <div className={styles.contentInner}>{children}</div>
+      </div>
     </div>
   );
 };

@@ -2,6 +2,7 @@ import { useRoomTypeAnalytics } from '@pages/imageSetup/analytics/useRoomTypeAna
 
 import FilterSheet from './FilterSheet';
 import FloorPlanSelectGrid from './FloorPlanSelectGrid';
+import * as styles from './FloorPlanSelectStep.css';
 import FloorPlanSheet from './FloorPlanSheet';
 
 import type {
@@ -30,21 +31,23 @@ const FloorPlanSelectStep = ({ context, onNext }: FloorPlanSelectStepProps) => {
     filterSheet,
     floorPlanSheet,
     recentSheet,
-    gridScrollRef,
+    setGridScrollRef,
   } = useRoomTypeAnalytics(context, onNext);
 
   return (
     <>
-      <FloorPlanSelectGrid
-        gridScrollRef={gridScrollRef}
-        filterCategories={filterCategories}
-        floorPlans={floorPlans}
-        isExact={isExact}
-        appliedFilters={grid.appliedFilters}
-        onCardClick={handleCardClick}
-        onFilterChipClick={grid.onFilterChipClick}
-        onFilterChipClear={grid.onFilterChipClear}
-      />
+      <div className={styles.container}>
+        <FloorPlanSelectGrid
+          gridScrollRef={setGridScrollRef}
+          filterCategories={filterCategories}
+          floorPlans={floorPlans}
+          isExact={isExact}
+          appliedFilters={grid.appliedFilters}
+          onCardClick={handleCardClick}
+          onFilterChipClick={grid.onFilterChipClick}
+          onFilterChipClear={grid.onFilterChipClear}
+        />
+      </div>
 
       <FilterSheet
         open={filterSheet.open}

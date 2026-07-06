@@ -33,8 +33,13 @@ export const useRoomTypeAnalytics = (
   context: ImageSetupSteps['FloorPlanSelect'],
   onNext: (data: CompletedFloorPlanSelect) => void
 ) => {
-  const gridScrollRef = useRef<HTMLDivElement>(null);
+  const gridScrollRef = useRef<HTMLDivElement | null>(null);
   const trackedViewSheetKeyRef = useRef<string | null>(null);
+
+  const setGridScrollRef = useCallback((node: HTMLDivElement | null) => {
+    gridScrollRef.current = node;
+    setRoomTypeScrollElement(node);
+  }, []);
 
   const floorPlanSelect = useFloorPlanSelect(context, onNext);
   const {
@@ -66,14 +71,6 @@ export const useRoomTypeAnalytics = (
   useScrollDepthTrack(GA_EVENTS.roomType.PAGE_SCROLL, SCREEN_NAME.ROOM_TYPE, {
     getScrollElement: () => gridScrollRef.current,
   });
-
-  useEffect(() => {
-    setRoomTypeScrollElement(gridScrollRef.current);
-
-    return () => {
-      setRoomTypeScrollElement(null);
-    };
-  }, []);
 
   useEffect(() => {
     if (isExact) {
@@ -236,7 +233,7 @@ export const useRoomTypeAnalytics = (
   }, [filterSheet]);
 
   return {
-    gridScrollRef,
+    setGridScrollRef,
     filterCategories: floorPlanSelect.filterCategories,
     floorPlans,
     isExact,

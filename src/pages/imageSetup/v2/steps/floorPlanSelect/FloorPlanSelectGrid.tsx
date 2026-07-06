@@ -1,4 +1,4 @@
-import type { RefObject } from 'react';
+import type { Ref } from 'react';
 
 import type { ExploreHouseTemplateItemResponse } from '@apis/__generated__/data-contracts';
 
@@ -13,7 +13,7 @@ import * as styles from './FloorPlanSelectGrid.css';
 import type { FilterCategory, FloorPlanFilters } from '../../types/floorPlan';
 
 interface FloorPlanSelectGridProps {
-  gridScrollRef: RefObject<HTMLDivElement | null>;
+  gridScrollRef: Ref<HTMLDivElement | null>;
   filterCategories: FilterCategory[];
   floorPlans: ExploreHouseTemplateItemResponse[];
   isExact: boolean;

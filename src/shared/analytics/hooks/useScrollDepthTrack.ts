@@ -72,16 +72,32 @@ export const useScrollDepthTrack = (
     let boundElement: HTMLElement | null = null;
     let retryTimerId: number | undefined;
 
-    const handleElementScroll = () => {
-      if (!boundElement) return;
+    const getElementScrollPercent = (element: HTMLElement): number => {
+      const maxScroll = element.scrollHeight - element.clientHeight;
+      return maxScroll <= 0 ? 0 : (element.scrollTop / maxScroll) * 100;
+    };
 
-      tracker.trackFromElement(boundElement, onReachDepth);
+    const getWindowScrollPercent = (): number => {
+      const maxScroll =
+        document.documentElement.scrollHeight - window.innerHeight;
+      return maxScroll <= 0 ? 0 : (window.scrollY / maxScroll) * 100;
+    };
+
+    const handleScroll = () => {
+      const elementPercent = boundElement
+        ? getElementScrollPercent(boundElement)
+        : 0;
+
+      tracker.trackFromPercent(
+        Math.max(elementPercent, getWindowScrollPercent()),
+        onReachDepth
+      );
     };
 
     const unbindElement = () => {
       if (!boundElement) return;
 
-      boundElement.removeEventListener('scroll', handleElementScroll);
+      boundElement.removeEventListener('scroll', handleScroll);
       boundElement = null;
     };
 
@@ -90,7 +106,7 @@ export const useScrollDepthTrack = (
 
       unbindElement();
       boundElement = element;
-      element.addEventListener('scroll', handleElementScroll, {
+      element.addEventListener('scroll', handleScroll, {
         passive: true,
       });
     };
@@ -106,12 +122,14 @@ export const useScrollDepthTrack = (
       retryTimerId = window.setTimeout(waitForScrollElement, 100);
     };
 
+    window.addEventListener('scroll', handleScroll, { passive: true });
     waitForScrollElement();
 
     return () => {
       if (retryTimerId !== undefined) {
         window.clearTimeout(retryTimerId);
       }
+      window.removeEventListener('scroll', handleScroll);
       unbindElement();
       tracker.reset();
     };
