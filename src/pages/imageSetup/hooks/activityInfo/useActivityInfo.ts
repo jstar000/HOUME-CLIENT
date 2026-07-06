@@ -230,10 +230,7 @@ export const useActivityInfo = (
 
     // payload 조립 + 다음 페이지(LoadingPage)로 데이터 전달은 useGenerateImageRequest 훅이 담당
     const funnelState = useFunnelStore.getState();
-    const furnitureChipCodes = buildSelectedFurnitureChips(
-      formData.furnitureIds,
-      categoriesData?.categories
-    );
+    const furnitureChipCodes = buildChips(formData.furnitureIds);
 
     captureFullFunnelFlowSnapshot({
       floorPlanId: funnelState.floorPlan?.floorPlanId,
