@@ -23,6 +23,7 @@ interface PopupProps {
   sideIconName?: IconName;
   ariaLabel?: string;
   confirmDisabled?: boolean;
+  containerClassName?: string;
 }
 
 const Popup = ({
@@ -39,6 +40,7 @@ const Popup = ({
   sideIconName,
   ariaLabel,
   confirmDisabled = false,
+  containerClassName,
 }: PopupProps) => {
   const hasWeak = weakBtnText != null && weakBtnText !== '';
   const [motion, setMotion] = useState<'opening' | 'open'>('opening');
@@ -124,7 +126,7 @@ const Popup = ({
         aria-hidden="true"
       />
       <div
-        className={styles.container({ motion })}
+        className={`${styles.container({ motion })} ${containerClassName ?? ''}`}
         role="dialog"
         aria-modal="true"
         aria-label={ariaLabel ?? '안내 팝업'}
