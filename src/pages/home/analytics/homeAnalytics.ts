@@ -11,7 +11,7 @@ import { loginStatusParams } from '@shared/analytics/utils/loginStatus';
 
 import type { ExploreHouseTemplateDetailResponse } from '@apis/__generated__/data-contracts';
 
-type HomeSpaceCardInput = {
+interface HomeSpaceCardInput {
   spaceId?: number;
   spaceName?: string;
   spaceStruct?: string;
@@ -19,7 +19,7 @@ type HomeSpaceCardInput = {
   spaceView?: string;
   hasPreviousSpace?: boolean;
   hasPreviousImage?: boolean;
-};
+}
 
 /** house-template 상세 API → home_spaceCard_click space_* 파라미터 */
 export const getHomeSpaceCardParamsFromDetail = (
