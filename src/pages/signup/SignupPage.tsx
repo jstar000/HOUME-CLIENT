@@ -15,7 +15,6 @@ import {
   trackSignupNotCompModalView,
 } from '@pages/signup/analytics/signupFormAnalytics';
 import { useSignupFormAnalytics } from '@pages/signup/analytics/useSignupFormAnalytics';
-import { useSignupBrowserBackGuard } from '@pages/signup/hooks/useSignupBrowserBackGuard';
 
 import { ROUTES } from '@routes/paths';
 
@@ -109,7 +108,7 @@ const SignupPage = () => {
     !monthFieldError &&
     !dayFieldError;
 
-  const { signupStep, trackBrowserBackPop } = useSignupFormAnalytics({
+  const { signupStep, trackBrowserBack } = useSignupFormAnalytics({
     enabled: !!signupToken,
     isNameSectionValid,
     isNameSubmitted,
@@ -122,13 +121,20 @@ const SignupPage = () => {
     dayFieldError,
   });
 
-  const openSignupExitModal = useCallback(
-    (onQuit: () => void, onStay?: () => void) => {
+  useExitBlocker({
+    enabled: !!signupToken,
+    shouldBlockNavigation: ({ nextLocation, historyAction }) => {
+      if (nextLocation.pathname === ROUTES.WELCOME) return false;
+
+      trackBrowserBack(historyAction);
+      return true;
+    },
+    onBlocked: ({ proceed, reset }) => {
       trackSignupNotCompModalView(signupStep);
 
       overlay.open(({ unmount }) => {
         const close = () => {
-          onStay?.();
+          reset();
           unmount();
         };
 
@@ -149,7 +155,7 @@ const SignupPage = () => {
             onCancel={() => {
               trackSignupNotCompModalQuitClick(signupStep);
               unmount();
-              onQuit();
+              proceed();
             }}
             content={
               <div className={styles.popupContent}>
@@ -166,36 +172,6 @@ const SignupPage = () => {
           />
         );
       });
-    },
-    [signupStep]
-  );
-
-  const handleBrowserBack = useCallback(() => {
-    trackBrowserBackPop();
-    openSignupExitModal(() => {
-      sessionStorage.removeItem('signupToken');
-      navigate(ROUTES.LOGIN, { replace: true });
-    });
-  }, [navigate, openSignupExitModal, trackBrowserBackPop]);
-
-  useSignupBrowserBackGuard({
-    enabled: !!signupToken,
-    onBrowserBack: handleBrowserBack,
-  });
-
-  useExitBlocker({
-    enabled: !!signupToken,
-    shouldBlockNavigation: ({ nextLocation, historyAction }) => {
-      // POP(뒤로가기)는 OAuth history 잔존으로 useBlocker가 못 잡는 경우가 있어 guard가 처리
-      if (historyAction === 'POP') return false;
-
-      return nextLocation.pathname !== ROUTES.WELCOME;
-    },
-    onBlocked: ({ proceed, reset }) => {
-      openSignupExitModal(() => {
-        reset();
-        proceed();
-      }, reset);
     },
   });
 

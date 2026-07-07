@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import {
   getSignupStep,
@@ -15,10 +15,15 @@ import { useAnalyticsPageView } from '@shared/analytics/hooks';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { getLoginSocialParams } from '@shared/analytics/utils/loginEntryRoute';
 
+import type { BlockerFunction } from 'react-router-dom';
+
 /** iOS 뒤로가기 제스처 휴리스틱 — 화면 왼쪽 가장자리에서 오른쪽으로 스와이프 */
 const SWIPE_START_MAX_X = 50;
 const SWIPE_MIN_DELTA_X = 80;
 const SWIPE_MAX_DELTA_Y = 50;
+
+/** react-router `HistoryAction`은 export되지 않아 Blocker 인자에서 추론 */
+type NavigationHistoryAction = Parameters<BlockerFunction>[0]['historyAction'];
 
 interface UseSignupFormAnalyticsOptions {
   enabled: boolean;
@@ -35,7 +40,7 @@ interface UseSignupFormAnalyticsOptions {
 
 /**
  * 회원가입 폼 GA — page_view, 에러 view, 브라우저 뒤로가기(click/swipe) 전송.
- * `signupStep`·`trackBrowserBackPop`은 SignupPage history guard에 연결.
+ * `signupStep`·`trackBrowserBack`은 SignupPage 이탈 가드에 연결.
  */
 export const useSignupFormAnalytics = ({
   enabled,
@@ -51,8 +56,6 @@ export const useSignupFormAnalytics = ({
 }: UseSignupFormAnalyticsOptions) => {
   /** touchend 직후 POP이 오면 swipe, 아니면 click으로 분기 */
   const backGestureRef = useRef<'click' | 'swipe' | null>(null);
-  /** blocker 재평가·revert popstate 등으로 POP 트래킹이 중복 호출되는 것 방지 */
-  const lastPopTrackAtRef = useRef(0);
   /** 동일 에러 메시지 view 이벤트 중복 전송 방지 */
   const trackedErrorsRef = useRef(new Set<string>());
 
@@ -61,8 +64,6 @@ export const useSignupFormAnalytics = ({
     isNameSubmitted,
     isBirthSectionValid,
   });
-  const signupStepRef = useRef(signupStep);
-  signupStepRef.current = signupStep;
 
   useAnalyticsPageView(
     GA_EVENTS.signupForm.PAGE_VIEW,
@@ -83,11 +84,6 @@ export const useSignupFormAnalytics = ({
 
       touchStartX = touch.clientX;
       touchStartY = touch.clientY;
-
-      // iOS 네이티브 뒤로가기 제스처는 touchend 전에 POP이 발생할 수 있음
-      if (touch.clientX <= SWIPE_START_MAX_X) {
-        backGestureRef.current = 'swipe';
-      }
     };
 
     const handleTouchEnd = (event: TouchEvent) => {
@@ -103,11 +99,6 @@ export const useSignupFormAnalytics = ({
         deltaY <= SWIPE_MAX_DELTA_Y
       ) {
         backGestureRef.current = 'swipe';
-        return;
-      }
-
-      if (backGestureRef.current === 'swipe' && deltaX < SWIPE_MIN_DELTA_X) {
-        backGestureRef.current = null;
       }
     };
 
@@ -157,26 +148,23 @@ export const useSignupFormAnalytics = ({
     trackSignupErrorBirthIncorrectView();
   }, [dayFieldError, enabled, monthFieldError, yearAgeError, yearFormatError]);
 
-  /** history guard에서 브라우저 뒤로가기·스와이프 시도 시 호출 */
-  const trackBrowserBackPop = useCallback(() => {
-    const now = Date.now();
-    if (now - lastPopTrackAtRef.current < 100) return;
-    lastPopTrackAtRef.current = now;
-
+  /** useExitBlocker shouldBlock 콜백에서 historyAction 전달 */
+  const trackBrowserBack = (historyAction: NavigationHistoryAction) => {
     const gesture = backGestureRef.current ?? 'click';
     backGestureRef.current = null;
-    const step = signupStepRef.current;
+
+    if (historyAction !== 'POP') return;
 
     if (gesture === 'swipe') {
-      trackSignupBrowserBackSwipe(step);
+      trackSignupBrowserBackSwipe(signupStep);
       return;
     }
 
-    trackSignupBrowserBackClick(step);
-  }, []);
+    trackSignupBrowserBackClick(signupStep);
+  };
 
   return {
     signupStep,
-    trackBrowserBackPop,
+    trackBrowserBack,
   };
 };
