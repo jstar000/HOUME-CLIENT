@@ -173,18 +173,9 @@ const LoadingPage = () => {
       text: TOAST_MESSAGE.IMAGE_GENERATION_SERVER_ERROR,
       type: TOAST_TYPE.ERROR,
       hasIcon: false,
-      options: { toasterId: TOASTER_ID.BOTTOM_4 },
+      options: { toasterId: TOASTER_ID.TOP_4 },
     });
   }, [notify]);
-
-  useEffect(() => {
-    if (!import.meta.env.DEV) return;
-    const searchParams = new URLSearchParams(window.location.search);
-
-    if (searchParams.get('debugImageErrorToast') === 'true') {
-      notifyImageGenerationError();
-    }
-  }, [notifyImageGenerationError]);
 
   // 진입경로별 mutation 호출 (풀퍼널 / banner / otherStyle / product 분기)
   useEffect(() => {
