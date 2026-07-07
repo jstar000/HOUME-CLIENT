@@ -9,11 +9,7 @@
  *   image_entry_route: getEntryRoute(),
  * });
  */
-import {
-  ENTRY_ROUTE,
-  useImageFlowStore,
-  type EntryRoute,
-} from '@store/useImageFlowStore';
+import { useImageFlowStore } from '@store/useImageFlowStore';
 
 import type { ImageEntryRoute } from '@shared/analytics/params/gate';
 
@@ -24,15 +20,3 @@ export const getEntryRoute = (): ImageEntryRoute | undefined => {
 
   return entryRoute ? mapEntryRouteToImageEntry(entryRoute) : undefined;
 };
-
-/** 상품 탭 CTA 클릭 시 setFlow 이전에도 동일한 진입 경로를 GA에 전달 */
-export const resolveShopFlowEntryRoute = (): EntryRoute => {
-  const entryRoute = useImageFlowStore.getState().entryRoute;
-
-  return entryRoute === ENTRY_ROUTE.PRODUCT_REGENERATE
-    ? ENTRY_ROUTE.PRODUCT_REGENERATE
-    : ENTRY_ROUTE.PRODUCT_SELECTION;
-};
-
-export const resolveShopImageEntryRoute = (): ImageEntryRoute =>
-  mapEntryRouteToImageEntry(resolveShopFlowEntryRoute());

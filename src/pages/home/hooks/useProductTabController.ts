@@ -18,8 +18,8 @@ import { ROUTES } from '@routes/paths';
 
 import { useImageFlowStore } from '@store/useImageFlowStore';
 
-import { resolveShopFlowEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
 import { mapEntryRouteToLoginEntry } from '@shared/analytics/utils/loginEntryRoute';
+import { resolveShopFlowEntryRoute } from '@shared/analytics/utils/shop/resolveShopEntryRoute';
 import { TOAST_MESSAGE } from '@shared/constants/toastMessage';
 import { TOAST_TYPE, TOASTER_ID } from '@shared/types/toast';
 

@@ -18,15 +18,13 @@ import {
   trackShopSelectSheetRemoveClick,
   trackShopSelectSheetSwipe,
   trackShopSelectSheetView,
-  type ShopListContext,
-  type ShopSelectSheetContext,
 } from '@pages/home/analytics/shopAnalytics';
+import { useShopAnalyticsContext } from '@pages/home/analytics/useShopAnalyticsContext';
 import {
   MAX_SELECTED_PRODUCTS,
   type ProductTabController,
 } from '@pages/home/hooks/useProductTabController';
 import type { SelectedProduct } from '@pages/home/types/productTab';
-import { withProductSubCategory } from '@pages/home/utils/productFilterUtils';
 import { useRecentFloorPlanQuery } from '@pages/imageSetup/v2/apis/queries/useRecentFloorPlanQuery';
 
 import { GA_EVENTS } from '@shared/analytics/events';
@@ -35,8 +33,8 @@ import {
   useScrollDepthTrack,
 } from '@shared/analytics/hooks';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
-import { resolveShopImageEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
 import { getReturnScreenNameFromImageEntry } from '@shared/analytics/utils/imageFlow';
+import { resolveShopImageEntryRoute } from '@shared/analytics/utils/shop/resolveShopEntryRoute';
 
 interface UseProductShopAnalyticsOptions {
   productCountViewed: number;
@@ -54,7 +52,6 @@ const useProductShopAnalytics = (
   }: UseProductShopAnalyticsOptions
 ) => {
   const { data: recentFloorPlanData } = useRecentFloorPlanQuery();
-  const productCountViewedRef = useRef(productCountViewed);
   const hasTrackedSelectSheetViewRef = useRef(false);
 
   const {
@@ -63,14 +60,6 @@ const useProductShopAnalytics = (
     filterSheetOpen,
     selectedProducts,
     keyword,
-    debouncedKeyword,
-    appliedValues,
-    appliedFilterChips,
-    furnitureLabels,
-    furnitureSubCategoryByNameKr,
-    priceLabels,
-    colorLabels,
-    productCount,
     handleFilterChipClick,
     handleFilterApply,
     handleFilterResetClick,
@@ -80,73 +69,15 @@ const useProductShopAnalytics = (
     handleSearchKeywordChange,
   } = controller;
 
-  const selectedProductsRef = useRef(selectedProducts);
-  const furnitureSubCategoryByNameKrRef = useRef(furnitureSubCategoryByNameKr);
-
-  useEffect(() => {
-    selectedProductsRef.current = selectedProducts;
-  }, [selectedProducts]);
-
-  useEffect(() => {
-    furnitureSubCategoryByNameKrRef.current = furnitureSubCategoryByNameKr;
-  }, [furnitureSubCategoryByNameKr]);
-
-  const enrichProductSubCategory = useCallback(
-    (product: SelectedProduct) =>
-      withProductSubCategory(product, furnitureSubCategoryByNameKrRef.current),
-    []
-  );
-
-  useEffect(() => {
-    productCountViewedRef.current = productCountViewed;
-  }, [productCountViewed]);
-
-  const getShopListContext = useCallback(
-    (): ShopListContext => ({
-      searchKeyword: debouncedKeyword,
-      appliedValues,
-      appliedFilterChips,
-      furnitureLabels,
-      priceLabels,
-      colorLabels,
-      productCount,
-      productCountViewed: productCountViewedRef.current,
-    }),
-    [
-      appliedFilterChips,
-      appliedValues,
-      colorLabels,
-      debouncedKeyword,
-      furnitureLabels,
-      priceLabels,
-      productCount,
-    ]
-  );
-
-  const getSelectSheetContext = useCallback(
-    (overrides?: Partial<ShopSelectSheetContext>): ShopSelectSheetContext => ({
-      ...getShopListContext(),
-      sheetExpanded: overrides?.sheetExpanded ?? sheetExpanded,
-      selectedProducts:
-        overrides?.selectedProducts ?? selectedProductsRef.current,
-      countTriggerEvent: overrides?.countTriggerEvent,
-    }),
-    [getShopListContext, sheetExpanded]
-  );
-
-  const getSelectSheetContextRef = useRef(getSelectSheetContext);
-
-  useEffect(() => {
-    getSelectSheetContextRef.current = getSelectSheetContext;
-  }, [getSelectSheetContext]);
-
-  const shopListContext = useMemo(
-    () => ({
-      ...getShopListContext(),
-      productCountViewed,
-    }),
-    [getShopListContext, productCountViewed]
-  );
+  const {
+    productCountViewedRef,
+    selectedProductsRef,
+    enrichProductSubCategory,
+    getShopListContext,
+    getSelectSheetContext,
+    getSelectSheetContextRef,
+    shopListContext,
+  } = useShopAnalyticsContext({ controller, productCountViewed });
 
   const listProductScrollParams = useMemo(
     () => getShopListProductScrollParams(shopListContext),
