@@ -4,6 +4,8 @@ import { useMypageGenImgCardAnalytics } from '@pages/mypage/analytics/useMypageA
 
 import { ROUTES } from '@routes/paths';
 
+import { useSavedItemsStore } from '@store/useSavedItemsStore';
+
 import { LOGIN_ENTRY_ROUTE } from '@shared/analytics/params/gate';
 
 import type {
@@ -49,6 +51,10 @@ const GenImgCard = ({
 }: GenImgCardProps) => {
   const isListType = cardType === 'list';
   const navigate = useNavigate();
+  const savedProductIds = useSavedItemsStore((state) => state.savedProductIds);
+  const touchedProductIds = useSavedItemsStore(
+    (state) => state.touchedProductIds
+  );
 
   const {
     handleListCardClick,
@@ -137,6 +143,9 @@ const GenImgCard = ({
           {usedProducts.map((item) => {
             if (item.rawProductId == null) return null;
             const href = item.productSiteUrl?.trim() ?? '';
+            const isSaved = touchedProductIds.has(item.rawProductId)
+              ? savedProductIds.has(item.rawProductId)
+              : (item.isJjym ?? false);
 
             return (
               <ListProductCard
@@ -154,8 +163,8 @@ const GenImgCard = ({
                   discountRate: item.discountRate ?? 0,
                 }}
                 save={{
-                  isSaved: item.isJjym ?? false,
-                  onToggle: () => handleToggleSave(item, item.isJjym ?? false),
+                  isSaved,
+                  onToggle: () => handleToggleSave(item, isSaved),
                 }}
                 link={
                   href

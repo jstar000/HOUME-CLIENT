@@ -95,6 +95,9 @@ const SavedItemsSection = () => {
           const isSaved = isSavedItemsSynced
             ? savedProductIds.has(item.rawProductId)
             : true;
+          const jjymCount = isSaved
+            ? item.jjymCount
+            : Math.max(0, item.jjymCount - 1);
 
           return (
             <div
@@ -118,7 +121,7 @@ const SavedItemsSection = () => {
                   isSaved,
                   onToggle: () =>
                     handleToggleSave(item.rawProductId, isSaved, item),
-                  count: item.jjymCount,
+                  count: jjymCount,
                 }}
                 link={{
                   href: item.productSiteUrl,
