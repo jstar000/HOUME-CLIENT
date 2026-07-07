@@ -8,8 +8,7 @@ import {
   trackMypageFeedCardView,
   trackMypageListSavedItemView,
 } from '@pages/mypage/analytics/mypageAnalytics';
-
-import type { FurnitureItem } from '../types/apis/saveItemsList';
+import type { FurnitureItem } from '@pages/mypage/types/apis/saveItemsList';
 
 interface UseMypageSavedItemsAnalyticsOptions {
   savedItems: FurnitureItem[];
@@ -24,17 +23,16 @@ export const useMypageSavedItemsAnalytics = ({
   const trackedFeedCardIdsRef = useRef<Set<number>>(new Set());
 
   useEffect(() => {
-    trackedListViewRef.current = false;
-    trackedFeedCardIdsRef.current = new Set();
-  }, [savedItems]);
-
-  useEffect(() => {
     if (!isFetched || savedItems.length === 0 || trackedListViewRef.current) {
       return;
     }
 
     trackedListViewRef.current = true;
     trackMypageListSavedItemView(savedItems);
+  }, [isFetched, savedItems]);
+
+  useEffect(() => {
+    if (!isFetched || savedItems.length === 0) return;
 
     savedItems.forEach((item) => {
       if (trackedFeedCardIdsRef.current.has(item.rawProductId)) return;
