@@ -1,5 +1,5 @@
 import { GA_EVENTS, type GaEventName } from '@shared/analytics/events';
-import { SIGNUP_STEP, type SignupStep } from '@shared/analytics/params/auth';
+import { type SignupStep } from '@shared/analytics/params/auth';
 import type { TrackEventParams } from '@shared/analytics/params/types';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
@@ -22,26 +22,6 @@ const trackSignupFormEvent = (
     ...signupFormScreenParams(),
     ...extraParams,
   });
-};
-
-export const getSignupStep = ({
-  isNameSectionValid,
-  isNameSubmitted,
-  isBirthSectionValid,
-}: {
-  isNameSectionValid: boolean;
-  isNameSubmitted: boolean;
-  isBirthSectionValid: boolean;
-}): SignupStep => {
-  if (isNameSectionValid && isNameSubmitted && isBirthSectionValid) {
-    return SIGNUP_STEP.GENDER_SELECT;
-  }
-
-  if (isNameSectionValid && isNameSubmitted) {
-    return SIGNUP_STEP.BIRTH_INPUT;
-  }
-
-  return SIGNUP_STEP.NICKNAME_INPUT;
 };
 
 export const trackSignupBrowserBackClick = (signupStep: SignupStep) =>

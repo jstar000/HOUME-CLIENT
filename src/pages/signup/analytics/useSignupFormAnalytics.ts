@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 
 import {
-  getSignupStep,
   trackSignupBrowserBackClick,
   trackSignupBrowserBackSwipe,
   trackSignupErrorBirthIncorrectView,
@@ -9,6 +8,7 @@ import {
   trackSignupErrorNickNumView,
   trackSignupErrorNickSignView,
 } from '@pages/signup/analytics/signupFormAnalytics';
+import { getSignupStep } from '@pages/signup/utils/getSignupStep';
 
 import { GA_EVENTS } from '@shared/analytics/events';
 import { useAnalyticsPageView } from '@shared/analytics/hooks';
