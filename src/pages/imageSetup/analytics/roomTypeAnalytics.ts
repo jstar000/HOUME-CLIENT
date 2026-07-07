@@ -22,6 +22,7 @@ import { loginStatusParams } from '@shared/analytics/utils/loginStatus';
 import { getPreviousScreenName } from '@shared/analytics/utils/screenName';
 
 import type {
+  ExploreHouseTemplateDetailResponse,
   ExploreHouseTemplateItemResponse,
   RecentFloorPlanResponse,
 } from '@apis/__generated__/data-contracts';
@@ -93,26 +94,31 @@ export const getRoomTypeSpaceCardParams = (
   space_name: plan.name,
 });
 
-export const getRoomTypeViewSheetParams = ({
+export const getRoomTypeCardRoomClickParams = (
+  plan: Pick<ExploreHouseTemplateItemResponse, 'id' | 'name'>,
+  detail?: Pick<ExploreHouseTemplateDetailResponse, 'equilibrium'> | null
+) => ({
+  space_id: plan.id,
+  space_name: plan.name,
+  space_size: detail?.equilibrium,
+  // v2 house-template detail 스펙에 structure 필드 없음
+  space_struct: undefined,
+});
+
+export const getRoomTypeViewSheetViewParams = ({
   floorPlanId,
   floorPlanName,
-  equilibrium,
   viewCount,
-  floorPlanView,
   sheetExpanded,
 }: {
   floorPlanId: number;
   floorPlanName: string;
-  equilibrium?: string;
   viewCount: number;
-  floorPlanView?: string;
   sheetExpanded: boolean;
 }) => ({
   ...roomTypeScreenParams(),
   space_id: floorPlanId,
   space_name: floorPlanName,
-  space_size: equilibrium,
-  space_view: floorPlanView,
   space_view_type: getSpaceViewType(viewCount),
   sheet_expansion_status: toSheetExpansionStatus(sheetExpanded),
 });
@@ -122,16 +128,17 @@ const filterSheetParams = () => ({
 });
 
 export const trackRoomTypeCardRoomClick = (
-  plan: Pick<ExploreHouseTemplateItemResponse, 'id' | 'name'>
+  plan: Pick<ExploreHouseTemplateItemResponse, 'id' | 'name'>,
+  detail?: Pick<ExploreHouseTemplateDetailResponse, 'equilibrium'> | null
 ) => {
   trackEvent(GA_EVENTS.roomType.CARD_ROOM_CLICK, {
     ...roomTypeScreenParams(),
-    ...getRoomTypeSpaceCardParams(plan),
+    ...getRoomTypeCardRoomClickParams(plan, detail),
   });
 };
 
 export const trackRoomTypeEmptyListRecCardClick = (
-  plan: Pick<ExploreHouseTemplateItemResponse, 'id' | 'name'>,
+  plan: Pick<ExploreHouseTemplateItemResponse, 'id'>,
   appliedFilters: FloorPlanFilters,
   {
     spaceCount,
@@ -142,7 +149,6 @@ export const trackRoomTypeEmptyListRecCardClick = (
     ...roomTypeScreenParams(),
     ...loginStatusParams(),
     ...getRoomTypeFilterParams(appliedFilters),
-    ...getRoomTypeSpaceCardParams(plan),
     space_count: spaceCount,
     space_id: plan.id,
     alternative_space_ids:
@@ -226,13 +232,11 @@ export const trackRoomTypeEmptyListRecCardView = (
 export const trackRoomTypeViewSheetView = (params: {
   floorPlanId: number;
   floorPlanName: string;
-  equilibrium?: string;
   viewCount: number;
-  floorPlanView?: string;
 }) => {
   trackEvent(
     GA_EVENTS.roomType.VIEW_SHT_VIEW,
-    getRoomTypeViewSheetParams({ ...params, sheetExpanded: true })
+    getRoomTypeViewSheetViewParams({ ...params, sheetExpanded: true })
   );
 };
 
@@ -273,6 +277,8 @@ export const trackRoomTypeViewSheetSubmit = ({
     space_name: floorPlanName,
     space_view: floorPlanView,
     space_size: equilibrium,
+    // v2 house-template detail 스펙에 structure 필드 없음
+    space_struct: undefined,
     sheet_expansion_status: toSheetExpansionStatus(true),
     previous_space_id: recentFloorPlan?.floorPlanId,
     previous_space_name: recentFloorPlan?.floorPlanName,

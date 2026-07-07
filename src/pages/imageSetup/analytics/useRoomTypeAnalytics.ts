@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 
+import { useQueryClient } from '@tanstack/react-query';
+
 import {
   getRoomTypePageViewParams,
   setRoomTypeScrollElement,
@@ -19,6 +21,7 @@ import type {
   CompletedFloorPlanSelect,
   ImageSetupSteps,
 } from '@pages/imageSetup/types/funnel/steps';
+import { getHouseTemplateDetail } from '@pages/imageSetup/v2/apis/queries/useHouseTemplateDetailQuery';
 import { useFloorPlanSelect } from '@pages/imageSetup/v2/hooks/useFloorPlanSelect';
 import { useFloorPlanStore } from '@pages/imageSetup/v2/stores/useFloorPlanStore';
 
@@ -29,10 +32,15 @@ import {
 } from '@shared/analytics/hooks';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 
+import type { ExploreHouseTemplateDetailResponse } from '@apis/__generated__/data-contracts';
+
+import { queryKeys } from '@constants/queryKey';
+
 export const useRoomTypeAnalytics = (
   context: ImageSetupSteps['FloorPlanSelect'],
   onNext: (data: CompletedFloorPlanSelect) => void
 ) => {
+  const queryClient = useQueryClient();
   const gridScrollRef = useRef<HTMLDivElement | null>(null);
   const trackedViewSheetKeyRef = useRef<string | null>(null);
 
@@ -109,7 +117,6 @@ export const useRoomTypeAnalytics = (
       trackRoomTypeViewSheetView({
         floorPlanId: selectedFloorPlanId,
         floorPlanName: selectedFloorPlanName,
-        equilibrium: selectedEquilibrium,
         viewCount: selectedDetailViews.length,
       });
       return;
@@ -127,7 +134,6 @@ export const useRoomTypeAnalytics = (
       trackRoomTypeViewSheetView({
         floorPlanId: recentFloorPlan.floorPlanId,
         floorPlanName: recentFloorPlan.floorPlanName ?? '',
-        equilibrium: recentFloorPlan.equilibrium,
         viewCount: recentFloorPlan.floorPlans?.length ?? 0,
       });
       return;
@@ -160,13 +166,28 @@ export const useRoomTypeAnalytics = (
           spaceCount: floorPlans.length,
           alternativeSpaceIds,
         });
-      } else {
-        trackRoomTypeCardRoomClick(plan);
+        handleCardClick(floorPlanId);
+        return;
       }
+
+      void (async () => {
+        let detail: ExploreHouseTemplateDetailResponse | undefined;
+
+        try {
+          detail = await queryClient.fetchQuery({
+            queryKey: queryKeys.imageSetup.houseTemplateDetail(floorPlanId),
+            queryFn: () => getHouseTemplateDetail(floorPlanId),
+          });
+        } catch {
+          detail = undefined;
+        }
+
+        trackRoomTypeCardRoomClick(plan, detail);
+      })();
 
       handleCardClick(floorPlanId);
     },
-    [floorPlans, grid.appliedFilters, handleCardClick]
+    [floorPlans, grid.appliedFilters, handleCardClick, queryClient]
   );
 
   const handleConfirmFloorPlanWithAnalytics = useCallback(() => {
