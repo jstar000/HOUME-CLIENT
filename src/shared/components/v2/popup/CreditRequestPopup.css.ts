@@ -4,10 +4,6 @@ import { colorVars } from '@styles/tokensV2/color.css';
 import { fontVars } from '@styles/tokensV2/font.css';
 import { unitVars } from '@styles/tokensV2/unit.css';
 
-export const container = style({
-  width: '28.8rem',
-});
-
 export const content = style({
   display: 'flex',
   flexDirection: 'column',

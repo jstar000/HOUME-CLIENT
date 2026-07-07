@@ -14,6 +14,8 @@ import { ROUTES } from '@routes/paths';
 
 import { useImageFlowStore } from '@store/useImageFlowStore';
 
+import { TOASTER_ID, TOAST_TYPE } from '@shared/types/toast';
+
 import type { GetCarouselResponseDTO } from '@apis/__generated__/data-contracts';
 
 import TestImg from '@assets/v2/images/TestImg.png';
@@ -27,8 +29,6 @@ import { useToast } from '@components/v2/toast/useToast';
 import { TOAST_MESSAGE } from '@constants/toastMessage';
 
 import { useExitBlocker } from '@hooks/useExitBlocker';
-
-import { TOASTER_ID, TOAST_TYPE } from '@/shared/types/toast';
 
 import { useExitImageFlow } from './hooks/useExitImageFlow';
 import { useGenerateImageRequest } from './hooks/useGenerateImageRequest';
@@ -177,12 +177,29 @@ const LoadingPage = () => {
     });
   }, [notify]);
 
+  const notifyActionServerError = useCallback(() => {
+    notify({
+      text: TOAST_MESSAGE.ACTION_SERVER_ERROR,
+      type: TOAST_TYPE.ERROR,
+      options: { toasterId: TOASTER_ID.BOTTOM_4 },
+    });
+  }, [notify]);
+
+  const recoverFromImageGenerationError = useCallback(() => {
+    exitImageFlow();
+    navigate(ROUTES.HOME, { replace: true });
+  }, [exitImageFlow, navigate]);
+
   // 진입경로별 mutation 호출 (풀퍼널 / banner / otherStyle / product 분기)
   useEffect(() => {
     const onMutationError = (error: unknown) => {
       if (isImageGenerationServerError(error)) {
         notifyImageGenerationError();
+      } else {
+        notifyActionServerError();
       }
+
+      recoverFromImageGenerationError();
     };
 
     // mutation 응답 시(성공/실패 모두) 퍼널/프리셋 데이터 즉시 정리
@@ -217,7 +234,12 @@ const LoadingPage = () => {
         requestState.mutate(requestState.payload, mutateOptions);
         return;
     }
-  }, [notifyImageGenerationError, requestState]);
+  }, [
+    notifyActionServerError,
+    notifyImageGenerationError,
+    recoverFromImageGenerationError,
+    requestState,
+  ]);
 
   useEffect(() => {
     return () => {

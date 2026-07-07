@@ -10,9 +10,8 @@ import { useUserStore } from '@store/useUserStore';
 import FeatureErrorFallback from '@components/errorFallback/FeatureErrorFallback';
 import InlineError from '@components/inlineError/InlineError';
 import Loading from '@components/loading/Loading';
+import MenuTab from '@components/v2/menuTab/MenuTab';
 import TitleNavBar from '@components/v2/navBar/TitleNavBar';
-
-import MenuTab from '@/shared/components/v2/menuTab/MenuTab';
 
 import { useMyPageProfileQuery } from './apis/queries/useEditProfileQuery';
 import { useMyPageUserQuery } from './apis/queries/useMyPageUserQuery';
@@ -37,8 +36,9 @@ const MyPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [activeMenuTab, setActiveMenuTab] =
-    useState<MypageMenuTab>(DEFAULT_MENU_TAB);
+  const [activeMenuTab, setActiveMenuTab] = useState<MypageMenuTab>(
+    () => getMypageMenuTab(location.state?.activeTab) ?? DEFAULT_MENU_TAB
+  );
 
   useEffect(() => {
     const nextTab = getMypageMenuTab(location.state?.activeTab);

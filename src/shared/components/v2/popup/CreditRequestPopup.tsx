@@ -19,7 +19,8 @@ const CreditRequestPopup = ({ onClose }: CreditRequestPopupProps) => {
       btnText="크레딧 요청하기"
       weakBtnText="그만 두기"
       topIconName="WarningFillDanger"
-      containerClassName={styles.container}
+      ariaLabel="크레딧 부족 안내"
+      containerSize="creditRequest"
       onClose={onClose}
       onCancel={onClose}
       onConfirm={handleRequestCredit}
