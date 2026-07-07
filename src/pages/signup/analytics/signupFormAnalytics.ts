@@ -3,7 +3,8 @@ import { SIGNUP_STEP, type SignupStep } from '@shared/analytics/params/auth';
 import type { TrackEventParams } from '@shared/analytics/params/types';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
-import { getLoginSocialParams } from '@shared/analytics/utils/loginEntryRoute';
+import { getLoginEntryRouteParams } from '@shared/analytics/utils/loginEntryRoute';
+import { loginStatusParams } from '@shared/analytics/utils/loginStatus';
 
 const signupFormScreenParams = () => ({
   screen_name: SCREEN_NAME.SIGNUP_FORM,
@@ -83,7 +84,10 @@ export const trackSignupGenderClick = () =>
   trackSignupFormEvent(GA_EVENTS.signupForm.BTNGENDER_CLICK);
 
 export const trackSignupCtaClick = () =>
-  trackSignupFormEvent(GA_EVENTS.signupForm.BTN_CTA, getLoginSocialParams());
+  trackSignupFormEvent(GA_EVENTS.signupForm.BTN_CTA, {
+    ...loginStatusParams(),
+    return_screen_name: getLoginEntryRouteParams().return_screen_name,
+  });
 
 export const trackSignupNotCompModalView = (signupStep: SignupStep) =>
   trackSignupFormEvent(
