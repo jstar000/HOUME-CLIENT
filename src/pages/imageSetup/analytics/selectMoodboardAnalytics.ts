@@ -16,7 +16,7 @@ const selectMoodboardScreenParams = () => ({
 const moodboardSelectionParams = (selectedImages: number[]) => ({
   image_entry_route: getEntryRoute(),
   selected_moodBoard_ids: buildMoodboardIdsParam(selectedImages),
-  count_moodBard: selectedImages.length,
+  count_moodBoard: selectedImages.length,
 });
 
 export const trackSelectMoodboardBtnCtaInactiveClick = () => {
