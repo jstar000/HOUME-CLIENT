@@ -1,7 +1,4 @@
 import { style } from '@vanilla-extract/css';
-
-import { fontStyle } from '@styles/fontStyle';
-import { colorVars } from '@styles/tokens/color.css';
 export const loadingOverlay = style({
   boxSizing: 'border-box',
   position: 'fixed',
@@ -31,11 +28,4 @@ export const loadingContainer = style({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: '1.6rem',
-});
-
-export const loadingText = style({
-  textAlign: 'center',
-  ...fontStyle('body_m_14'),
-  color: colorVars.color.primary,
 });

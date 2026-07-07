@@ -7,17 +7,12 @@ import DotLottiePlayer from '@components/lottie/DotLottiePlayer';
 import * as styles from './Loading.css';
 
 interface LoadingProps {
-  text?: string;
   show?: boolean;
   /** true면 부모 영역 안에서만 표시 (viewport fixed 오버레이 사용 안 함) */
   inline?: boolean;
 }
 
-const Loading: React.FC<LoadingProps> = ({
-  text = '로딩 중입니다',
-  show = true,
-  inline = false,
-}) => {
+const Loading: React.FC<LoadingProps> = ({ show = true, inline = false }) => {
   if (!show) return null;
 
   return (
@@ -33,7 +28,6 @@ const Loading: React.FC<LoadingProps> = ({
           size="loading"
           ariaLabel="로딩 애니메이션"
         />
-        {text ? <div className={styles.loadingText}>{text}</div> : null}
       </div>
     </div>
   );
