@@ -8,7 +8,10 @@ import type {
 import { ALL_FILTER_SENTINEL } from '@pages/home/utils/productFilterUtils';
 
 import { GA_EVENTS } from '@shared/analytics/events';
-import { getProductCardParams } from '@shared/analytics/params/builders/productCard';
+import {
+  getProductCardIdNameParams,
+  getProductCardOnCardParams,
+} from '@shared/analytics/params/builders/productCard';
 import type { ImageEntryRoute } from '@shared/analytics/params/gate';
 import {
   COUNT_TRIGGER_EVENT,
@@ -71,6 +74,15 @@ const formatSelectedProductIds = (products: SelectedProduct[]) =>
   products.length > 0
     ? products.map((product) => product.id).join(', ')
     : undefined;
+
+const formatSelectedSubCategoryTypes = (products: SelectedProduct[]) => {
+  const subCategoryTypes = products
+    .map((product) => product.subCategoryName)
+    .filter(Boolean)
+    .join(', ');
+
+  return subCategoryTypes || undefined;
+};
 
 const formatSelectedShopKeywordFilters = (
   appliedFilterChips?: AppliedFilterChip[]
@@ -148,28 +160,48 @@ const getShopSelectSheetBaseParams = (
     ShopSelectSheetContext,
     'sheetExpanded' | 'selectedProducts' | 'countTriggerEvent'
   >,
-  options?: { includeLoginStatus?: boolean }
-) => ({
-  ...(options?.includeLoginStatus ? loginStatusParams() : {}),
-  ...shopScreenParams(),
-  sheet_expansion_status: toSheetExpansionStatus(sheetExpanded),
-  selected_count: selectedProducts.length,
-  selected_product_ids: formatSelectedProductIds(selectedProducts),
-  selected_sub_category_types: undefined,
-  ...(countTriggerEvent ? { count_trigger_event: countTriggerEvent } : {}),
-});
+  options?: {
+    includeLoginStatus?: boolean;
+    includeSelectedSubCategoryTypes?: boolean;
+  }
+) => {
+  const selectedSubCategoryTypes =
+    formatSelectedSubCategoryTypes(selectedProducts);
+
+  return {
+    ...(options?.includeLoginStatus ? loginStatusParams() : {}),
+    ...shopScreenParams(),
+    sheet_expansion_status: toSheetExpansionStatus(sheetExpanded),
+    selected_count: selectedProducts.length,
+    selected_product_ids: formatSelectedProductIds(selectedProducts),
+    ...(options?.includeSelectedSubCategoryTypes && selectedSubCategoryTypes
+      ? { selected_sub_category_types: selectedSubCategoryTypes }
+      : {}),
+    ...(countTriggerEvent ? { count_trigger_event: countTriggerEvent } : {}),
+  };
+};
 
 const getShopSelectedProductFields = (
-  product: Pick<SelectedProduct, 'id' | 'title' | 'discountPrice'>
+  product: Pick<
+    SelectedProduct,
+    'id' | 'title' | 'discountPrice' | 'categoryName' | 'subCategoryName'
+  >
 ) => ({
   product_id: product.id,
   product_name: product.title,
+  ...(product.categoryName ? { product_category: product.categoryName } : {}),
+  ...(product.subCategoryName
+    ? { product_sub_category: product.subCategoryName }
+    : {}),
   product_price: product.discountPrice,
 });
 
 export const getShopSelectSheetParams = (
   context: ShopSelectSheetContext,
-  options?: { includeLoginStatus?: boolean }
+  options?: {
+    includeLoginStatus?: boolean;
+    includeSelectedSubCategoryTypes?: boolean;
+  }
 ) => getShopSelectSheetBaseParams(context, options);
 
 export const getShopProductCardParams = (product: {
@@ -179,17 +211,31 @@ export const getShopProductCardParams = (product: {
   originalPrice?: number;
   discountPrice?: number;
   categoryName?: string;
-}) => ({
-  ...getProductCardParams({
+}) =>
+  getProductCardOnCardParams({
     productId: product.id,
     name: product.title,
     brand: product.brand,
     originalPrice: product.originalPrice,
     finalPrice: product.discountPrice,
     product_category: product.categoryName,
-    trigger_context: undefined,
-  }),
-});
+  });
+
+const formatNextSelectedProductIds = (
+  productId: number,
+  selectedProductIds?: string
+) => {
+  if (!selectedProductIds?.trim()) {
+    return String(productId);
+  }
+
+  const ids = selectedProductIds.split(',').map((id) => id.trim());
+  if (ids.includes(String(productId))) {
+    return selectedProductIds;
+  }
+
+  return `${selectedProductIds}, ${productId}`;
+};
 
 export const trackShopFilterListClick = (
   category: ProductFilterChipCategory
@@ -272,13 +318,19 @@ export const trackShopSelectSheetAddItemClick = (
 ) => {
   trackEvent(
     GA_EVENTS.shop.SELECT_SHEET_ADD_ITEM_CLICK,
-    getShopSelectSheetParams(context, { includeLoginStatus: true })
+    getShopSelectSheetParams(context, {
+      includeLoginStatus: true,
+      includeSelectedSubCategoryTypes: true,
+    })
   );
 };
 
 export const trackShopSelectSheetRemoveClick = (
   context: ShopSelectSheetContext,
-  product: Pick<SelectedProduct, 'id' | 'title' | 'discountPrice'>
+  product: Pick<
+    SelectedProduct,
+    'id' | 'title' | 'discountPrice' | 'categoryName' | 'subCategoryName'
+  >
 ) => {
   trackEvent(GA_EVENTS.shop.SELECT_SHEET_REMOVE_CLICK, {
     ...getShopSelectSheetBaseParams(context, { includeLoginStatus: true }),
@@ -288,7 +340,10 @@ export const trackShopSelectSheetRemoveClick = (
 
 export const trackShopSelectSheetItemClick = (
   context: ShopSelectSheetContext,
-  product: Pick<SelectedProduct, 'id' | 'title' | 'discountPrice'>
+  product: Pick<
+    SelectedProduct,
+    'id' | 'title' | 'discountPrice' | 'categoryName' | 'subCategoryName'
+  >
 ) => {
   trackEvent(GA_EVENTS.shop.SELECT_SHEET_ITEM_CLICK, {
     ...getShopSelectSheetBaseParams(context, { includeLoginStatus: true }),
@@ -392,7 +447,10 @@ export const trackShopFeedDetailMdSelectClick = (
   trackEvent(GA_EVENTS.shop.FEED_DETAIL_MD_SELECT_CLICK, {
     ...shopScreenParams(),
     ...getShopProductCardParams(product),
-    selected_product_ids: selectedProductIds,
+    selected_product_ids: formatNextSelectedProductIds(
+      product.id,
+      selectedProductIds
+    ),
   });
 };
 
@@ -402,7 +460,10 @@ export const trackShopFeedDetailMdSaveClick = (product: {
 }) => {
   trackEvent(GA_EVENTS.shop.FEED_DETAIL_MD_SAVE_CLICK, {
     ...shopScreenParams(),
-    ...getProductCardParams({ productId: product.id, name: product.title }),
+    ...getProductCardIdNameParams({
+      productId: product.id,
+      name: product.title,
+    }),
   });
 };
 
@@ -412,22 +473,23 @@ export const trackShopFeedDetailMdUnsaveClick = (product: {
 }) => {
   trackEvent(GA_EVENTS.shop.FEED_DETAIL_MD_UNSAVE_CLICK, {
     ...shopScreenParams(),
-    ...getProductCardParams({ productId: product.id, name: product.title }),
+    ...getProductCardIdNameParams({
+      productId: product.id,
+      name: product.title,
+    }),
   });
 };
 
 export const trackShopFeedDetailMdGoSiteClick = (product: {
   id: number;
   title?: string;
+  brand?: string;
   categoryName?: string;
   discountPrice?: number;
 }) => {
   trackEvent(GA_EVENTS.shop.FEED_DETAIL_MD_GO_SITE_CLICK, {
     ...shopScreenParams(),
-    product_id: product.id,
-    product_name: product.title,
-    product_category: product.categoryName,
-    product_price: product.discountPrice,
+    ...getShopProductCardParams(product),
   });
 };
 
@@ -438,7 +500,10 @@ export const trackShopFeedDetailMdCloseClick = () => {
 export const trackShopSelectSheetView = (context: ShopSelectSheetContext) => {
   trackEvent(
     GA_EVENTS.shop.SELECT_SHEET_VIEW,
-    getShopSelectSheetParams(context, { includeLoginStatus: true })
+    getShopSelectSheetParams(context, {
+      includeLoginStatus: true,
+      includeSelectedSubCategoryTypes: true,
+    })
   );
 };
 

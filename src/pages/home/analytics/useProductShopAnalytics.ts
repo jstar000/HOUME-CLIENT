@@ -26,6 +26,7 @@ import {
   type ProductTabController,
 } from '@pages/home/hooks/useProductTabController';
 import type { SelectedProduct } from '@pages/home/types/productTab';
+import { withProductSubCategory } from '@pages/home/utils/productFilterUtils';
 import { useRecentFloorPlanQuery } from '@pages/imageSetup/v2/apis/queries/useRecentFloorPlanQuery';
 
 import { GA_EVENTS } from '@shared/analytics/events';
@@ -34,7 +35,7 @@ import {
   useScrollDepthTrack,
 } from '@shared/analytics/hooks';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
-import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
+import { resolveShopImageEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
 import { getReturnScreenNameFromImageEntry } from '@shared/analytics/utils/imageFlow';
 
 interface UseProductShopAnalyticsOptions {
@@ -66,6 +67,7 @@ const useProductShopAnalytics = (
     appliedValues,
     appliedFilterChips,
     furnitureLabels,
+    furnitureSubCategoryByNameKr,
     priceLabels,
     colorLabels,
     productCount,
@@ -79,10 +81,21 @@ const useProductShopAnalytics = (
   } = controller;
 
   const selectedProductsRef = useRef(selectedProducts);
+  const furnitureSubCategoryByNameKrRef = useRef(furnitureSubCategoryByNameKr);
 
   useEffect(() => {
     selectedProductsRef.current = selectedProducts;
   }, [selectedProducts]);
+
+  useEffect(() => {
+    furnitureSubCategoryByNameKrRef.current = furnitureSubCategoryByNameKr;
+  }, [furnitureSubCategoryByNameKr]);
+
+  const enrichProductSubCategory = useCallback(
+    (product: SelectedProduct) =>
+      withProductSubCategory(product, furnitureSubCategoryByNameKrRef.current),
+    []
+  );
 
   useEffect(() => {
     productCountViewedRef.current = productCountViewed;
@@ -253,23 +266,20 @@ const useProductShopAnalytics = (
 
   const handleSelectProductWithAnalytics = useCallback(
     (product: SelectedProduct) => {
+      const enrichedProduct = enrichProductSubCategory(product);
       const prev = selectedProductsRef.current;
-      if (prev.some((item) => item.id === product.id)) return;
+      if (prev.some((item) => item.id === enrichedProduct.id)) return;
 
-      handleSelectProduct(product);
+      handleSelectProduct(enrichedProduct);
 
       if (prev.length >= MAX_SELECTED_PRODUCTS) return;
 
-      if (prev.length === 0) {
-        trackShopSelectSheetAddItemClick(getSelectSheetContext());
-      }
-
       trackSelectSheetCountChange(
-        [...prev, product],
+        [...prev, enrichedProduct],
         COUNT_TRIGGER_EVENT.ADD_CLICK
       );
     },
-    [getSelectSheetContext, handleSelectProduct, trackSelectSheetCountChange]
+    [enrichProductSubCategory, handleSelectProduct, trackSelectSheetCountChange]
   );
 
   const handleRemoveSelectedProductWithAnalytics = useCallback(
@@ -284,7 +294,7 @@ const useProductShopAnalytics = (
       if (removedProduct) {
         trackShopSelectSheetRemoveClick(
           getSelectSheetContext(),
-          removedProduct
+          enrichProductSubCategory(removedProduct)
         );
       }
 
@@ -295,6 +305,7 @@ const useProductShopAnalytics = (
       handleRemoveSelectedProduct(id);
     },
     [
+      enrichProductSubCategory,
       getSelectSheetContext,
       handleRemoveSelectedProduct,
       trackSelectSheetCountChange,
@@ -302,8 +313,11 @@ const useProductShopAnalytics = (
   );
 
   const handleAddProductClickWithAnalytics = useCallback(() => {
+    if (selectedProducts.length === 0) {
+      trackShopSelectSheetAddItemClick(getSelectSheetContext());
+    }
     setSheetExpanded(false);
-  }, [setSheetExpanded]);
+  }, [getSelectSheetContext, selectedProducts.length, setSheetExpanded]);
 
   const handleSearchBarClick = useCallback(() => {
     trackShopSearchBarClick();
@@ -331,7 +345,7 @@ const useProductShopAnalytics = (
       ...getShopListContext(),
       sheetExpanded,
       selectedProducts,
-      imageEntryRoute: getEntryRoute(),
+      imageEntryRoute: resolveShopImageEntryRoute(),
       returnScreenName: getReturnScreenNameFromImageEntry() ?? SCREEN_NAME.SHOP,
       hasPreviousSpace: recentFloorPlanData?.hasRecentImage === true,
       hasPreviousImage: recentFloorPlanData?.hasRecentImage === true,
@@ -348,9 +362,12 @@ const useProductShopAnalytics = (
 
   const handleSelectSheetItemClick = useCallback(
     (product: SelectedProduct) => {
-      trackShopSelectSheetItemClick(getSelectSheetContext(), product);
+      trackShopSelectSheetItemClick(
+        getSelectSheetContext(),
+        enrichProductSubCategory(product)
+      );
     },
-    [getSelectSheetContext]
+    [enrichProductSubCategory, getSelectSheetContext]
   );
 
   return {
@@ -361,6 +378,7 @@ const useProductShopAnalytics = (
     handleFilterApply: handleFilterApplyWithAnalytics,
     handleFilterResetClick: handleFilterResetClickWithAnalytics,
     handleSelectProduct: handleSelectProductWithAnalytics,
+    handleSelectProductFromDetailModal: handleSelectProduct,
     handleRemoveSelectedProduct: handleRemoveSelectedProductWithAnalytics,
     handleAddProductClick: handleAddProductClickWithAnalytics,
     handleDecorateWithProductsClick:

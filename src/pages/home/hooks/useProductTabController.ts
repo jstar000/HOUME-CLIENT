@@ -16,8 +16,9 @@ import { useFunnelStore } from '@pages/imageSetup/stores/useFunnelStore';
 
 import { ROUTES } from '@routes/paths';
 
-import { ENTRY_ROUTE, useImageFlowStore } from '@store/useImageFlowStore';
+import { useImageFlowStore } from '@store/useImageFlowStore';
 
+import { resolveShopFlowEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
 import { mapEntryRouteToLoginEntry } from '@shared/analytics/utils/loginEntryRoute';
 import { TOAST_MESSAGE } from '@shared/constants/toastMessage';
 import { TOAST_TYPE, TOASTER_ID } from '@shared/types/toast';
@@ -73,6 +74,7 @@ const useProductTabController = ({
     appliedFilterChips,
     appliedValues,
     furnitureLabels,
+    furnitureSubCategoryByNameKr,
     priceLabels,
     colorLabels,
     syncDraftFromApplied,
@@ -173,10 +175,7 @@ const useProductTabController = ({
 
     useFunnelStore.getState().reset();
 
-    const entryRoute =
-      useImageFlowStore.getState().entryRoute === ENTRY_ROUTE.PRODUCT_REGENERATE
-        ? ENTRY_ROUTE.PRODUCT_REGENERATE
-        : ENTRY_ROUTE.PRODUCT_SELECTION;
+    const entryRoute = resolveShopFlowEntryRoute();
 
     useImageFlowStore.getState().setFlow({
       entryRoute,
@@ -201,6 +200,7 @@ const useProductTabController = ({
     appliedFilterChips,
     appliedValues,
     furnitureLabels,
+    furnitureSubCategoryByNameKr,
     priceLabels,
     colorLabels,
     selectedProducts,

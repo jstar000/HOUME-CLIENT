@@ -63,10 +63,10 @@ const SelectedProductSheet = ({
             onToggle: handleSaveToggleNoop,
           }}
           shoppingAction={{
-            label: '선택',
+            label: '선택됨',
             disabled: true,
-            onClick: () => {},
           }}
+          listCategoryName={product.categoryName}
         />
       ));
     },

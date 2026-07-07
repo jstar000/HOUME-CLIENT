@@ -53,6 +53,7 @@ const ProductTab = () => {
     handleFilterApply,
     handleFilterResetClick,
     handleSelectProduct,
+    handleSelectProductFromDetailModal,
     handleRemoveSelectedProduct,
     handleAddProductClick,
     handleDecorateWithProductsClick,
@@ -71,6 +72,7 @@ const ProductTab = () => {
     chipSelected,
     appliedFilterChips,
     selectedProducts,
+    furnitureSubCategoryByNameKr,
     filterSheetProps,
     keyword,
     products,
@@ -101,16 +103,19 @@ const ProductTab = () => {
         shoppingAction={{
           label: '선택',
           disabled: selectedProducts.some((p) => p.id === reopen.id),
-          onClick: () =>
-            handleSelectProduct({
-              id: reopen.id,
-              title: reopen.product.title,
-              brand: reopen.product.brand ?? '',
-              imageUrl: reopen.product.imageUrl,
-              originalPrice: reopen.price?.original ?? 0,
-              discountPrice: reopen.price?.discount ?? 0,
-              discountRate: reopen.price?.discountRate ?? 0,
-            }),
+        }}
+        onConfirmSelect={() => {
+          if (selectedProducts.some((p) => p.id === reopen.id)) return;
+
+          handleSelectProductFromDetailModal({
+            id: reopen.id,
+            title: reopen.product.title,
+            brand: reopen.product.brand ?? '',
+            imageUrl: reopen.product.imageUrl,
+            originalPrice: reopen.price?.original ?? 0,
+            discountPrice: reopen.price?.discount ?? 0,
+            discountRate: reopen.price?.discountRate ?? 0,
+          });
         }}
       />
     ));
@@ -127,6 +132,8 @@ const ProductTab = () => {
         onAppliedFilterChipRemove={handleRemoveAppliedChip}
         selectedProductIds={selectedProducts.map((product) => product.id)}
         onSelectProduct={handleSelectProduct}
+        onSelectProductFromDetailModal={handleSelectProductFromDetailModal}
+        furnitureSubCategoryByNameKr={furnitureSubCategoryByNameKr}
         keyword={keyword}
         products={products}
         recommendedProducts={recommendedProducts}

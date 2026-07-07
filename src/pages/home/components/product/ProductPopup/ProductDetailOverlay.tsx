@@ -40,10 +40,11 @@ interface ProductDetailOverlayProps {
   link?: LinkInfo;
   shoppingAction?: {
     label?: string;
-    onClick: () => void;
     disabled?: boolean;
   };
+  onConfirmSelect?: () => void;
   selectedProductIds?: string;
+  listCategoryName?: string;
 }
 
 const ProductDetailOverlay = ({
@@ -54,7 +55,9 @@ const ProductDetailOverlay = ({
   save,
   link,
   shoppingAction,
+  onConfirmSelect,
   selectedProductIds,
+  listCategoryName,
 }: ProductDetailOverlayProps) => {
   const navigate = useNavigate();
   const { data, isPending } = useProductDetailQuery(id);
@@ -105,6 +108,17 @@ const ProductDetailOverlay = ({
   const mergedRef = useRef(merged);
   mergedRef.current = merged;
 
+  const categoryName = detail?.categoryName ?? listCategoryName;
+
+  const isAlreadySelected =
+    selectedProductIds
+      ?.split(',')
+      .some((productId) => productId.trim() === String(id)) ?? false;
+  const isConfirmDisabled =
+    shoppingAction?.disabled === true || isAlreadySelected;
+  const confirmLabel =
+    shoppingAction?.label ?? (isAlreadySelected ? '선택됨' : '선택');
+
   const isSaved = getSavedState(id, detail?.isLiked ?? save.isSaved);
 
   useEffect(() => {
@@ -133,24 +147,27 @@ const ProductDetailOverlay = ({
   }, [unmount]);
 
   const handleConfirm = useCallback(() => {
+    if (isConfirmDisabled) return;
+
     trackShopFeedDetailMdSelectClick(
       {
         id,
         title: merged.product.title,
         brand: merged.product.brand,
         discountPrice: merged.price?.discount,
-        categoryName: detail?.categoryName,
+        categoryName,
       },
       selectedProductIds
     );
-    shoppingAction?.onClick();
+    onConfirmSelect?.();
     unmount();
   }, [
-    detail?.categoryName,
+    categoryName,
     id,
+    isConfirmDisabled,
     merged,
+    onConfirmSelect,
     selectedProductIds,
-    shoppingAction,
     unmount,
   ]);
 
@@ -167,8 +184,8 @@ const ProductDetailOverlay = ({
   return (
     <Popup
       btnStyle="solid"
-      btnText={shoppingAction?.label ?? '선택'}
-      confirmDisabled={shoppingAction?.disabled}
+      btnText={confirmLabel}
+      confirmDisabled={isConfirmDisabled}
       onClose={handleClose}
       onCancel={handleSaveToggle}
       onConfirm={handleConfirm}
@@ -187,6 +204,8 @@ const ProductDetailOverlay = ({
                     trackShopFeedDetailMdGoSiteClick({
                       id,
                       title: merged.product.title,
+                      brand: merged.product.brand,
+                      categoryName,
                       discountPrice: merged.price?.discount,
                     });
                     link.onClick?.();

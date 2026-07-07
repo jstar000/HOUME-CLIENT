@@ -6,6 +6,7 @@ import {
   ALL_FILTER_SENTINEL,
   buildAppliedFilterChips,
   buildFilterMeta,
+  buildFurnitureSubCategoryByNameKr,
   isSelectedForRender,
   toDraftFromExternal,
   toExternalFromDraft,
@@ -100,6 +101,11 @@ const useProductFilterState = () => {
       }))
     );
   }, [filterData?.furnitureTypes]);
+
+  const furnitureSubCategoryByNameKr = useMemo(
+    () => buildFurnitureSubCategoryByNameKr(filterData?.furnitureTypes ?? []),
+    [filterData?.furnitureTypes]
+  );
 
   const priceMeta = useMemo<FilterSummaryMeta>(() => {
     return buildFilterMeta(
@@ -243,6 +249,7 @@ const useProductFilterState = () => {
     appliedFilterChips,
     appliedValues,
     furnitureLabels: furnitureMeta.labels,
+    furnitureSubCategoryByNameKr,
     priceLabels: priceMeta.labels,
     colorLabels: colorMeta.labels,
     syncDraftFromApplied,

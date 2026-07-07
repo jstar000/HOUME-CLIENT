@@ -19,6 +19,7 @@ import type {
   ProductFilterChipCategory,
   SelectedProduct,
 } from '@pages/home/types/productTab';
+import { withProductSubCategory } from '@pages/home/utils/productFilterUtils';
 
 import IconButton from '@shared/components/v2/button/IconButton';
 import EmptyView from '@shared/components/v2/emptyView/EmptyView';
@@ -44,6 +45,8 @@ interface SearchSectionProps {
   ) => void;
   selectedProductIds: number[];
   onSelectProduct: (product: SelectedProduct) => void;
+  onSelectProductFromDetailModal: (product: SelectedProduct) => void;
+  furnitureSubCategoryByNameKr: Record<string, string>;
   keyword: string;
   products: ProductSearchCardItem[];
   recommendedProducts: ProductSearchCardItem[];
@@ -68,6 +71,8 @@ const SearchSection = ({
   onAppliedFilterChipRemove,
   selectedProductIds,
   onSelectProduct,
+  onSelectProductFromDetailModal,
+  furnitureSubCategoryByNameKr,
   keyword,
   products,
   recommendedProducts,
@@ -152,25 +157,15 @@ const SearchSection = ({
       },
       cardSave: { isSaved: false; onToggle: () => void; count: number },
       cardLink: { href: string },
-      cardShoppingAction: {
+      confirmAction: {
         label: string;
         disabled?: boolean;
-        onClick: () => void;
-      }
+        onConfirmSelect: () => void;
+      },
+      analyticsProduct: SelectedProduct
     ) => {
       trackShopFeedCardDetailClick(
-        {
-          id,
-          title: cardProduct.title,
-          brand: cardProduct.brand,
-          imageUrl: cardProduct.imageUrl,
-          originalPrice: cardPrice.original,
-          discountPrice: cardPrice.discount,
-          discountRate: cardPrice.discountRate,
-          colorHexes: cardProduct.colorHexes,
-          saveCount: cardSave.count,
-          linkUrl: cardLink.href,
-        },
+        analyticsProduct,
         selectedProductIds.join(', ') || undefined
       );
 
@@ -182,8 +177,13 @@ const SearchSection = ({
           price={cardPrice}
           product={cardProduct}
           save={cardSave}
-          shoppingAction={cardShoppingAction}
+          shoppingAction={{
+            label: confirmAction.label,
+            disabled: confirmAction.disabled,
+          }}
+          onConfirmSelect={confirmAction.onConfirmSelect}
           selectedProductIds={selectedProductIds.join(', ') || undefined}
+          listCategoryName={analyticsProduct.categoryName}
         />
       ));
     },
@@ -195,6 +195,7 @@ const SearchSection = ({
       id,
       title,
       brand,
+      categoryName,
       imageUrl,
       discountRate,
       originalPrice,
@@ -221,15 +222,19 @@ const SearchSection = ({
       count: saveCount,
     };
     const cardLink = { href: linkUrl };
-    const selectedProduct: SelectedProduct = {
-      id,
-      title,
-      brand,
-      imageUrl,
-      originalPrice,
-      discountPrice,
-      discountRate,
-    };
+    const selectedProduct = withProductSubCategory(
+      {
+        id,
+        title,
+        brand,
+        categoryName,
+        imageUrl,
+        originalPrice,
+        discountPrice,
+        discountRate,
+      },
+      furnitureSubCategoryByNameKr
+    );
     const cardShoppingAction = {
       label: isSelected ? '선택됨' : '선택',
       visualDisabled: isSelected,
@@ -244,6 +249,14 @@ const SearchSection = ({
           [...selectedProductIds, id].join(', ')
         );
         onSelectProduct(selectedProduct);
+      },
+    };
+    const detailConfirmAction = {
+      label: isSelected ? '선택됨' : '선택',
+      disabled: isSelected,
+      onConfirmSelect: () => {
+        if (isSelected) return;
+        onSelectProductFromDetailModal(selectedProduct);
       },
     };
 
@@ -263,7 +276,8 @@ const SearchSection = ({
               cardPrice,
               cardSave,
               cardLink,
-              cardShoppingAction
+              detailConfirmAction,
+              selectedProduct
             )
           }
         />
@@ -370,6 +384,10 @@ const SearchSection = ({
                     products={recommendedProducts}
                     selectedProductIds={selectedProductIds}
                     onSelectProduct={onSelectProduct}
+                    onSelectProductFromDetailModal={
+                      onSelectProductFromDetailModal
+                    }
+                    furnitureSubCategoryByNameKr={furnitureSubCategoryByNameKr}
                     onOpenProductDetail={openProductDetail}
                   />
                 </>

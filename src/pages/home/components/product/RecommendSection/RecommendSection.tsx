@@ -6,6 +6,7 @@ import {
 } from '@pages/home/analytics/shopAnalytics';
 import type { ProductSearchCardItem } from '@pages/home/hooks/useProductSearch';
 import type { SelectedProduct } from '@pages/home/types/productTab';
+import { withProductSubCategory } from '@pages/home/utils/productFilterUtils';
 
 import ProductCard from '@shared/components/v2/productCard/ProductCard';
 
@@ -15,6 +16,8 @@ interface RecommendSectionProps {
   products: ProductSearchCardItem[];
   selectedProductIds: number[];
   onSelectProduct: (product: SelectedProduct) => void;
+  onSelectProductFromDetailModal: (product: SelectedProduct) => void;
+  furnitureSubCategoryByNameKr: Record<string, string>;
   onOpenProductDetail: (
     id: number,
     cardProduct: {
@@ -30,12 +33,12 @@ interface RecommendSectionProps {
     },
     cardSave: { isSaved: false; onToggle: () => void; count: number },
     cardLink: { href: string },
-    cardShoppingAction: {
+    confirmAction: {
       label: string;
       disabled?: boolean;
-      visualDisabled?: boolean;
-      onClick: () => void;
-    }
+      onConfirmSelect: () => void;
+    },
+    analyticsProduct: SelectedProduct
   ) => void;
 }
 
@@ -43,6 +46,8 @@ const RecommendSection = ({
   products,
   selectedProductIds,
   onSelectProduct,
+  onSelectProductFromDetailModal,
+  furnitureSubCategoryByNameKr,
   onOpenProductDetail,
 }: RecommendSectionProps) => {
   const handleSaveToggleNoop = useCallback(() => {}, []);
@@ -60,6 +65,7 @@ const RecommendSection = ({
             id,
             title,
             brand,
+            categoryName,
             imageUrl,
             discountRate,
             originalPrice,
@@ -86,15 +92,19 @@ const RecommendSection = ({
             count: saveCount,
           };
           const cardLink = { href: linkUrl };
-          const selectedProduct: SelectedProduct = {
-            id,
-            title,
-            brand,
-            imageUrl,
-            originalPrice,
-            discountPrice,
-            discountRate,
-          };
+          const selectedProduct = withProductSubCategory(
+            {
+              id,
+              title,
+              brand,
+              categoryName,
+              imageUrl,
+              originalPrice,
+              discountPrice,
+              discountRate,
+            },
+            furnitureSubCategoryByNameKr
+          );
           const cardShoppingAction = {
             label: isSelected ? '선택됨' : '선택',
             visualDisabled: isSelected,
@@ -109,6 +119,14 @@ const RecommendSection = ({
                 [...selectedProductIds, id].join(', ')
               );
               onSelectProduct(selectedProduct);
+            },
+          };
+          const detailConfirmAction = {
+            label: isSelected ? '선택됨' : '선택',
+            disabled: isSelected,
+            onConfirmSelect: () => {
+              if (isSelected) return;
+              onSelectProductFromDetailModal(selectedProduct);
             },
           };
 
@@ -128,7 +146,8 @@ const RecommendSection = ({
                     cardPrice,
                     cardSave,
                     cardLink,
-                    cardShoppingAction
+                    detailConfirmAction,
+                    selectedProduct
                   )
                 }
               />

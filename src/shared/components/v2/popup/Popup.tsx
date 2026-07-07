@@ -85,7 +85,10 @@ const Popup = ({
           })}
           disabled={confirmDisabled}
           aria-disabled={confirmDisabled || undefined}
-          onClick={onConfirm}
+          onClick={() => {
+            if (confirmDisabled) return;
+            onConfirm();
+          }}
         >
           {btnText}
         </button>
@@ -108,7 +111,11 @@ const Popup = ({
             leftIcon={btnIcon}
             fullWidth
             disabled={confirmDisabled}
-            onClick={onConfirm}
+            visualDisabled={confirmDisabled}
+            onClick={() => {
+              if (confirmDisabled) return;
+              onConfirm();
+            }}
           >
             {btnText}
           </ActionButton>
