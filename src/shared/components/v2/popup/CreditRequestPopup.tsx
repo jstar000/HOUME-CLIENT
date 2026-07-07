@@ -3,23 +3,13 @@ import Popup from './Popup';
 
 const CREDIT_REQUEST_URL = 'https://tally.so/r/gDrdYO';
 
-const buildCreditRequestUrl = (email?: string | null) => {
-  if (!email) return CREDIT_REQUEST_URL;
-
-  const url = new URL(CREDIT_REQUEST_URL);
-  url.searchParams.set('email', email);
-
-  return url.toString();
-};
-
 interface CreditRequestPopupProps {
-  email?: string | null;
   onClose: () => void;
 }
 
-const CreditRequestPopup = ({ email, onClose }: CreditRequestPopupProps) => {
+const CreditRequestPopup = ({ onClose }: CreditRequestPopupProps) => {
   const handleRequestCredit = () => {
-    window.open(buildCreditRequestUrl(email), '_blank', 'noopener,noreferrer');
+    window.open(CREDIT_REQUEST_URL, '_blank', 'noopener,noreferrer');
     onClose();
   };
 
