@@ -8,10 +8,9 @@ import {
   trackMypageTabGenImgClick,
   trackMypageTabSavedItemClick,
 } from '@pages/mypage/analytics/mypageAnalytics';
+import type { MypageMenuTab } from '@pages/mypage/MyPage';
 
 import { ROUTES } from '@routes/paths';
-
-import type { MypageMenuTab } from '../MyPage';
 
 interface UseMypagePageAnalyticsOptions {
   activeMenuTab: MypageMenuTab;

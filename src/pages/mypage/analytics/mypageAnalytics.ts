@@ -5,6 +5,7 @@ import {
   mypageReturnScreenParams,
   mypageScreenParams,
 } from '@pages/mypage/analytics/mypageAnalyticsParams';
+import type { FurnitureItem } from '@pages/mypage/types/apis/saveItemsList';
 
 import { GA_EVENTS } from '@shared/analytics/events';
 import {
@@ -22,8 +23,6 @@ import type {
   ItemResponse,
   UsedProductResponse,
 } from '@apis/__generated__/data-contracts';
-
-import type { FurnitureItem } from '../types/apis/saveItemsList';
 
 export const trackMypageFeedCardView = (item: FurnitureItem) => {
   trackEvent(GA_EVENTS.mypage.FEED_CARD_VIEW, {

@@ -1,3 +1,5 @@
+import type { FurnitureItem } from '@pages/mypage/types/apis/saveItemsList';
+
 import { IMG_RESULT_TYPE } from '@shared/analytics/params/result';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { getReturnScreenNameParams } from '@shared/analytics/utils/screenName';
@@ -6,8 +8,6 @@ import type {
   DateGroupResponse,
   ItemResponse,
 } from '@apis/__generated__/data-contracts';
-
-import type { FurnitureItem } from '../types/apis/saveItemsList';
 
 export const mypageScreenParams = () => ({
   screen_name: SCREEN_NAME.MYPAGE,

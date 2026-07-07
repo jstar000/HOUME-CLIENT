@@ -8,8 +8,7 @@ import {
   trackMypageListEmptyGenImgView,
   trackMypageListEmptySavedItemView,
 } from '@pages/mypage/analytics/mypageAnalytics';
-
-import type { FurnitureItem } from '../types/apis/saveItemsList';
+import type { FurnitureItem } from '@pages/mypage/types/apis/saveItemsList';
 
 interface UseMypageEmptyStateAnalyticsOptions {
   type: 'generatedImages' | 'savedItems';
