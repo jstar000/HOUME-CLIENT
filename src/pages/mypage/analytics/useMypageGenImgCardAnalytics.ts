@@ -32,6 +32,14 @@ export const useMypageGenImgCardAnalytics = ({
   const scrollDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
+    return () => {
+      if (scrollDebounceRef.current) {
+        clearTimeout(scrollDebounceRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     trackedListCardViewRef.current = false;
   }, [item.imageId, usedProducts]);
 
@@ -48,20 +56,23 @@ export const useMypageGenImgCardAnalytics = ({
     trackMypageListCardView();
   }, [isListType, usedProducts]);
 
-  const handleListCardClick = useCallback((item: UsedProductResponse) => {
-    trackMypageListCardClick(item);
+  const handleListCardClick = useCallback((product: UsedProductResponse) => {
+    trackMypageListCardClick(product);
   }, []);
 
-  const handleListCardGoSiteClick = useCallback((item: UsedProductResponse) => {
-    trackMypageListCardGoSiteClick(item);
-  }, []);
+  const handleListCardGoSiteClick = useCallback(
+    (product: UsedProductResponse) => {
+      trackMypageListCardGoSiteClick(product);
+    },
+    []
+  );
 
   const handleListCardSaveToggle = useCallback(
-    (item: UsedProductResponse, isSaved: boolean) => {
+    (product: UsedProductResponse, isSaved: boolean) => {
       if (isSaved) {
-        trackMypageListCardUnsaveClick(item);
+        trackMypageListCardUnsaveClick(product);
       } else {
-        trackMypageListCardSaveClick(item);
+        trackMypageListCardSaveClick(product);
       }
     },
     []
