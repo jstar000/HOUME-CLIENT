@@ -36,10 +36,10 @@ export type { LoginEntryRoute };
 /** `login_entry_route` + `return_screen_name` (`login_status` 없음) */
 export const getLoginEntryRouteParams = () => {
   const returnPath = getLoginRedirect() ?? ROUTES.HOME;
-  const entryRoute = getLoginEntryRoute();
 
   return {
-    ...(entryRoute ? { login_entry_route: entryRoute } : {}),
+    // 게이트 없이 진입(직접 URL, ProtectedRoute 리다이렉트 등)하면 undefined — 콘솔에서 확인용, Firebase 전송 시 제외
+    login_entry_route: getLoginEntryRoute() ?? undefined,
     return_screen_name: resolveScreenName(returnPath),
   };
 };
