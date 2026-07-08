@@ -4,19 +4,13 @@ import emptyImage from '@assets/v2/images/ImgEmpty.png';
 
 import IconButton from '@components/v2/button/IconButton';
 import Chip from '@components/v2/chip/Chip';
-import Icon, { type IconName } from '@components/v2/icon/Icon';
+import Icon from '@components/v2/icon/Icon';
 import RoomTypeCard from '@components/v2/roomTypeCard/RoomTypeCard';
 
 import * as styles from './FloorPlanSelectGrid.css';
 
 import type { FloorPlanAspectRatio } from '../../stores/useFloorPlanRatioStore';
 import type { FilterCategory, FloorPlanFilters } from '../../types/floorPlan';
-
-// TODO: 디자인 확정 시 실제 1:1 / 3:2 비율 아이콘으로 교체 (현재는 임시 placeholder)
-const RATIO_ICON = {
-  '1:1': 'ViewDetail',
-  '3:2': 'Search',
-} as const satisfies Record<FloorPlanAspectRatio, IconName>;
 
 interface FloorPlanSelectGridProps {
   filterCategories: FilterCategory[];
@@ -106,20 +100,29 @@ const FloorPlanSelectGrid = ({
         })}
       </div>
 
-      {/* 비율 토글 (1:1 / 3:2) — TODO: 아이콘/스타일 디자인 확정 후 교체 */}
-      <div className={styles.ratioToggle}>
-        <IconButton
-          name={RATIO_ICON['1:1']}
-          aria-label="1:1 비율"
-          aria-pressed={aspectRatio === '1:1'}
-          onClick={() => onAspectRatioChange('1:1')}
-        />
-        <IconButton
-          name={RATIO_ICON['3:2']}
-          aria-label="3:2 비율"
-          aria-pressed={aspectRatio === '3:2'}
-          onClick={() => onAspectRatioChange('3:2')}
-        />
+      {/* 개수 + 비율 토글 (listControl) */}
+      <div className={styles.listControl}>
+        {/* 정확 매칭 없음(isExact=false)이면 유사 도면 개수 대신 0개로 표시 */}
+        <p className={styles.countText}>{isExact ? floorPlans.length : 0}개</p>
+        <div className={styles.ratioToggle}>
+          <IconButton
+            name={
+              aspectRatio === '1:1' ? 'Grid2ColSelected' : 'Grid2ColDefault'
+            }
+            aria-label="2열로 보기"
+            aria-pressed={aspectRatio === '1:1'}
+            onClick={() => onAspectRatioChange('1:1')}
+          />
+          <span className={styles.toggleDivider} aria-hidden="true" />
+          <IconButton
+            name={
+              aspectRatio === '3:2' ? 'Grid1ColSelected' : 'Grid1ColDefault'
+            }
+            aria-label="1열로 보기"
+            aria-pressed={aspectRatio === '3:2'}
+            onClick={() => onAspectRatioChange('3:2')}
+          />
+        </div>
       </div>
 
       {/* 카드 그리드 영역 */}

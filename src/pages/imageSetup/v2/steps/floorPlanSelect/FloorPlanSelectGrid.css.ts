@@ -37,13 +37,33 @@ export const gridScroll = style({
   overflow: 'auto',
 });
 
-// 비율 토글 바 (chipBar와 gridScroll 사이, 우측 정렬) — TODO: Figma 확정 시 수치 교체
-export const ratioToggle = style({
+// 개수 표시 + 비율 토글 행 (chipBar와 gridScroll 사이)
+export const listControl = style({
   display: 'flex',
   flexShrink: 0,
-  justifyContent: 'flex-end',
-  gap: unitVars.unit.gapPadding['100'],
-  padding: `${unitVars.unit.gapPadding['100']} ${unitVars.unit.gapPadding['500']}`,
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  backgroundColor: colorVars.color.bg.primary,
+  padding: `0 ${unitVars.unit.gapPadding['500']}`,
+});
+
+export const countText = style({
+  margin: 0,
+  padding: `0 ${unitVars.unit.gapPadding['100']}`,
+  color: colorVars.color.text.tertiary,
+  ...fontVars.font.body_r_13,
+});
+
+export const ratioToggle = style({
+  display: 'flex',
+  alignItems: 'center',
+});
+
+export const toggleDivider = style({
+  flexShrink: 0,
+  backgroundColor: colorVars.color.border.primary,
+  width: '0.1rem', // 1px (1rem=10px)
+  height: '1.4rem', // 14px
 });
 
 export const divider = style({
