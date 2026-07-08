@@ -2,7 +2,7 @@ name: deploy
 
 on:
   push:
-    branches: ['main'] # main 브랜치에 푸시될 때만 트리거
+    branches: ['main', 'develop'] # main/develop 브랜치에 푸시될 때만 트리거
 
 jobs:
   build:
@@ -21,10 +21,10 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.AUTO_ACTIONS }}
         with:
           source-directory: 'output'
-          destination-github-username: jstar000
-          destination-repository-name: HOUME-CLIENT
+          destination-github-username: ${{ vars.DEPLOY_DESTINATION_OWNER }}
+          destination-repository-name: ${{ vars.DEPLOY_DESTINATION_REPO }}
           user-email: ${{ secrets.EMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
-          target-branch: main
+          target-branch: ${{ github.ref_name }}
       - name: Test get variable exported by push-to-another-repository
         run: echo $DESTINATION_CLONED_DIRECTORY

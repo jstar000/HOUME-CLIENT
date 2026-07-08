@@ -4,7 +4,10 @@ const config = {
     '@chromatic-com/storybook',
     '@storybook/addon-docs',
     '@storybook/addon-a11y',
+    // eslint-disable-next-line storybook/no-uninstalled-addons -- consolidated addon export
+    'storybook/viewport',
     // '@storybook/addon-vitest',
+    'msw-storybook-addon',
   ],
   framework: {
     name: '@storybook/react-vite',

@@ -1,9 +1,9 @@
-import GeneralModal from '@/shared/components/overlay/modal/GeneralModal';
+import GeneralModal from '@components/overlay/modal/GeneralModal';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof GeneralModal> = {
-  title: 'Modal/GeneralModal',
+  title: 'shared/overlay/GeneralModal',
   component: GeneralModal,
   tags: ['autodocs'],
   parameters: {

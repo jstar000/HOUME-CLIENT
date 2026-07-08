@@ -1,11 +1,11 @@
 import { MemoryRouter } from 'react-router-dom';
 
-import LogoNavBar from '@shared/components/navBar/LogoNavBar';
+import LogoNavBar from '@components/navBar/LogoNavBar';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof LogoNavBar> = {
-  title: 'navbar/LogoNavBar',
+  title: 'shared/navBar/LogoNavBar',
   component: LogoNavBar,
   tags: ['autodocs'],
   decorators: [

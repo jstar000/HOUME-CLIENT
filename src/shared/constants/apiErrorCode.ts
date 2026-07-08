@@ -1,4 +1,11 @@
 // api 에러 코드
 export const ERROR_CODES = {
+  // 인증
   ACCESS_TOKEN_EXPIRED: 40002,
+  // 이미지 생성
+  IMAGE_QUOTA_EXCEEDED: 42900,
+  IMAGE_LIMIT_EXCEEDED: 42901,
+  IMAGE_ALREADY_REQUESTED: 40900,
+  // HTTP
+  HTTP_RATE_LIMITED: 429,
 } as const;

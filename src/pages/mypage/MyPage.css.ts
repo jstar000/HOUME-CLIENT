@@ -1,8 +1,15 @@
 import { style } from '@vanilla-extract/css';
 
 export const contentWrapper = style({
-  minHeight: '100vh',
+  display: 'flex',
+  flex: 1,
+  flexDirection: 'column',
   alignItems: 'center',
   alignSelf: 'stretch',
-  gap: '2.4rem',
+  minHeight: '100vh',
+});
+
+export const menuTabContainer = style({
+  alignSelf: 'stretch',
+  width: '100%',
 });

@@ -1,28 +1,29 @@
 import { style } from '@vanilla-extract/css';
 
-import { fontStyle } from '@/shared/styles/fontStyle';
-import { colorVars } from '@/shared/styles/tokens/color.css';
-import { zIndex } from '@/shared/styles/tokens/zIndex';
+import { fontStyle } from '@styles/fontStyle';
+import { layoutVars } from '@styles/global.css';
+import { colorVars } from '@styles/tokens/color.css';
+import { zIndex } from '@styles/tokens/zIndex';
 
 export const container = style({
-  display: 'flex',
-  width: '100%',
-  height: '4.8rem',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  textAlign: 'center',
   position: 'relative',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
   background: colorVars.color.gray000,
+  width: '100%',
+  height: layoutVars.titleNavBarHeight,
+  textAlign: 'center',
   color: colorVars.color.gray900,
 });
 
 export const leftdiv = style({
   display: 'flex',
-  justifyContent: 'center',
   alignItems: 'center',
-  width: '4.8rem',
-  height: '4.8rem',
+  justifyContent: 'center',
   padding: '1.2rem',
+  width: '4.8rem',
+  height: layoutVars.titleNavBarHeight,
 });
 
 export const backicon = style({
@@ -31,21 +32,21 @@ export const backicon = style({
 
 export const title = style({
   position: 'absolute',
-  left: '50%',
+  zIndex: zIndex.base,
   top: '50%',
+  left: '50%',
   transform: 'translate(-50%, -50%)',
   margin: 0,
-  zIndex: zIndex.base,
-  width: 'max-content',
   pointerEvents: 'none',
+  width: 'max-content',
   ...fontStyle('title_m_16'),
 });
 
 export const rightdiv = style({
   display: 'flex',
-  justifyContent: 'center',
   alignItems: 'center',
-  height: '4.8rem',
+  justifyContent: 'center',
   padding: '1.2rem 1.6rem',
+  height: layoutVars.titleNavBarHeight,
   ...fontStyle('body_r_14'),
 });

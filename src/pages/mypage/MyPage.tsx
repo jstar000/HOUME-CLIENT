@@ -1,36 +1,69 @@
 import { useEffect, useState } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { ErrorBoundary } from 'react-error-boundary';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import { ROUTES } from '@/routes/paths';
-import Loading from '@/shared/components/loading/Loading';
-import TitleNavBar from '@/shared/components/navBar/TitleNavBar';
-import { useErrorHandler } from '@/shared/hooks/useErrorHandler';
-import { useUserStore } from '@/store/useUserStore';
+import { ROUTES } from '@routes/paths';
 
-import TabNavBar from './components/navBar/TabNavBar';
+import { useUserStore } from '@store/useUserStore';
+
+import FeatureErrorFallback from '@components/errorFallback/FeatureErrorFallback';
+import InlineError from '@components/inlineError/InlineError';
+import Loading from '@components/loading/Loading';
+import MenuTab from '@components/v2/menuTab/MenuTab';
+import TitleNavBar from '@components/v2/navBar/TitleNavBar';
+
+import { useMyPageProfileQuery } from './apis/queries/useEditProfileQuery';
+import { useMyPageUserQuery } from './apis/queries/useMyPageUserQuery';
 import GeneratedImagesSection from './components/section/generatedImages/GeneratedImagesSection';
 import ProfileSection from './components/section/profile/ProfileSection';
 import SavedItemsSection from './components/section/savedItems/SavedItemsSection';
-import { useMyPageUser } from './hooks/useMypage';
 import * as styles from './MyPage.css';
 
-const MyPage = () => {
-  const { handleError } = useErrorHandler('mypage');
-  const navigate = useNavigate();
+export type MypageMenuTab = 'generatedImages' | 'savedItems';
 
-  // sessionStorage에서 탭 정보 가져오기
-  const initialTab =
-    (sessionStorage.getItem('activeTab') as 'savedItems' | 'generatedImages') ||
-    'generatedImages';
-  const [activeTab, setActiveTab] = useState<'savedItems' | 'generatedImages'>(
-    initialTab
+const DEFAULT_MENU_TAB: MypageMenuTab = 'generatedImages';
+
+const getMypageMenuTab = (tab: unknown) => {
+  if (tab === 'generatedImages' || tab === 'savedItems') {
+    return tab;
+  }
+
+  return undefined;
+};
+
+const MyPage = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const [activeMenuTab, setActiveMenuTab] = useState<MypageMenuTab>(
+    () => getMypageMenuTab(location.state?.activeTab) ?? DEFAULT_MENU_TAB
   );
 
   useEffect(() => {
-    // 탭 정보 사용 후 제거
-    sessionStorage.removeItem('activeTab');
-  }, []);
+    const nextTab = getMypageMenuTab(location.state?.activeTab);
+
+    if (!nextTab) {
+      return;
+    }
+
+    setActiveMenuTab(nextTab);
+    navigate(location.pathname, { replace: true, state: null });
+  }, [location.key, location.pathname, location.state?.activeTab, navigate]);
+
+  // 탭 상태 관리 (찜 토스트로 들어온 경우 찜 탭으로 이동을 위해 추가했었음.)
+  // // sessionStorage에서 탭 정보 가져오기
+  // const initialTab =
+  //   (sessionStorage.getItem('activeTab') as 'savedItems' | 'generatedImages') ||
+  //   'generatedImages';
+  // const [activeTab, setActiveTab] = useState<'savedItems' | 'generatedImages'>(
+  //   initialTab
+  // );
+
+  // useEffect(() => {
+  //   // 탭 정보 사용 후 제거
+  //   sessionStorage.removeItem('activeTab');
+  // }, []);
 
   // 로그인 상태 확인
   const accessToken = useUserStore((state) => state.accessToken);
@@ -38,10 +71,13 @@ const MyPage = () => {
 
   const {
     data: userData,
-    isLoading: isUserLoading,
+    isPending: isUserLoading,
     isError: isUserError,
-    error,
-  } = useMyPageUser({
+    refetch,
+  } = useMyPageUserQuery({
+    enabled: isLoggedIn,
+  });
+  const { data: profileData } = useMyPageProfileQuery({
     enabled: isLoggedIn,
   });
 
@@ -49,64 +85,53 @@ const MyPage = () => {
     // 로그인되지 않았으면 로그인 페이지로 리디렉션
     if (!isLoggedIn) {
       navigate(ROUTES.LOGIN);
-      return;
     }
-    // 로그인 상태에서 API 에러가 발생한 경우 에러 처리
-    if (isUserError && error) {
-      handleError(error, 'api');
-    }
-  }, [isLoggedIn, navigate, isUserError, error, handleError]);
+  }, [isLoggedIn, navigate]);
 
   // 로그인되지 않았으면 아무것도 렌더링하지 않음 (리디렉션 중)
   if (!isLoggedIn) {
     return null;
   }
 
-  // 로딩 상태 처리
-  if (isUserLoading) {
-    return (
-      <>
-        <div className={styles.contentWrapper}>
-          <TitleNavBar
-            title="마이페이지"
-            isBackIcon
-            isLoginBtn={false}
-            onBackClick={() => navigate(ROUTES.HOME)}
-          />
-        </div>
-        <Loading />
-      </>
-    );
-  }
-
-  // 에러 상태 처리
-  if (isUserError || !userData) {
-    return null;
-  }
+  const profileName = profileData?.nickname || userData?.name || '사용자';
+  const profileCredit = userData?.CreditCount ?? 0;
 
   return (
     <div className={styles.contentWrapper}>
       <TitleNavBar
         title="마이페이지"
-        isBackIcon
-        isSettingBtn
-        isLoginBtn={false}
-        onBackClick={() => navigate(ROUTES.HOME)}
+        backLabel="이전"
+        isSettingBtn={true}
+        onBackClick={() => navigate(-1)}
       />
 
-      <ProfileSection
-        userName={userData.name || '사용자'}
-        credit={userData.CreditCount ?? 0}
-        maxCredit={5}
-      />
-
-      <TabNavBar activeTab={activeTab} onTabChange={setActiveTab} />
-
-      {activeTab === 'savedItems' ? (
-        <SavedItemsSection />
+      {isUserError ? (
+        <InlineError onRetry={refetch} />
       ) : (
-        <GeneratedImagesSection />
+        <ErrorBoundary FallbackComponent={FeatureErrorFallback}>
+          <ProfileSection
+            userName={profileName}
+            credit={profileCredit}
+            maxCredit={5}
+          />
+
+          <div className={styles.menuTabContainer}>
+            <MenuTab
+              menuType="mypage"
+              tabs={[
+                { value: 'generatedImages', label: '생성한 이미지' },
+                { value: 'savedItems', label: '찜한 상품' },
+              ]}
+              activeTab={activeMenuTab}
+              onTabChange={setActiveMenuTab}
+            />
+          </div>
+          {activeMenuTab === 'generatedImages' && <GeneratedImagesSection />}
+          {activeMenuTab === 'savedItems' && <SavedItemsSection />}
+        </ErrorBoundary>
       )}
+
+      {isUserLoading && <Loading />}
     </div>
   );
 };

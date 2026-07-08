@@ -1,48 +1,52 @@
 import { style } from '@vanilla-extract/css';
 
-import { fontStyle } from '@/shared/styles/fontStyle';
-import { colorVars } from '@/shared/styles/tokens/color.css';
+import { colorVars } from '@/shared/styles/tokensV2/color.css';
+import { fontVars } from '@/shared/styles/tokensV2/font.css';
+import { unitVars } from '@/shared/styles/tokensV2/unit.css';
 
 export const container = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: unitVars.unit.gapPadding['800'],
+  padding: unitVars.unit.gapPadding['500'],
   width: '100%',
-  padding: '2.4rem 2rem 0 2rem',
+  minHeight: '100vh',
 });
 
 export const section = style({
-  marginBottom: '4rem',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: unitVars.unit.gapPadding['300'],
 });
 
 export const sectionTitle = style({
-  ...fontStyle('title_sb_16'),
-  color: colorVars.color.gray800,
-  marginBottom: '1.6rem',
-});
-
-export const buttonArea = style({
   display: 'block',
-  margin: 0,
-  padding: 0,
-  listStyle: 'none',
-  borderTop: `0.1rem solid ${colorVars.color.gray100}`,
+  ...fontVars.font.title_sb_16,
+  padding: `${unitVars.unit.gapPadding['100']} ${unitVars.unit.gapPadding['000']}`,
+  color: colorVars.color.text.primary,
 });
 
 export const buttonItem = style({
   display: 'block',
-  padding: '1.2rem 0',
-  borderBottom: `0.1rem solid ${colorVars.color.gray100}`,
+  padding: `${unitVars.unit.gapPadding['200']} ${unitVars.unit.gapPadding['000']}`,
 });
 
-export const settingButton = style({
+export const popupContent = style({
   display: 'flex',
-  width: '100%',
-  padding: 0,
-  backgroundColor: 'transparent',
-  border: 'none',
-  cursor: 'pointer',
-  textAlign: 'left',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
 });
 
-export const buttonText = style({
-  ...fontStyle('body_r_14'),
-  color: colorVars.color.gray600,
+export const popupTitle = style({
+  ...fontVars.font.title_sb_16,
+  marginBottom: unitVars.unit.gapPadding['200'],
+  textAlign: 'center',
+  color: colorVars.color.text.primary,
+});
+
+export const popupDetail = style({
+  ...fontVars.font.body_r_14,
+  textAlign: 'center',
+  color: colorVars.color.text.secondary,
 });

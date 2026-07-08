@@ -1,14 +1,18 @@
-import { useCallback, useState } from 'react';
+import { createElement, useCallback, useState } from 'react';
 
-import { useMyPageUser } from '@/pages/mypage/hooks/useMypage';
-import { useToast } from '@/shared/components/toast/useToast';
+import { overlay } from 'overlay-kit';
 
-import { TOAST_TYPE } from '../types/toast';
+import { useMyPageUserQuery } from '@pages/mypage/apis/queries/useMyPageUserQuery';
+
+import { TOAST_TYPE } from '@shared/types/toastLegacy';
+
+import { useToast } from '@components/toast/useToast';
+import CreditRequestPopup from '@components/v2/popup/CreditRequestPopup';
 
 interface CreditGuardReturn {
   checkCredit: () => Promise<boolean>;
   hasEnoughCredit: boolean | undefined;
-  isLoading: boolean;
+  isPending: boolean;
   isChecking: boolean;
   creditCount: number | undefined;
 }
@@ -17,7 +21,7 @@ interface CreditGuardReturn {
  * 크레딧 확인 및 가드 처리 훅
  *
  * 이미지 생성 등 크레딧이 필요한 작업 전에 사용자의 크레딧을 확인하고,
- * 크레딧이 부족할 경우 토스트 알림을 표시합니다.
+ * 크레딧이 부족할 경우 요청 팝업을 표시합니다.
  *
  * @param requiredCredits 필요한 크레딧 수 (기본값: 1)
  * @returns 크레딧 확인 함수와 상태 정보
@@ -26,7 +30,7 @@ export const useCreditGuard = (
   requiredCredits: number = 1
 ): CreditGuardReturn => {
   // 사용자 데이터 조회 (실시간으로 API 호출)
-  const { data: userData, isLoading, refetch } = useMyPageUser();
+  const { data: userData, isPending, refetch } = useMyPageUserQuery();
 
   // 토스트 알림 훅
   const { notify } = useToast();
@@ -37,6 +41,14 @@ export const useCreditGuard = (
   // 현재 크레딧 수
   const creditCount = userData?.CreditCount;
 
+  const openCreditRequestPopup = useCallback(() => {
+    overlay.open(({ unmount }) => {
+      return createElement(CreditRequestPopup, {
+        onClose: unmount,
+      });
+    });
+  }, []);
+
   // 크레딧 충분 여부
   const hasEnoughCredit =
     creditCount !== undefined ? creditCount >= requiredCredits : undefined;
@@ -46,7 +58,7 @@ export const useCreditGuard = (
    *
    * 1. 최신 사용자 데이터를 다시 조회
    * 2. 크레딧 충분 여부 확인
-   * 3. 부족 시 토스트 알림 표시
+   * 3. 부족 시 크레딧 요청 팝업 표시
    *
    * @returns 크레딧이 충분한지 여부
    */
@@ -71,11 +83,7 @@ export const useCreditGuard = (
       if (currentCredit >= requiredCredits) {
         return true;
       } else {
-        // 크레딧 부족 시 토스트 알림
-        notify({
-          text: `크레딧이 부족합니다.`,
-          type: TOAST_TYPE.WARNING,
-        });
+        openCreditRequestPopup();
         return false;
       }
     } catch (error) {
@@ -88,12 +96,12 @@ export const useCreditGuard = (
     } finally {
       setIsChecking(false);
     }
-  }, [isChecking, requiredCredits, refetch, notify]);
+  }, [isChecking, openCreditRequestPopup, requiredCredits, refetch, notify]);
 
   return {
     checkCredit,
     hasEnoughCredit,
-    isLoading,
+    isPending,
     isChecking,
     creditCount,
   };

@@ -1,6 +1,7 @@
-import CtaButton from '@shared/components/button/ctaButton/CtaButton.tsx';
+import CtaButton from '@components/button/ctaButton/CtaButton';
+import OptimizedImage from '@components/image/OptimizedImage';
 
-import * as styles from './CardHistory.css.ts';
+import * as styles from './CardHistory.css';
 
 interface CardHistoryProps extends React.ComponentProps<'div'> {
   src: string;
@@ -13,7 +14,7 @@ const CardHistory = ({ src, title, btnText, onClick }: CardHistoryProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.imgbox}>
-        <img
+        <OptimizedImage
           src={src}
           className={styles.imgbox}
           alt="이미지 생성 히스토리"

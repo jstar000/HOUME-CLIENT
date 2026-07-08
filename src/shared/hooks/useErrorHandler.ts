@@ -2,12 +2,16 @@ import { useCallback, useRef } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { logLoginSocialViewToastLoginError } from '@/pages/login/utils/analytics';
-import { ROUTES } from '@/routes/paths';
-import { useToast } from '@/shared/components/toast/useToast';
-import type { ErrorType, PageContext } from '@/shared/types/error';
-import { ERROR_MESSAGES } from '@/shared/types/error';
-import { TOAST_TYPE } from '@/shared/types/toast';
+import { logLoginSocialViewToastLoginError } from '@pages/login/utils/analytics';
+
+import { ROUTES } from '@routes/paths';
+
+import type { ErrorType, PageContext } from '@shared/types/error';
+import { ERROR_MESSAGES } from '@shared/types/error';
+
+import { useToast } from '@components/toast/useToast';
+
+import { TOAST_TYPE } from '@/shared/types/toastLegacy';
 
 /**
  * 중앙화된 에러 핸들러 훅
@@ -79,32 +83,8 @@ export const useErrorHandler = (context: PageContext) => {
    */
   const handleError = useCallback(
     (error: Error | unknown, type: ErrorType, customMessage?: string) => {
-      // SESSION_EXPIRED 에러는 특별 처리 (토큰 만료 상황)
+      // SESSION_EXPIRED는 queryClient의 globalErrorHandler에서 전역 처리
       if (error instanceof Error && error.message === 'SESSION_EXPIRED') {
-        console.error(`[${context}] Session expired, redirecting to login`);
-
-        // 토스트 중복 방지 체크
-        const message = '세션이 만료되었습니다. 다시 로그인해주세요.';
-        const now = Date.now();
-
-        if (
-          lastErrorRef.current &&
-          lastErrorRef.current.message === message &&
-          now - lastErrorRef.current.timestamp < TOAST_COOLDOWN
-        ) {
-          return;
-        }
-
-        lastErrorRef.current = { message, timestamp: now };
-
-        notify({
-          text: message,
-          type: TOAST_TYPE.WARNING,
-        });
-
-        setTimeout(() => {
-          navigate(ROUTES.LOGIN);
-        }, 1000);
         return;
       }
 

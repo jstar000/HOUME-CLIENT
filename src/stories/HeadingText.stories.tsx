@@ -1,9 +1,9 @@
-import HeadingText from '@/shared/components/text/HeadingText';
+import HeadingText from '@components/text/HeadingText';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof HeadingText> = {
-  title: 'typography/HeadingText',
+  title: 'shared/typography/HeadingText',
   component: HeadingText,
   tags: ['autodocs'],
   parameters: {
