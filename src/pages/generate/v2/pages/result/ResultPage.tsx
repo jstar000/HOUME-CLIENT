@@ -79,7 +79,11 @@ const ResultPage = () => {
         image_entry_route: getEntryRoute(),
       }),
     },
-    { enabled: parsedImageId !== null && isListView }
+    {
+      enabled: parsedImageId !== null && isListView,
+      // 연관 이미지 클릭으로 같은 라우트에서 imageId만 바뀌면 page_view 재발사 (ResultPage remount 없음)
+      refireKey: parsedImageId ?? undefined,
+    }
   );
 
   useAnalyticsPageView(
@@ -92,7 +96,10 @@ const ResultPage = () => {
         image_entry_route: getEntryRoute(),
       }),
     },
-    { enabled: parsedImageId !== null && !isListView }
+    {
+      enabled: parsedImageId !== null && !isListView,
+      refireKey: parsedImageId ?? undefined,
+    }
   );
 
   useScrollDepthTrack(GA_EVENTS.resultRec.PAGE_SCROLL, SCREEN_NAME.RESULT_REC, {

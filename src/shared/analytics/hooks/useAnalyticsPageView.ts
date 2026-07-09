@@ -10,6 +10,8 @@ type PageViewParams = Omit<TrackEventParams, 'screen_name'>;
 interface UseAnalyticsPageViewOptions {
   /** false면 page_view 미전송 (데이터 로딩 대기 등) */
   enabled?: boolean;
+  /** 값이 바뀌면 같은 화면(event/screen)에서 page_view를 다시 발사 (예: 결과 페이지 내 연관 이미지 이동) */
+  refireKey?: string | number;
 }
 
 /**
@@ -33,6 +35,6 @@ export const useAnalyticsPageView = (
       ...paramsRef.current,
       screen_name: screenName,
     });
-    // page_view는 screen/event 기준 1회 — params 객체 identity 변경으로 재전송하지 않음
-  }, [eventName, screenName, options?.enabled]);
+    // page_view는 screen/event 기준 1회 — params 객체 identity 변경으로는 재전송하지 않음(refireKey 변경 시에만 재발사)
+  }, [eventName, screenName, options?.enabled, options?.refireKey]);
 };
