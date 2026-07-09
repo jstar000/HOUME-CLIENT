@@ -89,8 +89,7 @@ export const optionInfoRow = style({
   position: 'relative',
   display: 'flex',
   alignItems: 'flex-start',
-  gap: unitVars.unit.gapPadding['100'],
-  paddingRight: unitVars.unit.gapPadding['100'],
+  padding: `0 ${unitVars.unit.gapPadding['100']}`,
   width: '100%',
   color: colorVars.color.text.inverse,
 });
