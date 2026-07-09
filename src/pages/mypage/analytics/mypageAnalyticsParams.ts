@@ -1,5 +1,7 @@
 import type { FurnitureItem } from '@pages/mypage/types/apis/saveItemsList';
 
+import { isCurationViewType } from '@store/useImageFlowStore';
+
 import { IMG_RESULT_TYPE } from '@shared/analytics/params/result';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { getReturnScreenNameParams } from '@shared/analytics/utils/screenName';
@@ -38,20 +40,13 @@ export const getMypageGenImgListParams = (groups: DateGroupResponse[] = []) => {
 const mapViewTypeToImgResultType = (
   viewType?: ItemResponse['viewType']
 ): (typeof IMG_RESULT_TYPE)[keyof typeof IMG_RESULT_TYPE] | undefined => {
-  if (viewType === 'PRODUCT') {
-    return IMG_RESULT_TYPE.LIST;
-  }
+  if (viewType == null) return undefined;
 
-  if (
-    viewType === 'FULL_FUNNEL' ||
-    viewType === 'LEGACY' ||
-    viewType === 'BANNER' ||
-    viewType === 'STYLE'
-  ) {
-    return IMG_RESULT_TYPE.RECOMMEND;
-  }
-
-  return undefined;
+  // 결과 레이아웃 SSOT(isCurationViewType)와 동일 분류:
+  // 추천형(FULL_FUNNEL/LEGACY)만 recommend, 나머지(PRODUCT/BANNER/STYLE)는 list
+  return isCurationViewType(viewType)
+    ? IMG_RESULT_TYPE.RECOMMEND
+    : IMG_RESULT_TYPE.LIST;
 };
 
 export const getMypageGenImgItemParams = (item: ItemResponse) => ({
