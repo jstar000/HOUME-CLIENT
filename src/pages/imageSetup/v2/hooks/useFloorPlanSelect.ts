@@ -49,7 +49,8 @@ export const useFloorPlanSelect = (
   const selectedDetailViews = detailData?.floorPlans ?? []; // [{imageUrl, view}]
 
   // 최근 사용 도면 조회 (RecentSheet 용도)
-  const { data: recentFloorPlanData } = useRecentFloorPlanQuery();
+  const { data: recentFloorPlanData, isFetched: isRecentFloorPlanFetched } =
+    useRecentFloorPlanQuery();
   const recentFloorPlan = recentFloorPlanData?.hasRecentImage
     ? recentFloorPlanData
     : null;
@@ -182,6 +183,7 @@ export const useFloorPlanSelect = (
     selectedEquilibrium,
     selectedDetailViews,
     recentFloorPlan,
+    isRecentFloorPlanFetched,
     handleCardClick,
     handleConfirmFloorPlan,
     handleConfirmRecentFloorPlan,

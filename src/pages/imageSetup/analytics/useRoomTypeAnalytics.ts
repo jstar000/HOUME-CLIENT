@@ -53,6 +53,7 @@ export const useRoomTypeAnalytics = (
     selectedEquilibrium,
     selectedDetailViews,
     recentFloorPlan,
+    isRecentFloorPlanFetched,
     handleCardClick,
     handleConfirmFloorPlan,
     handleConfirmRecentFloorPlan,
@@ -69,7 +70,9 @@ export const useRoomTypeAnalytics = (
   useAnalyticsPageView(
     GA_EVENTS.roomType.PAGE_VIEW,
     SCREEN_NAME.ROOM_TYPE,
-    getRoomTypePageViewParams(recentFloorPlan)
+    getRoomTypePageViewParams(recentFloorPlan),
+    // recentFloorPlan 쿼리 settle 후 발사 — cold cache에서 has_previous_space가 false로 고정되는 것 방지 (Home과 동일)
+    { enabled: isRecentFloorPlanFetched }
   );
 
   useScrollDepthTrack(GA_EVENTS.roomType.PAGE_SCROLL, SCREEN_NAME.ROOM_TYPE, {
