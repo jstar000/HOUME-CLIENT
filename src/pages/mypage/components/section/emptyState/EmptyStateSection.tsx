@@ -19,13 +19,14 @@ interface EmptyStateSectionProps {
 
 const EmptyStateSection = ({ type }: EmptyStateSectionProps) => {
   const navigate = useNavigate();
-  const { data: savedItems = [] } = useGetJjymListQuery();
+  const { data: savedItems = [], isFetched: isJjymFetched } =
+    useGetJjymListQuery();
 
   const { wrapPrimaryClick, wrapSecondaryClick } = useMypageEmptyStateAnalytics(
     {
       type,
       savedItemsForParams: savedItems,
-      enabled: true,
+      enabled: isJjymFetched,
     }
   );
 
