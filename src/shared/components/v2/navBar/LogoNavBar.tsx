@@ -37,14 +37,6 @@ const LogoNavBar = ({
       </div>
       <div className={styles.rightContainer({ hasAction })}>
         {showGenerateButton && (
-          // TODO: 공컴 button으로 교체
-          // <button
-          //   type="button"
-          //   className={styles.generateButton}
-          //   onClick={onGenerateClick}
-          // >
-          //   <span className={styles.generateLabel}>이미지 생성</span>
-          // </button>
           <ActionButton
             variant="solid"
             size="M"
