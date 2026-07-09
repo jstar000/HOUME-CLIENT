@@ -62,6 +62,9 @@ const SelectedProductSheet = ({
             isSaved: false,
             onToggle: handleSaveToggleNoop,
           }}
+          // 선택시트에서 연 상세에서도 사이트 이동(shop_feedDetailMDGoSite_click)이 추적되도록 link 전달
+          // (href는 오버레이가 상품 상세 조회로 resolve — 다른 진입로와 동일)
+          link={{}}
           shoppingAction={{
             label: '선택됨',
             disabled: true,
