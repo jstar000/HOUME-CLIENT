@@ -57,10 +57,12 @@ export const useShopAnalyticsContext = ({
   );
 
   const getShopListContext = useCallback(
-    (): ShopListContext => ({
+    (
+      overrides?: Pick<ShopListContext, 'appliedValues' | 'appliedFilterChips'>
+    ): ShopListContext => ({
       searchKeyword: debouncedKeyword,
-      appliedValues,
-      appliedFilterChips,
+      appliedValues: overrides?.appliedValues ?? appliedValues,
+      appliedFilterChips: overrides?.appliedFilterChips ?? appliedFilterChips,
       furnitureLabels,
       priceLabels,
       colorLabels,

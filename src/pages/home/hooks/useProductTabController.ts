@@ -141,8 +141,9 @@ const useProductTabController = ({
   }, []);
 
   const handleFilterApply = useCallback(() => {
-    applyDraft();
+    const applied = applyDraft();
     handleFilterSheetClose();
+    return applied;
   }, [applyDraft, handleFilterSheetClose]);
 
   const handleRemoveAppliedChip = useCallback(

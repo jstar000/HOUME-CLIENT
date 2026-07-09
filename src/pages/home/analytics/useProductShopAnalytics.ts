@@ -186,8 +186,9 @@ const useProductShopAnalytics = (
   );
 
   const handleFilterApplyWithAnalytics = useCallback(() => {
-    handleFilterApply();
-    trackShopFilterSheetSubmit(getShopListContext(), sheetExpanded);
+    // apply 직후 appliedValues는 아직 stale → 방금 적용한 값을 명시 전달해 filterSht_submit이 올바른 필터를 기록
+    const applied = handleFilterApply();
+    trackShopFilterSheetSubmit(getShopListContext(applied), sheetExpanded);
   }, [getShopListContext, handleFilterApply, sheetExpanded]);
 
   const handleFilterResetClickWithAnalytics = useCallback(() => {
