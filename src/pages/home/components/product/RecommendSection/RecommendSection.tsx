@@ -5,6 +5,7 @@ import {
   trackShopFeedCardUnselectClick,
 } from '@pages/home/analytics/shopAnalytics';
 import type { ProductSearchCardItem } from '@pages/home/hooks/useProductSearch';
+import { MAX_SELECTED_PRODUCTS } from '@pages/home/hooks/useProductSelection';
 import type { SelectedProduct } from '@pages/home/types/productTab';
 import { withProductSubCategory } from '@pages/home/utils/productFilterUtils';
 
@@ -114,10 +115,13 @@ const RecommendSection = ({
                 return;
               }
 
-              trackShopFeedCardSelectClick(
-                selectedProduct,
-                [...selectedProductIds, id].join(', ')
-              );
+              // cap 도달 시 선택은 거부(토스트)되므로, 실제 선택되는 경우에만 select 이벤트 발사
+              if (selectedProductIds.length < MAX_SELECTED_PRODUCTS) {
+                trackShopFeedCardSelectClick(
+                  selectedProduct,
+                  [...selectedProductIds, id].join(', ')
+                );
+              }
               onSelectProduct(selectedProduct);
             },
           };

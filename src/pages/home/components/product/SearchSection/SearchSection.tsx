@@ -14,6 +14,7 @@ import ProductDetailOverlay from '@pages/home/components/product/ProductPopup/Pr
 import RecommendSection from '@pages/home/components/product/RecommendSection/RecommendSection';
 import { useProductHeaderScroll } from '@pages/home/hooks/useProductHeaderScroll';
 import type { ProductSearchCardItem } from '@pages/home/hooks/useProductSearch';
+import { MAX_SELECTED_PRODUCTS } from '@pages/home/hooks/useProductSelection';
 import type {
   AppliedFilterChip,
   ProductFilterChipCategory,
@@ -244,10 +245,13 @@ const SearchSection = ({
           return;
         }
 
-        trackShopFeedCardSelectClick(
-          selectedProduct,
-          [...selectedProductIds, id].join(', ')
-        );
+        // cap 도달 시 선택은 거부(토스트)되므로, 실제 선택되는 경우에만 select 이벤트 발사
+        if (selectedProductIds.length < MAX_SELECTED_PRODUCTS) {
+          trackShopFeedCardSelectClick(
+            selectedProduct,
+            [...selectedProductIds, id].join(', ')
+          );
+        }
         onSelectProduct(selectedProduct);
       },
     };
