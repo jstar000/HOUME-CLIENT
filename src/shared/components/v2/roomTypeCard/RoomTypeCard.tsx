@@ -89,7 +89,6 @@ const RoomTypeOptionCard = ({
       />
       <div className={styles.gradient} aria-hidden="true" />
       <div className={styles.optionInfoRow}>
-        <Icon name="DoubleStar" size="16" />
         <p className={styles.optionTitle}>{label}</p>
       </div>
       {size === 'm' && showRecentBadge && (
