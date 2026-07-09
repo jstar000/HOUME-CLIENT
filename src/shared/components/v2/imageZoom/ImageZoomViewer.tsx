@@ -44,6 +44,7 @@ const ImageZoomViewer = ({
   onClose,
 }: ImageZoomViewerProps) => {
   const [motion, setMotion] = useState<'opening' | 'open'>('opening');
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   // 첫 프레임 hidden → rAF×2 후 open (enter fade 트리거) — v2 Popup과 동일 패턴
   useLayoutEffect(() => {
@@ -58,15 +59,28 @@ const ImageZoomViewer = ({
     };
   }, []);
 
-  // 열려 있는 동안 body 스크롤 잠금 (이전 값 복원)
+  // 열려 있는 동안 body 스크롤 잠금 + dialog로 포커스 이동, 닫힐 때 이전 값·포커스 복원
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
+    const previouslyFocused = document.activeElement as HTMLElement | null;
     document.body.style.overflow = 'hidden';
+    dialogRef.current?.focus({ preventScroll: true });
 
     return () => {
       document.body.style.overflow = previousOverflow;
+      previouslyFocused?.focus?.();
     };
   }, []);
+
+  // Escape로 닫기 (키보드 접근성)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
 
   // 이미지 밖 어두운 여백(stage 배경) 탭 시 닫힘 — 이미지 위 탭/제스처는 유지
   const pointerDownRef = useRef<{ x: number; y: number } | null>(null);
@@ -89,10 +103,12 @@ const ImageZoomViewer = ({
     <div className={styles.viewportLayer}>
       <div className={styles.backdrop({ motion })} aria-hidden="true" />
       <div
+        ref={dialogRef}
         className={styles.content({ motion })}
         role="dialog"
         aria-modal="true"
         aria-label="이미지 확대 보기"
+        tabIndex={-1}
       >
         {/* 하드 스톱 팬(limitToBounds+disablePadding) + 래퍼/콘텐츠를 프레임 전체로 늘려(FILL_STYLE) 이미지 뷰어 자체가 확대되도록 한다 */}
         <TransformWrapper

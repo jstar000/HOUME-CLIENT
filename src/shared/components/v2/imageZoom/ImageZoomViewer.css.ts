@@ -49,6 +49,7 @@ export const content = recipe({
     position: 'absolute',
     inset: 0,
     willChange: 'opacity',
+    outline: 'none',
   },
   variants: {
     motion: {
