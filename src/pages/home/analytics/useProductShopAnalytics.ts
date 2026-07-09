@@ -33,7 +33,6 @@ import {
   useScrollDepthTrack,
 } from '@shared/analytics/hooks';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
-import { getReturnScreenNameFromImageEntry } from '@shared/analytics/utils/imageFlow';
 import { resolveShopImageEntryRoute } from '@shared/analytics/utils/shop/resolveShopEntryRoute';
 
 interface UseProductShopAnalyticsOptions {
@@ -278,7 +277,8 @@ const useProductShopAnalytics = (
       sheetExpanded,
       selectedProducts,
       imageEntryRoute: resolveShopImageEntryRoute(),
-      returnScreenName: getReturnScreenNameFromImageEntry() ?? SCREEN_NAME.SHOP,
+      // 상품 탭 CTA의 return screen은 항상 shop 고정 (진입 경로는 image_entry_route로 별도 계산)
+      returnScreenName: SCREEN_NAME.SHOP,
       hasPreviousSpace: recentFloorPlanData?.hasRecentImage === true,
       hasPreviousImage: recentFloorPlanData?.hasRecentImage === true,
     });
