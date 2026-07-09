@@ -29,7 +29,7 @@ const LANDING_BANNER_AFTER_DELAY_MS = 2000;
 
 const LandingPage = () => {
   const navigate = useNavigate();
-  const { variant } = useABTest();
+  const { variant, isLoading: isABTestLoading } = useABTest();
   const { data: landingData } = useLandingQuery();
   const landingItems = landingData?.landings ?? [];
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -51,10 +51,16 @@ const LandingPage = () => {
   }, [landingItems.length]);
   const selectedLanding = landingItems[currentIndex] ?? landingItems[0];
 
-  useAnalyticsPageView(GA_EVENTS.landing.PAGE_VIEW, SCREEN_NAME.LANDING, {
-    ...loginStatusParams(),
-    test_type: getLandingTestType(variant),
-  });
+  useAnalyticsPageView(
+    GA_EVENTS.landing.PAGE_VIEW,
+    SCREEN_NAME.LANDING,
+    {
+      ...loginStatusParams(),
+      test_type: getLandingTestType(variant),
+    },
+    // A/B 배정이 확정된 뒤 발사 — 최초 방문자가 default variant로 오집계되는 것 방지
+    { enabled: !isABTestLoading }
+  );
 
   const handleNavigateHome = () => {
     trackLandingCtaClick(selectedLanding);
