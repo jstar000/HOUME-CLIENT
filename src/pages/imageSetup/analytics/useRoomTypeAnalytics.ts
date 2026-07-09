@@ -49,6 +49,7 @@ export const useRoomTypeAnalytics = (
   const {
     floorPlans,
     isExact,
+    isHouseTemplatesFetched,
     selectedFloorPlanName,
     selectedEquilibrium,
     selectedDetailViews,
@@ -80,6 +81,9 @@ export const useRoomTypeAnalytics = (
   });
 
   useEffect(() => {
+    // houseTemplates 쿼리 settle 전에는 발사 금지 — 로딩 중 floorPlans=[]·isExact=true로 팬텀 listRoomCard_view가 나가는 것 방지
+    if (!isHouseTemplatesFetched) return;
+
     if (isExact) {
       trackRoomTypeListRoomCardView(grid.appliedFilters);
       return;
@@ -101,7 +105,7 @@ export const useRoomTypeAnalytics = (
         spaceId: alternativeSpaceIds[0],
       });
     }
-  }, [floorPlans, grid.appliedFilters, isExact]);
+  }, [floorPlans, grid.appliedFilters, isExact, isHouseTemplatesFetched]);
 
   useEffect(() => {
     if (

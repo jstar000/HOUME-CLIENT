@@ -32,9 +32,8 @@ export const useFloorPlanSelect = (
   const { notify } = useToast();
 
   // 도면 전체 조회 (필터 변경 시 자동 refetch — queryKey에 appliedFilters 포함)
-  const { data: houseTemplatesData } = useHouseTemplatesQuery(
-    store.appliedFilters
-  );
+  const { data: houseTemplatesData, isFetched: isHouseTemplatesFetched } =
+    useHouseTemplatesQuery(store.appliedFilters);
   const floorPlans = houseTemplatesData?.floorPlans ?? EMPTY_FLOOR_PLANS;
   // isExact=false: 필터에 정확 매칭 도면이 없어 서버가 비슷한 도면으로 대체 응답 → '이런 공간은 어떠세요?' UI로 분기
   // undefined일 때는 정상 그리드 fallback (응답 일관성 깨지거나 필드 누락 시 안전)
@@ -179,6 +178,7 @@ export const useFloorPlanSelect = (
     filterCategories: FILTER_CATEGORIES,
     floorPlans,
     isExact,
+    isHouseTemplatesFetched,
     selectedFloorPlanName,
     selectedEquilibrium,
     selectedDetailViews,
