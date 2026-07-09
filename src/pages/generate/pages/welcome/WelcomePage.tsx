@@ -14,8 +14,9 @@ import { GA_EVENTS } from '@shared/analytics/events';
 import { useAnalyticsPageView } from '@shared/analytics/hooks';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 
-import KakaoLoginImg from '@assets/v2/images/ImgKakaoLogin.png';
+import { LOTTIE_SPEED } from '@assets/lottie/lottieAssets';
 
+import DotLottiePlayer from '@components/lottie/DotLottiePlayer';
 import ActionButton from '@components/v2/button/actionButton/ActionButton';
 
 import { getLoginRedirect, consumeLoginRedirect } from '@utils/loginRedirect';
@@ -58,7 +59,12 @@ const WelcomePage = () => {
     <div className={styles.container}>
       <div className={styles.contents}>
         <div className={styles.imgbox}>
-          <img src={KakaoLoginImg} alt="회원가입 완료 이미지" />
+          <DotLottiePlayer
+            variant="signup"
+            speed={LOTTIE_SPEED.SIGNUP}
+            className={styles.signupLottie}
+            ariaLabel="회원가입 완료 일러스트"
+          />
         </div>
         <div className={styles.textbox}>
           <h1 className={styles.title}>

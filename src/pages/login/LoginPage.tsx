@@ -8,7 +8,9 @@ import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackCallback } from '@shared/analytics/track';
 import { getLoginSocialParams } from '@shared/analytics/utils/loginEntryRoute';
 
-import KakaoLoginImg from '@assets/v2/images/ImgKakaoLogin.png';
+import { LOTTIE_SPEED } from '@assets/lottie/lottieAssets';
+
+import DotLottiePlayer from '@components/lottie/DotLottiePlayer';
 
 import { API_ENDPOINT } from '@constants/apiEndpoints';
 
@@ -61,11 +63,11 @@ const LoginPage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.imgbox}>
-        <img
-          src={KakaoLoginImg}
-          alt="로그인 전 이미지"
+        <DotLottiePlayer
+          variant="login"
+          speed={LOTTIE_SPEED.LOGIN}
           className={styles.loginImg}
-          loading="eager"
+          ariaLabel="로그인 일러스트"
         />
       </div>
       <div className={styles.textbox}>
