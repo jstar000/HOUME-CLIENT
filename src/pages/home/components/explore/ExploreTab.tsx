@@ -9,15 +9,21 @@ import { useLandingQuery } from '@pages/landing/apis/queries/useLandingQuery';
 
 import { ROUTES } from '@routes/paths';
 
+import promoBanner from '@assets/v2/svg/PromoBanner.svg?url';
+
 import * as styles from './ExploreTab.css';
 import RoomTypeSection from './RoomTypeSection/RoomTypeSection';
 import StyleSection from './StyleSection/StyleSection';
 
 type ExploreTabProps = {
   exploreSeedBannerId?: number;
+  onPromoBannerClick?: () => void;
 };
 
-const ExploreTab = ({ exploreSeedBannerId }: ExploreTabProps) => {
+const ExploreTab = ({
+  exploreSeedBannerId,
+  onPromoBannerClick,
+}: ExploreTabProps) => {
   const navigate = useNavigate();
   const { data: landingData } = useLandingQuery();
 
@@ -47,6 +53,18 @@ const ExploreTab = ({ exploreSeedBannerId }: ExploreTabProps) => {
       />
       <div className={styles.content}>
         <RoomTypeSection />
+      </div>
+      <div className={styles.promoBannerSection}>
+        <button
+          type="button"
+          className={styles.promoBannerButton}
+          aria-label="상품 탭으로 이동"
+          onClick={onPromoBannerClick}
+        >
+          <img src={promoBanner} alt="" className={styles.promoBannerImage} />
+        </button>
+      </div>
+      <div className={styles.content}>
         <StyleSection />
       </div>
     </div>

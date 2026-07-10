@@ -148,7 +148,10 @@ const HomePage = () => {
         onTabChange={handleTabChange}
       />
       {activeMenuTab === 'explore' && (
-        <ExploreTab exploreSeedBannerId={homeState?.exploreSeedBannerId} />
+        <ExploreTab
+          exploreSeedBannerId={homeState?.exploreSeedBannerId}
+          onPromoBannerClick={() => handleTabChange('product')}
+        />
       )}
       {activeMenuTab === 'product' && <ProductTab />}
     </main>
