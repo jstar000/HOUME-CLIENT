@@ -79,8 +79,8 @@ export const getRoomTypePreviousSpaceParams = (
   recentFloorPlan?: RecentFloorPlanResponse | null
 ) => ({
   has_previous_space: recentFloorPlan?.hasRecentImage === true,
-  previous_space_id: recentFloorPlan?.floorPlanId,
-  previous_space_name: recentFloorPlan?.floorPlanName,
+  previous_space_id: toAnalyticsNull(recentFloorPlan?.floorPlanId),
+  previous_space_name: toAnalyticsNull(recentFloorPlan?.floorPlanName),
 });
 
 export const getRoomTypePageViewParams = (
@@ -282,8 +282,7 @@ export const trackRoomTypeViewSheetSubmit = ({
     space_view: floorPlanView,
     space_size: equilibrium,
     sheet_expansion_status: toSheetExpansionStatus(true),
-    previous_space_id: recentFloorPlan?.floorPlanId,
-    previous_space_name: recentFloorPlan?.floorPlanName,
+    ...getRoomTypePreviousSpaceParams(recentFloorPlan),
   });
 };
 
