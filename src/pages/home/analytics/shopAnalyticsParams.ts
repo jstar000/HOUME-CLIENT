@@ -61,15 +61,6 @@ export const formatSelectedProductIds = (products: SelectedProduct[]) =>
     ? products.map((product) => product.id).join(', ')
     : undefined;
 
-const formatSelectedSubCategoryTypes = (products: SelectedProduct[]) => {
-  const subCategoryTypes = products
-    .map((product) => product.subCategoryName)
-    .filter(Boolean)
-    .join(', ');
-
-  return subCategoryTypes || undefined;
-};
-
 export const formatSelectedShopKeywordFilters = (
   appliedFilterChips?: AppliedFilterChip[]
 ) => {
@@ -139,16 +130,12 @@ export const getShopSelectSheetBaseParams = (
   >,
   options?: Pick<ShopListParamsOptions, 'includeLoginStatus'>
 ) => {
-  const selectedSubCategoryTypes =
-    formatSelectedSubCategoryTypes(selectedProducts);
-
   return {
     ...(options?.includeLoginStatus ? loginStatusParams() : {}),
     ...shopScreenParams(),
     sheet_expansion_status: toSheetExpansionStatus(sheetExpanded),
     selected_count: selectedProducts.length,
     selected_product_ids: formatSelectedProductIds(selectedProducts),
-    selected_sub_category_types: toAnalyticsNull(selectedSubCategoryTypes),
     ...(countTriggerEvent ? { count_trigger_event: countTriggerEvent } : {}),
   };
 };

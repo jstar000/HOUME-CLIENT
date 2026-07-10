@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import {
   COUNT_TRIGGER_EVENT,
@@ -51,7 +51,9 @@ const useProductShopAnalytics = (
     sheetExpanded,
     setSheetExpanded: setSheetExpandedState,
     selectedProducts,
-    keyword,
+    debouncedKeyword,
+    isPending,
+    isError,
     handleFilterChipClick,
     handleFilterApply,
     handleFilterResetClick,
@@ -85,6 +87,22 @@ const useProductShopAnalytics = (
     SCREEN_NAME.SHOP,
     shopPageParams
   );
+
+  // 검색어 디바운스 후 결과가 표시될 때마다 search_submit (Enter 키에만 의존하지 않음)
+  const lastTrackedSearchKeywordRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    const trimmed = debouncedKeyword.trim();
+    if (!trimmed) {
+      lastTrackedSearchKeywordRef.current = null;
+      return;
+    }
+    if (isPending || isError) return;
+    if (lastTrackedSearchKeywordRef.current === trimmed) return;
+
+    lastTrackedSearchKeywordRef.current = trimmed;
+    trackShopSearchSubmit(getShopListContext());
+  }, [debouncedKeyword, getShopListContext, isError, isPending]);
 
   const trackSelectSheetCountChange = useCallback(
     (
@@ -216,13 +234,6 @@ const useProductShopAnalytics = (
     trackShopSearchBarClick();
   }, []);
 
-  const handleSearchSubmit = useCallback(() => {
-    trackShopSearchSubmit({
-      ...getShopListContext(),
-      searchKeyword: keyword,
-    });
-  }, [getShopListContext, keyword]);
-
   const handleSearchClear = useCallback(() => {
     trackShopSearchClear(getShopListContext());
     handleSearchKeywordChange('');
@@ -278,7 +289,6 @@ const useProductShopAnalytics = (
     handleDecorateWithProductsClick:
       handleDecorateWithProductsClickWithAnalytics,
     handleSearchBarClick,
-    handleSearchSubmit,
     handleSearchClear,
     handleSelectSheetItemClick,
   };

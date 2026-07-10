@@ -1,5 +1,6 @@
 import {
   formatNextSelectedProductIds,
+  formatSelectedShopKeywordFilters,
   getShopListContextParams,
   getShopProductCardParams,
   getShopSelectSheetBaseParams,
@@ -25,6 +26,7 @@ import {
 } from '@shared/analytics/params/shop';
 import { type ScreenName } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
+import { toSheetExpansionStatus } from '@shared/analytics/utils/imageFlow';
 import { loginStatusParams } from '@shared/analytics/utils/loginStatus';
 import { toAnalyticsNull } from '@shared/analytics/utils/toAnalyticsNull';
 
@@ -43,10 +45,12 @@ export const trackShopFilterSheetView = (
   sheetExpanded: boolean
 ) => {
   trackEvent(GA_EVENTS.shop.FILTER_SHT_VIEW, {
-    ...getShopListContextParams(listContext, {
-      includeLoginStatus: true,
-      sheetExpanded,
-    }),
+    ...loginStatusParams(),
+    ...shopScreenParams(),
+    selected_shop_keyword_filters: formatSelectedShopKeywordFilters(
+      listContext.appliedFilterChips
+    ),
+    sheet_expansion_status: toSheetExpansionStatus(sheetExpanded),
   });
 };
 
