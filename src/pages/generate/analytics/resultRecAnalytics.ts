@@ -1,7 +1,7 @@
 import { GA_EVENTS } from '@shared/analytics/events';
 import {
   getProductCardIdNameParams,
-  getProductCardIdNamePriceParams,
+  getProductCardOnCardParams,
   joinAnalyticsIds,
 } from '@shared/analytics/params/builders/productCard';
 import type { ProductCardInput } from '@shared/analytics/params/builders/productCard';
@@ -36,9 +36,9 @@ const categoryChipParams = ({
   categories: FurnitureCategoryResponse[];
   selectedCategoryId?: number | null;
 }) => {
-  const selectedCategory = categories.find(
-    (category) => category.id === selectedCategoryId
-  );
+  const selectedCategory =
+    categories.find((category) => category.id === selectedCategoryId) ??
+    categories[0];
 
   return {
     result_category_chip: selectedCategory?.categoryName,
@@ -62,7 +62,7 @@ export const trackResultRecFeedCardOnCardClick = (
 ) => {
   trackEvent(GA_EVENTS.resultRec.FEED_CARDON_CARD_CLICK, {
     ...resultRecScreenParams(),
-    ...getProductCardIdNamePriceParams(product),
+    ...getProductCardOnCardParams(product),
   });
 };
 
