@@ -2,7 +2,6 @@ import { GA_EVENTS } from '@shared/analytics/events';
 import {
   getProductCardIdNameParams,
   getProductCardIdNamePriceParams,
-  getProductCardIdOnlyParams,
 } from '@shared/analytics/params/builders/productCard';
 import type { ProductCardInput } from '@shared/analytics/params/builders/productCard';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
@@ -23,7 +22,7 @@ export const trackResultListBtnBackClick = () => {
 export const trackResultListListCardClick = (product: ProductCardInput) => {
   trackEvent(GA_EVENTS.resultList.LIST_CARD_CLICK, {
     ...resultListScreenParams(),
-    ...getProductCardIdOnlyParams(product),
+    ...getProductCardIdNameParams(product),
   });
 };
 
@@ -32,7 +31,7 @@ export const trackResultListListCardGoSiteClick = (
 ) => {
   trackEvent(GA_EVENTS.resultList.LIST_CARD_GO_SITE_CLICK, {
     ...resultListScreenParams(),
-    ...getProductCardIdOnlyParams(product),
+    ...getProductCardIdNameParams(product),
   });
 };
 
