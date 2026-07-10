@@ -2,12 +2,15 @@ import { useMemo } from 'react';
 
 import { generatePath, useNavigate } from 'react-router-dom';
 
+import { trackHomeBannerSlideEvent } from '@pages/home/analytics/homeAnalytics';
 import Banner, {
   type BannerSlide,
 } from '@pages/home/components/explore/banner/Banner';
 import { useLandingQuery } from '@pages/landing/apis/queries/useLandingQuery';
 
 import { ROUTES } from '@routes/paths';
+
+import { GA_EVENTS } from '@shared/analytics/events';
 
 import promoBanner from '@assets/v2/svg/PromoBanner.svg?url';
 
@@ -18,11 +21,15 @@ import StyleSection from './StyleSection/StyleSection';
 type ExploreTabProps = {
   exploreSeedBannerId?: number;
   onPromoBannerClick?: () => void;
+  hasPreviousImage?: boolean;
+  hasPreviousSpace?: boolean;
 };
 
 const ExploreTab = ({
   exploreSeedBannerId,
   onPromoBannerClick,
+  hasPreviousImage = false,
+  hasPreviousSpace = false,
 }: ExploreTabProps) => {
   const navigate = useNavigate();
   const { data: landingData } = useLandingQuery();
@@ -39,6 +46,8 @@ const ExploreTab = ({
   }, [exploreSeedBannerId, landingData?.landings]);
 
   const handleBannerSlideClick = (slide: BannerSlide) => {
+    trackHomeBannerSlideEvent(GA_EVENTS.home.BANNER_BG_IMG_CLICK, slide);
+
     navigate(
       // React Router generatePath 기반 동적 라우팅 적용
       generatePath(ROUTES.BANNER_DETAIL, { bannerId: String(slide.id) })
@@ -50,9 +59,20 @@ const ExploreTab = ({
       <Banner
         seedBannerId={seedBannerId}
         onSlideClick={handleBannerSlideClick}
+        onBannerSwipe={(direction, slide) => {
+          trackHomeBannerSlideEvent(
+            direction === 'left'
+              ? GA_EVENTS.home.BANNER_LEFT_SWIPE
+              : GA_EVENTS.home.BANNER_RIGHT_SWIPE,
+            slide
+          );
+        }}
       />
       <div className={styles.content}>
-        <RoomTypeSection />
+        <RoomTypeSection
+          hasPreviousImage={hasPreviousImage}
+          hasPreviousSpace={hasPreviousSpace}
+        />
       </div>
       <div className={styles.promoBannerSection}>
         <button
