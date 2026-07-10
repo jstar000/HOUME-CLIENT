@@ -23,12 +23,21 @@ export const getRecentFloorPlanForAnalytics = (
 export const ensureRecentFloorPlanForAnalytics = async (
   queryClient: QueryClient
 ): Promise<RecentFloorPlanResponse | null> => {
-  const data = await queryClient.ensureQueryData({
-    queryKey: queryKeys.imageSetup.recentFloorPlan(),
-    queryFn: getRecentFloorPlan,
-  });
+  try {
+    const data = await queryClient.ensureQueryData({
+      queryKey: queryKeys.imageSetup.recentFloorPlan(),
+      queryFn: getRecentFloorPlan,
+    });
 
-  return getRecentFloorPlanForAnalytics(data);
+    return getRecentFloorPlanForAnalytics(data);
+  } catch {
+    // GA enrichment 전용 — 실패해도 확인 플로우는 진행되어야 함
+    const cached = queryClient.getQueryData<RecentFloorPlanResponse>(
+      queryKeys.imageSetup.recentFloorPlan()
+    );
+
+    return getRecentFloorPlanForAnalytics(cached);
+  }
 };
 
 export const useRecentFloorPlanQuery = () => {
