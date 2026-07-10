@@ -18,6 +18,7 @@ import {
 } from '@shared/analytics/hooks';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
+import { loginStatusParams } from '@shared/analytics/utils/loginStatus';
 
 export const useSelectFurnitureAnalytics = (
   context: ImageSetupSteps['ActivityInfo']
@@ -37,13 +38,15 @@ export const useSelectFurnitureAnalytics = (
     GA_EVENTS.selectFurniture.PAGE_VIEW,
     SCREEN_NAME.SELECT_FURNITURE,
     {
+      ...loginStatusParams(),
       image_entry_route: getEntryRoute(),
     }
   );
 
   useScrollDepthTrack(
     GA_EVENTS.selectFurniture.PAGE_SCROLL,
-    SCREEN_NAME.SELECT_FURNITURE
+    SCREEN_NAME.SELECT_FURNITURE,
+    { extraParams: loginStatusParams() }
   );
 
   const trackDropDownActivityClick = (activityCode: string) => {

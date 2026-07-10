@@ -18,6 +18,7 @@ import {
   getReturnScreenNameFromImageEntry,
   toSheetExpansionStatus,
 } from '@shared/analytics/utils/imageFlow';
+import { loginStatusParams } from '@shared/analytics/utils/loginStatus';
 import { getPreviousScreenName } from '@shared/analytics/utils/screenName';
 import { toAnalyticsNull } from '@shared/analytics/utils/toAnalyticsNull';
 
@@ -150,6 +151,7 @@ export const trackRoomTypeEmptyListRecCardClick = (
 ) => {
   trackEvent(GA_EVENTS.roomType.EMPTY_LIST_REC_CARD_CLICK, {
     ...roomTypeScreenParams(),
+    ...loginStatusParams(),
     ...getRoomTypeFilterParams(appliedFilters),
     space_count: spaceCount,
     space_id: plan.id,
@@ -200,6 +202,7 @@ export const trackRoomTypeListEmptyView = (
 ) => {
   trackEvent(GA_EVENTS.roomType.LIST_EMPTY_VIEW, {
     ...roomTypeScreenParams(),
+    ...loginStatusParams(),
     ...getRoomTypeFilterParams(appliedFilters),
     space_count: spaceCount,
     alternative_space_ids:
@@ -219,6 +222,7 @@ export const trackRoomTypeEmptyListRecCardView = (
 ) => {
   trackEvent(GA_EVENTS.roomType.EMPTY_LIST_REC_CARD_VIEW, {
     ...roomTypeScreenParams(),
+    ...loginStatusParams(),
     ...getRoomTypeFilterParams(appliedFilters),
     space_count: spaceCount,
     space_id: spaceId,
@@ -270,6 +274,7 @@ export const trackRoomTypeViewSheetSubmit = ({
 }) => {
   trackEvent(GA_EVENTS.roomType.VIEW_SHT_SUBMIT, {
     ...roomTypeScreenParams(),
+    ...loginStatusParams(),
     image_entry_route: getEntryRoute(),
     return_screen_name: getReturnScreenNameFromImageEntry(),
     space_id: floorPlanId,

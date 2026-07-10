@@ -74,6 +74,7 @@ const useProductShopAnalytics = (
   const shopPageParams = useMemo(
     () =>
       getShopListContextParams(shopListContext, {
+        includeLoginStatus: true,
         includeTriggerContext: true,
       }),
     [shopListContext]

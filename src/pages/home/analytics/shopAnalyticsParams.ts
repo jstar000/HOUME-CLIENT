@@ -9,6 +9,7 @@ import { getProductCardOnCardParams } from '@shared/analytics/params/builders/pr
 import { type CountTriggerEvent } from '@shared/analytics/params/shop';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { toSheetExpansionStatus } from '@shared/analytics/utils/imageFlow';
+import { loginStatusParams } from '@shared/analytics/utils/loginStatus';
 import { resolveShopTriggerContext } from '@shared/analytics/utils/shop/resolveShopTriggerContext';
 import { toAnalyticsNull } from '@shared/analytics/utils/toAnalyticsNull';
 
@@ -48,6 +49,7 @@ const labelsFromIds = (ids: string[] | undefined, labels: FilterLabelMap) => {
 };
 
 type ShopListParamsOptions = {
+  includeLoginStatus?: boolean;
   includeTriggerContext?: boolean;
   includeProductCountViewed?: boolean;
   isEmptyList?: boolean;
@@ -93,6 +95,7 @@ export const getShopListContextParams = (
   options?: ShopListParamsOptions
 ) => {
   return {
+    ...(options?.includeLoginStatus ? loginStatusParams() : {}),
     ...shopScreenParams(),
     search_keyword: toAnalyticsNull(searchKeyword?.trim()),
     selected_shop_keyword_filters:
@@ -125,18 +128,22 @@ export const getShopListContextParams = (
   };
 };
 
-export const getShopSelectSheetBaseParams = ({
-  sheetExpanded,
-  selectedProducts,
-  countTriggerEvent,
-}: Pick<
-  ShopSelectSheetContext,
-  'sheetExpanded' | 'selectedProducts' | 'countTriggerEvent'
->) => {
+export const getShopSelectSheetBaseParams = (
+  {
+    sheetExpanded,
+    selectedProducts,
+    countTriggerEvent,
+  }: Pick<
+    ShopSelectSheetContext,
+    'sheetExpanded' | 'selectedProducts' | 'countTriggerEvent'
+  >,
+  options?: Pick<ShopListParamsOptions, 'includeLoginStatus'>
+) => {
   const selectedSubCategoryTypes =
     formatSelectedSubCategoryTypes(selectedProducts);
 
   return {
+    ...(options?.includeLoginStatus ? loginStatusParams() : {}),
     ...shopScreenParams(),
     sheet_expansion_status: toSheetExpansionStatus(sheetExpanded),
     selected_count: selectedProducts.length,
@@ -146,8 +153,10 @@ export const getShopSelectSheetBaseParams = ({
   };
 };
 
-export const getShopSelectSheetParams = (context: ShopSelectSheetContext) =>
-  getShopSelectSheetBaseParams(context);
+export const getShopSelectSheetParams = (
+  context: ShopSelectSheetContext,
+  options?: Pick<ShopListParamsOptions, 'includeLoginStatus'>
+) => getShopSelectSheetBaseParams(context, options);
 
 export const getShopSelectedProductFields = (
   product: Pick<
