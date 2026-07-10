@@ -39,7 +39,7 @@ export interface SpaceParams {
   previous_space_name?: string;
   previous_space_reuse?: PreviousSpaceReuse;
   filter_type?: FilterType;
-  filter_space_roomType?: string;
-  filter_space_struct?: string;
-  filter_space_size?: string;
+  filter_space_roomType?: string | null;
+  filter_space_struct?: string | null;
+  filter_space_size?: string | null;
 }
