@@ -13,7 +13,12 @@ import { ROUTES } from '@routes/paths';
 import { ENTRY_ROUTE, useImageFlowStore } from '@store/useImageFlowStore';
 import { useSavedItemsStore } from '@store/useSavedItemsStore';
 
+import { GA_EVENTS } from '@shared/analytics/events';
+import { useAnalyticsPageView } from '@shared/analytics/hooks';
+import { joinAnalyticsIds } from '@shared/analytics/params/builders/productCard';
 import { LOGIN_ENTRY_ROUTE } from '@shared/analytics/params/gate';
+import { SCREEN_NAME } from '@shared/analytics/screenNames';
+import { getPreviousScreenName } from '@shared/analytics/utils/screenName';
 import ActionButton from '@shared/components/v2/button/actionButton/ActionButton';
 import EmptyView from '@shared/components/v2/emptyView/EmptyView';
 import { EMPTY_VIEW_TEXT } from '@shared/constants/emptyViewText';
@@ -169,6 +174,27 @@ const ListResult = ({ image, isProductView }: ListResultProps) => {
   const renderableSelectedProducts = useMemo(
     () => selectedProductsRaw.filter((product) => product.id != null),
     [selectedProductsRaw]
+  );
+
+  const selectedProductIdsParam = useMemo(
+    () => joinAnalyticsIds(renderableSelectedProducts),
+    [renderableSelectedProducts]
+  );
+
+  const isFromMypage = getPreviousScreenName() === SCREEN_NAME.MYPAGE;
+
+  useAnalyticsPageView(
+    GA_EVENTS.resultList.PAGE_VIEW,
+    SCREEN_NAME.RESULT_LIST,
+    {
+      gen_img_id: image.imageId,
+      selected_product_ids: selectedProductIdsParam,
+      ...(isFromMypage && { return_screen_name: SCREEN_NAME.MYPAGE }),
+    },
+    {
+      enabled: !isSelectedLoading,
+      refireKey: image.imageId,
+    }
   );
 
   const renderableSimilarProducts = useMemo(
