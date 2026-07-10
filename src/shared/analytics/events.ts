@@ -43,6 +43,7 @@ export const GA_EVENTS = {
     SPACE_MORE_CARD_CLICK: 'home_spaceMoreCard_click',
     STYLE_MORE_CLICK: 'home_styleMore_click',
     STYLE_CARD_CLICK: 'home_styleCard_click',
+    WEB_BANNER_CLICK: 'home_webBanner_click',
     PAGE_SCROLL: 'home_page_scroll',
   },
 

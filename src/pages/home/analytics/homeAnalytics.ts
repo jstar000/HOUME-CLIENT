@@ -45,6 +45,10 @@ export const trackHomeTapShopClick = () => {
   trackEvent(GA_EVENTS.home.TAP_SHOP_CLICK, homeScreenWithLoginParams());
 };
 
+export const trackHomeWebBannerClick = () => {
+  trackEvent(GA_EVENTS.home.WEB_BANNER_CLICK, homeScreenWithLoginParams());
+};
+
 export const trackHomeSpaceMoreClick = () => {
   trackEvent(GA_EVENTS.home.SPACE_MORE_CLICK, homeScreenWithLoginParams());
 };
