@@ -4,7 +4,6 @@ import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { trackEvent } from '@shared/analytics/track';
 import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
 import { mapActivityCodeToChip } from '@shared/analytics/utils/imageFlow';
-import { loginStatusParams } from '@shared/analytics/utils/loginStatus';
 
 const selectFurnitureScreenParams = () => ({
   screen_name: SCREEN_NAME.SELECT_FURNITURE,
@@ -13,7 +12,7 @@ const selectFurnitureScreenParams = () => ({
 const activityChipParams = (activityCode?: string) => ({
   selected_activity_chip: activityCode
     ? mapActivityCodeToChip(activityCode)
-    : undefined,
+    : null,
 });
 
 const furnitureChipsParams = (chips?: string) => ({
@@ -21,7 +20,7 @@ const furnitureChipsParams = (chips?: string) => ({
 });
 
 export const trackSelectFurnitureDropDownActivityClick = (
-  activityCode?: string
+  activityCode: string
 ) => {
   trackEvent(GA_EVENTS.selectFurniture.DROP_DOWN_ACTIVITY_CLICK, {
     ...selectFurnitureScreenParams(),
@@ -80,7 +79,6 @@ export const trackSelectFurnitureBtnCtaClick = ({
 }) => {
   trackEvent(GA_EVENTS.selectFurniture.BTN_CTA_CLICK, {
     ...selectFurnitureScreenParams(),
-    ...loginStatusParams(),
     image_entry_route: getEntryRoute(),
     selected_furniture_chips: chips,
     selected_activity_chip: mapActivityCodeToChip(activityCode),

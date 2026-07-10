@@ -18,8 +18,8 @@ import {
   getReturnScreenNameFromImageEntry,
   toSheetExpansionStatus,
 } from '@shared/analytics/utils/imageFlow';
-import { loginStatusParams } from '@shared/analytics/utils/loginStatus';
 import { getPreviousScreenName } from '@shared/analytics/utils/screenName';
+import { toAnalyticsNull } from '@shared/analytics/utils/toAnalyticsNull';
 
 import type {
   ExploreHouseTemplateDetailResponse,
@@ -46,6 +46,11 @@ const getFilterOptionLabel = (
   )?.options.find((option) => option.id === optionId)?.label;
 
 const joinFilterLabels = (
+  categoryId: keyof FloorPlanFilters,
+  values: string[]
+) => toAnalyticsNull(joinFilterLabelsRaw(categoryId, values));
+
+const joinFilterLabelsRaw = (
   categoryId: keyof FloorPlanFilters,
   values: string[]
 ) =>
@@ -101,8 +106,6 @@ export const getRoomTypeCardRoomClickParams = (
   space_id: plan.id,
   space_name: plan.name,
   space_size: detail?.equilibrium,
-  // v2 house-template detail 스펙에 structure 필드 없음
-  space_struct: undefined,
 });
 
 export const getRoomTypeViewSheetViewParams = ({
@@ -147,7 +150,6 @@ export const trackRoomTypeEmptyListRecCardClick = (
 ) => {
   trackEvent(GA_EVENTS.roomType.EMPTY_LIST_REC_CARD_CLICK, {
     ...roomTypeScreenParams(),
-    ...loginStatusParams(),
     ...getRoomTypeFilterParams(appliedFilters),
     space_count: spaceCount,
     space_id: plan.id,
@@ -198,7 +200,6 @@ export const trackRoomTypeListEmptyView = (
 ) => {
   trackEvent(GA_EVENTS.roomType.LIST_EMPTY_VIEW, {
     ...roomTypeScreenParams(),
-    ...loginStatusParams(),
     ...getRoomTypeFilterParams(appliedFilters),
     space_count: spaceCount,
     alternative_space_ids:
@@ -218,7 +219,6 @@ export const trackRoomTypeEmptyListRecCardView = (
 ) => {
   trackEvent(GA_EVENTS.roomType.EMPTY_LIST_REC_CARD_VIEW, {
     ...roomTypeScreenParams(),
-    ...loginStatusParams(),
     ...getRoomTypeFilterParams(appliedFilters),
     space_count: spaceCount,
     space_id: spaceId,
@@ -270,15 +270,12 @@ export const trackRoomTypeViewSheetSubmit = ({
 }) => {
   trackEvent(GA_EVENTS.roomType.VIEW_SHT_SUBMIT, {
     ...roomTypeScreenParams(),
-    ...loginStatusParams(),
     image_entry_route: getEntryRoute(),
     return_screen_name: getReturnScreenNameFromImageEntry(),
     space_id: floorPlanId,
     space_name: floorPlanName,
     space_view: floorPlanView,
     space_size: equilibrium,
-    // v2 house-template detail 스펙에 structure 필드 없음
-    space_struct: undefined,
     sheet_expansion_status: toSheetExpansionStatus(true),
     previous_space_id: recentFloorPlan?.floorPlanId,
     previous_space_name: recentFloorPlan?.floorPlanName,
