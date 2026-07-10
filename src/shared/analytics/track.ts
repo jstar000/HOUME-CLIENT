@@ -12,7 +12,6 @@ import type {
   AnalyticsParamValue,
   TrackEventParams,
 } from '@shared/analytics/params/types';
-import { getLoginStatus } from '@shared/analytics/utils/loginStatus';
 import { analytics } from '@shared/config/firebase';
 
 export type { LoginStatus, TrackEventParams } from '@shared/analytics/params';
@@ -21,24 +20,11 @@ export type { LoginStatus, TrackEventParams } from '@shared/analytics/params';
 const isAnalyticsEnabled =
   import.meta.env.VITE_ENABLE_FIREBASE_ANALYTICS === 'true';
 
-const getPagePath = (): string | undefined => {
-  if (typeof window === 'undefined') return undefined;
-  return `${window.location.pathname}${window.location.search}`;
-};
-
-const getGlobalEventParams = (): Partial<TrackEventParams> => ({
-  page_path: getPagePath(),
-  login_status: getLoginStatus(),
-  analytics_environment: import.meta.env.MODE,
-});
-
 const buildEventParams = (
   params?: TrackEventParams
 ): Record<string, AnalyticsParamValue> => {
-  const merged = { ...getGlobalEventParams(), ...params };
-
   return Object.fromEntries(
-    Object.entries(merged).filter(([, value]) => value !== undefined)
+    Object.entries(params ?? {}).filter(([, value]) => value !== undefined)
   ) as Record<string, AnalyticsParamValue>;
 };
 
@@ -48,19 +34,16 @@ const buildEventParams = (
  * - `VITE_ENABLE_FIREBASE_ANALYTICS=true` → Firebase Analytics 전송
  * - `false` → 콘솔 로그만 (로컬 개발용)
  *
- * 모든 이벤트에 `page_path`, `login_status`, `analytics_environment` 자동 주입.
- * 호출부 params가 동일 키를 넘기면 호출부 값이 우선합니다.
+ * Firebase 전송·콘솔 로그 모두 호출부 params만 사용 (Parameter.csv 스펙 준수).
  */
 export const trackEvent = (
   eventName: GaEventName,
   params?: TrackEventParams
 ): void => {
-  const mergedParams = { ...getGlobalEventParams(), ...params };
-  const logParams = mergedParams;
-  const eventParams = buildEventParams(mergedParams);
+  const eventParams = buildEventParams(params);
 
   if (!isAnalyticsEnabled) {
-    console.info('[Analytics]', eventName, logParams);
+    console.info('[Analytics]', eventName, params);
     return;
   }
 
