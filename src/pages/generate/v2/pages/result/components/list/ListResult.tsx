@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useResultListAnalytics } from '@pages/generate/analytics/useResultListAnalytics';
 import { useGenerateListResultQuery } from '@pages/generate/v2/apis/queries/useGenerateListResultQuery';
@@ -16,9 +16,12 @@ import { useSavedItemsStore } from '@store/useSavedItemsStore';
 import { GA_EVENTS } from '@shared/analytics/events';
 import { useAnalyticsPageView } from '@shared/analytics/hooks';
 import { joinAnalyticsIds } from '@shared/analytics/params/builders/productCard';
-import { LOGIN_ENTRY_ROUTE } from '@shared/analytics/params/gate';
+import {
+  LOGIN_ENTRY_ROUTE,
+  IMAGE_ENTRY_ROUTE,
+} from '@shared/analytics/params/gate';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
-import { getPreviousScreenName } from '@shared/analytics/utils/screenName';
+import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
 import ActionButton from '@shared/components/v2/button/actionButton/ActionButton';
 import EmptyView from '@shared/components/v2/emptyView/EmptyView';
 import { EMPTY_VIEW_TEXT } from '@shared/constants/emptyViewText';
@@ -136,6 +139,14 @@ const SectionFallback = ({
 
 const ListResult = ({ image, isProductView }: ListResultProps) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const locationState = location.state as {
+    from?: 'loading' | 'mypage';
+    entryGenImgId?: number;
+  } | null;
+  const isFromLoading = locationState?.from === 'loading';
+  const isFromMypage = locationState?.from === 'mypage';
+  const entryGenImgId = locationState?.entryGenImgId ?? image.imageId;
 
   const {
     data: listData,
@@ -181,7 +192,17 @@ const ListResult = ({ image, isProductView }: ListResultProps) => {
     [renderableSelectedProducts]
   );
 
-  const isFromMypage = getPreviousScreenName() === SCREEN_NAME.MYPAGE;
+  const resultListPageViewParams = useMemo(() => {
+    if (isFromMypage) {
+      return { image_entry_route: IMAGE_ENTRY_ROUTE.MYPAGE };
+    }
+
+    if (isFromLoading) {
+      return { image_entry_route: getEntryRoute() };
+    }
+
+    return {};
+  }, [isFromMypage, isFromLoading]);
 
   useAnalyticsPageView(
     GA_EVENTS.resultList.PAGE_VIEW,
@@ -189,7 +210,7 @@ const ListResult = ({ image, isProductView }: ListResultProps) => {
     {
       gen_img_id: image.imageId,
       selected_product_ids: selectedProductIdsParam,
-      ...(isFromMypage && { return_screen_name: SCREEN_NAME.MYPAGE }),
+      ...resultListPageViewParams,
     },
     {
       enabled: !isSelectedLoading,
@@ -247,6 +268,7 @@ const ListResult = ({ image, isProductView }: ListResultProps) => {
     handleRelatedImageClick,
   } = useResultListAnalytics({
     genImgId: image.imageId,
+    entryGenImgId,
     selectedState,
     similarState,
     relatedState,
@@ -467,7 +489,11 @@ const ListResult = ({ image, isProductView }: ListResultProps) => {
                         navigate(
                           getGenerateResultPath(item.id, item.resultType),
                           {
-                            state: { imageUrl: item.imageUrl },
+                            state: {
+                              imageUrl: item.imageUrl,
+                              ...(isFromMypage && { from: 'mypage' as const }),
+                              entryGenImgId,
+                            },
                           }
                         );
                       }}

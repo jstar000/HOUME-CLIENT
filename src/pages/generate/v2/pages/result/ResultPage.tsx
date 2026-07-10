@@ -18,10 +18,10 @@ import {
   useAnalyticsPageView,
   useScrollDepthTrack,
 } from '@shared/analytics/hooks';
+import { IMAGE_ENTRY_ROUTE } from '@shared/analytics/params/gate';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { getEntryRoute } from '@shared/analytics/utils/imageEntryRoute';
 import { buildResultRecPageViewParams } from '@shared/analytics/utils/imageFlow';
-import { getPreviousScreenName } from '@shared/analytics/utils/screenName';
 
 import InlineError from '@components/inlineError/InlineError';
 import Loading from '@components/loading/Loading';
@@ -59,12 +59,12 @@ const ResultPage = () => {
   const locationState = location.state as {
     imageUrl?: string;
     isMirror?: boolean;
-    from?: 'loading';
+    from?: 'loading' | 'mypage';
   } | null;
   const stateImageUrl = locationState?.imageUrl;
   const stateIsMirror = locationState?.isMirror;
   const isFromLoading = locationState?.from === 'loading';
-  const isFromMypage = getPreviousScreenName() === SCREEN_NAME.MYPAGE;
+  const isFromMypage = locationState?.from === 'mypage';
 
   useAnalyticsPageView(
     GA_EVENTS.resultRec.PAGE_VIEW,
@@ -72,7 +72,7 @@ const ResultPage = () => {
     {
       gen_img_id: parsedImageId ?? 0,
       ...(isFromMypage
-        ? { return_screen_name: SCREEN_NAME.MYPAGE }
+        ? { image_entry_route: IMAGE_ENTRY_ROUTE.MYPAGE }
         : isFromLoading && {
             ...buildResultRecPageViewParams(parsedImageId ?? 0),
             image_entry_route: getEntryRoute(),
