@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import {
   COUNT_TRIGGER_EVENT,
   getShopListContextParams,
-  getShopListProductScrollParams,
   trackShopFilterListClick,
   trackShopFilterSheetResetClick,
   trackShopFilterSheetSubmit,
@@ -17,7 +16,6 @@ import {
   trackShopSelectSheetItemCountChange,
   trackShopSelectSheetRemoveClick,
   trackShopSelectSheetSwipe,
-  trackShopSelectSheetView,
 } from '@pages/home/analytics/shopAnalytics';
 import { useShopAnalyticsContext } from '@pages/home/analytics/useShopAnalyticsContext';
 import {
@@ -28,10 +26,7 @@ import type { SelectedProduct } from '@pages/home/types/productTab';
 import { useRecentFloorPlanQuery } from '@pages/imageSetup/v2/apis/queries/useRecentFloorPlanQuery';
 
 import { GA_EVENTS } from '@shared/analytics/events';
-import {
-  useAnalyticsPageView,
-  useScrollDepthTrack,
-} from '@shared/analytics/hooks';
+import { useAnalyticsPageView } from '@shared/analytics/hooks';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { resolveShopImageEntryRoute } from '@shared/analytics/utils/shop/resolveShopEntryRoute';
 
@@ -51,12 +46,10 @@ const useProductShopAnalytics = (
   }: UseProductShopAnalyticsOptions
 ) => {
   const { data: recentFloorPlanData } = useRecentFloorPlanQuery();
-  const hasTrackedSelectSheetViewRef = useRef(false);
 
   const {
     sheetExpanded,
     setSheetExpanded: setSheetExpandedState,
-    filterSheetOpen,
     selectedProducts,
     keyword,
     handleFilterChipClick,
@@ -78,15 +71,9 @@ const useProductShopAnalytics = (
     shopListContext,
   } = useShopAnalyticsContext({ controller, productCountViewed });
 
-  const listProductScrollParams = useMemo(
-    () => getShopListProductScrollParams(shopListContext),
-    [shopListContext]
-  );
-
   const shopPageParams = useMemo(
     () =>
       getShopListContextParams(shopListContext, {
-        includeLoginStatus: true,
         includeTriggerContext: true,
       }),
     [shopListContext]
@@ -97,32 +84,6 @@ const useProductShopAnalytics = (
     SCREEN_NAME.SHOP,
     shopPageParams
   );
-
-  const pageScrollParams = useMemo(
-    () =>
-      getShopListContextParams(shopListContext, {
-        includeLoginStatus: true,
-        includeProductCountViewed: true,
-      }),
-    [shopListContext]
-  );
-
-  useScrollDepthTrack(GA_EVENTS.shop.PAGE_SCROLL, SCREEN_NAME.SHOP, {
-    extraParams: pageScrollParams,
-  });
-
-  useScrollDepthTrack(GA_EVENTS.shop.LIST_PRODUCT_SCROLL, SCREEN_NAME.SHOP, {
-    extraParams: listProductScrollParams,
-  });
-
-  // 선택 바텀시트(DragHandleBottomSheet open={!filterSheetOpen}) 최초 노출 시 1회
-  useEffect(() => {
-    if (filterSheetOpen) return;
-    if (hasTrackedSelectSheetViewRef.current) return;
-
-    hasTrackedSelectSheetViewRef.current = true;
-    trackShopSelectSheetView(getSelectSheetContext());
-  }, [filterSheetOpen, getSelectSheetContext]);
 
   const trackSelectSheetCountChange = useCallback(
     (
