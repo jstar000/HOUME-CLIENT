@@ -130,10 +130,20 @@ const SignupPage = () => {
   });
 
   const isExitModalOpenRef = useRef(false);
+  const isIntentionalQuitRef = useRef(false);
+  const allowBrowserBackExitRef = useRef<() => void>(() => {});
 
   const clearSignupSession = useCallback(() => {
     sessionStorage.removeItem('signupToken');
+    sessionStorage.removeItem(SIGNUP_EXIT_MODAL_PENDING_KEY);
   }, []);
+
+  const quitSignup = useCallback(() => {
+    isIntentionalQuitRef.current = true;
+    allowBrowserBackExitRef.current();
+    clearSignupSession();
+    navigate(ROUTES.LOGIN, { replace: true });
+  }, [clearSignupSession, navigate]);
 
   const openSignupExitModal = useCallback(
     ({ onStay, onQuit }: { onStay?: () => void; onQuit: () => void }) => {
@@ -158,6 +168,7 @@ const SignupPage = () => {
         return (
           <Popup
             btnStyle="text"
+            containerSize="creditRequest"
             btnText="계속하기"
             weakBtnText="그만두기"
             topIconName="WarningFillDanger"
@@ -196,15 +207,13 @@ const SignupPage = () => {
     enabled: !!signupToken,
     onBack: () => {
       trackBrowserBackPop();
-      openSignupExitModal({
-        onQuit: () => {
-          allowBrowserBackExit();
-          clearSignupSession();
-          navigate(ROUTES.LOGIN, { replace: true });
-        },
-      });
+      openSignupExitModal({ onQuit: quitSignup });
     },
   });
+
+  useEffect(() => {
+    allowBrowserBackExitRef.current = allowBrowserBackExit;
+  }, [allowBrowserBackExit]);
 
   // OAuth callback으로 잠깐 이동했다 복귀한 경우 모달 복구
   useEffect(() => {
@@ -213,25 +222,13 @@ const SignupPage = () => {
 
     sessionStorage.removeItem(SIGNUP_EXIT_MODAL_PENDING_KEY);
     trackBrowserBackPop();
-    openSignupExitModal({
-      onQuit: () => {
-        allowBrowserBackExit();
-        clearSignupSession();
-        navigate(ROUTES.LOGIN, { replace: true });
-      },
-    });
-  }, [
-    signupToken,
-    trackBrowserBackPop,
-    openSignupExitModal,
-    allowBrowserBackExit,
-    clearSignupSession,
-    navigate,
-  ]);
+    openSignupExitModal({ onQuit: quitSignup });
+  }, [signupToken, trackBrowserBackPop, openSignupExitModal, quitSignup]);
 
   useExitBlocker({
     enabled: !!signupToken,
     shouldBlockNavigation: ({ nextLocation, historyAction }) => {
+      if (isIntentionalQuitRef.current) return false;
       if (nextLocation.pathname === ROUTES.WELCOME) return false;
 
       // 브라우저 뒤로가기(POP)는 useBrowserBackTrap이 처리
@@ -244,6 +241,7 @@ const SignupPage = () => {
       openSignupExitModal({
         onStay: reset,
         onQuit: () => {
+          isIntentionalQuitRef.current = true;
           clearSignupSession();
           proceed();
         },
