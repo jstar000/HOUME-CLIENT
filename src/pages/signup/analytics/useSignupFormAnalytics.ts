@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 import {
   trackSignupBrowserBackClick,
@@ -14,6 +14,11 @@ import { GA_EVENTS } from '@shared/analytics/events';
 import { useAnalyticsPageView } from '@shared/analytics/hooks';
 import { SCREEN_NAME } from '@shared/analytics/screenNames';
 import { getLoginSocialParams } from '@shared/analytics/utils/loginEntryRoute';
+import {
+  VALIDATION_RULES,
+  isMinLength,
+  isValidNicknameFormat,
+} from '@shared/utils/userFormValidation';
 
 import type { BlockerFunction } from 'react-router-dom';
 
@@ -27,11 +32,10 @@ type NavigationHistoryAction = Parameters<BlockerFunction>[0]['historyAction'];
 
 interface UseSignupFormAnalyticsOptions {
   enabled: boolean;
+  handleNicknameChange: (value: string) => void;
   isNameSectionValid: boolean;
   isNameSubmitted: boolean;
   isBirthSectionValid: boolean;
-  isNameFormatInvalid: boolean;
-  isNameLengthInvalid: boolean;
   yearFormatError: boolean;
   yearAgeError: boolean;
   monthFieldError: boolean;
@@ -44,11 +48,10 @@ interface UseSignupFormAnalyticsOptions {
  */
 export const useSignupFormAnalytics = ({
   enabled,
+  handleNicknameChange,
   isNameSectionValid,
   isNameSubmitted,
   isBirthSectionValid,
-  isNameFormatInvalid,
-  isNameLengthInvalid,
   yearFormatError,
   yearAgeError,
   monthFieldError,
@@ -56,8 +59,10 @@ export const useSignupFormAnalytics = ({
 }: UseSignupFormAnalyticsOptions) => {
   /** touchend 직후 POP이 오면 swipe, 아니면 click으로 분기 */
   const backGestureRef = useRef<'click' | 'swipe' | null>(null);
-  /** 동일 에러 메시지 view 이벤트 중복 전송 방지 */
+  /** 동일 에러 메시지 view 이벤트 중복 전송 방지 (생년월일) */
   const trackedErrorsRef = useRef(new Set<string>());
+  const prevNicknameFormatInvalidRef = useRef(false);
+  const prevNicknameLengthInvalidRef = useRef(false);
 
   const signupStep = getSignupStep({
     isNameSectionValid,
@@ -111,21 +116,34 @@ export const useSignupFormAnalytics = ({
     };
   }, [enabled]);
 
-  useEffect(() => {
-    if (!enabled || !isNameFormatInvalid) return;
-    if (trackedErrorsRef.current.has('nickSign')) return;
+  const trackNicknameChange = useCallback(
+    (value: string) => {
+      const nextFormatInvalid = value !== '' && !isValidNicknameFormat(value);
+      const nextLengthInvalid =
+        value !== '' && !isMinLength(value, VALIDATION_RULES.NAME_MIN_LENGTH);
+      const visibleLengthInvalid = nextLengthInvalid && !nextFormatInvalid;
 
-    trackedErrorsRef.current.add('nickSign');
-    trackSignupErrorNickSignView();
-  }, [enabled, isNameFormatInvalid]);
+      handleNicknameChange(value);
 
-  useEffect(() => {
-    if (!enabled || !isNameLengthInvalid) return;
-    if (trackedErrorsRef.current.has('nickNum')) return;
+      if (!enabled) {
+        prevNicknameFormatInvalidRef.current = nextFormatInvalid;
+        prevNicknameLengthInvalidRef.current = visibleLengthInvalid;
+        return;
+      }
 
-    trackedErrorsRef.current.add('nickNum');
-    trackSignupErrorNickNumView();
-  }, [enabled, isNameLengthInvalid]);
+      if (nextFormatInvalid && !prevNicknameFormatInvalidRef.current) {
+        trackSignupErrorNickSignView();
+      }
+
+      if (visibleLengthInvalid && !prevNicknameLengthInvalidRef.current) {
+        trackSignupErrorNickNumView();
+      }
+
+      prevNicknameFormatInvalidRef.current = nextFormatInvalid;
+      prevNicknameLengthInvalidRef.current = visibleLengthInvalid;
+    },
+    [enabled, handleNicknameChange]
+  );
 
   useEffect(() => {
     if (!enabled || !yearAgeError) return;
@@ -166,5 +184,6 @@ export const useSignupFormAnalytics = ({
   return {
     signupStep,
     trackBrowserBack,
+    trackNicknameChange,
   };
 };

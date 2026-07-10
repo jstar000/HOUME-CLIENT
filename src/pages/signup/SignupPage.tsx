@@ -108,18 +108,18 @@ const SignupPage = () => {
     !monthFieldError &&
     !dayFieldError;
 
-  const { signupStep, trackBrowserBack } = useSignupFormAnalytics({
-    enabled: !!signupToken,
-    isNameSectionValid,
-    isNameSubmitted,
-    isBirthSectionValid,
-    isNameFormatInvalid,
-    isNameLengthInvalid,
-    yearFormatError,
-    yearAgeError,
-    monthFieldError,
-    dayFieldError,
-  });
+  const { signupStep, trackBrowserBack, trackNicknameChange } =
+    useSignupFormAnalytics({
+      enabled: !!signupToken,
+      handleNicknameChange,
+      isNameSectionValid,
+      isNameSubmitted,
+      isBirthSectionValid,
+      yearFormatError,
+      yearAgeError,
+      monthFieldError,
+      dayFieldError,
+    });
 
   useExitBlocker({
     enabled: !!signupToken,
@@ -176,7 +176,7 @@ const SignupPage = () => {
   });
 
   const { mutate: signUp } = usePostSignupMutation();
-  const { randomNickname, refresh } = useRandomNickname(handleNicknameChange);
+  const { randomNickname, refresh } = useRandomNickname(trackNicknameChange);
 
   useEffect(() => {
     if (!isNameSectionValid) {
@@ -186,7 +186,7 @@ const SignupPage = () => {
 
   useEffect(() => {
     if (randomNickname && !isInitialized.current && nickname === '') {
-      handleNicknameChange(randomNickname);
+      trackNicknameChange(randomNickname);
       isInitialized.current = true;
 
       const el = nicknameRef.current;
@@ -195,7 +195,7 @@ const SignupPage = () => {
         el.setSelectionRange(el.value.length, el.value.length);
       }
     }
-  }, [randomNickname, nickname, handleNicknameChange]);
+  }, [randomNickname, nickname, trackNicknameChange]);
 
   const handleNicknameEnter = () => {
     if (isNameSectionValid) {
@@ -253,7 +253,7 @@ const SignupPage = () => {
 
     if (!isFormValid || !gender || !signupToken) return;
 
-    const formattedBirthday = `${birthYear}-${birthMonth}-${birthDay}`;
+    const formattedBirthday = `${birthYear}-${birthMonth.padStart(2, '0')}-${birthDay.padStart(2, '0')}`;
 
     trackSignupCtaClick();
     signUp({
@@ -305,7 +305,7 @@ const SignupPage = () => {
             <TextField
               value={nickname}
               ref={nicknameRef}
-              onChange={handleNicknameChange}
+              onChange={trackNicknameChange}
               isError={isNameFormatInvalid || isNameLengthInvalid}
               errorMessage={nameErrorMessage}
               maxLength={18}
