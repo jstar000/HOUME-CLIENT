@@ -20,15 +20,14 @@ import {
   isValidNicknameFormat,
 } from '@shared/utils/userFormValidation';
 
-import type { BlockerFunction } from 'react-router-dom';
-
 /** iOS 뒤로가기 제스처 휴리스틱 — 화면 왼쪽 가장자리에서 오른쪽으로 스와이프 */
 const SWIPE_START_MAX_X = 50;
 const SWIPE_MIN_DELTA_X = 80;
 const SWIPE_MAX_DELTA_Y = 50;
-
-/** react-router `HistoryAction`은 export되지 않아 Blocker 인자에서 추론 */
-type NavigationHistoryAction = Parameters<BlockerFunction>[0]['historyAction'];
+/** desktop Chrome trackpad history swipe arrives as horizontal wheel before popstate */
+const WHEEL_SWIPE_MIN_DELTA_X = 80;
+const WHEEL_SWIPE_MAX_DELTA_Y = 50;
+const SWIPE_GESTURE_TTL_MS = 1000;
 
 interface UseSignupFormAnalyticsOptions {
   enabled: boolean;
@@ -44,7 +43,7 @@ interface UseSignupFormAnalyticsOptions {
 
 /**
  * 회원가입 폼 GA — page_view, 에러 view, 브라우저 뒤로가기(click/swipe) 전송.
- * `signupStep`·`trackBrowserBack`은 SignupPage 이탈 가드에 연결.
+ * `trackBrowserBackPop`은 SignupPage 브라우저 뒤로가기 가드에 연결.
  */
 export const useSignupFormAnalytics = ({
   enabled,
@@ -57,8 +56,9 @@ export const useSignupFormAnalytics = ({
   monthFieldError,
   dayFieldError,
 }: UseSignupFormAnalyticsOptions) => {
-  /** touchend 직후 POP이 오면 swipe, 아니면 click으로 분기 */
+  /** touchmove에서 swipe를 먼저 표시 — popstate보다 touchend가 늦게 오는 경우 대비 */
   const backGestureRef = useRef<'click' | 'swipe' | null>(null);
+  const swipeResetTimeoutRef = useRef<number | null>(null);
   /** 동일 에러 메시지 view 이벤트 중복 전송 방지 (생년월일) */
   const trackedErrorsRef = useRef(new Set<string>());
   const prevNicknameFormatInvalidRef = useRef(false);
@@ -77,11 +77,31 @@ export const useSignupFormAnalytics = ({
     { enabled }
   );
 
+  const clearSwipeResetTimer = useCallback(() => {
+    if (swipeResetTimeoutRef.current === null) return;
+
+    window.clearTimeout(swipeResetTimeoutRef.current);
+    swipeResetTimeoutRef.current = null;
+  }, []);
+
+  const markBackSwipe = useCallback(() => {
+    backGestureRef.current = 'swipe';
+    clearSwipeResetTimer();
+
+    swipeResetTimeoutRef.current = window.setTimeout(() => {
+      if (backGestureRef.current === 'swipe') {
+        backGestureRef.current = null;
+      }
+      swipeResetTimeoutRef.current = null;
+    }, SWIPE_GESTURE_TTL_MS);
+  }, [clearSwipeResetTimer]);
+
   useEffect(() => {
     if (!enabled) return;
 
     let touchStartX = 0;
     let touchStartY = 0;
+    let isEdgeSwipeCandidate = false;
 
     const handleTouchStart = (event: TouchEvent) => {
       const touch = event.touches[0];
@@ -89,32 +109,61 @@ export const useSignupFormAnalytics = ({
 
       touchStartX = touch.clientX;
       touchStartY = touch.clientY;
+      isEdgeSwipeCandidate = touchStartX <= SWIPE_START_MAX_X;
+
+      if (isEdgeSwipeCandidate) {
+        backGestureRef.current = null;
+      }
+    };
+
+    const markSwipeIfNeeded = (clientX: number, clientY: number) => {
+      if (!isEdgeSwipeCandidate) return;
+
+      const deltaX = clientX - touchStartX;
+      const deltaY = Math.abs(clientY - touchStartY);
+
+      if (deltaX >= SWIPE_MIN_DELTA_X && deltaY <= SWIPE_MAX_DELTA_Y) {
+        markBackSwipe();
+      }
+    };
+
+    const handleTouchMove = (event: TouchEvent) => {
+      const touch = event.touches[0];
+      if (!touch) return;
+
+      markSwipeIfNeeded(touch.clientX, touch.clientY);
     };
 
     const handleTouchEnd = (event: TouchEvent) => {
       const touch = event.changedTouches[0];
       if (!touch) return;
 
-      const deltaX = touch.clientX - touchStartX;
-      const deltaY = Math.abs(touch.clientY - touchStartY);
+      markSwipeIfNeeded(touch.clientX, touch.clientY);
+      isEdgeSwipeCandidate = false;
+    };
 
+    const handleWheel = (event: WheelEvent) => {
       if (
-        touchStartX <= SWIPE_START_MAX_X &&
-        deltaX >= SWIPE_MIN_DELTA_X &&
-        deltaY <= SWIPE_MAX_DELTA_Y
+        Math.abs(event.deltaX) >= WHEEL_SWIPE_MIN_DELTA_X &&
+        Math.abs(event.deltaY) <= WHEEL_SWIPE_MAX_DELTA_Y
       ) {
-        backGestureRef.current = 'swipe';
+        markBackSwipe();
       }
     };
 
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
     window.addEventListener('touchend', handleTouchEnd, { passive: true });
+    window.addEventListener('wheel', handleWheel, { passive: true });
 
     return () => {
       window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);
+      window.removeEventListener('wheel', handleWheel);
+      clearSwipeResetTimer();
     };
-  }, [enabled]);
+  }, [clearSwipeResetTimer, enabled, markBackSwipe]);
 
   const trackNicknameChange = useCallback(
     (value: string) => {
@@ -166,24 +215,10 @@ export const useSignupFormAnalytics = ({
     trackSignupErrorBirthIncorrectView();
   }, [dayFieldError, enabled, monthFieldError, yearAgeError, yearFormatError]);
 
-  /** useExitBlocker shouldBlock 콜백에서 historyAction 전달 */
-  const trackBrowserBack = (historyAction: NavigationHistoryAction) => {
+  /** 브라우저 뒤로가기(POP) — click / swipe 이벤트 분기 */
+  const trackBrowserBackPop = useCallback(() => {
     const gesture = backGestureRef.current ?? 'click';
-    backGestureRef.current = null;
-
-    if (historyAction !== 'POP') return;
-
-    if (gesture === 'swipe') {
-      trackSignupBrowserBackSwipe(signupStep);
-      return;
-    }
-
-    trackSignupBrowserBackClick(signupStep);
-  };
-
-  /** useBrowserBackTrap 등 브라우저 뒤로가기 직접 가로채기 시 사용 */
-  const trackBrowserBackPop = () => {
-    const gesture = backGestureRef.current ?? 'click';
+    clearSwipeResetTimer();
     backGestureRef.current = null;
 
     if (gesture === 'swipe') {
@@ -192,11 +227,10 @@ export const useSignupFormAnalytics = ({
     }
 
     trackSignupBrowserBackClick(signupStep);
-  };
+  }, [clearSwipeResetTimer, signupStep]);
 
   return {
     signupStep,
-    trackBrowserBack,
     trackBrowserBackPop,
     trackNicknameChange,
   };

@@ -112,22 +112,18 @@ const SignupPage = () => {
     !monthFieldError &&
     !dayFieldError;
 
-  const {
-    signupStep,
-    trackBrowserBack,
-    trackBrowserBackPop,
-    trackNicknameChange,
-  } = useSignupFormAnalytics({
-    enabled: !!signupToken,
-    handleNicknameChange,
-    isNameSectionValid,
-    isNameSubmitted,
-    isBirthSectionValid,
-    yearFormatError,
-    yearAgeError,
-    monthFieldError,
-    dayFieldError,
-  });
+  const { signupStep, trackBrowserBackPop, trackNicknameChange } =
+    useSignupFormAnalytics({
+      enabled: !!signupToken,
+      handleNicknameChange,
+      isNameSectionValid,
+      isNameSubmitted,
+      isBirthSectionValid,
+      yearFormatError,
+      yearAgeError,
+      monthFieldError,
+      dayFieldError,
+    });
 
   const isExitModalOpenRef = useRef(false);
   const isIntentionalQuitRef = useRef(false);
@@ -234,7 +230,6 @@ const SignupPage = () => {
       // 브라우저 뒤로가기(POP)는 useBrowserBackTrap이 처리
       if (historyAction === 'POP') return false;
 
-      trackBrowserBack(historyAction);
       return true;
     },
     onBlocked: ({ proceed, reset }) => {
