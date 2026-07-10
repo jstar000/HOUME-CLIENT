@@ -89,7 +89,7 @@ const RoomTypeOptionCard = ({
       />
       <div className={styles.gradient} aria-hidden="true" />
       <div className={styles.optionInfoRow}>
-        <p className={styles.optionTitle}>{label}</p>
+        <p className={styles.optionTitle({ size, ratio })}>{label}</p>
       </div>
       {size === 'm' && showRecentBadge && (
         <div className={styles.optionFooter}>
