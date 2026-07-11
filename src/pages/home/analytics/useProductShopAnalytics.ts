@@ -116,7 +116,11 @@ const useProductShopAnalytics = (
   useEffect(() => {
     const pending = pendingFilterSubmitRef.current;
     if (!pending) return;
-    if (isPending || isFetching || isError) return;
+    if (isPending || isFetching) return;
+    if (isError) {
+      pendingFilterSubmitRef.current = null;
+      return;
+    }
 
     pendingFilterSubmitRef.current = null;
     trackShopFilterSheetSubmit(
