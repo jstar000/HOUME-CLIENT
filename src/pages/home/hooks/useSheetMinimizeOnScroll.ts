@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 /**
  * 상품 탭 선택 시트 최소화 전용 훅
@@ -68,8 +68,8 @@ const useSheetMinimizeOnScroll = ({
     };
   }, [active]);
 
-  /** 드래그 시작 등 외부에서 즉시 복원할 때 사용 */
-  const restore = () => setMinimized(false);
+  /** 드래그 시작 등 외부에서 즉시 복원할 때 사용 (참조 안정 — 소비처 useCallback 의존성) */
+  const restore = useCallback(() => setMinimized(false), []);
 
   return { minimized, restore };
 };
