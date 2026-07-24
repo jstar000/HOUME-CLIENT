@@ -143,7 +143,6 @@ export const trackShopSelectSheetItemClick = (
 
 export interface ShopSelectSheetCtaContext extends ShopListContext {
   sheetExpanded: boolean;
-  sheetCollapsed?: boolean;
   selectedProducts: SelectedProduct[];
   imageEntryRoute?: ImageEntryRoute;
   returnScreenName: ScreenName;
@@ -153,7 +152,6 @@ export interface ShopSelectSheetCtaContext extends ShopListContext {
 
 export const trackShopSelectSheetCtaClick = ({
   sheetExpanded,
-  sheetCollapsed = false,
   selectedProducts,
   imageEntryRoute,
   returnScreenName,
@@ -164,7 +162,7 @@ export const trackShopSelectSheetCtaClick = ({
 
   trackEvent(GA_EVENTS.shop.SELECT_SHEET_CTA_CLICK, {
     ...getShopSelectSheetBaseParams(
-      { sheetExpanded, sheetCollapsed, selectedProducts },
+      { sheetExpanded, selectedProducts },
       { includeLoginStatus: true }
     ),
     ...getShopSelectedProductFields(lastProduct),

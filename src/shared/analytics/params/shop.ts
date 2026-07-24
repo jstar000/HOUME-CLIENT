@@ -2,7 +2,6 @@
 export const SHEET_EXPANSION_STATUS = {
   DEFAULT: 'default',
   EXPANDED: 'expanded',
-  COLLAPSED: 'collapsed',
 } as const;
 
 export type SheetExpansionStatus =

@@ -81,6 +81,8 @@ const ExploreTab = ({
           hasPreviousImage={hasPreviousImage}
           hasPreviousSpace={hasPreviousSpace}
         />
+      </div>
+      <div className={styles.promoBannerSection}>
         <button
           type="button"
           className={styles.promoBannerButton}
@@ -89,6 +91,8 @@ const ExploreTab = ({
         >
           <img src={promoBanner} alt="" className={styles.promoBannerImage} />
         </button>
+      </div>
+      <div className={styles.content}>
         <StyleSection />
       </div>
     </div>

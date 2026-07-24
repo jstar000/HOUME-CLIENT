@@ -11,7 +11,6 @@ import { withProductSubCategory } from '@pages/home/utils/productFilterUtils';
 interface UseShopAnalyticsContextParams {
   controller: ProductTabController;
   productCountViewed: number;
-  sheetCollapsed?: boolean;
 }
 
 /**
@@ -21,7 +20,6 @@ interface UseShopAnalyticsContextParams {
 export const useShopAnalyticsContext = ({
   controller,
   productCountViewed,
-  sheetCollapsed = false,
 }: UseShopAnalyticsContextParams) => {
   const {
     sheetExpanded,
@@ -92,12 +90,11 @@ export const useShopAnalyticsContext = ({
     (overrides?: Partial<ShopSelectSheetContext>): ShopSelectSheetContext => ({
       ...getShopListContext(),
       sheetExpanded: overrides?.sheetExpanded ?? sheetExpanded,
-      sheetCollapsed: overrides?.sheetCollapsed ?? sheetCollapsed,
       selectedProducts:
         overrides?.selectedProducts ?? selectedProductsRef.current,
       countTriggerEvent: overrides?.countTriggerEvent,
     }),
-    [getShopListContext, sheetExpanded, sheetCollapsed]
+    [getShopListContext, sheetExpanded]
   );
 
   const getSelectSheetContextRef = useRef(getSelectSheetContext);
