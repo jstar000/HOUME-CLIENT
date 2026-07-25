@@ -1,8 +1,0 @@
-node_modules
-dist
-build
-*.lock
-package.json
-/.coderabbit.yaml
-*.hbs
-src/shared/apis/__generated__/
